@@ -1,0 +1,17 @@
+import Link from "next/link";
+import Menu1 from "./Menu-1";
+export default function Footer({children}) {
+  return (
+    <div className="w-full bg-blue-dark">
+      <footer className="mx-auto max-w-screen-xl p-8 items-center text-white flex">
+        <Link href="/">
+          <a>
+            <img src="/logo-main.png" className="w-40"/>
+          </a>
+        </Link>
+        <Menu1 />
+      {children}
+      </footer>
+    </div>
+  )
+}
