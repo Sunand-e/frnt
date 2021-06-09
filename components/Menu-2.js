@@ -7,8 +7,8 @@ export default function Menu2() {
       link: '/'
     },
     {
-      title: 'Programme',
-      link: '/programme'
+      title: 'Programmes',
+      link: '/programmes'
     },
     {
       title: 'Library',
@@ -19,8 +19,8 @@ export default function Menu2() {
       link: '/resources'
     },
     {
-      title: 'Q&A',
-      link: '/workshops'
+      title: 'Upcoming Events',
+      link: '/events'
     },
     {
       title: 'Community',

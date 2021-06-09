@@ -1,11 +1,9 @@
 import ItemGrid from "./ItemGrid";
+import ItemCollection from "./ItemCollection";
 import contentTypes from "../contentTypes"
+import { useEffect } from "react";
 
 export default function SearchResults({tags, items, searchParams}) {
-  console.log('searchParams');
-  console.log(searchParams);
-  console.log('items');
-  console.log(items);
 
   let filteredItems = [];
   
@@ -52,11 +50,11 @@ export default function SearchResults({tags, items, searchParams}) {
     filteredItems = items;
   }
 
-  if(searchParams.type) {
+  if(searchParams.type?.value) {
     filteredItems = filteredItems.filter(item => {
 
       const typeObj = contentTypes.find(type => {
-        return type.slug === searchParams.type
+        return type.slug === searchParams.type.value
       });
 
       return item.__typename === typeObj.name.replace(' ', '');
@@ -64,45 +62,49 @@ export default function SearchResults({tags, items, searchParams}) {
     });
   }
 
-  if(searchParams.tag) {
-    console.log(searchParams.tag);
+  if(searchParams.tag?.value) {
     filteredItems = filteredItems.filter(item => {
-      const hasTag = ({slug}) => slug === searchParams.tag;
+      const hasTag = ({slug}) => slug === searchParams.tag.value;
       
       return item.contentTagss && item.contentTagss.nodes.some(hasTag);
     });
   }
 
-  console.log(toTitleCase(searchParams.type.replace(/_/g, ' ')).replace(' ', ''));
-  // sortedFilteredItems = items.
-
   let searchString = "";
 
   if(searchParams.text) {
     searchString += `"${searchParams.text}" in `
-    if(searchParams.type) {
-      searchString += `${searchParams.type}s`
+    if(searchParams.type?.value) {
+      const type = contentTypes.find(type => type.slug === searchParams.type.value)
+      searchString += `${type.pluralName}`
     } else {
       searchString += `all items`
     }
   } else {
-    if(searchParams.type) {
-      searchString += `${searchParams.type}s`
+    if(searchParams.type?.value) {
+      const type = contentTypes.find(type => type.slug === searchParams.type.value)
+      searchString += `${type.pluralName}`
     } else {
       searchString += 'Items'
     }
   }
-  if(searchParams.tag) {
-    searchString += `, tagged with '${searchParams.tag}'`
+  if(searchParams.tag?.value) {
+    const tag = tags.find(tag => tag.slug === searchParams.tag.value)
+    searchParams.text && (searchString += ',')
+    searchString += ` tagged with '${tag.name}'`
   }
   searchString += ':'
   const searchStringComp = <>Search &mdash; {searchString}</>
 
+  const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
+  const options = {
+    heading: searchStringComp,
+    subHeading: resultCountString,
+    itemOptions: {
+      showType: true
+    }
+  }
   return (
-    <div className="">
-      <h1 className="text-3xl mt-16 text-blue-dark">{searchStringComp}</h1>
-      <ItemGrid items={filteredItems}></ItemGrid>
-
-    </div>
+    <ItemCollection items={filteredItems} options={options}></ItemCollection>
   )
 }

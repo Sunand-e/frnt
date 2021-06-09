@@ -1,15 +1,15 @@
-const fetch = require('cross-fetch');
+const fetch = require('node-fetch');
 const fs = require('fs');
 
 class GenerateGraphQLPossibleTypes {
   apply(compiler) {
     compiler.hooks.afterPlugins.tap('Generate GraphQL Possible Types', () => {
 
-      fetch(`http://localhost:8090/graphql`, {
+      fetch(`http://localhost/graphql`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-        },
+        }, 
         body: JSON.stringify({
           variables: {},
           query: `
@@ -28,6 +28,7 @@ class GenerateGraphQLPossibleTypes {
         }),
       }).then(result => result.json())
         .then(result => {
+          console.log(result)
           const possibleTypes = {};
           result.data.__schema.types.forEach(supertype => {
             if (supertype.possibleTypes) {

@@ -1,51 +1,24 @@
-import Head from 'next/head'
-// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import InfoBox from '../components/InfoBox.js';
-
-// const QUERY = gql`
-// query GetPosts {
-//   posts {
-//     nodes {
-//       id
-//       content
-//     }
-//   }
-// }
-// `;
+import { useState } from 'react'
+import ContentTypePage from "../components/ContentTypePage";
+import Sidebar from '../components/Sidebar.js';
+import BlockWithTitle from '../components/BlockWithTitle.js';
+import LoadingSpinner from '../components/LoadingSpinner.js';
 
 export default function Programme() {
 
-  // const { loading, error, data } = useQuery(QUERY);
-
-  // if (loading) return <p>Loading...</p>;
-
-  // if (error) {
-  //   return <p>Error :(</p>;
-  // }
+  const [programme, setProgramme] = useState('');
 
   return (
-    <>
-      <Head>
-        <title>Membership Academy</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <InfoBox>
-        <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
-      </InfoBox>
-      {/* {JSON.stringify(data, null, 4)} */}
-      {/* {
-        data.posts.nodes.map(({ id, content }) => (
-          <div key={id}>
-            <p>
-              {id}: {content}
-            </p>
-          </div>
-        ))
-      } */}
-    </>
+    <ContentTypePage type="Programme" setData={setProgramme}>
+        <div className="flex-grow w-9/12">
+          { !programme && <LoadingSpinner /> }
+          { programme && <div className="mb-8" dangerouslySetInnerHTML={{__html: programme.content}} /> }
+        </div>
+        <Sidebar>
+          <BlockWithTitle title="Downloads">
+          { !programme && <LoadingSpinner className="transform scale-50"/> }
+          </BlockWithTitle>
+        </Sidebar>
+    </ContentTypePage>
   )
 }
-
-Programme.title = 'Programme';
-Programme.subtitle = "Stay on track with our members learning programme";

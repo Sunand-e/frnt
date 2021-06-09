@@ -2,6 +2,7 @@ import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import InfoBox from '../components/InfoBox.js';
+import PageTitle from '../components/PageTitle.js';
 
 // const QUERY = gql`
 // query GetPosts {
@@ -30,6 +31,10 @@ export default function MyAccount() {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      <PageTitle 
+        title='My Account'
+      />
       <InfoBox>
         <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
       </InfoBox>
@@ -46,6 +51,3 @@ export default function MyAccount() {
     </>
   )
 }
-
-MyAccount.title = 'My Account';
-MyAccount.subtitle = "";

@@ -1,28 +1,13 @@
+import { useState } from 'react';
 import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import InfoBox from '../components/InfoBox.js';
-
-// const QUERY = gql`
-// query GetPosts {
-//   posts {
-//     nodes {
-//       id
-//       content
-//     }
-//   }
-// }
-// `;
-
+import PageContent from '../components/PageContent.js';
+import PageTitle from '../components/PageTitle.js';
 export default function Forum() {
 
-  // const { loading, error, data } = useQuery(QUERY);
-
-  // if (loading) return <p>Loading...</p>;
-
-  // if (error) {
-  //   return <p>Error :(</p>;
-  // }
+  const [forum, setForum] = useState('');
 
   return (
     <>
@@ -30,9 +15,15 @@ export default function Forum() {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <PageTitle
+        title = 'Community Forum'
+        subtitle = "Read the latest topics from the community or start one of your own!"
+      />
+      <PageContent>
       <InfoBox>
-        <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
+        <h1>List of topics</h1>
       </InfoBox>
+      </PageContent>
       {/* {JSON.stringify(data, null, 4)} */}
       {/* {
         data.posts.nodes.map(({ id, content }) => (
@@ -46,6 +37,3 @@ export default function Forum() {
     </>
   )
 }
-
-Forum.title = 'Community Forum';
-Forum.subtitle = "Read the latest topics from the community or start one of your own!";

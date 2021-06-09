@@ -1,51 +1,76 @@
 import Head from 'next/head'
-// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import InfoBox from '../components/InfoBox.js';
+import { useReactiveVar } from '@apollo/client';
+import PageContent from '../components/PageContent.js';
+import PageTitle from '../components/PageTitle.js';
+import { useState, useEffect } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner.js';
+import ItemFilterTabs from '../components/ItemFilterTabs.js';
+import { allContentVar } from '../graphql/cache.js';
 
-// const QUERY = gql`
-// query GetPosts {
-//   posts {
-//     nodes {
-//       id
-//       content
-//     }
-//   }
-// }
-// `;
+export default function Resources({queries}) {
 
-export default function Resources() {
+  const items = useReactiveVar(allContentVar);
 
-  // const { loading, error, data } = useQuery(QUERY);
+  const [ resources, setResources ] = useState([])
 
-  // if (loading) return <p>Loading...</p>;
+  useEffect(() => {
+    setResources(items.filter(item => item.__typename === 'Resource'))
+  },[items])
 
-  // if (error) {
-  //   return <p>Error :(</p>;
-  // }
+  useEffect(() => {
+    queries.getAllContent()
+  },[])
 
+  const tabs = [
+    {
+      name: 'all',
+      title: 'View All',
+      filter: items => items
+    },
+    {
+      name: 'offers',
+      title: 'Offers & Discounts',
+      filter: items => items.filter(item => item.resourceTags.length)
+    },
+    {
+      name: 'tools',
+      title: 'Plugins & Tools',
+      filter: items => items.filter(item => item.resourceTags.length)
+    },
+    {
+      name: 'other',
+      title: 'Other Resources',
+      filter: items => items.filter(item => item.resourceTags.length)
+    }
+  ]
+  
   return (
     <>
       <Head>
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <InfoBox>
-        <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
-      </InfoBox>
-      {/* {JSON.stringify(data, null, 4)} */}
-      {/* {
-        data.posts.nodes.map(({ id, content }) => (
-          <div key={id}>
-            <p>
-              {id}: {content}
-            </p>
-          </div>
-        ))
-      } */}
+      <PageTitle
+        title='Resources'
+        subtitle="More resources we have to give to you which are worth checking out!"
+      />
+      <PageContent>
+        { !resources.length ? 
+          <LoadingSpinner /> :
+          <ItemFilterTabs 
+            items={resources}
+            options={
+              {
+                itemOptions: {
+                  showExcerpt: true,
+                  showButton: true
+                }
+              }
+            }
+            tabs={tabs}
+          />
+        }
+      </PageContent>
     </>
   )
 }
-
-Resources.title = 'Resources';
-Resources.subtitle = "More resources we have to give to you which are worth checking out!";

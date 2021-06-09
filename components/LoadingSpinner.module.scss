@@ -1,0 +1,64 @@
+.loadingCubeGrid {
+  width: 80px;
+  height: 80px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.loadingCube {
+  // width: 33%;
+  // height: 33%;
+  // box-sizing:border-box;
+margin:4px;
+  // float: left;
+  -webkit-animation: loadingCubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: loadingCubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.loadingCube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.loadingCube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.loadingCube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.loadingCube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.loadingCube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.loadingCube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.loadingCube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.loadingCube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.loadingCube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes loadingCubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes loadingCubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
+}

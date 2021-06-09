@@ -1,7 +1,7 @@
 export default function SearchInput({  }) {
 
   const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : '/item-placeholder.jpg';
-  console.log(item);
+
   return (
     <div className="relative mr-6 my-2">
   <input type="search" className="bg-purple-white shadow rounded border-0 p-3" placeholder="Search by name..." />
