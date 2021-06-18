@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import InfoBox from '../components/InfoBox.js';
+import NoticeBox from '../components/NoticeBox.js';
 import PageContent from '../components/PageContent.js';
 import PageTitle from '../components/PageTitle.js';
 export default function Forum() {
@@ -20,9 +20,9 @@ export default function Forum() {
         subtitle = "Read the latest topics from the community or start one of your own!"
       />
       <PageContent>
-      <InfoBox>
+      <NoticeBox>
         <h1>List of topics</h1>
-      </InfoBox>
+      </NoticeBox>
       </PageContent>
       {/* {JSON.stringify(data, null, 4)} */}
       {/* {

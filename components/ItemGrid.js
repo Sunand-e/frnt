@@ -5,7 +5,7 @@ import ItemSmall from "./ItemSmall";
 export default function ItemGrid({className, items, options}) {
   
   const [display, setDisplay] = useState(options?.display ?? 'grid');
-  const gridClasses = (display === 'grid') ? 'grid gap-8 mt-8 grid-cols-3' : 'flex flex-col gap-6 mt-8'
+  const gridClasses = (display === 'grid') ? 'grid gap-8 mt-8 grid-cols-4' : 'flex flex-col gap-6 mt-8'
   const ItemComponent = (display === 'grid') ? Item : ItemSmall
 
   return (

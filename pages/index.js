@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import Head from 'next/head'
 import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
-import InfoBox from '../components/InfoBox';
+import NoticeBox from '../components/NoticeBox';
 import PageTitle from '../components/PageTitle';
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
@@ -13,6 +13,11 @@ import { client } from './_app';
 import contentTypes from '../contentTypes';
 import { useRouter } from 'next/router'
 import ItemGrid from '../components/ItemGrid';
+import InnerNav from '../components/InnerNav';
+import Button from '../components/Button';
+
+import ItemCollection from "../components/ItemCollection";
+
 // when the page has loaded, and all items have been loaded, 
 
 // for each item, create the query for it's metadata.
@@ -24,6 +29,15 @@ export default function Dashboard({queries}) {
   const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
   
+  const items = useReactiveVar(latestContentVar)
+  const options = { 
+    heading: 'Recently Released',
+    subHeading: 'Courses and workshops that were recently released',
+    maxItems: 4,
+    itemOptions: {
+      showType: true
+    }
+  }
   useEffect(() => {
     if(data) {
       const serializedState = client.cache.extract()
@@ -41,11 +55,14 @@ export default function Dashboard({queries}) {
   },[data])
   
   if (error) {
-    return <p>Error :
-      <pre>
-      {JSON.stringify(error, undefined, 2)}
-      </pre>
-    </p>;
+    return (
+      <>
+        <p>Error :</p>
+        <pre>
+          {JSON.stringify(error, undefined, 2)}
+        </pre>
+      </>
+    )
   }
   const router = useRouter()
   const handleTopicClick = tag => e => {
@@ -60,19 +77,29 @@ export default function Dashboard({queries}) {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle
-        title='Welcome to your Dashboard'
-        subtitle='...where you can find the latest resources for your membership'
-      />
+      <InnerNav />
       <PageContent>
         <div className="flex-grow ">
-          <InfoBox>
-            <h1><span className="uppercase">Pick  up where you left off:</span> <em className="text-mainw">Know your why</em></h1>
-          </InfoBox>
+          <PageTitle
+            title='Welcome to your Dashboard'
+          />
+          <NoticeBox>
+            <div className="flex justify-between items-center">
+             <h1 className="font-bold text-lg"><span>Pick up where you left off:</span> <em className="text-main">Know your why</em></h1>
+             <Button>Start now</Button>
+            </div>
+          </NoticeBox>
 
+          { items.length && (
+            <ItemCollection
+            // viewAll={() => setSearchParams(viewAllParams)} 
+              items={items} 
+              options={options}
+             />
+          )}
 
           <div className="flex space-x-8 mb-8">
-            <InfoBox className="flex-1">
+            <div className="flex-1">
               <h1><span className="uppercase">Coming Up</span></h1>
               { data ? 
                 <ItemGrid
@@ -84,9 +111,9 @@ export default function Dashboard({queries}) {
                 :
                 <LoadingSpinner />
               }
-            </InfoBox>
+            </div>
 
-            <InfoBox className="flex-1">
+            <div className="flex-1">
               <h1><span className="uppercase">Latest News</span></h1>
               { data ? 
                 <ItemGrid
@@ -98,7 +125,7 @@ export default function Dashboard({queries}) {
                 :
                 <LoadingSpinner />
               }
-            </InfoBox>
+            </div>
           </div>
 
           <TopicsList onTopicClick={handleTopicClick} />

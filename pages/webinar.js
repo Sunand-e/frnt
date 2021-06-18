@@ -42,7 +42,7 @@ export default function Webinar() {
         )}
         <BlockWithTitle title="Downloads">
           { !webinar && <LoadingSpinner className="transform scale-50"/> }
-          { webinar && <DownloadLinks downloads={webinar.sm_linked_documents} /> }
+          { webinar && <DownloadLinks downloads={webinar.smLinkedDocuments} /> }
         </BlockWithTitle>
       </div>
     </ContentTypePage>

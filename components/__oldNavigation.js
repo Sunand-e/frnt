@@ -1,5 +1,5 @@
 import Menu from './Menu'
-export default function Menu2() {
+export default function Navigation() {
 
   const items = [
     {

@@ -22,9 +22,9 @@ export default function TopicsList({className, onTopicClick}) {
       <div className={`grid gap-8 mt-8 grid-cols-3 ${className}`}>
         { !!contentTags.length && contentTags.map(tag => {
 
-          const icon = tag.sm_taxonomy_icon && {
-            prefix: tag.sm_taxonomy_icon.class.split(" ")[0], 
-            iconName: tag.sm_taxonomy_icon.value
+          const icon = tag.smTaxonomyIcon && {
+            prefix: tag.smTaxonomyIcon.class.split(" ")[0], 
+            iconName: tag.smTaxonomyIcon.value
           };
 
           return (

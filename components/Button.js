@@ -1,4 +1,4 @@
-const button = ({onClick, children}) => (
-  <button className="border-2 border-blue text-main-dark uppercase p-2 font-semibold" onClick={onClick}>{children}</button>
+const Button = ({onClick, children}) => (
+  <button className="h-8 bg-main rounded-full font-base text-base px-8 text-white" onClick={onClick}>{children}</button>
 )
-export default button
+export default Button

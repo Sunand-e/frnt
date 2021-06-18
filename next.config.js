@@ -1,7 +1,10 @@
 // webpack.config.js
 const GenerateGraphQLPossibleTypes = require('./webpack/getGraphQLPossibleTypes');
 
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+module.exports = withBundleAnalyzer({
 
   future: {
     webpack5: true,
@@ -22,4 +25,4 @@ module.exports = {
     // Important: return the modified config
     return config
   },
-}
+})

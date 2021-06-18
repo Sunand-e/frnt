@@ -6,7 +6,7 @@ fragment ContentTagFragment on ContentTag {
   slug
   name
   count
-  sm_taxonomy_icon {
+  smTaxonomyIcon {
     class
     name
     provider

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import InfoBox from '../components/InfoBox.js';
+import NoticeBox from '../components/NoticeBox.js';
 import PageTitle from '../components/PageTitle.js';
 import PageContent from '../components/PageContent.js';
 
@@ -18,9 +18,9 @@ export default function Workshops() {
         subtitle="Join us in our next members-only workshop"
       />
       <PageContent>
-        <InfoBox>
+        <NoticeBox>
           <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
-        </InfoBox>
+        </NoticeBox>
       </PageContent>
     </>
   )

@@ -35,9 +35,6 @@ html {
 body {
   height: 100%;
 }
-#__next {
-  height: 100%;  
-}
 a {
   color: inherit;
   text-decoration: none;

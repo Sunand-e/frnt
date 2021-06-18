@@ -1,0 +1,49 @@
+
+/* Sebastian */
+.innerNav {
+	li {
+		a, span {
+			position: relative;
+			text-align: center;
+			-webkit-transition: color 0.4s;
+			transition: color 0.4s;
+			cursor: pointer;
+
+			&::after {
+				content: ' ';
+				position: absolute;
+				width: 72px;
+				left:50%;
+				margin-left:-36px;
+				height: 4px;
+				border-radius:2px;
+				// background: #043877;
+				-webkit-transform: scale3d(0, 1, 1);
+				transform: scale3d(0, 1, 1);
+				-webkit-transition: -webkit-transform 0.2s;
+				transition: transform 0.2s;
+				@apply bg-main;
+			}
+				
+			&::after {
+				bottom: 0;
+				-webkit-transform-origin: 100% 50%;
+				transform-origin: 100% 50%;
+			}
+
+		}
+		&.current {
+			background-attachment: fixed;
+			a, span {
+				&::after {
+					-webkit-transform: scale3d(1, 1, 1);
+					transform: scale3d(1, 1, 1);
+					-webkit-transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+					transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+					-webkit-transition-duration: 0.4s;
+					transition-duration: 0.4s;			
+				}
+			}			
+		}
+	}
+}

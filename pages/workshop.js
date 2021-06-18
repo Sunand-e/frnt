@@ -44,7 +44,7 @@ export default function Workshop() {
         }
         <BlockWithTitle title="Downloads">
           
-          { workshop && <DownloadLinks downloads={workshop.sm_linked_documents} /> }
+          { workshop && <DownloadLinks downloads={workshop.smLinkedDocuments} /> }
         </BlockWithTitle>
       </div>
     </ContentTypePage>

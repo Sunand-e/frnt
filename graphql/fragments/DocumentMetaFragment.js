@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const DocumentMetaFragment = gql`
 fragment DocumentMeta on Document {
-  sm_linked_documents {
+  smLinkedDocuments {
     sm_download_icon {
       name
       provider

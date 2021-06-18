@@ -29,7 +29,7 @@ export default function Item({ item, options }) {
   const href = item.href ?? `/${itemType.slug}?id=${item.slug}`
 
   return (
-    <div className="content-item flex flex-col overflow-hidden shadow-lg bg-main-semitransparent relative mb-8">
+    <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
       <Link href={href}>
         <a
           className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}

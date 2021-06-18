@@ -7,7 +7,7 @@ fragment WebinarMeta on Webinar {
     title
   }
   videoUrl
-  sm_linked_documents {
+  smLinkedDocuments {
     sm_download_icon {
       name
       provider

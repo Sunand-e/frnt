@@ -15,7 +15,7 @@ export default function ItemSmall({ item, options, className }) {
   return (
     <Link href={href}>
       <a>
-        <div className={`flex items-center justify-start flex-nowrap shadow-lg bg-main-semitransparent ${className}`}>
+        <div className={`flex items-center justify-start flex-nowrap rounded-2xl shadow-lg bg-white ${className}`}>
           <img src={imageSrc} className="w-1/4 mr-4" />
           <div className="flex-1 flex-col justify-between">
             <h2 className="flex-1 text-xl text-blue-dark font-semibold">{item.title}</h2>

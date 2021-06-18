@@ -24,7 +24,7 @@ const Document = () => {
       <div className="flex-grow w-9/12">
         { !document && <LoadingSpinner /> }
         { document && <div className="mb-8" dangerouslySetInnerHTML={{__html: document.content}} /> }
-        { document?.sm_linked_documents && document.sm_linked_documents.map((download, idx) => {          
+        { document?.smLinkedDocuments && document.smLinkedDocuments.map((download, idx) => {          
           const docUrl = download.sm_doc_file_attachment || download.sm_doc_url;
           return <PdfViewer key={idx} url={docUrl}/>
         }
@@ -33,7 +33,7 @@ const Document = () => {
       <Sidebar>
         <BlockWithTitle title="Downloads">
         { !document && <LoadingSpinner className="transform scale-50"/> }
-        { document && <DownloadLinks downloads={document.sm_linked_documents} /> }
+        { document && <DownloadLinks downloads={document.smLinkedDocuments} /> }
         </BlockWithTitle>
       </Sidebar>
     </ContentTypePage>
