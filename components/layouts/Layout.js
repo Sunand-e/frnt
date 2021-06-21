@@ -6,17 +6,16 @@ import PageTitle from '../PageTitle'
 import PageContent from '../PageContent'
 import Sidebar from '../Sidebar'
 import Llama from '../Header'
+import { NavContextProvider } from '../../navContext'
 
-const PageContext = createContext();
-
-export default function Layout( {page} ) {
+export default function Layout( {page, navState} ) {
   return (
     <>
       <Header />
       <div className="w-full mx-auto bg-blue-superlight">
-        <PageContext.Provider>
+        <NavContextProvider>
           <div className="lg:flex">
-              <Navigation />
+              <Navigation navState={navState} />
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
                   <div className="w-full flex">
                       <div className="min-w-0 flex-auto pt-4 pb-24 lg:pb-16">
@@ -25,7 +24,7 @@ export default function Layout( {page} ) {
                   </div>
               </div>
           </div>
-        </PageContext.Provider>
+        </NavContextProvider>
       </div>
     </>
   )

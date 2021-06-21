@@ -5,7 +5,7 @@ import NoticeBox from '../components/NoticeBox.js';
 import PageTitle from '../components/PageTitle.js';
 import PageContent from '../components/PageContent.js';
 
-export default function Workshops() {
+const Workshops = () => {
 
   return (
     <>
@@ -25,3 +25,9 @@ export default function Workshops() {
     </>
   )
 }
+Workshops.navState = {
+  topLevel: 'dashboard',
+  secondary: 'dashboard'
+}
+
+export default Workshops

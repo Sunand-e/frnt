@@ -120,11 +120,13 @@ function App({ Component: PageComponent, pageProps }) {
     return <Layout 
     title={title}
     subtitle={PageComponent.subtitle}
+    navState={PageComponent.navState || {}}
     page={page} />
   })
 
   pageProps.setTitle = setTitle;
   pageProps.queries = queries;
+  
   return (
     <ApolloProvider client={client}>
       <QueriesContext.Provider value={queries}>

@@ -24,7 +24,7 @@ import ItemCollection from "../components/ItemCollection";
 
 // When the data from the initial query has been received, run the same query, but with metadata for all content types.
 
-export default function Dashboard({queries}) {
+const Dashboard = ({queries}) => {
   // console.log(GET_DASHBOARD)
   const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
@@ -138,6 +138,12 @@ export default function Dashboard({queries}) {
   )
 }
 
+Dashboard.navState = {
+  topLevel: 'events',
+  secondary: 'dashboard'
+}
+
+export default Dashboard
 /*
 export async function getStaticProps() {
 
