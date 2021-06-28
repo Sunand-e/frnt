@@ -42,6 +42,11 @@ module.exports = {
         '3': '3px',
         '20': '20px',
       },
+
+      transitionProperty: {
+        'width': 'width'
+      },
+      backgroundOpacity: ['active', 'focus'],
     },
   },
   variants: {

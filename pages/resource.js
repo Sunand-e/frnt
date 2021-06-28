@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar.js';
 import BlockWithTitle from '../components/BlockWithTitle.js';
 import LoadingSpinner from '../components/LoadingSpinner.js';
 
-export default function Resource() {
+const Resource = () => {
 
   const [resource, setResource] = useState('');
 
@@ -24,3 +24,5 @@ export default function Resource() {
     // </ContentTypePage>
   )
 }
+
+export default Resource

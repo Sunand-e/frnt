@@ -1,0 +1,47 @@
+import { useState } from 'react'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) {
+
+  return (
+    <div id="secondaryNav" className={`bg-main bg-opacity-20 transition-width ${showSecondary ? 'w-48' : 'w-0'}`}>
+      <div className={`sticky top-0 flex flex-col relative`}>
+        <h3 className="h-18 px-4 bg-main bg-opacity-50 text-white flex items-center text-base">
+          {showSecondary && topNavItem.title}
+        </h3>
+        { showSecondary && 
+          <ul>
+            { topNavItem.subPages.map((item, index) => {
+              let menuItemClasses
+              if (pageNavState?.secondary === item.name) {
+
+              // if (current === item.urlPath) {
+                menuItemClasses = 'bg-blue bg-opacity-20 text-blue'
+              } else {
+                menuItemClasses = 'text-blue-dark'
+              }
+
+              return (  
+                // <li className={current === item.title ? styles.current : ''} key={index}>
+                <li className={``} key={index}>
+                  {
+                    item.onClick ? 
+                      ( <span onClick={item.onClick}>{item.title}</span>)
+                    : (
+                      <Link href={item.urlPath}>
+                        <a className={`${menuItemClasses} h-10 flex items-center hover:bg-black hover:bg-opacity-5 space-x-4 px-4 transition-colors duration-200 text-base`}>
+                          {item.title}
+                        </a>
+                      </Link>
+                    )
+                  }
+                </li>
+              )
+            })}
+          </ul>
+        }
+      </div>
+    </div>
+  )
+}

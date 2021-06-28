@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import lessons from '../lessons'
 import LinkWithIcon from '../components/LinkWithIcon';
 
-export default function Course() {
+const Course = () => {
 
   
   const [course, setCourse] = useState('');
@@ -90,3 +90,5 @@ export default function Course() {
     </ContentTypePage>
   )
 }
+
+export default Course

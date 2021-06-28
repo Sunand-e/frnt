@@ -5,7 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner.js';
 import VideoPlayer from '../components/VideoPlayer.js';
 import DownloadLinks from '../components/DownloadLinks';
 
-export default function Workshop() {
+const Workshop = () => {
 
   const [workshop, setWorkshop] = useState('')
   const [playing, setPlaying] = useState(false)
@@ -50,3 +50,5 @@ export default function Workshop() {
     </ContentTypePage>
   )
 }
+
+export default Workshop

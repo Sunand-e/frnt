@@ -23,6 +23,7 @@ const typePolicies = {
   }
 }
 
+export const viewVar = makeVar({});
 export const allContentVar = makeVar([]);
 export const latestContentVar = makeVar([]);
 export const libraryVar = makeVar([]);

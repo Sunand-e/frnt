@@ -7,7 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner.js';
 import ItemFilterTabs from '../components/ItemFilterTabs.js';
 import { allContentVar } from '../graphql/cache.js';
 
-export default function Resources({queries}) {
+const Resources = ({queries}) => {
 
   const items = useReactiveVar(allContentVar);
 
@@ -74,3 +74,5 @@ export default function Resources({queries}) {
     </>
   )
 }
+
+export default Resources

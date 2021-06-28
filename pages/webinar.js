@@ -5,7 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner.js';
 import VideoPlayer from '../components/VideoPlayer.js';
 import DownloadLinks from '../components/DownloadLinks';
 
-export default function Webinar() {
+const Webinar = () => {
 
   const [webinar, setWebinar] = useState('');
   const [playing, setPlaying] = useState(false)
@@ -48,3 +48,5 @@ export default function Webinar() {
     </ContentTypePage>
   )
 }
+
+export default Webinar

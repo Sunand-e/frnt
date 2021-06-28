@@ -22,7 +22,7 @@ export default function RecentlyReleased() {
   const options = { 
     heading: 'Recently Released',
     subHeading: 'Courses and workshops that were recently released',
-    maxItems: 3,
+    maxItems: 4,
     itemOptions: {
       showType: true
     }

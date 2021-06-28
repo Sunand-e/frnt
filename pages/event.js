@@ -5,7 +5,7 @@ import BlockWithTitle from '../components/BlockWithTitle.js';
 import LoadingSpinner from '../components/LoadingSpinner.js';
 import EventDetails from '../components/EventDetails.js';
 
-export default function Event() {
+const Event = () => {
 
   const [event, setEvent] = useState('');
 
@@ -24,3 +24,5 @@ export default function Event() {
     </ContentTypePage>
   )
 }
+
+export default Event

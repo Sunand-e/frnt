@@ -29,7 +29,7 @@ const contentTypeQueryBits = contentTypes.reduce(( accumulator, currentValue, in
 
 export const GET_DASHBOARD = gql`
   query GetDashboard {
-    contentNodes(first:3, where: {
+    contentNodes(first:4, where: {
       contentTypes: [${contentTypeQueryBits.gql_types}]
       orderby: {
         field:DATE
@@ -76,7 +76,7 @@ export const GET_DASHBOARD = gql`
         ${`${contentTypeQueryBits.fragmentsString}`}
       }
     }
-    posts(first:3) {
+    posts(first:4) {
       nodes {
         id
         title
@@ -89,7 +89,7 @@ export const GET_DASHBOARD = gql`
         }
       }
     }
-    events(first:3) {
+    events(first:4) {
       nodes {
         id
         title

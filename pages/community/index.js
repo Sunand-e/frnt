@@ -1,0 +1,45 @@
+import { useState } from 'react';
+import Head from 'next/head'
+// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
+import NoticeBox from '../../components/NoticeBox.js';
+import PageContent from '../../components/PageContent.js';
+import PageTitle from '../../components/PageTitle.js';
+const Community = () => {
+
+  const [community, setCommunity] = useState('');
+
+  return (
+    <>
+      <Head>
+        <title>Membership Academy</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <PageTitle
+        title = 'Community Forum'
+        subtitle = "Read the latest topics from the community or start one of your own!"
+      />
+      <PageContent>
+      <NoticeBox>
+        <h1>List of topics</h1>
+      </NoticeBox>
+      </PageContent>
+      {/* {JSON.stringify(data, null, 4)} */}
+      {/* {
+        data.posts.nodes.map(({ id, content }) => (
+          <div key={id}>
+            <p>
+              {id}: {content}
+            </p>
+          </div>
+        ))
+      } */}
+    </>
+  )
+}
+
+Community.navState = {
+  topLevel: 'community'
+}
+
+export default Community

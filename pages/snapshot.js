@@ -5,7 +5,7 @@ import BlockWithTitle from '../components/BlockWithTitle.js';
 import LoadingSpinner from '../components/LoadingSpinner.js';
 import Item from '../components/Item.js';
 
-export default function Snapshot() {
+const Snapshot = () => {
 
   const [snapshot, setSnapshot] = useState('');
 
@@ -26,3 +26,5 @@ export default function Snapshot() {
     </ContentTypePage>
   )
 }
+
+export default Snapshot

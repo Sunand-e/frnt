@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar.js';
 import BlockWithTitle from '../components/BlockWithTitle.js';
 import LoadingSpinner from '../components/LoadingSpinner.js';
 
-export default function Programme() {
+const Programme = () => {
 
   const [programme, setProgramme] = useState('');
 
@@ -22,3 +22,5 @@ export default function Programme() {
     </ContentTypePage>
   )
 }
+
+export default Programme

@@ -15,7 +15,7 @@ import PageTitle from '../components/PageTitle.js';
 // }
 // `;
 
-export default function MyAccount() {
+const MyAccount = () => {
 
   // const { loading, error, data } = useQuery(QUERY);
 
@@ -51,3 +51,5 @@ export default function MyAccount() {
     </>
   )
 }
+
+export default MyAccount

@@ -9,11 +9,25 @@ import {
 } from '@apollo/client';
 
 import getConfig from 'next/config'
-import cache, { latestContentVar, libraryVar, contentTagsVar, eventsVar, dashVar, allContentVar } from '../graphql/cache'
+import cache, {
+  viewVar,
+  latestContentVar, 
+  libraryVar, 
+  contentTagsVar, 
+  eventsVar, 
+  dashVar, 
+  allContentVar
+} from '../graphql/cache'
+
 import { addIconsToLibrary } from "../fontawesome";
 import { GET_ALL_CONTENT } from '../graphql/queries/GET_ALL_CONTENT';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
 import { GET_LIBRARY } from '../graphql/queries/GET_LIBRARY';
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css' // Import the CSS
+config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+
 
 import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.css'
@@ -56,7 +70,7 @@ export const client = new ApolloClient({
 
 export const QueriesContext = createContext({queries:{}});
 
-function App({ Component: PageComponent, pageProps }) {
+const App = ({ Component: PageComponent, pageProps }) => {
 
   const [title, setTitle] = useState(PageComponent.title)
 
@@ -99,7 +113,7 @@ function App({ Component: PageComponent, pageProps }) {
     if(allContentData) {
       getLibrary()
       getDashboard()
-      latestContentVar(allContentData.contentNodes.nodes.slice(0, 3))
+      latestContentVar(allContentData.contentNodes.nodes.slice(0, 4))
       allContentVar(allContentData.contentNodes?.nodes)
     }
   },[allContentData])
@@ -118,6 +132,7 @@ function App({ Component: PageComponent, pageProps }) {
   const getLayout =
   PageComponent.getLayout || (page => {
     return <Layout 
+    pageState={viewVar()}
     title={title}
     subtitle={PageComponent.subtitle}
     navState={PageComponent.navState || {}}

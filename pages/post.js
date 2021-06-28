@@ -5,7 +5,7 @@ import BlockWithTitle from '../components/BlockWithTitle.js';
 import LoadingSpinner from '../components/LoadingSpinner.js';
 import Item from '../components/Item.js';
 
-export default function Post() {
+const Post = () => {
 
   const [post, setPost] = useState('');
 
@@ -26,3 +26,5 @@ export default function Post() {
     </ContentTypePage>
   )
 }
+
+export default Post
