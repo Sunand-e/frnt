@@ -1,0 +1,23 @@
+name: deploy-to-digitalocean
+on: 
+  push: 
+    branches:
+      - staging
+  pull_request:
+    branches:
+      - staging
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Staging to DigitalOcean 
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+
+          script: |
+            cd learning-platform-frontend
+            git pull origin staging
+            npm run build
