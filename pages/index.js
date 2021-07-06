@@ -30,14 +30,16 @@ const Dashboard = ({queries}) => {
   // const library = useReactiveVar(libraryVar)
   
   const items = useReactiveVar(latestContentVar)
-  const options = { 
-    heading: 'Recently Released',
-    subHeading: 'Courses and workshops that were recently released',
-    maxItems: 4,
+
+  const recentlyViewedOptions = { 
+    heading: 'Recently Viewed',
+    // subHeading: 'Courses and workshops that were recently released',
+    maxItems: 5,
     itemOptions: {
       showType: true
     }
   }
+
   useEffect(() => {
     if(data) {
       const serializedState = client.cache.extract()
@@ -80,7 +82,7 @@ const Dashboard = ({queries}) => {
       
       <PageTitle title='Dashboard' />
       
-      <InnerNav />
+      {/* <InnerNav /> */}
       
       <PageContent>
         <div className="flex-grow ">
@@ -95,33 +97,36 @@ const Dashboard = ({queries}) => {
             <ItemCollection
             // viewAll={() => setSearchParams(viewAllParams)} 
               items={items} 
-              options={options}
+              options={recentlyViewedOptions}
              />
           )}
 
           <div className="flex space-x-8 mb-8">
+
+            {/* 'Coming Up' events list */}
             <div className="flex-1">
-              <h1><span className="uppercase">Coming Up</span></h1>
+              <h3 className="text-xl text-blue-dark text-semibold">Coming Up</h3>
               { data ? 
                 <ItemGrid
-                  items = {
-                    data.events.nodes.slice(0,3)
-                  }
-                  options={{display: 'list'}}
+                items = {
+                  data.events.nodes.slice(0,3)
+                }
+                options={{display: 'list'}}
                 />
                 :
                 <LoadingSpinner />
               }
             </div>
 
+            {/* 'Latest News' list */}
             <div className="flex-1">
-              <h1><span className="uppercase">Latest News</span></h1>
+              <h3 className="text-xl text-blue-dark text-semibold">Latest News</h3>
               { data ? 
                 <ItemGrid
-                  items = {
-                    data.posts.nodes.slice(0,3)
-                  }
-                  options={{display: 'list'}}
+                items = {
+                  data.posts.nodes.slice(0,3)
+                }
+                options={{display: 'list'}}
                 />
                 :
                 <LoadingSpinner />
@@ -131,6 +136,7 @@ const Dashboard = ({queries}) => {
 
           <TopicsList onTopicClick={handleTopicClick} />
           
+          {/* Dashboard Content Tabs include 'Recently viewed' and 'continiue wathcing' sections */}
           <DashboardContentTabs />
 
         </div>

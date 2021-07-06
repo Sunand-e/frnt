@@ -1,0 +1,73 @@
+default: 
+  image: docker:latest
+  services:
+    - docker:dind
+
+stages:
+  - build
+  - deploy_staging
+
+variables:
+  TEST_IMAGE: containerregistry.idigitalmarketing.co.uk/elearningplus/learning-platform-frontend:$CI_COMMIT_REF_NAME
+  STAGING_IMAGE: containerregistry.idigitalmarketing.co.uk/elearningplus/learning-platform-frontend:staging
+  RELEASE_IMAGE: containerregistry.idigitalmarketing.co.uk/elearningplus/learning-platform-frontend:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN containerregistry.idigitalmarketing.co.uk
+
+build_job:
+  stage: build
+  script:
+    - docker build --pull --build-arg SSH_KEY_FOR_ELP_IOMAD_GITLAB="$SSH_KEY_FOR_ELP_IOMAD_GITLAB"  -t $TEST_IMAGE .
+    - docker push $TEST_IMAGE
+  only:
+    - master
+
+.test_job:
+  stage: test
+  script:
+    - docker pull $TEST_IMAGE
+    # Need to configure tests at this stage
+    - docker run $TEST_IMAGE 
+
+release_staging_image:
+  stage: release_staging
+  script:
+    - docker pull $TEST_IMAGE
+    - docker tag $TEST_IMAGE $STAGING_IMAGE
+    - docker push $STAGING_IMAGE
+  only:
+    - master
+
+deploy_staging_image:
+  stage: deploy_staging
+  image: python:alpine
+  before_script:
+    - ""
+  script:
+    - pip install awscli
+    - aws ecs update-service --cluster elplms --service elplms-staging --force-new-deployment
+  only:
+    - master
+
+release_production_image:
+  stage: release_prod
+  when: manual
+  script:
+    - docker pull $TEST_IMAGE
+    - docker tag $TEST_IMAGE $RELEASE_IMAGE
+    - docker push $RELEASE_IMAGE
+  only:
+    - master
+    
+deploy_production_image:
+  stage: deploy_prod
+  when: manual
+  image: python:alpine
+  before_script:
+    - ""
+  script:
+    - pip install awscli
+    - aws ecs update-service --cluster elplms --service elplms-TaskService --force-new-deployment
+  only:
+    - master

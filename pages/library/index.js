@@ -108,7 +108,7 @@ const Library = ({queries}) => {
               // If not searching, show the topics list and all content type sections
               <>
                 <RecentlyReleased />
-                {/* <TopicsList onTopicClick={handleTopicClick} /> */}
+                <TopicsList onTopicClick={handleTopicClick} />
                 {
                   libraryContentTypes.map((type, index) => {
 
