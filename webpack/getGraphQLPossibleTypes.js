@@ -30,7 +30,7 @@ class GenerateGraphQLPossibleTypes {
         .then(result => {
           console.log(result)
           const possibleTypes = {};
-          result.data.__schema.types.forEach(supertype => {
+          result.data.__schema?.types.forEach(supertype => {
             if (supertype.possibleTypes) {
               possibleTypes[supertype.name] =
                 supertype.possibleTypes.map(subtype => subtype.name);

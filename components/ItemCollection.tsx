@@ -1,6 +1,15 @@
 import ItemGrid from "./ItemGrid"
 import Button from "./Button"
-export default function ItemCollection({items, options, viewAll}) {
+import { MouseEventHandler } from "react";
+
+interface ItemCollectionProps {
+  className?: string
+  viewAll?: MouseEventHandler<HTMLButtonElement>
+  items: Array<any>
+  options: any
+}
+
+export default function ItemCollection({items, options, viewAll}: ItemCollectionProps) {
   
   const gridOptions = {
     ...options,

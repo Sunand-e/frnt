@@ -6,6 +6,14 @@ import metaFragments from '../fragments/metaFragments';
 
 // Generate the string of all graphQL types for the library query
 
+export const GET_DASHBOARD = gql`
+  query GetDashboard {
+    contentItems {
+      title
+    }
+  }
+`
+/*
 const contentTypeQueryBits = contentTypes.reduce(( accumulator, currentValue, index, array) => {
   if(currentValue.notInLibrary !== true) {
     const gqlName = currentValue.name.replace(/\s/g, '');
@@ -27,7 +35,7 @@ const contentTypeQueryBits = contentTypes.reduce(( accumulator, currentValue, in
   fragmentDefinitions: ''
 })
 
-export const GET_DASHBOARD = gql`
+export const GET_DASHBOARD___OLD = gql`
   query GetDashboard {
     contentNodes(first:4, where: {
       contentTypes: [${contentTypeQueryBits.gql_types}]
@@ -119,3 +127,4 @@ export const GET_DASHBOARD = gql`
   ${metaFragments.WorkshopMetaFragment} 
 `
 // ${gql`${contentTypeQueryBits.fragmentDefinitions}`}
+*/

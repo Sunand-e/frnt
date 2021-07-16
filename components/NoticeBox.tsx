@@ -1,6 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export default function NoticeBox({ className, children }) {
+interface NoticeBoxProps {
+  className?: string
+  children: JSX.Element
+}
+
+export default function NoticeBox({ className, children }: NoticeBoxProps) {
 
   const bgClass = "bg-blue bg-opacity-10"
 

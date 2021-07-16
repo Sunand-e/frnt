@@ -7,13 +7,13 @@ import PageContent from '../PageContent'
 import Sidebar from '../Sidebar'
 import TopNotificationBar from '../TopNotificationBar'
 import Modal from '../Modal'
+import LoginForm from '../LoginForm'
 
-export default function Layout( {page, navState, pageState} ) {
+export default function LoginLayout( {page, navState, pageState} ) {
   return (
     <>
       <TopNotificationBar />
       <div className={`flex min-h-full`}>
-        <NavContainer navState={navState} />
         <div className="flex-grow">
           <Header pageState={pageState} />
           <div className="w-full mx-auto bg-blue-superlight">
@@ -21,7 +21,7 @@ export default function Layout( {page, navState, pageState} ) {
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
                 <div className="w-full flex">
                   <div className="min-w-0 flex-auto pt-4 pb-24 lg:pb-16">
-                    {page}
+                    <LoginForm />
                   </div>
                 </div>
               </div>

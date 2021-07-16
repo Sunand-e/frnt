@@ -17,7 +17,7 @@ const PdfViewer = dynamic(
 
 const Document = () => {
 
-  const [document, setDocument] = useState('');
+  const [document, setDocument]:[any,Function] = useState('');
   
   return (
     <ContentTypePage type="Document" setData={setDocument}>

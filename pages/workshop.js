@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 import ContentTypePage from "../components/ContentTypePage";
-import BlockWithTitle from '../components/BlockWithTitle.js';
-import LoadingSpinner from '../components/LoadingSpinner.js';
-import VideoPlayer from '../components/VideoPlayer.js';
+import BlockWithTitle from '../components/BlockWithTitle';
+import LoadingSpinner from '../components/LoadingSpinner';
+import VideoPlayer from '../components/VideoPlayer';
 import DownloadLinks from '../components/DownloadLinks';
 
 const Workshop = () => {

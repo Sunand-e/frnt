@@ -13,7 +13,7 @@ import LinkWithIcon from '../components/LinkWithIcon';
 const Course = () => {
 
   
-  const [course, setCourse] = useState('');
+  const [course, setCourse]: [any,any] = useState({});
 
   
   const [currentLesson, setCurrentLesson] = useState(null)
@@ -58,11 +58,11 @@ const Course = () => {
         { course && ( 
           currentLesson === null ? (
             <>
-              <img className="object-cover h-96 mb-8 w-full" src={course.featuredImage.node.sourceUrl} />
+              {/* <img className="object-cover h-96 mb-8 w-full" src={course.featuredImage.node.sourceUrl} />
               <div className="mb-8" dangerouslySetInnerHTML={{__html: course.content}} />
               <div className="flex justify-start">
               <Button onClick={() => setCurrentLesson(lessons[0].id)}>Start Course</Button>
-              </div>
+              </div> */}
             </>
           ) : <Lesson lesson={lessons.find(lesson => lesson.id === currentLesson)} />
         ) }

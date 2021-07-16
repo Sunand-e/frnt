@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import NoticeBox from '../../components/NoticeBox.js';
-import PageContent from '../../components/PageContent.js';
-import PageTitle from '../../components/PageTitle.js';
+import NoticeBox from '../../components/NoticeBox';
+import PageContent from '../../components/PageContent';
+import PageTitle from '../../components/PageTitle';
 const Community = () => {
 
   const [community, setCommunity] = useState('');

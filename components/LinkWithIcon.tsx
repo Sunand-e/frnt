@@ -1,7 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
+import { MouseEventHandler } from 'react'
 
-export default function LinkWithIcon({icon, href, children, theme, onClick}) {
+interface LinkWithIconProps {
+  icon
+  href: string
+  children: JSX.Element | string
+  theme?: 'boxed'
+  onClick?: MouseEventHandler
+}
+
+export default function LinkWithIcon({icon, href, children, theme, onClick}: LinkWithIconProps) {
   const boxedClasses = `p-4 bg-main-semitransparent border-main border-2 text-main transform transition-transform hover:scale-105 hover:text-main-dark hover:border-main-dark`
   return (
       // <Link href={href} >

@@ -1,5 +1,9 @@
+import type { AppProps } from 'next/app'
+import type { Page } from '../types/page'
+
 import {useState, useEffect, createContext} from 'react'
 import Layout from '../components/layouts/Layout'
+import LoginLayout from '../components/layouts/LoginLayout'
 import { setContext } from '@apollo/client/link/context';
 import { 
   ApolloClient, 
@@ -31,6 +35,7 @@ config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatica
 
 import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.css'
+import { NextComponentType } from 'next';
 
 const {publicRuntimeConfig} = getConfig()
 const {API_URL} = publicRuntimeConfig
@@ -39,7 +44,7 @@ addIconsToLibrary()
 
 const httpLink = createHttpLink({
   uri: API_URL,
-  credentials: "include",
+  // credentials: "include", (response header must include Access-Control-Allow-Credentials: true)
   // useGETForQueries: true
 });
 
@@ -51,7 +56,8 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -70,9 +76,16 @@ export const client = new ApolloClient({
 
 export const QueriesContext = createContext({queries:{}});
 
-const App = ({ Component: PageComponent, pageProps }) => {
+interface PagePropertiesType {
+  Component: Page,
+}
+type AppPropsExtended = AppProps & PagePropertiesType 
+
+
+const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const [title, setTitle] = useState(PageComponent.title)
+  const [loggedIn, setloggedIn] = useState(true)
 
   const updateContentTagsVar = () => {
     if(libraryData) {
@@ -133,8 +146,6 @@ const App = ({ Component: PageComponent, pageProps }) => {
   PageComponent.getLayout || (page => {
     return <Layout 
     pageState={viewVar()}
-    title={title}
-    subtitle={PageComponent.subtitle}
     navState={PageComponent.navState || {}}
     page={page} />
   })
@@ -144,8 +155,15 @@ const App = ({ Component: PageComponent, pageProps }) => {
   
   return (
     <ApolloProvider client={client}>
-      <QueriesContext.Provider value={queries}>
-        { getLayout(<PageComponent {...pageProps} />) }
+      <QueriesContext.Provider value={{queries}}>
+        { loggedIn 
+          ? getLayout(<PageComponent {...pageProps} />)
+          : <LoginLayout
+            pageState={viewVar()}
+            navState={PageComponent.navState || {}}
+            page={<PageComponent {...pageProps} />}
+          />
+        }
       </QueriesContext.Provider>
     </ApolloProvider>
   )

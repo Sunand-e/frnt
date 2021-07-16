@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import ContentTypePage from "../components/ContentTypePage";
-import Sidebar from '../components/Sidebar.js';
-import BlockWithTitle from '../components/BlockWithTitle.js';
-import LoadingSpinner from '../components/LoadingSpinner.js';
-import EventDetails from '../components/EventDetails.js';
+import Sidebar from '../components/Sidebar';
+import BlockWithTitle from '../components/BlockWithTitle';
+import LoadingSpinner from '../components/LoadingSpinner';
+import EventDetails from '../components/EventDetails';
 
 const Event = () => {
 
-  const [event, setEvent] = useState('');
+  const [event, setEvent]:[any, Function] = useState('');
 
   return (
     <ContentTypePage type="Event" setData={setEvent}>

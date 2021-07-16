@@ -1,4 +1,5 @@
-name: deploy-to-digitalocean
+name: Deploy to staging (DigitalOcean)
+
 on: 
   push: 
     branches:
@@ -6,19 +7,31 @@ on:
   pull_request:
     branches:
       - staging
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Staging to DigitalOcean 
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
 
-          script: |
-            cd learning-platform-frontend
-            git pull origin staging
-            npm run build
-            docker-compose up -d
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2.1.0
+    - name: Use Node.js ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm install
+    - run: npm run build
+
+    - name: Deploy files via scp
+      uses: appleboy/scp-action@master 
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        source: "./out"
+        target: "frontend"

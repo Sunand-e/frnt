@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import { useReactiveVar } from '@apollo/client';
-import PageContent from '../components/PageContent.js';
-import PageTitle from '../components/PageTitle.js';
+import PageContent from '../components/PageContent';
+import PageTitle from '../components/PageTitle';
 import { useState, useEffect } from 'react';
-import LoadingSpinner from '../components/LoadingSpinner.js';
-import ItemFilterTabs from '../components/ItemFilterTabs.js';
-import { allContentVar } from '../graphql/cache.js';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ItemFilterTabs from '../components/ItemFilterTabs';
+import { allContentVar } from '../graphql/cache';
 
 const Resources = ({queries}) => {
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 // import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { useRouter } from '../../utils/router.js';
+import { useRouter } from '../../utils/router';
 import contentTypes from '../../contentTypes';
 import ItemCollection from '../../components/ItemCollection';
 import SearchFilter from '../../components/SearchFilter';

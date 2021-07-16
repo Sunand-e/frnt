@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import ContentTypePage from "../components/ContentTypePage";
-import Sidebar from '../components/Sidebar.js';
-import BlockWithTitle from '../components/BlockWithTitle.js';
-import LoadingSpinner from '../components/LoadingSpinner.js';
+import Sidebar from '../components/Sidebar';
+import BlockWithTitle from '../components/BlockWithTitle';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Programme = () => {
 

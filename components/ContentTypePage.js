@@ -1,15 +1,15 @@
 import { useEffect, useContext } from 'react'
 import Head from 'next/head'
 // import { useRouter } from 'next/router'
-import { useRouter } from '../utils/router.js';
+import { useRouter } from '../utils/router';
 import { useApolloClient, useReactiveVar, gql, useLazyQuery } from '@apollo/client';
 import {QueriesContext} from '../pages/_app'
-import PageTitle from '../components/PageTitle.js';
-import PageContent from '../components/PageContent.js';
+import PageTitle from '../components/PageTitle';
+import PageContent from '../components/PageContent';
 
 // GraphQL Imports
 import ItemDetailsFragment from "../graphql/fragments/ItemDetailsFragment";
-import metaFragments from '../graphql/fragments/metaFragments.js';
+import metaFragments from '../graphql/fragments/metaFragments';
 
 export default function ContentTypePage({type, setData, children}) {
   

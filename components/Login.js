@@ -1,6 +1,6 @@
 import Modal from "./Modal"
 
-export default function SearchForm({setShowForm}) {
+export default function Login({setShowForm}) {
 
   return (
     <Modal>

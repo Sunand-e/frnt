@@ -48,7 +48,7 @@ const Dashboard = ({queries}) => {
           item => item.__typename === 'ContentTag'
         )
       )
-      latestContentVar(data.contentNodes.nodes.slice(0, 4))
+      latestContentVar(data.contentItems.slice(0, 4))
       // console.log('data')
       // console.log(data)
       queries.getAllContent()
@@ -59,7 +59,7 @@ const Dashboard = ({queries}) => {
   if (error) {
     return (
       <>
-        <p>Error :</p>
+        <p>Errorddd :</p>
         <pre>
           {JSON.stringify(error, undefined, 2)}
         </pre>
@@ -109,7 +109,7 @@ const Dashboard = ({queries}) => {
               { data ? 
                 <ItemGrid
                 items = {
-                  data.events.nodes.slice(0,3)
+                  data.events?.slice(0,3) || []
                 }
                 options={{display: 'list'}}
                 />
@@ -124,7 +124,7 @@ const Dashboard = ({queries}) => {
               { data ? 
                 <ItemGrid
                 items = {
-                  data.posts.nodes.slice(0,3)
+                  data.posts?.slice(0,3) || []
                 }
                 options={{display: 'list'}}
                 />

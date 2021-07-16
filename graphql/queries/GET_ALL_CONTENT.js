@@ -4,6 +4,19 @@ import { ContentTagFragment } from '../fragments/ContentTagFragment';
 
 import metaFragments from '../fragments/metaFragments';
 
+export const GET_ALL_CONTENT = gql`
+  query GetAllContent {
+    contentItems(where: {
+      orderby: {
+        field:DATE
+        order:DESC
+      }
+    }) {
+      name
+    }
+  }
+`
+/*
 const contentTypeQueryBits = contentTypes.reduce(
   ( accumulator, currentValue, index, array) => {
       const gqlName = currentValue.name.replace(/\s/g, '');
@@ -27,7 +40,7 @@ for (const fragment in metaFragments) {
   metaFragmentGql += fragment
 }
 // Define the query for the entire library, using the contentTypesGQL string
-export const GET_ALL_CONTENT = gql`
+export const GET_ALL_CONTENT___OLD = gql`
   query GetAllContent {
     contentNodes(first:1000, where: {
       contentTypes: [${contentTypeQueryBits.gql_types}]
@@ -90,3 +103,4 @@ export const GET_ALL_CONTENT = gql`
   ${metaFragments.WebinarMetaFragment}
   ${metaFragments.WorkshopMetaFragment} 
 `
+*/

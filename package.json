@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "analyzedev": "cross-env NODE_OPTIONS='--inspect' ANALYZE=true next dev -p 3001",
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev -p 3001",
+    "dev": "cross-env NODE_ENV='development' PORT=3001 node server.js",
     "build": "next build && next export",
     "start": "next start",
     "export": "next export"
@@ -24,7 +24,9 @@
     "autoprefixer": "^10.2.3",
     "bulma": "^0.9.2",
     "bulma-helpers": "^0.3.12",
+    "formik": "^2.2.9",
     "graphql": "^15.4.0",
+    "http-proxy-middleware": "^2.0.1",
     "material-design-icons": "^3.0.1",
     "next": "^10.2.3",
     "react": "^17.0.1",

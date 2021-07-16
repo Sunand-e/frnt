@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import PageTitle from '../../../components/PageTitle.js';
+import PageTitle from '../../../components/PageTitle';
 
 const AdminCourseCategories = () => {
   return (

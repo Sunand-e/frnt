@@ -1,5 +1,11 @@
 import styles from './LoadingSpinner.module.scss'
-export default function LoadingSpinner({text, className}) {
+
+interface LoadingSpinnerProps {
+  text?: string,
+  className?: string
+}
+
+export default function LoadingSpinner({text, className}: LoadingSpinnerProps): JSX.Element {
 
   return (
     <div className={`${className} display flex-col text-center text-main-dark mx-auto`}>

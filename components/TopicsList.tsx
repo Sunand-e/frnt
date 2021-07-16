@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { contentTagsVar } from "../graphql/cache";
 import LinkWithIcon from './LinkWithIcon';
 
-export default function TopicsList({className, onTopicClick}) {
+interface TopicsListProps {
+  className?: String
+  onTopicClick: Function
+}
+
+export default function TopicsList({className, onTopicClick}: TopicsListProps) {
   
   const contentTags = useReactiveVar(contentTagsVar);
 
