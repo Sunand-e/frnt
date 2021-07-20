@@ -9,7 +9,10 @@ import {
   ApolloClient, 
   ApolloProvider, 
   createHttpLink,
+  gql,
+  NormalizedCacheObject,
   useLazyQuery,
+  useReactiveVar,
 } from '@apollo/client';
 
 import getConfig from 'next/config'
@@ -20,7 +23,8 @@ import cache, {
   contentTagsVar, 
   eventsVar, 
   dashVar, 
-  allContentVar
+  allContentVar,
+  isLoggedInVar
 } from '../graphql/cache'
 
 import { addIconsToLibrary } from "../fontawesome";
@@ -56,20 +60,33 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  // const token = localStorage.getItem('token');
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
+  let token: string
+
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token');
+  }
+  // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
   // return the headers to the context so httpLink can read them
+
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      // authorization: token ? `Bearer ${token}` : "",
+      authorization: token || '',
+
     }
   }
 });
 
-export const client = new ApolloClient({
-  connectToDevTools: true,
+export const typeDefs = gql`
+  extend type Query {
+    isLoggedIn: Boolean!
+  }
+`;
+
+export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link: authLink.concat(httpLink),
+  connectToDevTools: true,
   cache,
   // typeDefs
 });
@@ -85,8 +102,9 @@ type AppPropsExtended = AppProps & PagePropertiesType
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const [title, setTitle] = useState(PageComponent.title)
-  const [loggedIn, setloggedIn] = useState(true)
 
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  
   const updateContentTagsVar = () => {
     if(libraryData) {
       const serializedState = client.cache.extract()
@@ -122,6 +140,31 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     getDashboard
   }
   
+  
+  console.log('caused a rerender');
+
+  const loginLayout = (
+    <LoginLayout
+      pageState={viewVar()}
+      navState={PageComponent.navState || {}}
+      page={<PageComponent {...pageProps} />}
+    />
+  )
+
+  const [layout, setLayout]  = useState(loginLayout)
+
+  const getLayout =
+  PageComponent.getLayout || (page => {
+    return <Layout 
+    pageState={viewVar()}
+    navState={PageComponent.navState || {}}
+    page={page} />
+  })
+
+  pageProps.setTitle = setTitle;
+  pageProps.queries = queries;
+  
+  
   useEffect(() => {
     if(allContentData) {
       getLibrary()
@@ -138,34 +181,27 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       libraryVar(libraryData.contentNodes?.nodes)
       }
   },[libraryData])
-
   
-  console.log('caused a rerender');
+  // Only show login if not logged in
+  useEffect(() => {
+    setLayout(isLoggedIn ? 
+      getLayout(<PageComponent {...pageProps} />) :
+      loginLayout
+    )
+  },[isLoggedIn])
 
-  const getLayout =
-  PageComponent.getLayout || (page => {
-    return <Layout 
-    pageState={viewVar()}
-    navState={PageComponent.navState || {}}
-    page={page} />
-  })
 
-  pageProps.setTitle = setTitle;
-  pageProps.queries = queries;
-  
   return (
+    <>
     <ApolloProvider client={client}>
-      <QueriesContext.Provider value={{queries}}>
-        { loggedIn 
-          ? getLayout(<PageComponent {...pageProps} />)
-          : <LoginLayout
-            pageState={viewVar()}
-            navState={PageComponent.navState || {}}
-            page={<PageComponent {...pageProps} />}
-          />
-        }
-      </QueriesContext.Provider>
-    </ApolloProvider>
+        <QueriesContext.Provider value={{queries}}>
+          {
+            layout
+          }
+        </QueriesContext.Provider>
+      </ApolloProvider>
+    
+    </>
   )
 }
 

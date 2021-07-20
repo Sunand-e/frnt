@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
-import { viewVar } from "../graphql/cache";
+import { useEffect, useState } from "react";
+import { isLoggedInVar, viewVar } from "../graphql/cache";
 import Button from "./Button";
 
 export default function Header() {
@@ -14,6 +15,22 @@ export default function Header() {
     e.target.blur()
   }
 
+  const handleLogoutClick = (e) => {
+    isLoggedInVar(false)
+    localStorage.removeItem('token')
+    
+    e.target.blur()
+
+  }
+
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  
+  const [showButtons, setShowButtons] = useState(false)
+
+  useEffect(() => {
+    setShowButtons(isLoggedIn)
+  },[])
+
 
   return (
     <>
@@ -22,15 +39,21 @@ export default function Header() {
             className="flex-none pl-4 sm:pl-6 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0 lg:w-60 xl:w-72">
             <a className="overflow-hidden w-10 md:w-auto text-lg text-main-dark font-bold" href="/">
               <span className="sr-only">MemberHub Dashboard</span>
+              
               {view.title}
               {/* {` isAdmin: ${view.isAdmin ? 'on' : 'off'}.`} */}
             </a>
         </div>
         <div
           className="flex items-center justify-between px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
-          <div className="lg:w-64 pl-8 flex-shrink-0 flex items-center justify-end space-x-6">
-            
-        <Button onClick={handleAdminButtonClick}>{view.isAdmin ? 'Admin' : 'User'} View</Button>
+          <div className="min-w-16 lg:w-64 pl-8 flex-shrink-0 flex items-center justify-end space-x-6">
+            { 
+              showButtons && 
+              <>
+                <Button onClick={handleLogoutClick}>Log out</Button>
+                <Button onClick={handleAdminButtonClick}>{view.isAdmin ? 'Admin' : 'User'} View</Button>
+              </>
+}
           </div>
         </div>
       </div>

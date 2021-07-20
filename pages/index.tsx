@@ -59,7 +59,7 @@ const Dashboard = ({queries}) => {
   if (error) {
     return (
       <>
-        <p>Errorddd :</p>
+        <p>Error:</p>
         <pre>
           {JSON.stringify(error, undefined, 2)}
         </pre>

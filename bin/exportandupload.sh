@@ -1,0 +1,1 @@
+cd out && tar czf - . | ssh github@staging.learningcentre.elearningplus.co.uk "cd /frontend && tar xvzf -" && cd -

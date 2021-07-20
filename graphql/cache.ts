@@ -2,7 +2,7 @@ import {
   InMemoryCache,
   makeVar,
 } from '@apollo/client';
-import possibleTypes from '../graphql/possibleTypes.json'
+import possibleTypes from './possibleTypes.json'
 import contentTypes from '../contentTypes'
 
 // generate type policies for all content types
@@ -30,6 +30,8 @@ export const libraryVar = makeVar([]);
 export const dashVar = makeVar([]);
 export const contentTagsVar = makeVar([]);
 export const eventsVar = makeVar([]);
+// Initializes to true if localStorage includes a 'token', false otherwise
+export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!localStorage.getItem('token'));
 
 const cache = new InMemoryCache({
   possibleTypes,

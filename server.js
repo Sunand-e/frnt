@@ -8,13 +8,20 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 
 const apiPaths = {
-    '/graphql': {
-        target: 'http://127.0.0.1', 
-        pathRewrite: {
-            '^/graphql': '/graphql'
-        },
-        changeOrigin: true
-    }
+  '/graphql': {
+    target: 'http://127.0.0.1', 
+    pathRewrite: {
+      '^/graphql': '/graphql'
+    },
+    changeOrigin: true
+  },
+  '/auth': {
+    target: 'http://127.0.0.1', 
+    pathRewrite: {
+      '^/auth': '/auth'
+    },
+    changeOrigin: true
+  }
 }
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -24,6 +31,7 @@ app.prepare().then(() => {
  
   if (isDevelopment) {
     server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
+    server.use('/auth', createProxyMiddleware(apiPaths['/auth']));
   }
 
   server.all('*', (req, res) => {
