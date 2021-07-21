@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 
-import {useState, useEffect, createContext} from 'react'
+import {useState, useEffect, createContext, ReactNode} from 'react'
 import Layout from '../components/layouts/Layout'
 import LoginLayout from '../components/layouts/LoginLayout'
 import { setContext } from '@apollo/client/link/context';
@@ -151,7 +151,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     />
   )
 
-  const [layout, setLayout]  = useState(loginLayout)
+  const [layout, setLayout]  = useState<ReactNode>(loginLayout)
 
   const getLayout =
   PageComponent.getLayout || (page => {
@@ -188,7 +188,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       getLayout(<PageComponent {...pageProps} />) :
       loginLayout
     )
-  },[isLoggedIn])
+  },[isLoggedIn, PageComponent])
 
 
   return (
