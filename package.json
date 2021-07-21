@@ -16,6 +16,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@heroicons/react": "^1.0.2",
     "@hypnosphi/react-sizeme": "^2.6.13",
     "@next/bundle-analyzer": "^10.2.3",
     "@react-pdf-viewer/core": "^2.4.0",

@@ -15,14 +15,12 @@ export default function LoginLayout( {page, navState, pageState} ) {
       <TopNotificationBar />
       <div className={`flex min-h-full`}>
         <div className="flex-grow">
-          <Header pageState={pageState} />
+          {/* <Header pageState={pageState} /> */}
           <div className="w-full mx-auto bg-blue-superlight">
             <div className="lg:flex">
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
-                <div className="w-full flex">
-                  <div className="min-w-0 flex-auto pt-4 pb-24 lg:pb-16">
-                    <LoginForm />
-                  </div>
+                <div className="w-full flex items-center justify-center">
+                  <LoginForm />
                 </div>
               </div>
             </div>
