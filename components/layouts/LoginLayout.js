@@ -12,13 +12,15 @@ import LoginForm from '../LoginForm'
 export default function LoginLayout( {page, navState, pageState} ) {
   return (
     <>
-      <TopNotificationBar />
-      <div className={`flex min-h-full`}>
+      <div className={`min-h-full bg-blue-superlight`}>
+        <div className="fixed w-full">
+          <TopNotificationBar />  
+        </div>
         <div className="flex-grow">
           {/* <Header pageState={pageState} /> */}
-          <div className="w-full mx-auto bg-blue-superlight">
+          <div className="w-full mx-auto">
             <div className="lg:flex">
-              <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
+              <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:overflow-visible">
                 <div className="w-full flex items-center justify-center">
                   <LoginForm />
                 </div>
