@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import Router from 'next/router';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { isLoggedInVar } from '../graphql/cache';
 import { LockClosedIcon } from '@heroicons/react/solid'
 import Button from './Button';
@@ -29,6 +29,7 @@ const LoginForm = () => {
     .then(
       (result) => {
         if(result.token) {
+          console.log('result!!')
           localStorage.setItem('token', result.token as string);
           isLoggedInVar(true);
           Router.push('/');
@@ -92,7 +93,7 @@ const LoginForm = () => {
               isSubmitting,
               /* and other goodies */
             }) => (
-              <form className="space-y-6" action="#" method="POST">
+              <Form className="space-y-6">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email address
@@ -157,14 +158,13 @@ const LoginForm = () => {
 
                 <div>
                   <button
-                    type="submit"
                     disabled={isSubmitting}
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Sign in
+                    Sign In
                   </button>
                 </div>
-              </form>
+              </Form>
             )}
           </Formik>
         </div>
