@@ -1,12 +1,25 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "node",
+  "version": "0.1.0",
+  "configurations": [
+    {
+        "name": "Launch Chrome",
+        "request": "launch",
+        "type": "pwa-chrome",
+        "url": "http://localhost:3001",
+        "webRoot": "${workspaceFolder}",
+        "runtimeExecutable": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
+    },
+    
+    {
+        "type": "devtools-for-chrome",
+        "request": "launch",
+        "name": "Launch Chrome DevTools",
+    },
+    {
+        "type": "devtools-for-chrome",
         "request": "attach",
-        "name": "Launch Program",
-        "skipFiles": ["<node_internals>/**"],
-        "port": 9229
-      }
-    ]
-  }
+        "name": "Attach Chrome DevTools",
+        "url": "http://localhost:3001/"
+    },
+  ]
+}

@@ -24,22 +24,16 @@ export default function ContentTypePage({type, setData, children}) {
   const { id } = router.query
   const idString = `${type}:{"slug":"${id}"}`
 
-  const data = client.readFragment({
-    id: idString,
-    fragmentName: `${type}Details`,
-    fragment: gql`${ItemDetailsFragment(type, metaFragments[`${type}MetaFragment`])}`
-  })
 
   const camelCaseType = type.charAt().toLowerCase() + type.slice(1);
 
   const [ singleContentQuery, { loading, queryData, error } ] = useLazyQuery(
     gql`
-      query Get${type}($id: ID!) {
-        ${camelCaseType}(id: $id, idType: SLUG) {
-          ...${type}Details
+      query GetSchema {
+        __schema {
+          __typename
         }
       }
-      ${ItemDetailsFragment(type, metaFragments[`${type}MetaFragment`])}
     `,
     {
       client,

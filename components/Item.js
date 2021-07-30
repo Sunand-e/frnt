@@ -26,7 +26,7 @@ export default function Item({ item, options }) {
   const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : process.env.NEXT_PUBLIC_BASE_PATH || '' + '/images/item-placeholder.jpg';
   const buttonText = item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
-  const href = item.href ?? `/${itemType.slug}?id=${item.slug}`
+  const href = item.href ?? `/${itemType?.slug}?id=${item?.slug}`
 
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
@@ -59,11 +59,11 @@ export default function Item({ item, options }) {
 
         { options?.showType && (
           <h2 className="text-lg text-blue mb-2 top-5 font-bold">
-            {itemType.name}
+            {itemType?.name}
           </h2>
         )}
 
-        <h2 className="text-xl text-blue-dark font-semibold mb-4">{item.title}</h2>
+        <h2 className="text-xl text-blue-dark font-semibold mb-4">{item?.title}</h2>
         {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}
         {/* <div dangerouslySetInnerHTML={{
           __html: item.excerpt

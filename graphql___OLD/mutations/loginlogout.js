@@ -8,7 +8,7 @@ mutation LoginQuery {
 }
 `;
 const LOGOUT_QUERY = gql`
-mutation {
+mutation LogoutQuery {
   logout(input: {clientMutationId: "anything unique"}){
       clientMutationId
       status

@@ -5,7 +5,7 @@ class GenerateGraphQLPossibleTypes {
   apply(compiler) {
     compiler.hooks.afterPlugins.tap('Generate GraphQL Possible Types', () => {
 
-      fetch(`http://localhost/graphql`, {
+      fetch(process.env.API_BASE + process.env.API_URL, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

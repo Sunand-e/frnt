@@ -3,7 +3,9 @@ import { useQuery, gql } from '@apollo/client';
 
 const MODULE_URL_QUERY = gql`
 query iFrame {
-  learningModuleIframe
+  __schema {
+    __typename
+  }
 }
 `;
 export default function LearningModule({ url }) {

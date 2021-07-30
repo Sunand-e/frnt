@@ -169,8 +169,8 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     if(allContentData) {
       getLibrary()
       getDashboard()
-      latestContentVar(allContentData.contentNodes.nodes.slice(0, 4))
-      allContentVar(allContentData.contentNodes?.nodes)
+      latestContentVar(allContentData.contentItems.slice(0, 4))
+      allContentVar(allContentData.contentItems)
     }
   },[allContentData])
 
@@ -178,7 +178,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   useEffect(() => {
     if(libraryData) {
       updateContentTagsVar()
-      libraryVar(libraryData.contentNodes?.nodes)
+      libraryVar(libraryData.contentItems)
       }
   },[libraryData])
   

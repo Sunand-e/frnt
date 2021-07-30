@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import ItemGrid from '../components/ItemGrid';
 import InnerNav from '../components/InnerNav';
 import Button from '../components/Button';
-
+import TestingGraphQL from '../components/TestingGraphQL'
 import ItemCollection from "../components/ItemCollection";
 
 // when the page has loaded, and all items have been loaded, 
@@ -39,6 +39,7 @@ const Dashboard = ({queries}) => {
       showType: true
     }
   }
+  
 
   useEffect(() => {
     if(data) {
@@ -86,6 +87,9 @@ const Dashboard = ({queries}) => {
       
       <PageContent>
         <div className="flex-grow ">
+
+          <TestingGraphQL / >
+
           <NoticeBox>
             <div className="flex justify-between items-center">
              <h1 className="font-bold text-lg"><span>Pick up where you left off:</span> <em className="text-main">Know your why</em></h1>
@@ -151,53 +155,3 @@ Dashboard.navState = {
 }
 
 export default Dashboard
-/*
-export async function getStaticProps() {
-
-  const { data } = await client.query({
-    query: gql`
-      query GetLogin {
-        posts {
-          nodes {
-            id
-          }
-        }
-      }
-    `
-  });
-
-  
-  // const loginInfo = await client.query({
-  //   mutation: gql`
-  //     mutation LoginUser {
-  //       login( input: {
-  //         clientMutationId: "uniqueId",
-  //         username: "your_login",
-  //         password: "your password"
-  //       } ) {
-  //         authToken
-  //         user {
-  //           id
-  //           name
-  //         }
-  //       }
-  //     }
-  //   `
-  // })
-  // const { data } = await client.query({
-  //   query: gql`
-  //     query GetLogin {
-  //       viewer {
-  //         email
-  //       }
-  //     }
-  //   `
-  // });
-
-  return {
-    props: {
-      launches: data.posts.nodes
-    }
-  }
-}
-*/
