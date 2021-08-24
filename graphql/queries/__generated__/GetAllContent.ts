@@ -7,14 +7,14 @@
 // GraphQL query operation: GetAllContent
 // ====================================================
 
-export interface GetAllContent_contentItems {
+export interface GetAllContent_courses {
   __typename: "ContentItem";
   title: string | null;
 }
 
 export interface GetAllContent {
   /**
-   * Get list of all Content_items
+   * Get list of all courses
    */
-  contentItems: GetAllContent_contentItems[];
+  courses: GetAllContent_courses[];
 }

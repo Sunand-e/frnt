@@ -1,12 +1,21 @@
 import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import navStructureUser from '../../navStructureUser'
+import navStructureAdmin from '../../navStructureAdmin'
+import { forwardRef } from 'react';
+import Tippy from '@tippyjs/react';
+import { viewVar } from '../../graphql/cache';
+import { useReactiveVar } from '@apollo/client';
+import { PrimaryNavItem } from './PrimaryNavItem';
 
-export default function PrimaryNav({showSecondary, navStructure, pageNavState}) {
+export default function PrimaryNav({showSecondary, pageNavState}) {
 
-  const itemClasses = ''
+  const view = useReactiveVar(viewVar);
+
+  const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
+  
   return (
     <div id="primaryNav" className={`transition-width ${showSecondary ? 'w-16' : 'w-64'}`}>
-      <div className="sticky top-0">
+      <div className="sticky z-30 top-0">
         <div className="h-18 bg-main flex justify-center py-4">
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
           {/* {showSecondary ? 'secondary active' : 'secondary INACTIVE'} */}
@@ -14,7 +23,8 @@ export default function PrimaryNav({showSecondary, navStructure, pageNavState}) 
 
         <div 
           id="navWrapper"
-          className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden bg-white mr-24 lg:mr-0"
+          // className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden bg-white mr-24 lg:mr-0"
+          className="h-full overflow-visible scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent bg-white mr-24 lg:mr-0"
         >
           <nav
             id="nav"
@@ -27,7 +37,7 @@ export default function PrimaryNav({showSecondary, navStructure, pageNavState}) 
                 if (pageNavState?.topLevel === item.name) {
 
                 // if (current === item.urlPath) {
-                  menuItemClasses = 'bg-blue bg-opacity-20 text-blue'
+                  menuIconClasses = 'bg-blue bg-opacity-20 text-blue'
                   menuIconClasses = 'bg-blue text-white border-white'
                 } else {
                   menuItemClasses = 'group bg-white text-blue-dark hover:bg-blue hover:bg-opacity-10'
@@ -35,31 +45,50 @@ export default function PrimaryNav({showSecondary, navStructure, pageNavState}) 
                   menuIconClasses = ''
                 }
 
-                return (
-                  // <li className={current === item.title ? styles.current : ''} key={index}>
-                  <li className={``} key={index}>
-                    {
-                      item.onClick ? 
-                        ( <span onClick={item.onClick}>{item.title}</span>)
-                      : (
-                        <Link href={item.urlPath}>
-                          <a 
-                          // href={item.urlPath} 
-                            className={`${menuItemClasses} h-12 flex items-center px-4 transition-colors duration-100 text-base`}
-                          >
-                            <div className={`${menuIconClasses} rounded-full flex-none w-8 h-8 flex items-center justify-center mr-4`}>
-                              <FontAwesomeIcon className="text-xl" icon={{prefix: 'fas', iconName: 'file-pdf'}} />
-                            </div>
-                            <span className="mr-8">
-                              {item.title}
-                            </span>
-                            <FontAwesomeIcon className="ml-auto h-4" icon={{prefix: 'fas', iconName: 'chevron-right'}} />
-                          </a>
-                        </Link>
-                      )
-                    }
-                  </li>
-                )
+                const ThisWillWork = forwardRef((props, ref) => {
+                  return <PrimaryNavItem {...props} innerRef={ref} />;
+                });
+
+                if(showSecondary) {
+                  return (
+                    <Tippy
+                      key={index}
+                      className="bg-main text-white p-2 cursor-pointer whitespace-nowrap"
+                      interactive={true}
+                      hideOnClick={false}
+                      placement='right'
+                      theme="memberhub"
+                      
+                      // placement='right-start'
+                      // placement='right-end'
+                      // theme='light'
+                      content = {item.title}
+                      // content={
+                      //   <>
+                      //     <ul className="flex flex-col">
+                      //       {
+                      //         item.subPages?.map((item, index) => (
+                      //           <li key={index} onClick={() => {}}>
+                      //             <Link href={item.urlPath}>
+                      //               {item.title}
+                      //             </Link>
+                      //           </li>
+                      //         ))
+                      //       }
+                      //     </ul>
+                      //   </>
+                      // }
+                    >
+                      <ThisWillWork item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
+                      
+                    </Tippy>
+                  )
+                } else {
+                  return (
+                    <PrimaryNavItem key={index} item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
+                    // <li className={current === item.title ? styles.current : ''} key={index}>
+                  )
+                }
               })}
             </ul>
           </nav>

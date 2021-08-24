@@ -7,7 +7,7 @@ import contentTypes from '../../contentTypes';
 // Define the query for the entire library, using the contentTypesGQL string
 export const GET_LIBRARY = gql`
   query GetLibrary {
-    contentItems {
+    libraryItems {
       title
     }
   }

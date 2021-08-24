@@ -6,10 +6,12 @@ export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) 
 
   return (
     <div id="secondaryNav" className={`bg-main bg-opacity-20 transition-width ${showSecondary ? 'w-48' : 'w-0'}`}>
-      <div className={`sticky top-0 flex flex-col relative`}>
-        <h3 className="h-18 px-4 bg-main bg-opacity-50 text-white flex items-center text-base">
-          {showSecondary && topNavItem.title}
-        </h3>
+      <div className={`sticky z-20 top-0 flex flex-col relative`}>
+        { showSecondary && (
+          <h3 className="h-18 px-4 bg-main bg-opacity-50 text-white flex items-center text-base">
+            {topNavItem.title}
+          </h3>
+        )}
         { showSecondary && 
           <ul>
             { topNavItem.subPages.map((item, index) => {

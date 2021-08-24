@@ -1,49 +1,23 @@
+import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
 import { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
+import { GET_GROUPS } from "../graphql/queries/allQueries";
 
-const Table = () => {
-  const data = useMemo(
-    () => [
-      {
-        col1: "Hello",
-        col2: "World",
-      },
-      {
-        col1: "react-table",
-        col2: "rocks",
-      },
-      {
-        col1: "whatever",
-        col2: "you want",
-      },
-    ],
-    []
-  );
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Column 1",
-        accessor: "col1", // accessor is the "key" in the data
-      },
-      {
-        Header: "Column 2",
-        accessor: "col2",
-      },
-    ],
-    []
-  );
-
+const Table = ({tableData, tableCols}) => {
+  console.log(tableData)
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data }, useSortBy);
+  } = useTable({ columns: tableCols, data: tableData }, useSortBy);
 
+  // return <>hi</>
+  
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -52,11 +26,11 @@ const Table = () => {
               className="min-w-full divide-y divide-gray-200"
             >
               <thead className="bg-gray-50">
-                {headerGroups.map((headerGroup) => (
+                {headerGroups.map((headerGroup, index) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column) => (
                       <th {...column.getHeaderProps(column.getSortByToggleProps())}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        className={`px-6 py-3 ${index > 1 ? 'text-center' : 'text-left'} text-xs font-medium text-gray-500 uppercase tracking-wider`}
                       >
                         {column.render("Header")}
                         <span>

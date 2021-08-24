@@ -6,8 +6,9 @@ import navStructureUser from '../navStructureUser'
 import navStructureAdmin from '../navStructureAdmin'
 import { NavContext } from '../navContext'
 
+import Tippy from '@tippyjs/react';
 
-export default function PrimaryNav({navState, admin}) {
+export default function NavItem({navState, admin}) {
 
   const navStructure = admin ? navStructureAdmin : navStructureUser;
 
@@ -22,6 +23,7 @@ export default function PrimaryNav({navState, admin}) {
   const topNavItem = navStructure.find(
     item => item.name === pageNavState.topLevel
   )
+  
   if (pageNavState?.secondary === item.name) {
 
     // if (current === item.urlPath) {
@@ -32,8 +34,8 @@ export default function PrimaryNav({navState, admin}) {
 
   const item
   const  menuItemClasses
-  return (  
-    // <li className={current === item.title ? styles.current : ''} key={index}>
+
+  const ListItem = () => (
     <li className={``} key={index}>
       {
         item.onClick ? 
@@ -48,4 +50,35 @@ export default function PrimaryNav({navState, admin}) {
       }
     </li>
   )
+
+  const showSecondary = topNavItem?.subPages?.length > 0
+
+  if(showSecondary) {
+    return (
+      <Tippy
+        className="bg-main text-white p-2 cursor-pointer w-60"
+        interactive={true}
+        hideOnClick={false}
+        placement='top'
+        theme="memberhub"
+        // placement='right-start'
+        // placement='right-end'
+        // theme='light'
+        content={
+          <ul className="flex flex-col">
+            <li onClick={() => {}}>Log out</li>
+            <li onClick={() => {}}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</li>
+          </ul>
+        }
+      >
+      </Tippy>
+    )
+  } else {
+
+  return (
+    <ListItem />
+    // <li className={current === item.title ? styles.current : ''} key={index}>
+  )
+}
+
 }

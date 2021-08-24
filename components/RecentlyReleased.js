@@ -9,15 +9,9 @@ export default function RecentlyReleased() {
   
   const items = useReactiveVar(latestContentVar)
   // const items = library.slice(0,3);
-  useEffect(() => {
-    console.log('latestContentVar')
-    console.log('latestContentVar')
-    console.log('latestContentVar')
-    console.log('latestContentVar')
-    console.log('latestContentVar')
-    console.log('latestContentVar')
-    console.log(items)
-  }, [items]);
+  // useEffect(() => {
+  //   console.log(items)
+  // }, [items]);
  
   const options = { 
     heading: 'Recently Released',
@@ -30,7 +24,7 @@ export default function RecentlyReleased() {
 
   return (
     <>
-    { items.length && (
+    { items?.length && (
     <ItemCollection
     // viewAll={() => setSearchParams(viewAllParams)} 
       items={items} 

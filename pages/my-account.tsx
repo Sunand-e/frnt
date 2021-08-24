@@ -1,5 +1,4 @@
 import Head from 'next/head'
-// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
 import PageTitle from '../components/PageTitle';

@@ -4,25 +4,17 @@ import type { Page } from '../types/page'
 import {useState, useEffect, createContext, ReactNode} from 'react'
 import Layout from '../components/layouts/Layout'
 import LoginLayout from '../components/layouts/LoginLayout'
-import { setContext } from '@apollo/client/link/context';
 import { 
-  ApolloClient, 
-  ApolloProvider, 
-  createHttpLink,
-  gql,
-  NormalizedCacheObject,
+  ApolloProvider,
   useLazyQuery,
   useReactiveVar,
 } from '@apollo/client';
 
-import getConfig from 'next/config'
-import cache, {
+import {
   viewVar,
   latestContentVar, 
   libraryVar, 
-  contentTagsVar, 
-  eventsVar, 
-  dashVar, 
+  contentTagsVar,
   allContentVar,
   isLoggedInVar
 } from '../graphql/cache'
@@ -38,58 +30,10 @@ config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatica
 
 
 import '@wordpress/block-library/build-style/style.css'
-import '../styles/globals.css'
-import { NextComponentType } from 'next';
-
-const {publicRuntimeConfig} = getConfig()
-const {API_URL} = publicRuntimeConfig
+import '../styles/globals.scss'
+import { client } from '../graphql/client'
 
 addIconsToLibrary()
-
-const httpLink = createHttpLink({
-  uri: API_URL,
-  // credentials: "include", (response header must include Access-Control-Allow-Credentials: true)
-  // useGETForQueries: true
-});
-
-// export const typeDefs = gql`
-//   extend type Query {
-//     libraryStatus: String!
-//   }
-// `;
-
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  let token: string
-
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('token');
-  }
-  // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
-  // return the headers to the context so httpLink can read them
-
-  return {
-    headers: {
-      ...headers,
-      // authorization: token ? `Bearer ${token}` : "",
-      authorization: token || '',
-
-    }
-  }
-});
-
-export const typeDefs = gql`
-  extend type Query {
-    isLoggedIn: Boolean!
-  }
-`;
-
-export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  link: authLink.concat(httpLink),
-  connectToDevTools: true,
-  cache,
-  // typeDefs
-});
 
 export const QueriesContext = createContext({queries:{}});
 
@@ -115,7 +59,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       )
     }
   }
-  // const [data, setData] = useState('aa')
+  
   const [ getLibrary, { 
     loading: loadingLibrary, 
     data: libraryData, 
@@ -140,7 +84,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     getDashboard
   }
   
-  
   console.log('caused a rerender');
 
   const loginLayout = (
@@ -155,8 +98,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const getLayout =
   PageComponent.getLayout || (page => {
-    return <Layout 
-    pageState={viewVar()}
+    return <Layout
     navState={PageComponent.navState || {}}
     page={page} />
   })
@@ -169,8 +111,8 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     if(allContentData) {
       getLibrary()
       getDashboard()
-      latestContentVar(allContentData.contentItems.slice(0, 4))
-      allContentVar(allContentData.contentItems)
+      latestContentVar(allContentData.courses.slice(0, 4))
+      allContentVar(allContentData.courses)
     }
   },[allContentData])
 
@@ -178,7 +120,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   useEffect(() => {
     if(libraryData) {
       updateContentTagsVar()
-      libraryVar(libraryData.contentItems)
+      libraryVar(libraryData.courses)
       }
   },[libraryData])
   
@@ -200,7 +142,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
           }
         </QueriesContext.Provider>
       </ApolloProvider>
-    
     </>
   )
 }

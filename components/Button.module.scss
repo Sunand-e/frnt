@@ -4,5 +4,12 @@
   &:hover {
     box-shadow: inset 300px 0 0 0 theme('colors.blue.dark');
   }
-  min-width:10em;
+}
+
+.button_grey {
+  box-shadow: inset 0 0 0 0 theme('colors.gray.200');
+  transition: ease-out 300ms;
+  &:hover {
+    box-shadow: inset 300px 0 0 0 theme('colors.gray.200');
+  }
 }

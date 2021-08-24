@@ -7,14 +7,23 @@
 // GraphQL query operation: GetDashboard
 // ====================================================
 
-export interface GetDashboard_contentItems {
+export interface GetDashboard_courses {
+  __typename: "ContentItem";
+  title: string | null;
+}
+
+export interface GetDashboard_libraryItems {
   __typename: "ContentItem";
   title: string | null;
 }
 
 export interface GetDashboard {
   /**
-   * Get list of all Content_items
+   * Get list of all courses
    */
-  contentItems: GetDashboard_contentItems[];
+  courses: GetDashboard_courses[];
+  /**
+   * Get list of all library_items
+   */
+  libraryItems: GetDashboard_libraryItems[];
 }

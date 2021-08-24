@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Head from 'next/head'
-// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import NoticeBox from '../../components/NoticeBox';
 import PageContent from '../../components/PageContent';

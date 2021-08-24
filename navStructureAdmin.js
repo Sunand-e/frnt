@@ -3,29 +3,52 @@ const navStructureAdmin = [
     name: 'dashboard',
     title: 'Dashboard',
     urlPath: '/admin',
+    icon: 'home',
     subPages: [],
   },
   {
     name: 'library',
     title: 'Content Library',
     urlPath: '/admin/library',
+    icon: 'school',
     subPages: [
       {
         name: 'overview',
-        title: 'Overview',
+        title: 'All Library Items',
         urlPath: '/admin/library',
       },
       {
-        name: 'add',
-        title: 'Add New',
-        urlPath: '/admin/library/add',
+        name: 'oversview',
+        title: 'Guides',
+        urlPath: '/admin/library',
       },
+      {
+        name: 'overvsiew',
+        title: 'Videos',
+        urlPath: '/admin/library',
+      },
+      {
+        name: 'ovesrview',
+        title: 'Podcasts',
+        urlPath: '/admin/library',
+      },
+      {
+        name: 'ovesrview',
+        title: 'Process Flows',
+        urlPath: '/admin/library',
+      },
+      // {
+      //   name: 'add',
+      //   title: 'Add New',
+      //   urlPath: '/admin/library/add',
+      // },
     ],
   },
   {
     name: 'courses',
     title: 'Courses',
     urlPath: '/admin/courses',
+    icon: 'graduation-cap',
     subPages: [
       {
         name: 'courses',
@@ -48,6 +71,7 @@ const navStructureAdmin = [
     name: 'users',
     title: 'Users',
     urlPath: '/admin/users',
+    icon: 'users',
     subPages: [
       {
         name: 'overview',
@@ -90,11 +114,13 @@ const navStructureAdmin = [
     name: 'ecommunity',
     title: 'E-community',
     urlPath: '/admin/community',
+    icon: 'comments',
   },
   {
     name: 'events',
     title: 'Live Sessions',
     urlPath: '/admin/events',
+    icon: 'calendar-alt',
     subPages: [
       {
         name: 'events',
@@ -112,6 +138,7 @@ const navStructureAdmin = [
     name: 'store',
     title: 'Store',
     urlPath: '/admin/store',
+    icon: 'store',
     subPages: [
       {
         title: 'Overview',
@@ -138,8 +165,9 @@ const navStructureAdmin = [
         urlPath: '/admin/store/coupons',
       },
       
-
+      
     ],
   },
 ]
+
 export default navStructureAdmin

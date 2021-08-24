@@ -7,10 +7,6 @@ import {QueriesContext} from '../pages/_app'
 import PageTitle from '../components/PageTitle';
 import PageContent from '../components/PageContent';
 
-// GraphQL Imports
-import ItemDetailsFragment from "../graphql/fragments/ItemDetailsFragment";
-import metaFragments from '../graphql/fragments/metaFragments';
-
 export default function ContentTypePage({type, setData, children}) {
   
   /*

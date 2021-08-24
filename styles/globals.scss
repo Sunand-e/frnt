@@ -73,3 +73,45 @@ a {
             transform: scale3D(0, 0, 1);
   } 
 }
+
+
+@import "tippy.js/dist/tippy";
+
+.tippy-box[data-theme~='memberhub'] {
+
+  background-color: #097BD8;
+  color: white;
+
+  &[data-placement^=right] .tippy-arrow:before {
+    border-right-color: #097BD8;
+  }
+  &[data-placement^=top] .tippy-arrow:before {
+    border-top-color: #097BD8;
+  }
+  &[data-placement^=left] .tippy-arrow:before {
+    border-left-color: #097BD8;
+  }
+  &[data-placement^=bottom] .tippy-arrow:before {
+    border-bottom-color: #097BD8;
+  }
+}
+
+
+.tippy-box[data-theme~='memberhub-white'] {
+
+  background-color: white;
+  color: #097BD8;
+
+  &[data-placement^=right] .tippy-arrow:before {
+    border-right-color: white;
+  }
+  &[data-placement^=top] .tippy-arrow:before {
+    border-top-color: white;
+  }
+  &[data-placement^=left] .tippy-arrow:before {
+    border-left-color: white;
+  }
+  &[data-placement^=bottom] .tippy-arrow:before {
+    border-bottom-color: white;
+  }
+}

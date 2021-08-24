@@ -17,7 +17,7 @@ const Pathways = ({queries}) => {
   },[])
 
   useEffect(() => {
-    setProgrammes(items.filter(item => item.__typename === 'Programme'))
+    setProgrammes(items?.filter(item => item.__typename === 'Programme'))
   },[items])
 
     return (
@@ -29,7 +29,7 @@ const Pathways = ({queries}) => {
             <PageTitle title="Pathways" />
             <PageContent>
                 <div className="flex-grow">
-                 { !programmes.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> }
+                 { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> }
                 </div>
             </PageContent>
         </>

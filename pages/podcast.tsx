@@ -6,13 +6,13 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 const Podcast = () => {
 
-  const [podcast, setPodcast] = useState('');
+  const [podcast, setPodcast] = useState({});
 
   return (
     <ContentTypePage type="Podcast" setData={setPodcast}>
       <div className="flex-grow w-9/12">
         { !podcast && <LoadingSpinner /> }
-        { podcast && <div className="mb-8" dangerouslySetInnerHTML={{__html: podcast.content}} /> }
+        { podcast.content && <div className="mb-8" dangerouslySetInnerHTML={{__html: }} /> }
       </div>
       <Sidebar>
         <BlockWithTitle title="Downloads">

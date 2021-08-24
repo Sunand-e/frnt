@@ -6,16 +6,15 @@ import PageTitle from '../components/PageTitle';
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
 import DashboardContentTabs from '../components/DashboardContentTabs';
-import { contentTagsVar, latestContentVar, libraryVar } from '../graphql/cache';
+import { contentTagsVar, headerButtonsVar, isLoggedInVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
-import { client } from './_app';
+import { client } from "../graphql/client";
 import contentTypes from '../contentTypes';
 import { useRouter } from 'next/router'
 import ItemGrid from '../components/ItemGrid';
 import InnerNav from '../components/InnerNav';
 import Button from '../components/Button';
-import TestingGraphQL from '../components/TestingGraphQL'
 import ItemCollection from "../components/ItemCollection";
 
 // when the page has loaded, and all items have been loaded, 
@@ -40,7 +39,33 @@ const Dashboard = ({queries}) => {
     }
   }
   
+  const view = useReactiveVar(viewVar);
+  
+  const handleAdminButtonClick = (e) => {
+    viewVar({
+      ...view,
+      isAdmin: !view.isAdmin
+    })
+    e.target.blur()
+  }
 
+  const handleLogoutClick = (e) => {
+    isLoggedInVar(false)
+    localStorage.removeItem('token')
+    
+    e.target.blur()
+  }
+
+  useEffect(() => {
+
+    headerButtonsVar(
+      <>
+        <Button onClick={handleLogoutClick}>Log out</Button>
+        <Button onClick={handleAdminButtonClick}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</Button>
+      </>
+    )
+  },[])
+  
   useEffect(() => {
     if(data) {
       const serializedState = client.cache.extract()
@@ -49,7 +74,7 @@ const Dashboard = ({queries}) => {
           item => item.__typename === 'ContentTag'
         )
       )
-      latestContentVar(data.contentItems.slice(0, 4))
+      latestContentVar(data.libraryItems.slice(0, 4))
       // console.log('data')
       // console.log(data)
       queries.getAllContent()
@@ -88,8 +113,6 @@ const Dashboard = ({queries}) => {
       <PageContent>
         <div className="flex-grow ">
 
-          <TestingGraphQL / >
-
           <NoticeBox>
             <div className="flex justify-between items-center">
              <h1 className="font-bold text-lg"><span>Pick up where you left off:</span> <em className="text-main">Know your why</em></h1>
@@ -97,7 +120,7 @@ const Dashboard = ({queries}) => {
             </div>
           </NoticeBox>
 
-          { items.length && (
+          { items?.length && (
             <ItemCollection
             // viewAll={() => setSearchParams(viewAllParams)} 
               items={items} 

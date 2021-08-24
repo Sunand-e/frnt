@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-// import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
 import contentTypes from '../../contentTypes';
@@ -14,7 +13,7 @@ import { GET_LIBRARY } from '../../graphql/queries/GET_LIBRARY';
 import TopicsList from '../../components/TopicsList';
 import { latestContentVar, contentTagsVar, libraryVar } from "../../graphql/cache";
 import RecentlyReleased from '../../components/RecentlyReleased';
-import { client } from '../_app';
+import { client } from '../../graphql/client'
 
 const libraryContentTypes = contentTypes.filter(type => !(type?.notInLibrary === true))
 
@@ -52,17 +51,19 @@ const Library = ({queries}) => {
   
   useEffect(() => {
     if(data) {
-      setItems(data.contentNodes.nodes);
+      setItems(data?.contentNodes?.nodes);
       console.log('data.contentNodes.nodes')
-      console.log(data.contentNodes.nodes)
+      console.log(data)
+      console.log('client')
+      console.log(client)
       const serializedState = client.cache.extract()
       contentTagsVar(
         Object.values(serializedState).filter(
           item => item.__typename === 'ContentTag'
         )
       )
-      libraryVar(data.contentNodes.nodes)
-      latestContentVar(libraryVar().slice(0, 4))
+      libraryVar(data?.contentNodes?.nodes)
+      latestContentVar(libraryVar()?.slice(0, 4))
       queries.getAllContent()
       queries.getDashboard()
     }
@@ -134,7 +135,7 @@ const Library = ({queries}) => {
                       <ItemCollection 
                         viewAll={() => setSearchParams(viewAllParams)} 
                         key={index} 
-                        items={items} 
+                        items={items || []} 
                         options={options}
                       />
                     )

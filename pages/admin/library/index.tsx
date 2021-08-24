@@ -7,8 +7,6 @@ const AdminLibrary = () => {
   return (
     <>
       <PageTitle title="Content Library" />
-      
-      <Table />
     </>
   )
 }

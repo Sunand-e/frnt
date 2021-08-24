@@ -7,14 +7,14 @@
 // GraphQL query operation: GetLibrary
 // ====================================================
 
-export interface GetLibrary_contentItems {
+export interface GetLibrary_libraryItems {
   __typename: "ContentItem";
   title: string | null;
 }
 
 export interface GetLibrary {
   /**
-   * Get list of all Content_items
+   * Get list of all library_items
    */
-  contentItems: GetLibrary_contentItems[];
+  libraryItems: GetLibrary_libraryItems[];
 }
