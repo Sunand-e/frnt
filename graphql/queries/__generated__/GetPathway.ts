@@ -52,3 +52,7 @@ export interface GetPathway {
    */
   pathway: GetPathway_pathway[];
 }
+
+export interface GetPathwayVariables {
+  id: string;
+}

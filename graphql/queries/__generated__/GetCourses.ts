@@ -39,11 +39,11 @@ export interface GetCourses_courses {
   id: string;
   icon: GetCourses_courses_icon | null;
   itemType: string;
-  order: number | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
   tags: GetCourses_courses_tags[] | null;
+  _deleted: boolean;
 }
 
 export interface GetCourses {

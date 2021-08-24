@@ -10,6 +10,10 @@
 export interface CreateCourse_createCourse_course {
   __typename: "ContentItem";
   id: string;
+  title: string | null;
+  createdAt: any;
+  updatedAt: any;
+  _deleted: boolean;
 }
 
 export interface CreateCourse_createCourse {

@@ -4,27 +4,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetGroups
+// GraphQL fragment: ClientGroup
 // ====================================================
 
-export interface GetGroups_groups_users {
+export interface ClientGroup_users {
   __typename: "User";
   id: string;
 }
 
-export interface GetGroups_groups {
+export interface ClientGroup {
   __typename: "Group";
   createdAt: any;
   id: string;
   name: string | null;
   updatedAt: any;
-  users: GetGroups_groups_users[];
+  users: ClientGroup_users[];
   _deleted: boolean;
-}
-
-export interface GetGroups {
-  /**
-   * Get list of all Groups
-   */
-  groups: GetGroups_groups[];
 }

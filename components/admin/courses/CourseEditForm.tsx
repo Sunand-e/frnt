@@ -3,6 +3,7 @@ import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
 import { UPDATE_COURSE } from '../../../graphql/mutations/allMutations';
+import { UpdateCourse, UpdateCourseVariables } from '../../../graphql/mutations/__generated__/UpdateCourse';
 import TextInput from '../../TextInput';
 import Button from '../../Button';
 import Link from 'next/link';
@@ -14,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CourseEditForm = ({course}) => {
   
-  const [editCourse, updatedCourse] = useMutation<UpdateCourse, UpdateCourse>(
+  const [editCourse, updatedCourse] = useMutation<UpdateCourse, UpdateCourseVariables>(
     UPDATE_COURSE
     );
     
@@ -33,12 +34,12 @@ const CourseEditForm = ({course}) => {
       // }}
       onSubmit={values => {
         editCourse({
-          variables: { id: course.id, name: values.name },
+          variables: { id: course.id, title: values.title },
           optimisticResponse: {
             updateCourse: {
               __typename: 'UpdateCoursePayload',
               course: {
-                __typename: 'Course',
+                __typename: 'ContentItem',
                 id: course.id,
                 title: values.title,
                 _deleted: false,

@@ -36,3 +36,7 @@ export interface GetQuiz {
    */
   quiz: GetQuiz_quiz[];
 }
+
+export interface GetQuizVariables {
+  id: string;
+}

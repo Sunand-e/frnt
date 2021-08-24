@@ -110,8 +110,8 @@ export const GET_GROUPS = gql`
 `
 
 export const GET_LESSON = gql`
-  query GetLesson {
-    lesson {
+  query GetLesson($id: ID!) {
+    lesson(id: $id) {
       content
       contentType
       createdAt
@@ -143,8 +143,8 @@ export const GET_LESSON = gql`
 `
 
 export const GET_LIBRARY_ITEM = gql`
-  query GetLibraryItem {
-    libraryItem {
+  query GetLibraryItem($id: ID!) {
+    libraryItem(id: $id) {
       id
     }
   }
@@ -184,8 +184,8 @@ export const GET_LIBRARY_ITEMS = gql`
 `
 
 export const GET_PATHWAY = gql`
-  query GetPathway {
-    pathway {
+  query GetPathway($id: ID!) {
+    pathway(id: $id) {
       content
       contentType
       createdAt
@@ -251,8 +251,8 @@ export const GET_PATHWAYS = gql`
 `
 
 export const GET_QUIZ = gql`
-  query GetQuiz {
-    quiz {
+  query GetQuiz($id: ID!) {
+    quiz(id: $id) {
       order
       title
       updatedAt

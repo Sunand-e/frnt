@@ -52,3 +52,7 @@ export interface GetCourse {
    */
   course: GetCourse_course[];
 }
+
+export interface GetCourseVariables {
+  id: string;
+}

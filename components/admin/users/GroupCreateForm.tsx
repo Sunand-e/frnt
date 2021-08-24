@@ -5,7 +5,7 @@ import React from 'react';
 import { CREATE_GROUP } from '../../../graphql/mutations/allMutations';
 import TextInput from '../../TextInput';
 import Button from '../../Button';
-import { CreateGroup } from '../../../graphql/mutations/__generated__/CreateGroup';
+import { CreateGroup, CreateGroupVariables } from '../../../graphql/mutations/__generated__/CreateGroup';
 import { GET_GROUPS } from '../../../graphql/queries/allQueries';
 import { GetGroups, GetGroups_groups } from '../../../graphql/queries/__generated__/GetGroups';
 import CreateForm from '../forms/CreateForm';
@@ -20,8 +20,8 @@ const GroupCreateForm = () => {
   const router = useRouter()
   const notices = useReactiveVar(noticesVar)
   const backLink = '/admin/users/groups'
-
-  const [createGroup, newGroup] = useMutation<CreateGroup, CreateGroup>(
+  
+  const [createGroup, newGroup] = useMutation<CreateGroup, CreateGroupVariables>(
     CREATE_GROUP,
     {
       update(cache, { data: { createGroup } } ) {

@@ -1,6 +1,7 @@
 import {
  gql } from '@apollo/client';
 import { GroupFragment } from '../queries/allQueries';
+import { CourseFragment } from '../queries/allQueries';
 
 export const ADD_USER_TO_GROUP = gql`
   mutation AddUserToGroup(
@@ -80,12 +81,44 @@ export const CREATE_COURSE = gql`
     ) {
       course {
         id
+        title
+        createdAt
+        updatedAt
+        _deleted @client
       }
       message
     }
   }
 `
 
+export const UPDATE_COURSE = gql`
+  mutation UpdateCourse(
+    $id: ID!
+    $title: String,
+    $content: JSON,
+    $certificateProperties: JSON,
+    # $certificateTemplateId: ID,
+    $childrenIds: JSON,
+    $prerequisites: JSON
+  ) {
+    updateCourse(
+      input: {
+        id: $id,
+        title: $title,
+        content: $content,
+        certificateProperties: $certificateProperties,
+        # certificateTemplateId: $certificateTemplateId,
+        childrenIds: $childrenIds,
+        prerequisites: $prerequisites
+      }
+    ) {
+      course {
+      ...ClientCourse
+      }
+    }
+  }
+  ${GroupFragment}
+`
 export const CREATE_GROUP = gql`
   mutation CreateGroup(
     $name: String!,

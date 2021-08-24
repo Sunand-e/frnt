@@ -18,3 +18,7 @@ export interface GetLibraryItem {
    */
   libraryItem: GetLibraryItem_libraryItem[];
 }
+
+export interface GetLibraryItemVariables {
+  id: string;
+}

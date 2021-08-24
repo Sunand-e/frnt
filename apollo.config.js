@@ -8,6 +8,7 @@ module.exports = {
       './pages/**/*.{js,jsx,ts,tsx}',
       './components/**/*.{js,jsx,ts,tsx}',
       './graphql/**/*.{js,jsx,ts,tsx}',
+      // './schema.graphql'
     ]
   }
 };

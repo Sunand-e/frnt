@@ -5,7 +5,7 @@ import React from 'react';
 import { CREATE_COURSE } from '../../../graphql/mutations/allMutations';
 import TextInput from '../../TextInput';
 import Button from '../../Button';
-import { CreateCourse } from '../../../graphql/mutations/__generated__/CreateCourse';
+import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/__generated__/CreateCourse';
 // import { GET_COURSE } from '../../../graphql/queries/allQueries';
 import { GetCourses, GetCourses_courses } from '../../../graphql/queries/__generated__/GetCourses';
 import CreateForm from '../forms/CreateForm';
@@ -21,7 +21,7 @@ const CourseCreateForm = () => {
   const notices = useReactiveVar(noticesVar)
   const backLink = '/admin/courses'
 
-  const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourse>(
+  const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,
     {
       update(cache, { data: { createCourse } } ) {
@@ -51,13 +51,14 @@ const CourseCreateForm = () => {
             createCourse: {
               __typename: 'CreateCoursePayload',
               course: {
-                __typename: 'Course',
+                __typename: 'ContentItem',
                 id: Math.floor(Math.random() * 10000) + '',
                 title: values.title,
                 createdAt: '',
                 updatedAt: '',
                 _deleted: false,
-              }
+              },
+              message: ''
 
             }
           }
