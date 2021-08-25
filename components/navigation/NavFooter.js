@@ -4,7 +4,7 @@ import Tippy from '@tippyjs/react';
 import { viewVar } from '../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 
-const NavFooter = ({children, showSecondary}) => {
+const NavFooter = ({children, isSlim}) => {
   
   const view = useReactiveVar(viewVar)
 
@@ -24,20 +24,26 @@ const NavFooter = ({children, showSecondary}) => {
   }
 
   return (
-    <div id="navFooter" className={`fixed bottom-0 overflow-visible transition-width ${showSecondary ? 'w-16' : 'w-60'}`}>
+    <div id="navFooter" className={`fixed bottom-0 overflow-visible transition-width ${isSlim ? 'w-16' : 'w-60'}`}>
 
       {children}
 
       <Tippy
-        className="bg-white text-main p-2 cursor-pointer w-60"
+        className="bg-white text-main p-3 w-60"
         interactive={true}
         hideOnClick={false}
         placement='top' // placement='right-start'
         theme="memberhub-white"
         content={
-          <ul className="flex flex-col">
-            <li onClick={handleLogoutClick}>Log out</li>
-            <li onClick={handleAdminButtonClick}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</li>
+          <ul className="flex flex-col shadow-2 space-y-3">
+            <li className="hover:text-main-dark cursor-pointer" onClick={handleLogoutClick}>Log out</li>
+            <li className="hover:text-main-dark cursor-pointer" onClick={handleAdminButtonClick}>
+              <Link href={view.isAdmin ? '/' : '/admin'}>
+                <a>
+                  {`${view.isAdmin ? 'User' : 'Admin'} View`}
+                </a>
+              </Link>
+            </li>
           </ul>
         }
       >

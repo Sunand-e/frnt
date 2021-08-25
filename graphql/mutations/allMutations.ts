@@ -119,6 +119,19 @@ export const UPDATE_COURSE = gql`
   }
   ${GroupFragment}
 `
+
+export const DELETE_COURSE = gql`
+  mutation DeleteCourse(
+    $id: ID!
+  ) {
+    deleteCourse(
+      id: $id
+    ) {
+      message
+    }
+  }
+`
+
 export const CREATE_GROUP = gql`
   mutation CreateGroup(
     $name: String!,

@@ -1,8 +1,11 @@
 import PageTitle from '../../../components/PageTitle';
 import CourseEditForm from '../../../components/admin/courses/CourseEditForm'
 import { useRouter } from '../../../utils/router'
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_COURSE } from '../../../graphql/queries/allQueries';
+import EditorLayout from '../../../components/layouts/EditorLayout'
+import { viewVar } from '../../../graphql/cache';
+import { useEffect } from 'react';
 
 const AdminCoursesEdit = () => {
   /*
@@ -22,11 +25,26 @@ const AdminCoursesEdit = () => {
     }
   );
 
+  useEffect(() => {
+    const view = {
+      isSlimNav: true,
+      showSecondary: false,
+      ...viewVar()
+    }
+    viewVar(view)
+    return () => {
+      const view = viewVar()
+      delete view.isSlimNav
+      delete view.showSecondary
+      viewVar(view)
+    }
+  },[])
+
 
   if(course) {
     return (
       <>
-        <PageTitle title={`Edit Course: ${course?.name}`} />
+        <PageTitle title={`Edit Course: ${course?.title}`} />
         <CourseEditForm course={course} />
       </>
     )
@@ -40,6 +58,13 @@ const AdminCoursesEdit = () => {
 AdminCoursesEdit.navState = {
   topLevel: 'courses',
   secondary: 'courses'
-  }
+}
+
+AdminCoursesEdit.getLayout = page => (
+  <EditorLayout
+    navState={AdminCoursesEdit.navState || {}}
+    page={page}
+  />
+)
 
 export default AdminCoursesEdit

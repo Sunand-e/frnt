@@ -5,6 +5,8 @@ import { headerButtonsVar } from '../../../graphql/cache';
 import Builder from '../../../components/admin/CourseBuilder/Builder';
 import AdminSidebar from "../../../components/admin/CourseBuilder/AdminSidebar";
 import SaveButton from "../../../components/admin/CourseBuilder/SaveButton";
+import EditorLayout from '../../../components/layouts/EditorLayout'
+
 const AdminCoursesAdd = () => {
   const data = {
     course: {
@@ -34,6 +36,13 @@ const AdminCoursesAdd = () => {
 AdminCoursesAdd.navState = {
 topLevel: 'courses',
 secondary: 'courses'
+}
+
+AdminCoursesAdd.getLayout = page => {
+  return <EditorLayout
+    navState={AdminCoursesAdd.navState}
+    page={page}
+  />
 }
 
 export default AdminCoursesAdd

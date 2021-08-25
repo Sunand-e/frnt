@@ -7,54 +7,53 @@ import Button from '../../Button';
 import { DELETE_COURSE } from '../../../graphql/mutations/allMutations';
 import { client } from '../../../graphql/client';
 import Link from 'next/link';
+import ButtonLink from '../../ButtonLink';
 
 const CoursesTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetCourses>(GET_COURSES);
   
-  // const [deleteCourse, { data: deletedData }] = useMutation<DeleteCourse>(DELETE_COURSE);
+  const [deleteCourse, { data: deletedData }] = useMutation<DeleteCourse>(DELETE_COURSE);
 
-  const handleEditClick = (id) => {
+  const editUrl = '/admin/courses/edit'
 
+  const handleDeleteClick = (id) => {
+    deleteCourse({
+      variables: { 
+        id
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        deleteCourse: {
+          __typename: 'DeleteCoursePayload',
+          course: {
+            id,
+            _deleted: true,
+          },
+          message: ''
+        },
+      },
+
+      update(cache, { data: deleteCourse }) {
+        // We get a single item.
+        const course = cache.readFragment({
+          id: `Course:${id}`,
+          fragment: CourseFragment,
+        });
+        // Then, we update it.
+        if (course) {
+          cache.writeFragment({
+            id: `Course:${id}`,
+            fragment: CourseFragment,
+            data: {
+              ...course,
+              _deleted: true
+            },
+          });
+        }
+      }
+    })
   }
-
-  // const handleDeleteClick = (id) => {
-  //   deleteCourse({
-  //     variables: { 
-  //       id
-  //     },
-  //     optimisticResponse: {
-  //       __typename: 'Mutation',
-  //       deleteCourse: {
-  //         __typename: 'DeleteCoursePayload',
-  //         course: {
-  //           id,
-  //           _deleted: true,
-  //         },
-  //         message: ''
-  //       },
-  //     },
-
-  //     update(cache, { data: deleteCourse }) {
-  //       // We get a single item.
-  //       const course = cache.readFragment({
-  //         id: `Course:${id}`,
-  //         fragment: CourseFragment,
-  //       });
-  //       // Then, we update it.
-  //       if (course) {
-  //         cache.writeFragment({
-  //           id: `Course:${id}`,
-  //           fragment: CourseFragment,
-  //           data: {
-  //             ...course,
-  //             _deleted: true
-  //           },
-  //         });
-  //       }
-  //     }
-  //   })
-  // }
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -62,7 +61,7 @@ const CoursesTable = () => {
     () => {
       console.log('queryData')
       console.log(queryData)
-      return queryData?.courses || []
+      return queryData?.courses.filter(item => !item._deleted) || []
     }, [queryData]
   );
 
@@ -98,21 +97,22 @@ const CoursesTable = () => {
         width: 300,
         Header: "Actions",
         accessor: "wa",
-        Cell: ({ cell }) => (
-          // <button value={cell.row.values.name} onClick={props.handleClickCourse}>
-          <div className="flex space-x-4">
-            <Button 
-              onClick={() => handleEditClick(cell.row.values.id)}
-            >
-              Edit
-            </Button>
-            <Button 
-              // onClick={() => handleDeleteClick(cell.row.values.id)}
-            >
-              Delete
-            </Button>
-          </div>
-        )
+        Cell: ({ cell }) => {
+          const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
+
+          return (
+            <div className="flex space-x-4">
+              <Link href={href}>
+                <ButtonLink>Edit</ButtonLink>
+              </Link>
+              <Button 
+                onClick={() => handleDeleteClick(cell.row.values.id)}
+              >
+                Delete
+              </Button>
+            </div>
+          )
+        }
       }
     ],
     []

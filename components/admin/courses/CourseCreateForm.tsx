@@ -85,7 +85,7 @@ const CourseCreateForm = () => {
       {formik => (
         <CreateForm 
           formik={formik}
-          backLink={'/admin/users/courses'}
+          backLink={'/admin/courses'}
           entityName={'course'}
         >
           <TextInput

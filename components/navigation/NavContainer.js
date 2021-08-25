@@ -25,7 +25,11 @@ export default function NavContainer({navState}) {
     item => item.name === pageNavState.topLevel
   )
 
-  const showSecondary = topNavItem?.subPages?.length > 0
+  const showSecondary = view.hasOwnProperty('showSecondary') 
+    ? view.showSecondary 
+    : topNavItem?.subPages?.length > 0
+
+  const isSlimNav = view?.isSlimNav || showSecondary
 
   return (
     <div
@@ -48,9 +52,9 @@ export default function NavContainer({navState}) {
         lg:pt-0
       `}
     >
-      <PrimaryNav showSecondary={showSecondary} navStructure={navStructure} pageNavState={pageNavState} />
+      <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
-      <NavFooter showSecondary={showSecondary} />
+      <NavFooter isSlim={isSlimNav} />
     </div>
   )
 }

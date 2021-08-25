@@ -7,18 +7,18 @@ import { viewVar } from '../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
 
-export default function PrimaryNav({showSecondary, pageNavState}) {
+export default function PrimaryNav({isSlim, pageNavState}) {
 
   const view = useReactiveVar(viewVar);
 
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
   
   return (
-    <div id="primaryNav" className={`transition-width ${showSecondary ? 'w-16' : 'w-64'}`}>
+    <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16' : 'w-64'}`}>
       <div className="sticky z-30 top-0">
         <div className="h-18 bg-main flex justify-center py-4">
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
-          {/* {showSecondary ? 'secondary active' : 'secondary INACTIVE'} */}
+          {/* {isSlim ? 'secondary active' : 'secondary INACTIVE'} */}
         </div>
 
         <div 
@@ -49,7 +49,7 @@ export default function PrimaryNav({showSecondary, pageNavState}) {
                   return <PrimaryNavItem {...props} innerRef={ref} />;
                 });
 
-                if(showSecondary) {
+                if(isSlim) {
                   return (
                     <Tippy
                       key={index}

@@ -32,6 +32,7 @@ config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatica
 import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.scss'
 import { client } from '../graphql/client'
+import { useRouter } from 'next/router'
 
 addIconsToLibrary()
 
@@ -44,6 +45,8 @@ type AppPropsExtended = AppProps & PagePropertiesType
 
 
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
+
+  const router = useRouter();
 
   const [title, setTitle] = useState(PageComponent.title)
 
@@ -121,7 +124,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     if(libraryData) {
       updateContentTagsVar()
       libraryVar(libraryData.courses)
-      }
+    }
   },[libraryData])
   
   // Only show login if not logged in
@@ -131,7 +134,25 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       loginLayout
     )
   },[isLoggedIn, PageComponent])
+    
+  // On page change, check if it's an admin page and change the reactive 'viewVar' if necessary
+  useEffect(() => {
+    const checkIfAdminPage = () => {
+      console.log('router.pathname')
+      console.log(router.pathname.startsWith('/admin'))
+      viewVar({
+        isAdmin: router.pathname.startsWith('/admin'),
+        ...viewVar()
+      })
+    }
+    checkIfAdminPage()
+    
+    router.events.on('routeChangeStart', checkIfAdminPage); // add listener
 
+    return () => {
+      router.events.off('routeChangeStart', checkIfAdminPage); // remove listener
+    } 
+  }, []);
 
   return (
     <>

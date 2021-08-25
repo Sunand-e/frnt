@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import styles from './Button.module.scss'
 
 interface ButtonLinkProps {
@@ -7,7 +8,7 @@ interface ButtonLinkProps {
   children: JSX.Element | string
 }
 
-const ButtonLink = ({href, children, style, onClick}: ButtonLinkProps) => {
+const ButtonLink = forwardRef(({href, children, style, onClick}: ButtonLinkProps, ref) => {
 
   let bgColor = ''
   let textColor = ''
@@ -31,8 +32,15 @@ const ButtonLink = ({href, children, style, onClick}: ButtonLinkProps) => {
   }
 
   return (
-    <a href={href} onClick={onClick} className={`${hoverEffectStyles} cursor-pointer flex items-center nowrap focus:bg-opacity-50 focus:outline-none active:bg-opacity-50 h-8 bg-${bgColor} text-${textColor} rounded-full font-base text-base px-8 whitespace-nowrap`}>{children}</a>
+    <a 
+      href={href} 
+      ref={ref}
+      onClick={onClick} 
+      className={`${hoverEffectStyles} cursor-pointer flex items-center nowrap focus:bg-opacity-50 focus:outline-none active:bg-opacity-50 h-8 bg-${bgColor} text-${textColor} rounded-full font-base text-base px-8 whitespace-nowrap`}
+    >
+      {children}
+    </a>
   )
-}
+})
 
 export default ButtonLink

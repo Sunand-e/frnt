@@ -95,9 +95,7 @@ const GroupsTable = () => {
           return (          
             <div className="flex space-x-4">
               <Link href={href}>
-              <ButtonLink>
-                Edit
-              </ButtonLink>
+                <ButtonLink>Edit</ButtonLink>
               </Link>
               <Button 
                 onClick={() => handleDeleteClick(cell.row.values.id)}

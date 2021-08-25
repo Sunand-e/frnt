@@ -20,7 +20,6 @@ export const GET_COURSE = gql`
         id
       }
       itemType
-      order
       prerequisites
       title
       updatedAt
@@ -129,7 +128,6 @@ export const GET_LESSON = gql`
         id
       }
       itemType
-      order
       prerequisites
       title
       updatedAt
@@ -170,7 +168,6 @@ export const GET_LIBRARY_ITEMS = gql`
         id
       }
       itemType
-      order
       prerequisites
       title
       updatedAt
@@ -203,7 +200,6 @@ export const GET_PATHWAY = gql`
         id
       }
       itemType
-      order
       prerequisites
       title
       updatedAt
@@ -237,7 +233,6 @@ export const GET_PATHWAYS = gql`
         id
       }
       itemType
-      order
       prerequisites
       title
       updatedAt
@@ -253,7 +248,6 @@ export const GET_PATHWAYS = gql`
 export const GET_QUIZ = gql`
   query GetQuiz($id: ID!) {
     quiz(id: $id) {
-      order
       title
       updatedAt
       prerequisites
@@ -266,7 +260,6 @@ export const GET_QUIZ = gql`
         content
         createdAt
         id
-        order
         questionType
       }
     }
@@ -276,7 +269,6 @@ export const GET_QUIZ = gql`
 export const GET_QUIZZES = gql`
   query GetQuizzes {
     quizzes {
-      order
       title
       updatedAt
       prerequisites
@@ -289,7 +281,6 @@ export const GET_QUIZZES = gql`
         content
         createdAt
         id
-        order
         questionType
       }
     }
