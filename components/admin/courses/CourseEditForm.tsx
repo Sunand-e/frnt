@@ -21,7 +21,7 @@ const CourseEditForm = ({course}) => {
     
     const router = useRouter()
 
-    const backLink = '/admin/courses'
+    const backLink = '/admin/ courses'
 
     const notices = useReactiveVar(noticesVar)
 

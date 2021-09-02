@@ -13,8 +13,14 @@ const LoginForm = () => {
 
   const handleSubmit = (values, { setSubmitting }) => {
     const data = {
-      user: values
+      user: {
+        remember_me: "1",
+        ...values
+      }
     }
+    console.log('data')
+    console.log('data')
+    console.log('data')
 
     console.log(data)
 
