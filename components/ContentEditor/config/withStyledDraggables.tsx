@@ -1,5 +1,5 @@
 import React from 'react'
-import { DragIndicator } from '@styled-icons/material/DragIndicator'
+import { DragIndicator } from '@styled-icons/material-rounded/DragIndicator'
 import {
   ELEMENT_BLOCKQUOTE,
   ELEMENT_CODE_BLOCK,
@@ -20,7 +20,7 @@ import {
 } from '@udecode/plate'
 import Tippy from '@tippyjs/react'
 import { TippyProps } from '@tippyjs/react'
-import 'twin.macro'
+import tw from 'twin.macro'
 
 const GrabberTooltipContent = () => (
   <div style={{ fontSize: 12 }}>

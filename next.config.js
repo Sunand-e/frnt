@@ -25,8 +25,17 @@ module.exports = withBundleAnalyzer({
   
   // the basePath needs to be set if the app is accessed in a subdirectory of a domain.
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+
+
+
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 
+    // fix for Plate which uses 'fs' in cosmiconfig package
+    if (!isServer) {
+      config.resolve.fallback.fs = false;
+      config.resolve.fallback.module = false;
+    }
+    
     // Note: we provide webpack above so you should not `require` it
     // Perform customizations to webpack config
     isServer && config.plugins.push(new GenerateGraphQLPossibleTypes())

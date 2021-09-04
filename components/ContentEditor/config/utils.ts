@@ -3,6 +3,7 @@ import {
   ELEMENT_LIC,
   ELEMENT_PARAGRAPH,
   ELEMENT_UL,
+  TElement,
 } from '@udecode/plate'
 import { Text } from 'slate'
 

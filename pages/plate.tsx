@@ -1,7 +1,7 @@
 import PageTitle from "../components/PageTitle"
 import ContentEditor from "../components/ContentEditor/ContentEditor"
 
-const SlatePage = () => {
+const PlatePage = () => {
 
   return (
     <>
@@ -11,4 +11,4 @@ const SlatePage = () => {
   )
 }
 
-export default SlatePage
+export default PlatePage
