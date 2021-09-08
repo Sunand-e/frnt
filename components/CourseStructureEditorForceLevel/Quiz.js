@@ -1,22 +1,23 @@
 import { Draggable } from 'react-beautiful-dnd'
 import { Icon } from '@wordpress/components';
 import Tippy from '@tippyjs/react';
+import { Menu as MenuIcon } from '@styled-icons/material-rounded/Search'
 
-export default function Item({item, index}) {
+export default function Quiz({item, index}) {
 
-  const editLesson = () => {
+  const editQuiz = () => {
     alert(`Edit lesson: ${item.databaseId}`)
   }
 
-  const deleteLesson = () => {
+  const deleteQuiz = () => {
     alert(`Delete lesson: ${item.databaseId}`)
   }
 
   return (
     
     <Draggable
-      draggableId={item.databaseId.toString()}
-      index={index}
+    draggableId={item.databaseId.toString()}
+    index={index}
     >
       { (provided, snapshot) => (
         <div className="border border-1 flex bg-main-semitransparent text-grey-dark justify-between"
@@ -39,13 +40,13 @@ export default function Item({item, index}) {
               // theme='light'
               content={
                 <ul class="flex flex-col">
-                  <li onClick={editLesson}>Edit Lesson</li>
-                  <li onClick={deleteLesson}>Delete Lesson</li>
+                  <li onClick={editQuiz}>Edit Quiz</li>
+                  <li onClick={deleteQuiz}>Delete Quiz</li>
                 </ul>
               }
             >
               <div className="p-2">
-                <Icon icon="menu" />
+                <MenuIcon />
               </div>
               
             </Tippy>
