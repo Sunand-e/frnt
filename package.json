@@ -13,6 +13,9 @@
   "dependencies": {
     "@apollo/client": "^3.3.7",
     "@atlaskit/tree": "^8.4.0",
+    "@dnd-kit/core": "^4.0.0-next-202181324619",
+    "@dnd-kit/sortable": "^5.0.0-next-202181324619",
+    "@dnd-kit/utilities": "^3.0.0-next-202181324619",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/editorjs": "^2.22.2",
     "@editorjs/embed": "^2.4.6",

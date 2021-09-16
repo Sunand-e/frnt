@@ -1,5 +1,6 @@
 import PageTitle from "../components/PageTitle"
-import CourseStructureEditor from "../components/CourseStructureEditor/CourseStructureEditor"
+// import CourseStructureEditor from "../components/CourseStructureEditor/CourseStructureEditor"
+import { MultipleContainers } from "../components/CourseStructureEditor/MultipleContainers"
 
 const CourseStructure = () => {
 
@@ -55,7 +56,10 @@ const CourseStructure = () => {
   return (
     <>
       <PageTitle title="Course Structure" />
-      <CourseStructureEditor course={course} />
+      
+      <MultipleContainers itemCount={5} vertical />
+
+      {/* <CourseStructureEditor course={course} /> */}
     </>
   )
 }
