@@ -7,57 +7,61 @@ const CourseStructure = () => {
   const course = {
     children: [
       {
-        id: '1314r1',
+        id: 'trea1314r1',
         type: 'section',
         title: 'Section 1',
         children: [
           {
-            id: '1314r133',
+            id: 'terter1314r133',
             type: 'lesson',
             title: 'lesson 1'
           },
           {
-            id: '1314r13321',
+            id: 'bgtfd1314r13321',
             type: 'lesson',
             title: 'lesson 2'
           }
         ]
       },
       {
-        id: '1314r13321qw',
+        id: '1dd314r13321qw',
         type: 'section',
         title: 'Section 2',
         children: [
           {
-            id: '1333',
+            id: 'sss1333',
             type: 'lesson',
             title: 'lesson 3'
           },
           {
-            id: '1333SS',
+            id: 'aaa33SS',
             type: 'lesson',
             title: 'lesson 4'
           }
         ]
       },
-      {
-        id: '1333SSDA',
-        type: 'lesson',
-        title: 'Summary'
-      },
-      {
-        id: '1333SsSDA',
-        type: 'quiz',
-        title: 'Final Quiz'
-      }
     ]
   }
+
+  function itemsBySectionId(mainArray) {
+    const obj = {};
+
+    for (const section of mainArray) {
+      console.log(section)
+         obj[section.id] = section.children;
+    }
+    return obj;
+  }
+
 
   return (
     <>
       <PageTitle title="Course Structure" />
-      
-      <MultipleContainers itemCount={5} vertical />
+      <pre>
+        {JSON.stringify(itemsBySectionId(course.children), null, 2)}
+      </pre>
+      <MultipleContainers vertical />
+      {/* <MultipleContainers items={course.children} vertical /> */}
 
       {/* <CourseStructureEditor course={course} /> */}
     </>

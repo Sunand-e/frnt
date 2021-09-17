@@ -20,85 +20,25 @@ import {
   MeasuringStrategy,
 } from '@dnd-kit/core';
 import {
-  AnimateLayoutChanges,
   SortableContext,
-  useSortable,
   arrayMove,
-  defaultAnimateLayoutChanges,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   SortingStrategy,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
 
-import {Item, Container, ContainerProps} from './components';
+import {Item, Container} from './components';
 
 import {createRange} from './utilities';
+import { DroppableContainer } from './DroppableContainer';
+import { SortableItem } from './SortableItem';
+import { array } from 'yup/lib/locale';
 
 export default {
   title: 'Presets/Sortable/Multiple Containers',
 };
 
-const animateLayoutChanges: AnimateLayoutChanges = (args) =>
-  args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;
-
-function DroppableContainer({
-  children,
-  columns = 1,
-  disabled,
-  id,
-  items,
-  style,
-  ...props
-}: ContainerProps & {
-  disabled?: boolean;
-  id: string;
-  items: string[];
-  style?: React.CSSProperties;
-}) {
-  const {
-    active,
-    attributes,
-    isDragging,
-    listeners,
-    over,
-    setNodeRef,
-    transition,
-    transform,
-  } = useSortable({
-    id,
-    data: {
-      type: 'container',
-    },
-    animateLayoutChanges,
-  });
-  const isOverContainer = over
-    ? (id === over.id && active?.data.current?.type !== 'container') ||
-      items.includes(over.id)
-    : false;
-
-  return (
-    <Container
-      ref={disabled ? undefined : setNodeRef}
-      style={{
-        ...style,
-        transition,
-        transform: CSS.Translate.toString(transform),
-        opacity: isDragging ? 0.5 : undefined,
-      }}
-      hover={isOverContainer}
-      handleProps={{
-        ...attributes,
-        ...listeners,
-      }}
-      columns={columns}
-      {...props}
-    >
-      {children}
-    </Container>
-  );
-}
 
 const dropAnimation: DropAnimation = {
   ...defaultDropAnimation,
@@ -159,12 +99,12 @@ export function MultipleContainers({
   const [items, setItems] = useState<Items>(
     () =>
       initialItems ?? {
-        A: createRange(itemCount, (index) => `A${index + 1}`),
-        B: createRange(itemCount, (index) => `B${index + 1}`),
-        C: createRange(itemCount, (index) => `C${index + 1}`),
-        D: createRange(itemCount, (index) => `D${index + 1}`),
+        A: createRange(itemCount, (index) => ( { id: `A${index + 1}`, title: `Lesson A${index + 1}` })),
+        B: createRange(itemCount, (index) => ( { id: `B${index + 1}`, title: `Lesson B${index + 1}` })),
+        C: createRange(itemCount, (index) => ( { id: `C${index + 1}`, title: `Lesson C${index + 1}` })),
       }
   );
+
   const [containers, setContainers] = useState(Object.keys(items));
   const [activeId, setActiveId] = useState<string | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
@@ -420,11 +360,18 @@ export function MultipleContainers({
     >
       <div
         style={{
+          display: 'inline-grid',
           boxSizing: 'border-box',
           padding: 20,
           gridAutoFlow: vertical ? 'row' : 'column',
         }}
       >
+        <pre>
+          <h3>Items</h3>
+        {JSON.stringify(items,null,2)}
+          <h3>Containers</h3>
+        {JSON.stringify(containers,null,2)}
+        </pre>
         <SortableContext
           items={[...containers, PLACEHOLDER_ID]}
           strategy={
@@ -446,12 +393,14 @@ export function MultipleContainers({
               onRemove={() => handleRemove(containerId)}
             >
               <SortableContext items={items[containerId]} strategy={strategy}>
-                {items[containerId].map((value, index) => {
+                {items[containerId].map((item, index) => {
+                  console.log('itemitemitemitemitemitemitemitemitemitemitem')
+                  console.log(item)
                   return (
                     <SortableItem
                       disabled={isSortingContainer}
-                      key={value}
-                      id={value}
+                      key={item.id}
+                      item={item}
                       index={index}
                       handle={handle}
                       style={getItemStyles}
@@ -576,19 +525,14 @@ export function MultipleContainers({
   }
 }
 
-function getColor(id: string) {
-  switch (id[0]) {
-    case 'A':
-      return '#7193f1';
-    case 'B':
-      return '#ffda6c';
-    case 'C':
-      return '#00bcd4';
-    case 'D':
-      return '#ef769f';
-  }
-
-  return undefined;
+export function getColor(id: string) {
+  const colors = [
+    '#7193f1',
+    '#ffda6c',
+    '#00bcd4',
+    '#ef769f',
+  ]
+  return colors[Math.floor(Math.random() * colors.length)]
 }
 
 function Trash({id}: {id: UniqueIdentifier}) {
@@ -619,79 +563,11 @@ function Trash({id}: {id: UniqueIdentifier}) {
   );
 }
 
-interface SortableItemProps {
-  containerId: string;
-  id: string;
-  index: number;
-  handle: boolean;
-  disabled?: boolean;
-  style(args: any): React.CSSProperties;
-  getIndex(id: string): number;
-  renderItem(): React.ReactElement;
-  wrapperStyle({index}: {index: number}): React.CSSProperties;
-}
+function itemsBySectionId(mainArray) {
+  const obj = {};
 
-function SortableItem({
-  disabled,
-  id,
-  index,
-  handle,
-  renderItem,
-  style,
-  containerId,
-  getIndex,
-  wrapperStyle,
-}: SortableItemProps) {
-  const {
-    setNodeRef,
-    listeners,
-    isDragging,
-    isSorting,
-    over,
-    overIndex,
-    transform,
-    transition,
-  } = useSortable({
-    id,
-  });
-  const mounted = useMountStatus();
-  const mountedWhileDragging = isDragging && !mounted;
-
-  return (
-    <Item
-      ref={disabled ? undefined : setNodeRef}
-      value={id}
-      dragging={isDragging}
-      sorting={isSorting}
-      handle={handle}
-      index={index}
-      wrapperStyle={wrapperStyle({index})}
-      style={style({
-        index,
-        value: id,
-        isDragging,
-        isSorting,
-        overIndex: over ? getIndex(over.id) : overIndex,
-        containerId,
-      })}
-      color={getColor(id)}
-      transition={transition}
-      transform={transform}
-      fadeIn={mountedWhileDragging}
-      listeners={listeners}
-      renderItem={renderItem}
-    />
-  );
-}
-
-function useMountStatus() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsMounted(true), 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  return isMounted;
+  for (const section of mainArray) {
+    obj[section.id] = section.children;
+  }
+  return obj;
 }
