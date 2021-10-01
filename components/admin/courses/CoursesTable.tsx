@@ -4,7 +4,7 @@ import Table from '../../Table';
 import { GET_COURSES, CourseFragment } from '../../../graphql/queries/allQueries';
 import { GetCourses } from '../../../graphql/queries/__generated__/GetCourses';
 import Button from '../../Button';
-import { DELETE_COURSE } from '../../../graphql/mutations/allMutations';
+import { DELETE_COURSE } from '../../../graphql/mutations/course/DELETE_COURSE';
 import { client } from '../../../graphql/client';
 import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
@@ -25,8 +25,8 @@ const CoursesTable = () => {
       optimisticResponse: {
         __typename: 'Mutation',
         deleteCourse: {
-          __typename: 'DeleteCoursePayload',
-          course: {
+          __typename: 'DeleteContentItemPayload',
+          contentItem: {
             id,
             _deleted: true,
           },
@@ -37,14 +37,16 @@ const CoursesTable = () => {
       update(cache, { data: deleteCourse }) {
         // We get a single item.
         const course = cache.readFragment({
-          id: `Course:${id}`,
+          id: `ContentItem:${id}`,
           fragment: CourseFragment,
+          fragmentName: 'CourseFragment',
         });
         // Then, we update it.
         if (course) {
           cache.writeFragment({
-            id: `Course:${id}`,
+            id: `ContentItem:${id}`,
             fragment: CourseFragment,
+            fragmentName: 'CourseFragment',
             data: {
               ...course,
               _deleted: true
@@ -59,8 +61,6 @@ const CoursesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      console.log('queryData')
-      console.log(queryData)
       return queryData?.courses.filter(item => !item._deleted) || []
     }, [queryData]
   );
@@ -77,8 +77,6 @@ const CoursesTable = () => {
         Header: "Course Name",
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
-          console.log('cell')
-          console.log(cell)
 
           const href = cell.row.values.id && `/admin/courses/edit?id=${cell.row.values.id}`
 

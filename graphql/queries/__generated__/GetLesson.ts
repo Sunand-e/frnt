@@ -23,13 +23,6 @@ export interface GetLesson_lesson_icon {
   id: string;
 }
 
-export interface GetLesson_lesson_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface GetLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -39,18 +32,17 @@ export interface GetLesson_lesson {
   id: string;
   icon: GetLesson_lesson_icon | null;
   itemType: string;
-  order: number | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  tags: GetLesson_lesson_tags[] | null;
+  _deleted: boolean;
 }
 
 export interface GetLesson {
   /**
    * Get an lessons based on your conditions or based on id
    */
-  lesson: GetLesson_lesson[];
+  lesson: GetLesson_lesson;
 }
 
 export interface GetLessonVariables {

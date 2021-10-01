@@ -87,8 +87,9 @@ export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
       _deleted: group => Boolean(group._deleted),
     },
     ContentItem: { // You can tell ApolloClient how to resolve a property \o/ !
-      _deleted: group => Boolean(group._deleted),
+      _deleted: course => Boolean(course._deleted),
     }
+
   },
 
 });

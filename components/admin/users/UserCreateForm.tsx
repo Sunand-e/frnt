@@ -2,14 +2,14 @@ import { useMutation } from '@apollo/client';
 import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
-import { CREATE_USER } from '../../../graphql/mutations/allMutations';
+// import { CREATE_USER } from '../../../graphql/mutations/allMutations';
 import TextInput from '../../TextInput';
 import Button from '../../Button';
-import { CreateUser } from '../../../graphql/mutations/__generated__/CreateUser';
+// import { CreateUser } from '../../../graphql/mutations/__generated__/CreateUser';
 
 const UserCreateForm = () => {
 
-  const [createUser, { data }] = useMutation<CreateUser>(CREATE_USER);
+  // const [createUser, { data }] = useMutation<CreateUser>(CREATE_USER);
 
   return (
     <Formik
@@ -20,13 +20,13 @@ const UserCreateForm = () => {
       }}
       onSubmit={values => {
         alert(JSON.stringify(values, null, 2))
-        createUser({
-          variables: { 
-            firstName: values.firstName,
-            lastName: values.lastName,
-            email: values.email
-          }
-        });
+        // createUser({
+        //   variables: { 
+        //     firstName: values.firstName,
+        //     lastName: values.lastName,
+        //     email: values.email
+        //   }
+        // });
       }}
       validationSchema={Yup.object({
         name: Yup.string()

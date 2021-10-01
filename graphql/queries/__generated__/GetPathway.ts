@@ -39,7 +39,6 @@ export interface GetPathway_pathway {
   id: string;
   icon: GetPathway_pathway_icon | null;
   itemType: string;
-  order: number | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -50,7 +49,7 @@ export interface GetPathway {
   /**
    * Get an pathways based on your conditions or based on id
    */
-  pathway: GetPathway_pathway[];
+  pathway: GetPathway_pathway;
 }
 
 export interface GetPathwayVariables {

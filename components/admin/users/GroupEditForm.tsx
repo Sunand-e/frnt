@@ -2,7 +2,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
-import { UPDATE_GROUP } from '../../../graphql/mutations/allMutations';
+import { UPDATE_GROUP } from "../../../graphql/mutations/group/UPDATE_GROUP";
 import TextInput from '../../TextInput';
 import Button from '../../Button';
 import Link from 'next/link';

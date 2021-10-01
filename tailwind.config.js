@@ -18,7 +18,8 @@ module.exports = {
         grey: {
           // DEFAULT: '#ebedf4',
           // light: '#ebedf4',
-          DEFAULT: '#f1f4f8',
+          DEFAULT: '#aaaaaa',
+          light: '#f1f4f8',
           light: '#f1f4f8',
           dark: '#333333',
           semitransparent: '#E5EBF175'
@@ -55,5 +56,7 @@ module.exports = {
       fontWeight: ['hover', 'focus'],
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ],
 }

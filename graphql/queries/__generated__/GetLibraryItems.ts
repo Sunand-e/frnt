@@ -39,7 +39,6 @@ export interface GetLibraryItems_libraryItems {
   id: string;
   icon: GetLibraryItems_libraryItems_icon | null;
   itemType: string;
-  order: number | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

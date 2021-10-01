@@ -33,6 +33,7 @@ import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.scss'
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
+import { ModalProvider } from '../context/modalContext'
 
 addIconsToLibrary()
 
@@ -158,9 +159,11 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     <>
     <ApolloProvider client={client}>
         <QueriesContext.Provider value={{queries}}>
-          {
-            layout
-          }
+          <ModalProvider>
+            {
+              layout
+            }
+          </ModalProvider>
         </QueriesContext.Provider>
       </ApolloProvider>
     </>

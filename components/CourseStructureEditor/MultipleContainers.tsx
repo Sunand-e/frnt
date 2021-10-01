@@ -28,17 +28,17 @@ import {
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import {Item, Container} from './components';
 
 import {createRange} from './utilities';
 import { DroppableContainer } from './DroppableContainer';
 import { SortableItem } from './SortableItem';
-import { array } from 'yup/lib/locale';
 
 export default {
   title: 'Presets/Sortable/Multiple Containers',
 };
-
 
 const dropAnimation: DropAnimation = {
   ...defaultDropAnimation,
@@ -64,6 +64,9 @@ interface Props {
   wrapperStyle?(args: {index: number}): React.CSSProperties;
   itemCount?: number;
   items?: Items;
+  setItems?: any
+  containers?: any
+  setContainers?: any
   handle?: boolean;
   renderItem?: any;
   strategy?: SortingStrategy;
@@ -84,7 +87,10 @@ export function MultipleContainers({
   cancelDrop,
   columns,
   handle = false,
-  items: initialItems,
+  items,
+  setItems,
+  containers,
+  setContainers,
   containerStyle,
   getItemStyles = () => ({}),
   wrapperStyle = () => ({}),
@@ -96,16 +102,7 @@ export function MultipleContainers({
   vertical = false,
   scrollable,
 }: Props) {
-  const [items, setItems] = useState<Items>(
-    () =>
-      initialItems ?? {
-        A: createRange(itemCount, (index) => ( { id: `A${index + 1}`, title: `Lesson A${index + 1}` })),
-        B: createRange(itemCount, (index) => ( { id: `B${index + 1}`, title: `Lesson B${index + 1}` })),
-        C: createRange(itemCount, (index) => ( { id: `C${index + 1}`, title: `Lesson C${index + 1}` })),
-      }
-  );
 
-  const [containers, setContainers] = useState(Object.keys(items));
   const [activeId, setActiveId] = useState<string | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
@@ -318,7 +315,7 @@ export function MultipleContainers({
         }
 
         if (overId === PLACEHOLDER_ID) {
-          const newContainerId = getNextContainerId();
+          const newContainerId = uuidv4();
 
           unstable_batchedUpdates(() => {
             setContainers((containers) => [...containers, newContainerId]);
@@ -360,18 +357,12 @@ export function MultipleContainers({
     >
       <div
         style={{
-          display: 'inline-grid',
+          // display: 'inline-grid',
           boxSizing: 'border-box',
           padding: 20,
           gridAutoFlow: vertical ? 'row' : 'column',
         }}
       >
-        <pre>
-          <h3>Items</h3>
-        {JSON.stringify(items,null,2)}
-          <h3>Containers</h3>
-        {JSON.stringify(containers,null,2)}
-        </pre>
         <SortableContext
           items={[...containers, PLACEHOLDER_ID]}
           strategy={
@@ -384,7 +375,7 @@ export function MultipleContainers({
             <DroppableContainer
               key={containerId}
               id={containerId}
-              label={minimal ? undefined : `Column ${containerId}`}
+              label={minimal ? undefined : `${containerId}`}
               columns={columns}
               items={items[containerId]}
               scrollable={scrollable}
@@ -393,14 +384,12 @@ export function MultipleContainers({
               onRemove={() => handleRemove(containerId)}
             >
               <SortableContext items={items[containerId]} strategy={strategy}>
-                {items[containerId].map((item, index) => {
-                  console.log('itemitemitemitemitemitemitemitemitemitemitem')
-                  console.log(item)
+                {items[containerId].map((value, index) => {
                   return (
                     <SortableItem
                       disabled={isSortingContainer}
-                      key={item.id}
-                      item={item}
+                      key={value}
+                      id={value}
                       index={index}
                       handle={handle}
                       style={getItemStyles}
@@ -506,7 +495,7 @@ export function MultipleContainers({
   }
 
   function handleAddColumn() {
-    const newContainerId = getNextContainerId();
+    const newContainerId = uuidv4();
 
     unstable_batchedUpdates(() => {
       setContainers((containers) => [...containers, newContainerId]);
@@ -516,23 +505,21 @@ export function MultipleContainers({
       }));
     });
   }
-
-  function getNextContainerId() {
-    const containeIds = Object.keys(items);
-    const lastContaineId = containeIds[containeIds.length - 1];
-
-    return String.fromCharCode(lastContaineId.charCodeAt(0) + 1);
-  }
 }
 
 export function getColor(id: string) {
-  const colors = [
-    '#7193f1',
-    '#ffda6c',
-    '#00bcd4',
-    '#ef769f',
-  ]
-  return colors[Math.floor(Math.random() * colors.length)]
+  switch (id[0]) {
+    case 'A':
+      return '#7193f1';
+    case 'B':
+      return '#ffda6c';
+    case 'C':
+      return '#00bcd4';
+    case 'D':
+      return '#ef769f';
+  }
+
+  return undefined;
 }
 
 function Trash({id}: {id: UniqueIdentifier}) {
@@ -563,11 +550,26 @@ function Trash({id}: {id: UniqueIdentifier}) {
   );
 }
 
-function itemsBySectionId(mainArray) {
-  const obj = {};
+export interface SortableItemProps {
+  containerId: string;
+  id: string;
+  index: number;
+  handle: boolean;
+  disabled?: boolean;
+  style(args: any): React.CSSProperties;
+  getIndex(id: string): number;
+  renderItem(): React.ReactElement;
+  wrapperStyle({index}: {index: number}): React.CSSProperties;
+}
 
-  for (const section of mainArray) {
-    obj[section.id] = section.children;
-  }
-  return obj;
+export function useMountStatus() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsMounted(true), 500);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return isMounted;
 }

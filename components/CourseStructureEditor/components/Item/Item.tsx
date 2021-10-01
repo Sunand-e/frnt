@@ -6,7 +6,9 @@ import type {Transform} from '@dnd-kit/utilities';
 import {Handle, Remove} from './components';
 
 import styles from './Item.module.scss';
-
+import cache from '../../../../graphql/cache';
+import { ContentFragment } from '../../../../graphql/queries/allQueries';
+import { ContentFragment as ContentFragmentType } from '../../../../graphql/queries/__generated__/ContentFragment';
 export interface Props {
   dragOverlay?: boolean;
   color?: string;
@@ -64,6 +66,11 @@ export const Item = React.memo(
       },
       ref
     ) => {
+      const item = cache.readFragment<ContentFragmentType>({
+        id:`ContentItem:${value}`,
+        fragment: ContentFragment,
+      })
+
       useEffect(() => {
         if (!dragOverlay) {
           return;
@@ -135,7 +142,7 @@ export const Item = React.memo(
             {...props}
             tabIndex={!handle ? 0 : undefined}
           >
-            {value}
+            {item.title}dsadsadsadsa
             <span className={styles.Actions}>
               {onRemove ? (
                 <Remove className={styles.Remove} onClick={onRemove} />

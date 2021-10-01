@@ -5,7 +5,7 @@ import Button from '../../Button';
 const CreateForm = ({formik, children, backLink, entityName}) => (
   <Form>
     { children }
-    <Button type="submit">{`Save new ${entityName}`}</Button>
+    <Button className={'w-full rounded-md'} type="submit">{`Save new ${entityName}`}</Button>
   </Form>
 )
 

@@ -13,13 +13,11 @@ export interface GetQuiz_quiz_questions {
   content: any | null;
   createdAt: any;
   id: string;
-  order: number | null;
   questionType: string | null;
 }
 
 export interface GetQuiz_quiz {
   __typename: "ContentItem";
-  order: number | null;
   title: string | null;
   updatedAt: any;
   prerequisites: any | null;
@@ -34,7 +32,7 @@ export interface GetQuiz {
   /**
    * Get an quizs based on your conditions or based on id
    */
-  quiz: GetQuiz_quiz[];
+  quiz: GetQuiz_quiz;
 }
 
 export interface GetQuizVariables {

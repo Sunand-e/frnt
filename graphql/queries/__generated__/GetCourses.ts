@@ -42,8 +42,8 @@ export interface GetCourses_courses {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  tags: GetCourses_courses_tags[] | null;
   _deleted: boolean;
+  tags: GetCourses_courses_tags[] | null;
 }
 
 export interface GetCourses {

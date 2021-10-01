@@ -13,13 +13,11 @@ export interface GetQuizzes_quizzes_questions {
   content: any | null;
   createdAt: any;
   id: string;
-  order: number | null;
   questionType: string | null;
 }
 
 export interface GetQuizzes_quizzes {
   __typename: "ContentItem";
-  order: number | null;
   title: string | null;
   updatedAt: any;
   prerequisites: any | null;

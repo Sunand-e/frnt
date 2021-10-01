@@ -138,36 +138,36 @@ const Builder = ({course}) => {
               <div
               className="px-12"
               >
-              <div
-                // className="flex"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                { sectionOrder.map((sectionId, index) => {
-                  const section = sections[sectionId]
-                  return (
-                    <Section
-                      active={index === activeSection}
-                      setActive={setActiveSection}
-                      key={sectionId}
-                      section={section}
-                      items={section.lessons}
-                      index={index}
-                    />
-                  )
-                })}
-                { provided.placeholder }
-                <div className="border-dashed text-center align-center mb-8 m-2 p-2 border-2 border-dashed border-grey-dark text-grey-dark w-60 flex-none h-80 flex flex-col justify-center">
-                  <div
-                   className="p-2 flex space-x-3 justify-center"
-                   onClick={handleNewLessonClick}
-                  >
-                    <Icon icon="plus-alt" />
-                    <span>New Section</span>
+                <div
+                  // className="flex"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  { sectionOrder.map((sectionId, index) => {
+                    const section = sections[sectionId]
+                    return (
+                      <Section
+                        active={index === activeSection}
+                        setActive={setActiveSection}
+                        key={sectionId}
+                        section={section}
+                        items={section.lessons}
+                        index={index}
+                      />
+                    )
+                  })}
+                  { provided.placeholder }
+                  <div className="border-dashed text-center align-center mb-8 m-2 p-2 border-2 border-dashed border-grey-dark text-grey-dark w-60 flex-none h-80 flex flex-col justify-center">
+                    <div
+                    className="p-2 flex space-x-3 justify-center"
+                    onClick={handleNewLessonClick}
+                    >
+                      <Icon icon="plus-alt" />
+                      <span>New Section</span>
+                    </div>
                   </div>
+                  <div className="spacer w-12 flex-none" aria-hidden="true" />
                 </div>
-                <div className="spacer w-12 flex-none" aria-hidden="true" />
-              </div>  
               </div>
             )}
           </Droppable>

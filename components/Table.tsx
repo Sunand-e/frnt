@@ -5,7 +5,6 @@ import { useTable, useSortBy } from "react-table";
 import { GET_GROUPS } from "../graphql/queries/allQueries";
 
 const Table = ({tableData, tableCols}) => {
-  console.log(tableData)
   const {
     getTableProps,
     getTableBodyProps,

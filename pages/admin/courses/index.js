@@ -6,20 +6,29 @@ import { Notices } from '../../../components/Notices';
 import PageTitle from '../../../components/PageTitle';
 import { headerButtonsVar, viewVar } from '../../../graphql/cache';
 import CoursesTable from '../../../components/admin/courses/CoursesTable'
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { ModalContext } from '../../../context/modalContext'
+import TextInput from '../../../components/BasicTextInput'
+import LoadingSpinner from '../../../components/LoadingSpinner'
+import CourseCreateModalForm from '../../../components/admin/courses/CourseCreateModalForm'
 const AdminCourses = () => {
 
-  const view = useReactiveVar(viewVar);
+  const view = useReactiveVar(viewVar)
   
   const router = useRouter()
   
+  const { handleModal, closeModal } = useContext(ModalContext);
+
   const handleAddClick = (e) => {
-    router.push('/admin/courses/add')
-    e.target.blur()
+    handleModal({
+      title: `Add new course`,
+      // content: <BasicTextInput label="Course name" placeholder='Untitled course' />,
+      content: <CourseCreateModalForm />,
+      buttons: null
+    })
   }
   
   useEffect(() => {
-
     headerButtonsVar(
       <>
         <Button onClick={handleAddClick}>Add new course</Button>

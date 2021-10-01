@@ -1,39 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const GET_COURSE = gql`
-  query GetCourse($id: ID!) {
-    course(id: $id) {
-      content
-      contentType
-      createdAt
-      image {
-        location
-        id
-        altText
-        properties
-        title
-      }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      title
-      updatedAt
-      tags {
-        id
-        label
-        tagType
-      }
-    }
-  }
-`
-
-export const CourseFragment = gql`
-  fragment ClientCourse on ContentItem {
+export const ContentFragment = gql`
+  fragment ContentFragment on ContentItem {
     content
     contentType
     createdAt
@@ -54,41 +22,81 @@ export const CourseFragment = gql`
     prerequisites
     title
     updatedAt
+    _deleted @client
+  }
+`
+export const CourseFragment = gql`
+  fragment CourseFragment on ContentItem {
+    ...ContentFragment
     tags {
       id
       label
       tagType
     }
-    _deleted @client
   }
+  ${ContentFragment}
+`
+
+export const SectionFragment = gql`
+  fragment SectionFragment on ContentItem {
+    ...ContentFragment
+    children {
+      ...ContentFragment
+    }
+  }
+  ${ContentFragment}
+`
+export const LessonFragment = gql`
+  fragment LessonFragment on ContentItem {
+    ...ContentFragment
+  }
+  ${ContentFragment}
+`
+export const GET_COURSE = gql`
+  query GetCourse($id: ID!) {
+    course(id: $id) {
+      ...CourseFragment
+      sections {
+        ...SectionFragment
+        children {
+          ...ContentFragment
+        }
+      }
+    }
+  }
+  ${CourseFragment}
+  ${SectionFragment}
+  ${ContentFragment}
 `
 export const GET_COURSES = gql`
   query GetCourses {
     courses {
-      ...ClientCourse
+      ...CourseFragment
     }
   }
   ${CourseFragment}
 `
 
-
-export const GET_GROUP = gql`
-  query GetGroup($id: ID!) {
-    group(id: $id) {
-      createdAt
-      id
-      name
-      updatedAt
-      users {
-        id
-      }
+export const GET_SECTION = gql`
+  query GetSection($id: ID!) {
+    section(id: $id) {
+      ...SectionFragment
     }
   }
+  ${SectionFragment}
+`
+export const GET_SECTIONS = gql`
+  query GetSections {
+    sections {
+      ...SectionFragment
+    }
+  }
+  ${SectionFragment}
 `
 
 
 export const GroupFragment = gql`
-  fragment ClientGroup on Group {
+  fragment GroupFragment on Group {
     createdAt
     id
     name
@@ -99,10 +107,19 @@ export const GroupFragment = gql`
     _deleted @client
   }
 `
+export const GET_GROUP = gql`
+  query GetGroup($id: ID!) {
+    group(id: $id) {
+      ...GroupFragment
+    }
+  }
+  ${GroupFragment}
+`
+
 export const GET_GROUPS = gql`
   query GetGroups {
     groups {
-      ...ClientGroup
+      ...GroupFragment
     }
   }
   ${GroupFragment}
@@ -111,33 +128,11 @@ export const GET_GROUPS = gql`
 export const GET_LESSON = gql`
   query GetLesson($id: ID!) {
     lesson(id: $id) {
-      content
-      contentType
-      createdAt
-      image {
-        location
-        id
-        altText
-        properties
-        title
-      }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      title
-      updatedAt
-      tags {
-        id
-        label
-        tagType
-      }
+      ...LessonFragment
     }
   }
+  ${LessonFragment}
+  
 `
 
 export const GET_LIBRARY_ITEM = gql`

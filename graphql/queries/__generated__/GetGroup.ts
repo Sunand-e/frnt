@@ -19,6 +19,7 @@ export interface GetGroup_group {
   name: string | null;
   updatedAt: any;
   users: GetGroup_group_users[];
+  _deleted: boolean;
 }
 
 export interface GetGroup {

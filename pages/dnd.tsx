@@ -1,6 +1,9 @@
 import PageTitle from "../components/PageTitle"
 // import CourseStructureEditor from "../components/CourseStructureEditor/CourseStructureEditor"
 import { MultipleContainers } from "../components/CourseStructureEditor/MultipleContainers"
+import styles from '../components/CourseStructureEditor/components/Item/Item.module.scss'
+
+import classNames from 'classnames';
 
 const CourseStructure = () => {
 
@@ -53,14 +56,70 @@ const CourseStructure = () => {
     return obj;
   }
 
+  const renderItem = ({
+    dragOverlay,
+    dragging,
+    sorting,
+    index,
+    fadeIn,
+    listeners,
+    ref,
+    style,
+    transform,
+    transition,
+    value
+  }) => {
+    return (
+      <>
+      <li
+          className={classNames(
+            styles.Wrapper,
+            fadeIn && styles.fadeIn,
+            sorting && styles.sorting,
+            dragOverlay && styles.dragOverlay
+          )}
+          style={
+            {
+              transition,
+              '--translate-x': transform
+              ? `${Math.round(transform.x)}px`
+              : undefined,
+              '--translate-y': transform
+              ? `${Math.round(transform.y)}px`
+              : undefined,
+              '--scale-x': transform?.scaleX
+              ? `${transform.scaleX}`
+              : undefined,
+              '--scale-y': transform?.scaleY
+              ? `${transform.scaleY}`
+              : undefined,
+              '--index': index,
+            } as React.CSSProperties
+          }
+          ref={ref}
+        >
+          <div
+
+            style={style}
+            data-cypress="draggable-item"
+            {...listeners}
+            tabIndex={0}
+          >
+            {value}
+          </div>
+        </li>
+      </>
+    )
+  }
 
   return (
     <>
       <PageTitle title="Course Structure" />
       <pre>
-        {JSON.stringify(itemsBySectionId(course.children), null, 2)}
+        {/* {JSON.stringify(itemsBySectionId(course.children), null, 2)} */}
       </pre>
-      <MultipleContainers vertical />
+      <MultipleContainers vertical renderItem={renderItem} />
+      <MultipleContainers vertical  />
       {/* <MultipleContainers items={course.children} vertical /> */}
 
       {/* <CourseStructureEditor course={course} /> */}

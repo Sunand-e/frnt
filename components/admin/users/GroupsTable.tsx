@@ -4,7 +4,7 @@ import Table from '../../Table';
 import { GET_GROUPS, GroupFragment } from '../../../graphql/queries/allQueries';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import Button from '../../Button';
-import { DELETE_GROUP } from '../../../graphql/mutations/allMutations';
+import { DELETE_GROUP } from "../../../graphql/mutations/group/DELETE_GROUP";
 import { client } from '../../../graphql/client';
 import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';

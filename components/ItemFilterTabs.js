@@ -13,10 +13,6 @@ export default function ItemFilterTabs({options, items, tabs}) {
 
   const handleTabClick = tab => {
     setCurrent(tab.name)
-    console.log('items')
-    console.log('items')
-    console.log('items')
-    console.log(items)
     // setVisibleItems(tab.filter(items))
   }
  

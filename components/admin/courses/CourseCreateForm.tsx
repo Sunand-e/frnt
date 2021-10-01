@@ -2,7 +2,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
-import { CREATE_COURSE } from '../../../graphql/mutations/allMutations';
+import { CREATE_COURSE } from "../../../graphql/mutations/course/CREATE_COURSE";
 import TextInput from '../../TextInput';
 import Button from '../../Button';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/__generated__/CreateCourse';
@@ -12,7 +12,7 @@ import CreateForm from '../forms/CreateForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { noticesVar } from '../../../graphql/cache';
-import { GET_COURSE } from '../../../graphql/queries/allQueries';
+import { GET_COURSES } from '../../../graphql/queries/allQueries';
 import CourseEditor from './CourseEditor';
 
 const CourseCreateForm = () => {
@@ -27,10 +27,10 @@ const CourseCreateForm = () => {
       update(cache, { data: { createCourse } } ) {
         // alert(JSON.stringify(createCourse))
         const data = cache.readQuery<GetCourses>({
-          query: GET_COURSE
+          query: GET_COURSES
         })
         cache.writeQuery({
-          query: GET_COURSE,
+          query: GET_COURSES,
           data: { 
             courses: [createCourse.course, ...data.courses]
           }

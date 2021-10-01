@@ -2,7 +2,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
-import { UPDATE_COURSE } from '../../../graphql/mutations/allMutations';
+import { UPDATE_COURSE } from "../../../graphql/mutations/course/UPDATE_COURSE";
 import { UpdateCourse, UpdateCourseVariables } from '../../../graphql/mutations/__generated__/UpdateCourse';
 import TextInput from '../../TextInput';
 import Button from '../../Button';
@@ -12,6 +12,7 @@ import EditForm from '../forms/EditForm';
 import { useRouter } from 'next/router';
 import { noticesVar } from '../../../graphql/cache';
 import { v4 as uuidv4 } from 'uuid';
+import TextInputInlineLabel from '../../TextInputInlineLabel';
 
 const CourseEditForm = ({course}) => {
   
@@ -21,7 +22,7 @@ const CourseEditForm = ({course}) => {
     
     const router = useRouter()
 
-    const backLink = '/admin/ courses'
+    const backLink = '/admin/courses'
 
     const notices = useReactiveVar(noticesVar)
 
@@ -68,17 +69,14 @@ const CourseEditForm = ({course}) => {
       })}
     >
       {formik => (
-        <EditForm 
-          formik={formik}
-          backLink={backLink}
-          entityName={'course'}
-        >
-          <TextInput
+        <Form>
+          <TextInputInlineLabel
             label="Course name"
-            name="name"
+            name="title"
             type="text"
+            placeholder="Untitled course"
           />
-        </EditForm>
+        </Form>
       )}
     </Formik>
   );

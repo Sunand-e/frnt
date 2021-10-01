@@ -1,11 +1,13 @@
 import PageTitle from '../../../components/PageTitle';
 import CourseEditForm from '../../../components/admin/courses/CourseEditForm'
+import CourseStructureEditor from '../../../components/CourseStructureEditor/CourseStructureEditor'
 import { useRouter } from '../../../utils/router'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_COURSE } from '../../../graphql/queries/allQueries';
 import EditorLayout from '../../../components/layouts/EditorLayout'
-import { viewVar } from '../../../graphql/cache';
+import { headerButtonsVar, viewVar } from '../../../graphql/cache';
 import { useEffect } from 'react';
+import Button from '../../../components/Button';
 
 const AdminCoursesEdit = () => {
   /*
@@ -40,12 +42,27 @@ const AdminCoursesEdit = () => {
     }
   },[])
 
+  useEffect(() => {
+    headerButtonsVar(
+      <>
+        <Button onClick={() => router.push('/admin/courses')}>Cancel</Button>
+        <Button>Preview course</Button>
+        <Button>Publish</Button>
+      </>
+    )
+  },[])
+
 
   if(course) {
     return (
       <>
+        {/* <pre>
+          COURSE:
+          {JSON.stringify(course,null,2)}
+        </pre> */}
         <PageTitle title={`Edit Course: ${course?.title}`} />
         <CourseEditForm course={course} />
+        <CourseStructureEditor course={course} />
       </>
     )
   } else {

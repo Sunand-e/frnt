@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import React from 'react';
-import { CREATE_GROUP } from '../../../graphql/mutations/allMutations';
+import { CREATE_GROUP } from "../../../graphql/mutations/group/CREATE_GROUP";
 import TextInput from '../../TextInput';
 import Button from '../../Button';
 import { CreateGroup } from '../../../graphql/mutations/__generated__/CreateGroup';

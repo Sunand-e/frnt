@@ -18,11 +18,6 @@ const LoginForm = () => {
         ...values
       }
     }
-    console.log('data')
-    console.log('data')
-    console.log('data')
-
-    console.log(data)
 
     fetch(ENDPOINT_SIGNIN, {
       method: 'POST', // or 'PUT'

@@ -1,11 +1,13 @@
 import React from 'react';
-import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Container, ContainerProps } from './components';
 import {
   AnimateLayoutChanges,
+  useSortable,
   defaultAnimateLayoutChanges,
 } from '@dnd-kit/sortable';
+
+import NewItemButton from './NewItemButton'
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;
@@ -23,12 +25,12 @@ export function DroppableContainer({
   } = useSortable({
     id,
     data: {
-      type: 'container',
+      type: "container",
     },
     animateLayoutChanges,
   });
   const isOverContainer = over
-    ? (id === over.id && active?.data.current?.type !== 'container') ||
+    ? (id === over.id && active?.data.current?.type !== "container") ||
     items.includes(over.id)
     : false;
 
@@ -50,6 +52,7 @@ export function DroppableContainer({
       {...props}
     >
       {children}
+      { id !== 'placeholder' && <NewItemButton container={id} /> }
     </Container>
   );
 }

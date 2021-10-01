@@ -39,7 +39,6 @@ export interface GetPathways_pathways {
   id: string;
   icon: GetPathways_pathways_icon | null;
   itemType: string;
-  order: number | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

@@ -16,7 +16,7 @@ export interface GetLibraryItem {
   /**
    * Get an library_items based on your conditions or based on id
    */
-  libraryItem: GetLibraryItem_libraryItem[];
+  libraryItem: GetLibraryItem_libraryItem;
 }
 
 export interface GetLibraryItemVariables {
