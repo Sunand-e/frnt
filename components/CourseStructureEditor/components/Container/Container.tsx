@@ -52,7 +52,8 @@ export const Container = forwardRef<HTMLDivElement, Props>(
       id:`ContentItem:${label}`,
       fragment: ContentFragment,
     })
-
+//     console.log('label')
+// console.log(label)
     return (
       <div
         {...props}
@@ -72,13 +73,13 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         //   scrollable && styles.scrollable,
         //   shadow && styles.shadow,
         // )}
-        className={`bg-white shadow overflow-hidden sm:rounded-md`}
+        className={`bg-white shadow overflow-hidden sm:rounded-md mb-4`}
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
         {label ? (
           <div className={styles.Header}>
-            {section.title}
+            {label === 'placeholder' ? label : section.title }
             <div className={styles.Actions}>
               {onRemove ? <Remove onClick={onRemove} /> : undefined}
               <Handle {...handleProps} />

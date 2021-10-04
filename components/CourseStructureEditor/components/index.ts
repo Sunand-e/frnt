@@ -1,4 +1,3 @@
-export {Button} from './Button';
 export {ConfirmModal} from './ConfirmModal';
 export {Container} from './Container';
 export type {ContainerProps} from './Container';

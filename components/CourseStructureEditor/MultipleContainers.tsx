@@ -18,6 +18,7 @@ import {
   useSensors,
   useSensor,
   MeasuringStrategy,
+  PointerSensor,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -63,10 +64,11 @@ interface Props {
   }): React.CSSProperties;
   wrapperStyle?(args: {index: number}): React.CSSProperties;
   itemCount?: number;
-  items?: Items;
-  setItems?: any
-  containers?: any
-  setContainers?: any
+  items: Items;
+  setItems;
+  containers;
+  setContainers;
+  onAddColumn;
   handle?: boolean;
   renderItem?: any;
   strategy?: SortingStrategy;
@@ -87,10 +89,12 @@ export function MultipleContainers({
   cancelDrop,
   columns,
   handle = false,
+  // items: initialItems,
   items,
   setItems,
   containers,
   setContainers,
+  onAddColumn,
   containerStyle,
   getItemStyles = () => ({}),
   wrapperStyle = () => ({}),
@@ -102,11 +106,13 @@ export function MultipleContainers({
   vertical = false,
   scrollable,
 }: Props) {
-
+  // const [items, setItems] = useState<Items>(initialItems);
+  // const [containers, setContainers] = useState(Object.keys(items));
   const [activeId, setActiveId] = useState<string | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
   const isSortingContainer = activeId ? containers.includes(activeId) : false;
+
   // Custom collision detection strategy optimized for multiple containers
   const collisionDetectionStrategy: CollisionDetection = useCallback(
     (args) => {
@@ -170,6 +176,11 @@ export function MultipleContainers({
     useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
     })
   );
   const findContainer = (id: string) => {
@@ -457,7 +468,7 @@ export function MultipleContainers({
   function renderContainerDragOverlay(containerId: string) {
     return (
       <Container
-        label={`Column ${containerId}`}
+        label={`${containerId}`}
         columns={columns}
         style={{
           height: '100%',
@@ -495,6 +506,8 @@ export function MultipleContainers({
   }
 
   function handleAddColumn() {
+    onAddColumn();
+    /*
     const newContainerId = uuidv4();
 
     unstable_batchedUpdates(() => {
@@ -504,6 +517,7 @@ export function MultipleContainers({
         [newContainerId]: [],
       }));
     });
+    */
   }
 }
 

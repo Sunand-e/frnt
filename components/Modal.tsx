@@ -3,6 +3,7 @@ import { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { ModalContext } from '../context/modalContext'
+import { XCircleIcon } from '@heroicons/react/solid'
 
 export default function Modal() {
   const { modalActive, clearModal, modalTitle, closeModal, handleModal, modalButtons, modalContent } = useContext(ModalContext)
@@ -38,7 +39,7 @@ export default function Modal() {
           >
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div className="flex justify-between mb-4">
-                <h1>{modalTitle}</h1><span onClick={closeModal}>X</span>
+                <h1>{modalTitle}</h1><span onClick={closeModal}><XCircleIcon className="fill-current text-main-dark w-8"/></span>
               </div>
               <div>
                 {modalContent}

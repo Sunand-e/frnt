@@ -15,7 +15,7 @@ const AddItemToCourseModal = ({sectionId}) => {
   
   const handleNewLessonButton = () => {
     handleModal({
-      title: `Add new lesson`,
+      title: `Lesson name:`,
       content: <AddLessonModalForm sectionId={sectionId} />
     })
   }

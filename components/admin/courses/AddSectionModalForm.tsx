@@ -4,12 +4,12 @@ import React, { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { noticesVar } from '../../../graphql/cache';
-import { CourseFragment, GET_COURSE, SectionFragment } from "../../../graphql/queries/allQueries";
+import { GET_COURSE, CourseFragment } from "../../../graphql/queries/allQueries";
 import { ModalContext } from '../../../context/modalContext';
 import LoadingSpinner from '../../LoadingSpinner';
-import { CreateLesson, CreateLessonVariables } from '../../../graphql/mutations/lesson/__generated__/CreateLesson';
-import { CREATE_LESSON } from '../../../graphql/mutations/lesson/CREATE_LESSON';
-import { GetSection, GetSection_section } from '../../../graphql/queries/__generated__/GetSection';
+import { CreateSection, CreateSectionVariables } from '../../../graphql/mutations/section/__generated__/CreateSection';
+import { CREATE_SECTION } from '../../../graphql/mutations/section/CREATE_SECTION';
+import { GetCourse, GetCourse_course } from '../../../graphql/queries/__generated__/GetCourse';
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -23,7 +23,7 @@ const TextInput = ({ label, ...props }) => {
     </>
   )
 }
-const AddLessonModalForm = ({sectionId}) => {
+const AddSectionModalForm = ({courseId}) => {
 
   const { handleModal, closeModal } = useContext(ModalContext);
   
@@ -34,42 +34,47 @@ const AddLessonModalForm = ({sectionId}) => {
     closeModal()
   }
   
-  const [createLesson, newLesson] = useMutation<CreateLesson, CreateLessonVariables>(
-    CREATE_LESSON,
+  const [createSection, newSection] = useMutation<CreateSection, CreateSectionVariables>(
+    CREATE_SECTION,
     {
-      update(cache, { data: { createLesson } } ) {
-        const sectionData = cache.readFragment<GetSection>({
-          id:`ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment'
+      update(cache, { data: { createSection } } ) {
+        console.log('run theipdatefunction')
+        const courseData = cache.readFragment<GetCourse_course>({
+          id:`ContentItem:${courseId}`,
+          fragment: CourseFragment,
+          fragmentName: 'CourseFragment'
         })
-
-        const newSectionData = {
-          ...sectionData,
-          children: [...sectionData.children, createLesson.lesson]
+        
+        console.log('courseData')
+        console.log(courseData)
+        const newCourseData = {
+          ...courseData,
+          sections: [...courseData.sections, createSection.section]
         }
-
-        cache.writeFragment<GetSection_section>({
-          id:`ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment',
-          data: newSectionData
+        
+        console.log('run writethenewcoursedata')
+        console.log(newCourseData)
+        cache.writeFragment<GetCourse_course>({
+          id:`ContentItem:${courseId}`,
+          fragment: CourseFragment,
+          fragmentName: 'CourseFragment',
+          data: newCourseData
         })
       },
  
     }
   );
 
-  const handleNewLesson = (values) => {
-    createLesson({
+  const handleNewSection = (values) => {
+    createSection({
       variables: {
         title: values.title,
-        parentIds: [sectionId]        
+        parentIds: [courseId]        
       },
       // optimisticResponse: {
-      //   createLesson: {
-      //     __typename: 'CreateLessonPayload',
-      //     lesson: {
+      //   createSection: {
+      //     __typename: 'CreateSectionPayload',
+      //     section: {
       //       __typename: 'ContentItem',
       //       id: Math.floor(Math.random() * 10000) + '',
       //       title: values.title,
@@ -77,7 +82,7 @@ const AddLessonModalForm = ({sectionId}) => {
       //       updatedAt: '',
       //       content: {},
       //       contentType: null,
-      //       itemType: 'lesson',
+      //       itemType: 'section',
       //       image: null,
       //       icon: null,
       //       prerequisites: null,
@@ -98,7 +103,7 @@ const AddLessonModalForm = ({sectionId}) => {
       initialValues={{
         title: ''
       }}
-      onSubmit={values => handleNewLesson(values)}
+      onSubmit={values => handleNewSection(values)}
     >
       
       {formik => (
@@ -106,10 +111,10 @@ const AddLessonModalForm = ({sectionId}) => {
           <TextInput
             name='title'
             label=""
-            placeholder='Untitled lesson'
+            placeholder='Untitled section'
           />
           <button type="submit" className={'mt-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-main text-base font-medium text-white hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm'}>
-            {`Create new lesson`}
+            {`Create new section`}
           </button>
         </Form>
       )}
@@ -117,4 +122,4 @@ const AddLessonModalForm = ({sectionId}) => {
   );
 }
 
-export default AddLessonModalForm
+export default AddSectionModalForm

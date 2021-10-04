@@ -7,6 +7,13 @@ import { hardcodedCourseData } from './hardcodedCourseData'
 import cache from "../../graphql/cache"
 import { ContentFragment } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
+import Button from "../Button"
+import DeleteLessonModalForm from "../admin/courses/DeleteLessonModalForm"
+import { BookOpenIcon } from "@heroicons/react/outline"
+
+import dayjs from 'dayjs'
+import AddSectionModalForm from "../admin/courses/AddSectionModalForm"
+
 
 type Items = Record<string, string[]>;
 
@@ -20,24 +27,76 @@ const itemIdsBySectionId = (mainArray) => {
   return obj
 }
 
+const filterDeletedCourseItems = (course) => {
+  console.log('FILTERING')
+  return {
+    ...course,
+    sections: course.sections.filter(section => !section._deleted).map(section => {
+      return {
+        ...section,
+        children: section.children.filter(item => !item._deleted)
+      }
+    })
+  }
+}
+
 const CourseStructureEditor = ({course}) => {
-  // const course = useState()  
-  const courseItems = itemIdsBySectionId(course.sections)
+  // const course = useState()
+  const courseItems = itemIdsBySectionId(
+    filterDeletedCourseItems(course).sections
+  )
 
-  const [items, setItems] = useState<Items>(courseItems);
-  const [containers, setContainers] = useState(Object.keys(items));
+  console.log('courseItems',courseItems)
 
-  useEffect(() => {
-    if(course?.sections[0]) {
-      course.sections[0].children.map(lesson => {
-        const item = cache.readFragment<ContentFragmentType>({
-          id:`ContentItem:${lesson.id}`,
-          fragment: ContentFragment,
-        })
-      })
-      setItems(itemIdsBySectionId(course.sections))
+  const setSections = (containers) => {
+    if (typeof containers === 'function') {
+      console.log('setsections was passed a function')
+    } else {
+      console.log('setsections was passed an object')
     }
-  },[course])
+  }
+
+  const addSection = () => {
+    console.log('add section was clicked')
+  }
+    
+  const sections = Object.keys(courseItems)
+console.log('sections')
+console.log(sections)
+  const setItems = (items) => {
+    return {}
+  }
+  // const [items, setItems] = useState<Items>(courseItems);
+
+  const { handleModal, closeModal } = useContext(ModalContext);
+
+  // useEffect(() => {
+  //   setItems(itemIdsBySectionId(filterDeletedCourseItems(course).sections))
+  // },[course])
+
+  const handleDeleteModal = (value) => {
+    console.log('AAAAAAAAAAAAAAAAAAAAA')
+    handleModal({
+      title: `Delete lesson`,
+      content: <DeleteLessonModalForm lessonId={value} />
+    })
+  }
+
+  const handleDeleteSectionModal = (value) => {
+    console.log('AAAAAAAAAAAAAAAAAAAAA')
+    handleModal({
+      title: `Delete lesson`,
+      content: <DeleteLessonModalForm lessonId={value} />
+    })
+  }
+
+  const handleAddSectionModal = (value) => {
+    console.log('AAAAAAAAAAAAAAAAAAAAA')
+    handleModal({
+      title: `Section name:`,
+      content: <AddSectionModalForm courseId={course.id} />
+    })
+  }
 
   const renderItem = ({
     dragOverlay,
@@ -57,6 +116,8 @@ const CourseStructureEditor = ({course}) => {
       id:`ContentItem:${value}`,
       fragment: ContentFragment,
     })
+
+    const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
     // return <a>dsa</a>
     return (
       <>
@@ -89,30 +150,27 @@ const CourseStructureEditor = ({course}) => {
           ref={ref}
         >
           <div
-            className='flex items-center px-4 py-4 sm:px-6'
+            className='flex items-center w-full px-4 py-4 sm:px-6'
             style={style}
             data-cypress="draggable-item"
             {...listeners}
             tabIndex={0}
           >
             <div className="min-w-0 flex-1 flex items-center">
-              <div className="flex-shrink-0">
-                <img className="h-12 w-12 rounded-full" src="/pic-photo.avif" alt="" />
+              <div className="flex-shrink-0 w-8 bg-main-dark text-white p-1 rounded-full align-top">
+                <BookOpenIcon />
               </div>
-              <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                <div>
-                  <p className="text-sm font-medium text-indigo-600 truncate">{item.title}</p>
-                </div>
+              <div className="min-w-0 flex-0 px-4 md:grid md:grid-cols-2 md:gap-4 items-center">
+                <span className="text-sm font-medium text-indigo-600">{item.title}</span>
                 <div className="hidden md:block">
-                  <div>
-                    <p className="text-sm text-gray-900">
-                      Applied on <time dateTime={Date.now().toString()}>{Date.now().toString()}</time>
-                    </p>
-                    <p className="mt-2 flex items-center text-sm text-gray-500">
-                      Final block
-                    </p>
-                  </div>
+                  <span className="text-sm text-gray-900">
+                    Last edited: <time dateTime={item.updatedAt}>{updatedDate}</time>
+                  </span>
                 </div>
+              </div>
+              <div className="ml-auto flex space-x-2">
+                <Button>Edit</Button>
+                <Button onClick={() => handleDeleteModal(value)}>Delete</Button>
               </div>
             </div>
           </div>
@@ -121,15 +179,27 @@ const CourseStructureEditor = ({course}) => {
     )
   }
 
+  const handleSectionsChange = (containers) => {
+    console.log('containers changed!!!')
+    console.log('containers', containers)
+  }
+
+  const handleItemsChange = (items) => {
+    console.log('items changed!!!')
+    console.log('items', items)
+  }
+
   return (
     <>
       <MultipleContainers 
         vertical
         renderItem={renderItem}
-        items={items}
+        items={courseItems}
         setItems={setItems}
-        containers={containers}
-        setContainers={setContainers}
+        containers={sections}
+        setContainers={setSections}
+        onAddColumn={handleAddSectionModal}
+
       />
       <button
         type="button"

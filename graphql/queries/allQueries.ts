@@ -25,9 +25,30 @@ export const ContentFragment = gql`
     _deleted @client
   }
 `
+export const LessonFragment = gql`
+  fragment LessonFragment on ContentItem {
+    ...ContentFragment
+  }
+  ${ContentFragment}
+`
+export const SectionFragment = gql`
+  fragment SectionFragment on ContentItem {
+    ...ContentFragment
+    parents {
+      id
+    }
+    children {
+      ...ContentFragment
+    }
+  }
+  ${ContentFragment}
+`
 export const CourseFragment = gql`
   fragment CourseFragment on ContentItem {
     ...ContentFragment
+    sections {
+      ...SectionFragment
+    }
     tags {
       id
       label
@@ -35,22 +56,7 @@ export const CourseFragment = gql`
     }
   }
   ${ContentFragment}
-`
-
-export const SectionFragment = gql`
-  fragment SectionFragment on ContentItem {
-    ...ContentFragment
-    children {
-      ...ContentFragment
-    }
-  }
-  ${ContentFragment}
-`
-export const LessonFragment = gql`
-  fragment LessonFragment on ContentItem {
-    ...ContentFragment
-  }
-  ${ContentFragment}
+  ${SectionFragment}
 `
 export const GET_COURSE = gql`
   query GetCourse($id: ID!) {
