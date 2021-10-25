@@ -34,9 +34,9 @@ export const LessonFragment = gql`
 export const SectionFragment = gql`
   fragment SectionFragment on ContentItem {
     ...ContentFragment
-    parents {
-      id
-    }
+    # parents {
+    #   id
+    # }
     children {
       ...ContentFragment
     }

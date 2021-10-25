@@ -39,6 +39,7 @@ const DeleteLessonModalForm = ({lessonId}) => {
           id: `ContentItem:${lessonId}`,
           fragment: LessonFragment,
           fragmentName: 'LessonFragment',
+          // optimistic: true,
         });
         // Then, we update it.
         if (lesson) {
@@ -76,26 +77,27 @@ const DeleteLessonModalForm = ({lessonId}) => {
       variables: {
         id: value
       },
-      // optimisticResponse: {
-      //   deleteLesson: {
-      //     __typename: 'DeleteLessonPayload',
-      //     lesson: {
-      //       __typename: 'ContentItem',
-      //       id: Math.floor(Math.random() * 10000) + '',
-      //       title: values.title,
-      //       deletedAt: '',
-      //       updatedAt: '',
-      //       content: {},
-      //       contentType: null,
-      //       itemType: 'lesson',
-      //       image: null,
-      //       icon: null,
-      //       prerequisites: null,
-      //       _deleted: false,
-      //     },
-      //     message: ''
-      //   }
-      // }
+      
+      optimisticResponse: {
+        deleteLesson: {
+          __typename: 'DeleteLessonPayload',
+          lesson: {
+            __typename: 'ContentItem',
+            id: Math.floor(Math.random() * 10000) + '',
+            title: '',
+            deletedAt: '',
+            updatedAt: '',
+            content: {},
+            contentType: null,
+            itemType: 'lesson',
+            image: null,
+            icon: null,
+            prerequisites: null,
+            _deleted: false,
+          },
+          message: ''
+        }
+      }
       // refetchQueries: [{ query: GET_COURSE }]
     }).catch(res => {
       // TODO: do something if there is an error!!
@@ -104,7 +106,10 @@ const DeleteLessonModalForm = ({lessonId}) => {
   }
 
   return (
-    <Button onClick={() => handleDeleteLesson(lessonId)}>B</Button>
+    <>
+    <p>Are you sure you want to delete this lesson?</p>
+    <Button onClick={() => handleDeleteLesson(lessonId)}>Delete lesson</Button>
+    </>
   );
 }
 

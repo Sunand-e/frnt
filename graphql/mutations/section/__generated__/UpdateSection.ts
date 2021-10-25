@@ -84,5 +84,6 @@ export interface UpdateSectionVariables {
   title?: string | null;
   content?: any | null;
   childrenIds?: any | null;
+  childrenReorder?: any | null;
   prerequisites?: any | null;
 }

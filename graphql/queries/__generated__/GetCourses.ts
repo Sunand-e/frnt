@@ -23,6 +23,69 @@ export interface GetCourses_courses_icon {
   id: string;
 }
 
+export interface GetCourses_courses_sections_image {
+  __typename: "Image";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
+export interface GetCourses_courses_sections_icon {
+  __typename: "Icon";
+  provider: string | null;
+  properties: any | null;
+  id: string;
+}
+
+export interface GetCourses_courses_sections_children_image {
+  __typename: "Image";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
+export interface GetCourses_courses_sections_children_icon {
+  __typename: "Icon";
+  provider: string | null;
+  properties: any | null;
+  id: string;
+}
+
+export interface GetCourses_courses_sections_children {
+  __typename: "ContentItem";
+  content: any | null;
+  contentType: string | null;
+  createdAt: any;
+  image: GetCourses_courses_sections_children_image | null;
+  id: string;
+  icon: GetCourses_courses_sections_children_icon | null;
+  itemType: string;
+  prerequisites: any | null;
+  title: string | null;
+  updatedAt: any;
+  _deleted: boolean;
+}
+
+export interface GetCourses_courses_sections {
+  __typename: "ContentItem";
+  content: any | null;
+  contentType: string | null;
+  createdAt: any;
+  image: GetCourses_courses_sections_image | null;
+  id: string;
+  icon: GetCourses_courses_sections_icon | null;
+  itemType: string;
+  prerequisites: any | null;
+  title: string | null;
+  updatedAt: any;
+  _deleted: boolean;
+  children: GetCourses_courses_sections_children[] | null;
+}
+
 export interface GetCourses_courses_tags {
   __typename: "Tag";
   id: string;
@@ -43,6 +106,7 @@ export interface GetCourses_courses {
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
+  sections: GetCourses_courses_sections[] | null;
   tags: GetCourses_courses_tags[] | null;
 }
 

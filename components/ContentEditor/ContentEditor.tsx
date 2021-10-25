@@ -108,8 +108,9 @@ const options = createPlateOptions({
   // customize your options by plugin key
 })
 
-const ContentEditor = () => {
-  
+const ContentEditor = ({content, onChange}) => {
+  console.log('content')
+  console.log(content)
   const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin()
   const { getMentionSelectProps, plugin: mentionPlugin } = useMentionPlugin(
     optionsMentionPlugin
@@ -173,12 +174,13 @@ const ContentEditor = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Plate
+        onChange={onChange}
         id={id}
         plugins={pluginsMemo}
         components={components}
         options={options}
         editableProps={editableProps}
-        initialValue={initialValuePlayground}
+        initialValue={content?.blocks}
       >
         <ToolbarSearchHighlight icon={Search} setSearch={setSearch} />
         <HeadingToolbar>
@@ -191,16 +193,6 @@ const ContentEditor = () => {
           {...getMentionSelectProps()}
           renderLabel={renderMentionLabel}
         />
-      </Plate>
-      <Plate
-        id="ds"
-        plugins={pluginsMemo}
-        components={components}
-        options={options}
-        editableProps={editableProps}
-        initialValue={initialValuePlayground}
-      >
-
       </Plate>
     </DndProvider>
   )

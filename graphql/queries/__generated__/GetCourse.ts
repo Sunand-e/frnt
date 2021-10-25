@@ -23,13 +23,6 @@ export interface GetCourse_course_icon {
   id: string;
 }
 
-export interface GetCourse_course_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface GetCourse_course_sections_image {
   __typename: "Image";
   location: string | null;
@@ -93,6 +86,13 @@ export interface GetCourse_course_sections {
   children: GetCourse_course_sections_children[] | null;
 }
 
+export interface GetCourse_course_tags {
+  __typename: "Tag";
+  id: string;
+  label: string;
+  tagType: string;
+}
+
 export interface GetCourse_course {
   __typename: "ContentItem";
   content: any | null;
@@ -106,8 +106,8 @@ export interface GetCourse_course {
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
-  tags: GetCourse_course_tags[] | null;
   sections: GetCourse_course_sections[] | null;
+  tags: GetCourse_course_tags[] | null;
 }
 
 export interface GetCourse {

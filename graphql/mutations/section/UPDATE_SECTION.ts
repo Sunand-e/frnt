@@ -8,6 +8,7 @@ export const UPDATE_SECTION = gql`
     $title: String,
     $content: JSON,
     $childrenIds: JSON,
+    $childrenReorder: JSON,
     $prerequisites: JSON
   ) {
     updateSection(
@@ -16,6 +17,7 @@ export const UPDATE_SECTION = gql`
         title: $title,
         content: $content,
         childrenIds: $childrenIds,
+        childrenReorder: $childrenReorder,
         prerequisites: $prerequisites
       }
     ) {

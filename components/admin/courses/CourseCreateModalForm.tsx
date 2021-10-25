@@ -41,15 +41,15 @@ const CourseCreateModalForm = () => {
     closeModal()
   }
   
-  const [createSection, newSection] = useMutation<CreateSection, CreateSectionVariables>(
-    CREATE_SECTION,
-    {
-      onCompleted({createSection}) {
-        const {id: courseId} = newCourse.data.createCourse.course
-        router.push(`/admin/courses/edit?id=${courseId}`)
-      }
-    }
-  );
+  // const [createSection, newSection] = useMutation<CreateSection, CreateSectionVariables>(
+  //   CREATE_SECTION,
+  //   {
+  //     onCompleted({createSection}) {
+  //       const {id: courseId} = newCourse.data.createCourse.course
+  //       router.push(`/admin/courses/edit?id=${courseId}`)
+  //     }
+  //   }
+  // );
 
   const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,
@@ -70,6 +70,7 @@ const CourseCreateModalForm = () => {
       },
 
       // When we get the real course ID from the server, create a section for the course
+/*
       onCompleted({createCourse}) {
         
         const {id} = createCourse.course
@@ -111,6 +112,7 @@ const CourseCreateModalForm = () => {
           // TODO: do something if there is an error!!
         })
       }
+      */
     }
   );
 
@@ -122,7 +124,12 @@ const CourseCreateModalForm = () => {
       }}
       onSubmit={values => {
         createCourse({
-          variables: { title: values.title },
+          variables: { 
+            title: values.title,
+            sections: [{
+              title: "Section 1"
+            }]
+          },
           optimisticResponse: {
             createCourse: {
               __typename: 'CreateCoursePayload',
@@ -139,6 +146,21 @@ const CourseCreateModalForm = () => {
                 icon: null,
                 prerequisites: null,
                 tags: [],
+                sections: [{
+                  __typename: 'ContentItem',
+                  itemType: 'section',
+                  id: uuidv4(),
+                  title: 'Section 1',
+                  createdAt: '',
+                  updatedAt: '',
+                  content: {},
+                  contentType: null,
+                  image: null,
+                  icon: null,
+                  prerequisites: null,
+                  _deleted: false,
+                  children: [],
+                }],
                 _deleted: false,
               },
               message: ''

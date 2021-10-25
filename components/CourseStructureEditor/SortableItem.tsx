@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { Item } from './components';
-import { SortableItemProps, useMountStatus, getColor } from './MultipleContainers';
+import { SortableItemProps, useMountStatus } from './MultipleContainers';
 
 export function SortableItem({
   disabled, id, index, handle, renderItem, style, containerId, getIndex, wrapperStyle,
@@ -31,7 +31,6 @@ export function SortableItem({
         overIndex: over ? getIndex(over.id) : overIndex,
         containerId,
       })}
-      color={getColor(id)}
       transition={transition}
       transform={transform}
       fadeIn={mountedWhileDragging}

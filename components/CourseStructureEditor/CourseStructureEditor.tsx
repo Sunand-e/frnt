@@ -1,18 +1,29 @@
 import { MultipleContainers } from "./MultipleContainers"
+import { useMutation } from '@apollo/client';
 import styles from './components/Item/Item.module.scss'
 import classNames from 'classnames'
 import { useContext, useEffect, useState } from "react"
 import { ModalContext } from "../../context/modalContext"
-import { hardcodedCourseData } from './hardcodedCourseData'
+import { UpdateSection, UpdateSectionVariables } from '../../graphql/mutations/section/__generated__/UpdateSection';
+import { UpdateCourse, UpdateCourseVariables } from '../../graphql/mutations/course/__generated__/UpdateCourse';
+import { UPDATE_SECTION } from '../../graphql/mutations/section/UPDATE_SECTION';
 import cache from "../../graphql/cache"
-import { ContentFragment } from "../../graphql/queries/allQueries"
+import { ContentFragment, CourseFragment, GET_SECTION, SectionFragment } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
+import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
+import { SectionFragment as SectionFragmentType } from '../../graphql/queries/__generated__/SectionFragment';
+import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
 import Button from "../Button"
 import DeleteLessonModalForm from "../admin/courses/DeleteLessonModalForm"
 import { BookOpenIcon } from "@heroicons/react/outline"
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 import dayjs from 'dayjs'
 import AddSectionModalForm from "../admin/courses/AddSectionModalForm"
+import DeleteSectionModalForm from "../admin/courses/DeleteSectionModalForm";
+import NewSectionButton from "./NewSectionButton";
+import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE";
+import router from "next/router";
 
 
 type Items = Record<string, string[]>;
@@ -27,11 +38,15 @@ const itemIdsBySectionId = (mainArray) => {
   return obj
 }
 
+
 const filterDeletedCourseItems = (course) => {
-  console.log('FILTERING')
+  // console.log('FILTERING')
+
   return {
     ...course,
     sections: course.sections.filter(section => !section._deleted).map(section => {
+      // console.log('sectoiion.children')
+      // console.log(section.children)
       return {
         ...section,
         children: section.children.filter(item => !item._deleted)
@@ -41,31 +56,170 @@ const filterDeletedCourseItems = (course) => {
 }
 
 const CourseStructureEditor = ({course}) => {
-  // const course = useState()
-  const courseItems = itemIdsBySectionId(
-    filterDeletedCourseItems(course).sections
+
+  
+  const [courseItems, setCourseItems] = useState(
+    itemIdsBySectionId(
+      filterDeletedCourseItems(course).sections
+    )
   )
 
-  console.log('courseItems',courseItems)
+  const [itemsBeforeDrag, setItemsBeforeDrag] = useState(courseItems);
 
-  const setSections = (containers) => {
-    if (typeof containers === 'function') {
-      console.log('setsections was passed a function')
+  const [courseSections, setCourseSections] = useState(
+    Object.keys(courseItems)
+  )
+  
+  const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(
+    UPDATE_COURSE,
+    {
+      update(cache, { data: { updateCourse } } ) {
+      },
+    }
+  )
+  
+
+  const [updateSection, sectionData] = useMutation<UpdateSection, UpdateSectionVariables>(
+    UPDATE_SECTION,
+    {
+      update(cache, { data: { updateSection } } ) {
+        // const sectionData = cache.readFragment<GetSection>({
+        //   id:`ContentItem:${sectionId}`,
+        //   fragment: SectionFragment,
+        //   fragmentName: 'SectionFragment'
+        // })
+
+        // const newSectionData = {
+        //   ...sectionData,
+        //   children: [...sectionData.children, createLesson.lesson]
+        // }
+
+        // cache.writeFragment<GetSection_section>({
+        //   id:`ContentItem:${sectionId}`,
+        //   fragment: SectionFragment,
+        //   fragmentName: 'SectionFragment',
+        //   data: newSectionData
+        // })
+      },
+    }
+  )
+
+  
+  const handleReorderSectionChildren = (newItems) => {
+
+    console.log('REORDERING SECTION CHILDREN')
+
+    for(const section in newItems) {
+
+      const oldChildrenIds = itemsBeforeDrag[section];
+      const newChildrenIds = newItems[section];
+      if(
+        // section !== 'newContainerId' &&
+        oldChildrenIds.length === newChildrenIds.length &&
+        oldChildrenIds.every((v, i) => v === newChildrenIds[i])
+      ) {
+        // console.log(`Section children order matches`);
+      } else {
+
+        const cachedSection = cache.readFragment<SectionFragmentType>({
+          id:`ContentItem:${section}`,
+          fragment: SectionFragment,
+          fragmentName: 'SectionFragment',
+        })
+
+        const newChildrenData = newChildrenIds.map(id => {
+          return cache.readFragment<ContentFragmentType>({
+            id:`ContentItem:${id}`,
+            fragment: ContentFragment,
+          })
+        })
+
+        updateSection({
+          variables: {
+            id: section,
+            childrenIds: newChildrenIds
+          },
+          optimisticResponse: {
+            updateSection: {
+              __typename: 'UpdateSectionPayload',
+              section: {
+                ...cachedSection,
+                children: newChildrenData
+              },
+            }
+          }
+        }).catch(res => {
+          // TODO: do something if there is an error!!
+        })
+      }
+    }
+
+  }
+  
+  const handleReorderSections = (newSectionIds) => {
+    console.log('newSectionIds')
+    console.log(newSectionIds)
+    const newSectionData = newSectionIds.map(id => {
+      return cache.readFragment<SectionFragmentType>({
+        id:`ContentItem:${id}`,
+        fragment: SectionFragment,
+        fragmentName: 'SectionFragment',
+      })
+    })
+    console.log("update that RUDDY COURSE")
+    updateCourse({
+      variables: {
+        id: course.id,
+        childrenIds: newSectionIds
+      },
+      optimisticResponse: {
+        updateCourse: {
+          __typename: 'UpdateCoursePayload',
+          course: {
+            ...course,
+            sections: newSectionData
+          },
+        }
+      }
+    }).catch(res => {
+      // TODO: do something if there is an error!!
+    })
+  }
+
+  const handleDragItemEnd = (items) => {
+    handleReorderSectionChildren(items)
+  }
+  const handleDragSectionEnd = (containers) => {
+    handleReorderSections(containers)
+  }
+
+  useEffect(() => {
+    const newItemsObject = itemIdsBySectionId(
+      filterDeletedCourseItems(course).sections
+    )
+
+    setCourseItems(newItemsObject)
+    setCourseSections(Object.keys(newItemsObject))
+
+  },[course])
+
+  /* Can probably get rid of the setSections and setItems declarations????*/
+  const setSections = (sections) => {
+    if (typeof sections === 'function') {
+      setCourseSections(sections(courseSections))
     } else {
-      console.log('setsections was passed an object')
+      setCourseSections(courseSections)
     }
   }
 
-  const addSection = () => {
-    console.log('add section was clicked')
-  }
-    
-  const sections = Object.keys(courseItems)
-console.log('sections')
-console.log(sections)
   const setItems = (items) => {
-    return {}
+    if (typeof items === 'function') {
+      setCourseItems(items(courseItems))
+    } else {
+      setCourseItems(courseItems)
+    }
   }
+
   // const [items, setItems] = useState<Items>(courseItems);
 
   const { handleModal, closeModal } = useContext(ModalContext);
@@ -75,7 +229,6 @@ console.log(sections)
   // },[course])
 
   const handleDeleteModal = (value) => {
-    console.log('AAAAAAAAAAAAAAAAAAAAA')
     handleModal({
       title: `Delete lesson`,
       content: <DeleteLessonModalForm lessonId={value} />
@@ -83,15 +236,13 @@ console.log(sections)
   }
 
   const handleDeleteSectionModal = (value) => {
-    console.log('AAAAAAAAAAAAAAAAAAAAA')
     handleModal({
       title: `Delete lesson`,
-      content: <DeleteLessonModalForm lessonId={value} />
+      content: <DeleteSectionModalForm sectionId={value} />
     })
   }
 
-  const handleAddSectionModal = (value) => {
-    console.log('AAAAAAAAAAAAAAAAAAAAA')
+  const handleAddSectionModal = () => {
     handleModal({
       title: `Section name:`,
       content: <AddSectionModalForm courseId={course.id} />
@@ -156,7 +307,7 @@ console.log(sections)
             {...listeners}
             tabIndex={0}
           >
-            <div className="min-w-0 flex-1 flex items-center">
+            <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>
               <div className="flex-shrink-0 w-8 bg-main-dark text-white p-1 rounded-full align-top">
                 <BookOpenIcon />
               </div>
@@ -168,9 +319,10 @@ console.log(sections)
                   </span>
                 </div>
               </div>
+
               <div className="ml-auto flex space-x-2">
-                <Button>Edit</Button>
-                <Button onClick={() => handleDeleteModal(value)}>Delete</Button>
+                <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button>
+                <Button onClick={() => handleDeleteModal(item.id)}>Delete</Button>
               </div>
             </div>
           </div>
@@ -196,22 +348,19 @@ console.log(sections)
         renderItem={renderItem}
         items={courseItems}
         setItems={setItems}
-        containers={sections}
+        clonedItems={itemsBeforeDrag}
+        setClonedItems={setItemsBeforeDrag}
+        containers={courseSections}
         setContainers={setSections}
-        onAddColumn={handleAddSectionModal}
-
+        // onAddColumn={handleAddSectionModal}
+        modifiers={[restrictToVerticalAxis]}
+        onRemoveContainer={handleDeleteSectionModal}
+        onDragContainerEnd={handleDragSectionEnd}
+        onDragItemEnd={handleDragItemEnd}
       />
-      <button
-        type="button"
-        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-grey-dark text-base font-medium text-white hover:bg-grey focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm"
-        // onClick={() => createCourse()}
-        >
-        New Section
-      </button>
-      {/* <pre>
-        {JSON.stringify(course.sections,null,2)}
-        {JSON.stringify(itemIdsBySectionId(course.sections), null, 2)}
-      </pre> */}
+      <NewSectionButton
+        onClick={() => handleAddSectionModal()}
+      />
     </>
   )
 }

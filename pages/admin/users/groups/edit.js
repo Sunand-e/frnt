@@ -22,7 +22,6 @@ const AdminUsersGroupsEdit = () => {
     }
   );
 
-
   if(group) {
     return (
       <>
