@@ -1,201 +1,100 @@
-import {
-  ELEMENT_IMAGE,
-  ELEMENT_PARAGRAPH,
-  createPlateComponents,
-  createPlateOptions,
-  HeadingToolbar,
-  MentionSelect,
-  PlatePlugin,
-  Plate,
-  ToolbarSearchHighlight,
-  createAlignPlugin,
-  createAutoformatPlugin,
-  createBlockquotePlugin,
-  createBoldPlugin,
-  createCodeBlockPlugin,
-  createCodePlugin,
-  createExitBreakPlugin,
-  createHeadingPlugin,
-  createHighlightPlugin,
-  createHistoryPlugin,
-  createKbdPlugin,
-  createImagePlugin,
-  createItalicPlugin,
-  createLinkPlugin,
-  createListPlugin,
-  createMediaEmbedPlugin,
-  createNodeIdPlugin,
-  createParagraphPlugin,
-  createReactPlugin,
-  createResetNodePlugin,
-  createSelectOnBackspacePlugin,
-  createSoftBreakPlugin,
-  createDndPlugin,
-  createStrikethroughPlugin,
-  createSubscriptPlugin,
-  createSuperscriptPlugin,
-  createTablePlugin,
-  createTodoListPlugin,
-  createTrailingBlockPlugin,
-  createUnderlinePlugin,
-  createDeserializeHTMLPlugin,
-  useFindReplacePlugin,
-  useMentionPlugin,
-  withProps,
-  MentionElement,
-  ELEMENT_MENTION,
-  SPEditor,
-  MARK_COLOR,
-  withStyledProps,
-  StyledLeaf,
-  MARK_BG_COLOR,
-  createFontColorPlugin,
-  createFontBackgroundColorPlugin,
-  createDeserializeMDPlugin,
-  createDeserializeCSVPlugin,
-  createDeserializeAstPlugin,
-} from '@udecode/plate'
-import {
-  createExcalidrawPlugin,
-  ELEMENT_EXCALIDRAW,
-  ExcalidrawElement,
-} from '@udecode/plate-excalidraw'
-import { initialValuePlayground } from './config/initialValues'
-import {
-  editableProps,
-  optionsExitBreakPlugin,
-  optionsMentionPlugin,
-  optionsResetBlockTypePlugin,
-  optionsSoftBreakPlugin,
-  optionsAutoformat,
-} from './config/pluginOptions'
-import { renderMentionLabel } from './config/renderMentionLabel'
-import { BallonToolbarMarks, ToolbarButtons } from './config/Toolbars'
-import { withStyledPlaceHolders } from './config/withStyledPlaceHolders'
-import { withStyledDraggables } from './config/withStyledDraggables'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Search } from '@styled-icons/material-rounded/Search'
-import { HistoryEditor } from 'slate-history'
-import { ReactEditor } from 'slate-react'
-import { useMemo } from 'react'
-
-type TEditor = SPEditor & ReactEditor & HistoryEditor
-
-const id = 'ContentEditor'
-
-let components = createPlateComponents({
-  [ELEMENT_MENTION]: withProps(MentionElement, {
-    renderLabel: renderMentionLabel,
-  }),
-  [ELEMENT_EXCALIDRAW]: ExcalidrawElement,
-  [MARK_COLOR]: withStyledProps(StyledLeaf, {
-    leafProps: {
-      [MARK_COLOR]: ['color'],
-    },
-  }),
-  [MARK_BG_COLOR]: withStyledProps(StyledLeaf, {
-    leafProps: {
-      [MARK_BG_COLOR]: ['backgroundColor'],
-    },
-  }),
-  // customize your components by plugin key
-})
-components = withStyledPlaceHolders(components)
-components = withStyledDraggables(components)
-
-const options = createPlateOptions({
-  // customize your options by plugin key
-})
+import { createPlateComponents, createPlateOptions } from "@udecode/plate";
+import { createBoldPlugin, createCodePlugin, createItalicPlugin, createStrikethroughPlugin, createUnderlinePlugin, MARK_BOLD, MARK_ITALIC, MARK_UNDERLINE } from "@udecode/plate-basic-marks";
+import { createBlockquotePlugin, ELEMENT_BLOCKQUOTE } from "@udecode/plate-block-quote";
+import { createCodeBlockPlugin, ELEMENT_CODE_BLOCK, ELEMENT_CODE_LINE } from "@udecode/plate-code-block";
+import { createHistoryPlugin, createReactPlugin, Plate, useStoreEditorState } from "@udecode/plate-core";
+import { createHeadingPlugin, ELEMENT_H1, ELEMENT_H2, ELEMENT_H3, ELEMENT_H4, ELEMENT_H5, ELEMENT_H6 } from "@udecode/plate-heading";
+import { createParagraphPlugin, ELEMENT_PARAGRAPH } from "@udecode/plate-paragraph";
+import { createEditor } from "@udecode/plate-test-utils";
+import { useState } from "react";
+import { Transforms } from "slate";
+import { CONFIG } from "./config/config";
+import { VALUES } from "./config/values/values";
+import { createMultipleTextPlugin } from "./plugins/createMultipleTextPlugin";
+import { MultipleTextElement } from "./plugins/MultipleTextElement";
 
 const ContentEditor = ({content, onChange}) => {
-  console.log('content')
-  console.log(content)
-  const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin()
-  const { getMentionSelectProps, plugin: mentionPlugin } = useMentionPlugin(
-    optionsMentionPlugin
-  )
+  // Stored in PLUGINS.basicNodes
+  const basicNodesPlugins = [
+    // editor
+    createReactPlugin(),          // withReact
+    createHistoryPlugin(),        // withHistory
 
-  const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {
-    const plugins = [
-      createReactPlugin(),
-      createHistoryPlugin(),
-      createParagraphPlugin(),
-      createBlockquotePlugin(),
-      createTodoListPlugin(),
-      createHeadingPlugin(),
-      createImagePlugin(),
-      createLinkPlugin(),
-      createListPlugin(),
-      createTablePlugin(),
-      createMediaEmbedPlugin(),
-      createCodeBlockPlugin(),
-      createExcalidrawPlugin(),
-      createAlignPlugin(),
-      createBoldPlugin(),
-      createCodePlugin(),
-      createItalicPlugin(),
-      createHighlightPlugin(),
-      createUnderlinePlugin(),
-      createStrikethroughPlugin(),
-      createSubscriptPlugin(),
-      createSuperscriptPlugin(),
-      createFontColorPlugin(),
-      createFontBackgroundColorPlugin(),
-      createKbdPlugin(),
-      createNodeIdPlugin(),
-      createDndPlugin(),
-      createAutoformatPlugin(optionsAutoformat),
-      createResetNodePlugin(optionsResetBlockTypePlugin),
-      createSoftBreakPlugin(optionsSoftBreakPlugin),
-      createExitBreakPlugin(optionsExitBreakPlugin),
-      createTrailingBlockPlugin({
-        type: ELEMENT_PARAGRAPH,
-      }),
-      createSelectOnBackspacePlugin({
-        allow: [ELEMENT_IMAGE, ELEMENT_EXCALIDRAW],
-      }),
-      mentionPlugin,
-      searchHighlightPlugin,
-    ]
+    // elements
+    createParagraphPlugin(),      // paragraph element
+    createBlockquotePlugin(),     // blockquote element
+    createCodeBlockPlugin(),      // code block element
+    createHeadingPlugin(),        // heading elements
 
-    plugins.push(
-      ...[
-        createDeserializeMDPlugin({ plugins }),
-        createDeserializeCSVPlugin({ plugins }),
-        createDeserializeHTMLPlugin({ plugins }),
-        createDeserializeAstPlugin({ plugins }),
-      ]
-    )
+    // marks
+    createBoldPlugin(),           // bold mark
+    createItalicPlugin(),         // italic mark
+    createUnderlinePlugin(),      // underline mark
+    createStrikethroughPlugin(),  // strikethrough mark
+    createCodePlugin(),           // code mark
+  ];
 
-    return plugins
-  }, [mentionPlugin, searchHighlightPlugin])
+  // Quick helper to create a block element with (marked) text
+  const createElement = (
+    text = '',
+    {
+      type = ELEMENT_PARAGRAPH,
+      mark,
+    }: {
+      type?: string;
+      mark?: string;
+    } = {}
+  ) => {
+    const leaf = { text }
+    if(mark) {
+      leaf[mark] = true
+    }
+
+    return {
+      type,
+      children: [leaf],
+    }
+  }
+
+  const editableProps = {
+    placeholder: 'Type…',
+    style: {
+      padding: '15px',
+    },
+  };
+
+  const initialValue = [
+    createElement('🧱 Elements', { type: ELEMENT_H1 }),
+  ];
+  
+  const components = createPlateComponents();
+  const options = createPlateOptions();
+
+  const editor = useStoreEditorState();
+
+  const [debugValue, setDebugValue] = useState(null);
+
+  const handleButton = () => {
+
+  }
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <Plate
-        onChange={onChange}
-        id={id}
-        plugins={pluginsMemo}
-        components={components}
-        options={options}
-        editableProps={editableProps}
-        initialValue={content?.blocks}
-      >
-        <ToolbarSearchHighlight icon={Search} setSearch={setSearch} />
-        <HeadingToolbar>
-          <ToolbarButtons />
-        </HeadingToolbar>
-
-        <BallonToolbarMarks />
-
-        <MentionSelect
-          {...getMentionSelectProps()}
-          renderLabel={renderMentionLabel}
-        />
-      </Plate>
-    </DndProvider>
-  )
+    <>
+    <button onClick={handleButton}>Editor state</button>
+    <Plate
+      // id="content-editor"
+      plugins={basicNodesPlugins}
+      components={components}
+      options={options}
+      editableProps={editableProps}
+      initialValue={initialValue}
+      onChange={(newValue) => setDebugValue(newValue)}
+    />
+    <pre>
+      {JSON.stringify(debugValue, null, 2)}
+    </pre>
+    </>
+  );
 }
 
 export default ContentEditor

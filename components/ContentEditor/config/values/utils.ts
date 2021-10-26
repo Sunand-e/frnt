@@ -4,8 +4,8 @@ import {
   ELEMENT_PARAGRAPH,
   ELEMENT_UL,
   TElement,
-} from '@udecode/plate'
-import { Text } from 'slate'
+} from '@udecode/plate';
+import { Text } from 'slate';
 
 export const createElement = (
   text = '',
@@ -13,34 +13,34 @@ export const createElement = (
     type = ELEMENT_PARAGRAPH,
     mark,
   }: {
-    type?: string
-    mark?: string
+    type?: string;
+    mark?: string;
   } = {}
 ) => {
-  const leaf = { text }
+  const leaf = { text };
   if (mark) {
-    leaf[mark] = true
+    leaf[mark] = true;
   }
 
   return {
     type,
     children: [leaf],
-  }
-}
+  };
+};
 
 export const createList = (
   items: string[],
   { splitSeparator = '`' }: { splitSeparator?: string } = {}
 ): TElement[] => {
   const children: TElement[] = items.map((item) => {
-    const texts = item.split(splitSeparator)
+    const texts = item.split(splitSeparator);
     const marks: Text[] = texts.map((text, index) => {
-      const res: any = { text }
+      const res: any = { text };
       if (index % 2 === 1) {
-        res.code = true
+        res.code = true;
       }
-      return res
-    })
+      return res;
+    });
 
     return {
       type: ELEMENT_LI,
@@ -50,23 +50,23 @@ export const createList = (
           children: marks,
         },
       ],
-    }
-  })
+    };
+  });
 
   return [
     {
       type: ELEMENT_UL,
       children,
     },
-  ]
-}
+  ];
+};
 
 export const getNodesWithRandomId = (nodes: any[]) => {
-  let _id = 10000
+  let _id = 10000;
   nodes.forEach((node) => {
-    node.id = _id
-    _id++
-  })
+    node.id = _id;
+    _id++;
+  });
 
-  return nodes
-}
+  return nodes;
+};

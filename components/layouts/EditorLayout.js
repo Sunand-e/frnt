@@ -7,6 +7,7 @@ import PageContent from '../PageContent'
 import Sidebar from '../Sidebar'
 import TopNotificationBar from '../TopNotificationBar'
 import Modal from '../Modal'
+import BlockSelector from '../ContentEditor/BlockSelector'
 
 export default function EditorLayout( {page, navState} ) {
   return (
@@ -21,7 +22,7 @@ export default function EditorLayout( {page, navState} ) {
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
 
                 <div className="w-[300px] bg-blue flex h-full">
-
+                  <BlockSelector />
                 </div>
                 <div className="w-full flex justify-center">
                   <div className="min-w-0 max-w-screen-2xl flex-auto pt-4 pb-24 lg:pb-16">

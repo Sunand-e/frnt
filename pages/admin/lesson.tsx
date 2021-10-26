@@ -90,6 +90,9 @@ const AdminLesson = () => {
         <>
           <PageTitle title={`Edit Lesson: ${lesson?.title}`} />
           <ContentEditor content={lesson.content} onChange={handleChange} />
+          <pre>
+            { JSON.stringify(lesson.content,null, 2) }
+          </pre>
         </>
       }
     </>
