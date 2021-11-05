@@ -21,7 +21,7 @@ export default function EditorLayout( {page, navState} ) {
             <div className="lg:flex h-full">
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
 
-                <div className="w-[300px] bg-blue flex h-full">
+                <div className="w-[300px] bg-blue bg-opacity-10 flex h-full">
                   <BlockSelector />
                 </div>
                 <div className="w-full flex justify-center">

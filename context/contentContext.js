@@ -1,16 +1,18 @@
 import { createContext, useState } from 'react'
 
-const ContentContext = createContext()
+const ContentContext  = createContext()
+const { Provider } = ContentContext;
 
 // class ContentContextProvider extends Component {
-const ContentContextProvider = ({children}) => {
-    const [data, setData] = useState("value1")
-    
+const ContentContextProvider = ({initialValue, children}) => {
+    const [content, setContent] = useState(initialValue)
+    console.log('initialValue')
+    console.log(initialValue)
     return (
-        <ContentContext.Provider value={{data, setData}}>
+        <Provider value={{content, setContent}}>
             {children}
-        </ContentContext.Provider>
+        </Provider>
     )
 }
 
-export {ContentContextProvider, ContentContext}
+export {ContentContextProvider, ContentContext }

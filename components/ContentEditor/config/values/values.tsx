@@ -765,7 +765,7 @@ const exitBreak: any = (
   </fragment>
 );
 
-const multipleTexts: any = (
+const multiTexts: any = (
   <fragment>
     <hp>
       In addition to nodes that contain editable text, you can insert void
@@ -817,7 +817,7 @@ const basicNodes = [...basicElements, ...basicMarks];
 
 const playground: any = getNodesWithRandomId([
   // ...forcedLayout,
-  ...multipleTexts,
+  ...multiTexts,
   ...basicMarks,
   ...font,
   ...highlight,
@@ -849,7 +849,7 @@ export const VALUES: Record<string, any> = {
   createHugeDocument,
   createSpanningTable,
   createTable,
-  multipleTexts,
+  multiTexts,
   empty,
   exitBreak,
   findReplace,

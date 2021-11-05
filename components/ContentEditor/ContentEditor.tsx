@@ -1,19 +1,36 @@
-import { createPlateComponents, createPlateOptions } from "@udecode/plate";
+import { createPlateComponents, createDndPlugin, createNodeIdPlugin, createPlateOptions } from "@udecode/plate";
 import { createBoldPlugin, createCodePlugin, createItalicPlugin, createStrikethroughPlugin, createUnderlinePlugin, MARK_BOLD, MARK_ITALIC, MARK_UNDERLINE } from "@udecode/plate-basic-marks";
 import { createBlockquotePlugin, ELEMENT_BLOCKQUOTE } from "@udecode/plate-block-quote";
 import { createCodeBlockPlugin, ELEMENT_CODE_BLOCK, ELEMENT_CODE_LINE } from "@udecode/plate-code-block";
-import { createHistoryPlugin, createReactPlugin, Plate, useStoreEditorState } from "@udecode/plate-core";
+import { createMediaEmbedPlugin } from "@udecode/plate-media-embed";
+import { createHistoryPlugin, createReactPlugin, Plate, PlatePlugin, SPEditor, useEventEditorStore, usePlateStore, useStoreEditorState } from "@udecode/plate-core";
 import { createHeadingPlugin, ELEMENT_H1, ELEMENT_H2, ELEMENT_H3, ELEMENT_H4, ELEMENT_H5, ELEMENT_H6 } from "@udecode/plate-heading";
 import { createParagraphPlugin, ELEMENT_PARAGRAPH } from "@udecode/plate-paragraph";
+import { createSelectOnBackspacePlugin } from "@udecode/plate-select";
+import { withDraggables } from "@udecode/plate-dnd";
 import { createEditor } from "@udecode/plate-test-utils";
-import { useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Transforms } from "slate";
 import { CONFIG } from "./config/config";
 import { VALUES } from "./config/values/values";
-import { createMultipleTextPlugin } from "./plugins/createMultipleTextPlugin";
-import { MultipleTextElement } from "./plugins/MultipleTextElement";
+import { createMultiTextPlugin } from "./multi-text-element/createMultiTextPlugin";
+import { MultiTextElement } from "./multi-text-element/components/MultiTextElement";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { withStyledDraggables } from "./config/withStyledDraggables";
+import { withStyledBlockContainers } from "./config/withStyledBlockContainers";
+// import { withStyledBlockContainers } from "./block-container/components/withStyledBlockContainers";
+import { withBlockContainers } from "./block-container/components/withBlockContainer";
+import ShowStore from "./ShowStore";
+import { ContentContext, ContentContextProvider } from "../../context/contentContext"
+import { ReactEditor } from "slate-react";
+import { HistoryEditor } from "slate-history";
+import { useDebouncedCallback } from 'use-debounce';
+// import { withStyledBlockContarom "./block-container/components/withBlockContainer";
 
-const ContentEditor = ({content, onChange}) => {
+type TEditor = SPEditor & ReactEditor & HistoryEditor
+
+const ContentEditor = () => {
   // Stored in PLUGINS.basicNodes
   const basicNodesPlugins = [
     // editor
@@ -34,27 +51,6 @@ const ContentEditor = ({content, onChange}) => {
     createCodePlugin(),           // code mark
   ];
 
-  // Quick helper to create a block element with (marked) text
-  const createElement = (
-    text = '',
-    {
-      type = ELEMENT_PARAGRAPH,
-      mark,
-    }: {
-      type?: string;
-      mark?: string;
-    } = {}
-  ) => {
-    const leaf = { text }
-    if(mark) {
-      leaf[mark] = true
-    }
-
-    return {
-      type,
-      children: [leaf],
-    }
-  }
 
   const editableProps = {
     placeholder: 'Type…',
@@ -63,36 +59,71 @@ const ContentEditor = ({content, onChange}) => {
     },
   };
 
-  const initialValue = [
-    createElement('🧱 Elements', { type: ELEMENT_H1 }),
-  ];
-  
-  const components = createPlateComponents();
+  const { content: initialValue } = useContext(ContentContext);
+  console.log(initialValue)
+  const plateComponents = createPlateComponents();
+
+  let components = {
+    ...plateComponents,
+    'multi-text': MultiTextElement
+  }
+
+
+  // components = withBlockContainers(components,[{}])
+  components = withStyledBlockContainers(components)
+  components = withStyledDraggables(components)
   const options = createPlateOptions();
 
-  const editor = useStoreEditorState();
+  const plugins = [ ...basicNodesPlugins,
+    createMultiTextPlugin(),
+    createMediaEmbedPlugin(),
+    createSelectOnBackspacePlugin({ allow: ['media_embed'] }),
+    
 
-  const [debugValue, setDebugValue] = useState(null);
+    createNodeIdPlugin(),
+    createDndPlugin(),
+  ];
 
-  const handleButton = () => {
+  const store = usePlateStore();
+  const handleChange = (mainEditorElements) => {
+      const newContent = mainEditorElements.map(el => {
+        if(el.id in store) {
 
+          return {
+            ...el,
+            children: store[el.id].value
+          }
+        } else {
+          return el
+        }
+      })
+      setContent(newContent)
   }
+
+  const {content, setContent} = useContext(ContentContext)
+
+  const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {  
+    return plugins
+  }, [])
 
   return (
     <>
-    <button onClick={handleButton}>Editor state</button>
-    <Plate
-      // id="content-editor"
-      plugins={basicNodesPlugins}
-      components={components}
-      options={options}
-      editableProps={editableProps}
-      initialValue={initialValue}
-      onChange={(newValue) => setDebugValue(newValue)}
-    />
-    <pre>
-      {JSON.stringify(debugValue, null, 2)}
-    </pre>
+      <DndProvider backend={HTML5Backend}>
+          <Plate
+            id="content-editor"
+            plugins={pluginsMemo}
+            components={components}
+            options={options}
+            editableProps={editableProps}
+            initialValue={initialValue}
+            // onChange={handleChange}
+          />
+      </DndProvider>
+
+      <pre className='text-grey'>
+        {JSON.stringify(content, null, 2)}
+      </pre>
+      {/* <ShowStore /> */}
     </>
   );
 }

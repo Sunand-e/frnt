@@ -1,30 +1,18 @@
-import styled from 'styled-components'
-import {TextAdd} from '@styled-icons/fluentui-system-filled/TextAdd'
+import BlockButtonList from './BlockButtonList'
 import BlockButton from './BlockButton'
 
 const BlockSelector = ({children}) => {
+
+  const BlockButtons = BlockButtonList.map(({type, text, icon}, index) => (
+    <BlockButton key={index} type={type} text={text} Icon={icon} />
+  ))
+  
   return (
-    <div className="flex w-full flex-wrap">
-      <BlockButton type="text">
-        <TextAdd className="h-10" />
-        Text
-      </BlockButton>
-      <BlockButton type="text">
-        <TextAdd className="h-10" />
-        List
-      </BlockButton>
-      <BlockButton type="text">
-        <TextAdd className="h-10" />
-        Image
-      </BlockButton>
-      <BlockButton type="text">
-        <TextAdd className="h-10" />
-        Video
-      </BlockButton>
-      <BlockButton type="text">
-        <TextAdd className="h-10" />
-        SCORM / xAPI
-      </BlockButton>
+    <div className="p-4 flex flex-col text-center text-main-dark divide-main-dark divide-y">
+      <h3>Blocks</h3>
+      <div className="pt-4 grid grid-cols-2 h-4 gap-4 sm:grid-cols-2 lg:grid-cols-2 text-sm">
+        { BlockButtons }
+      </div>
     </div>
   )
 }

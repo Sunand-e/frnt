@@ -79,6 +79,8 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         {label ? (
           <div className={styles.Header}>
             { section ? section.title : label }
+            {/* <br />
+            {section.id} */}
             <div className={styles.Actions}>
               {onRemove ? <Remove onClick={onRemove} /> : undefined}
               <Handle {...handleProps} />

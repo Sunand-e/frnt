@@ -64,6 +64,7 @@ export const withStyledDraggables = (components: any) => {
         ELEMENT_TABLE,
         ELEMENT_MEDIA_EMBED,
         ELEMENT_CODE_BLOCK,
+        'multi-text'
       ],
       onRenderDragHandle: ({ className, styles }) => {
         return (
