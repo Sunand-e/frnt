@@ -30,9 +30,9 @@ export const TextBlockElement = ({
   console.log(attributes)
   return (
     // Need contentEditable=false or Firefox has issues with certain input types.
-    <div {...attributes} contentEditable={false}>
+    <div {...attributes}>
       <div style={{ padding: '20px', border: '2px solid #ddd' }}>
-        <Plate
+p        <Plate
           id={element.id}
           plugins={plugins}
           // components={CONFIG.components}

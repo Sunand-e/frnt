@@ -91,8 +91,7 @@ export const MultiTextElement = ({
 
   return (
     // Need contentEditable=false or Firefox has issues with certain input types.
-    <div {...attributes}>
-    <div contentEditable={false}>
+    <div {...attributes} contentEditable={false}>
       <div style={{ padding: '20px', border: '2px solid #ddd' }}>
         <Plate
           id={element.id}
@@ -109,7 +108,6 @@ export const MultiTextElement = ({
       </Plate>
       </div>
       {children}
-    </div>
     </div>
   );
 };

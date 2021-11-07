@@ -6,7 +6,7 @@ import { ContentFragment as ContentFragmentType } from '../../../graphql/queries
 import { useMutation, useReactiveVar } from "@apollo/client"
 import cache from "../../../graphql/cache"
 import { useContext, useEffect, useRef } from "react";
-import { ContentContext } from "../../../context/contentContext";
+// import { ContentContext } from "../../../context/contentContext";
 import { useDebouncedCallback } from "use-debounce";
 
 const LessonEditor = ({lesson}) => {
@@ -45,20 +45,20 @@ const LessonEditor = ({lesson}) => {
     })
   }
 
-  const {content, setContent} = useContext(ContentContext)
+  // const {content, setContent} = useContext(ContentContext)
 
-  const debouncedContentCallback = useDebouncedCallback((content) => {
-    saveLesson(content);
-  }, 600);
+  // const debouncedContentCallback = useDebouncedCallback((content) => {
+  //   saveLesson(content);
+  // }, 600);
 
-  const contentChanged = useRef(false);
+  // const contentChanged = useRef(false);
 
-  useEffect(() => {
-    if (contentChanged.current) {
-      debouncedContentCallback(content)
-    }
-    else contentChanged.current = true;
-  }, [content]);
+  // useEffect(() => {
+  //   if (contentChanged.current) {
+  //     debouncedContentCallback(content)
+  //   }
+  //   else contentChanged.current = true;
+  // }, [content]);
 
 
 

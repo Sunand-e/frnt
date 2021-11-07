@@ -22,7 +22,7 @@ import { withStyledBlockContainers } from "./config/withStyledBlockContainers";
 // import { withStyledBlockContainers } from "./block-container/components/withStyledBlockContainers";
 import { withBlockContainers } from "./block-container/components/withBlockContainer";
 import ShowStore from "./ShowStore";
-import { ContentContext, ContentContextProvider } from "../../context/contentContext"
+// import { ContentContext, ContentContextProvider } from "../../context/contentContext"
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 import { useDebouncedCallback } from 'use-debounce';
@@ -59,7 +59,7 @@ const ContentEditor = () => {
     },
   };
 
-  const { content: initialValue } = useContext(ContentContext);
+  // const { content: initialValue } = useContext(ContentContext);
   // console.log(initialValue)
   const plateComponents = createPlateComponents();
 
@@ -90,44 +90,16 @@ const ContentEditor = () => {
 
   const handleChange = (mainEditorElements) => {
       const newContent = mainEditorElements.map(el => {
-        if(el.id in store) {
-
-          return {
-            ...el,
-            children: store[el.id].value
-          }
-        } else {
-          return el
-        }
+        return (el.id in store) ? {
+          ...el,
+          children: store[el.id].value
+        } : el
       })
-      
-      setContent(newContent)
+      // setContent(newContent)
   }
-
-  const {content, setContent} = useContext(ContentContext)
-
-  const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {  
-    return plugins
-  }, [])
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
-          <Plate
-            id="content-editor"
-            plugins={pluginsMemo}
-            components={components}
-            options={options}
-            editableProps={editableProps}
-            initialValue={initialValue}
-            onChange={handleChange}
-          />
-      </DndProvider>
-
-      <pre className='text-grey'>
-        {/* {JSON.stringify(content, null, 2)} */}
-        {JSON.stringify(editorVal, null, 2)}
-      </pre>
       {/* <ShowStore /> */}
     </>
   );
