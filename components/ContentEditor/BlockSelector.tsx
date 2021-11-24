@@ -1,16 +1,26 @@
-import BlockButtonList from './BlockButtonList'
+import BlockTypes from './BlockTypes'
 import BlockButton from './BlockButton'
 
-const BlockSelector = ({children}) => {
+const BlockSelector = ({targetIndex, onAddBlock: insertBlockAtIndex}) => {
 
-  const BlockButtons = BlockButtonList.map(({type, text, icon}, index) => (
-    <BlockButton key={index} type={type} text={text} Icon={icon} />
+  const handleAddBlock = (block) => {
+    insertBlockAtIndex(block, targetIndex)
+  }
+
+  const BlockButtons = BlockTypes.map((type, index) => (
+    <BlockButton 
+      key={index}
+      type={type.name}
+      text={type.text}
+      Icon={type.icon}
+      onAddBlock={handleAddBlock}
+    />
   ))
   
   return (
-    <div className="p-4 flex flex-col text-center text-main-dark divide-main-dark divide-y">
-      <h3>Blocks</h3>
-      <div className="pt-4 grid grid-cols-2 h-4 gap-4 sm:grid-cols-2 lg:grid-cols-2 text-sm">
+    <div className="p-4 flex flex-col text-center text-main-dark">
+      <h3>New item...</h3>
+      <div className="pt-4 flex gap-4 justify-center align-center items-center sm:grid-cols-6 lg:grid-cols-6 text-sm">
         { BlockButtons }
       </div>
     </div>

@@ -5,7 +5,7 @@ import Button from '../../../components/Button';
 import { Notices } from '../../../components/Notices';
 import PageTitle from '../../../components/PageTitle';
 import { headerButtonsVar, viewVar } from '../../../graphql/cache';
-import CoursesTable from '../../../components/admin/courses/CoursesTable'
+import CoursesTable from '../../../components/admin/courses/CoursesTable/CoursesTable'
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../../context/modalContext'
 import TextInput from '../../../components/BasicTextInput'

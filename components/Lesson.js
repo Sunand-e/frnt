@@ -1,6 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import lessons from '../lessons'
 import ActivityBlock from "./ActivityBlock";
 import LessonTabs from "./LessonTabs";
 import LessonButtons from "./LessonButtons";

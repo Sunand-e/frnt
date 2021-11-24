@@ -3,9 +3,10 @@ import { createBoldPlugin, createCodePlugin, createItalicPlugin, createStrikethr
 import { createBlockquotePlugin, ELEMENT_BLOCKQUOTE } from "@udecode/plate-block-quote";
 import { createCodeBlockPlugin, ELEMENT_CODE_BLOCK, ELEMENT_CODE_LINE } from "@udecode/plate-code-block";
 import { createMediaEmbedPlugin } from "@udecode/plate-media-embed";
-import { createHistoryPlugin, createReactPlugin, Plate, PlatePlugin, SPEditor, useEventEditorStore, usePlateStore, useStoreEditorState, useStoreEditorValue } from "@udecode/plate-core";
+import { createHistoryPlugin, createReactPlugin, Plate, PlatePlugin, PlateEditor, useEventEditorStore, usePlateStore, usePlateEditorState, usePlateValue } from "@udecode/plate-core";
 import { createHeadingPlugin, ELEMENT_H1, ELEMENT_H2, ELEMENT_H3, ELEMENT_H4, ELEMENT_H5, ELEMENT_H6 } from "@udecode/plate-heading";
 import { createParagraphPlugin, ELEMENT_PARAGRAPH } from "@udecode/plate-paragraph";
+import { HeadingToolbar } from '@udecode/plate-toolbar';
 import { createSelectOnBackspacePlugin } from "@udecode/plate-select";
 import { withDraggables } from "@udecode/plate-dnd";
 import { createEditor } from "@udecode/plate-test-utils";
@@ -26,11 +27,13 @@ import { ContentContext, ContentContextProvider } from "../../context/contentCon
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 import { useDebouncedCallback } from 'use-debounce';
+import { Toolbar } from "./blocks/TextBlock/Toolbar";
 // import { withStyledBlockContarom "./block-container/components/withBlockContainer";
 
-type TEditor = SPEditor & ReactEditor & HistoryEditor
+type TEditor = PlateEditor & ReactEditor & HistoryEditor
 
 const ContentEditor = () => {
+  console.log('ContentEditor')
   // Stored in PLUGINS.basicNodes
   const basicNodesPlugins = [
     // editor
@@ -59,7 +62,7 @@ const ContentEditor = () => {
     },
   };
 
-  const { content: initialValue } = useContext(ContentContext);
+  // const { content: initialValue } = useContext(ContentContext);
   // console.log(initialValue)
   const plateComponents = createPlateComponents();
 
@@ -84,27 +87,23 @@ const ContentEditor = () => {
     createDndPlugin(),
   ];
 
-  const store = usePlateStore();
+  // const store = usePlateStore();
 
-  const editorVal = useStoreEditorValue()
+  // const editorVal = usePlateValue()
 
   const handleChange = (mainEditorElements) => {
-      const newContent = mainEditorElements.map(el => {
-        if(el.id in store) {
-
-          return {
-            ...el,
-            children: store[el.id].value
-          }
-        } else {
-          return el
-        }
-      })
-      
-      setContent(newContent)
+    return false
+    const newContent = mainEditorElements.map(el => {
+      return (el.id in store) ? {
+        ...el,
+        children: store[el.id].value
+      } : el
+    })
+    
+    setContent(newContent)
   }
 
-  const {content, setContent} = useContext(ContentContext)
+  // const {content, setContent} = useContext(ContentContext)
 
   const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {  
     return plugins
@@ -119,14 +118,16 @@ const ContentEditor = () => {
             components={components}
             options={options}
             editableProps={editableProps}
-            initialValue={initialValue}
-            onChange={handleChange}
-          />
+            // initialValue={initialValue}
+            // onChange={handleChange}
+          >  <HeadingToolbar>
+          <Toolbar />
+        </HeadingToolbar></Plate>
       </DndProvider>
 
       <pre className='text-grey'>
         {/* {JSON.stringify(content, null, 2)} */}
-        {JSON.stringify(editorVal, null, 2)}
+        {/* {JSON.stringify(editorVal, null, 2)} */}
       </pre>
       {/* <ShowStore /> */}
     </>

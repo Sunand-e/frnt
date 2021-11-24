@@ -23,7 +23,8 @@ import {
   faCalendarAlt,
   faStore,
   faComments,
-  faGraduationCap
+  faGraduationCap,
+  faPhotoVideo
 } from '@fortawesome/free-solid-svg-icons'
 // import { fab } from '@fortawesome/free-brands-svg-icons'
 
@@ -52,7 +53,8 @@ export const addIconsToLibrary = () => {
     faCalendarAlt,
     faStore,
     faComments,
-    faGraduationCap
+    faGraduationCap,
+    faPhotoVideo,
     )
 }
 

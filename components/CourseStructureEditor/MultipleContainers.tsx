@@ -21,17 +21,18 @@ import {
   PointerSensor,
 } from '@dnd-kit/core';
 import {
-  SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   SortingStrategy,
   horizontalListSortingStrategy,
-} from '@dnd-kit/sortable';
+  SortableContext,
+// } from '@dnd-kit/sortable';
+} from '../dnd-kit/sortable/dist';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import {Item, Container} from './components';
+import {Item, Container} from '../dnd-kit';
 
 import {createRange} from './utilities';
 import { DroppableContainer } from './DroppableContainer';

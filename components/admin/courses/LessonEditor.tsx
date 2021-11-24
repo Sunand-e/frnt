@@ -5,25 +5,23 @@ import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
 import { useMutation, useReactiveVar } from "@apollo/client"
 import cache from "../../../graphql/cache"
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 // import { ContentContext } from "../../../context/contentContext";
 import { useDebouncedCallback } from "use-debounce";
+import BlockEditor from "../../ContentEditor/BlockEditor";
 
 const LessonEditor = ({lesson}) => {
-
-  // const content = lesson && "blocks" in lesson.content ? lesson.content.blocks : []
-
   const [updateLesson, updatedLesson] = useMutation<UpdateLesson, UpdateLessonVariables>(
     UPDATE_LESSON
   );
   
   const saveLesson = (contentBlocks) => {
-    
+    console.log('saveLesson called')
     const cachedLesson = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${lesson.id}`,
       fragment: ContentFragment,
     })
-
+    
     updateLesson({
       variables: {
         id: lesson.id,
@@ -60,9 +58,11 @@ const LessonEditor = ({lesson}) => {
   //   else contentChanged.current = true;
   // }, [content]);
 
-
-
-  return <ContentEditor />
+  return (
+    <>
+      <BlockEditor blocks={lesson.content?.blocks || []} onUpdate={saveLesson} />
+    </>
+  )
 }
 
 export default LessonEditor

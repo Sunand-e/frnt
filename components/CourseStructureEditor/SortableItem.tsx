@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { Item } from './components';
+// import { useSortable } from '../dnd-kit/sortable';
+import { useSortable } from '../dnd-kit/sortable/dist';
+import { Item } from '../dnd-kit';
 import { SortableItemProps, useMountStatus } from './MultipleContainers';
 
 export function SortableItem({
@@ -23,14 +24,17 @@ export function SortableItem({
       handle={handle}
       index={index}
       wrapperStyle={wrapperStyle({ index })}
-      style={style({
-        index,
-        value: id,
-        isDragging,
-        isSorting,
-        overIndex: over ? getIndex(over.id) : overIndex,
-        containerId,
-      })}
+      style={{
+        ...style({
+          index,
+          value: id,
+          isDragging,
+          isSorting,
+          overIndex: over ? getIndex(over.id) : overIndex,
+          containerId,
+        }),
+        opacity: isDragging ? 0.5 : undefined,
+      }}
       transition={transition}
       transform={transform}
       fadeIn={mountedWhileDragging}

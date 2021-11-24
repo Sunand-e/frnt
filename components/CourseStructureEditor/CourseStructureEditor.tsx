@@ -1,6 +1,6 @@
 import { MultipleContainers } from "./MultipleContainers"
 import { useMutation } from '@apollo/client';
-import styles from './components/Item/Item.module.scss'
+import styles from '../dnd-kit/Item/Item.module.scss'
 import classNames from 'classnames'
 import { useContext, useEffect, useState } from "react"
 import { ModalContext } from "../../context/modalContext"
@@ -14,13 +14,13 @@ import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__ge
 import { SectionFragment as SectionFragmentType } from '../../graphql/queries/__generated__/SectionFragment';
 import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
 import Button from "../Button"
-import DeleteLessonModalForm from "../admin/courses/DeleteLessonModalForm"
+import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
 import { BookOpenIcon } from "@heroicons/react/outline"
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 import dayjs from 'dayjs'
-import AddSectionModalForm from "../admin/courses/AddSectionModalForm"
-import DeleteSectionModalForm from "../admin/courses/DeleteSectionModalForm";
+import AddSectionModal from "../admin/courses/AddSectionModal"
+import DeleteSectionModal from "../admin/courses/DeleteSectionModal";
 import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE";
 import router from "next/router";
@@ -157,8 +157,7 @@ const CourseStructureEditor = ({course}) => {
   }
   
   const handleReorderSections = (newSectionIds) => {
-    console.log('newSectionIds')
-    console.log(newSectionIds)
+    
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
         id:`ContentItem:${id}`,
@@ -166,7 +165,7 @@ const CourseStructureEditor = ({course}) => {
         fragmentName: 'SectionFragment',
       })
     })
-    console.log("update that RUDDY COURSE")
+    
     updateCourse({
       variables: {
         id: course.id,
@@ -231,21 +230,21 @@ const CourseStructureEditor = ({course}) => {
   const handleDeleteModal = (value) => {
     handleModal({
       title: `Delete lesson`,
-      content: <DeleteLessonModalForm lessonId={value} />
+      content: <DeleteLessonModal lessonId={value} />
     })
   }
 
   const handleDeleteSectionModal = (value) => {
     handleModal({
       title: `Delete lesson`,
-      content: <DeleteSectionModalForm sectionId={value} />
+      content: <DeleteSectionModal sectionId={value} />
     })
   }
 
   const handleAddSectionModal = () => {
     handleModal({
       title: `Section name:`,
-      content: <AddSectionModalForm courseId={course.id} />
+      content: <AddSectionModal courseId={course.id} />
     })
   }
 
@@ -301,7 +300,11 @@ const CourseStructureEditor = ({course}) => {
           ref={ref}
         >
           <div
-            className='flex items-center w-full px-4 py-4 sm:px-6'
+            className={classNames(
+              'flex items-center w-full px-4 py-4 sm:px-6',
+              dragging && styles.dragging,
+              dragOverlay && styles.dragOverlay,
+            )}
             style={style}
             data-cypress="draggable-item"
             {...listeners}
@@ -329,16 +332,6 @@ const CourseStructureEditor = ({course}) => {
         </li>
       </>
     )
-  }
-
-  const handleSectionsChange = (containers) => {
-    console.log('containers changed!!!')
-    console.log('containers', containers)
-  }
-
-  const handleItemsChange = (items) => {
-    console.log('items changed!!!')
-    console.log('items', items)
   }
 
   return (

@@ -1,11 +1,11 @@
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { Container, ContainerProps } from './components';
+import { Container, ContainerProps } from '../dnd-kit';
 import {
   AnimateLayoutChanges,
   useSortable,
   defaultAnimateLayoutChanges,
-} from '@dnd-kit/sortable';
+} from '../dnd-kit/sortable/dist';
 
 import NewItemButton from './NewItemButton'
 

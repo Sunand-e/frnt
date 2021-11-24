@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { createNodesWithHOC } from '@udecode/plate-common';
 import {
-  SPRenderElementProps,
+  PlateRenderElementProps,
 } from '@udecode/plate-core';
 import { BlockContainer } from './BlockContainer';
 
@@ -10,7 +10,7 @@ import { BlockContainer } from './BlockContainer';
 export const withBlockContainer = (
   Component: any
 ) => {
-  return forwardRef((props: SPRenderElementProps, ref) => {
+  return forwardRef((props: PlateRenderElementProps, ref) => {
     const { attributes, element } = props;
 
     return (

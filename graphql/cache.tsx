@@ -3,9 +3,9 @@ import {
   makeVar,
 } from '@apollo/client'
 import possibleTypes from './possibleTypes.json'
-import contentTypes from '../contentTypes'
 
 // generate type policies for all content types
+/*
 const typePolicyKeyFields = contentTypes.reduce((typePoliciesObject, type) => {
   typePoliciesObject[type.name.replace(/\s/g, '')] = {
     keyFields: ["slug"]
@@ -22,8 +22,9 @@ const typePolicies = {
     }
   }
 }
-
+*/
 export const viewVar = makeVar({})
+export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])
 export const latestContentVar = makeVar([])
 export const libraryVar = makeVar([])
@@ -38,7 +39,7 @@ export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !
 
 const cache = new InMemoryCache({
   possibleTypes,
-  typePolicies,
+  // typePolicies,
 })
 
 export default cache

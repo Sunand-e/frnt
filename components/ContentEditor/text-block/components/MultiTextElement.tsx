@@ -23,7 +23,7 @@ import {
   createExitBreakPlugin,
   createSoftBreakPlugin,
 } from '@udecode/plate-break';
-import { Plate, SPRenderElementProps, usePlateStore, useStoreEditorState } from '@udecode/plate-core';
+import { Plate, PlateRenderElementProps, usePlateStore, usePlateEditorState } from '@udecode/plate-core';
 import { createResetNodePlugin } from '@udecode/plate-reset-node';
 import { CONFIG } from '../../config/config';
 import { VALUES } from '../../config/values/values';
@@ -36,7 +36,7 @@ export const MultiTextElement = ({
   element,
   attributes,
   children,
-}: SPRenderElementProps) => {
+}: PlateRenderElementProps) => {
     
   const plugins = [
     // editor
@@ -63,7 +63,7 @@ export const MultiTextElement = ({
   
   //debug
   const store = usePlateStore();
-  const editor = useStoreEditorState();
+  const editor = usePlateEditorState();
 
   const handleChange = (newValue) => {
     console.log(editor)

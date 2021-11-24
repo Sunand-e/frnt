@@ -1,6 +1,6 @@
 import {createContext} from 'react'
 import Footer from '../Footer'
-import Header from '../Header'
+import Header from '../header/Header'
 import NavContainer from '../navigation/NavContainer'
 import PageTitle from '../PageTitle'
 import PageContent from '../PageContent'

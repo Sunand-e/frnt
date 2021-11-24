@@ -1,36 +1,19 @@
-import { useStoreEditorState } from "@udecode/plate-core";
-import { ELEMENT_H1 } from "@udecode/plate-heading";
-import { ELEMENT_PARAGRAPH } from "@udecode/plate-paragraph";
-import { Transforms } from "slate";
+import { v4 as uuidv4 } from 'uuid';
+import BlockTypes from './BlockTypes';
 
-const BlockButton = ({type, text, Icon}) => {
-
-  const editor = useStoreEditorState();
+const BlockButton = ({onAddBlock: addBlock, type, text, Icon}) => {
 
   const handleClick = () => {
-    let options = {}
-    let children = [{text: 'hi'}]
-    if(type === 'media_embed') {
-      options.url = "https://player.vimeo.com/video/375411414"
+    const newBlock = {
+      type: type,
+      id: uuidv4(),
+      properties: BlockTypes.find(t => t.name === type).defaultProperties
     }
-    if(type === 'multi-text') {
-      children = [{children}]
-    }
-
-    Transforms.insertNodes(
-      editor,
-      {
-        type,
-        ...options,
-        children
-      },
-      {
-        at: [0]
-      }
-    )
+    addBlock(newBlock)
   }
+
   return (
-    <button onClick={handleClick} className="flex flex-col items-center space-y-2 p-2 text-center bg-white rounded-lg shadow shadow-lg">
+    <button onClick={handleClick} className="flex items-center space-x-2 p-2 text-center bg-white rounded-lg shadow shadow-lg">
       <Icon className="h-10" />
       <span>{text}</span>
     </button>

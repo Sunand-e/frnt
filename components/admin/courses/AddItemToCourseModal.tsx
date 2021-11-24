@@ -5,7 +5,7 @@ import { CreateLessonVariables } from "../../../graphql/mutations/lesson/__gener
 import { v4 as uuidv4 } from 'uuid';
 import { GetSection, GetSection_section } from "../../../graphql/queries/__generated__/GetSection";
 import { GET_COURSE, GET_SECTION, SectionFragment } from "../../../graphql/queries/allQueries";
-import AddLessonModalForm from "./AddLessonModalForm";
+import AddLessonModal from "./AddLessonModal";
 import { useContext } from "react";
 import { ModalContext } from "../../../context/modalContext";
 
@@ -16,7 +16,7 @@ const AddItemToCourseModal = ({sectionId}) => {
   const handleNewLessonButton = () => {
     handleModal({
       title: `Lesson name:`,
-      content: <AddLessonModalForm sectionId={sectionId} />
+      content: <AddLessonModal sectionId={sectionId} />
     })
   }
 

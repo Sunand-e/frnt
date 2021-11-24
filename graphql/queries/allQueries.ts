@@ -325,3 +325,20 @@ export const GET_USERS = gql`
     }
   }
  ` 
+where: {type: ['image', 'audio', 'video', 'document']}
+export const GET_MEDIA_ITEMS = gql`
+  query GetMediaItems(
+    $where: JSON!,
+  ) {  
+    mediaItems(where: $where) {
+      altText
+      createdAt
+      deletedAt
+      fileName
+      mediaType
+      location
+      properties
+      id
+    }
+  }
+` 

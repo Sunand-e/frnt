@@ -15,6 +15,13 @@ const apiPaths = {
     },
     changeOrigin: true
   },
+  '/uploads': {
+    target: 'http://127.0.0.1', 
+    pathRewrite: {
+      '^/uploads': '/uploads'
+    },
+    changeOrigin: false
+  },
   '/auth': {
     target: 'http://127.0.0.1', 
     pathRewrite: {
@@ -31,6 +38,7 @@ app.prepare().then(() => {
  
   if (isDevelopment) {
     server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
+    server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
     server.use('/auth', createProxyMiddleware(apiPaths['/auth']));
   }
 

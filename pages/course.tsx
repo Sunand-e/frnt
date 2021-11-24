@@ -7,8 +7,10 @@ import Lesson from '../components/Lesson';
 import Button from '../components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import lessons from '../lessons'
+// import lessons from '../lessons'
 import LinkWithIcon from '../components/LinkWithIcon';
+
+const lessons = []
 
 const Course = () => {
 

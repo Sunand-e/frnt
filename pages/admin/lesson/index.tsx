@@ -56,14 +56,7 @@ const AdminLesson = () => {
       { lesson &&
         <>
           <PageTitle title={`Edit Lesson: ${lesson?.title}`} />
-
-          <ContentContextProvider initialValue={lesson.content.blocks}>
           { lesson && <LessonEditor lesson={lesson} /> }
-          </ContentContextProvider>
-
-          <pre>
-            { JSON.stringify(lesson.content,null, 2) }
-          </pre>
         </>
       }
     </>

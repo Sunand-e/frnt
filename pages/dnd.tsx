@@ -1,7 +1,7 @@
 import PageTitle from "../components/PageTitle"
 // import CourseStructureEditor from "../components/CourseStructureEditor/CourseStructureEditor"
 import { MultipleContainers } from "../components/CourseStructureEditor/MultipleContainers"
-import styles from '../components/CourseStructureEditor/components/Item/Item.module.scss'
+import styles from '../components/dnd-kit/Item/Item.module.scss'
 
 import classNames from 'classnames';
 

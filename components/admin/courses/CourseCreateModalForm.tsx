@@ -25,7 +25,7 @@ const TextInput = ({ label, ...props }) => {
     </>
   )
 }
-const CourseCreateModalForm = () => {
+const CourseCreateModal = () => {
 
   const router = useRouter()
   const notices = useReactiveVar(noticesVar)
@@ -205,4 +205,4 @@ const CourseCreateModalForm = () => {
   );
 }
 
-export default CourseCreateModalForm
+export default CourseCreateModal

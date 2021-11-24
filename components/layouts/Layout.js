@@ -1,12 +1,9 @@
-import {createContext} from 'react'
-import Footer from '../Footer'
-import Header from '../Header'
+import Header from '../header/Header'
 import NavContainer from '../navigation/NavContainer'
-import PageTitle from '../PageTitle'
-import PageContent from '../PageContent'
-import Sidebar from '../Sidebar'
 import TopNotificationBar from '../TopNotificationBar'
-import Modal from '../Modal'
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Layout( {page, navState} ) {
   return (
@@ -17,6 +14,7 @@ export default function Layout( {page, navState} ) {
         <div className="flex-grow">
           <Header />
           <div className="w-full min-h-[calc(100%-4.5rem)] mx-auto bg-blue-superlight">
+            <ToastContainer />
             <div className="lg:flex">
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
                 <div className="w-full flex justify-center">

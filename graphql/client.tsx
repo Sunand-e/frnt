@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloLink, createHttpLink, NormalizedCacheObject } from '@apollo/client';
+import { RestLink } from 'apollo-link-rest';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import getConfig from 'next/config'
@@ -6,6 +7,7 @@ import cache from './cache';
 
 const {publicRuntimeConfig} = getConfig()
 const {API_URL} = publicRuntimeConfig
+const {UPLOAD_API_URL} = publicRuntimeConfig
 
 const httpLink = createHttpLink({
   uri: API_URL,
@@ -64,11 +66,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
+const restLink = new RestLink({ uri: UPLOAD_API_URL });
 
 
 const link = ApolloLink.from([
   // delay,
   errorLink,
+  restLink,
   authLink.concat(httpLink),
 ])
 ///////////This might be useful????////////

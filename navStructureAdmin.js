@@ -111,6 +111,12 @@ const navStructureAdmin = [
     ],
   },
   {
+    name: 'medialibrary',
+    title: 'Media Library',
+    urlPath: '/admin/medialibrary',
+    icon: 'photo-video',
+  },
+  {
     name: 'ecommunity',
     title: 'E-community',
     urlPath: '/admin/community',

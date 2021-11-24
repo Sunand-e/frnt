@@ -19,7 +19,8 @@ module.exports = withBundleAnalyzer({
   },
   
   publicRuntimeConfig: {
-    API_URL: process.env.API_URL
+    API_URL: process.env.API_URL,
+    UPLOAD_API_URL: process.env.UPLOAD_API_URL
   },
   
   

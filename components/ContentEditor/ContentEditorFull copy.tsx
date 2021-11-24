@@ -7,7 +7,7 @@ import {
   MentionCombobox,
   PlatePlugin,
   Plate,
-  ToolbarSearchHighlight,
+  SearchHighlightToolbar,
   createAlignPlugin,
   createAutoformatPlugin,
   createBlockquotePlugin,
@@ -63,7 +63,7 @@ import {
   ExcalidrawElement,
 } from '@udecode/plate-excalidraw'
 // import { initialValuePlayground } from './config/initialValues'
-import { BallonToolbarMarks, ToolbarButtons } from './config/Toolbars'
+import { BallonMarkToolbarButtons, ToolbarButtons } from './config/Toolbars'
 import { withStyledPlaceHolders } from './config/withStyledPlaceHolders'
 import { withStyledDraggables } from './config/withStyledDraggables'
 import { DndProvider } from 'react-dnd'
@@ -178,12 +178,12 @@ const ContentEditor = ({content, onChange}) => {
         // initialValue={content?.blocks}
         initialValue={VALUES.playground}
       >
-        <ToolbarSearchHighlight icon={Search} setSearch={setSearch} />
+        <SearchHighlightToolbar icon={Search} setSearch={setSearch} />
         <HeadingToolbar>
           <ToolbarButtons />
         </HeadingToolbar>
 
-        <BallonToolbarMarks />
+        <BallonMarkToolbarButtons />
 
         <MentionCombobox items={MENTIONABLES} />
 

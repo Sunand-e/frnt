@@ -16,7 +16,7 @@ export default function PrimaryNav({isSlim, pageNavState}) {
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16' : 'w-64'}`}>
       <div className="sticky z-30 top-0">
-        <div className="h-18 bg-main flex justify-center py-4">
+        <div className={`h-18 bg-main${view.isAdmin ? '-dark' : ''} flex justify-center py-4`}>
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
           {/* {isSlim ? 'secondary active' : 'secondary INACTIVE'} */}
         </div>
@@ -80,7 +80,6 @@ export default function PrimaryNav({isSlim, pageNavState}) {
                       // }
                     >
                       <ThisWillWork item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
-                      
                     </Tippy>
                   )
                 } else {
