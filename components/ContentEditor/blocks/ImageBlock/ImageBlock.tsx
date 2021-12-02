@@ -1,57 +1,39 @@
-
-import React, { useMemo, useState } from 'react';
 import {
-  createImagePlugin,
-  createParagraphPlugin,
-  createPlateComponents,
-  createPlateOptions,
-  PlatePlugin,
-  TEditor,
-} from '@udecode/plate';
+  useEffect,
+  useState,
+} from 'react';
+import ResizeableElement from '../common/ResizeableElement';
 
-import { Plate, PlateRenderElementProps } from '@udecode/plate-core';
-
-import { CONFIG } from '../../config/config';
-import { VALUES } from '../../config/values/values';
-
-export const ImageBlock = ({id, block, onUpdateBlock: updateBlock}: PlateRenderElementProps) => {
+export const ImageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
   const { properties } = block
-  const plugins = [
-    createParagraphPlugin(),      // paragraph element
-    createImagePlugin(),
-  ];
 
-  const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {  
-    return plugins
-  }, [])
+  const  defaultWidth = '50%';
 
-  // const {content, setContent} = useContext(ContentContext)
-  const [debugVal, setDebugVal] = useState([])
-  
-  // const handleChange = (newValue) => {
-  //   const updatedBlock = {
-  //     ...block,
-  //     properties: {
-  //       ...block.properties,
-  //       content: newValue
-  //     }
-  //   }
-  //   updateBlock(updatedBlock)// return false
-  // }
+  const  [width, setWidth] = useState( properties.width || 0)
+
+  useEffect(() => {
+    const updatedBlock = {
+      ...block,
+      properties: {
+        ...properties,
+        width
+      }
+    }
+    updateBlock(updatedBlock)
+  }, [width]);
 
   return (
-    <Plate
+    <ResizeableElement
       id={id}
-      plugins={pluginsMemo}
-      components={createPlateComponents()}
-      options={createPlateOptions()}
-      editableProps={CONFIG.editableProps}
-      // onChange={handleChange}
-      initialValue={properties?.content || VALUES.image}
-      // initialValue={properties?.content || VALUES.image}
+      width={width === 0 ? defaultWidth : width + 'px'}
+      onResizeStop={setWidth}
     >
-
-    </Plate>
+    <img
+        data-testid="ImageElementImage"
+        className={`block max-w-full px-1 w-full borderRadius[3px] object-cover boxShadow[0 0 0 1px rgb(59,130,249)]`}
+        src={properties.url}
+      />
+    </ResizeableElement>
   );
 }
 

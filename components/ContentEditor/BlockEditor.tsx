@@ -23,13 +23,36 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { ModalContext } from '../../context/modalContext';
 import DeleteContentBlockModal from '../admin/courses/DeleteContentBlockModal';
 import { useDebouncedCallback } from 'use-debounce';
+import cache, { activeContentBlockVar, currentContentItemVar } from '../../graphql/cache';
+import { ContentFragment } from '../../graphql/queries/allQueries';
+import { useReactiveVar } from '@apollo/client';
+import { usePlateEventId } from '@udecode/plate-core';
 
-const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
+const BlockEditor = () => {
   console.log('block editor rendering')
 
-  // const [blocks, setBlocks] = useState(initialBlocks);
+  // *** The below code needs to be refactored, it is used in various components: ***
+  const { id, type, updateFunction } = currentContentItemVar()
+  const [dragging, setDragging] = useState(false)
+  
+  const contentData = cache.readFragment({
+    id:`ContentItem:${id}`,
+    fragment: ContentFragment,
+    // fragmentName: 'SectionFragment'
+  })
 
+  // const focusedPlateEditor = usePlateEventId('focus');
 
+  // useEffect(() => {
+  //   activeContentBlockVar(focusedPlateEditor)
+  // }, [focusedPlateEditor])
+
+  const blocks = contentData.content?.blocks || []
+  // *** END of code to be refactored ***
+
+  const activeBlock = useReactiveVar(activeContentBlockVar);
+
+  // *** The below code needs to be refactored, it is used in various components: ***
   const insertBlockAtIndex = (newBlock, targetIndex) => {
     console.log('insertBlockAtIndex', newBlock, targetIndex)
     const newBlocks = [
@@ -37,8 +60,9 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
       newBlock,
       ...blocks.slice(targetIndex)
     ]
-    handleUpdate(newBlocks);
+    updateFunction(newBlocks);
   }
+  // *** END of code to be refactored ***
   
   const updateBlock = block => {
     console.log('updateBlock', block)
@@ -46,21 +70,20 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
     let newBlocks = [...blocks]
     newBlocks[blockIndex] = block
 
-    handleUpdate(newBlocks);
+    updateFunction(newBlocks);
   }
 
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
-  }, 2000);
+  }, 600);
  
   const deleteBlock = block => {
     console.log('deleteBlock', block)
     const newBlocks = blocks.filter(b => b.id !== block.id)
-    handleUpdate(newBlocks)
+    updateFunction(newBlocks)
   }
-  
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const activeIndex = activeId ? blocks.findIndex(({id}) => id === activeId) : -1;
+
+  const activeIndex = activeBlock ? blocks.findIndex(({id}) => id === activeBlock) : -1;
 
   const { handleModal } = useContext(ModalContext);
 
@@ -83,8 +106,6 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
     })
   );
 
-  console.log('blocks')
-  console.log(blocks)
   return (
     <>
       <DndContext 
@@ -92,16 +113,17 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
         collisionDetection={closestCenter}
         modifiers={[restrictToVerticalAxis]}
         onDragStart={({active}) => {
+          setDragging(true)
           console.log('active.id')
           console.log(active.id)
           if (!active) {
             return;
           }
           
-          setActiveId(active.id);
+          activeContentBlockVar(active.id);
         }}
         onDragEnd={handleDragEnd}
-        onDragCancel={() => setActiveId(null)}
+        onDragCancel={() => activeContentBlockVar(null)}
       >
         <SortableContext 
           items={blocks}
@@ -110,6 +132,9 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
           {blocks.map((block) => {
             return <SortableBlock
               onUpdateBlock={debouncedUpdateBlock}
+              dragging={dragging}
+              // onClick={() => activeContentBlockVar(block.id)}
+              // active={activeBlock === block.id}
               // onUpdateBlock={updateBlock}
               block={block}
               // setBlocks={() => false}
@@ -123,7 +148,7 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
             // adjustScale={adjustScale}
             // dropAnimation={dropAnimation}
           >
-            {activeId ? (
+            {activeContentBlockVar() ? (
               
               <Block
                 block={blocks[activeIndex]}
@@ -138,22 +163,24 @@ const BlockEditor = ({blocks, onUpdate: handleUpdate}) => {
       <BlockSelector targetIndex={blocks.length} onAddBlock={(insertBlockAtIndex)} />
       {/* <BlockSelector targetIndex={blocks.length} setBlocks={() => false} /> */}
       
-        <pre>
+        {/* <pre>
           {JSON.stringify(blocks,null,2)}
-        </pre>
+        </pre> */}
        
     </>
   );
   
   function handleDragEnd(event) {
     const {active, over} = event;
-    setActiveId(null);
+
+    setDragging(false)
+    // activeContentBlockVar(null);
 
     if (over) {
       const overIndex = blocks.findIndex(({id}) => id === over.id);
       if (activeIndex !== overIndex) {
         const newBlocks = arrayMove(blocks, activeIndex, overIndex);
-        handleUpdate(newBlocks);
+        updateFunction(newBlocks);
       }
     }
 

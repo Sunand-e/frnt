@@ -15,7 +15,8 @@ export function Action({active, className, cursor, style, ...props}: Props) {
   return (
     <button
       {...props}
-      className={classNames(styles.Action, className)}
+      // className={classNames(styles.Action, className)}
+      className={classNames(className, styles.Action)}
       tabIndex={0}
       style={
         {

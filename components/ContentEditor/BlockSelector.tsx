@@ -1,10 +1,27 @@
 import BlockTypes from './BlockTypes'
 import BlockButton from './BlockButton'
+import ImageLibraryModal from './blocks/ImageBlock/ImageLibraryModal'
+import { useContext } from 'react';
+import { ModalContext } from '../../context/modalContext';
 
 const BlockSelector = ({targetIndex, onAddBlock: insertBlockAtIndex}) => {
 
+  const { handleModal } = useContext(ModalContext);
+
   const handleAddBlock = (block) => {
-    insertBlockAtIndex(block, targetIndex)
+    switch(block.type) {
+      case 'image': {
+        handleModal({
+          title: `Choose image`,
+          content: <ImageLibraryModal />
+        })
+      
+        break;
+      }
+      default: {
+        insertBlockAtIndex(block, targetIndex)
+      }
+    }
   }
 
   const BlockButtons = BlockTypes.map((type, index) => (

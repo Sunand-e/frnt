@@ -24,6 +24,12 @@ const typePolicies = {
 }
 */
 export const viewVar = makeVar({})
+export const currentContentItemVar = makeVar({
+  type: null,
+  id: null,
+  updateFunction: null
+})
+export const activeContentBlockVar = makeVar(null)
 export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])
 export const latestContentVar = makeVar([])

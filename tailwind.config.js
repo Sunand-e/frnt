@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  purge: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   mode: 'jit', // or 'media' or 'class'
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -38,7 +38,8 @@ module.exports = {
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
-        '8xl' : '90rem'
+        '8xl' : '90rem',
+        'lg': '1024px'
       },
       borderWidth: {
         '3': '3px',
@@ -54,6 +55,7 @@ module.exports = {
   variants: {
     extend: {
       fontWeight: ['hover', 'focus'],
+      zIndex: ['hover', 'active'],
     },
   },
   plugins: [

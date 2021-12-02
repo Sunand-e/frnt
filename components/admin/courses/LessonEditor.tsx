@@ -1,40 +1,58 @@
 import ContentEditor from "../../ContentEditor/ContentEditor"
 import { UPDATE_LESSON } from "../../../graphql/mutations/lesson/UPDATE_LESSON"
 import { UpdateLesson, UpdateLessonVariables } from "../../../graphql/mutations/lesson/__generated__/UpdateLesson"
-import { ContentFragment } from "../../../graphql/queries/allQueries"
+import { ContentFragment, GET_LESSON } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
-import { useMutation, useReactiveVar } from "@apollo/client"
-import cache from "../../../graphql/cache"
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
+import cache, { currentContentItemVar } from "../../../graphql/cache"
 import { useContext, useEffect, useRef, useState } from "react";
 // import { ContentContext } from "../../../context/contentContext";
 import { useDebouncedCallback } from "use-debounce";
 import BlockEditor from "../../ContentEditor/BlockEditor";
+import EasyEdit, {Types} from 'react-easy-edit';
+const LessonEditor = ({id}) => {
 
-const LessonEditor = ({lesson}) => {
   const [updateLesson, updatedLesson] = useMutation<UpdateLesson, UpdateLessonVariables>(
     UPDATE_LESSON
   );
+
+  const saveLessonContent = (contentBlocks) => {
+    saveLesson({
+      contentBlocks
+    })
+  }
   
-  const saveLesson = (contentBlocks) => {
-    console.log('saveLesson called')
+  const saveLessonTitle = (title) => {
+    saveLesson({
+      title
+    })
+  }
+
+  const saveLesson = ({title=null, contentBlocks=null}) => {
+
     const cachedLesson = cache.readFragment<ContentFragmentType>({
-      id:`ContentItem:${lesson.id}`,
+      id:`ContentItem:${id}`,
       fragment: ContentFragment,
     })
     
+    const variables = {
+      ...(title && {title}),
+      ...(contentBlocks && {content: {
+        blocks: contentBlocks 
+      }})
+    }
+
     updateLesson({
       variables: {
-        id: lesson.id,
-        content: { blocks: contentBlocks }
+        id,
+        ...variables
       },
       optimisticResponse: {
         updateLesson: {
           __typename: 'UpdateLessonPayload',
           lesson: {
             ...cachedLesson,
-            content: {
-              blocks: contentBlocks 
-            }
+            ...variables
           },
         }
       }
@@ -43,6 +61,21 @@ const LessonEditor = ({lesson}) => {
     })
   }
 
+  currentContentItemVar({
+    type: 'lesson',
+    updateFunction: saveLessonContent,
+    id
+  })
+
+  
+  const { loading, error, data: {lesson} = {} } = useQuery(
+    GET_LESSON,
+    {
+      variables: {
+        id
+      }
+    }
+  );
   // const {content, setContent} = useContext(ContentContext)
 
   // const debouncedContentCallback = useDebouncedCallback((content) => {
@@ -60,7 +93,18 @@ const LessonEditor = ({lesson}) => {
 
   return (
     <>
-      <BlockEditor blocks={lesson.content?.blocks || []} onUpdate={saveLesson} />
+    <h1 className="my-3">
+    <EasyEdit
+        type={Types.TEXT}
+        onSave={saveLessonTitle}
+        saveButtonLabel="Save"
+        cancelButtonLabel="Cancel"
+        attributes={{ name: "awesome-input", id: 1}}
+        value={lesson.title}
+      />
+
+    </h1>
+      <BlockEditor />
     </>
   )
 }

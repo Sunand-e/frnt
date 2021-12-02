@@ -7,8 +7,7 @@ import Profile from "./Profile";
 
 export default function Header() {
 
-  const view = useReactiveVar(viewVar);
-
+  const view = useReactiveVar(viewVar)
 
   return (
     <>

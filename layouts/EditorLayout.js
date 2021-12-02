@@ -39,7 +39,7 @@ export default function EditorLayout( {page, navState} ) {
                   {/* { course && <CourseStructureEditor course={course} /> } */}
                 </div>
                 <div className="w-full flex justify-center px-16">
-                  <div className="min-w-0 max-w-screen-xl w-full flex-auto pt-4 pb-24 lg:pb-16">
+                  <div className="min-w-0 max-w-screen-lg w-full flex-auto pt-4 pb-24 lg:pb-16">
                     {page}
                   </div>
                 </div>

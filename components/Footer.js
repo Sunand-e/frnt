@@ -3,7 +3,7 @@ import Menu1 from "./Menu-1";
 export default function Footer({children}) {
   return (
     <div className="w-full bg-blue-dark">
-      <footer className="mx-auto max-w-screen-xl p-8 items-center text-white flex">
+      <footer className="mx-auto max-w-screen-lg p-8 items-center text-white flex">
         <Link href="/">
           <a>
             <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/logo-main.png`} className="w-40"/>

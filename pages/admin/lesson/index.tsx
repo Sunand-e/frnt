@@ -1,14 +1,13 @@
 import PageTitle from "../../../components/PageTitle"
 import ContentEditor from "../../../components/ContentEditor/ContentEditor"
 import { useEffect } from "react"
-import cache, { headerButtonsVar, viewVar } from "../../../graphql/cache"
+import { headerButtonsVar, viewVar } from "../../../graphql/cache"
 import { useMutation, useQuery } from "@apollo/client"
 import { useRouter } from '../../../utils/router'
 import { ContentFragment, GET_COURSE, GET_LESSON } from "../../../graphql/queries/allQueries"
 import Button from "../../../components/Button"
 
-import EditorLayout from "../../../components/layouts/EditorLayout"
-import { ContentContextProvider } from "../../../context/contentContext"
+import EditorLayout from "../../../layouts/EditorLayout"
 import LessonEditor from "../../../components/admin/courses/LessonEditor"
 
 const AdminLesson = () => {
@@ -24,7 +23,6 @@ const AdminLesson = () => {
       }
     }
   );
-
 
   useEffect(() => {
     const view = {
@@ -56,7 +54,7 @@ const AdminLesson = () => {
       { lesson &&
         <>
           <PageTitle title={`Edit Lesson: ${lesson?.title}`} />
-          { lesson && <LessonEditor lesson={lesson} /> }
+          { lesson && <LessonEditor id={id} /> }
         </>
       }
     </>

@@ -2,8 +2,8 @@ import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 
 import {useState, useEffect, createContext, ReactNode} from 'react'
-import Layout from '../components/layouts/Layout'
-import LoginLayout from '../components/layouts/LoginLayout'
+import Layout from '../layouts/Layout'
+import LoginLayout from '../layouts/LoginLayout'
 import { 
   ApolloProvider,
   useLazyQuery,
@@ -31,6 +31,9 @@ config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatica
 
 import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/toastify-overrides.css';
+
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
 import { ModalProvider } from '../context/modalContext'

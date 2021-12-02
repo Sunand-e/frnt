@@ -1,8 +1,7 @@
 import PageTitle from "../components/PageTitle"
 import ContentEditor from "../components/ContentEditor/ContentEditor"
 import ContentEditorFull from "../components/ContentEditor/ContentEditorFull"
-import EditorLayout from "../components/layouts/EditorLayout"
-import { ContentContext, ContentContextProvider } from "../context/contentContext"
+import EditorLayout from "../layouts/EditorLayout"
 import { useContext } from "react"
 
 const PlatePage = () => {
@@ -15,10 +14,8 @@ const PlatePage = () => {
   return (
     <>
       <PageTitle title="Plate" />
-      <ContentContextProvider>
-         <ContentEditor onChange={handleChange} />
+         {/* <ContentEditor onChange={handleChange} /> */}
       {/* <ContentEditorFull content={{blocks: []}} onChange={handleChange} /> */}
-      </ContentContextProvider>
     </>
   )
 }

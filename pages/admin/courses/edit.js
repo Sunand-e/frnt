@@ -4,7 +4,7 @@ import CourseStructureEditor from '../../../components/CourseStructureEditor/Cou
 import { useRouter } from '../../../utils/router'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_COURSE } from '../../../graphql/queries/allQueries';
-import EditorLayout from '../../../components/layouts/EditorLayout'
+import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache';
 import { useEffect } from 'react';
 import Button from '../../../components/Button';

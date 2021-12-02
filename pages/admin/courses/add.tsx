@@ -6,7 +6,7 @@ import { headerButtonsVar } from '../../../graphql/cache';
 import Builder from '../../../components/admin/CourseBuilder/Builder';
 import AdminSidebar from "../../../components/admin/CourseBuilder/AdminSidebar";
 import SaveButton from "../../../components/admin/CourseBuilder/SaveButton";
-import EditorLayout from '../../../components/layouts/EditorLayout'
+import EditorLayout from '../../../layouts/EditorLayout'
 import CourseStructureEditor from '../../../components/CourseStructureEditor/CourseStructureEditor'
 import { useMutation } from '@apollo/client';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';

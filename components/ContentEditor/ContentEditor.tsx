@@ -23,7 +23,6 @@ import { withStyledBlockContainers } from "./config/withStyledBlockContainers";
 // import { withStyledBlockContainers } from "./block-container/components/withStyledBlockContainers";
 import { withBlockContainers } from "./block-container/components/withBlockContainer";
 import ShowStore from "./ShowStore";
-import { ContentContext, ContentContextProvider } from "../../context/contentContext"
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 import { useDebouncedCallback } from 'use-debounce';

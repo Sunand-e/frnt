@@ -1,22 +1,30 @@
-import React from 'react';
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
-import { Block } from './Block';
-import styles from '../dnd-kit/Container/Container.module.scss';
-import { Handle, Remove } from '../dnd-kit';
-import { usePlateEventId } from '@udecode/plate-core';
-import { HeadingToolbar } from '@udecode/plate-toolbar';
-import { Toolbar } from './blocks/TextBlock/Toolbar';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import {useSortable} from '@dnd-kit/sortable'
+import {CSS} from '@dnd-kit/utilities'
+import { Block } from './Block'
+import styles from '../dnd-kit/Container/Container.module.scss'
+
+import { usePlateEventId } from '@udecode/plate-core'
+import { HeadingToolbar } from '@udecode/plate-toolbar'
+import { Toolbar } from './blocks/TextBlock/Toolbar'
+import styled from 'styled-components'
+import { activeContentBlockVar } from '../../graphql/cache'
+import BlockMenu from './BlockMenu'
+import Tippy from '@tippyjs/react'
 
 const StyledHeadingToolbar = styled(HeadingToolbar)`
   margin-bottom: 0px;
   padding-bottom: 0px;
-`;
+`
 
-const SortableBlock = ({block, onUpdateBlock, handle = true, onRemove}) => {
-  console.log('SortableBlock updated')
-  console.log(block)
+const SortableBlock = ({
+  block, 
+  onUpdateBlock, 
+  dragging = false,
+  // onClick: handleClick, 
+  handle = true,
+  onRemove = () => {}
+}) => {
   const {id, type} = block
   const {
     attributes,
@@ -29,9 +37,15 @@ const SortableBlock = ({block, onUpdateBlock, handle = true, onRemove}) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }; 
   
-  const isFocused = usePlateEventId('focus') === id;
+  // const [isActive, setIsActive] = useState(isPlateFocused)
+
+  const isActive = activeContentBlockVar() === block.id
+  const isBeingDragged = dragging && isActive
+  console.log('isBeingDragged')
+  console.log(isBeingDragged)
+
   const handleUpdateBlock = (block) => {
     console.log('updating block from within BLOCK')   
     onUpdateBlock(block)
@@ -43,26 +57,35 @@ const SortableBlock = ({block, onUpdateBlock, handle = true, onRemove}) => {
       {...(!handle ? attributes : undefined)}
       {...(!handle ? listeners : undefined)}
       tabIndex={!handle ? 0 : undefined}
-      className={`hover:bg-opacity-5 hover:bg-main`}
+      className={`hover:bg-opacity-5 hover:bg-main relative ${isBeingDragged && 'opacity-50'}`}
+      // onClick={() => setIsActive(true)}
+      // onClick={() => activeContentBlockVar(block.id)}
     >
-      { isFocused && (
-        <div className={`flex px-6 py-2 justify-between items-center `}>
-          <div className={`flex items-center `}>
-            { type === 'text' && (
-              <StyledHeadingToolbar >
-                <Toolbar />
-              </StyledHeadingToolbar>
-            )}
-          </div>
-          <span className={styles.Actions}>
-            {onRemove ? (
-              <Remove className={styles.Remove} onClick={() => onRemove(id)} />
-              ) : null}
-            {handle ? <Handle {...listeners} {...attributes} /> : null}
-          </span>
-        </div>
+    <span className={`absolute -right-14`}>
+      <BlockMenu
+        id={id}
+        onRemove={onRemove}
+        handle={handle}
+       />
+    </span>
+      { isActive && type === 'text' ? (
+        <Tippy
+        interactive={true}
+        theme={' '}
+        content={(
+          <StyledHeadingToolbar >
+            <Toolbar />
+          </StyledHeadingToolbar>
+          )}
+        >
+            <div>
+          <Block block={block} onUpdateBlock={handleUpdateBlock} />
+            </div>
+        </Tippy>
+      ) : (
+        <Block block={block} onUpdateBlock={handleUpdateBlock} />
       )}
-      <Block block={block} onUpdateBlock={handleUpdateBlock} />
+
     </div>
   );
 }

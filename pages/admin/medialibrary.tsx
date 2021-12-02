@@ -31,7 +31,6 @@ const MediaLibraryPage = () => {
     <>
       <PageTitle title="Media Library" />
       <div className="px-8">
-        <FileUploader />
         <MediaLibrary />
       </div>
     </>

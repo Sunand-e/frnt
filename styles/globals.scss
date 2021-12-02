@@ -97,6 +97,20 @@ a {
 }
 
 
+.tippy-box[data-theme~='memberhub-block-menu'] {
+
+  background-color: white;
+  @apply text-grey-dark;
+
+  .tippy-arrow {
+    display: none;
+  }
+  .tippy-content {
+    padding:0;
+  }
+}
+
+
 .tippy-box[data-theme~='memberhub-white'] {
 
   background-color: white;
