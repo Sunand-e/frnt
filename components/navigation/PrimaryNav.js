@@ -24,7 +24,7 @@ export default function PrimaryNav({isSlim, pageNavState}) {
         <div 
           id="navWrapper"
           // className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden bg-white mr-24 lg:mr-0"
-          className="h-full overflow-visible scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent bg-white mr-24 lg:mr-0"
+          className="h-full overflow-visible scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent bg-white"
         >
           <nav
             id="nav"

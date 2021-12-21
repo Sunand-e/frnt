@@ -1,11 +1,15 @@
 import {
   useEffect,
   useState,
+  FunctionComponent
 } from 'react';
+import useBlockEditor from '../../useBlockEditor';
 import ResizeableElement from '../common/ResizeableElement';
 
-export const VideoBlock = ({id, block, onUpdateBlock: updateBlock}) => {
+export const VideoBlock: FunctionComponent = ({block}) => {
   const { properties } = block
+
+  const { updateBlock } = useBlockEditor()
 
   const  defaultWidth = '50%';
 
@@ -24,7 +28,7 @@ export const VideoBlock = ({id, block, onUpdateBlock: updateBlock}) => {
 
   return (
     <ResizeableElement
-      id={id}
+      id={block.id}
       width={width === 0 ? defaultWidth : width + 'px'}
       onResizeStop={setWidth}
     >

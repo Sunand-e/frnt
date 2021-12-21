@@ -1,4 +1,5 @@
-const HeaderBlock = ({id, properties}) => {
+import { FunctionComponent } from 'react'
+const HeaderBlock: FunctionComponent = ({block}) => {
   // const {content} = properties;
   return (
     <div className="bg-main">

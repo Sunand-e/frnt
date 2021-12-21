@@ -1,18 +1,20 @@
 import {
   useEffect,
   useState,
+  FunctionComponent
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
+import useBlockEditor from '../../useBlockEditor';
 
 const DynamicPackageIFrame = dynamic(
   () => import('./PackageIFrame'),
   { ssr: false }
 )
 
-export const PackageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
+export const PackageBlock: FunctionComponent = ({block}) => {
   const { properties } = block
-
+  const { updateBlock } = useBlockEditor()
   const  defaultWidth = '100%';
 
   const  [width, setWidth] = useState( properties.width || 0)
@@ -30,7 +32,7 @@ export const PackageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
 
   return (
     <ResizeableElement
-      id={id}
+      id={block.id}
       width={width === 0 ? defaultWidth : width + 'px'}
       onResizeStop={setWidth}
     >

@@ -61,11 +61,7 @@ const LessonEditor = ({id}) => {
     })
   }
 
-  currentContentItemVar({
-    type: 'lesson',
-    updateFunction: saveLessonContent,
-    id
-  })
+  
 
   
   const { loading, error, data: {lesson} = {} } = useQuery(
@@ -76,6 +72,11 @@ const LessonEditor = ({id}) => {
       }
     }
   );
+
+  currentContentItemVar({
+    ...lesson,
+    updateFunction: saveLessonContent,
+  })
   // const {content, setContent} = useContext(ContentContext)
 
   // const debouncedContentCallback = useDebouncedCallback((content) => {
@@ -105,6 +106,9 @@ const LessonEditor = ({id}) => {
 
     </h1>
       <BlockEditor />
+      {/* <pre>
+      {JSON.stringify(currentContentItemVar(),null,2)}
+      </pre> */}
     </>
   )
 }

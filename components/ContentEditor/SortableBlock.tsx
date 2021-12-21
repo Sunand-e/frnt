@@ -59,7 +59,7 @@ const SortableBlock = ({
       tabIndex={!handle ? 0 : undefined}
       className={`hover:bg-opacity-5 hover:bg-main relative ${isBeingDragged && 'opacity-50'}`}
       // onClick={() => setIsActive(true)}
-      // onClick={() => activeContentBlockVar(block.id)}
+      onClick={() => activeContentBlockVar(block.id)}
     >
     <span className={`absolute -right-14`}>
       <BlockMenu
@@ -71,7 +71,7 @@ const SortableBlock = ({
       { isActive && type === 'text' ? (
         <Tippy
         interactive={true}
-        theme={' '}
+        theme={'light'}
         content={(
           <StyledHeadingToolbar >
             <Toolbar />

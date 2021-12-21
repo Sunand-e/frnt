@@ -1,15 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
-import BlockTypes from './BlockTypes';
+import blocktypes from './blocktypes';
 
-const BlockButton = ({onAddBlock: addBlock, type, text, Icon}) => {
+const BlockButton = ({onSelectBlock: selectBlock, type, text, Icon}) => {
 
   const handleClick = () => {
     const newBlock = {
       type: type,
       id: uuidv4(),
-      properties: BlockTypes.find(t => t.name === type).defaultProperties
+      properties: {}
     }
-    addBlock(newBlock)
+    selectBlock(newBlock)
   }
 
   return (

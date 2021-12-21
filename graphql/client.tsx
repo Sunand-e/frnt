@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, createHttpLink, NormalizedCacheObject } from '@apollo/client';
+import { gql, ApolloClient, ApolloLink, createHttpLink, NormalizedCacheObject } from '@apollo/client';
 import { RestLink } from 'apollo-link-rest';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";

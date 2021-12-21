@@ -1,5 +1,6 @@
-const ListBlock = ({id, properties}) => {
-  const {content} = properties;
+import { FunctionComponent } from 'react'
+
+const ListBlock: FunctionComponent = ({block}) => {
   return (
     <div>
       {`list`}

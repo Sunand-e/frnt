@@ -56,19 +56,19 @@ const Builder = ({course}) => {
       const targetSection = sections[destination.droppableId]
 
       if(startSection === targetSection) {
-        console.log('startSection')
-        console.log(startSection)
+        // console.log('startSection')
+        // console.log(startSection)
 
         const newItems = Array.from(startSection.lessons)
-        console.log('startSection.lessons')
-        console.log(startSection.lessons)
+        // console.log('startSection.lessons')
+        // console.log(startSection.lessons)
         const sourceItem = newItems.splice(source.index, 1)
-        console.log('sourceItem[0]')
-        console.log(sourceItem[0])
+        // console.log('sourceItem[0]')
+        // console.log(sourceItem[0])
         newItems.splice(destination.index, 0, sourceItem[0])
 
-        console.log('newItems')
-        console.log(newItems)
+        // console.log('newItems')
+        // console.log(newItems)
         
         // redefine the section's item array
         const newSection = {

@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, FunctionComponent } from 'react';
 import {
   createBasicElementPlugins,
   createHistoryPlugin,
@@ -32,9 +32,13 @@ import { Plate, PlateRenderElementProps, usePlateStore, usePlateEditorState, use
 import { HeadingToolbar } from '@udecode/plate-toolbar';
 import { CONFIG } from '../../config/config';
 import { Toolbar } from './Toolbar'
+import useBlockEditor from '../../useBlockEditor';
 
-export const TextBlock = ({id, block, onUpdateBlock: updateBlock}: PlateRenderElementProps) => {
+export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) => {
   const { properties } = block
+
+  const { debouncedUpdateBlock } = useBlockEditor()
+
   const plugins = [
     // editor
     createReactPlugin(),          // withReact
@@ -83,14 +87,14 @@ export const TextBlock = ({id, block, onUpdateBlock: updateBlock}: PlateRenderEl
         content: newValue
       }
     }
-    updateBlock(updatedBlock)// return false
+    debouncedUpdateBlock(updatedBlock)// return false
   }
 
-  console.log('text block rerendered')
-  console.log(properties?.content)
+  // console.log('text block rerendered')
+  // console.log(properties?.content)
   return (
     <Plate
-      id={id}
+      id={block.id}
       plugins={pluginsMemo}
       components={createPlateComponents()}
       options={createPlateOptions()}

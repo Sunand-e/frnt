@@ -1,14 +1,19 @@
 import {
   useEffect,
   useState,
+  FunctionComponent
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
+import { Container, Section, Bar } from 'react-simple-resizer';
+import useBlockEditor from '../../useBlockEditor';
 
-export const ImageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
+export const ImageBlock: FunctionComponent = ({block}) => {
   const { properties } = block
 
-  const  defaultWidth = '50%';
+  const { updateBlock } = useBlockEditor()
 
+  const  defaultWidth = '50%';
+  
   const  [width, setWidth] = useState( properties.width || 0)
 
   useEffect(() => {
@@ -24,7 +29,7 @@ export const ImageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
 
   return (
     <ResizeableElement
-      id={id}
+      id={block.id}
       width={width === 0 ? defaultWidth : width + 'px'}
       onResizeStop={setWidth}
     >
@@ -33,6 +38,7 @@ export const ImageBlock = ({id, block, onUpdateBlock: updateBlock}) => {
         className={`block max-w-full px-1 w-full borderRadius[3px] object-cover boxShadow[0 0 0 1px rgb(59,130,249)]`}
         src={properties.url}
       />
+
     </ResizeableElement>
   );
 }

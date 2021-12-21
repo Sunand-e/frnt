@@ -10,62 +10,55 @@ import ListBlock from './blocks/ListBlock/ListBlock'
 import ImageBlock from './blocks/ImageBlock/ImageBlock'
 import VideoBlock from './blocks/VideoBlock/VideoBlock'
 import PackageBlock from './blocks/PackageBlock/PackageBlock'
+import ColumnsBlock from './blocks/ColumnsBlock/ColumnsBlock'
 
-const BlockTypes = [
-  {
-    name: 'header',
+import AddColumn from './Icons/AddColumn';
+import PlaceholderBlock from './blocks/ColumnsBlock/PlaceholderBlock'
+import Columns from './Icons/Columns'
+
+const blocktypes = {
+  header: {
     text: 'header',
     component: HeaderBlock,
     icon: Text,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
   },
-  {
-    name: 'text',
+  text: {
     text: 'Text',
     component: TextBlock,
     icon: Text,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
   },
-  {
-    name: 'list',
+  list: {
     text: 'List',
     component: ListBlock,
     icon: List,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
   },
-  {
-    name: 'image',
+  image: {
     text: 'Image',
     component: ImageBlock,
     icon: Image,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
   },
-  {
-    name: 'video',
+  video: {
     text: 'Video',
     component: VideoBlock,
     icon: Video,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
   },
-  {
+  package: {
     text: 'SCORM / xAPI',
-    name: 'package',
     component: PackageBlock,
     icon: Box,
-    defaultProperties: {
-      content: [{children: [{text:''}]}]
-    }
+  }, 
+  columns: {
+    text: 'Columns',
+    component: ColumnsBlock,
+    icon: Columns,
+    hideFromColumns: true,
   },
-]
+  placeholder: {
+    text: 'Placeholder',
+    component: PlaceholderBlock,
+    icon: AddColumn,
+    hideFromSelector: true,
+  }
+}
 
-export default BlockTypes
+export default blocktypes

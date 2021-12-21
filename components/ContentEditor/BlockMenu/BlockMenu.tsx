@@ -1,0 +1,162 @@
+import React, { useEffect, useRef } from 'react';
+import { Action, Handle, Remove } from '../../dnd-kit'
+
+import {MoreVert} from '@styled-icons/material/MoreVert'
+import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import {Cog} from '@styled-icons/fa-solid/Cog'
+import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
+import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
+import { useSortable } from '../../dnd-kit/sortable/dist';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
+import 'tippy.js/themes/light.css';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/scale-extreme.css';
+import 'tippy.js/animations/shift-away-extreme.css';
+import AddColumn from '../Icons/AddColumn';
+import { currentContentItemVar } from '../../../graphql/cache';
+import useBlockEditor from '../useBlockEditor';
+
+const BlockMenu = ({ block }) => {
+  
+  const { blocks, addColumn, shiftPosition, handleDeleteBlock } = useBlockEditor()
+  
+  const isChild = !blocks.some(b => b.id === block.id)
+
+  const index = blocks.findIndex(b => b.id === block.id)
+
+  const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`
+        px-4 py-3 flex align-left items-center rounded hover:bg-main-dark hover:bg-opacity-5 justify-center
+        ${className}
+      `}
+    >
+      {children}
+    </button>
+  )
+
+  const allBlockMenuItems = [
+    {
+      name: 'move-up',
+      text: 'Move up',
+      childText: 'Move left',
+      childButtonClass: '-rotate-90',
+      iconComponent: ArrowUpward,
+      onClick: () => shiftPosition(index,'up'),
+    },
+    {
+      name: 'move-down',
+      text: 'Move down',
+      childText: 'Move right',
+      childButtonClass: '-rotate-90',
+      iconComponent: ArrowDownward,
+      onClick: () => shiftPosition(index,'down')
+    },
+    {
+      name: 'settings',
+      text: 'Settings',
+      iconComponent: Cog,
+      onClick: () => shiftPosition(index,'up')
+    },
+    {
+      name: 'add-column',
+      text: 'Add column',
+      iconComponent: AddColumn,
+      onClick: () => {
+        alert('ADDCOL')
+        addColumn(block)
+      },
+      isDisabled: () => block.children?.length > 3,
+      hideOnChild: true
+    },
+    {
+      name: 'delete',
+      text: 'Delete block',
+      iconComponent: Trash,
+      onClick: (e) => handleDeleteBlock(block),
+      hideOnColumnBlocks: true
+    },
+  ]
+
+  let blockMenuItems = isChild ? 
+    allBlockMenuItems.filter(item => {
+      return !item.hideOnChild
+    }) : allBlockMenuItems
+
+  const menuItems = blockMenuItems.map((menuItem, index) => {
+
+    const IconComponent = menuItem.iconComponent
+
+    return (
+      <Tippy
+        key={index}
+        interactive={true}
+        className={`text-white px-4 py-2 z-50`}
+        theme={'memberhub-block-menu light'}
+        arrow={true}
+        placement={'left'}
+        content={(
+          <p className={`${menuItem.isDisabled?.() && 'text-gray-400'} whitespace-nowrap`}>
+            {isChild ? menuItem.childText ?? menuItem.text : menuItem.text }
+          </p>
+        )}
+      >
+        <div>
+          <StyledButton
+            className={`
+              ${menuItem.isDisabled?.() && 'text-gray-400'}
+              ${isChild && menuItem.childButtonClass}
+            `}
+            onClick={menuItem.onClick}
+            // onClick={!menuItem.isDisabled?.() && menuItem.onClick}
+            disabled={menuItem.isDisabled?.()}
+            >
+            <IconComponent size="18" />
+          </StyledButton>
+        </div>
+      </Tippy>
+    )
+  })
+
+  return (
+    <Tippy
+      interactive={true}
+      theme={'memberhub-block-menu'}
+      trigger="click"
+      arrow={false}
+      animation={`scale-extreme`}
+      placement={'bottom'}
+      content={(
+        <div className={`flex flex-col rounded`}>
+          { menuItems }
+        </div>
+      )}
+      popperOptions={{
+        modifiers: [
+          {
+            name: 'flip',
+            options: {
+              fallbackPlacements: [],
+            },
+          },
+        ]    
+      }}
+    >
+      <div className={``}>
+        <StyledButton 
+          className={`
+            px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'px-2 py-1' : 'bg-main'}
+          `}
+        >
+        <MoreVert size="18" />
+        </StyledButton>
+      </div>
+    </Tippy>
+    /* {handle ? <Handle {...listeners} {...attributes} /> : null} */
+  )
+}
+
+export default BlockMenu

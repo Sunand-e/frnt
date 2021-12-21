@@ -49,6 +49,7 @@ const FileUploader = (props) => {
       console.log('file.name')
       console.log(file.name)
       console.log(file.size)
+      console.log(file.type)
       // mediaItemsVar([...mediaItemsVar(), file] )
 
       const data = new FormData()
@@ -83,12 +84,14 @@ const FileUploader = (props) => {
         }
       }).then (data => {
         toast.done(toastId.current)
+         /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
         client.refetchQueries({
           include: [GET_MEDIA_ITEMS]
         })
       })
-
     }
+
+
   }
 
   const {
@@ -125,6 +128,7 @@ const FileUploader = (props) => {
       'application/x-msexcel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/octet-stream',
+      'application/zip',
       'audio/mpeg3',
       'audio/x-mpeg-3',
       'video/mpeg',

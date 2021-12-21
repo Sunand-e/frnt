@@ -1,43 +1,86 @@
-import BlockTypes from './BlockTypes'
+import blocktypes from './blocktypes'
 import BlockButton from './BlockButton'
 import ImageLibraryModal from './blocks/ImageBlock/ImageLibraryModal'
+import PackageSelectModal from './blocks/PackageBlock/PackageSelectModal'
 import { useContext } from 'react';
 import { ModalContext } from '../../context/modalContext';
+import { v4 as uuidv4 } from 'uuid';
+import cache, { currentContentItemVar } from '../../graphql/cache';
+import { ContentFragment } from '../../graphql/queries/allQueries';
+import useBlockEditor from './useBlockEditor';
 
-const BlockSelector = ({targetIndex, onAddBlock: insertBlockAtIndex}) => {
+const BlockSelector = ({block=null, replace=false}) => {
+
+  const { blocks, insertBlock, updateBlock } = useBlockEditor()
+
+  const addBlock = (newBlock) => {
+    if(block) {
+      if(replace) {
+        updateBlock(block, newBlock)
+      }
+    } else {
+      insertBlock(newBlock, blocks.length, null, replace)
+    }
+  }
 
   const { handleModal } = useContext(ModalContext);
 
-  const handleAddBlock = (block) => {
-    switch(block.type) {
+  const handleSelectBlock = (newBlock) => {
+    switch(newBlock.type) {
       case 'image': {
         handleModal({
           title: `Choose image`,
-          content: <ImageLibraryModal />
+          content: <ImageLibraryModal onImageSelect={(block) => addBlock(block)} />
         })
-      
+        break;
+      }
+      case 'package': {
+        handleModal({
+          title: `Choose package`,
+          content: <PackageSelectModal />
+        })
+        break;
+      }
+      case 'columns': {
+        newBlock.children = [
+          { type: 'placeholder', id: uuidv4() },
+          { type: 'placeholder', id: uuidv4() }
+        ]        
+        // insertBlock(newBlock, index, null, replace)
+        addBlock(newBlock)
         break;
       }
       default: {
-        insertBlockAtIndex(block, targetIndex)
+        // insertBlock(newBlock, index, null, replace)
+        addBlock(newBlock)
       }
     }
   }
 
-  const BlockButtons = BlockTypes.map((type, index) => (
-    <BlockButton 
-      key={index}
-      type={type.name}
-      text={type.text}
-      Icon={type.icon}
-      onAddBlock={handleAddBlock}
-    />
-  ))
-  
+  let blockButtons = []
+  let btnIndex = 0;
+  for(const blockTypeName in blocktypes) {
+    const blockType = blocktypes[blockTypeName]
+    if(!blockType.hideFromSelector) {
+      blockButtons.push({
+        ...blockType,
+        name: blockTypeName
+      })
+    }
+  }
+
+  const BlockButtons = blockButtons.map((type, index) => <BlockButton 
+    key={index}
+    type={type.name}
+    text={type.text}
+    Icon={type.icon}
+    onSelectBlock={handleSelectBlock}
+  />)
+
   return (
-    <div className="p-4 flex flex-col text-center text-main-dark">
-      <h3>New item...</h3>
-      <div className="pt-4 flex gap-4 justify-center align-center items-center sm:grid-cols-6 lg:grid-cols-6 text-sm">
+    <div className="flex flex-col text-center text-main-dark">
+      <div 
+        className="flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
         { BlockButtons }
       </div>
     </div>

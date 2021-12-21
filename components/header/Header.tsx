@@ -14,7 +14,7 @@ export default function Header() {
       <div className="sticky top-0 z-20 w-full h-18 mx-auto bg-white flex bg-white shadow-sm justify-between">
         <div
             className="flex-none pl-4 sm:pl-6 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0 lg:w-60 xl:w-72">
-            <a className="overflow-hidden w-10 md:w-auto text-lg text-main-dark font-bold" href="/">
+            <a className="overflow-hidden w-auto text-lg text-main-dark font-bold" href="/">
               <span className="sr-only">MemberHub Dashboard</span>
               
               {view.title}
