@@ -11,12 +11,14 @@ import useBlockEditor from './useBlockEditor';
 
 const BlockSelector = ({block=null, replace=false}) => {
 
-  const { blocks, insertBlock, updateBlock } = useBlockEditor()
+  const { blocks, insertBlock, updateBlock, getIndexAndParent } = useBlockEditor(block)
 
   const addBlock = (newBlock) => {
     if(block) {
       if(replace) {
         updateBlock(block, newBlock)
+      } else {
+        insertBlock(newBlock, block.findIndex(), null, replace)
       }
     } else {
       insertBlock(newBlock, blocks.length, null, replace)

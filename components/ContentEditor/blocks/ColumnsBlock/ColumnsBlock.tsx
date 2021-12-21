@@ -14,7 +14,7 @@ export const ColumnsBlock = ({id, block, onUpdateBlock: updateBlock}) => {
 
   const columns = block.children?.map((childBlock, index, blocks) => (
     <React.Fragment key={index}>
-      <Section style={{ overflow: 'visible' }}>
+      <Section style={{ overflow: 'hidden' }}>
       {/* <Section minSize={240} style={{ overflow: 'visible' }}> */}
         <BlockContainer 
           isColumn={true} 

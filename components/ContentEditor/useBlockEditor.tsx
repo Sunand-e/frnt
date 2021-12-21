@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useReactiveVar } from "@apollo/client";
 // import "./styles.css";
 
-const useBlockEditor = () => {
+const useBlockEditor = (block=null) => {
 
   const { id, type, updateFunction } = currentContentItemVar()
   
@@ -24,7 +24,9 @@ const useBlockEditor = () => {
     fragment: ContentFragment,
   })
   // console.log(blocks)
-  
+
+  const blockIndex = 
+
   useEffect(() => {
 
   },[blocks])
@@ -67,8 +69,8 @@ const useBlockEditor = () => {
     updateFunction(newBlocks);
   },[blocks])
   
-  const updateBlock = (block, newBlock=null) => {
-    // console.log('updateBlock', block)
+
+  const getIndexAndParent = (block) => {
     let parent = null
 
     let index = blocks.findIndex(b => b.id === block.id)
@@ -79,35 +81,35 @@ const useBlockEditor = () => {
       index = parent.children.findIndex(b => b.id === block.id)
     }
 
-    insertBlock(newBlock ?? block, index, parent, 1)
-
+    return { index, parent }
   }
 
+
+  const updateBlock = (block, newBlock=null) => {
+    // console.log('updateBlock', block)
+    const { index, parent } = getIndexAndParent(block)
+    
+    insertBlock(newBlock ?? block, index, parent, 1)
+    
+  }
+  
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
   }, 2000);
- 
-
-
-
-
+  
+  
+  
+  
+  
   const deleteBlock = block => {
-    // console.log('deleteBlock', block)
-    let parent = null
-
-    let index = blocks.findIndex(b => b.id === block.id)
-
-    if(index < 0) {
-      let blocksWithChildren = blocks.filter(block => block.type === 'columns')
-      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === block.id))
-      index = parent.children.findIndex(b => b.id === block.id)
-    }
+    
+    const { index, parent } = getIndexAndParent(block)
 
     let newBlocks
-
+    
     if(parent) {
       const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
-
+      
       newBlocks = [
         ...blocks.slice(0, topLevelIndex),
         {
@@ -172,9 +174,13 @@ const useBlockEditor = () => {
 
   }
 
-  const shiftPosition = (index, direction='down') => {
+  const shiftPosition = (block, direction='down') => {
+
+    const { index, parent } = getIndexAndParent(block)
+
     // alert('shiftPosition!' + index)
     const modifier = direction === 'down' ? 1 : -1
+
     updateFunction(arrayMove(blocks, index, index+modifier ));
   }
 
@@ -207,6 +213,7 @@ const useBlockEditor = () => {
     shiftPosition,
     insertBlock,
     updateBlock,
+    getIndexAndParent,
     debouncedUpdateBlock,
     handleDeleteBlock
   }

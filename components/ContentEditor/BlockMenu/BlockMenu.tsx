@@ -17,7 +17,7 @@ import AddColumn from '../Icons/AddColumn';
 import { currentContentItemVar } from '../../../graphql/cache';
 import useBlockEditor from '../useBlockEditor';
 
-const BlockMenu = ({ block }) => {
+const BlockMenu = ({ block, className }) => {
   
   const { blocks, addColumn, shiftPosition, handleDeleteBlock } = useBlockEditor()
   
@@ -45,7 +45,7 @@ const BlockMenu = ({ block }) => {
       childText: 'Move left',
       childButtonClass: '-rotate-90',
       iconComponent: ArrowUpward,
-      onClick: () => shiftPosition(index,'up'),
+      onClick: () => shiftPosition(block,'up'),
     },
     {
       name: 'move-down',
@@ -53,13 +53,13 @@ const BlockMenu = ({ block }) => {
       childText: 'Move right',
       childButtonClass: '-rotate-90',
       iconComponent: ArrowDownward,
-      onClick: () => shiftPosition(index,'down')
+      onClick: () => shiftPosition(block,'down')
     },
     {
       name: 'settings',
       text: 'Settings',
       iconComponent: Cog,
-      onClick: () => shiftPosition(index,'up')
+      onClick: () => null
     },
     {
       name: 'add-column',
@@ -121,6 +121,14 @@ const BlockMenu = ({ block }) => {
     )
   })
 
+  if(!isChild) {
+    return (
+      <div className={`flex flex-col rounded bg-white ${className}`}>
+        { menuItems }
+      </div>
+    )
+  }
+
   return (
     <Tippy
       interactive={true}
@@ -148,7 +156,7 @@ const BlockMenu = ({ block }) => {
       <div className={``}>
         <StyledButton 
           className={`
-            px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'px-2 py-1' : 'bg-main'}
+            px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
           `}
         >
         <MoreVert size="18" />

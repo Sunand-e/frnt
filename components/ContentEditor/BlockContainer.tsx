@@ -11,6 +11,7 @@ import { activeContentBlockVar } from '../../graphql/cache'
 import BlockMenu from './BlockMenu/BlockMenu'
 import Tippy from '@tippyjs/react'
 import useBlockEditor from './useBlockEditor'
+import BlockFooter from './BlockFooter'
 
 const StyledHeadingToolbar = styled(HeadingToolbar)`
   margin-bottom: 0px;
@@ -33,17 +34,17 @@ const BlockContainer = ({
 
   return (
     <div
-      className={`${isColumn && 'group h-full'} hover:bg-opacity-5 hover:bg-main relative`}
+      className={`${isColumn ? 'h-full' : ''} group relative flex justify-center`}
       // onClick={() => setIsActive(true)}
       // onClick={() => activeContentBlockVar(block.id)}
     >
       {/* { type } */}
-      <span className={`absolute ${isColumn ? 'z-5 right-2 top-2' : '-right-14'}`}>
+      <span className={`absolute z-10 right-2 top-2`}>
       {/* <span className={`absolute -right-14`}> */}
 
         <BlockMenu
           block={block}
-          className={isColumn && `bg-white rounded group-hover:block`}
+          className={!isColumn && `bg-white rounded hidden group-hover:block`}
           // handle={handle}
         />
 
@@ -66,7 +67,7 @@ const BlockContainer = ({
       ) : (
         <Block block={block} />
       )}
-
+      <BlockFooter block={block} />
     </div>
   );
 }

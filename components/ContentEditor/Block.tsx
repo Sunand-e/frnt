@@ -15,7 +15,7 @@ export const Block = ({ dragOverlay = false, block }) => {
   const blockId = dragOverlay ? `${dragOverlay}-${id}` : id;
   return (
     // <div className="p-2 mb-4 bg-white rounded-lg shadow shadow-lg">
-    <div className="p-2 h-full">
+    <div className="px-4 py-8 h-full w-full max-w-screen-lg hover:bg-opacity-5 hover:bg-main">
       <BlockComponent id={blockId} block={block} />
     </div>
   );
