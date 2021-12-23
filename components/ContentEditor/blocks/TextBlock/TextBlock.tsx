@@ -29,9 +29,8 @@ import {
 } from "@udecode/plate-basic-marks";
 import { Plate, PlateRenderElementProps, usePlateStore, usePlateEditorState, usePlateEventId } from '@udecode/plate-core';
 
-import { HeadingToolbar } from '@udecode/plate-toolbar';
-import { CONFIG } from '../../config/config';
-import { Toolbar } from './Toolbar'
+import { CONFIG } from './config';
+
 import useBlockEditor from '../../useBlockEditor';
 
 export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) => {

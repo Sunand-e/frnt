@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react"
 import { Flipper, Flipped } from "react-flip-toolkit"
 import shuffle from "lodash.shuffle"
 import { arrayMove } from "@dnd-kit/sortable";
-import cache, { currentContentItemVar } from "../../graphql/cache";
+import cache, { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
 import { ContentFragment } from "../../graphql/queries/allQueries";
 import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
@@ -23,10 +23,7 @@ const useBlockEditor = (block=null) => {
     id:`ContentItem:${id}`,
     fragment: ContentFragment,
   })
-  // console.log(blocks)
-
-  const blockIndex = 
-
+  
   useEffect(() => {
 
   },[blocks])
@@ -181,7 +178,24 @@ const useBlockEditor = (block=null) => {
     // alert('shiftPosition!' + index)
     const modifier = direction === 'down' ? 1 : -1
 
-    updateFunction(arrayMove(blocks, index, index+modifier ));
+    let newBlocks
+
+    if(parent) {
+      const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
+      
+      newBlocks = [
+        ...blocks.slice(0, topLevelIndex),
+        {
+          ...blocks[topLevelIndex],
+          children: arrayMove(blocks[topLevelIndex].children, index, index+modifier )
+        },
+        ...blocks.slice(topLevelIndex + 1)
+      ]
+    } else {
+      newBlocks = arrayMove(blocks, index, index+modifier )
+    }
+
+    updateFunction(newBlocks);
   }
 
   const createPlaceholderBlock = () => {
@@ -214,6 +228,7 @@ const useBlockEditor = (block=null) => {
     insertBlock,
     updateBlock,
     getIndexAndParent,
+    activeBlockId: activeContentBlockVar(),
     debouncedUpdateBlock,
     handleDeleteBlock
   }

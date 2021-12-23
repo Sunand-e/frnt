@@ -31,7 +31,7 @@ const BlockEditor = () => {
           {blockIds.map((blockId, idx) => {
             const block = blocks.find(block => block.id === blockId)
             return (
-              <Flipped translate key={blockId} flipId={blockId}>
+              <Flipped translate flipId={blockId} key={idx}>
                 <div className="flipped-container">
                   <BlockContainer
                     // onClick={() => activeContentBlockVar(block.id)}

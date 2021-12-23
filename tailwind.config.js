@@ -47,7 +47,9 @@ module.exports = {
       },
 
       transitionProperty: {
-        'width': 'width'
+        'width': 'width',
+        'height': 'height',
+        'max-h': 'max-height'
       },
       backgroundOpacity: ['active', 'focus'],
     },
@@ -56,6 +58,7 @@ module.exports = {
     extend: {
       fontWeight: ['hover', 'focus'],
       zIndex: ['hover', 'active'],
+      flexGrow: ['before', 'after'],
     },
   },
   plugins: [

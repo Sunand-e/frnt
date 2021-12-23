@@ -12,6 +12,7 @@ import BlockMenu from './BlockMenu/BlockMenu'
 import Tippy from '@tippyjs/react'
 import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
+import { useReactiveVar } from "@apollo/client";
 
 const StyledHeadingToolbar = styled(HeadingToolbar)`
   margin-bottom: 0px;
@@ -30,46 +31,34 @@ const BlockContainer = ({
   // const [isActive, setIsActive] = useState(isPlateFocused)
   // console.log('block.parent')
   // console.log(block.parent)
-  const isActive = activeContentBlockVar() === block.id
+  const isActive = useReactiveVar(activeContentBlockVar) === block.id
 
   return (
     <div
-      className={`${isColumn ? 'h-full' : ''} group relative flex justify-center`}
+      className={`${isColumn ? 'h-full' : ''} group relative flex flex-col items-center`}
+
       // onClick={() => setIsActive(true)}
-      // onClick={() => activeContentBlockVar(block.id)}
+      onClick={() => activeContentBlockVar(block.id)}
     >
       {/* { type } */}
       <span className={`absolute z-10 right-2 top-2`}>
       {/* <span className={`absolute -right-14`}> */}
 
         <BlockMenu
+        
           block={block}
-          className={!isColumn && `bg-white rounded hidden group-hover:block`}
+          className={`
+            ${!isActive && 'block'}
+            ${!isColumn && 'bg-white rounded hidden group-hover:block'}
+          `}
           // handle={handle}
         />
 
       </span>
-
-      { isActive && type === 'text' ? (
-        <Tippy
-          interactive={true}
-          theme="light"
-          content={(
-            <StyledHeadingToolbar >
-              <Toolbar />
-            </StyledHeadingToolbar>
-          )}
-        >
-          <div>
-            <Block block={block} />
-          </div>
-        </Tippy>
-      ) : (
-        <Block block={block} />
-      )}
+      <Block block={block} />
       <BlockFooter block={block} />
     </div>
   );
 }
 
-export default BlockContainer
+export default React.memo(BlockContainer)

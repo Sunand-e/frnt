@@ -12,8 +12,12 @@ export const ColumnsBlock = ({id, block, onUpdateBlock: updateBlock}) => {
 
   const containerRef = useRef()
 
+  const [isSorting, setIsSorting] = useState({
+    
+  })
   const columns = block.children?.map((childBlock, index, blocks) => (
     <React.Fragment key={index}>
+      {/* <div> */}
       <Section style={{ overflow: 'hidden' }}>
       {/* <Section minSize={240} style={{ overflow: 'visible' }}> */}
         <BlockContainer 
@@ -22,7 +26,7 @@ export const ColumnsBlock = ({id, block, onUpdateBlock: updateBlock}) => {
             ...childBlock,
             parent: id
           }}
-        />
+          />
       </Section>
       { index + 1 !== blocks.length && 
         <Bar 
@@ -32,12 +36,13 @@ export const ColumnsBlock = ({id, block, onUpdateBlock: updateBlock}) => {
         style={{ cursor: 'col-resize' }} 
         expandInteractiveArea={{
           top: 12,
-          left: 12,
-          right: 12,
+          left: 8,
+          right: 8,
           bottom: 12,
         }}
         />
       }
+      {/* </div> */}
     </React.Fragment>
   ))
   

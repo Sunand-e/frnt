@@ -13,6 +13,7 @@ const DynamicPackageIFrame = dynamic(
 )
 
 export const PackageBlock: FunctionComponent = ({block}) => {
+
   const { properties } = block
   const { updateBlock } = useBlockEditor()
   const  defaultWidth = '100%';
@@ -31,15 +32,16 @@ export const PackageBlock: FunctionComponent = ({block}) => {
   }, [width]);
 
   return (
-    <ResizeableElement
-      id={block.id}
-      width={width === 0 ? defaultWidth : width + 'px'}
-      onResizeStop={setWidth}
-    >
-      <div className="aspect-w-16 aspect-h-9 px-1">
-        <DynamicPackageIFrame properties={properties}/>
-      </div>
-    </ResizeableElement>
+    <DynamicPackageIFrame properties={properties}/>
+    // <ResizeableElement
+    //   id={block.id}
+    //   width={width === 0 ? defaultWidth : width + 'px'}
+    //   onResizeStop={setWidth}
+    // >
+    //   <div className="aspect-w-16 aspect-h-9 px-1">
+    //     <DynamicPackageIFrame properties={properties}/>
+    //   </div>
+    // </ResizeableElement>
   );
 }
 
