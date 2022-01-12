@@ -44,26 +44,14 @@ const BlockEditor = () => {
           )})}
         </div>
       </Flipper>
-
-      <div className="
-    flex items-center py-2 h-10
-    before:flex-grow before:border-t-2
-    after:flex-grow after:border-t-2
-  ">
-          <AnimatePresence>
-        { blocks.length === 0 &&
-          <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className={`text-center`}
-          >Add your first block
-          </motion.div>
-        }
-      </AnimatePresence>
-  </div>
-        
-      <BlockSelector style={{}} />
+      <div className={`w-full flex flex-col items-center mt-4`}>
+        <div className="w-full max-w-screen-lg bg-blue p-4 bg-opacity-10 border-2 border-dashed border-grey">
+          <div className={`text-center text-main-dark font-semibold pb-4`}>
+            Add a new block
+          </div>
+          <BlockSelector className={``} style={{}} />
+        </div>
+      </div>
     </>
   );
 };

@@ -14,6 +14,8 @@ import LineWithIcon from '../LineWithIcon'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import { useDelayUnmount } from '../../hooks/useDelayUnmount'
 import { motion, AnimatePresence } from "framer-motion"
+import useBlockEditor from './useBlockEditor';
+
 const BlockFooter = ({block}) => {
   const isActive = useReactiveVar(activeContentBlockVar) === block.id
 

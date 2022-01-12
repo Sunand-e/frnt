@@ -95,7 +95,7 @@ const LessonEditor = ({id}) => {
   return (
     <>
     <h1 className="my-3">
-    <EasyEdit
+      <EasyEdit
         type={Types.TEXT}
         onSave={saveLessonTitle}
         saveButtonLabel="Save"

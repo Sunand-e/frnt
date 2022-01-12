@@ -28,6 +28,9 @@ const BlockContainer = ({
 }) => {
   const {id, type} = block
 
+  const { blocks, getIndexAndParent } = useBlockEditor()
+  const { index, parent } = getIndexAndParent(block)
+  
   // const [isActive, setIsActive] = useState(isPlateFocused)
   // console.log('block.parent')
   // console.log(block.parent)
@@ -56,7 +59,9 @@ const BlockContainer = ({
 
       </span>
       <Block block={block} />
-      <BlockFooter block={block} />
+      {
+        (!parent && index !== blocks.length -1) && <BlockFooter block={block} />
+      }
     </div>
   );
 }

@@ -1,0 +1,227 @@
+[33mcommit 0108da11feeeacfd92206a2b29ffb4efbd62896b[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31mgithub/main[m[33m)[m
+Author: moxxuk <mark@idigitalmarketing.co.uk>
+Date:   Wed Jan 12 11:57:24 2022 +0000
+
+    Move CourseStructureEditor into sidebar; add Framer Motion for transitions; tweak display conditions of BlockSelector
+
+[33mcommit 09e8fd7955ac0ebac8106eeaa0aa82ef37620469[m
+Author: moxxuk <mark@idigitalmarketing.co.uk>
+Date:   Thu Dec 23 20:41:20 2021 +0000
+
+    Change BlockEditor menu styles; Add BlockSelector to every block; remove old unused files from previous iterations
+
+[33mcommit 8081a7c9d471ef26f0331a92b691c37ed8fb0a18[m
+Author: moxxuk <mark@idigitalmarketing.co.uk>
+Date:   Tue Dec 21 22:13:53 2021 +0000
+
+    Changes to block menu appearence and behaviour
+
+[33mcommit ac488f0e05222203d5c569dd8961081257739012[m
+Author: moxxuk <mark@idigitalmarketing.co.uk>
+Date:   Tue Dec 21 16:10:03 2021 +0000
+
+    Block editor refactor; all functionality working (except moving positions of columns...)
+
+[33mcommit d693b65dc003ed598de4e9fd08491ba5c568e852[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Dec 2 11:45:40 2021 +0000
+
+    BlockEditor changes; Introduce ResizeableElement component; Add scorm-again for PackageBlock; create BlockMenu; code restructure
+
+[33mcommit 055c21b2493235ba5a63b6d4dd31aaf5a18ec808[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Nov 24 12:36:38 2021 +0000
+
+    Code refactoring; ContentEditor rebuild with our own block system; MediaLibrary initial build
+
+[33mcommit 251ebc547327a09849bd5b6e5e463d721ec6394d[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Sun Nov 7 21:02:04 2021 +0000
+
+    Try (and fail) to get context working for nested editors
+
+[33mcommit a7b203b339b303f19677c876817a8f8d469f3714[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Nov 5 09:33:06 2021 +0000
+
+    Very buggy slate editor
+
+[33mcommit 79859035855ebb7de144a529b42e7184af6cf7f1[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Oct 26 16:08:45 2021 +0100
+
+    Begin implementation of content editor block selector
+
+[33mcommit b84ff083c3349167f859ce9b440ca2983662a91c[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Mon Oct 25 09:38:55 2021 +0100
+
+    Fully functional course structure editor!
+
+[33mcommit c114e71a1159f47f783ced5e3ef6936b25997d4c[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Mon Oct 4 22:22:46 2021 +0100
+
+    Trigger course structure changes from graphql cache manipulation
+
+[33mcommit 09b76e1f4fb78c04372535343dd2dfb7120e06e5[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Oct 1 22:20:50 2021 +0100
+
+    Begin implementing real data for course structure editor with graphql & apollo caching
+
+[33mcommit 771c14d190268591d5f582aea0f50cdfa1bfbd4f[m[33m ([m[1;32mlist[m[33m)[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Sep 17 17:27:25 2021 +0100
+
+    Change data structure of course structure builder to match expected data
+
+[33mcommit 324c7c194365867db3939a3f1eaaef81281d2d1c[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Sep 16 11:24:58 2021 +0100
+
+    Start using sortable tree; also start using MultipleContainers example from dnd-kit Storybook
+
+[33mcommit 2f16c1fb770a32dd4d547dd40b66b9fc48d57685[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Sep 8 22:12:57 2021 +0100
+
+    Update CourseStructureEditor component with react-beautiful-dnd
+
+[33mcommit 3216ad6eb33ed3bf3daa8ca7c017d509f0edf2a1[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Sat Sep 4 12:53:55 2021 +0100
+
+    Update plate content editor; start building course structure editor with react-beautiful-dnd
+
+[33mcommit 5ec7f692b223885a423d014d430ab7a8b7b61f24[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Sep 2 23:19:47 2021 +0100
+
+    Add content editor components; add 'slate' and 'plate' pages
+
+[33mcommit 85578c822e84301f23caee5f533010a55caa4ed9[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Aug 25 13:52:31 2021 +0100
+
+    Development on course add/edit pages; update admin layout switching
+
+[33mcommit 8753a375037b0f474dc8ef52cf279de03550a6c9[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Aug 24 16:45:21 2021 +0100
+
+    fix podcast.tsx page so build runs correctly
+
+[33mcommit a1855264560d7f92e1bfdc22cf242eed9b249390[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Aug 24 16:37:56 2021 +0100
+
+    Improve TypeScript type definitions; TURN TYPE CHECKING OFF TEMPORARILY
+
+[33mcommit d82f757adfda61112ddc2d891ffbb299693a81dc[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Aug 24 10:53:03 2021 +0100
+
+    Begin adding correct graphql queries, mutations and definitions; add notices; add editorjs
+
+[33mcommit 3cbbba554a99361e5a542b2d7e088c167e4d54ef[m
+Author: Mark Oxley <mark@idigitalmaarketing.co.uk>
+Date:   Fri Jul 30 17:55:50 2021 +0100
+
+    Remove old graphql queries; add all new mutations
+
+[33mcommit d4880a450bf822797a8cd6417ba1bb33dab906bb[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Jul 22 12:03:52 2021 +0100
+
+    Ensure login form doesn't have a 'POST' action
+
+[33mcommit 30491755d4479ebfb498fd0bec9a09accd037cdc[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Jul 22 09:30:42 2021 +0100
+
+    Add typescript files to purge list in tailwind config; fix login layout;
+
+[33mcommit dfd168e8d5a9b5bacea0dabdfb34112ef08ee663[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Jul 21 17:20:50 2021 +0100
+
+    Add styled login form
+
+[33mcommit 957f3a15c6c1d2d3d9f04dccdcac2da547e8dcef[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Jul 21 09:22:36 2021 +0100
+
+    Fix _app.tsx so that layout changes when PageComponent changes
+
+[33mcommit 10d0216a2a65255fea45995ce3924a6fa819616f[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Jul 20 23:52:20 2021 +0100
+
+    Add authentication funtionality
+
+[33mcommit 0f46000bf8e871695c08dd128b66ac5005d02c28[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Jul 16 17:10:26 2021 +0100
+
+    Update GitHub Actions staging config
+
+[33mcommit 03f445cdaf0af72f942d5dd4a1ee97f3d6281370[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Jul 16 16:06:32 2021 +0100
+
+    Begin conversion to TypeScript; Update GitHub Actions deployment script; various other additions
+
+[33mcommit f6c9ece9548bacbc6a050cf04972d0fbc0070118[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Jul 6 11:41:27 2021 +0100
+
+    Add npm build and docker compose up to deployment workflow
+
+[33mcommit 4a6dd6cea6771ea829c9d46f90f3ed2f762e79aa[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Jul 6 11:14:52 2021 +0100
+
+    Add Github Actions workflow
+
+[33mcommit a867badee5ca3a286cd616ee2998a1234cbd9d6d[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Tue Jul 6 09:16:21 2021 +0100
+
+    Add docker-compose, begin typescript conversion
+
+[33mcommit 28986ce17928a87eaa03f83dc550381231db2c5e[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Mon Jun 28 23:32:00 2021 +0100
+
+    Use reactive var to hold app view state, tidy up navigation panel, add user and admin pages
+
+[33mcommit 0954fbe4f28587361c9735251c8a7059f06ad687[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Mon Jun 21 16:24:20 2021 +0100
+
+    Double side nav
+
+[33mcommit f03ef8ba8f83463862b3e8fb842f35d0122d8ea1[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Fri Jun 18 13:18:30 2021 +0100
+
+    Begin implementing new styles
+
+[33mcommit 1fd6e8c752b672b99d8bdedce64d8f0ccf1628b6[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Jun 9 17:33:40 2021 +0100
+
+    Major update: content library functionality fleshed out
+
+[33mcommit 769d73292de8a5775bd15d84c7ea7e61a4f8e242[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Thu Feb 11 10:45:01 2021 +0000
+
+    Initial Commit
+
+[33mcommit ada73e9b5f36256e12dede34b57805eb1c2e1ac1[m
+Author: Mark Oxley <mooxdesign@gmail.com>
+Date:   Wed Jan 20 14:58:21 2021 +0000
+
+    Initial commit from Create Next App

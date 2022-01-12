@@ -94,7 +94,6 @@ const AdminCoursesEdit = () => {
         <CourseEditForm course={course} />
         { courseItemId && (
           <>
-          { courseItemId }
             <CourseItemEditor id={courseItemId} />
           </>
         )}
