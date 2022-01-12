@@ -1,13 +1,6 @@
 import { useContext, useState } from 'react'
-import CourseCreateForm from '../../../components/admin/courses/CourseCreateForm';
 import PageTitle from '../../../components/PageTitle';
-import BlockWithTitle from '../../../components/BlockWithTitle';
-import { headerButtonsVar } from '../../../graphql/cache';
-import Builder from '../../../components/admin/CourseBuilder/Builder';
-import AdminSidebar from "../../../components/admin/CourseBuilder/AdminSidebar";
-import SaveButton from "../../../components/admin/CourseBuilder/SaveButton";
 import EditorLayout from '../../../layouts/EditorLayout'
-import CourseStructureEditor from '../../../components/CourseStructureEditor/CourseStructureEditor'
 import { useMutation } from '@apollo/client';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
 import { CreateSection, CreateSectionVariables } from '../../../graphql/mutations/section/__generated__/CreateSection';
@@ -16,10 +9,6 @@ import { CREATE_SECTION } from "../../../graphql/mutations/section/CREATE_SECTIO
 import { GET_COURSES } from '../../../graphql/queries/allQueries';
 import { GetCourses, GetCourses_courses } from '../../../graphql/queries/__generated__/GetCourses';
 import { v4 as uuidv4 } from 'uuid';
-import Modal from '../../../components/Modal';
-import { CheckIcon } from '@heroicons/react/solid';
-import { Dialog } from '@headlessui/react';
-import { ModalContext, ModalProvider } from '../../../context/modalContext';
 
 const AdminCoursesAdd = () => {
   

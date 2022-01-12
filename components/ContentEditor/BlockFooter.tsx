@@ -12,28 +12,39 @@ import BlockSelector from './BlockSelector'
 import { useReactiveVar } from '@apollo/client'
 import LineWithIcon from '../LineWithIcon'
 import useOutsideClick from '../../hooks/useOutsideClick'
-
-const BlockFooter = ({
-  block,
-}) => {
+import { useDelayUnmount } from '../../hooks/useDelayUnmount'
+import { motion, AnimatePresence } from "framer-motion"
+const BlockFooter = ({block}) => {
   const isActive = useReactiveVar(activeContentBlockVar) === block.id
-  const [ showBlockSelector, setShowBlockSelector ] = useState(false)
 
   const outsideClickRef = useRef(null);
+  
+  const [ showBlockSelector, setShowBlockSelector ] = useState(false);
+
   useOutsideClick(outsideClickRef, () => setShowBlockSelector(false));
 
   return (
     <>
       <div
         className={`h-12 text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${showBlockSelector && 'opacity-100'}`}
-        onClick={() => setShowBlockSelector(showBlockSelector => !showBlockSelector)}
+        onClick={() => setShowBlockSelector(!showBlockSelector)}
         >
         <LineWithIcon />
       </div>
-      <div ref={outsideClickRef} className={`${showBlockSelector ? 'max-h-24' : 'max-h-0'} transition-max-h duration-1000 ease-out overflow-hidden pb-2`}>
+      <div ref={outsideClickRef} className={`${showBlockSelector ? 'max-h-24' : 'max-h-0'} transition-max-h w-full duration-1000 ease-out overflow-hidden pb-2`}>
+      {/* <div ref={outsideClickRef} className={`w-full overflow-hidden pb-2`}> */}
+        {/* { showBlockSelector && */}
+        <AnimatePresence>
         { showBlockSelector &&
-          <BlockSelector block={block} />
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            <BlockSelector style={{}} block={block} />
+          </motion.div>
         }
+        </AnimatePresence>
       </div>
     </>
   );

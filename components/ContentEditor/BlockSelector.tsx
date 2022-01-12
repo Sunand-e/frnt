@@ -9,7 +9,7 @@ import cache, { currentContentItemVar } from '../../graphql/cache';
 import { ContentFragment } from '../../graphql/queries/allQueries';
 import useBlockEditor from './useBlockEditor';
 
-const BlockSelector = ({block=null, replace=false, className=''}) => {
+const BlockSelector = ({block=null, replace=false, className='', style}) => {
 
   const { blocks, insertBlock, updateBlock, getIndexAndParent } = useBlockEditor(block)
   const addBlock = (newBlock) => {
@@ -80,9 +80,9 @@ const BlockSelector = ({block=null, replace=false, className=''}) => {
   />)
 
   return (
-    <div className={`flex flex-col text-center text-main-dark ${className}`}>
+    <div style={style} className={`flex flex-col text-center text-main-dark ${className}`}>
       <div 
-        className="flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
+        className="bg-blue bg-opacity-10 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
         { BlockButtons }
       </div>
     </div>

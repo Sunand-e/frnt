@@ -18,9 +18,10 @@ import Columns from './Icons/Columns'
 
 const blocktypes = {
   header: {
-    text: 'header',
-    component: HeaderBlock,
-    icon: Text,
+      text: 'header',
+      component: HeaderBlock,
+      icon: Text,
+    hideFromSelector: true,
   },
   text: {
     text: 'Text',

@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { Container, ContainerProps } from '../dnd-kit';
+import { ContainerProps } from '../dnd-kit';
 import {
   AnimateLayoutChanges,
   useSortable,
   defaultAnimateLayoutChanges,
 } from '../dnd-kit/sortable/dist';
 
+import {Container} from './Container'
 import NewItemButton from './NewItemButton'
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;
 
 export function DroppableContainer({
-  children, columns = 1, disabled, id, items, style, ...props
+  renderContainer, children, columns = 1, disabled, id, items, style, ...props
 }: ContainerProps & {
+
+  renderContainer?: ReactElement;
   disabled?: boolean;
   id: string;
   items: string[];

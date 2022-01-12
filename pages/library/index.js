@@ -49,26 +49,14 @@ const Library = ({queries}) => {
   const { loading, error, data } = useQuery(GET_LIBRARY);
   // const data = queries.getLibrary()
   
+  // When the GET_LIBRARY query completes and has data,
   useEffect(() => {
     if(data) {
-      setItems(data?.contentNodes?.nodes);
-      console.log('data.contentNodes.nodes')
-      console.log(data)
-      console.log('client')
-      console.log(client)
-      const serializedState = client.cache.extract()
-      contentTagsVar(
-        Object.values(serializedState).filter(
-          item => item.__typename === 'ContentTag'
-        )
-      )
-      libraryVar(data?.contentNodes?.nodes)
-      latestContentVar(libraryVar()?.slice(0, 4))
       queries.getAllContent()
       queries.getDashboard()
     }
   }, [data])
-
+  
   const searching = (searchParams.text || searchParams.type?.value || searchParams.tag?.value)
 
   const handleTopicClick = tag => e => {
@@ -99,7 +87,7 @@ const Library = ({queries}) => {
             (data && searching &&
               <SearchResults 
                 tags={contentTags}
-                items={items} 
+                items={items}
                 searchParams={searchParams}
               />
             )

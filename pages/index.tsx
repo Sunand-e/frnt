@@ -74,7 +74,13 @@ const Dashboard = ({queries}) => {
           item => item.__typename === 'ContentTag'
         )
       )
-      latestContentVar(data.libraryItems.slice(0, 4))
+
+      if(data.libraryItems.length) {
+        console.log('data.libraryItems')
+        console.log(data.libraryItems)
+      }
+
+      // latestContentVar(data.libraryItems.slice(0, 4))
       // console.log('data')
       // console.log(data)
       queries.getAllContent()
@@ -119,8 +125,7 @@ const Dashboard = ({queries}) => {
              <Button>Start now</Button>
             </div>
           </NoticeBox>
-
-          { items?.length && (
+          { !!items?.length && (
             <ItemCollection
             // viewAll={() => setSearchParams(viewAllParams)} 
               items={items} 

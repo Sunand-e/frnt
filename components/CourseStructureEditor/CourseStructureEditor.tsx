@@ -55,7 +55,7 @@ const filterDeletedCourseItems = (course) => {
   }
 }
 
-const CourseStructureEditor = ({course}) => {
+const CourseStructureEditor = ({course, renderSection, renderItem}) => {
 
   
   const [courseItems, setCourseItems] = useState(
@@ -157,7 +157,9 @@ const CourseStructureEditor = ({course}) => {
   }
   
   const handleReorderSections = (newSectionIds) => {
-    
+    console.log('handleReorderSections')
+    console.log('newSectionIds')
+    console.log(newSectionIds)
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
         id:`ContentItem:${id}`,
@@ -248,7 +250,7 @@ const CourseStructureEditor = ({course}) => {
     })
   }
 
-  const renderItem = ({
+  const defaultRenderItem = ({
     dragOverlay,
     dragging,
     sorting,
@@ -270,67 +272,65 @@ const CourseStructureEditor = ({course}) => {
     const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
     // return <a>dsa</a>
     return (
-      <>
       <li
+        className={classNames(
+          styles.Wrapper,
+          `flex hover:bg-gray-50`,
+          fadeIn && styles.fadeIn,
+          sorting && styles.sorting,
+          dragOverlay && styles.dragOverlay
+        )}
+        style={
+          {
+            transition,
+            '--translate-x': transform
+            ? `${Math.round(transform.x)}px`
+            : undefined,
+            '--translate-y': transform
+            ? `${Math.round(transform.y)}px`
+            : undefined,
+            '--scale-x': transform?.scaleX
+            ? `${transform.scaleX}`
+            : undefined,
+            '--scale-y': transform?.scaleY
+            ? `${transform.scaleY}`
+            : undefined,
+            '--index': index,
+          } as React.CSSProperties
+        }
+        ref={ref}
+      >
+        <div
           className={classNames(
-            styles.Wrapper,
-            `flex hover:bg-gray-50`,
-            fadeIn && styles.fadeIn,
-            sorting && styles.sorting,
-            dragOverlay && styles.dragOverlay
+            'flex items-center w-full px-4 py-4 sm:px-6',
+            dragging && styles.dragging,
+            dragOverlay && styles.dragOverlay,
           )}
-          style={
-            {
-              transition,
-              '--translate-x': transform
-              ? `${Math.round(transform.x)}px`
-              : undefined,
-              '--translate-y': transform
-              ? `${Math.round(transform.y)}px`
-              : undefined,
-              '--scale-x': transform?.scaleX
-              ? `${transform.scaleX}`
-              : undefined,
-              '--scale-y': transform?.scaleY
-              ? `${transform.scaleY}`
-              : undefined,
-              '--index': index,
-            } as React.CSSProperties
-          }
-          ref={ref}
+          style={style}
+          data-cypress="draggable-item"
+          {...listeners}
+          tabIndex={0}
         >
-          <div
-            className={classNames(
-              'flex items-center w-full px-4 py-4 sm:px-6',
-              dragging && styles.dragging,
-              dragOverlay && styles.dragOverlay,
-            )}
-            style={style}
-            data-cypress="draggable-item"
-            {...listeners}
-            tabIndex={0}
-          >
-            <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>
-              <div className="flex-shrink-0 w-8 bg-main-dark text-white p-1 rounded-full align-top">
-                <BookOpenIcon />
-              </div>
-              <div className="min-w-0 flex-0 px-4 md:grid md:grid-cols-2 md:gap-4 items-center">
-                <span className="text-sm font-medium text-indigo-600">{item.title}</span>
-                <div className="hidden md:block">
-                  <span className="text-sm text-gray-900">
-                    Last edited: <time dateTime={item.updatedAt}>{updatedDate}</time>
-                  </span>
-                </div>
-              </div>
-
-              <div className="ml-auto flex space-x-2">
-                <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button>
-                <Button onClick={() => handleDeleteModal(item.id)}>Delete</Button>
+          <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>
+            <div className="flex-shrink-0 w-8 bg-main-dark text-white p-1 rounded-full align-top">
+              <BookOpenIcon />
+            </div>
+            <div className="min-w-0 flex-0 px-4 md:grid md:grid-cols-2 md:gap-4 items-center">
+              <span className="text-sm font-medium text-indigo-600">{item.title}</span>
+              <div className="hidden md:block">
+                <span className="text-sm text-gray-900">
+                  Last edited: <time dateTime={item.updatedAt}>{updatedDate}</time>
+                </span>
               </div>
             </div>
+
+            <div className="ml-auto flex space-x-2">
+              <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button>
+              <Button onClick={() => handleDeleteModal(item.id)}>Delete</Button>
+            </div>
           </div>
-        </li>
-      </>
+        </div>
+      </li>
     )
   }
 
@@ -338,7 +338,7 @@ const CourseStructureEditor = ({course}) => {
     <>
       <MultipleContainers 
         vertical
-        renderItem={renderItem}
+        renderItem={renderItem ?? defaultRenderItem}
         items={courseItems}
         setItems={setItems}
         clonedItems={itemsBeforeDrag}

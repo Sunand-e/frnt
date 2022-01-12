@@ -14,6 +14,7 @@ import blocktypes from "./blocktypes";
 import { v4 as uuidv4 } from 'uuid';
 import { useReactiveVar } from "@apollo/client";
 import useBlockEditor from "./useBlockEditor";
+import { motion, AnimatePresence } from "framer-motion"
 // import "./styles.css";
 
 const BlockEditor = () => {
@@ -43,11 +44,26 @@ const BlockEditor = () => {
           )})}
         </div>
       </Flipper>
-      <BlockSelector />
-      {/* <h1>blocks</h1>
-      <pre>
-        { JSON.stringify(blocks, null, 2) }
-      </pre> */}
+
+      <div className="
+    flex items-center py-2 h-10
+    before:flex-grow before:border-t-2
+    after:flex-grow after:border-t-2
+  ">
+          <AnimatePresence>
+        { blocks.length === 0 &&
+          <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className={`text-center`}
+          >Add your first block
+          </motion.div>
+        }
+      </AnimatePresence>
+  </div>
+        
+      <BlockSelector style={{}} />
     </>
   );
 };

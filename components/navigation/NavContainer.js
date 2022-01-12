@@ -34,23 +34,7 @@ export default function NavContainer({navState}) {
   return (
     <div
       id="sidebar"
-      className={`
-        shadow-md
-        font-text-base
-        bg-red
-        relative
-        z-40
-        inset-0
-        flex-none
-        flex
-        h-18
-        bg-opacity-25
-        lg:bg-white
-        lg:static
-        lg:h-auto
-        lg:overflow-y-visible
-        lg:pt-0
-      `}
+      className={`shadow-md font-text-base bg-red relative z-40 inset-0 flex-none flex h-18 bg-opacity-25 lg:bg-white lg:static lg:h-auto lg:overflow-y-visible lg:pt-0`}
     >
       <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />

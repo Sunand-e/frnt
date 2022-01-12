@@ -40,32 +40,32 @@ export const PackageIFrame = ({properties}) => {
 
       const API = window.API = new window.Scorm12API(settings);
 
-      // API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
-      //   console.log('CMIElement')
-      //   console.log(CMIElement, value)
-      //   API.storeData(true);
-      //   const data = API.renderCommitCMI(true)
-      //   // localStorage.setItem('scormdata', JSON.stringify(data))
-      //   scormDataVar(data)
+      API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
+        console.log('CMIElement')
+        console.log(CMIElement, value)
+        API.storeData(true);
+        const data = API.renderCommitCMI(true)
+        // localStorage.setItem('scormdata', JSON.stringify(data))
+        scormDataVar(data)
   
-      // });
+      });
   
-      // let dataFromLms = { // this data is passed from the LMS
-      //   cmi: {
-      //     core: {
-      //       // entry: 'ab-initio',
-      //       student_id: '@moxley',
-      //       student_name: 'Mrk Oxley',
-      //     }
-      //   }
-      // };
+      let dataFromLms = { // this data is passed from the LMS
+        cmi: {
+          core: {
+            // entry: 'ab-initio',
+            student_id: '@moxley',
+            student_name: 'Mrk Oxley',
+          }
+        }
+      };
   
-      // let storedScormData = JSON.parse(localStorage.getItem('scormdata'))
+      let storedScormData = JSON.parse(localStorage.getItem('scormdata'))
       
-      // // dataFromLms = storedScormData || dataFromLms
       // dataFromLms = storedScormData || dataFromLms
+      dataFromLms = storedScormData || dataFromLms
   
-      // API.loadFromJSON(dataFromLms, '');
+      API.loadFromJSON(dataFromLms, '');
   
       const unloadHandler = () => {
   
@@ -97,9 +97,8 @@ export const PackageIFrame = ({properties}) => {
     // '/private/scorm-data/#{scorm.id}/#{params[:content_item_id]}'
     // <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
     <>
-    {/* <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
+    <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
-    <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )

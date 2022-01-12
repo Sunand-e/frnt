@@ -29,6 +29,7 @@ export const currentContentItemVar = makeVar({
   id: null,
   updateFunction: null
 })
+export const CourseNavigationVar = makeVar({expand:false})
 export const activeContentBlockVar = makeVar(null)
 export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])
