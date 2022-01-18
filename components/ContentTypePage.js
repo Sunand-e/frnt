@@ -4,8 +4,8 @@ import Head from 'next/head'
 import { useRouter } from '../utils/router';
 import { useApolloClient, useReactiveVar, gql, useLazyQuery } from '@apollo/client';
 import {QueriesContext} from '../pages/_app'
-import PageTitle from '../components/PageTitle';
 import PageContent from '../components/PageContent';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function ContentTypePage({type, setData, children}) {
   
@@ -39,6 +39,11 @@ export default function ContentTypePage({type, setData, children}) {
   
   const queries = useContext(QueriesContext);
 
+  usePageTitle({
+    title: data ? data.title : '',
+    subtitle: type
+  })
+
   useEffect(() => {
     if(!data) {
       singleContentQuery()
@@ -63,11 +68,6 @@ export default function ContentTypePage({type, setData, children}) {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle
-        // title={data?.title}
-        title={data ? data.title : ''}
-        subtitle={type}
-      />
 
       <PageContent>
         {children}

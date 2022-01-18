@@ -1,17 +1,23 @@
 import Head from 'next/head'
 import { useReactiveVar } from '@apollo/client';
 import PageContent from '../components/PageContent';
-import PageTitle from '../components/PageTitle';
+import usePageTitle from '../hooks/usePageTitle'
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ItemFilterTabs from '../components/ItemFilterTabs';
 import { allContentVar } from '../graphql/cache';
+import usePageTitle from '../hooks/usePageTitle';
 
 const Resources = ({queries}) => {
 
   const items = useReactiveVar(allContentVar);
 
   const [ resources, setResources ] = useState([])
+
+  usePageTitle({
+    title: 'Resources',
+    subtitle: "More resources we have to give to you which are worth checking out!"
+  })
 
   useEffect(() => {
     setResources(items.filter(item => item.__typename === 'Resource'))
@@ -50,10 +56,6 @@ const Resources = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle
-        title='Resources'
-        subtitle="More resources we have to give to you which are worth checking out!"
-      />
       <PageContent>
         { !resources.length ? 
           <LoadingSpinner /> :

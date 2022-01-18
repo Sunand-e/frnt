@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import PageTitle from '../../../../components/PageTitle';
+import usePageTitle from '../../../../hooks/usePageTitle';
 import GroupCreateForm from '../../../../components/admin/users/GroupCreateForm'
 import GroupsTable from '../../../../components/admin/users/GroupsTable'
 import { Notices } from '../../../../components/Notices';
-import { headerButtonsVar, viewVar } from '../../../../graphql/cache';
+import { headerButtonsVar } from '../../../../graphql/cache';
 import Button from '../../../../components/Button';
-import { useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 const AdminUsersGroups = () => {
-
-  const view = useReactiveVar(viewVar);
   
+  usePageTitle({ title: 'Groups' })
+
   const router = useRouter()
   
   const handleAddClick = (e) => {
@@ -29,7 +28,6 @@ const AdminUsersGroups = () => {
 
   return (
     <>
-      <PageTitle title="Groups" />
       <Notices />
       <GroupsTable />
     </>

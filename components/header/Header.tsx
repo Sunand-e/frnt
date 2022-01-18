@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { isLoggedInVar, viewVar } from "../../graphql/cache";
 import Button from "../Button";
 import HeaderButtons from "../header/HeaderButtons";
+import PageTitle from "./PageTitle";
 import Profile from "./Profile";
 
 export default function Header() {
@@ -12,14 +13,11 @@ export default function Header() {
   return (
     <>
       <div className="sticky top-0 z-20 w-full h-18 mx-auto bg-white flex bg-white shadow-sm justify-between">
-        <div
-            className="flex-none pl-4 sm:pl-6 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0 lg:w-60 xl:w-72">
-            <a className="overflow-hidden w-auto text-lg text-main-dark font-bold" href="/">
-              <span className="sr-only">MemberHub Dashboard</span>
-              
-              {view.title}
+        <div className="flex-none pl-4 sm:pl-6 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0">
+          <PageTitle />
+            {/* <a className="overflow-hidden w-auto text-lg text-main-dark font-bold" href="/"> */}
               {/* {` isAdmin: ${view.isAdmin ? 'on' : 'off'}.`} */}
-            </a>
+            {/* </a> */}
         </div>
         <div className="flex items-center justify-between space-x-8 px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
             <HeaderButtons />

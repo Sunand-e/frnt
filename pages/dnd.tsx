@@ -1,12 +1,14 @@
-import PageTitle from "../components/PageTitle"
 // import CourseStructureEditor from "../components/CourseStructureEditor/CourseStructureEditor"
 import { MultipleContainers } from "../components/CourseStructureEditor/MultipleContainers"
 import styles from '../components/dnd-kit/Item/Item.module.scss'
 
 import classNames from 'classnames';
+import usePageTitle from '../hooks/usePageTitle';
 
 const CourseStructure = () => {
 
+  usePageTitle({title: "Course Structure"})
+  
   const course = {
     children: [
       {
@@ -114,7 +116,6 @@ const CourseStructure = () => {
 
   return (
     <>
-      <PageTitle title="Course Structure" />
       <pre>
         {/* {JSON.stringify(itemsBySectionId(course.children), null, 2)} */}
       </pre>

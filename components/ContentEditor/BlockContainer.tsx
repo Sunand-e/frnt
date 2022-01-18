@@ -1,23 +1,10 @@
 import React, { useState } from 'react'
-import {CSS} from '@dnd-kit/utilities'
 import { Block } from './Block'
-import styles from '../dnd-kit/Container/Container.module.scss'
-
-import { usePlateEventId } from '@udecode/plate-core'
-import { HeadingToolbar } from '@udecode/plate-toolbar'
-import { Toolbar } from './blocks/TextBlock/Toolbar'
-import styled from 'styled-components'
 import { activeContentBlockVar } from '../../graphql/cache'
-import BlockMenu from './BlockMenu/BlockMenu'
-import Tippy from '@tippyjs/react'
+import BlockMenu from './BlockMenu'
 import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
-
-const StyledHeadingToolbar = styled(HeadingToolbar)`
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-`
 
 const BlockContainer = ({
   block,

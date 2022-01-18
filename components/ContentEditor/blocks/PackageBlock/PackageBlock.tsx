@@ -18,7 +18,7 @@ export const PackageBlock: FunctionComponent = ({block}) => {
   const { updateBlock } = useBlockEditor()
   const  defaultWidth = '100%';
 
-  const  [width, setWidth] = useState( properties.width || 0)
+  const  [width, setWidth] = useState( block.properties?.width || 0)
 
   useEffect(() => {
     const updatedBlock = {
@@ -32,16 +32,16 @@ export const PackageBlock: FunctionComponent = ({block}) => {
   }, [width]);
 
   return (
-    <DynamicPackageIFrame properties={properties}/>
-    // <ResizeableElement
-    //   id={block.id}
-    //   width={width === 0 ? defaultWidth : width + 'px'}
-    //   onResizeStop={setWidth}
-    // >
-    //   <div className="aspect-w-16 aspect-h-9 px-1">
-    //     <DynamicPackageIFrame properties={properties}/>
-    //   </div>
-    // </ResizeableElement>
+    // <DynamicPackageIFrame block={block}/>
+    <ResizeableElement
+      id={block.id}
+      width={width === 0 ? defaultWidth : width + 'px'}
+      onResizeStop={setWidth}
+    >
+      <div className="aspect-w-16 aspect-h-9 px-1">
+        <DynamicPackageIFrame block={block}/>
+      </div>
+    </ResizeableElement>
   );
 }
 

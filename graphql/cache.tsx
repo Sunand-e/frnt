@@ -24,10 +24,16 @@ const typePolicies = {
 }
 */
 export const viewVar = makeVar({})
+export const pageTitleVar = makeVar({
+  title: null,
+  subtitle: null,
+  editable: null
+})
 export const currentContentItemVar = makeVar({
   type: null,
   id: null,
-  updateFunction: null
+  updateFunction: null,
+  updateTitleFunction: null
 })
 export const CourseNavigationVar = makeVar({expand:false})
 export const activeContentBlockVar = makeVar(null)

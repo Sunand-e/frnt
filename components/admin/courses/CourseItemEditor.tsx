@@ -1,13 +1,9 @@
-import PageTitle from "../../PageTitle"
-import { useEffect } from "react"
-import { headerButtonsVar, viewVar } from "../../../graphql/cache"
+
 import { useQuery } from "@apollo/client"
 import { useRouter } from '../../../utils/router'
 import { GET_LESSON } from "../../../graphql/queries/allQueries"
-import Button from "../../Button"
-
-import EditorLayout from "../../../layouts/EditorLayout"
 import LessonEditor from "./LessonEditor"
+import { ContentTitle } from "../../ContentEditor/ContentTitle"
 
 const CourseItemEditor = ({id}) => {
   const router = useRouter()
@@ -34,7 +30,11 @@ const CourseItemEditor = ({id}) => {
 
   return (
     <>
-      { lesson && <LessonEditor id={id} /> }
+      { lesson && (
+        <>
+          <LessonEditor id={id} />
+        </>
+      )}
     </>
   )
 }

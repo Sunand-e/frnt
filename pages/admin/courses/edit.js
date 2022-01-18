@@ -1,14 +1,14 @@
-import PageTitle from '../../../components/PageTitle';
+import usePageTitle from '../../../hooks/usePageTitle'
 import CourseEditForm from '../../../components/admin/courses/CourseEditForm'
 import CourseItemEditor from '../../../components/admin/courses/CourseItemEditor'
 import { useRouter } from '../../../utils/router'
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { GET_COURSE } from '../../../graphql/queries/allQueries';
-import { GET_LESSON } from "../../../graphql/queries/allQueries"
+import { useQuery } from '@apollo/client'
+import { GET_COURSE, GET_LESSON } from "../../../graphql/queries/allQueries"
 import EditorLayout from '../../../layouts/EditorLayout'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache';
-import { useState, useEffect } from 'react';
-import Button from '../../../components/Button';
+import { headerButtonsVar, viewVar } from '../../../graphql/cache'
+import { useState, useEffect } from 'react'
+import Button from '../../../components/Button'
+import useCourse from '../../../hooks/useCourse'
 
 const AdminCoursesEdit = () => {
   /*
@@ -59,9 +59,8 @@ const AdminCoursesEdit = () => {
     }
   },[])
   
-  
-
   useEffect(() => {
+    // If there is a course but no item provided, show the first 
     if(course && !courseItemId) {
       setCourseItemId(course.sections?.length ? 
         (course.sections[0].children?.length ?
@@ -73,6 +72,14 @@ const AdminCoursesEdit = () => {
     }
   },[course])
 
+  const { saveCourseTitle } = useCourse(id)
+
+  usePageTitle({ 
+    title: "Course: ", 
+    editable:  course?.title, 
+    onEdit: saveCourseTitle
+  })
+
   useEffect(() => {
     headerButtonsVar(
       <>
@@ -83,28 +90,23 @@ const AdminCoursesEdit = () => {
     )
   },[])
 
-  if(course) {
-    return (
-      <>
-        {/* <pre>
-          COURSE:
-          {JSON.stringify(course,null,2)}
-        </pre> */}
-        <PageTitle title={`Edit Course: ${course?.title}`} />
-        <CourseEditForm course={course} />
-        { courseItemId && (
-          <>
-            <CourseItemEditor id={courseItemId} />
-          </>
-        )}
-        {/* <CourseStructureEditor course={course} /> */}
-      </>
-    )
-  } else {
-    return (
-      <PageTitle title={`Edit Course`} />
-    )
-  }
+
+  return (
+    <>
+      {/* <pre>
+        COURSE:
+        {JSON.stringify(course,null,2)}
+      </pre> */}
+      
+      {/* <CourseEditForm course={course} /> */}
+      { courseItemId && (
+        <>
+          <CourseItemEditor id={courseItemId} />
+        </>
+      )}
+      {/* <CourseStructureEditor course={course} /> */}
+    </>
+  )
 }
 
 AdminCoursesEdit.navState = {

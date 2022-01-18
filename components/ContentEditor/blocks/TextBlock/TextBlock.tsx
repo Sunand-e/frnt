@@ -1,83 +1,60 @@
 
-import React, { useMemo, useState, FunctionComponent } from 'react';
+import React, { useMemo, FunctionComponent } from 'react';
 import {
-  createBasicElementPlugins,
-  createHistoryPlugin,
-  createReactPlugin,
-  createPlateComponents,
-  createPlateOptions,
-  createAlignPlugin,
-  ELEMENT_H1,
-  ELEMENT_H2,
-  ELEMENT_H3,
-  ELEMENT_H4,
-  ELEMENT_H5,
-  ELEMENT_H6,
-  ELEMENT_PARAGRAPH,
+  createPlugins,
   PlatePlugin,
   TEditor,
-  createFontColorPlugin,
-  createFontBackgroundColorPlugin,
+  createBlockquotePlugin,
+  createBoldPlugin,
+  createCodeBlockPlugin,
+  createCodePlugin,
+  createHeadingPlugin,
+  createItalicPlugin,
+  createParagraphPlugin,
+  createPlateUI,
+  createStrikethroughPlugin,
+  createSubscriptPlugin,
+  createSuperscriptPlugin,
+  createUnderlinePlugin,
 } from '@udecode/plate';
-
-import { 
-  createBoldPlugin, 
-  createCodePlugin, 
-  createItalicPlugin, 
-  createStrikethroughPlugin, 
-  createUnderlinePlugin, 
-} from "@udecode/plate-basic-marks";
-import { Plate, PlateRenderElementProps, usePlateStore, usePlateEditorState, usePlateEventId } from '@udecode/plate-core';
+import { Plate, PlateRenderElementProps } from '@udecode/plate-core';
 
 import { CONFIG } from './config';
 
 import useBlockEditor from '../../useBlockEditor';
+
+const basicElements = createPlugins(
+  [
+    createBlockquotePlugin(),
+    createCodeBlockPlugin(),
+    createHeadingPlugin(),
+    createParagraphPlugin(),
+  ],
+  {
+    components: createPlateUI(),
+  }
+);
+
+const basicMarks = createPlugins(
+  [
+    createBoldPlugin(),
+    createCodePlugin(),
+    createItalicPlugin(),
+    createStrikethroughPlugin(),
+    createSubscriptPlugin(),
+    createSuperscriptPlugin(),
+    createUnderlinePlugin(),
+  ],
+  {
+    components: createPlateUI(),
+  }
+);
 
 export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) => {
   const { properties } = block
 
   const { debouncedUpdateBlock } = useBlockEditor()
 
-  const plugins = [
-    // editor
-    createReactPlugin(),          // withReact
-    createHistoryPlugin(),        // withHistory
-
-    // elements
-    ...createBasicElementPlugins(),
-
-    // marks
-    createBoldPlugin(),           // bold mark
-    createItalicPlugin(),         // italic mark
-    createUnderlinePlugin(),      // underline mark
-    createStrikethroughPlugin(),  // strikethrough mark
-    createCodePlugin(),           // code mark
-    createFontColorPlugin(),
-    createFontBackgroundColorPlugin(),
-
-    
-    // createAlignPlugin(),
-    createAlignPlugin({
-      validTypes: [
-        ELEMENT_PARAGRAPH,
-        ELEMENT_H1,
-        ELEMENT_H2,
-        ELEMENT_H3,
-        ELEMENT_H4,
-        ELEMENT_H5,
-        ELEMENT_H6,
-      ],
-    })
-
-  ];
-
-  const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {  
-    return plugins
-  }, [])
-
-  // const {content, setContent} = useContext(ContentContext)
-  const [debugVal, setDebugVal] = useState([])
-  
   const handleChange = (newValue) => {
     const updatedBlock = {
       ...block,
@@ -89,20 +66,18 @@ export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) =
     debouncedUpdateBlock(updatedBlock)// return false
   }
 
-  // console.log('text block rerendered')
-  // console.log(properties?.content)
   return (
-    <Plate
-      id={block.id}
-      plugins={pluginsMemo}
-      components={createPlateComponents()}
-      options={createPlateOptions()}
-      editableProps={CONFIG.editableProps}
-      onChange={handleChange}
-      initialValue={properties?.content || [{children: [{text:''}]}]}
-    >
-
-    </Plate>
+    <>
+      <Plate
+        id={block.id}
+        plugins={createPlugins([...basicElements, ...basicMarks], {
+          components: createPlateUI(),
+        })}
+        editableProps={CONFIG.editableProps}
+        onChange={handleChange}
+        initialValue={properties?.content || [{children: [{text:''}]}]}
+      />
+    </>
   );
 }
 

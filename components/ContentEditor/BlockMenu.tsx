@@ -1,21 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-import { Action, Handle, Remove } from '../../dnd-kit'
+import { Action, Handle, Remove } from '../dnd-kit'
 
 import {MoreVert} from '@styled-icons/material/MoreVert'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Cog} from '@styled-icons/fa-solid/Cog'
 import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
 import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
-import { useSortable } from '../../dnd-kit/sortable/dist';
+import { useSortable } from '../dnd-kit/sortable/dist';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import 'tippy.js/themes/light.css';
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
-import AddColumn from '../Icons/AddColumn';
-import { currentContentItemVar } from '../../../graphql/cache';
-import useBlockEditor from '../useBlockEditor';
+import AddColumn from './Icons/AddColumn';
+import { currentContentItemVar } from '../../graphql/cache';
+import useBlockEditor from './useBlockEditor';
 
 const BlockMenu = ({ block, className }) => {
   
@@ -45,6 +45,7 @@ const BlockMenu = ({ block, className }) => {
       childText: 'Move left',
       childButtonClass: '-rotate-90',
       iconComponent: ArrowUpward,
+      isDisabled: () => index === 0,
       onClick: () => shiftPosition(block,'up'),
     },
     {
@@ -53,6 +54,7 @@ const BlockMenu = ({ block, className }) => {
       childText: 'Move right',
       childButtonClass: '-rotate-90',
       iconComponent: ArrowDownward,
+      isDisabled: () => index === blocks.length-1,
       onClick: () => shiftPosition(block,'down')
     },
     {
@@ -160,6 +162,7 @@ const BlockMenu = ({ block, className }) => {
           `}
         >
         <MoreVert size="18" />
+        { block.index }
         </StyledButton>
       </div>
     </Tippy>

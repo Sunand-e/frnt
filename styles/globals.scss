@@ -127,3 +127,15 @@ a {
     border-bottom-color: white;
   }
 }
+
+#debug_scorm {
+  display: block;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:10000000000000;
+  background:darkred;
+  padding:20px;
+  width:400px;
+  color:#fff;
+}

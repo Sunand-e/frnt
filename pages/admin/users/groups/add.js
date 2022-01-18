@@ -1,12 +1,14 @@
 import GroupCreateForm from '../../../../components/admin/users/GroupCreateForm';
-import PageTitle from '../../../../components/PageTitle';
+import usePageTitle from '../../../../hooks/usePageTitle';
+
 import { headerButtonsVar } from '../../../../graphql/cache';
 
 const AdminUsersGroupsAdd = () => {
+
+  usePageTitle({ title: 'Add new group' })
   
   return (
     <>
-      <PageTitle title="Add new group" />
       <GroupCreateForm />
     </>
   )

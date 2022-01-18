@@ -17,16 +17,10 @@ declare global {
 }
 
 export const PackageIFrame = ({properties}) => {
-  
-  const [unloaded, setUnloaded] = useState(false)
 
-  const [reloadCount, setReloadCount] = useState(0)
+  console.log('iframeComponentReloaded')
 
   const scormData = useReactiveVar(scormDataVar)
-
-  useEffect(() => {
-    setReloadCount(reloadCount => reloadCount+1)
-  },[])
 
   useEffect(() => {
     // ScormAgain && console.log('ScormAgain loaded');
@@ -45,31 +39,38 @@ export const PackageIFrame = ({properties}) => {
         console.log(CMIElement, value)
         API.storeData(true);
         const data = API.renderCommitCMI(true)
-        // localStorage.setItem('scormdata', JSON.stringify(data))
         scormDataVar(data)
+
+        if(CMIElement === 'cmi.core.exit' && value==='suspend') {
+          document.querySelector('#moooooodal').innerHTML = '<pre>SCORM package sent exit status</pre>'
+          window.API = null
+          // setReload(true)
+        } else {
+          document.querySelector('#moooooodal').innerHTML = '<pre>'+JSON.stringify(data,null,2)+'</pre>'
+        }
+
+        // localStorage.setItem('scormdata', JSON.stringify(data))
   
       });
   
-      let dataFromLms = { // this data is passed from the LMS
+      let initialData = { // this data is passed from the LMS
         cmi: {
           core: {
             // entry: 'ab-initio',
             student_id: '@moxley',
-            student_name: 'Mrk Oxley',
+            student_name: 'Mark Oxley',
           }
         }
       };
-  
-      let storedScormData = JSON.parse(localStorage.getItem('scormdata'))
       
       // dataFromLms = storedScormData || dataFromLms
-      dataFromLms = storedScormData || dataFromLms
+      const dataFromLms = scormData || initialData
   
       API.loadFromJSON(dataFromLms, '');
   
       const unloadHandler = () => {
   
-        console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
+        // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
   
         // if (!unloaded && !API.isTerminated()) {
         //   API.LMSSetValue('cmi.core.exit', 'suspend'); //Set exit to whatever is needed

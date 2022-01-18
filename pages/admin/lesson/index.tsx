@@ -1,4 +1,3 @@
-import PageTitle from "../../../components/PageTitle"
 import { useEffect } from "react"
 import { headerButtonsVar, viewVar } from "../../../graphql/cache"
 import { useQuery } from "@apollo/client"
@@ -8,6 +7,7 @@ import Button from "../../../components/Button"
 
 import EditorLayout from "../../../layouts/EditorLayout"
 import LessonEditor from "../../../components/admin/courses/LessonEditor"
+import usePageTitle from "../../../hooks/usePageTitle"
 
 const AdminLesson = () => {
   const router = useRouter()
@@ -22,6 +22,8 @@ const AdminLesson = () => {
       }
     }
   );
+
+  usePageTitle({ title: `Lesson: ${lesson?.title}` })
 
   // useEffect(() => {
   //   const view = {
@@ -52,7 +54,6 @@ const AdminLesson = () => {
     <>
       { lesson &&
         <>
-          <PageTitle title={`Edit Lesson: ${lesson?.title}`} />
           { lesson && <LessonEditor id={id} /> }
         </>
       }

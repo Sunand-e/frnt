@@ -2,7 +2,6 @@ import {useEffect} from 'react'
 import Head from 'next/head'
 import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
-import PageTitle from '../components/PageTitle';
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
 import DashboardContentTabs from '../components/DashboardContentTabs';
@@ -17,6 +16,7 @@ import InnerNav from '../components/InnerNav';
 import Button from '../components/Button';
 
 import ItemCollection from "../components/ItemCollection";
+import usePageTitle from '../hooks/usePageTitle';
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -39,6 +39,8 @@ const Dashboard = ({queries}) => {
       showType: true
     }
   }
+
+  usePageTitle({ title: 'Dashboard', subtitle: type })
 
   useEffect(() => {
     if(data) {
@@ -79,8 +81,6 @@ const Dashboard = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-      <PageTitle title='Dashboard' />
       
       {/* <InnerNav /> */}
       

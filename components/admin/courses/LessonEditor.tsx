@@ -1,4 +1,3 @@
-import ContentEditor from "../../ContentEditor/ContentEditor"
 import { UPDATE_LESSON } from "../../../graphql/mutations/lesson/UPDATE_LESSON"
 import { UpdateLesson, UpdateLessonVariables } from "../../../graphql/mutations/lesson/__generated__/UpdateLesson"
 import { ContentFragment, GET_LESSON } from "../../../graphql/queries/allQueries"
@@ -10,72 +9,22 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import BlockEditor from "../../ContentEditor/BlockEditor";
 import EasyEdit, {Types} from 'react-easy-edit';
+import { ContentTitle } from "../../ContentEditor/ContentTitle";
+import useLesson from "../../../hooks/useLesson";
 const LessonEditor = ({id}) => {
 
-  const [updateLesson, updatedLesson] = useMutation<UpdateLesson, UpdateLessonVariables>(
-    UPDATE_LESSON
-  );
-
-  const saveLessonContent = (contentBlocks) => {
-    saveLesson({
-      contentBlocks
-    })
-  }
+  const {
+    lesson,
+    loading,
+    error,
+    saveLessonContent,
+    saveLessonTitle
+  } = useLesson(id)
   
-  const saveLessonTitle = (title) => {
-    saveLesson({
-      title
-    })
-  }
-
-  const saveLesson = ({title=null, contentBlocks=null}) => {
-
-    const cachedLesson = cache.readFragment<ContentFragmentType>({
-      id:`ContentItem:${id}`,
-      fragment: ContentFragment,
-    })
-    
-    const variables = {
-      ...(title && {title}),
-      ...(contentBlocks && {content: {
-        blocks: contentBlocks 
-      }})
-    }
-
-    updateLesson({
-      variables: {
-        id,
-        ...variables
-      },
-      optimisticResponse: {
-        updateLesson: {
-          __typename: 'UpdateLessonPayload',
-          lesson: {
-            ...cachedLesson,
-            ...variables
-          },
-        }
-      }
-    }).catch(res => {
-      // TODO: do something if there is an error!!
-    })
-  }
-
-  
-
-  
-  const { loading, error, data: {lesson} = {} } = useQuery(
-    GET_LESSON,
-    {
-      variables: {
-        id
-      }
-    }
-  );
-
   currentContentItemVar({
     ...lesson,
     updateFunction: saveLessonContent,
+    updateTitleFunction: saveLessonTitle,
   })
   // const {content, setContent} = useContext(ContentContext)
 
@@ -94,17 +43,16 @@ const LessonEditor = ({id}) => {
 
   return (
     <>
-    <h1 className="my-3">
-      <EasyEdit
+    
+      <ContentTitle />
+      {/* <EasyEdit
         type={Types.TEXT}
         onSave={saveLessonTitle}
         saveButtonLabel="Save"
         cancelButtonLabel="Cancel"
         attributes={{ name: "awesome-input", id: 1}}
         value={lesson.title}
-      />
-
-    </h1>
+      /> */}
       <BlockEditor />
       {/* <pre>
       {JSON.stringify(currentContentItemVar(),null,2)}

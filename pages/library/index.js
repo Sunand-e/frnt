@@ -7,7 +7,7 @@ import ItemCollection from '../../components/ItemCollection';
 import SearchFilter from '../../components/SearchFilter';
 import SearchResults from '../../components/SearchResults';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import PageTitle from '../../components/PageTitle';
+import usePageTitle from '../../hooks/usePageTitle'
 import PageContent from '../../components/PageContent';
 import { GET_LIBRARY } from '../../graphql/queries/GET_LIBRARY';
 import TopicsList from '../../components/TopicsList';
@@ -24,6 +24,9 @@ const libraryContentTypes = contentTypes.filter(type => !(type?.notInLibrary ===
 
 // const Library = ({text,type,tag}) => {
 const Library = ({queries}) => {
+
+  usePageTitle({ title: 'Content Library' })
+  
   const router = useRouter()
   const { text, type, tag } = router.query
 
@@ -76,7 +79,6 @@ const Library = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle title={`Content Library`} />
       <PageContent>
         <div className="flex flex-col items-stretch flex-grow">
           {/* { contentTags && <SearchFilter tags={contentTags} searchParams={searchParams} setSearchParams={setSearchParams} /> } */}

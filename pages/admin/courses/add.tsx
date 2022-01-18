@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import PageTitle from '../../../components/PageTitle';
+import usePageTitle from '../../../hooks/usePageTitle'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { useMutation } from '@apollo/client';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
@@ -9,6 +9,7 @@ import { CREATE_SECTION } from "../../../graphql/mutations/section/CREATE_SECTIO
 import { GET_COURSES } from '../../../graphql/queries/allQueries';
 import { GetCourses, GetCourses_courses } from '../../../graphql/queries/__generated__/GetCourses';
 import { v4 as uuidv4 } from 'uuid';
+import usePageTitle from '../../../hooks/usePageTitle';
 
 const AdminCoursesAdd = () => {
   
@@ -127,10 +128,9 @@ const AdminCoursesAdd = () => {
   //   })
   //   // setCourseCreated(true)
   // }
-
+  usePageTitle({ title: 'Add new course' })
   return (
     <>
-      <PageTitle title="Add new course" />
 {/*}
       </Modal>
         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">

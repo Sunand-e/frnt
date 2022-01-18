@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import PageTitle from '../../../components/PageTitle';
+import usePageTitle from '../../../hooks/usePageTitle'
 
 const AdminCourseCategories = () => {
   return (
@@ -8,7 +8,7 @@ const AdminCourseCategories = () => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle title="Course Categories" />
+      usePageTitle({ title: 'Course Categories' })
     </>
   )
 }

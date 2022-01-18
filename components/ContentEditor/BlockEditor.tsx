@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useReactiveVar } from "@apollo/client";
 import useBlockEditor from "./useBlockEditor";
 import { motion, AnimatePresence } from "framer-motion"
+import { SelectionToolbar } from "./blocks/TextBlock/SelectionToolbar";
 // import "./styles.css";
 
 const BlockEditor = () => {
@@ -23,7 +24,8 @@ const BlockEditor = () => {
   
   const scormData = useReactiveVar(scormDataVar)
   return (
-    <>
+    <>  
+      <SelectionToolbar />
       <Flipper
         flipKey={blockIds.join("")}
         // onComplete={(data) => null}

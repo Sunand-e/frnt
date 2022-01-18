@@ -49,6 +49,9 @@
     "@tailwindcss/forms": "^0.3.4",
     "@tippyjs/react": "^4.2.6",
     "@udecode/plate": "^9.2.1",
+    "@udecode/plate-core": "^9.2.1",
+    "@udecode/plate-ui-toolbar": "^9.2.1",
+    "@udecode/zustood": "^0.4.3",
     "@wordpress/block-library": "^2.29.3",
     "apollo-link-rest": "^0.8.0",
     "autoprefixer": "^10.4.2",
@@ -99,7 +102,8 @@
     "twin.macro": "^2.8.2",
     "use-debounce": "^7.0.1",
     "uuid": "^8.3.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^3.6.9"
   },
   "devDependencies": {
     "@apollo/rover": "^0.1.10",

@@ -1,14 +1,16 @@
 import Head from 'next/head'
-import PageTitle from '../../../components/PageTitle';
+import usePageTitle from '../../../hooks/usePageTitle'
 
 const AdminPathways = () => {
+
+  usePageTitle({ title: 'Pathways' })
+
   return (
     <>
       <Head>
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageTitle title="Pathways" />
     </>
   )
 }

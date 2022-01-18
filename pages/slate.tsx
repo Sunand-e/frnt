@@ -1,11 +1,12 @@
-import PageTitle from "../components/PageTitle"
+import PageTitle from "../components/header/PageTitle"
 import ContentEditor from "../components/SlateContentEditor/ContentEditor"
+import usePageTitle from "../hooks/usePageTitle"
 
 const SlatePage = () => {
 
+  usePageTitle( { title: 'Slate' } )
   return (
     <>
-      <PageTitle title="Slate" />
       <ContentEditor />
     </>
   )

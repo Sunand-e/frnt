@@ -2,7 +2,7 @@ import {useEffect} from 'react'
 import Head from 'next/head'
 import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
-import PageTitle from '../components/PageTitle';
+import usePageTitle from '../hooks/usePageTitle'
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
 import DashboardContentTabs from '../components/DashboardContentTabs';
@@ -27,7 +27,9 @@ const Dashboard = ({queries}) => {
   // console.log(GET_DASHBOARD)
   const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
-  
+
+  usePageTitle({title: "Dashboard"})
+
   const items = useReactiveVar(latestContentVar)
 
   const recentlyViewedOptions = { 
@@ -111,8 +113,6 @@ const Dashboard = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-      <PageTitle title='Dashboard' />
       
       {/* <InnerNav /> */}
       

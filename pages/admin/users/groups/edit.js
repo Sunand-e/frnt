@@ -1,4 +1,4 @@
-import PageTitle from '../../../../components/PageTitle';
+import PageTitle from '../../../../components/header/PageTitle';
 import GroupEditForm from '../../../../components/admin/users/GroupEditForm'
 import { useRouter } from '../../../../utils/router'
 import { useQuery } from '@apollo/client';
@@ -21,19 +21,14 @@ const AdminUsersGroupsEdit = () => {
       }
     }
   );
-
-  if(group) {
-    return (
-      <>
-        <PageTitle title={`Edit Group: ${group?.name}`} />
+  usePageTitle({ title: `Edit group: ${group?.name}` })
+  return (
+    <>
+      { group && (
         <GroupEditForm group={group} />
-      </>
-    )
-  } else {
-    return (
-      <PageTitle title={`Edit Group`} />
-    )
-  }
+      )}
+    </>
+  )
 }
 
 AdminUsersGroupsEdit.navState = {

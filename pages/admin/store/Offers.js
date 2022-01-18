@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import PageTitle from '../../../components/PageTitle';
+import usePageTitle from '../../../hooks/usePageTitle'
 
 const AdminStoreOffers = () => {
 
+  usePageTitle({ title: 'Offers' })
+
   return (
-    <PageTitle title="Offers" />
+    <></>
   )
 }
 

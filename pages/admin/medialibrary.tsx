@@ -1,15 +1,17 @@
 import { useContext, useEffect } from 'react';
 import { headerButtonsVar } from '../../graphql/cache';
 import Button from '../../components/Button';
-import PageTitle from '../../components/PageTitle';
 import MediaLibrary from '../../components/MediaLibrary/MediaLibrary';
 import UploadModal from '../../components/MediaLibrary/UploadModal';
 import { ModalContext } from '../../context/modalContext';
 import FileUploader from '../../components/MediaLibrary/FileUploader';
+import usePageTitle from '../../hooks/usePageTitle';
 
 const MediaLibraryPage = () => {
 
   const { handleModal } = useContext(ModalContext);
+
+  usePageTitle({ title: 'Media Library' })
 
   const handleUploadModal = (value) => {
     handleModal({
@@ -29,7 +31,6 @@ const MediaLibraryPage = () => {
 
   return (
     <>
-      <PageTitle title="Media Library" />
       <div className="px-8">
         <MediaLibrary />
       </div>

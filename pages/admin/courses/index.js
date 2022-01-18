@@ -1,20 +1,22 @@
-import { useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client'
 import Head from 'next/head'
-import { useRouter } from 'next/router';
-import Button from '../../../components/Button';
-import { Notices } from '../../../components/Notices';
-import PageTitle from '../../../components/PageTitle';
-import { headerButtonsVar, viewVar } from '../../../graphql/cache';
+import { useRouter } from 'next/router'
+import Button from '../../../components/Button'
+import { Notices } from '../../../components/Notices'
+import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import CoursesTable from '../../../components/admin/courses/CoursesTable/CoursesTable'
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import TextInput from '../../../components/BasicTextInput'
 import LoadingSpinner from '../../../components/LoadingSpinner'
 import CourseCreateModalForm from '../../../components/admin/courses/CourseCreateModalForm'
+import usePageTitle from '../../../hooks/usePageTitle'
 const AdminCourses = () => {
 
-  const view = useReactiveVar(viewVar)
-  
+  usePageTitle({
+    title: 'Courses'
+  })
+
   const router = useRouter()
   
   const { handleModal, closeModal } = useContext(ModalContext);
@@ -38,7 +40,6 @@ const AdminCourses = () => {
 
   return (
     <>
-      <PageTitle title="Courses" />
       <Notices />
       <CoursesTable />
     </>
