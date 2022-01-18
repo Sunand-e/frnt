@@ -1,17 +1,21 @@
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 import classNames from 'classnames'
 
 import cache from "../../graphql/cache"
-import { ContentFragment } from "../../graphql/queries/allQueries";
+import { ContentFragment } from "../../graphql/queries/allQueries"
 
-import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
-import { BookOpenIcon } from "@heroicons/react/outline";
-import { useRouter } from '../../utils/router';
-import Link from "next/link";
-import Button from "../Button";
-import useModal from "../../hooks/useModal";
-import DeleteLessonModal from "../admin/courses/DeleteLessonModal";
+import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment'
+import { BookOpenIcon } from "@heroicons/react/outline"
+import { useRouter } from '../../utils/router'
+import Link from "next/link"
+import Button from "../Button"
+import { CSS } from '@dnd-kit/utilities'
+import useModal from "../../hooks/useModal"
+import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
+
+import styles from './SidebarItem.module.scss'
+
 const SidebarItem = ({
   dragOverlay,
   dragging,
@@ -45,10 +49,15 @@ const SidebarItem = ({
   
   const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
 
-  // return <a>dsa</a>
   return (
     <li
-      className={null}
+      className={classNames(
+        styles.Wrapper,
+        `flex hover:bg-black hover:bg-opacity-20 hover:text-main-dark px-4`,
+        fadeIn && styles.fadeIn,
+        sorting && styles.sorting,
+        dragOverlay && styles.dragOverlay
+      )}
       style={
         {
           transition,

@@ -270,7 +270,6 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
     })
 
     const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
-    // return <a>dsa</a>
     return (
       <li
         className={classNames(

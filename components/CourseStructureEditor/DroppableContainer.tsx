@@ -56,6 +56,8 @@ export function DroppableContainer({
     >
       {children}
       { id !== 'placeholder' && <NewItemButton container={id} /> }
+      { CSS.Translate.toString(transform) }
+
     </Container>
   );
 }
