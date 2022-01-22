@@ -8,7 +8,7 @@ import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect } from 'react'
 import Button from '../../../components/Button'
-import useCourse from '../../../hooks/useCourse'
+import useCourse from '../../../hooks/courses/useCourse'
 
 const AdminCoursesEdit = () => {
   /*
@@ -20,6 +20,10 @@ const AdminCoursesEdit = () => {
 
   const [courseItemId, setCourseItemId] = useState(contentId)
 
+  useEffect(() => {
+    setCourseItemId(router.query.cid)
+  },[router.query])
+
   const { loading, error, data: {course} = {} } = useQuery(
     GET_COURSE,
     {
@@ -28,21 +32,6 @@ const AdminCoursesEdit = () => {
       }
     }
   );
-
-  if(contentId) {
-    const { 
-      loading: lessonLoading, 
-      error: lessonError, 
-      data: {lesson} = {}
-    } = useQuery(
-      GET_LESSON,
-      {
-        variables: {
-          id: contentId
-        }
-      }
-    );
-  }
 
   useEffect(() => {
     const view = {
@@ -72,12 +61,12 @@ const AdminCoursesEdit = () => {
     }
   },[course])
 
-  const { saveCourseTitle } = useCourse(id)
+  const { updateCourseTitle } = useCourse(id)
 
   usePageTitle({ 
     title: "Course: ", 
     editable:  course?.title, 
-    onEdit: saveCourseTitle
+    onEdit: updateCourseTitle
   })
 
   useEffect(() => {
@@ -93,18 +82,9 @@ const AdminCoursesEdit = () => {
 
   return (
     <>
-      {/* <pre>
-        COURSE:
-        {JSON.stringify(course,null,2)}
-      </pre> */}
-      
-      {/* <CourseEditForm course={course} /> */}
       { courseItemId && (
-        <>
-          <CourseItemEditor id={courseItemId} />
-        </>
+        <CourseItemEditor id={courseItemId} />
       )}
-      {/* <CourseStructureEditor course={course} /> */}
     </>
   )
 }

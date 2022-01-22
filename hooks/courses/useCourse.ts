@@ -1,20 +1,20 @@
 import { useRef, useEffect } from "react";
-import { UpdateCourse, UpdateCourseVariables } from "../graphql/mutations/course/__generated__/UpdateCourse";
-import { UPDATE_COURSE } from "../graphql/mutations/course/UPDATE_COURSE"
-import { CourseFragment, GET_COURSE } from "../graphql/queries/allQueries"
+import { UpdateCourse, UpdateCourseVariables } from "../../graphql/mutations/course/__generated__/UpdateCourse";
+import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE"
+import { CourseFragment, GET_COURSE } from "../../graphql/queries/allQueries"
 // import { ContentFragment as ContentFragmentType } from '../graphql/queries/__generated__/ContentFragment';
-import { CourseFragment as CourseFragmentType } from '../graphql/queries/__generated__/CourseFragment';
+import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../graphql/cache"
+import cache, { currentContentItemVar } from "../../graphql/cache"
 
 
 function useCourse(id) {
 
-  const [updateCourse, updatedCourse] = useMutation<UpdateCourse, UpdateCourseVariables>(
+  const [updateCourseMutation, updateCourseResponse] = useMutation<UpdateCourse, UpdateCourseVariables>(
     UPDATE_COURSE
   );
 
-  const saveCourse = ({title=null, contentBlocks=null}) => {
+  const updateCourse = ({title=null, contentBlocks=null}) => {
 
     const cachedCourse = cache.readFragment<CourseFragmentType>({
       id:`ContentItem:${id}`,
@@ -29,7 +29,7 @@ function useCourse(id) {
       }})
     }
 
-    updateCourse({
+    updateCourseMutation({
       variables: {
         id,
         ...variables
@@ -48,14 +48,14 @@ function useCourse(id) {
     })
   }
 
-  const saveCourseTitle = (title) => {
-    saveCourse({
+  const updateCourseTitle = (title) => {
+    updateCourse({
       title
     })
   }
 
-  const saveCourseContent = (contentBlocks) => {
-    saveCourse({
+  const updateCourseContent = (contentBlocks) => {
+    updateCourse({
       contentBlocks
     })
   }
@@ -73,8 +73,8 @@ function useCourse(id) {
     course,
     loading,
     error,
-    saveCourseContent,
-    saveCourseTitle
+    updateCourseContent,
+    updateCourseTitle
   }
 }
 

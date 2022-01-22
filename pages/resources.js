@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ItemFilterTabs from '../components/ItemFilterTabs';
 import { allContentVar } from '../graphql/cache';
-import usePageTitle from '../hooks/usePageTitle';
 
 const Resources = ({queries}) => {
 

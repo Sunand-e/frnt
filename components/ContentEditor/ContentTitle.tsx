@@ -1,15 +1,12 @@
-import { createPlugins, Plate } from "@udecode/plate-headless";
-import { FC, useEffect, useState } from "react"
+import { createPlugins, Plate, createSingleLinePlugin } from "@udecode/plate-headless";
 import cache, { currentContentItemVar } from "../../graphql/cache";
 import { ContentFragment } from "../../graphql/queries/allQueries";
-import { CONFIG } from "./blocks/TextBlock/config";
-import useBlockEditor from "./useBlockEditor";
 
 import { useDebouncedCallback } from 'use-debounce';
 
 export const ContentTitle = () => {
 
-  const { id, type, updateFunction, updateTitleFunction } = currentContentItemVar()
+  const { id, updateTitleFunction } = currentContentItemVar()
   
   const { title } = cache.readFragment({
     id:`ContentItem:${id}`,
@@ -21,6 +18,10 @@ export const ContentTitle = () => {
     updateTitleFunction(title);
   }, 800)
   
+  const platePlugins = createPlugins([
+    createSingleLinePlugin()
+  ])
+
   return (
     <div className={`flex justify-center`}>
 
@@ -30,6 +31,7 @@ export const ContentTitle = () => {
         editableProps={{placeholder: 'Enter a title...'}}
         onChange={handleChange}
         initialValue={[{children: [{text: title ?? ''}]}]}
+        plugins={platePlugins}
       />
     </h1>
     </div>

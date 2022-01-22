@@ -42,11 +42,11 @@ export const PackageIFrame = ({properties}) => {
         scormDataVar(data)
 
         if(CMIElement === 'cmi.core.exit' && value==='suspend') {
-          document.querySelector('#moooooodal').innerHTML = '<pre>SCORM package sent exit status</pre>'
+          // document.querySelector('#debug_panel').innerHTML = '<pre>SCORM package sent exit status</pre>'
           window.API = null
           // setReload(true)
         } else {
-          document.querySelector('#moooooodal').innerHTML = '<pre>'+JSON.stringify(data,null,2)+'</pre>'
+          // document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(data,null,2)+'</pre>'
         }
 
         // localStorage.setItem('scormdata', JSON.stringify(data))

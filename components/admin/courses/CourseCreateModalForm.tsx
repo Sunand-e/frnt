@@ -12,6 +12,7 @@ import { CreateSection, CreateSectionVariables } from '../../../graphql/mutation
 import { CREATE_SECTION } from '../../../graphql/mutations/section/CREATE_SECTION';
 import { ModalContext } from '../../../context/modalContext';
 import LoadingSpinner from '../../LoadingSpinner';
+import { queryEditor } from '@udecode/plate-core';
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -28,33 +29,16 @@ const TextInput = ({ label, ...props }) => {
 const CourseCreateModal = () => {
 
   const router = useRouter()
-  const notices = useReactiveVar(noticesVar)
-  const editLink = '/admin/courses'
 
-  
+  const notices = useReactiveVar(noticesVar)
+
   const { handleModal, closeModal } = useContext(ModalContext);
-  
-  const anotherHandle = () => {
-    handleModal({
-      content: <LoadingSpinner />
-    })
-    closeModal()
-  }
-  
-  // const [createSection, newSection] = useMutation<CreateSection, CreateSectionVariables>(
-  //   CREATE_SECTION,
-  //   {
-  //     onCompleted({createSection}) {
-  //       const {id: courseId} = newCourse.data.createCourse.course
-  //       router.push(`/admin/courses/edit?id=${courseId}`)
-  //     }
-  //   }
-  // );
 
   const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,
     {
-      // the update function updates the cache 
+      // the update function updates the list of courses returned from the cached query.
+      // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createCourse } } ) {
 
         const data = cache.readQuery<GetCourses>({
@@ -67,55 +51,20 @@ const CourseCreateModal = () => {
             courses: data ? [createCourse.course, ...data.courses] : [createCourse.course]
           }
         })
-      },
-
-      // When we get the real course ID from the server, create a section for the course
-/*
-      onCompleted({createCourse}) {
         
-        const {id} = createCourse.course
-
-        // router.push(backLink)
-        createSection({
-          variables: { 
-            title: 'Section 1', 
-            content: {},
-            parentIds: [id]
-          },
-          // the optimistic response is stored in the cache immediately, 
-          // and updated when the actual response is received
-          optimisticResponse: {
-            createSection: {
-              __typename: 'CreateSectionPayload',
-              section: {
-                __typename: 'ContentItem',
-                itemType: 'section',
-                id: uuidv4(),
-                title: 'Section 1',
-                createdAt: '',
-                updatedAt: '',
-                content: {},
-                contentType: null,
-                image: null,
-                icon: null,
-                prerequisites: null,
-                _deleted: false,
-                children: []
-              },
-              message: ''
+        if(createCourse.course.id.indexOf('tmp-') !== 0) {
+          
+        closeModal()
+          router.push({
+            pathname: `${router.pathname}/edit`,
+            query: {
+              id: createCourse.course.id
             }
-          }
-          // refetchQueries: [{ query: GET_COURSE }]
-        }).catch(res => {
-          console.log('ERROR')
-          console.log(res)
-          // TODO: do something if there is an error!!
-        })
-      }
-      */
+          })
+        }
+      },
     }
   );
-
 
   return (
     <Formik
@@ -135,7 +84,7 @@ const CourseCreateModal = () => {
               __typename: 'CreateCoursePayload',
               course: {
                 __typename: 'ContentItem',
-                id: Math.floor(Math.random() * 10000) + '',
+                id: `tmp-${Math.floor(Math.random() * 10000)}`,
                 title: values.title,
                 createdAt: '',
                 updatedAt: '',
@@ -170,6 +119,11 @@ const CourseCreateModal = () => {
         }).catch(res => {
           // TODO: do something if there is an error!!
         })
+
+        handleModal({
+          content: <LoadingSpinner />
+        })
+
         noticesVar([
           {
             content: `The course '${values.title}' has been created`,
@@ -177,10 +131,6 @@ const CourseCreateModal = () => {
           },
           ...notices
         ])
-
-        anotherHandle()
-
-
       }}
       // validationSchema={Yup.object({
       //   title: Yup.string()

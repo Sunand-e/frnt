@@ -27,7 +27,8 @@ export const viewVar = makeVar({})
 export const pageTitleVar = makeVar({
   title: null,
   subtitle: null,
-  editable: null
+  editable: null,
+  onEdit: () => {}
 })
 export const currentContentItemVar = makeVar({
   type: null,
@@ -35,7 +36,14 @@ export const currentContentItemVar = makeVar({
   updateFunction: null,
   updateTitleFunction: null
 })
-export const CourseNavigationVar = makeVar({expand:false})
+
+export const courseNavigationVar = makeVar(
+  {
+    expand:false,
+    courseItemId:null,
+  }
+)
+
 export const activeContentBlockVar = makeVar(null)
 export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])

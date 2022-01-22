@@ -2,8 +2,6 @@
 import React, { useMemo, FunctionComponent } from 'react';
 import {
   createPlugins,
-  PlatePlugin,
-  TEditor,
   createBlockquotePlugin,
   createBoldPlugin,
   createCodeBlockPlugin,
@@ -16,6 +14,9 @@ import {
   createSubscriptPlugin,
   createSuperscriptPlugin,
   createUnderlinePlugin,
+  createFontColorPlugin,
+  createFontBackgroundColorPlugin,
+  createAlignPlugin
 } from '@udecode/plate';
 import { Plate, PlateRenderElementProps } from '@udecode/plate-core';
 
@@ -23,19 +24,20 @@ import { CONFIG } from './config';
 
 import useBlockEditor from '../../useBlockEditor';
 
-const basicElements = createPlugins(
+const elements = createPlugins(
   [
+    createParagraphPlugin(),
     createBlockquotePlugin(),
     createCodeBlockPlugin(),
     createHeadingPlugin(),
-    createParagraphPlugin(),
+    createAlignPlugin(CONFIG.align),
   ],
   {
     components: createPlateUI(),
   }
 );
 
-const basicMarks = createPlugins(
+const marks = createPlugins(
   [
     createBoldPlugin(),
     createCodePlugin(),
@@ -44,6 +46,8 @@ const basicMarks = createPlugins(
     createSubscriptPlugin(),
     createSuperscriptPlugin(),
     createUnderlinePlugin(),
+    createFontColorPlugin(),
+    createFontBackgroundColorPlugin(),
   ],
   {
     components: createPlateUI(),
@@ -56,6 +60,7 @@ export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) =
   const { debouncedUpdateBlock } = useBlockEditor()
 
   const handleChange = (newValue) => {
+    document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(newValue,null,2)+'</pre>'
     const updatedBlock = {
       ...block,
       properties: {
@@ -70,12 +75,12 @@ export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) =
     <>
       <Plate
         id={block.id}
-        plugins={createPlugins([...basicElements, ...basicMarks], {
+        plugins={createPlugins([...elements, ...marks], {
           components: createPlateUI(),
         })}
         editableProps={CONFIG.editableProps}
         onChange={handleChange}
-        initialValue={properties?.content || [{children: [{text:''}]}]}
+        initialValue={properties?.content || [{type: 'p', children: [{text:''}]}]}
       />
     </>
   );

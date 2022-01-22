@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import classNames from 'classnames'
 
-import cache from "../../graphql/cache"
+import cache, { courseNavigationVar } from "../../graphql/cache"
 import { ContentFragment } from "../../graphql/queries/allQueries"
 
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment'
@@ -47,13 +47,28 @@ const SidebarItem = ({
     })
   }
   
+  const onSelect = () => {
+    router.push({
+      pathname: `/admin/courses/edit`,
+      query: {
+        ...router.query,
+        cid: item.id,
+        fafafa: 'lalala',
+      }
+    })
+    // courseNavigationVar({
+    //   ...courseNavigationVar(),
+    //   courseItemId: item.id
+    // })
+  }
+
   const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
 
   return (
     <li
       className={classNames(
         styles.Wrapper,
-        `flex hover:bg-black hover:bg-opacity-20 hover:text-main-dark px-4`,
+        `flex hover:bg-main hover:bg-opacity-10 hover:text-main-dark px-4 py-2`,
         fadeIn && styles.fadeIn,
         sorting && styles.sorting,
         dragOverlay && styles.dragOverlay
@@ -80,7 +95,7 @@ const SidebarItem = ({
     >
       <div
         className={`
-          flex items-center w-full py-2
+          flex items-center w-full
           ${dragging && 'dragging'}
           ${dragOverlay && 'dragOverlay'}
         `}
@@ -89,7 +104,9 @@ const SidebarItem = ({
         {...listeners}
         tabIndex={0}
       >
-        <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/courses/edit?id=${courseId}&cid=${item.id}`)}>
+        {/* <div className="min-w-0 flex-1 flex items-center"> */}
+        <div className="min-w-0 flex-1 flex items-center" onClick={onSelect}>
+        {/* <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/courses/edit?id=${courseId}&cid=${item.id}`)}> */}
         <Link href={`/admin/courses/edit?id=${courseId}&cid=${item.id}`}>
           <a>
           <span className="min-w-0 flex-0 text-sm font-medium text-indigo-600">{item.title}</span>

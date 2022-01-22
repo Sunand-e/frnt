@@ -6,7 +6,7 @@ import {Handle, Remove} from '../dnd-kit/Item';
 import styles from './Container.module.scss';
 import { GET_SECTION } from '../../graphql/queries/allQueries';
 import { client } from '../../graphql/client';
-import cache, { CourseNavigationVar } from "../../graphql/cache"
+import cache, { courseNavigationVar } from "../../graphql/cache"
 import { ContentFragment } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
 import { useReactiveVar } from '@apollo/client';
@@ -54,7 +54,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
       optimistic: true
     })
 
-    const { expand } = useReactiveVar(CourseNavigationVar)
+    const { expand } = useReactiveVar(courseNavigationVar)
     return (
       <div
         {...props}
@@ -67,6 +67,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         }
         className={classNames(
           styles.Container,
+          'bg-white bg-opacity-10',
           expand && styles.expanded
         )}
         //   unstyled && styles.unstyled,
@@ -84,10 +85,13 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         tabIndex={onClick ? 0 : undefined}
       >
         {label ? (
-          <div className={ expand ? styles.Header : ``}>
-            { section ? section.title : label }
-            {/* <br />
-            {section.id} */}
+          <div className={ classNames(
+            `flex justify-between mt-2 px-4`,
+            expand ? styles.Header : ``
+          )}>
+            <span>
+              { section ? section.title : label }
+            </span>
             <div className={styles.Actions}>
               {onRemove ? <Remove onClick={onRemove} /> : undefined}
               <Handle {...handleProps} />

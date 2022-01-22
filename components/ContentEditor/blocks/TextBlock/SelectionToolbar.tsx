@@ -12,8 +12,16 @@ import {
   MARK_UNDERLINE,
   MarkToolbarButton,
   usePlateEditorRef,
+  ColorPickerToolbarDropdown,
+  MARK_COLOR,
+  MARK_BG_COLOR,
 } from '@udecode/plate';
-import TextTypeDropdown from '../common/TextTypeDropdown';
+// import TextTypeDropdown from '../common/TextTypeDropdown';
+import FontSizeDropdown from '../common/FontSizeDropdown';
+import { FormatColorText } from '@styled-icons/material-rounded/FormatColorText';
+import { CheckIcon } from '@heroicons/react/solid';
+import { FontDownload } from '@styled-icons/material-rounded/FontDownload';
+import { AlignToolbarButtons } from '../../../plate/Toolbar';
 
 export const SelectionToolbar = () => {
   const editor = usePlateEditorRef()!;
@@ -37,7 +45,7 @@ export const SelectionToolbar = () => {
       theme={theme}
       arrow={arrow}
     >
-      <TextTypeDropdown />
+      <FontSizeDropdown />
       <MarkToolbarButton
         type={getPluginType(editor, MARK_BOLD)}
         icon={<FormatBold />}
@@ -53,6 +61,19 @@ export const SelectionToolbar = () => {
         icon={<FormatUnderlined />}
         tooltip={{ content: 'Underline (⌘U)', ...tooltip }}
       />
+      <ColorPickerToolbarDropdown
+        pluginKey={MARK_COLOR}
+        icon={<FormatColorText />}
+        selectedIcon={<CheckIcon />}
+        tooltip={{ content: 'Text color' }}
+      />
+      <ColorPickerToolbarDropdown
+        pluginKey={MARK_BG_COLOR}
+        icon={<FontDownload />}
+        selectedIcon={<CheckIcon />}
+        tooltip={{ content: 'Highlight color' }}
+      />
+      <AlignToolbarButtons />
     </BalloonToolbar>
   );
 };

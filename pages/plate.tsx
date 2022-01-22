@@ -21,7 +21,7 @@ const PlatePage = () => {
       <MarkBalloonToolbar />
       <Plate
         id="balloon-toolbar"
-        plugins={}
+        // plugins={}
         editableProps={CONFIG.editableProps}
         initialValue={[{type:'p', children:[{text:'aaa'}]}]}
       />

@@ -10,21 +10,21 @@ import { useDebouncedCallback } from "use-debounce";
 import BlockEditor from "../../ContentEditor/BlockEditor";
 import EasyEdit, {Types} from 'react-easy-edit';
 import { ContentTitle } from "../../ContentEditor/ContentTitle";
-import useLesson from "../../../hooks/useLesson";
+import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 const LessonEditor = ({id}) => {
 
   const {
     lesson,
     loading,
     error,
-    saveLessonContent,
-    saveLessonTitle
-  } = useLesson(id)
+    updateLessonContent,
+    updateLessonTitle
+  } = useUpdateLesson(id)
   
   currentContentItemVar({
     ...lesson,
-    updateFunction: saveLessonContent,
-    updateTitleFunction: saveLessonTitle,
+    updateFunction: updateLessonContent,
+    updateTitleFunction: updateLessonTitle,
   })
   // const {content, setContent} = useContext(ContentContext)
 

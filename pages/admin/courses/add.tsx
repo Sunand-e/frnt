@@ -9,7 +9,6 @@ import { CREATE_SECTION } from "../../../graphql/mutations/section/CREATE_SECTIO
 import { GET_COURSES } from '../../../graphql/queries/allQueries';
 import { GetCourses, GetCourses_courses } from '../../../graphql/queries/__generated__/GetCourses';
 import { v4 as uuidv4 } from 'uuid';
-import usePageTitle from '../../../hooks/usePageTitle';
 
 const AdminCoursesAdd = () => {
   

@@ -59,7 +59,6 @@ const CourseCreateForm = () => {
                 _deleted: false,
               },
               message: ''
-
             }
           }
           // refetchQueries: [{ query: GET_COURSE }]
@@ -73,7 +72,7 @@ const CourseCreateForm = () => {
           },
           ...notices
         ])
-        router.push(backLink)
+        router.push(backLink + '?d=q')
       }}
       validationSchema={Yup.object({
         title: Yup.string()

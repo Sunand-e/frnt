@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { useQuery, useMutation, gql } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
 import usePageTitle from '../hooks/usePageTitle'
-import usePageTitle from '../hooks/usePageTitle';
 
 // const QUERY = gql`
 // query GetPosts {

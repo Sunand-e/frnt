@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
-import { UpdateLesson, UpdateLessonVariables } from "../graphql/mutations/lesson/__generated__/UpdateLesson";
-import { UPDATE_LESSON } from "../graphql/mutations/lesson/UPDATE_LESSON"
-import { ContentFragment, GET_LESSON } from "../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../graphql/queries/__generated__/ContentFragment';
+import { UpdateLesson, UpdateLessonVariables } from "../../graphql/mutations/lesson/__generated__/UpdateLesson";
+import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
+import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"
+import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../graphql/cache"
+import cache, { currentContentItemVar } from "../../graphql/cache"
 
 
 function useLesson(id) {

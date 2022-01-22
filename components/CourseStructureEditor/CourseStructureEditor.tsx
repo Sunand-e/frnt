@@ -107,52 +107,52 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
   
   const handleReorderSectionChildren = (newItems) => {
 
-    console.log('REORDERING SECTION CHILDREN')
+    // console.log('REORDERING SECTION CHILDREN')
 
-    for(const section in newItems) {
+    // for(const section in newItems) {
 
-      const oldChildrenIds = itemsBeforeDrag[section];
-      const newChildrenIds = newItems[section];
-      if(
-        // section !== 'newContainerId' &&
-        oldChildrenIds.length === newChildrenIds.length &&
-        oldChildrenIds.every((v, i) => v === newChildrenIds[i])
-      ) {
-        // console.log(`Section children order matches`);
-      } else {
+    //   const oldChildrenIds = itemsBeforeDrag[section];
+    //   const newChildrenIds = newItems[section];
+    //   if(
+    //     // section !== 'newContainerId' &&
+    //     oldChildrenIds.length === newChildrenIds.length &&
+    //     oldChildrenIds.every((v, i) => v === newChildrenIds[i])
+    //   ) {
+    //     // console.log(`Section children order matches`);
+    //   } else {
 
-        const cachedSection = cache.readFragment<SectionFragmentType>({
-          id:`ContentItem:${section}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment',
-        })
+    //     const cachedSection = cache.readFragment<SectionFragmentType>({
+    //       id:`ContentItem:${section}`,
+    //       fragment: SectionFragment,
+    //       fragmentName: 'SectionFragment',
+    //     })
 
-        const newChildrenData = newChildrenIds.map(id => {
-          return cache.readFragment<ContentFragmentType>({
-            id:`ContentItem:${id}`,
-            fragment: ContentFragment,
-          })
-        })
+    //     const newChildrenData = newChildrenIds.map(id => {
+    //       return cache.readFragment<ContentFragmentType>({
+    //         id:`ContentItem:${id}`,
+    //         fragment: ContentFragment,
+    //       })
+    //     })
 
-        updateSection({
-          variables: {
-            id: section,
-            childrenIds: newChildrenIds
-          },
-          optimisticResponse: {
-            updateSection: {
-              __typename: 'UpdateSectionPayload',
-              section: {
-                ...cachedSection,
-                children: newChildrenData
-              },
-            }
-          }
-        }).catch(res => {
-          // TODO: do something if there is an error!!
-        })
-      }
-    }
+    //     updateSection({
+    //       variables: {
+    //         id: section,
+    //         childrenIds: newChildrenIds
+    //       },
+    //       optimisticResponse: {
+    //         updateSection: {
+    //           __typename: 'UpdateSectionPayload',
+    //           section: {
+    //             ...cachedSection,
+    //             children: newChildrenData
+    //           },
+    //         }
+    //       }
+    //     }).catch(res => {
+    //       // TODO: do something if there is an error!!
+    //     })
+    //   }
+    // }
 
   }
   
@@ -270,6 +270,7 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
     })
 
     const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
+    
     return (
       <li
         className={classNames(
