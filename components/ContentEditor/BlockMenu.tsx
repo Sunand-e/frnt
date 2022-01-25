@@ -6,7 +6,6 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Cog} from '@styled-icons/fa-solid/Cog'
 import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
 import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
-import { useSortable } from '../dnd-kit/sortable/dist';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import 'tippy.js/themes/light.css';

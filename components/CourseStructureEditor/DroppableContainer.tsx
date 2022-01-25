@@ -5,7 +5,7 @@ import {
   AnimateLayoutChanges,
   useSortable,
   defaultAnimateLayoutChanges,
-} from '../dnd-kit/sortable/dist';
+} from '@dnd-kit/sortable';
 
 import {Container} from './Container'
 import NewItemButton from './NewItemButton'
@@ -56,7 +56,7 @@ export function DroppableContainer({
     >
       {children}
       { id !== 'placeholder' && <NewItemButton container={id} /> }
-      { CSS.Translate.toString(transform) }
+      {/* { CSS.Translate.toString(transform) } */}
 
     </Container>
   );

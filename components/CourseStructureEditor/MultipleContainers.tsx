@@ -27,8 +27,7 @@ import {
   SortingStrategy,
   horizontalListSortingStrategy,
   SortableContext,
-// } from '@dnd-kit/sortable';
-} from '../dnd-kit/sortable/dist';
+} from '@dnd-kit/sortable';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -250,20 +249,28 @@ export function MultipleContainers({
         setActiveId(active.id);
         setClonedItems(items);
       }}
+
+      // When dragging over:
       onDragOver={({active, over}) => {
+        // Get the id of the item or container which is being dragged over
         const overId = over?.id;
 
+        // if there is no item being dragged over, or we're dragging a container, don't do anything.
         if (!overId || overId === TRASH_ID || active.id in items) {
           return;
         }
-
+        
+        // Get the object for the container being dragged over, based on the item we're over:
         const overContainer = findContainer(overId);
+        // get the container which was being dragged from
         const activeContainer = findContainer(active.id);
 
+        // if either the container we're dragging into of from doesn't exist, don't do anything:
         if (!overContainer || !activeContainer) {
           return;
         }
-
+        
+        // If dragging an item to another container, we need to 'place' the item in the new container 
         if (activeContainer !== overContainer) {
           setItems((items) => {
             const activeItems = items[activeContainer];
@@ -271,16 +278,20 @@ export function MultipleContainers({
             const overIndex = overItems.indexOf(overId);
             const activeIndex = activeItems.indexOf(active.id);
 
+            // determine the index at which to place the item in it's new container
             let newIndex: number;
 
             if (overId in items) {
+              
+              // dragging an item to another container, but not over an item. Set the index position to the last position.
               newIndex = overItems.length + 1;
             } else {
+              // dragging an item over another item in another container
               const isBelowOverItem =
                 over &&
                 active.rect.current.translated &&
-                active.rect.current.translated.offsetTop >
-                  over.rect.offsetTop + over.rect.height;
+                active.rect.current.translated.top >
+                  over.rect.top + over.rect.height;
 
               const modifier = isBelowOverItem ? 1 : 0;
 
@@ -308,13 +319,6 @@ export function MultipleContainers({
         }
       }}
       onDragEnd={({active, over}) => {
-        if (active.id in items && over?.id) {
-          // console.log('A container is changing position')
-          const activeIndex = containers.indexOf(active.id);
-          const overIndex = containers.indexOf(over.id);
-          const newContainerList = arrayMove(containers, activeIndex, overIndex);
-          handleDragContainerEnd(newContainerList)
-        }
 
         const activeContainer = findContainer(active.id);
 
@@ -329,8 +333,6 @@ export function MultipleContainers({
           setActiveId(null);
           return;
         }
-
-
 
         // if (overId === TRASH_ID) {
         //   setItems((items) => ({
@@ -365,7 +367,6 @@ export function MultipleContainers({
         const overContainer = findContainer(overId);
 
         if (overContainer) {
-          
           const activeIndex = items[activeContainer].indexOf(active.id);
           const overIndex = items[overContainer].indexOf(overId);
           
@@ -396,11 +397,37 @@ export function MultipleContainers({
               ),
             })
           } else {
-            // The item has changed containers, or a container is being dragged
-            if (active.id in items) {
+            // The item has changed containers, or a container is being dragged.
 
+            // If a container is being dragged:
+            if (active.id in items) {
+              console.log('A container is changing position')
+              const activeIndex = containers.indexOf(active.id);
+              const overIndex = containers.indexOf(over.id);
+              const newContainerList = arrayMove(containers, activeIndex, overIndex);
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log('newContainerList')
+              console.log(newContainerList)
+              setContainers(newContainerList)
+              handleDragContainerEnd(newContainerList)
             } else {
-              // console.log('The item has changed containers');
+              console.log('The item has changed containers');
+
+              setItems((items) => ({
+                ...items,
+                [overContainer]: arrayMove(
+                  items[overContainer],
+                  activeIndex,
+                  overIndex
+                ),
+              }))
+
               handleDragItemEnd({
                 ...items,
                 [overContainer]: arrayMove(

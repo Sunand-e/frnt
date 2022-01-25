@@ -52,14 +52,9 @@ const SidebarItem = ({
       pathname: `/admin/courses/edit`,
       query: {
         ...router.query,
-        cid: item.id,
-        fafafa: 'lalala',
+        cid: item.id
       }
     })
-    // courseNavigationVar({
-    //   ...courseNavigationVar(),
-    //   courseItemId: item.id
-    // })
   }
 
   const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
@@ -68,7 +63,7 @@ const SidebarItem = ({
     <li
       className={classNames(
         styles.Wrapper,
-        `flex hover:bg-main hover:bg-opacity-10 hover:text-main-dark px-4 py-2`,
+        `flex hover:bg-main hover:bg-opacity-10 hover:text-main-dark`,
         fadeIn && styles.fadeIn,
         sorting && styles.sorting,
         dragOverlay && styles.dragOverlay
@@ -95,7 +90,7 @@ const SidebarItem = ({
     >
       <div
         className={`
-          flex items-center w-full
+          flex items-center w-full px-4 py-2
           ${dragging && 'dragging'}
           ${dragOverlay && 'dragOverlay'}
         `}

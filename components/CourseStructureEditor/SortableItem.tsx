@@ -1,6 +1,5 @@
 import React from 'react';
-// import { useSortable } from '../dnd-kit/sortable';
-import { useSortable } from '../dnd-kit/sortable/dist';
+import { useSortable } from '@dnd-kit/sortable';
 import { Item } from '../dnd-kit';
 import { SortableItemProps, useMountStatus } from './MultipleContainers';
 

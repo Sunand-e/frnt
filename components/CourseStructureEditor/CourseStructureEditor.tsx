@@ -69,7 +69,7 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
   const [courseSections, setCourseSections] = useState(
     Object.keys(courseItems)
   )
-  
+
   const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(
     UPDATE_COURSE,
     {
@@ -77,7 +77,6 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
       },
     }
   )
-  
 
   const [updateSection, sectionData] = useMutation<UpdateSection, UpdateSectionVariables>(
     UPDATE_SECTION,
@@ -107,59 +106,57 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
   
   const handleReorderSectionChildren = (newItems) => {
 
-    // console.log('REORDERING SECTION CHILDREN')
+    console.log('REORDERING SECTION CHILDREN')
+    console.log(newItems)
 
-    // for(const section in newItems) {
+    for(const section in newItems) {
 
-    //   const oldChildrenIds = itemsBeforeDrag[section];
-    //   const newChildrenIds = newItems[section];
-    //   if(
-    //     // section !== 'newContainerId' &&
-    //     oldChildrenIds.length === newChildrenIds.length &&
-    //     oldChildrenIds.every((v, i) => v === newChildrenIds[i])
-    //   ) {
-    //     // console.log(`Section children order matches`);
-    //   } else {
+      const oldChildrenIds = itemsBeforeDrag[section];
+      const newChildrenIds = newItems[section];
+      if(
+        // section !== 'newContainerId' &&
+        oldChildrenIds.length === newChildrenIds.length &&
+        oldChildrenIds.every((v, i) => v === newChildrenIds[i])
+      ) {
+        console.log(`Section children order matches`, section);
+      } else {
 
-    //     const cachedSection = cache.readFragment<SectionFragmentType>({
-    //       id:`ContentItem:${section}`,
-    //       fragment: SectionFragment,
-    //       fragmentName: 'SectionFragment',
-    //     })
+        const cachedSection = cache.readFragment<SectionFragmentType>({
+          id:`ContentItem:${section}`,
+          fragment: SectionFragment,
+          fragmentName: 'SectionFragment',
+        })
 
-    //     const newChildrenData = newChildrenIds.map(id => {
-    //       return cache.readFragment<ContentFragmentType>({
-    //         id:`ContentItem:${id}`,
-    //         fragment: ContentFragment,
-    //       })
-    //     })
+        const newChildrenData = newChildrenIds.map(id => {
+          return cache.readFragment<ContentFragmentType>({
+            id:`ContentItem:${id}`,
+            fragment: ContentFragment,
+          })
+        })
 
-    //     updateSection({
-    //       variables: {
-    //         id: section,
-    //         childrenIds: newChildrenIds
-    //       },
-    //       optimisticResponse: {
-    //         updateSection: {
-    //           __typename: 'UpdateSectionPayload',
-    //           section: {
-    //             ...cachedSection,
-    //             children: newChildrenData
-    //           },
-    //         }
-    //       }
-    //     }).catch(res => {
-    //       // TODO: do something if there is an error!!
-    //     })
-    //   }
-    // }
+        updateSection({
+          variables: {
+            id: section,
+            childrenIds: newChildrenIds
+          },
+          optimisticResponse: {
+            updateSection: {
+              __typename: 'UpdateSectionPayload',
+              section: {
+                ...cachedSection,
+                children: newChildrenData
+              },
+            }
+          }
+        }).catch(res => {
+          // TODO: do something if there is an error!!
+        })
+      }
+    }
 
   }
   
   const handleReorderSections = (newSectionIds) => {
-    console.log('handleReorderSections')
-    console.log('newSectionIds')
-    console.log(newSectionIds)
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
         id:`ContentItem:${id}`,
@@ -199,19 +196,29 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
       filterDeletedCourseItems(course).sections
     )
 
+    // console.log('newItemsObject')
+    // console.log(newItemsObject)
+    // console.log('Object.keys(newItemsObject)')
+    // console.log(Object.keys(newItemsObject))
     setCourseItems(newItemsObject)
     setCourseSections(Object.keys(newItemsObject))
 
   },[course])
 
   /* Can probably get rid of the setSections and setItems declarations????*/
-  const setSections = (sections) => {
-    if (typeof sections === 'function') {
-      setCourseSections(sections(courseSections))
-    } else {
-      setCourseSections(courseSections)
-    }
-  }
+  // const setSections = (sections) => {
+  //   console.log('courseSections')
+  //   console.log('courseSections')
+  //   console.log('courseSections')
+  //   console.log('courseSections')
+  //   console.log(courseSections)
+  //   console.log(sections)
+  //   if (typeof sections === 'function') {
+  //     setCourseSections(sections(courseSections))
+  //   } else {
+  //     setCourseSections(courseSections)
+  //   }
+  // }
 
   const setItems = (items) => {
     if (typeof items === 'function') {
@@ -344,7 +351,8 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
         clonedItems={itemsBeforeDrag}
         setClonedItems={setItemsBeforeDrag}
         containers={courseSections}
-        setContainers={setSections}
+        // setContainers={setSections}
+        setContainers={setCourseSections}
         // onAddColumn={handleAddSectionModal}
         modifiers={[restrictToVerticalAxis]}
         onRemoveContainer={handleDeleteSectionModal}
