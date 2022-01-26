@@ -52,7 +52,6 @@ const blocktypes = {
     text: 'Columns',
     component: ColumnsBlock,
     icon: Columns,
-    hideFromColumns: true,
   },
   placeholder: {
     text: 'Placeholder',

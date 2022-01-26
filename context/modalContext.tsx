@@ -8,10 +8,10 @@ const { Provider } = (ModalContext = createContext(null))
 
 const ModalProvider = ({children}) => {
 
-  const { modalActive, modalTitle, handleModal, clearModal, closeModal, modalButtons, modalContent } = useModal()
+  const { modalActive, modalTitle, handleModal, clearModal, closeModal, modalButtons, modalContent, modalSize } = useModal()
 
   return (
-    <Provider value={{ modalActive, modalTitle, handleModal, clearModal, closeModal, modalButtons, modalContent }}>
+    <Provider value={{ modalActive, modalTitle, handleModal, clearModal, closeModal, modalButtons, modalContent, modalSize }}>
       <Modal />
       { children }
     </Provider>

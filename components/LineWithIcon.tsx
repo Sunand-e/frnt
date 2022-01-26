@@ -13,7 +13,6 @@ const LineWithIcon = ({onClick, children}: LineWithIconProps) => (
   `}>
     <PlusCircle className={`px-4 w-16`} />
   </div>
-
 )
 
 export default LineWithIcon

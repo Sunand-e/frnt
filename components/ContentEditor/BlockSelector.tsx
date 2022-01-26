@@ -9,7 +9,14 @@ import cache, { currentContentItemVar } from '../../graphql/cache';
 import { ContentFragment } from '../../graphql/queries/allQueries';
 import useBlockEditor from './useBlockEditor';
 
-const BlockSelector = ({block=null, replace=false, className='', style}) => {
+const BlockSelector = ({
+  block=null, 
+  replace=false, 
+  exclude=[], 
+  className='',
+  onSelect = () => false,
+  style
+}) => {
 
   const { blocks, insertBlock, updateBlock, getIndexAndParent } = useBlockEditor(block)
   const addBlock = (newBlock) => {
@@ -28,11 +35,13 @@ const BlockSelector = ({block=null, replace=false, className='', style}) => {
   const { handleModal } = useContext(ModalContext);
 
   const handleSelectBlock = (newBlock) => {
+    onSelect?.()
     switch(newBlock.type) {
       case 'image': {
         handleModal({
           title: `Choose image`,
-          content: <ImageLibraryModal onImageSelect={(block) => addBlock(block)} />
+          content: <ImageLibraryModal onImageSelect={(block) => addBlock(block)} />,
+          size: 'lg'
         })
         break;
       }
@@ -62,12 +71,15 @@ const BlockSelector = ({block=null, replace=false, className='', style}) => {
   let blockButtons = []
   let btnIndex = 0;
   for(const blockTypeName in blocktypes) {
-    const blockType = blocktypes[blockTypeName]
-    if(!blockType.hideFromSelector) {
-      blockButtons.push({
-        ...blockType,
-        name: blockTypeName
-      })
+
+    if(!exclude.includes(blockTypeName)) {
+      const blockType = blocktypes[blockTypeName]
+      if(!blockType.hideFromSelector) {
+        blockButtons.push({
+          ...blockType,
+          name: blockTypeName
+        })
+      }
     }
   }
 

@@ -67,7 +67,6 @@ const BlockMenu = ({ block, className }) => {
       text: 'Add column',
       iconComponent: AddColumn,
       onClick: () => {
-        alert('ADDCOL')
         addColumn(block)
       },
       isDisabled: () => block.children?.length > 3,

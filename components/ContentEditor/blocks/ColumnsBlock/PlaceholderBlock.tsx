@@ -11,7 +11,7 @@ import BlockSelector from '../../BlockSelector';
 
 const PlaceholderBlock = ({block}) => {
 
-  const { handleModal } = useContext(ModalContext);
+  const { handleModal, closeModal } = useContext(ModalContext);
 
   const handleBlockSelect = () => {
     handleModal({
@@ -20,6 +20,9 @@ const PlaceholderBlock = ({block}) => {
         <BlockSelector
           block={block}
           replace={true}
+          style={null}
+          exclude={['columns','package']}
+          onSelect={closeModal}
         />
       )
     })  

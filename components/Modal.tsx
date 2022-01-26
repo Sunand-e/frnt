@@ -5,9 +5,16 @@ import { CheckIcon } from '@heroicons/react/outline'
 import { ModalContext } from '../context/modalContext'
 import { XCircleIcon } from '@heroicons/react/solid'
 
+const sizeMap = new Map<any,any>([
+  ['sm', 'sm:max-w-sm'],
+  ['md', 'sm:max-w-md'],
+  ['lg', 'sm:max-w-lg'],
+  ['xl', 'sm:max-w-xl'],
+])
+
 export default function Modal() {
-  const { modalActive, clearModal, modalTitle, closeModal, handleModal, modalButtons, modalContent } = useContext(ModalContext)
-  
+  const { modalActive, clearModal, modalTitle, closeModal, handleModal, modalButtons, modalSize, modalContent } = useContext(ModalContext)
+
   return (
     <Transition.Root show={modalActive} as={Fragment}>
       <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={handleModal}>
@@ -38,7 +45,7 @@ export default function Modal() {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div className={`inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle ${sizeMap?.get(modalSize)} sm:w-full sm:p-6`}>
               <div className="flex justify-between mb-4">
                 <h1 className={'text-main-dark'}>{modalTitle}</h1><span onClick={closeModal}><XCircleIcon className="fill-current text-main-dark w-8"/></span>
               </div>
