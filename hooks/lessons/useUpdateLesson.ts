@@ -15,7 +15,8 @@ function useUpdateLesson(id = null) {
     UPDATE_LESSON
   );
 
-  const updateLesson = ({title=null, contentBlocks=null}) => {
+  const updateLesson = ({title=null, contentBlocks=null, scormId=null}) => {
+  // const updateLesson = ({title=null, contentBlocks=null}) => {
 
     const cachedLesson = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${id}`,
@@ -26,7 +27,8 @@ function useUpdateLesson(id = null) {
       ...(title && {title}),
       ...(contentBlocks && {content: {
         blocks: contentBlocks 
-      }})
+      }}),
+      scormId
     }
 
     updateLessonMutation({

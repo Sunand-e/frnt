@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetCourses_courses_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;
@@ -24,7 +24,7 @@ export interface GetCourses_courses_icon {
 }
 
 export interface GetCourses_courses_sections_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;
@@ -40,7 +40,7 @@ export interface GetCourses_courses_sections_icon {
 }
 
 export interface GetCourses_courses_sections_children_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;

@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface UpdateLesson_updateLesson_lesson_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;
@@ -51,6 +51,7 @@ export interface UpdateLessonVariables {
   id: string;
   title?: string | null;
   content?: any | null;
+  scormId?: string | null;
   childrenIds?: any | null;
   prerequisites?: any | null;
 }

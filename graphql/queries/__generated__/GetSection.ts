@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetSection_section_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;
@@ -24,7 +24,7 @@ export interface GetSection_section_icon {
 }
 
 export interface GetSection_section_children_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;

@@ -27,5 +27,5 @@ export interface GetMediaItems {
 }
 
 export interface GetMediaItemsVariables {
-  type: any;
+  where: any;
 }

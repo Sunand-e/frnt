@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetLesson_lesson_image {
-  __typename: "Image";
+  __typename: "MediaItem";
   location: string | null;
   id: string;
   altText: string | null;
