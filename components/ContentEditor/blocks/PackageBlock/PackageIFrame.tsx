@@ -16,9 +16,9 @@ declare global {
   }
 }
 
-export const PackageIFrame = ({properties}) => {
+export const PackageIFrame = ({block}) => {
 
-  console.log('iframeComponentReloaded')
+  const {properties} = block
 
   const scormData = useReactiveVar(scormDataVar)
 
@@ -35,8 +35,6 @@ export const PackageIFrame = ({properties}) => {
       const API = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
-        console.log('CMIElement')
-        console.log(CMIElement, value)
         API.storeData(true);
         const data = API.renderCommitCMI(true)
         scormDataVar(data)
@@ -93,13 +91,9 @@ export const PackageIFrame = ({properties}) => {
   },[])
 
   return (
-    // <iframe width="100%" height="100%" src="/scorm/scormdriver/indexAPI.html"></iframe>
-    // <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html"></iframe>
-    // '/private/scorm-data/#{scorm.id}/#{params[:content_item_id]}'
-    // <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
     <>
-    <iframe width="100%" height="100%" src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
-    {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
+      {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
+    <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )

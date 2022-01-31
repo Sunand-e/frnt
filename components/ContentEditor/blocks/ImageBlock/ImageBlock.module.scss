@@ -1,0 +1,10 @@
+.imageBlock {
+  background-attachment: fixed;
+}
+
+.overlay {
+  opacity: 0;
+  &:hover {
+    opacity: 100;
+  }
+}

@@ -1,6 +1,5 @@
 import blocktypes from './blocktypes'
 import BlockButton from './BlockButton'
-import ImageLibraryModal from './blocks/ImageBlock/ImageLibraryModal'
 import PackageSelectModal from './blocks/PackageBlock/PackageSelectModal'
 import { useContext } from 'react';
 import { ModalContext } from '../../context/modalContext';
@@ -18,37 +17,19 @@ const BlockSelector = ({
   style
 }) => {
 
-  const { blocks, insertBlock, updateBlock, getIndexAndParent } = useBlockEditor(block)
-  const addBlock = (newBlock) => {
-    if(block) {
-      if(replace) {
-        updateBlock(block, newBlock)
-      } else {
-        const { index, parent } = getIndexAndParent(block)
-        insertBlock(newBlock, index + 1, parent, replace)
-      }
-    } else {
-      insertBlock(newBlock, blocks.length, null, replace)
-    }
-  }
+  const { blocks, insertBlock, updateBlock, getIndexAndParent, addBlock } = useBlockEditor(block)
+
 
   const { handleModal } = useContext(ModalContext);
 
   const handleSelectBlock = (newBlock) => {
     onSelect?.()
     switch(newBlock.type) {
-      case 'image': {
-        handleModal({
-          title: `Choose image`,
-          content: <ImageLibraryModal onImageSelect={(block) => addBlock(block)} />,
-          size: 'lg'
-        })
-        break;
-      }
       case 'package': {
         handleModal({
           title: `Choose package`,
-          content: <PackageSelectModal />
+          content: <PackageSelectModal />,
+          size: 'lg'
         })
         break;
       }
@@ -56,14 +37,14 @@ const BlockSelector = ({
         newBlock.children = [
           { type: 'placeholder', id: uuidv4() },
           { type: 'placeholder', id: uuidv4() }
-        ]        
+        ]
         // insertBlock(newBlock, index, null, replace)
-        addBlock(newBlock)
+        addBlock(newBlock, replace)
         break;
       }
       default: {
         // insertBlock(newBlock, index, null, replace)
-        addBlock(newBlock)
+        addBlock(newBlock, replace)
       }
     }
   }

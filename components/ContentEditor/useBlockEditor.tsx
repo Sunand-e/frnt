@@ -22,7 +22,7 @@ const useBlockEditor = (block=null) => {
   const { content: { blocks } } = cache.readFragment({
     id:`ContentItem:${id}`,
     fragment: ContentFragment,
-  })
+  }, true)
   
   useEffect(() => {
 
@@ -89,6 +89,20 @@ const useBlockEditor = (block=null) => {
     insertBlock(newBlock ?? block, index, parent, 1)
     
   }
+
+  const addBlock = (newBlock, replace=false) => {
+    if(block) {
+      if(replace) {
+        updateBlock(block, newBlock)
+      } else {
+        const { index, parent } = getIndexAndParent(block)
+        insertBlock(newBlock, index + 1, parent, replace)
+      }
+    } else {
+      insertBlock(newBlock, blocks.length, null, replace)
+    }
+  }
+
   
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
@@ -101,33 +115,44 @@ const useBlockEditor = (block=null) => {
   const deleteBlock = block => {
     
     const { index, parent } = getIndexAndParent(block)
-
+    
     let newBlocks
     
+    // if the block is contained in a column:
     if(parent) {
-      const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
       
-      newBlocks = [
-        ...blocks.slice(0, topLevelIndex),
-        {
-          ...blocks[topLevelIndex],
-          children: blocks[topLevelIndex].children.filter(b => b.id !== block.id)
-        },
-        ...blocks.slice(topLevelIndex + 1)
-      ]
+      // if we're only leaving one block, replace columns with that block
+      if(parent.children.length === 2) {
+
+        const newBlock = parent.children.find(b => b.id !== block.id)
+        console.log('newBlock')
+        console.log(newBlock)
+        updateBlock(parent, newBlock)
+
+      // otherwise, remove the block from the column
+      } else {
+        const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
+      
+        newBlocks = [
+          ...blocks.slice(0, topLevelIndex),
+          {
+            ...parent,
+            children: parent.children.filter(b => b.id !== block.id)
+          },
+          ...blocks.slice(topLevelIndex + 1)
+        ]
+        updateFunction(newBlocks)
+      }
+
+    // if the block is NOT contained in a column, remove the block
     } else {
       newBlocks = blocks.filter(b => b.id !== block.id)
+      updateFunction(newBlocks)
     }
-    updateFunction(newBlocks)
   }
 
   
   const blockIds = blocks.map(block => block.id);
-  
-  useEffect(() => {
-    // console.log('aaa')
-  },[blocks])
-  // const activeIndex = activeBlock ? blocks.findIndex(({id}) => id === activeBlock) : -1;
   
   const { handleModal, closeModal } = useContext(ModalContext);
 
@@ -206,18 +231,34 @@ const useBlockEditor = (block=null) => {
     }
   }
 
+  const createColumnsBlock = () => {
+    return {
+      type: 'columns',
+      id: uuidv4(),
+      properties: {}
+    }
+  }
 
   const addColumn = block => {
-    if(block.type==='columns') {
-      const newBlock = {
+    let newTopLevelBlock
+    if(block.type === 'columns') {
+      newTopLevelBlock = {
         ...block,
         children: [
           ...block.children,
           createPlaceholderBlock()
         ]
       }
-      updateBlock(newBlock)
+    } else {
+      newTopLevelBlock = {
+        ...createColumnsBlock(),
+        children: [
+          block,
+          createPlaceholderBlock()
+        ]
+      }
     }
+    updateBlock(block, newTopLevelBlock)
   }
 
   return {
@@ -226,6 +267,7 @@ const useBlockEditor = (block=null) => {
     addColumn,
     shiftPosition,
     insertBlock,
+    addBlock,
     updateBlock,
     getIndexAndParent,
     activeBlockId: activeContentBlockVar(),

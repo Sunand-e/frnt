@@ -1,14 +1,31 @@
 import { Resizable } from 're-resizable';
 import { ResizeableHandle } from './ResizeableHandle'
 import { activeContentBlockVar } from '../../../../graphql/cache';
+import useBlockEditor from '../../useBlockEditor';
+import { useEffect, useState } from 'react';
 
-export const ResizeableElement = ({id, width, onResizeStop, children}) => {
+export const ResizeableElement = ({block, defaultWidth, children}) => {
 
   const align = 'center'
   const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group-hover:opacity-100 `
   const handleAfterClasses = `after:flex after:bg-gray-400 after:w-2 after:h-24 after:rounded`
   const handleClasses = `${handleElementClasses} ${handleAfterClasses}`
-  
+
+  const [width, setWidth] = useState( block.properties.width || defaultWidth || 0)
+  // const  [width, setWidth] = useState(0)
+  const { updateBlock, addBlock } = useBlockEditor(block)
+
+  useEffect(() => {
+    const updatedBlock = {
+      ...block,
+      properties: {
+        ...block.properties,
+        width
+      }
+    }
+    updateBlock(updatedBlock)
+  }, [width]);
+
   return (
     <div
       className={`py-2.5`}
@@ -48,10 +65,10 @@ export const ResizeableElement = ({id, width, onResizeStop, children}) => {
               right: { right: 0 },
             }}
             onResize={(e, direction, ref) => {
-              activeContentBlockVar(id)
+              activeContentBlockVar(block.id)
             }}
             onResizeStop={(e, direction, ref) => {
-              onResizeStop(ref.offsetWidth)
+              setWidth(ref.offsetWidth)
             }}
           >
             { children }

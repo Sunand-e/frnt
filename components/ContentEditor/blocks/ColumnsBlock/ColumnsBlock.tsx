@@ -3,7 +3,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import ResizeableElement from '../common/ResizeableElement';
 import { Container, Section, Bar, Resizer } from 'react-simple-resizer';
 import { Block } from '../../Block';
 import BlockContainer from '../../BlockContainer';

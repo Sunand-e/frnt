@@ -5,7 +5,7 @@ import { GET_MEDIA_ITEMS } from "../../graphql/queries/allQueries";
 import { GetMediaItems } from "../../graphql/queries/__generated__/GetMediaItems";
 import useModal from "../../hooks/useModal";
 import Modal from "../Modal";
-import FileUploader from "./FileUploader"
+import MediaUploader from "./MediaUploader"
 import MediaItem from "./MediaItem"
 
 interface MediaLibraryProps {
@@ -16,15 +16,7 @@ interface MediaLibraryProps {
 const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect, typeFilter = ["image", "document", "video", "audio"]}) => {
 
   
-  const { 
-    modalActive: modal2Active, 
-    clearModal: clearModal2, 
-    modalTitle: modal2Title, 
-    closeModal: closeModal2, 
-    handleModal: handleModal2, 
-    modalButtons: modal2Buttons, 
-    modalContent: modal2Content
-  } = useModal()
+  const { handleModal } = useModal()
 
   const { loading, error, data: { mediaItems } = {} } = useQuery<GetMediaItems>(GET_MEDIA_ITEMS, {
     variables: { 
@@ -35,7 +27,7 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
   })
 
   const handleItemDelete = () => {
-    handleModal2({title: 'Delete media item', content: 'Delete media item?'})
+    // handleModal({title: 'Delete media item', content: 'Delete media item?'})
   }
 
   if (loading) return <>Loading...</>
@@ -43,7 +35,7 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
 
   return (
     <>
-    <FileUploader />
+    <MediaUploader />
       <ul role="list" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-6 xl:gap-x-8">
         { mediaItems.map((item, idx) => (
           <Fragment key={idx} >

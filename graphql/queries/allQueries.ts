@@ -325,10 +325,10 @@ export const GET_USERS = gql`
     }
   }
  ` 
-where: {type: ['image', 'audio', 'video', 'document']}
+
 export const GET_MEDIA_ITEMS = gql`
   query GetMediaItems(
-    $where: JSON!,
+    $where: JSON,
   ) {  
     mediaItems(where: $where) {
       altText
@@ -339,6 +339,24 @@ export const GET_MEDIA_ITEMS = gql`
       location
       properties
       id
+    }
+  }
+` 
+
+export const GET_SCORM_MODULES = gql`
+  query GetScormModules(
+    $where: JSON,
+  ) { 
+    scormModules(where: $where) {
+      id
+      createdAt
+      location
+      launchUrl
+      manifestData
+      title
+      updatedAt
+      deletedAt
+      contentType
     }
   }
 ` 
