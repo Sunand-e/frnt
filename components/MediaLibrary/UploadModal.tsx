@@ -1,16 +1,10 @@
-import React, { useContext } from 'react';
-import { ModalContext } from '../../context/modalContext';
-import LoadingSpinner from '../LoadingSpinner';
-import Button from '../Button';
-import { client } from '../../graphql/client';
-import { gql } from '@apollo/client';
-import FileUploader from './FileUploader';
+import MediaUploader from './MediaUploader';
 
 const UploadModal = () => {
 
   return (
     <>
-      <FileUploader />
+      <MediaUploader />
     </>
   );
 }

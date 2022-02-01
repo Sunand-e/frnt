@@ -4,7 +4,6 @@ import Button from '../../components/Button';
 import MediaLibrary from '../../components/MediaLibrary/MediaLibrary';
 import UploadModal from '../../components/MediaLibrary/UploadModal';
 import { ModalContext } from '../../context/modalContext';
-import FileUploader from '../../components/MediaLibrary/FileUploader';
 import usePageTitle from '../../hooks/usePageTitle';
 
 const MediaLibraryPage = () => {
