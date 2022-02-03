@@ -14,14 +14,9 @@ export const PackageBlock: FunctionComponent = ({block}) => {
   const  defaultWidth = '100%';
 
   return (
-    <ResizeableElement
-      block={block}
-      defaultWidth={defaultWidth}
-    >
-      <div className="aspect-w-16 aspect-h-9 px-1">
-        <DynamicPackageIFrame block={block}/>
-      </div>
-    </ResizeableElement>
+    <div className="aspect-w-16 aspect-h-9 px-1">
+      <DynamicPackageIFrame block={block}/>
+    </div>
   );
 }
 

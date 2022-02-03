@@ -7,13 +7,14 @@ import { v4 as uuidv4 } from 'uuid';
 import cache, { currentContentItemVar } from '../../graphql/cache';
 import { ContentFragment } from '../../graphql/queries/allQueries';
 import useBlockEditor from './useBlockEditor';
+import NewVideoModal from './blocks/VideoBlock/NewVideoModal';
 
 const BlockSelector = ({
   block=null, 
   replace=false, 
   exclude=[], 
   className='',
-  onSelect = () => false,
+  onSelect = ():void => null,
   style
 }) => {
 
@@ -30,6 +31,14 @@ const BlockSelector = ({
           title: `Choose package`,
           content: <PackageSelectModal />,
           size: 'lg'
+        })
+        break;
+      }
+      case 'video': {
+        handleModal({
+          title: `Add video`,
+          content: <NewVideoModal />,
+          size: 'md'
         })
         break;
       }

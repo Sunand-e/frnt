@@ -11,14 +11,15 @@ const PackageSelectModal = ({block}) => {
   const { blocks, insertBlock, updateBlock } = useBlockEditor()
 
   const handlePackageSelect = (module) => {
-    const prefix = 'https://learning-platform-media-items.s3.eu-west-2.amazonaws.com'
+
     const newBlock = {
       type: 'package',
       id: uuidv4(),
       properties: {
         // this needs to change to insert the url package location!
         // url: '/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html',
-        url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
+        // url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
+        url: module.launchUrl,
       }
     }
     block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)

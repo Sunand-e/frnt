@@ -350,7 +350,6 @@ export const GET_SCORM_MODULES = gql`
     scormModules(where: $where) {
       id
       createdAt
-      location
       launchUrl
       manifestData
       title

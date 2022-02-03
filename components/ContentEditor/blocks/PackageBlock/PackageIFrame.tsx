@@ -93,7 +93,9 @@ export const PackageIFrame = ({block}) => {
   return (
     <>
       {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
-    <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe>
+    {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
+    <iframe src={block.properties.url}></iframe>
+    
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )

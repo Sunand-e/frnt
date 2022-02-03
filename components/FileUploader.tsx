@@ -53,7 +53,7 @@ const FileUploader = ({accept, dropZoneText, endpoint, refetchQuery, fileParamet
         data.append(param, additionalParams[param])
       }
   
-      data.append('title', file.name)
+      // data.append('title', file.name)
       data.append(fileParameterName, file, file.name)
       axios.request({
         method: "post", 

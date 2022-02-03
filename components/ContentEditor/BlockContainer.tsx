@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Block } from './Block'
 import { activeContentBlockVar } from '../../graphql/cache'
 import BlockMenu from './BlockMenu'
 import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
+import { BlockEdit } from './BlockEdit'
 
 const BlockContainer = ({
   block,
@@ -25,7 +25,7 @@ const BlockContainer = ({
 
   return (
     <div
-      className={`${isColumn ? 'h-full' : ''} group relative flex flex-col items-center`}
+      className={`${isColumn ? 'h-full' : ''} group relative flex flex-col items-center hover:bg-opacity-5 hover:bg-main`}
 
       // onClick={() => setIsActive(true)}
       onClick={() => activeContentBlockVar(block.id)}
@@ -45,7 +45,7 @@ const BlockContainer = ({
         />
 
       </span>
-      <Block block={block} />
+      <BlockEdit block={block} />
       {
         (!parent && index !== blocks.length -1) && <BlockFooter block={block} />
       }

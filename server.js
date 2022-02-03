@@ -29,10 +29,10 @@ const apiPaths = {
     },
     changeOrigin: true
   },
-  '/scorm': {
-    target: 'http://127.0.0.1', 
+  '/scorm-data': {
+    target: 'http://127.0.0.1',
     pathRewrite: {
-      '^/scorm': '/scorm'
+      '^/scorm-data': '/scorm-data'
     },
     changeOrigin: true
   }
@@ -47,7 +47,7 @@ app.prepare().then(() => {
     server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
     server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
     server.use('/auth', createProxyMiddleware(apiPaths['/auth']));
-    server.use('/scorm', createProxyMiddleware(apiPaths['/scorm']));
+    server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));
   }
 
   server.all('*', (req, res) => {

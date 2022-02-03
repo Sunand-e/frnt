@@ -43,7 +43,11 @@ const BlockFooter = ({block}) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
           >
-            <BlockSelector style={{}} block={block} />
+            <BlockSelector 
+              style={{}} 
+              block={block}
+              onSelect={() => setShowBlockSelector(false)}
+            />
           </motion.div>
         }
         </AnimatePresence>
