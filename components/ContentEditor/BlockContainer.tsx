@@ -17,37 +17,30 @@ const BlockContainer = ({
 
   const { blocks, getIndexAndParent } = useBlockEditor()
   const { index, parent } = getIndexAndParent(block)
-  
-  // const [isActive, setIsActive] = useState(isPlateFocused)
-  // console.log('block.parent')
-  // console.log(block.parent)
+
   const isActive = useReactiveVar(activeContentBlockVar) === block.id
-
+  
   return (
-    <div
-      className={`${isColumn ? 'h-full' : ''} group relative flex flex-col items-center hover:bg-opacity-5 hover:bg-main`}
+    <div className='group flex flex-col'>
+      <div
+        className={`${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'} relative flex flex-col items-center`}
+        onClick={() => activeContentBlockVar(block.id)}
+      >
+        <span className={`absolute z-10 right-2 top-2`}>
+        {/* <span className={`absolute -right-14`}> */}
+          <BlockMenu
+            block={block}
+            className={`
+              ${!isActive && 'block'}
+              ${!isColumn && 'bg-white rounded hidden group-hover:block'}
+            `}
+          />
 
-      // onClick={() => setIsActive(true)}
-      onClick={() => activeContentBlockVar(block.id)}
-    >
-      {/* { type } */}
-      <span className={`absolute z-10 right-2 top-2`}>
-      {/* <span className={`absolute -right-14`}> */}
-
-        <BlockMenu
-        
-          block={block}
-          className={`
-            ${!isActive && 'block'}
-            ${!isColumn && 'bg-white rounded hidden group-hover:block'}
-          `}
-          // handle={handle}
-        />
-
-      </span>
-      <BlockEdit block={block} />
+        </span>
+        <BlockEdit block={block} />
+      </div>
       {
-        (!parent && index !== blocks.length -1) && <BlockFooter block={block} />
+        (!isColumn && index !== blocks.length -1) && <BlockFooter block={block} />
       }
     </div>
   );

@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 
 import {useState, useEffect, createContext, ReactNode} from 'react'
-import Layout from '../layouts/Layout'
 import LoginLayout from '../layouts/LoginLayout'
 import { 
   ApolloProvider,
@@ -37,6 +36,7 @@ import '../styles/toastify-overrides.css';
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
 import { ModalProvider } from '../context/modalContext'
+import DefaultLayout from '../layouts/DefaultLayout'
 
 addIconsToLibrary()
 
@@ -105,7 +105,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const getLayout =
   PageComponent.getLayout || (page => {
-    return <Layout
+    return <DefaultLayout
     navState={PageComponent.navState || {}}
     page={page} />
   })

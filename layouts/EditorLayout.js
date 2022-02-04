@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import { GET_COURSE } from '../graphql/queries/allQueries';
 import CourseStructureEditor from '../components/CourseStructureEditor/CourseStructureEditor';
 import SidebarItem from '../components/CourseStructureEditor/SidebarItem';
+import Layout from './Layout';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -33,30 +34,22 @@ export default function EditorLayout( {page, navState} ) {
     renderItem: SidebarItem
   }
   return (
-    <>
-      <TopNotificationBar />
-      <div className={`flex min-h-full`}>
-        <NavContainer navState={navState} />
-        <div className="flex-grow">
-          <Header />
-          <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-blue-superlight">
-            <div className="lg:flex h-full">
-              <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
-                <ToastContainer />
-                <div className="sticky top-18 h-[calc(100vh-4.5rem)] w-[300px] bg-blue bg-opacity-10 flex flex-col">
-                  { course && <CourseStructureEditor {...courseStructureEditorProps} course={course} /> }
-                </div>
-                <div className="w-full flex justify-center px-16">
-                  <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
-                    {page}
-                  </div>
-                </div>
+    <Layout page={page} navState={navState}>
+      <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-blue-superlight">
+        <div className="lg:flex h-full">
+          <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
+            <ToastContainer />
+            <div className="sticky top-18 h-[calc(100vh-4.5rem)] w-[300px] bg-blue bg-opacity-10 flex flex-col">
+              { course && <CourseStructureEditor {...courseStructureEditorProps} course={course} /> }
+            </div>
+            <div className="w-full flex justify-center px-16">
+              <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
+                {page}
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <Modal><p>test</p></Modal> */}
-    </>
+    </Layout>
   )
 }

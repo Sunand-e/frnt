@@ -1,12 +1,6 @@
 import {
-  FunctionComponent,
-  useContext
+  FunctionComponent
 } from 'react';
-import ResizeableElement from '../common/ResizeableElement';
-import useBlockEditor from '../../useBlockEditor';
-import ImageLibraryModal from './ImageLibraryModal';
-import ConditionalWrapper from '../../../common/ConditionalWrapper';
-import { ModalContext } from '../../../../context/modalContext';
 
 export const ImageBlock: FunctionComponent = ({block}) => {
 

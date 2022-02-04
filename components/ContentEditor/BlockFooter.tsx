@@ -28,12 +28,12 @@ const BlockFooter = ({block}) => {
   return (
     <>
       <div
-        className={`h-12 text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${showBlockSelector && 'opacity-100'}`}
+        className={`text-main opacity-0 max-w-screen-lg self-center group-hover:opacity-100 w-full ${showBlockSelector && 'opacity-100'}`}
         onClick={() => setShowBlockSelector(!showBlockSelector)}
         >
         <LineWithIcon />
       </div>
-      <div ref={outsideClickRef} className={`${showBlockSelector ? 'max-h-24' : 'max-h-0'} transition-max-h w-full duration-1000 ease-out overflow-hidden pb-2`}>
+      <div ref={outsideClickRef} className={`${showBlockSelector ? 'max-h-24' : 'max-h-0'} transition-max-h w-full duration-1000 ease-out overflow-hidden`}>
       {/* <div ref={outsideClickRef} className={`w-full overflow-hidden pb-2`}> */}
         {/* { showBlockSelector && */}
         <AnimatePresence>

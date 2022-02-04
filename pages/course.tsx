@@ -1,96 +1,97 @@
-import { useState } from 'react'
-import ContentTypePage from "../components/ContentTypePage";
-import Sidebar from '../components/Sidebar';
-import BlockWithTitle from '../components/BlockWithTitle';
-import LoadingSpinner from '../components/LoadingSpinner';
-import Lesson from '../components/Lesson';
-import Button from '../components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import usePageTitle from '../hooks/usePageTitle'
+import CourseItemEditor from '../components/admin/courses/CourseItemEditor'
+import { useRouter } from '../utils/router'
+import { useQuery, useReactiveVar } from '@apollo/client'
+import { GET_COURSE, GET_LESSON } from "../graphql/queries/allQueries"
+import EditorLayout from '../layouts/EditorLayout'
+import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
+import { useState, useEffect } from 'react'
+import Button from '../components/Button'
+import useCourse from '../hooks/courses/useCourse'
+import CourseItemView from '../components/CourseView/CourseItemView'
 
-// import lessons from '../lessons'
-import LinkWithIcon from '../components/LinkWithIcon';
+const CoursePage = () => {
+  /*
+    Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
+    See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
+  */
+  const router = useRouter()
+  const { id, cid: contentId } = router.query
 
-const lessons = []
+  const [courseItemId, setCourseItemId] = useState(contentId)
 
-const Course = () => {
+  useEffect(() => {
+    setCourseItemId(router.query.cid)
+  },[router.query])
 
+  const { loading, error, data: {course} = {} } = useQuery(
+    GET_COURSE,
+    {
+      variables: {
+        id
+      }
+    }
+  );
+
+  useEffect(() => {
+    const view = {
+      isSlimNav: true,
+      showSecondary: false,
+      ...viewVar()
+    }
+    viewVar(view)
+    return () => {
+      const view = viewVar()
+      delete view.isSlimNav
+      delete view.showSecondary
+      const newView = { ...view }
+      viewVar(newView)
+    }
+  },[])
   
-  const [course, setCourse]: [any,any] = useState({});
+  useEffect(() => {
+    // If there is a course but no item provided, show the first 
+    if(course && !courseItemId) {
+      setCourseItemId(course.sections?.length ? 
+        (course.sections[0].children?.length ?
+          course.sections[0].children[0].id :
+          null
+        ) :
+        null
+      )
+    }
+  },[course])
 
-  
-  const [currentLesson, setCurrentLesson] = useState(null)
-  
-  const handleLessonClick = (lesson_id => {
-    setCurrentLesson(lesson_id)
-    console.log('currentLesson')
-    console.log(currentLesson)
-  })
-  
-  const accordionChild = (child, idx, level=0) => {
-    return (
-      
-      <div key={idx} className="">
-        <div 
-          key={idx} 
-          onClick={() => handleLessonClick(child.id)} 
-          className={`${currentLesson===child.id ? 'text-white bg-main-dark' : 'text-main-dark bg-white'} p-4 py-2 mb-1 flex items-center hover:text-white hover:bg-main-dark`}
-        >
-          <FontAwesomeIcon className="h-4 mr-2" icon={`angle-right`} />
-          {/* { 
-            [...Array(level)].map((e, i) => (
-              <FontAwesomeIcon className="h-4 mr-2" icon={`angle-right`} key={i} />
-            ))
-          } */}
-          <span>
-            {/* {child.title} */}
-            {child.title}
-          </span>
-        </div>
-        {child.children && child.children.map((child, idx) => accordionChild(child, idx, level+1)) }
-      </div>
+  const { updateCourseTitle } = useCourse(id)
+
+  usePageTitle({ title: `Course: ${course?.title}` })
+
+  useEffect(() => {
+    headerButtonsVar(
+      <>
+      </>
     )
-  }
-  
-  const lessonsBlock = lessons.map((lesson, idx) => accordionChild(lesson, idx))
-  
+  },[])
+
   return (
-    <ContentTypePage type="Course" setData={setCourse}>
-      <div className="flex-grow w-9/12">
-        { !course && <LoadingSpinner /> }
-        { course && ( 
-          currentLesson === null ? (
-            <>
-              {/* <img className="object-cover h-96 mb-8 w-full" src={course.featuredImage.node.sourceUrl} />
-              <div className="mb-8" dangerouslySetInnerHTML={{__html: course.content}} />
-              <div className="flex justify-start">
-              <Button onClick={() => setCurrentLesson(lessons[0].id)}>Start Course</Button>
-              </div> */}
-            </>
-          ) : <Lesson lesson={lessons.find(lesson => lesson.id === currentLesson)} />
-        ) }
-      </div>
-      <Sidebar>
-        <BlockWithTitle title="Lessons">
-        { !course && <LoadingSpinner className="transform scale-50"/> }
-        { course && lessonsBlock }
-        { course && (
-          <div className="mt-4 text-main-dark">
-            <a onClick={() => setCurrentLesson(null)}>Back to course overview</a>
-          </div>
-        ) }
-        
-        </BlockWithTitle>
-        <BlockWithTitle title="Course Downloads">
-          <LinkWithIcon href='#' icon={{prefix: 'fas', iconName: 'file-pdf'}}>
-            Course Worksheet 1
-          </LinkWithIcon>
-          <LinkWithIcon href='#' icon={{prefix: 'fas', iconName: 'file-pdf'}}>
-            Course Worksheet 2
-          </LinkWithIcon>
-        </BlockWithTitle>
-      </Sidebar>
-    </ContentTypePage>
+    <>
+      { courseItemId && (
+        <CourseItemView id={courseItemId} />
+      )}
+    </>
   )
 }
 
-export default Course
+CoursePage.navState = {
+  topLevel: 'courses',
+  secondary: 'courses'
+}
+
+CoursePage.getLayout = page => (
+  <EditorLayout
+    navState={CoursePage.navState || {}}
+    page={page}
+  />
+)
+
+export default CoursePage

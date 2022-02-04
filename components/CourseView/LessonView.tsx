@@ -19,11 +19,8 @@ const LessonView = ({id}) => {
     error,
   } = useGetLesson(id)
   
-  currentContentItemVar({
-    ...lesson,
-  })
   return (
-    <>
+    <div className="self-center w-full flex flex-col items-center">
       <h1 className="mt-3 mb-8 w-full max-w-screen-lg">
         { lesson.title }
       </h1>
@@ -32,10 +29,7 @@ const LessonView = ({id}) => {
             <Block block={block} />
           ))
         }
-      <pre>
-      {JSON.stringify(lesson.content.blocks,null,2)}
-      </pre>
-    </>
+    </div>
   )
 }
 

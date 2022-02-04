@@ -22,8 +22,6 @@ import { Plate, PlateRenderElementProps } from '@udecode/plate-core';
 
 import { CONFIG } from './config';
 
-import useBlockEditor from '../../useBlockEditor';
-
 const elements = createPlugins(
   [
     createParagraphPlugin(),
@@ -57,29 +55,18 @@ const marks = createPlugins(
 export const TextBlock: FunctionComponent = ({block}: PlateRenderElementProps) => {
   const { properties } = block
 
-  const { debouncedUpdateBlock } = useBlockEditor()
-
-  const handleChange = (newValue) => {
-    document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(newValue,null,2)+'</pre>'
-    const updatedBlock = {
-      ...block,
-      properties: {
-        ...block.properties,
-        content: newValue
-      }
-    }
-    debouncedUpdateBlock(updatedBlock)// return false
-  }
+  const plugins = useMemo(
+    () => createPlugins([...elements, ...marks], {
+      components: createPlateUI(),
+    }), []
+  )
 
   return (
     <>
       <Plate
         id={block.id}
-        plugins={createPlugins([...elements, ...marks], {
-          components: createPlateUI(),
-        })}
-        editableProps={CONFIG.editableProps}
-        onChange={handleChange}
+        plugins={plugins}
+        editableProps={{readOnly:true}}
         initialValue={properties?.content || [{type: 'p', children: [{text:''}]}]}
       />
     </>

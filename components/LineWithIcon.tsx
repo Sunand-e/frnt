@@ -7,7 +7,8 @@ interface LineWithIconProps {
 
 const LineWithIcon = ({onClick, children}: LineWithIconProps) => (
   <div className={`
-    flex items-center py-2 h-10
+    flex items-center
+    h-12
     before:flex-grow before:border-t-2
     after:flex-grow after:border-t-2
   `}>

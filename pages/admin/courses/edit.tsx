@@ -44,7 +44,8 @@ const AdminCoursesEdit = () => {
       const view = viewVar()
       delete view.isSlimNav
       delete view.showSecondary
-      viewVar(view)
+      const newView = { ...view }
+      viewVar(newView)
     }
   },[])
   
