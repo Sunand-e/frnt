@@ -9,6 +9,7 @@ import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect } from 'react'
 import Button from '../../../components/Button'
 import useCourse from '../../../hooks/courses/useCourse'
+import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCourseForm'
 
 const AdminCoursesEdit = () => {
   /*
@@ -22,7 +23,7 @@ const AdminCoursesEdit = () => {
 
   useEffect(() => {
     setCourseItemId(router.query.cid)
-  },[router.query])
+  },[router.query.cid])
 
   const { loading, error, data: {course} = {} } = useQuery(
     GET_COURSE,
@@ -51,14 +52,16 @@ const AdminCoursesEdit = () => {
   
   useEffect(() => {
     // If there is a course but no item provided, show the first 
-    if(course && !courseItemId) {
-      setCourseItemId(course.sections?.length ? 
-        (course.sections[0].children?.length ?
-          course.sections[0].children[0].id :
-          null
-        ) :
-        null
-      )
+    if(course) {
+      const firstItemInCourse = course?.sections.find(
+        (section) => section.children?.length
+      )?.children[0]
+  
+      if(firstItemInCourse) {
+        setCourseItemId(firstItemInCourse.id)
+      } else {
+        
+      }
     }
   },[course])
 
@@ -79,13 +82,18 @@ const AdminCoursesEdit = () => {
       </>
     )
   },[])
-
-
+  
+  
   return (
     <>
-      { courseItemId && (
+      { course && (courseItemId ? (
         <CourseItemEditor id={courseItemId} />
-      )}
+        ) : (
+          <div className='mx-auto my-0 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+            <p className='text-lg font-bold'>Create your first course item:</p>
+            <AddItemToCourseForm sectionId={course.sections[0].id} />
+        </div>
+      ))}
     </>
   )
 }

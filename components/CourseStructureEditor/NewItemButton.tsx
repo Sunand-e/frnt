@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ModalContext } from "../../context/modalContext";
 import { PlusCircle } from '@styled-icons/heroicons-solid/PlusCircle'
-import AddItemToCourseModal from "../admin/courses/AddItemToCourseModal";
+import AddItemToCourseForm from "../admin/courses/AddItemToCourseForm";
 
 import LineWithIcon from '../LineWithIcon'
 
@@ -12,7 +12,7 @@ const NewItemButton = ({container: containerId}) => {
   const handleClick = () => {
     handleModal({
       title: `Add new item`,
-      content: <AddItemToCourseModal sectionId={containerId} />
+      content: <AddItemToCourseForm sectionId={containerId} />
     })
   }
 
