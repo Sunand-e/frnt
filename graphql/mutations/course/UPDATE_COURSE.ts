@@ -10,13 +10,16 @@ export const UPDATE_COURSE = gql`
     $certificateProperties: JSON,
     # $certificateTemplateId: ID,
     $childrenIds: JSON,
-    $prerequisites: JSON
+    $prerequisites: JSON,
+    $imageId: ID,
+
   ) {
     updateCourse(
       input: {
         id: $id,
         title: $title,
         content: $content,
+        imageId: $imageId,
         certificateProperties: $certificateProperties,
         # certificateTemplateId: $certificateTemplateId,
         childrenIds: $childrenIds,

@@ -172,6 +172,9 @@ const Dashboard = ({queries}) => {
           <DashboardContentTabs />
 
         </div>
+        {/* <pre>
+          { JSON.stringify(items,null,2)}
+        </pre> */}
       </PageContent> 
     </>
   )

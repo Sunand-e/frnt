@@ -13,8 +13,9 @@ import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCour
 import ImageSelect from '../../../components/ContentEditor/ImageSelect'
 import { ModalContext } from '../../../context/modalContext'
 import ImageLibraryModal from '../../../components/ContentEditor/blocks/ImageBlock/ImageLibraryModal'
+import InputWithLabel from '../../../components/common/InputWithLabel'
 
-const AdminCoursesEdit = () => {
+const AdminCoursesNew = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
@@ -41,22 +42,6 @@ const AdminCoursesEdit = () => {
   //     }
   //   }
   // );
-
-  useEffect(() => {
-    const view = {
-      isSlimNav: true,
-      showSecondary: false,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view }
-      viewVar(newView)
-    }
-  },[])
   
   useEffect(() => {
     // If there is a course but no item provided, show the first 
@@ -76,24 +61,16 @@ const AdminCoursesEdit = () => {
   // const { updateCourseTitle } = useCourse(id)
 
   usePageTitle({ 
-    title: "Course: ", 
-    editable:  course?.title, 
-    onEdit: title => updateCourse({title})
+    title: "New course"
   })
 
   useEffect(() => {
     headerButtonsVar(
       <>
-        <Button onClick={() => router.push('/admin/courses')}>Cancel</Button>
-        <Button>Preview course</Button>
-        <Button>Publish</Button>
+        <Button onClick={() => router.push('/admin/courses')}>Course Builder</Button>
       </>
     )
   },[])
-  
-
-  // updateCourse({image: true})
-
 
   const selectImageModal = () => {
     handleModal({
@@ -106,36 +83,30 @@ const AdminCoursesEdit = () => {
   }
 
   return (
-    <>
-      { course && (courseItemId ? (
-        <CourseItemEditor id={courseItemId} />
-        ) : (
-          <div className='mx-auto my-0 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-
-            <ImageSelect 
-              src={course.image?.location}
-              onClick={selectImageModal}
-              buttonText="Choose course image"
-              isButtonAlwaysVisible={true}
-            />
-            <p className='text-lg font-bold mt-4'>Create your first course item:</p>
-            <AddItemToCourseForm sectionId={course.sections[0]?.id} />
-        </div>
-      ))}
-    </>
+    <div className='h-full w-full max-w-sm'>
+      <InputWithLabel
+        onChange={(e) => false} 
+        label="Course name"
+        value={''}
+        name="videoUrl"
+        placeholder="Untitled course"
+      />
+      <ImageSelect 
+        src={course?.image?.location}
+        onClick={selectImageModal}
+        buttonText="Choose course image"
+        isButtonAlwaysVisible={true}
+      />
+      <p className='mt-4'>More settings...</p>
+      <p className='text-lg font-bold mt-4'>Create your first course item:</p>
+      <AddItemToCourseForm sectionId={course?.sections[0]?.id} />
+    </div>
   )
 }
 
-AdminCoursesEdit.navState = {
+AdminCoursesNew.navState = {
   topLevel: 'courses',
-  secondary: 'courses'
+  // secondary: 'courses'
 }
 
-AdminCoursesEdit.getLayout = page => (
-  <EditorLayout
-    navState={AdminCoursesEdit.navState || {}}
-    page={page}
-  />
-)
-
-export default AdminCoursesEdit
+export default AdminCoursesNew

@@ -29,7 +29,7 @@ const BlockSelector = ({
       case 'package': {
         handleModal({
           title: `Choose package`,
-          content: <PackageSelectModal />,
+          content: <PackageSelectModal block={block} />,
           size: 'lg'
         })
         break;
@@ -37,9 +37,13 @@ const BlockSelector = ({
       case 'video': {
         handleModal({
           title: `Add video`,
-          content: <NewVideoModal />,
+          content: <NewVideoModal block={block} />,
           size: 'md'
         })
+        break;
+      }
+      case 'text': {
+        addBlock(newBlock, replace)
         break;
       }
       case 'columns': {

@@ -1,5 +1,5 @@
 
-import React, { useMemo, FunctionComponent } from 'react';
+import React, { useMemo, FunctionComponent, useEffect } from 'react';
 import {
   createPlugins,
   createBlockquotePlugin,
@@ -18,11 +18,13 @@ import {
   createFontBackgroundColorPlugin,
   createAlignPlugin
 } from '@udecode/plate';
-import { Plate, PlateRenderElementProps } from '@udecode/plate-core';
+import { Plate, PlateRenderElementProps, usePlateEditorState } from '@udecode/plate-core';
 
 import { CONFIG } from './config';
 
 import useBlockEditor from '../../useBlockEditor';
+import Button from '../../../Button';
+import { ReactEditor } from 'slate-react';
 
 const elements = createPlugins(
   [
@@ -77,12 +79,35 @@ export const TextBlockEdit: FunctionComponent = ({block}: PlateRenderElementProp
     }), []
   )
 
+  const editor = usePlateEditorState(block.id);
+
+  useEffect(() => {
+    if (editor) {
+      setTimeout(() => {
+        console.log('block.id')
+        console.log(block.id)
+        ReactEditor.focus(editor);
+      }, 510);
+    }
+  }, []);
+
+  // const focusEditor = () => {
+  //     setTimeout(() => {
+  //       ReactEditor.focus(editor);
+  //     }, 1000);
+  // }
+
   return (
     <>
+    {/* <Button onClick={focusEditor}>SS</Button> */}
+    <pre>
+      {/* { JSON.stringify(editor,null,2) }? */}
+    </pre>
       <Plate
         id={block.id}
         plugins={plugins}
         editableProps={CONFIG.editableProps}
+        // editor={editor}
         onChange={handleChange}
         initialValue={properties?.content || [{type: 'p', children: [{text:''}]}]}
       />

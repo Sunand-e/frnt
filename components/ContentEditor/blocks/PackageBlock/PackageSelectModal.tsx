@@ -8,7 +8,7 @@ const PackageSelectModal = ({block}) => {
 
   const { closeModal } = useContext(ModalContext);
 
-  const { blocks, insertBlock, updateBlock } = useBlockEditor()
+  const { blocks, addBlock } = useBlockEditor(block)
 
   const handlePackageSelect = (module) => {
 
@@ -22,7 +22,8 @@ const PackageSelectModal = ({block}) => {
         url: module.launchUrl,
       }
     }
-    block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
+    addBlock(newBlock)
+    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
   

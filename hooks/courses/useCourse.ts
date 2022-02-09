@@ -14,7 +14,34 @@ function useCourse(id) {
     UPDATE_COURSE
   );
 
-  const updateCourse = ({title=null, contentBlocks=null}) => {
+  const updateCourse = (variables) => {
+
+    const cachedCourse = cache.readFragment<CourseFragmentType>({
+      id:`ContentItem:${id}`,
+      fragment: CourseFragment,
+      fragmentName: 'CourseFragment',
+    })
+    
+    updateCourseMutation({
+      variables: {
+        id,
+        ...variables
+      },
+      optimisticResponse: {
+        updateCourse: {
+          __typename: 'UpdateCoursePayload',
+          course: {
+            ...cachedCourse,
+            ...variables
+          },
+        }
+      }
+    }).catch(res => {
+      // TODO: do something if there is an error!!
+    })
+  }
+
+  const updatseCourse = ({title=null, contentBlocks=null}) => {
 
     const cachedCourse = cache.readFragment<CourseFragmentType>({
       id:`ContentItem:${id}`,
@@ -48,13 +75,16 @@ function useCourse(id) {
     })
   }
 
-  const updateCourseTitle = (title) => {
-    updateCourse({
-      title
-    })
+  const updateCourseBlocks = (contentBlocks) => {
+    const variables = {
+      content: {
+        blocks: contentBlocks 
+      }
+    }
+    updateCourse(variables)
   }
 
-  const updateCourseContent = (contentBlocks) => {
+  const updateCourseContentBlocks = (contentBlocks) => {
     updateCourse({
       contentBlocks
     })
@@ -73,8 +103,8 @@ function useCourse(id) {
     course,
     loading,
     error,
-    updateCourseContent,
-    updateCourseTitle
+    updateCourse,
+    updateCourseContentBlocks,
   }
 }
 

@@ -24,7 +24,7 @@ const PageTitle : FC = () => {
       { !!pageTitle.editable &&
         <EasyEdit
         type={Types.TEXT}
-        onSave={pageTitle.onEdit}
+        onSave={pageTitle?.onEdit}
         saveButtonLabel={<Save className="w-6"  />}
         cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
         placeHolder="Enter a title..."

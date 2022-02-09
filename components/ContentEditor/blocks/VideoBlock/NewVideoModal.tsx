@@ -1,7 +1,6 @@
 import {
   FunctionComponent, useContext, useEffect, useState
 } from 'react';
-import ResizeableElement from '../common/ResizeableElement';
 import { v4 as uuidv4 } from 'uuid';
 import urlParser from "js-video-url-parser";
 import InputWithLabel from '../../../common/InputWithLabel';
@@ -9,25 +8,22 @@ import Button from '../../../Button';
 import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 
-export const NewVideoModal: FunctionComponent = ({block}) => {
+export const NewVideoModal = ({block}) => {
 
   
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext)
+  const { addBlock } = useBlockEditor(block)
 
-  const { blocks, insertBlock, updateBlock } = useBlockEditor()
-  
   const handleAddVideo = () => {
     const newBlock = {
-      type: 'package',
+      type: 'video',
       id: uuidv4(),
       properties: {
-        // this needs to change to insert the url package location!
-        // url: '/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html',
-        // url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
         url: embedUrl,
+        width: defaultWidth
       }
     }
-    block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
+    addBlock(newBlock)
     closeModal()
   }
 

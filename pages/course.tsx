@@ -3,7 +3,7 @@ import CourseItemEditor from '../components/admin/courses/CourseItemEditor'
 import { useRouter } from '../utils/router'
 import { useQuery, useReactiveVar } from '@apollo/client'
 import { GET_COURSE, GET_LESSON } from "../graphql/queries/allQueries"
-import EditorLayout from '../layouts/EditorLayout'
+import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
@@ -88,7 +88,7 @@ CoursePage.navState = {
 }
 
 CoursePage.getLayout = page => (
-  <EditorLayout
+  <CourseLayout
     navState={CoursePage.navState || {}}
     page={page}
   />

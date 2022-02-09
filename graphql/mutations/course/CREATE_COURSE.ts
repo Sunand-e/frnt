@@ -9,6 +9,7 @@ export const CREATE_COURSE = gql`
     $certificateProperties: JSON,
     $certificateTemplateId: ID,
     $sections: JSON,
+    $imageId: ID,
     # $childrenIds: JSON, 
     $prerequisites: JSON
   ) {
@@ -18,6 +19,7 @@ export const CREATE_COURSE = gql`
         content: $content,
         certificateProperties: $certificateProperties,
         certificateTemplateId: $certificateTemplateId,
+        imageId: $imageId,
         sections: $sections,
         # childrenIds: $childrenIds,
         prerequisites: $prerequisites

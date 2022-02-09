@@ -23,7 +23,7 @@ export default function Item({ item, options }) {
     return item.__typename === type.name.replace(' ', '');
   });
 
-  const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : process.env.NEXT_PUBLIC_BASE_PATH || '' + '/images/item-placeholder.jpg';
+  const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/item-placeholder.jpg';
   const buttonText = item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
   const href = item.href ?? `/${itemType?.slug}?id=${item?.slug}`
@@ -31,13 +31,14 @@ export default function Item({ item, options }) {
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
       <Link href={href}>
+
         <a
           className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}
         >
           <img
             src={imageSrc}
             style={{
-              backgroundImage: `url(${imageSrc})`,
+              // backgroundImage: `url(${imageSrc})`,
               width: '100%',
               height: '100%',
               position: 'absolute',

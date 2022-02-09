@@ -20,7 +20,7 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
       ...block,
       properties: {
         ...block.properties,
-        width
+        width: width + 'px'
       }
     }
     updateBlock(updatedBlock)
@@ -28,7 +28,7 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
 
   return (
     <div
-      className={`py-2.5`}
+      className={``}
     >
         <figure
           className={`group m-0 relative`}
