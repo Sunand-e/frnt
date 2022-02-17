@@ -8,6 +8,22 @@ interface ButtonProps {
 }
 
 const Button = ({onClick, type="button", className, children}: ButtonProps) => (
-  <button type={type} className={`${className} ${styles.button} nowrap focus:bg-opacity-50 min-w-16 focus:outline-none active:bg-opacity-50 h-8 bg-main rounded-md font-base text-base px-8 text-white whitespace-nowrap`} onClick={onClick}>{children}</button>
+  <button 
+    type={type} 
+    className={`
+      ${className}
+      ${styles.button}
+      min-w-16 py-2 px-8
+      whitespace-nowrap nowrap
+      border border-transparent rounded-md
+      font-medium text-sm
+      bg-main text-white
+      focus:bg-opacity-50 focus:outline-none 
+      active:bg-opacity-50 
+    `}
+    onClick={onClick}
+  >
+    {children}
+  </button>
 )
 export default Button

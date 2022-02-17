@@ -22,12 +22,13 @@ const AdminCourses = () => {
   const { handleModal, closeModal } = useContext(ModalContext);
 
   const handleAddClick = (e) => {
-    handleModal({
-      title: `Add new course`,
-      // content: <BasicTextInput label="Course name" placeholder='Untitled course' />,
-      content: <CourseCreateModalForm />,
-      buttons: null
-    })
+    router.push('/admin/courses/setup')
+    // handleModal({
+    //   title: `Add new course`,
+    //   // content: <BasicTextInput label="Course name" placeholder='Untitled course' />,
+    //   content: <CourseCreateModalForm />,
+    //   buttons: null
+    // })
   }
   
   useEffect(() => {

@@ -18,7 +18,7 @@ const NewItemButton = ({container: containerId}) => {
 
   return (
     <div
-    className={`h-12 text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${true && 'opacity-100'}`}
+    className={`text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${true && 'opacity-100'}`}
     onClick={handleClick}
     >
       <div className={`

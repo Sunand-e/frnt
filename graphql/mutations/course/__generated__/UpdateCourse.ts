@@ -60,6 +60,7 @@ export interface UpdateCourse_updateCourse_course_sections_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateCourse_updateCourse_course_sections_children_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_children_icon | null;
@@ -75,6 +76,7 @@ export interface UpdateCourse_updateCourse_course_sections {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateCourse_updateCourse_course_sections_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_icon | null;
@@ -98,6 +100,7 @@ export interface UpdateCourse_updateCourse_course {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateCourse_updateCourse_course_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_icon | null;
@@ -126,4 +129,5 @@ export interface UpdateCourseVariables {
   certificateProperties?: any | null;
   childrenIds?: any | null;
   prerequisites?: any | null;
+  imageId?: string | null;
 }

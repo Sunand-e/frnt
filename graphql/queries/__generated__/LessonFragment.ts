@@ -28,6 +28,7 @@ export interface LessonFragment {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: LessonFragment_image | null;
   id: string;
   icon: LessonFragment_icon | null;

@@ -62,8 +62,6 @@ const CoursePage = () => {
     }
   },[course])
 
-  const { updateCourseTitle } = useCourse(id)
-
   usePageTitle({ title: `Course: ${course?.title}` })
 
   useEffect(() => {

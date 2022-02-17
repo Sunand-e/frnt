@@ -1,4 +1,4 @@
-import GroupCreateForm from '../../../../components/admin/users/GroupCreateForm';
+import CreateGroupForm from '../../../../components/admin/groups/CreateGroupForm';
 import usePageTitle from '../../../../hooks/usePageTitle';
 
 import { headerButtonsVar } from '../../../../graphql/cache';
@@ -9,7 +9,7 @@ const AdminUsersGroupsAdd = () => {
   
   return (
     <>
-      <GroupCreateForm />
+      <CreateGroupForm />
     </>
   )
 }

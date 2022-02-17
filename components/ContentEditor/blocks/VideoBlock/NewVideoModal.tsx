@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import urlParser from "js-video-url-parser";
-import InputWithLabel from '../../../common/InputWithLabel';
+import InputWithLabel from '../../../common/inputs/InputWithLabel';
 import Button from '../../../Button';
 import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';

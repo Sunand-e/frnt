@@ -28,6 +28,7 @@ export interface CreateLesson_createLesson_lesson {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CreateLesson_createLesson_lesson_image | null;
   id: string;
   icon: CreateLesson_createLesson_lesson_icon | null;

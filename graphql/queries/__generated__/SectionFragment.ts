@@ -44,6 +44,7 @@ export interface SectionFragment_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: SectionFragment_children_image | null;
   id: string;
   icon: SectionFragment_children_icon | null;
@@ -59,6 +60,7 @@ export interface SectionFragment {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: SectionFragment_image | null;
   id: string;
   icon: SectionFragment_icon | null;

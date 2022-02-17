@@ -44,6 +44,7 @@ export interface UpdateSection_updateSection_section_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateSection_updateSection_section_children_image | null;
   id: string;
   icon: UpdateSection_updateSection_section_children_icon | null;
@@ -59,6 +60,7 @@ export interface UpdateSection_updateSection_section {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateSection_updateSection_section_image | null;
   id: string;
   icon: UpdateSection_updateSection_section_icon | null;

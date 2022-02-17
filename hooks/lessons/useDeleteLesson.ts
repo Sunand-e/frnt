@@ -4,6 +4,7 @@ import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 
 import { DeleteLesson, DeleteLessonVariables } from '../../graphql/mutations/lesson/__generated__/DeleteLesson';
 import { DELETE_LESSON } from '../../graphql/mutations/lesson/DELETE_LESSON';
+
 function useDeleteLesson(id) {
 
   const [deleteLessonMutation, deleteLessonResponse] = useMutation<DeleteLesson, DeleteLessonVariables>(
@@ -33,10 +34,10 @@ function useDeleteLesson(id) {
     }
   );
 
-  const deleteLesson = (value) => {
+  const deleteLesson = () => {
     deleteLessonMutation({
       variables: {
-        id: value
+        id
       },
       
       optimisticResponse: {

@@ -28,6 +28,7 @@ export interface UpdateLesson_updateLesson_lesson {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: UpdateLesson_updateLesson_lesson_image | null;
   id: string;
   icon: UpdateLesson_updateLesson_lesson_icon | null;

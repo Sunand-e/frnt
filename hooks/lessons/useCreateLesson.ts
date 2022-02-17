@@ -37,7 +37,7 @@ function useCreateLesson(sectionId) {
     createLessonMutation({
       variables: {
         title: values.title,
-        parentIds: [sectionId]        
+        parentIds: [sectionId]
       },
       // optimisticResponse: {
       //   createLesson: {

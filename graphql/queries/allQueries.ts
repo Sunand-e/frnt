@@ -5,6 +5,7 @@ export const ContentFragment = gql`
     content
     contentType
     createdAt
+    settings
     image {
       location
       id
@@ -20,6 +21,7 @@ export const ContentFragment = gql`
     }
     itemType
     prerequisites
+    settings
     title
     updatedAt
     _deleted @client

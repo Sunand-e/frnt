@@ -7,9 +7,15 @@
 // GraphQL query operation: GetAllContent
 // ====================================================
 
+export interface GetAllContent_courses_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
 export interface GetAllContent_courses {
   __typename: "ContentItem";
   title: string | null;
+  image: GetAllContent_courses_image | null;
 }
 
 export interface GetAllContent {

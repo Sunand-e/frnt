@@ -8,55 +8,19 @@ import { DELETE_GROUP } from "../../../graphql/mutations/group/DELETE_GROUP";
 import { client } from '../../../graphql/client';
 import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
+import { DeleteGroup, DeleteGroupVariables } from '../../../graphql/mutations/group/__generated__/DeleteGroup';
+import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
 
 const GroupsTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetGroups>(GET_GROUPS);
   
-  const [deleteGroup, { data: deletedData }] = useMutation<DeleteGroup>(DELETE_GROUP);
+  const { deleteGroup } = useDeleteGroup()
 
   const editUrl = '/admin/users/groups/edit'
 
-  const handleEditClick = (id) => {
-
-  }
-
   const handleDeleteClick = (id) => {
-    deleteGroup({
-      variables: { 
-        id
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        deleteGroup: {
-          __typename: 'DeleteGroupPayload',
-          group: {
-            id,
-            _deleted: true,
-          },
-          message: ''
-        },
-      },
-
-      update(cache, { data: deleteGroup }) {
-        // We get a single item.
-        const group = cache.readFragment({
-          id: `Group:${id}`,
-          fragment: GroupFragment,
-        });
-        // Then, we update it.
-        if (group) {
-          cache.writeFragment({
-            id: `Group:${id}`,
-            fragment: GroupFragment,
-            data: {
-              ...group,
-              _deleted: true
-            },
-          });
-        }
-      }
-    })
+    deleteGroup(id)
   }
 
   // Table data is memo-ised due to this:

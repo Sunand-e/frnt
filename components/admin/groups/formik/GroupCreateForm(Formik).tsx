@@ -2,14 +2,14 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
-import { CREATE_GROUP } from "../../../graphql/mutations/group/CREATE_GROUP";
-import TextInput from '../../TextInput';
-import Button from '../../Button';
-import { CreateGroup, CreateGroupVariables } from '../../../graphql/mutations/__generated__/CreateGroup';
-import { GET_GROUPS } from '../../../graphql/queries/allQueries';
-import { GetGroups, GetGroups_groups } from '../../../graphql/queries/__generated__/GetGroups';
-import CreateForm from '../forms/CreateForm';
-import { noticesVar } from '../../../graphql/cache';
+import { CREATE_GROUP } from "../../../../graphql/mutations/group/CREATE_GROUP";
+import TextInput from '../../../TextInput';
+import Button from '../../../Button';
+import { CreateGroup, CreateGroupVariables } from '../../../../graphql/mutations/__generated__/CreateGroup';
+import { GET_GROUPS } from '../../../../graphql/queries/allQueries';
+import { GetGroups, GetGroups_groups } from '../../../../graphql/queries/__generated__/GetGroups';
+import CreateForm from '../../forms/CreateForm';
+import { noticesVar } from '../../../../graphql/cache';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 

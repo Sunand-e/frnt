@@ -60,6 +60,7 @@ export interface CreateCourse_createCourse_course_sections_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CreateCourse_createCourse_course_sections_children_image | null;
   id: string;
   icon: CreateCourse_createCourse_course_sections_children_icon | null;
@@ -75,6 +76,7 @@ export interface CreateCourse_createCourse_course_sections {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CreateCourse_createCourse_course_sections_image | null;
   id: string;
   icon: CreateCourse_createCourse_course_sections_icon | null;
@@ -98,6 +100,7 @@ export interface CreateCourse_createCourse_course {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CreateCourse_createCourse_course_image | null;
   id: string;
   icon: CreateCourse_createCourse_course_icon | null;
@@ -126,5 +129,7 @@ export interface CreateCourseVariables {
   certificateProperties?: any | null;
   certificateTemplateId?: string | null;
   sections?: any | null;
+  settings?: any | null;
+  imageId?: string | null;
   prerequisites?: any | null;
 }

@@ -13,7 +13,7 @@ import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCour
 import ImageSelect from '../../../components/ContentEditor/ImageSelect'
 import { ModalContext } from '../../../context/modalContext'
 import ImageLibraryModal from '../../../components/ContentEditor/blocks/ImageBlock/ImageLibraryModal'
-import InputWithLabel from '../../../components/common/InputWithLabel'
+import InputWithLabel from '../../../components/common/inputs/InputWithLabel'
 
 const AdminCoursesNew = () => {
   /*

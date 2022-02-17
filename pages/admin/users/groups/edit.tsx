@@ -1,8 +1,10 @@
 import PageTitle from '../../../../components/header/PageTitle';
-import GroupEditForm from '../../../../components/admin/users/GroupEditForm'
+import GroupForm from '../../../../components/admin/groups/GroupForm'
 import { useRouter } from '../../../../utils/router'
 import { useQuery } from '@apollo/client';
 import { GET_GROUP } from '../../../../graphql/queries/allQueries';
+import usePageTitle from '../../../../hooks/usePageTitle';
+import useGetGroup from '../../../../hooks/groups/useGetGroup';
 
 const AdminUsersGroupsEdit = () => {
   /*
@@ -13,19 +15,13 @@ const AdminUsersGroupsEdit = () => {
 
   const { id } = router.query
 
-  const { loading, error, data: {group} = {} } = useQuery(
-    GET_GROUP,
-    {
-      variables: {
-        id
-      }
-    }
-  );
+  const { group } = useGetGroup(id)
+
   usePageTitle({ title: `Edit group: ${group?.name}` })
   return (
     <>
       { group && (
-        <GroupEditForm group={group} />
+        <GroupForm group={group} />
       )}
     </>
   )

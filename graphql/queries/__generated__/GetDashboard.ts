@@ -7,14 +7,26 @@
 // GraphQL query operation: GetDashboard
 // ====================================================
 
+export interface GetDashboard_courses_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
 export interface GetDashboard_courses {
   __typename: "ContentItem";
   title: string | null;
+  image: GetDashboard_courses_image | null;
+}
+
+export interface GetDashboard_libraryItems_image {
+  __typename: "MediaItem";
+  location: string | null;
 }
 
 export interface GetDashboard_libraryItems {
   __typename: "ContentItem";
   title: string | null;
+  image: GetDashboard_libraryItems_image | null;
 }
 
 export interface GetDashboard {

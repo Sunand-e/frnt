@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 import { CourseFragment } from '../../queries/allQueries';
 
-
 export const CREATE_COURSE = gql`
   mutation CreateCourse(
     $title: String!,
@@ -9,6 +8,7 @@ export const CREATE_COURSE = gql`
     $certificateProperties: JSON,
     $certificateTemplateId: ID,
     $sections: JSON,
+    $settings: JSON,
     $imageId: ID,
     # $childrenIds: JSON, 
     $prerequisites: JSON
@@ -21,6 +21,7 @@ export const CREATE_COURSE = gql`
         certificateTemplateId: $certificateTemplateId,
         imageId: $imageId,
         sections: $sections,
+        settings: $settings,
         # childrenIds: $childrenIds,
         prerequisites: $prerequisites
       }

@@ -3,59 +3,59 @@ import { Form, Formik } from "formik"
 import * as Yup from 'yup'
 import React from 'react';
 // import { CREATE_USER } from '../../../graphql/mutations/allMutations';
-import TextInput from '../../TextInput';
 import Button from '../../Button';
-// import { CreateUser } from '../../../graphql/mutations/__generated__/CreateUser';
+import ImageSelectInput from '../../common/inputs/ImageSelectInput';
+import SelectInput from '../../common/inputs/SelectInput';
+import TextInput from '../../common/inputs/TextInput';
+import { useForm } from 'react-hook-form';
 
-const UserCreateForm = () => {
+interface NewUserFormValues {
+  firstName: string
+  lastName: string
+  email: string
+  userImage: string
+  userRole: string
+}
 
-  // const [createUser, { data }] = useMutation<CreateUser>(CREATE_USER);
+const NewUserForm = () => {
+  
+  const { register, handleSubmit, control } = useForm<NewUserFormValues>();
+
+  const onSubmit = values => {
+    alert(JSON.stringify(values, null, 2))
+  }
 
   return (
-    <Formik
-      initialValues={{
-        firstName: '',
-        lastName: '',
-        email: '',
-      }}
-      onSubmit={values => {
-        alert(JSON.stringify(values, null, 2))
-        // createUser({
-        //   variables: { 
-        //     firstName: values.firstName,
-        //     lastName: values.lastName,
-        //     email: values.email
-        //   }
-        // });
-      }}
-      validationSchema={Yup.object({
-        name: Yup.string()
-          .max(15, 'Must be 15 characters or less')
-          .required('Required')
-      })}
+    <form
+      className='h-full w-full max-w-sm flex flex-col space-y-4'
+      onSubmit={handleSubmit(onSubmit)}
     >
-      {formik => (
-        <Form>
-          <TextInput
-            label="First name"
-            name="firstName"
-            type="text"
-          />
-          <TextInput
-            label="Last name"
-            name="lastName"
-            type="text"
-          />
-          <TextInput
-            label="Email address"
-            name="email"
-            type="email"
-          />
-          <Button type="submit">Add user</Button>
-        </Form>
-      )}
-    </Formik>
+      <TextInput
+        label="First name"
+        placeholder="First name"
+        inputAttrs={register("firstName", { maxLength: 20 })}
+      />
+      <TextInput
+        label="Last name"
+        placeholder="Last name"
+        inputAttrs={register("lastName", { maxLength: 20 })}
+      />
+      <ImageSelectInput
+        placeholder={'https://picsum.photos/640/360'}
+        buttonText="Choose profile image"
+        control={control}
+        name="userImage"
+        // inputAttrs={register("image", { required: true })}
+      />
+      <SelectInput
+        label="User role"
+        options={["Employee", "External", "Manager"]}
+        inputAttrs={register("userRole")}
+      />
+
+      <Button type="submit">Submit</Button>
+    </form>
   );
 }
 
-export default UserCreateForm
+export default NewUserForm

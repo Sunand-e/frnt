@@ -15,6 +15,8 @@ import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 
 import styles from './SidebarItem.module.scss'
+import { useContext } from "react"
+import { ModalContext } from "../../context/modalContext"
 
 const SidebarItem = ({
   dragOverlay,
@@ -38,8 +40,13 @@ const SidebarItem = ({
   const router = useRouter()
   const { id: courseId } = router.query
 
-  const { handleModal } = useModal()
+  const { handleModal } = useContext(ModalContext)
 
+  const handleClickDelete = (e) => {
+    e.stopPropagation()
+    handleDeleteModal(item.id)
+  }
+  
   const handleDeleteModal = (value) => {
     handleModal({
       title: `Delete lesson`,
@@ -104,12 +111,12 @@ const SidebarItem = ({
         {/* <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/courses/edit?id=${courseId}&cid=${item.id}`)}> */}
         <Link href={`/admin/courses/edit?id=${courseId}&cid=${item.id}`}>
           <a>
-          <span className="min-w-0 flex-0 text-sm font-medium text-indigo-600">{item.title}</span>
+          <span className="min-w-0 flex-0 text-sm font-medium text-main-dark">{item.title}</span>
           </a>
         </Link>
 
           <div className="ml-auto flex space-x-2">
-            <Trash className={`w-3`} onClick={() => handleDeleteModal(item.id)}/>
+            <Trash className={`w-3 cursor-pointer`} onClick={handleClickDelete}/>
           </div>
         </div>
       </div>

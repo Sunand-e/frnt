@@ -60,6 +60,7 @@ export interface GetCourses_courses_sections_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetCourses_courses_sections_children_image | null;
   id: string;
   icon: GetCourses_courses_sections_children_icon | null;
@@ -75,6 +76,7 @@ export interface GetCourses_courses_sections {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetCourses_courses_sections_image | null;
   id: string;
   icon: GetCourses_courses_sections_icon | null;
@@ -98,6 +100,7 @@ export interface GetCourses_courses {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetCourses_courses_image | null;
   id: string;
   icon: GetCourses_courses_icon | null;

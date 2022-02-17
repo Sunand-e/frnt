@@ -15,7 +15,8 @@ import {
   libraryVar, 
   contentTagsVar,
   allContentVar,
-  isLoggedInVar
+  isLoggedInVar,
+  headerButtonsVar
 } from '../graphql/cache'
 
 import { addIconsToLibrary } from "../fontawesome";
@@ -51,6 +52,12 @@ type AppPropsExtended = AppProps & PagePropertiesType
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const router = useRouter();
+  const {asPath,route,pathname } = router
+
+  // Clear header buttons on route change
+  useEffect(() => {
+    headerButtonsVar(null)
+  },[route])
 
   const [title, setTitle] = useState(PageComponent.title)
 

@@ -60,6 +60,7 @@ export interface CourseFragment_sections_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CourseFragment_sections_children_image | null;
   id: string;
   icon: CourseFragment_sections_children_icon | null;
@@ -75,6 +76,7 @@ export interface CourseFragment_sections {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CourseFragment_sections_image | null;
   id: string;
   icon: CourseFragment_sections_icon | null;
@@ -98,6 +100,7 @@ export interface CourseFragment {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: CourseFragment_image | null;
   id: string;
   icon: CourseFragment_icon | null;

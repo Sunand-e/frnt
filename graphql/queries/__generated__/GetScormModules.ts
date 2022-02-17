@@ -11,7 +11,6 @@ export interface GetScormModules_scormModules {
   __typename: "ScormModule";
   id: string;
   createdAt: any;
-  location: string | null;
   launchUrl: string | null;
   manifestData: any | null;
   title: string | null;

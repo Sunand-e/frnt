@@ -67,7 +67,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         }
         className={classNames(
           styles.Container,
-          'bg-white bg-opacity-10',
+          // 'bg-white bg-opacity-10',
           expand && styles.expanded
         )}
         //   unstyled && styles.unstyled,
@@ -86,8 +86,9 @@ export const Container = forwardRef<HTMLDivElement, Props>(
       >
         {label ? (
           <div className={ classNames(
-            `flex justify-between mt-2 px-4`,
-            expand ? styles.Header : ``
+            `flex justify-between px-4`,
+            styles.Header
+            // expand ? styles.Header : ``
           )}>
             <span>
               { section ? section.title : label }

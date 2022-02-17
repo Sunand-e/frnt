@@ -74,19 +74,12 @@ function useCourse(id) {
       // TODO: do something if there is an error!!
     })
   }
-
-  const updateCourseBlocks = (contentBlocks) => {
-    const variables = {
+  
+  const updateCourseContentBlocks = (contentBlocks) => {
+    updateCourse({
       content: {
         blocks: contentBlocks 
       }
-    }
-    updateCourse(variables)
-  }
-
-  const updateCourseContentBlocks = (contentBlocks) => {
-    updateCourse({
-      contentBlocks
     })
   }
   

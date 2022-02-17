@@ -44,6 +44,7 @@ export interface GetSections_sections_children {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetSections_sections_children_image | null;
   id: string;
   icon: GetSections_sections_children_icon | null;
@@ -59,6 +60,7 @@ export interface GetSections_sections {
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetSections_sections_image | null;
   id: string;
   icon: GetSections_sections_icon | null;

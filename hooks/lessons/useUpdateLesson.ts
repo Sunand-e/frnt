@@ -6,9 +6,6 @@ import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 import cache, { currentContentItemVar } from "../../graphql/cache"
 
-import { DeleteLesson, DeleteLessonVariables } from '../../graphql/mutations/lesson/__generated__/DeleteLesson';
-import { DELETE_LESSON } from '../../graphql/mutations/lesson/DELETE_LESSON';
-
 function useUpdateLesson(id = null) {
 
   const [updateLessonMutation, updateLessonResponse] = useMutation<UpdateLesson, UpdateLessonVariables>(

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../../hooks/usePageTitle';
-import GroupCreateForm from '../../../../components/admin/users/GroupCreateForm'
-import GroupsTable from '../../../../components/admin/users/GroupsTable'
+import CreateGroupForm from '../../../../components/admin/groups/CreateGroupForm'
+import GroupsTable from '../../../../components/admin/groups/GroupsTable'
 import { Notices } from '../../../../components/Notices';
 import { headerButtonsVar } from '../../../../graphql/cache';
 import Button from '../../../../components/Button';
