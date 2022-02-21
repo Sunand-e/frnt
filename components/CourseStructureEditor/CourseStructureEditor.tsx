@@ -236,21 +236,21 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
   //   setItems(itemIdsBySectionId(filterDeletedCourseItems(course).sections))
   // },[course])
 
-  const handleDeleteModal = (value) => {
+  const handleDelete = (value) => {
     handleModal({
       title: `Delete lesson`,
       content: <DeleteLessonModal lessonId={value} />
     })
   }
 
-  const handleDeleteSectionModal = (value) => {
+  const handleDeleteSection = (value) => {
     handleModal({
       title: `Delete lesson`,
       content: <DeleteSectionModal sectionId={value} />
     })
   }
 
-  const handleAddSectionModal = () => {
+  const handleAddSection = () => {
     handleModal({
       title: `Section name:`,
       content: <AddSectionModal courseId={course.id} />
@@ -333,7 +333,7 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
 
             <div className="ml-auto flex space-x-2">
               <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button>
-              <Button onClick={() => handleDeleteModal(item.id)}>Delete</Button>
+              <Button onClick={() => handleDelete(item.id)}>Delete</Button>
             </div>
           </div>
         </div>
@@ -355,12 +355,12 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
         setContainers={setCourseSections}
         // onAddColumn={handleAddSectionModal}
         modifiers={[restrictToVerticalAxis]}
-        onRemoveContainer={handleDeleteSectionModal}
+        onRemoveContainer={handleDeleteSection}
         onDragContainerEnd={handleDragSectionEnd}
         onDragItemEnd={handleDragItemEnd}
       />
       <NewSectionButton
-        onClick={() => handleAddSectionModal()}
+        onClick={() => handleAddSection()}
       />
     </>
   )
