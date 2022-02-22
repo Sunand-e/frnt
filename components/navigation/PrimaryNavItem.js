@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons/faCalendarDays'
 
 export const PrimaryNavItem = ({ item, index, iconClasses, itemClasses, innerRef }) => {
   return (

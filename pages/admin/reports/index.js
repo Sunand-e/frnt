@@ -4,7 +4,7 @@ import usePageTitle from '../../../hooks/usePageTitle'
 
 const AdminReports = () => {
 
-  usePageTitle({ title: 'Title' })
+  usePageTitle({ title: 'Reports' })
   
   return (
     <></>

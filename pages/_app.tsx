@@ -26,12 +26,13 @@ import { GET_LIBRARY } from '../graphql/queries/GET_LIBRARY';
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css' // Import the CSS
+config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
-config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 
 import '@wordpress/block-library/build-style/style.css'

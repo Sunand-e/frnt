@@ -6,4 +6,7 @@ module.exports = {
     debugPlugins: false,
     debug: false,
   },
+  'fontawesome-svg-core': {
+    'license': 'free'
+  }
 }

@@ -3,7 +3,7 @@ const navStructureAdmin = [
     name: 'dashboard',
     title: 'Dashboard',
     urlPath: '/admin',
-    icon: 'home',
+    icon: 'house-chimney',
     subPages: [],
   },
   {
@@ -115,6 +115,12 @@ const navStructureAdmin = [
     title: 'Media Library',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
+  },
+  {
+    name: 'reporting',
+    title: 'Reporting',
+    urlPath: '/admin/reports',
+    icon: 'chart-line',
   },
   {
     name: 'ecommunity',

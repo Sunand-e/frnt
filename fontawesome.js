@@ -24,9 +24,12 @@ import {
   faStore,
   faComments,
   faGraduationCap,
-  faPhotoVideo
+  faPhotoVideo,
+  faChartLine
 } from '@fortawesome/free-solid-svg-icons'
 // import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faHouseChimney } from '@fortawesome/free-solid-svg-icons/faHouseChimney'
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons/faCalendarDays'
 
 export const addIconsToLibrary = () => {
   library.add(
@@ -51,10 +54,12 @@ export const addIconsToLibrary = () => {
     faHome,
     faUsers,
     faCalendarAlt,
+    faCalendarDays,
     faStore,
     faComments,
     faGraduationCap,
     faPhotoVideo,
-    )
+    faChartLine,
+    faHouseChimney
+  )
 }
-
