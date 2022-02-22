@@ -4,44 +4,56 @@ const GenerateGraphQLPossibleTypes = require('./webpack/getGraphQLPossibleTypes'
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-module.exports = withBundleAnalyzer({
-  
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
-  },
 
-  future: {
-    webpack5: true,
-  },
-  
-  publicRuntimeConfig: {
-    API_URL: process.env.API_URL,
-    UPLOAD_API_URL: process.env.UPLOAD_API_URL
-  },
-  
-  
-  // the basePath needs to be set if the app is accessed in a subdirectory of a domain.
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+const withTM = require("next-transpile-modules")([
+  "@fullcalendar/common",
+  "@babel/preset-react",
+  "@fullcalendar/common",
+  "@fullcalendar/daygrid",
+  "@fullcalendar/interaction",
+  "@fullcalendar/react",
+  "@fullcalendar/timegrid",
+]);
 
+module.exports = withBundleAnalyzer(
+  withTM({
+    typescript: {
+      // !! WARN !!
+      // Dangerously allow production builds to successfully complete even if
+      // your project has type errors.
+      // !! WARN !!
+      ignoreBuildErrors: true,
+    },
 
-
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-
-    // fix for Plate which uses 'fs' in cosmiconfig package
-    if (!isServer) {
-      config.resolve.fallback.fs = false;
-      config.resolve.fallback.module = false;
-    }
+    future: {
+      webpack5: true,
+    },
     
-    // Note: we provide webpack above so you should not `require` it
-    // Perform customizations to webpack config
-    isServer && config.plugins.push(new GenerateGraphQLPossibleTypes())
+    publicRuntimeConfig: {
+      API_URL: process.env.API_URL,
+      UPLOAD_API_URL: process.env.UPLOAD_API_URL
+    },
+    
+    
+    // the basePath needs to be set if the app is accessed in a subdirectory of a domain.
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
 
-    // Important: return the modified config
-    return config
-  },
-})
+
+
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+
+      // fix for Plate which uses 'fs' in cosmiconfig package
+      if (!isServer) {
+        config.resolve.fallback.fs = false;
+        config.resolve.fallback.module = false;
+      }
+      
+      // Note: we provide webpack above so you should not `require` it
+      // Perform customizations to webpack config
+      isServer && config.plugins.push(new GenerateGraphQLPossibleTypes())
+
+      // Important: return the modified config
+      return config
+    },
+  })
+)

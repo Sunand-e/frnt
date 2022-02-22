@@ -140,40 +140,40 @@ const navStructureAdmin = [
       },
     ],
   },
-  {
-    name: 'store',
-    title: 'Store',
-    urlPath: '/admin/store',
-    icon: 'store',
-    subPages: [
-      {
-        title: 'Overview',
-        urlPath: '/admin/store',
-      },
-      {
-        title: 'Products',
-        urlPath: '/admin/store/products',
-      },
-      {
-        title: 'Offers',
-        urlPath: '/admin/store/offers',
-      },
-      {
-        title: 'Subscriptions',
-        urlPath: '/admin/store/subscriptions',
-      },
-      {
-        title: 'Trials',
-        urlPath: '/admin/store/trials',
-      },
-      {
-        title: 'Coupons',
-        urlPath: '/admin/store/coupons',
-      },
+  // {
+  //   name: 'store',
+  //   title: 'Store',
+  //   urlPath: '/admin/store',
+  //   icon: 'store',
+  //   subPages: [
+  //     {
+  //       title: 'Overview',
+  //       urlPath: '/admin/store',
+  //     },
+  //     {
+  //       title: 'Products',
+  //       urlPath: '/admin/store/products',
+  //     },
+  //     {
+  //       title: 'Offers',
+  //       urlPath: '/admin/store/offers',
+  //     },
+  //     {
+  //       title: 'Subscriptions',
+  //       urlPath: '/admin/store/subscriptions',
+  //     },
+  //     {
+  //       title: 'Trials',
+  //       urlPath: '/admin/store/trials',
+  //     },
+  //     {
+  //       title: 'Coupons',
+  //       urlPath: '/admin/store/coupons',
+  //     },
       
       
-    ],
-  },
+  //   ],
+  // },
 ]
 
 export default navStructureAdmin

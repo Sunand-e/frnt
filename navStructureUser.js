@@ -56,34 +56,34 @@ const navStructureUser = [
     urlPath: '/community',
     icon: 'comments',
   },
-  {
-    name: 'store',
-    title: 'Store',
-    urlPath: '/store',
-    icon: 'store',
-    subPages: [
-      {
-        name: 'products',
-        title: 'Products',
-        urlPath: '/store',
-      },
-      {
-        name: 'offers',
-        title: 'Offers',
-        urlPath: '/store/offers',
-      },
-      {
-        name: 'trials',
-        title: 'Trials',
-        urlPath: '/store/trials',
-      },
-      {
-        name: 'coupons',
-        title: 'Coupons',
-        urlPath: '/store/coupons',
-      },
-    ],
-  },
+  // {
+  //   name: 'store',
+  //   title: 'Store',
+  //   urlPath: '/store',
+  //   icon: 'store',
+  //   subPages: [
+  //     {
+  //       name: 'products',
+  //       title: 'Products',
+  //       urlPath: '/store',
+  //     },
+  //     {
+  //       name: 'offers',
+  //       title: 'Offers',
+  //       urlPath: '/store/offers',
+  //     },
+  //     {
+  //       name: 'trials',
+  //       title: 'Trials',
+  //       urlPath: '/store/trials',
+  //     },
+  //     {
+  //       name: 'coupons',
+  //       title: 'Coupons',
+  //       urlPath: '/store/coupons',
+  //     },
+  //   ],
+  // },
 ]
 
 export default navStructureUser
