@@ -93,9 +93,7 @@ const CoursesTable = () => {
 
           return (
             <div className="flex space-x-4">
-              <Link href={href}>
-                <ButtonLink>Edit</ButtonLink>
-              </Link>
+              <ButtonLink href={href}>Edit</ButtonLink>
               <Button 
                 onClick={() => handleDeleteClick(cell.row.values.id)}
               >

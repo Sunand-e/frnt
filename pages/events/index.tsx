@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import EventsListTable from '../../components/events/EventsListTable'
 
 const Events = () => {
 
@@ -8,7 +9,7 @@ const Events = () => {
         <title>Events | Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <EventsListTable />
     </>
   )
 }

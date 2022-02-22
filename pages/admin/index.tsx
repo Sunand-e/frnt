@@ -45,8 +45,8 @@ const AdminDashboard = () => {
     },
   ]
 
-  const gridLayout = [{ i: "a", x: 0, y: 0, w: 8, h: 11 },
-    { i: "b", x: 8, y: 0, w: 4, h: 16, minW: 2, maxW: 4 },
+  const gridLayout = [{ i: "a", x: 0, y: 0, w: 8, h: 8 },
+    { i: "b", x: 8, y: 0, w: 4, h: 10, minW: 2, maxW: 4 },
     { i: "c", x: 0, y: 8, w: 8, h: 28 }
   ];
 

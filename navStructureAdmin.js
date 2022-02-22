@@ -123,9 +123,9 @@ const navStructureAdmin = [
     icon: 'chart-line',
   },
   {
-    name: 'ecommunity',
-    title: 'E-community',
-    urlPath: '/admin/community',
+    name: 'messaging',
+    title: 'Messaging',
+    urlPath: '/admin/messaging',
     icon: 'comments',
   },
   {

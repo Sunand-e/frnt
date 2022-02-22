@@ -51,11 +51,17 @@ const navStructureUser = [
     icon: 'calendar-alt',
   },
   {
-    name: 'community',
-    title: 'Community',
-    urlPath: '/community',
+    name: 'messaging',
+    title: 'Messaging',
+    urlPath: '/messaging',
     icon: 'comments',
   },
+  // {
+  //   name: 'community',
+  //   title: 'Community',
+  //   urlPath: '/community',
+  //   icon: 'comments',
+  // },
   // {
   //   name: 'store',
   //   title: 'Store',
