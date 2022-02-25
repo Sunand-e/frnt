@@ -1,7 +1,10 @@
 import Head from 'next/head'
 import EventsListTable from '../../components/events/EventsListTable'
+import usePageTitle from '../../hooks/usePageTitle'
 
 const Events = () => {
+
+  usePageTitle({ title: 'Live Sessions' })
 
   return (
     <>

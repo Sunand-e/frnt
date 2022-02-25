@@ -13,8 +13,6 @@ const Table = ({tableData, tableCols}) => {
     prepareRow,
   } = useTable({ columns: tableCols, data: tableData }, useSortBy);
 
-  // return <>hi</>
-  
   return (
     <div className="flex flex-col mb-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -25,11 +23,11 @@ const Table = ({tableData, tableCols}) => {
               className="min-w-full divide-y divide-gray-200"
             >
               <thead className="bg-gray-50">
-                {headerGroups.map((headerGroup, index) => (
+                {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
+                    {headerGroup.headers.map((column, index) => (
                       <th {...column.getHeaderProps(column.getSortByToggleProps())}
-                        className={`px-6 py-3 ${index > 1 ? 'text-center' : 'text-left'} text-xs font-medium text-gray-500 uppercase tracking-wider`}
+                        className={`px-6 py-3 ${index > 0 ? 'text-center' : 'text-left'} text-xs font-medium text-gray-500 uppercase tracking-wider`}
                       >
                         {column.render("Header")}
                         <span>
@@ -49,11 +47,11 @@ const Table = ({tableData, tableCols}) => {
                   prepareRow(row);
                   return (
                     <tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
+                      {row.cells.map((cell, index) => {
                         return (
                           <td
                             {...cell.getCellProps()}
-                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                            className={`px-6 py-4 ${index > 0 ? 'text-center' : 'text-left'} whitespace-nowrap text-sm text-gray-900`}
                           >
                             {cell.render("Cell")}
                           </td>

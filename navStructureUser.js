@@ -38,11 +38,30 @@ const navStructureUser = [
     subPages: [
       {
         name: 'overview',
-        title: 'Overview',
+        title: 'All Library Items',
         urlPath: '/library',
       },
-      
-    ],
+      {
+        name: 'library-guides',
+        title: 'Guides',
+        urlPath: '/library',
+      },
+      {
+        name: 'library-videos',
+        title: 'Videos',
+        urlPath: '/library',
+      },
+      {
+        name: 'library-podcasts',
+        title: 'Podcasts',
+        urlPath: '/library',
+      },
+      {
+        name: 'library-process-flows',
+        title: 'Process Flows',
+        urlPath: '/library',
+      }
+    ]
   },
   {
     name: 'events',

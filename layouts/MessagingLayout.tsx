@@ -4,8 +4,27 @@ import TopNotificationBar from '../components/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
 import MessagingSidebar from '../components/Messaging/MessagingSidebar';
+import { useEffect } from 'react';
+import { viewVar } from '../graphql/cache';
 
 export default function MessagingLayout( {page, navState} ) {
+  
+  useEffect(() => {
+    const view = {
+      isSlimNav: true,
+      showSecondary: false,
+      ...viewVar()
+    }
+    viewVar(view)
+    return () => {
+      const view = viewVar()
+      delete view.isSlimNav
+      delete view.showSecondary
+      const newView = { ...view }
+      viewVar(newView)
+    }
+  },[])
+
   return (
     <Layout page={page} navState={navState}>
       <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-blue-superlight">

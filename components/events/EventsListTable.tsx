@@ -6,6 +6,7 @@ import Button from '../Button';
 import ButtonLink from '../ButtonLink';
 import EventTitleCell from './EventTitleCell';
 import dayjs from 'dayjs';
+import providers from './providers';
 
 const EventsListTable = () => {
 
@@ -20,33 +21,25 @@ const EventsListTable = () => {
         {
           id: 'ev001',
           title: 'Diversity & Inclusion Workshop',
-          provider: {
-            name: 'zoom'
-          },
+          provider: 'zoom',
           date: dayjs().subtract(2, 'days').format('DD/MM'),
         },
         {
           id: 'ev002',
           title: 'Onboarding Training',
-          provider: {
-            name: 'teams'
-          },
+          provider: 'teams',
           date: dayjs().format('DD/MM'),
         },
         {
           id: 'ev003',
-          title: 'a',
-          provider: {
-            name: 'webx'
-          },
+          title: 'Fire Safety Lecture',
+          provider: 'webex',
           date: dayjs().add(3, 'days').format('DD/MM'),
         },
         {
           id: 'ev004',
-          title: 'a',
-          provider: {
-            name: 'teams'
-          },
+          title: 'Employee #036 Appraisal',
+          provider: 'teams',
           date: dayjs().add(5, 'days').format('DD/MM'),
         },
 
@@ -59,22 +52,22 @@ const EventsListTable = () => {
       {
         Header: "Session",
         accessor: "title", // accessor is the "key" in the data
-        Cell: EventTitleCell
-      },
-      {
-        Header: "Provider",
-        accessor: "provider.name",
+        Cell: EventTitleCell,
+        className: 'text-red-500',
+        headerqqed: 'text-green-500'
       },
       {
         Header: "Provider",
         accessor: "provider",
         Cell: ({ cell }) => {
-          const href = cell.value.name
-
+          const provider = providers[cell.value]
+          const ProviderLogo = provider.logo
           return (
-            <div className="flex space-x-4 bg-main text-white">
-              {/* <ButtonLink href={href}>Edit</ButtonLink> */}
-              { href }
+            <div className='flex flex-col items-center text-main-dark'>
+              <div className='w-10'>
+                <ProviderLogo />
+              </div>
+              <span className='text-xs'>{provider.name}</span>
             </div>
           )
         }
