@@ -25,6 +25,7 @@ import { CONFIG } from './config';
 import useBlockEditor from '../../useBlockEditor';
 import Button from '../../../Button';
 import { ReactEditor } from 'slate-react';
+import { SelectionToolbar } from './SelectionToolbar';
 
 const elements = createPlugins(
   [
@@ -110,7 +111,9 @@ export const TextBlockEdit: FunctionComponent = ({block}: PlateRenderElementProp
         // editor={editor}
         onChange={handleChange}
         initialValue={properties?.content || [{type: 'p', children: [{text:''}]}]}
-      />
+      >
+        <SelectionToolbar />
+      </Plate>
     </>
   );
 }

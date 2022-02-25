@@ -53,7 +53,7 @@
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tailwindcss/forms": "^0.3.4",
     "@tippyjs/react": "^4.2.6",
-    "@udecode/plate": "^9.2.1",
+    "@udecode/plate": "^10.1.1",
     "@udecode/plate-core": "^9.2.1",
     "@udecode/plate-ui-toolbar": "^9.2.1",
     "@udecode/zustood": "^0.4.3",
