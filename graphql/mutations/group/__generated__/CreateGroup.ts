@@ -12,6 +12,16 @@ export interface CreateGroup_createGroup_group_users {
   id: string;
 }
 
+export interface CreateGroup_createGroup_group_enrolledCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
+export interface CreateGroup_createGroup_group_assignedCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface CreateGroup_createGroup_group {
   __typename: "Group";
   createdAt: any;
@@ -19,6 +29,9 @@ export interface CreateGroup_createGroup_group {
   name: string | null;
   updatedAt: any;
   users: CreateGroup_createGroup_group_users[];
+  enrolledCourses: CreateGroup_createGroup_group_enrolledCourses[];
+  assignedCourses: CreateGroup_createGroup_group_assignedCourses[];
+  _deleted: boolean;
 }
 
 export interface CreateGroup_createGroup {
@@ -33,4 +46,7 @@ export interface CreateGroup {
 export interface CreateGroupVariables {
   name: string;
   parentId?: string | null;
+  assignedCourseIds?: string[] | null;
+  enrolledCourseIds?: string[] | null;
+  userIds?: string[] | null;
 }

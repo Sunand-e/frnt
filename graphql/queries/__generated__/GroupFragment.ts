@@ -12,6 +12,16 @@ export interface GroupFragment_users {
   id: string;
 }
 
+export interface GroupFragment_enrolledCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
+export interface GroupFragment_assignedCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface GroupFragment {
   __typename: "Group";
   createdAt: any;
@@ -19,5 +29,7 @@ export interface GroupFragment {
   name: string | null;
   updatedAt: any;
   users: GroupFragment_users[];
+  enrolledCourses: GroupFragment_enrolledCourses[];
+  assignedCourses: GroupFragment_assignedCourses[];
   _deleted: boolean;
 }

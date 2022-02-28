@@ -6,19 +6,16 @@ import 'react-dual-listbox/lib/react-dual-listbox.css';
 import styles from './DualListBoxInput.module.scss'
 type DualListBoxInputProps = {
   control?: Control
-  onChange
   options
   lang
   name?: string
   label?: string
-  selected: string[]
 }
 
 const DualListBoxInput = ({
   control,
   name,
   label,
-  onChange,
   ...props
 }: DualListBoxInputProps) => {
 
@@ -27,16 +24,18 @@ const DualListBoxInput = ({
     name,
   });
 
+  const [selected, setSelected] = useState(field.value || []);
+
   const handleChange = value => {
-    alert('test')
-    onChange(value)
     field.onChange(value)
+    setSelected(value)
   }
 
   return (
     <div>
       { label && <label>{label}</label> }
       <DualListBox
+        selected={selected}
         className={styles.DualInput}
         onChange={handleChange}
         showHeaderLabels={true}

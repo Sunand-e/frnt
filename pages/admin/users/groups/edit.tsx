@@ -1,5 +1,5 @@
 import PageTitle from '../../../../components/header/PageTitle';
-import GroupForm from '../../../../components/admin/groups/GroupForm'
+import EditGroupForm from '../../../../components/admin/groups/EditGroupForm'
 import { useRouter } from '../../../../utils/router'
 import { useQuery } from '@apollo/client';
 import { GET_GROUP } from '../../../../graphql/queries/allQueries';
@@ -21,7 +21,7 @@ const AdminUsersGroupsEdit = () => {
   return (
     <>
       { group && (
-        <GroupForm group={group} />
+        <EditGroupForm group={group} />
       )}
     </>
   )

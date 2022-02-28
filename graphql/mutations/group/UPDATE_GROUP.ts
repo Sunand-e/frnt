@@ -6,13 +6,19 @@ export const UPDATE_GROUP = gql`
   mutation UpdateGroup(
     $id: ID!
     $name: String,
-    $parentId: ID
+    $parentId: ID,
+    $assignedCourseIds: [ID!],
+    $enrolledCourseIds: [ID!],
+    $userIds: [ID!]
   ) {
     updateGroup(
       input: {
         name: $name,
-        id: $id
-        parentId: $parentId
+        id: $id,
+        parentId: $parentId,
+        assignedCourseIds: $assignedCourseIds,
+        enrolledCourseIds: $enrolledCourseIds,
+        userIds: $userIds
       }
     ) {
       group {

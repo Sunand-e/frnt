@@ -112,6 +112,12 @@ export const GroupFragment = gql`
     users {
       id
     }
+    enrolledCourses {
+      id
+    }
+    assignedCourses {
+      id
+    }
     _deleted @client
   }
 `

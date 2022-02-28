@@ -12,6 +12,16 @@ export interface GetGroup_group_users {
   id: string;
 }
 
+export interface GetGroup_group_enrolledCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
+export interface GetGroup_group_assignedCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface GetGroup_group {
   __typename: "Group";
   createdAt: any;
@@ -19,6 +29,8 @@ export interface GetGroup_group {
   name: string | null;
   updatedAt: any;
   users: GetGroup_group_users[];
+  enrolledCourses: GetGroup_group_enrolledCourses[];
+  assignedCourses: GetGroup_group_assignedCourses[];
   _deleted: boolean;
 }
 

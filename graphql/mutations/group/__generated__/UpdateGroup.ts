@@ -12,6 +12,16 @@ export interface UpdateGroup_updateGroup_group_users {
   id: string;
 }
 
+export interface UpdateGroup_updateGroup_group_enrolledCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
+export interface UpdateGroup_updateGroup_group_assignedCourses {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface UpdateGroup_updateGroup_group {
   __typename: "Group";
   createdAt: any;
@@ -19,6 +29,8 @@ export interface UpdateGroup_updateGroup_group {
   name: string | null;
   updatedAt: any;
   users: UpdateGroup_updateGroup_group_users[];
+  enrolledCourses: UpdateGroup_updateGroup_group_enrolledCourses[];
+  assignedCourses: UpdateGroup_updateGroup_group_assignedCourses[];
   _deleted: boolean;
 }
 
@@ -35,4 +47,7 @@ export interface UpdateGroupVariables {
   id: string;
   name?: string | null;
   parentId?: string | null;
+  assignedCourseIds?: string[] | null;
+  enrolledCourseIds?: string[] | null;
+  userIds?: string[] | null;
 }

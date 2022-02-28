@@ -1,33 +1,49 @@
 import Button from '../../Button';
-import useCreateGroup from '../../../hooks/groups/useCreateGroup';
 import { useForm } from 'react-hook-form';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import TextInput from '../../common/inputs/TextInput';
 import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 import GroupUsersInput from './inputs/GroupUsersInput';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
+import { useCallback, useEffect, useState } from 'react';
+import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
 
-interface CreateUserFormValues {
+interface UpdateGroupFormValues {
   name: string 
   email: string
   groupImage: string
   userRole: string
 }
 
-const EditGroupForm = () => {
+const GroupForm = ({group}) => {
 
-  const { register, handleSubmit, control } = useForm<CreateUserFormValues>();
+  const { register, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
+    {
+      defaultValues: {
+        userIds: group.users.map(user => user.id),
+        enrolledCourseIds: group.enrolledCourses.map(course => course.id),
+        assignedCourseIds: group.assignedCourses.map(course => course.id),
+        ...group
+      }
+    }
+  );
+
+  const [ values, setValues ] = useState({})
+
+  useEffect(() => {
+    setFocus('name')
+  },[])
 
   const router = useRouter()
-  
-  const { createGroup } = useCreateGroup();
 
-  const onSubmit = values => {
-    alert(JSON.stringify(values, null, 2))
-    createGroup(values)
+  const { updateGroup } = useUpdateGroup(group.id);
+
+  const onSubmit = useCallback(values => {
+    group && updateGroup(values)
+    setValues(values)
     router.push('/admin/users/groups')
-  }
+  },[group])
 
   return (
     <form
@@ -39,10 +55,6 @@ const EditGroupForm = () => {
         placeholder="Group name"
         inputAttrs={register("name", { maxLength: 20 })}
       />
-      <pre>
-        {/* { courses && JSON.stringify(courses,null,2)} */}
-      </pre>
-
       <ImageSelectInput
         label="Group image"
         placeholder={'https://picsum.photos/640/360'}
@@ -56,9 +68,9 @@ const EditGroupForm = () => {
       <AssignedCoursesInput control={control} />
       <EnrolledCoursesInput control={control} />
 
-      <Button type="submit">Create group</Button>
+      <Button type="submit">{group ? 'Save changes' : 'Create group'} </Button>
     </form>
   )
 }
 
-export default EditGroupForm
+export default GroupForm

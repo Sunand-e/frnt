@@ -24,7 +24,6 @@ const CreateGroupForm = () => {
   const { createGroup } = useCreateGroup();
 
   const onSubmit = values => {
-    alert(JSON.stringify(values, null, 2))
     createGroup(values)
     router.push('/admin/users/groups')
   }

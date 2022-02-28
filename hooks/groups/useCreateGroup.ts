@@ -13,7 +13,6 @@ function useCreateGroup() {
     CREATE_GROUP,
     {
       update(cache, { data: { createGroup } } ) {
-        // alert(JSON.stringify(createGroup))
         const data = cache.readQuery<GetGroups>({
           query: GET_GROUPS
         })
