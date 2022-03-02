@@ -38,9 +38,6 @@ const CreateGroupForm = () => {
         placeholder="Group name"
         inputAttrs={register("name", { maxLength: 20 })}
       />
-      <pre>
-        {/* { courses && JSON.stringify(courses,null,2)} */}
-      </pre>
 
       <ImageSelectInput
         label="Group image"

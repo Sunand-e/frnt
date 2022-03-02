@@ -1,10 +1,7 @@
-import { useRef, useEffect } from "react";
 import { UpdateGroup, UpdateGroupVariables } from "../../graphql/mutations/group/__generated__/UpdateGroup";
 import { UPDATE_GROUP } from "../../graphql/mutations/group/UPDATE_GROUP"
-import { ContentFragment, GET_GROUP } from "../../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
+import { GET_GROUP } from "../../graphql/queries/allQueries"
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
 
 function useUpdateGroup(id = null) {
 

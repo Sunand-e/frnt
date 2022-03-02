@@ -1,6 +1,5 @@
 
 import { GET_GROUPS } from "../../graphql/queries/allQueries"
-// import { ContentFragment as ContentFragmentType } from '../graphql/queries/__generated__/ContentFragment';
 import { useMutation } from "@apollo/client"
 import { CreateGroup, CreateGroupVariables } from "../../graphql/mutations/group/__generated__/CreateGroup";
 import { CREATE_GROUP } from "../../graphql/mutations/group/CREATE_GROUP";
@@ -16,7 +15,6 @@ function useCreateGroup() {
         const data = cache.readQuery<GetGroups>({
           query: GET_GROUPS
         })
-
         cache.writeQuery({
           query: GET_GROUPS,
           data: { 
@@ -29,18 +27,20 @@ function useCreateGroup() {
 
   const createGroup = values => {
     createGroupMutation({ 
-      variables: { name: values.name },
+      variables: { ...values },
       optimisticResponse: {
         createGroup: {
           __typename: 'CreateGroupPayload',
           group: {
             __typename: 'Group',
             id: Math.floor(Math.random() * 10000) + '',
-            name: values.name,
-            createdAt: '',
-            updatedAt: '',
-            users: [],
             _deleted: false,
+            users: [],
+            enrolledCourses: [],
+            assignedCourses: [],
+            createdAt: 0,
+            updatedAt: 0,
+            ...values
           }
 
         }

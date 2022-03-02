@@ -24,7 +24,8 @@ import { FontDownload } from '@styled-icons/material-rounded/FontDownload';
 import { AlignToolbarButtons } from '../../../plate/Toolbar';
 
 export const SelectionToolbar = () => {
-  const editor = usePlateEditorRef()!;
+  // const editor = usePlateEditorRef()!;
+  const editor = usePlateEditorRef();
 
   const arrow = false;
   const theme = 'dark';
