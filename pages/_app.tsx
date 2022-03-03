@@ -34,8 +34,6 @@ import "@fullcalendar/timegrid/main.css";
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
 
-
-import '@wordpress/block-library/build-style/style.css'
 import '../styles/globals.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/toastify-overrides.css';
