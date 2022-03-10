@@ -52,8 +52,6 @@ const AddSectionModal = ({courseId}) => {
           sections: [...courseData.sections, createSection.section]
         }
         
-        console.log('run writethenewcoursedata')
-        console.log(newCourseData)
         cache.writeFragment<GetCourse_course>({
           id:`ContentItem:${courseId}`,
           fragment: CourseFragment,

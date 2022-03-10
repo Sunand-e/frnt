@@ -9,22 +9,23 @@ import SelectNewCourseItem from "../admin/courses/SelectNewCourseItem";
 
 const NewItemButton = ({container: containerId}) => {
 
-  const { handleModal } = useContext(ModalContext);
+  // const { handleModal } = useContext(ModalContext);
   
   const handleClick = () => {
-    handleModal({
-      title: `Add new item`,
-      content: <AddItemToCourseForm sectionId={containerId} />
-    })
+    // handleModal({
+    //   title: `Add new item`,
+    //   content: <AddItemToCourseForm sectionId={containerId} />
+    // })
   }
 
   return (
     <Tippy
       interactive={true}
-      className={`text-white px-4 py-2 z-50`}
+      className={`text-white px-2 py-2 z-50 w-[calc(300px-4rem)]`}
       theme={'memberhub-block-menu light'}
       arrow={true}
-      placement={'bottom'}
+      placement='bottom'
+      trigger='click'
       content={<SelectNewCourseItem sectionId={containerId} />}
     >
       <div

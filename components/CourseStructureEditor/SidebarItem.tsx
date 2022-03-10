@@ -111,7 +111,7 @@ const SidebarItem = ({
         {/* <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/courses/edit?id=${courseId}&cid=${item.id}`)}> */}
         <Link href={`/admin/courses/edit?id=${courseId}&cid=${item.id}`}>
           <a>
-          <span className="min-w-0 flex-0 text-sm font-medium text-main-dark">{item.title}</span>
+          <span className="min-w-0 flex-0 text-sm font-medium text-main-dark">{item.title || 'Untitled lesson'}</span>
           </a>
         </Link>
 

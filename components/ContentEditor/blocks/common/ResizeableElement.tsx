@@ -11,7 +11,7 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
   const handleAfterClasses = `after:flex after:bg-gray-400 after:w-2 after:h-24 after:rounded`
   const handleClasses = `${handleElementClasses} ${handleAfterClasses}`
 
-  const [width, setWidth] = useState( block.properties.width || defaultWidth || 0)
+  const [width, setWidth] = useState( block.properties?.width || defaultWidth || 0)
   // const  [width, setWidth] = useState(0)
   const { updateBlock, addBlock } = useBlockEditor(block)
 

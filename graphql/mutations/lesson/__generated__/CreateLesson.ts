@@ -50,8 +50,9 @@ export interface CreateLesson {
 }
 
 export interface CreateLessonVariables {
-  title: string;
+  title?: string | null;
   content?: any | null;
+  contentType?: string | null;
   parentIds?: any | null;
   prerequisites?: any | null;
   imageId?: string | null;

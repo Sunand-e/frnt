@@ -7,6 +7,7 @@ export const UPDATE_LESSON = gql`
     $id: ID!
     $title: String,
     $content: JSON,
+    $contentType: String,
     $scormId: ID,
     $childrenIds: JSON,
     $prerequisites: JSON
@@ -16,6 +17,7 @@ export const UPDATE_LESSON = gql`
         id: $id,
         title: $title,
         content: $content,
+        type: $contentType,
         scormId: $scormId,
         childrenIds: $childrenIds,
         prerequisites: $prerequisites

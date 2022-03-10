@@ -1,20 +1,10 @@
 import React, { useRef, useState } from 'react'
-import {CSS} from '@dnd-kit/utilities'
-import { Block } from './Block'
-import styles from '../dnd-kit/Container/Container.module.scss'
-
-import { usePlateEventId } from '@udecode/plate-core'
-import { HeadingToolbar } from '@udecode/plate-toolbar'
-import { Toolbar } from './blocks/TextBlock/Toolbar'
-import styled from 'styled-components'
 import { activeContentBlockVar } from '../../graphql/cache'
 import BlockSelector from './BlockSelector'
 import { useReactiveVar } from '@apollo/client'
 import LineWithIcon from '../LineWithIcon'
 import useOutsideClick from '../../hooks/useOutsideClick'
-import { useDelayUnmount } from '../../hooks/useDelayUnmount'
 import { motion, AnimatePresence } from "framer-motion"
-import useBlockEditor from './useBlockEditor';
 
 const BlockFooter = ({block}) => {
   const isActive = useReactiveVar(activeContentBlockVar) === block.id

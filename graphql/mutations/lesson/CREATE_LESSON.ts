@@ -3,8 +3,9 @@ import { LessonFragment } from '../../queries/allQueries';
 
 export const CREATE_LESSON = gql`
   mutation CreateLesson(
-    $title: String!,
+    $title: String,
     $content: JSON,
+    $contentType: String,
     $parentIds: JSON,
     $prerequisites: JSON,
     $imageId: ID,
@@ -14,6 +15,7 @@ export const CREATE_LESSON = gql`
       input: {
         title: $title,
         content: $content,
+        contentType: $contentType,
         parentIds: $parentIds,
         prerequisites: $prerequisites,
         imageId: $imageId,

@@ -6,7 +6,6 @@ import { GetSection, GetSection_section } from '../../graphql/queries/__generate
 
 function useCreateLesson(sectionId) {
 
-
   const [createLessonMutation, createLessonResponse] = useMutation<CreateLesson, CreateLessonVariables>(
     CREATE_LESSON,
     {
@@ -36,7 +35,7 @@ function useCreateLesson(sectionId) {
   const createLesson = (values) => {
     createLessonMutation({
       variables: {
-        title: values.title,
+        ...values,
         parentIds: [sectionId]
       },
       // optimisticResponse: {

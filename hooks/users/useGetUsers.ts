@@ -4,12 +4,13 @@ import { GetUsers } from "../../graphql/queries/__generated__/GetUsers";
 
 function useGetUsers() {
 
-  const { loading, error, data: { users: users } = {} } = useQuery<GetUsers>(GET_USERS);
+  const { loading, error, data: { users: users } = {}, refetch } = useQuery<GetUsers>(GET_USERS);
 
   return {
     users,
     loading,
-    error
+    error,
+    refetchUsers: refetch
   }
 }
 

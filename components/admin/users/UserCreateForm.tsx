@@ -8,21 +8,52 @@ import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
 import TextInput from '../../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import useGetUsers from '../../../hooks/users/useGetUsers';
 
-interface NewUserFormValues {
-  firstName: string
-  lastName: string
+interface UserCreateFormValues {
+  first_name: string
+  last_name: string
   email: string
   userImage: string
   userRole: string
 }
 
-const NewUserForm = () => {
+const UserCreateForm = () => {
   
-  const { register, handleSubmit, control } = useForm<NewUserFormValues>();
+  const router = useRouter()
+  const endpoint = "/api/v1/users/"
+  const tenantId = 'fe09e324-2aad-413f-930f-7177caa5b7b8'
+  const { refetchUsers } = useGetUsers()
+
+  const { register, handleSubmit, control } = useForm<UserCreateFormValues>();
 
   const onSubmit = values => {
-    alert(JSON.stringify(values, null, 2))
+    
+    const token = localStorage.getItem('token');
+    
+    const data = {
+      user: {
+        ...values,
+        tenant_id: tenantId,
+      // invite: true
+    }}
+
+    // alert(JSON.stringify(data, null, 2))
+
+    axios.request({
+      method: "post", 
+      url: endpoint,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      data
+    }).then (data => {
+      refetchUsers()
+      router.push('/admin/users')
+      // alert(JSON.stringify(data, null,2))      
+    })
   }
 
   return (
@@ -33,12 +64,17 @@ const NewUserForm = () => {
       <TextInput
         label="First name"
         placeholder="First name"
-        inputAttrs={register("firstName", { maxLength: 20 })}
+        inputAttrs={register("first_name", { maxLength: 20 })}
       />
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("lastName", { maxLength: 20 })}
+        inputAttrs={register("last_name", { maxLength: 20 })}
+      />
+      <TextInput
+        label="email"
+        placeholder="email"
+        inputAttrs={register("email", { maxLength: 40 })}
       />
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}
@@ -50,7 +86,7 @@ const NewUserForm = () => {
       <SelectInput
         label="User role"
         options={["Employee", "External", "Manager"]}
-        inputAttrs={register("userRole")}
+        // inputAttrs={register("userRole")}
       />
 
       <Button type="submit">Submit</Button>
@@ -58,4 +94,4 @@ const NewUserForm = () => {
   );
 }
 
-export default NewUserForm
+export default UserCreateForm

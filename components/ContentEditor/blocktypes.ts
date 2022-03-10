@@ -68,7 +68,6 @@ const blocktypes = {
     text: 'Columns',
     component: ColumnsBlock,
     editComponent: ColumnsBlockEdit,
-    component: ColumnsBlock,
     icon: Columns,
   },
   placeholder: {

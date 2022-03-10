@@ -5,7 +5,6 @@ import { FormatBold } from '@styled-icons/material/FormatBold';
 import { FormatItalic } from '@styled-icons/material/FormatItalic';
 import { FormatUnderlined } from '@styled-icons/material/FormatUnderlined';
 import {
-  BalloonToolbar,
   getPluginType,
   MARK_BOLD,
   MARK_ITALIC,
@@ -15,17 +14,23 @@ import {
   ColorPickerToolbarDropdown,
   MARK_COLOR,
   MARK_BG_COLOR,
+  BlockToolbarButton,
+  ELEMENT_H3,
+  ELEMENT_H2,
+  ELEMENT_H1,
+  BalloonToolbar,
 } from '@udecode/plate';
 // import TextTypeDropdown from '../common/TextTypeDropdown';
 import FontSizeDropdown from '../common/FontSizeDropdown';
+import { H1, H2, H3 } from '@styled-icons/remix-editor';
 import { FormatColorText } from '@styled-icons/material-rounded/FormatColorText';
 import { CheckIcon } from '@heroicons/react/solid';
 import { FontDownload } from '@styled-icons/material-rounded/FontDownload';
 import { AlignToolbarButtons } from '../../../plate/Toolbar';
 
 export const SelectionToolbar = () => {
-  // const editor = usePlateEditorRef()!;
-  const editor = usePlateEditorRef();
+    // const editor = usePlateEditorState()!;
+  const editor = usePlateEditorRef()!;
 
   const arrow = false;
   const theme = 'dark';
@@ -37,7 +42,7 @@ export const SelectionToolbar = () => {
     offset: [0, 17],
     placement: 'top',
   };
-
+  
   return (
     <BalloonToolbar
       popperOptions={{
@@ -46,7 +51,18 @@ export const SelectionToolbar = () => {
       theme={theme}
       arrow={arrow}
     >
-      <FontSizeDropdown />
+      <BlockToolbarButton
+        type={getPluginType(editor, ELEMENT_H1)}
+        icon={<H1 />}
+      />
+      <BlockToolbarButton
+        type={getPluginType(editor, ELEMENT_H2)}
+        icon={<H2 />}
+      />
+      <BlockToolbarButton
+        type={getPluginType(editor, ELEMENT_H3)}
+        icon={<H3 />}
+      />
       <MarkToolbarButton
         type={getPluginType(editor, MARK_BOLD)}
         icon={<FormatBold />}
@@ -62,19 +78,25 @@ export const SelectionToolbar = () => {
         icon={<FormatUnderlined />}
         tooltip={{ content: 'Underline (⌘U)', ...tooltip }}
       />
-      <ColorPickerToolbarDropdown
-        pluginKey={MARK_COLOR}
-        icon={<FormatColorText />}
-        selectedIcon={<CheckIcon />}
-        tooltip={{ content: 'Text color' }}
+      <MarkToolbarButton
+        type={getPluginType(editor, MARK_COLOR)}
+        icon={<ColorPickerToolbarDropdown
+          pluginKey={MARK_COLOR}
+          icon={<FormatColorText />}
+          selectedIcon={<CheckIcon />}
+          tooltip={{ content: 'Text color' }}
+        />}
       />
-      <ColorPickerToolbarDropdown
-        pluginKey={MARK_BG_COLOR}
-        icon={<FontDownload />}
-        selectedIcon={<CheckIcon />}
-        tooltip={{ content: 'Highlight color' }}
+      <MarkToolbarButton
+        type={getPluginType(editor, MARK_BG_COLOR)}
+        icon={<ColorPickerToolbarDropdown
+          pluginKey={MARK_BG_COLOR}
+          icon={<FontDownload />}
+          selectedIcon={<CheckIcon />}
+          tooltip={{ content: 'Highlight color' }}
+        />}
       />
       <AlignToolbarButtons />
     </BalloonToolbar>
   );
-};
+}

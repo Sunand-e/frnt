@@ -1,9 +1,7 @@
-import {CSSProperties, useContext, useMemo, useRef} from 'react';
+import {CSSProperties, useMemo} from 'react';
 import {useDropzone} from 'react-dropzone';
-import { ModalContext } from '../context/modalContext';
 import axios from 'axios';
 import { client } from '../graphql/client';
-import { GET_MEDIA_ITEMS } from '../graphql/queries/allQueries';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,57 +33,71 @@ const rejectStyle: CSSProperties = {
   borderColor: '#ff1744'
 };
 
-const FileUploader = ({accept, dropZoneText, endpoint, refetchQuery, fileParameterName, additionalParams={}}) => {
+const FileUploader = ({
+  accept, 
+  dropZoneText, 
+  endpoint, 
+  refetchQuery, 
+  fileParameterName,
+  onAllUploadsComplete = () => null,
+  additionalParams={}
+}) => {
   
+  const token = localStorage.getItem('token');
+  const tenantId = 'fe09e324-2aad-413f-930f-7177caa5b7b8'
+
+  const uploadFileAndNotify = async (file) => {
+    const toastId = uuidv4()
+
+    const data = new FormData()
+
+    data.append('tenant_id', tenantId)
+
+    for(const param in additionalParams) {
+      data.append(param, additionalParams[param])
+    }
+
+    // data.append('title', file.name)
+    data.append(fileParameterName, file, file.name)
+
+    await axios.request({
+      method: "post", 
+      url: endpoint,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      data, 
+      onUploadProgress: (p) => {
+
+        const progress = p.loaded / p.total
+        // check if we already displayed a toast
+        if(!toast.isActive(toastId)) {
+          toast('Upload in Progress', {
+            toastId,
+            progress
+          })
+        } else {
+          toast.update(toastId, {
+            progress: progress
+          })
+        }
+
+      }
+    }).then(data => {
+      alert(toastId)
+      toast.done(toastId.current)
+      /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
+      client.refetchQueries({
+        include: [refetchQuery]
+      })
+    })
+  }
+
   const handleDrop = (acceptedFiles) => {
     
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMjAyOWJkNjMtZjFlZi1mODRmLWY2NGYtZmM2ZWRhODNhZTVmIiwicnNrIjoiNWQifQ.CepICi0497fgxaNfo9kp5ZQ8DmaHOqUgKGYx29VozJo'
-    const tenantId = '5957f90c-e7bc-47fc-8bb9-5b93fc763b2f'
-    
-    for (const file of acceptedFiles) {
-      const toastId = uuidv4()
+    const uploadPromises = acceptedFiles.map(uploadFileAndNotify)
 
-      const data = new FormData()
-
-      data.append('tenant_id', tenantId)
-
-      for(const param in additionalParams) {
-        data.append(param, additionalParams[param])
-      }
-  
-      // data.append('title', file.name)
-      data.append(fileParameterName, file, file.name)
-      axios.request({
-        method: "post", 
-        url: endpoint,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        data, 
-        onUploadProgress: (p) => {
-
-          const progress = p.loaded / p.total
-          // check if we already displayed a toast
-          if(!toast.isActive(toastId)) {
-            toast('Upload in Progress', {
-              toastId,
-              progress
-            })
-          } else {
-            toast.update(toastId, {
-              progress: progress
-            })
-          }
-
-        }
-      }).then (data => {
-        toast.done(toastId.current)
-         /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
-        client.refetchQueries({
-          include: [refetchQuery]
-        })
-      })
-    }
+    Promise.all(uploadPromises).then(onAllUploadsComplete)
   }
 
   const {

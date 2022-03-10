@@ -13,6 +13,7 @@ import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCour
 import ImageSelect from '../../../components/ContentEditor/ImageSelect'
 import { ModalContext } from '../../../context/modalContext'
 import ImageLibraryModal from '../../../components/ContentEditor/blocks/ImageBlock/ImageLibraryModal'
+import SelectNewCourseItem from '../../../components/admin/courses/SelectNewCourseItem'
 
 const AdminCoursesEdit = () => {
   /*
@@ -110,16 +111,15 @@ const AdminCoursesEdit = () => {
       { course && (courseItemId ? (
         <CourseItemEditor id={courseItemId} />
         ) : (
-          <div className='mx-auto my-0 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-
-            <ImageSelect 
+          <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+            {/* <ImageSelect 
               src={course.image?.location}
               onClick={selectImageModal}
               buttonText="Choose course image"
               isButtonAlwaysVisible={true}
-            />
-            <p className='text-lg font-bold mt-4'>Create your first course item:</p>
-            <AddItemToCourseForm sectionId={course.sections[0]?.id} />
+            /> */}
+            {/* <AddItemToCourseForm sectionId={course.sections[0]?.id} /> */}
+            <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first course item" />
         </div>
       ))}
     </>

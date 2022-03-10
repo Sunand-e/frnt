@@ -52,6 +52,7 @@ export interface UpdateLessonVariables {
   id: string;
   title?: string | null;
   content?: any | null;
+  contentType?: string | null;
   scormId?: string | null;
   childrenIds?: any | null;
   prerequisites?: any | null;
