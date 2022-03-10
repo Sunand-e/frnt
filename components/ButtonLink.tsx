@@ -6,10 +6,11 @@ interface ButtonLinkProps {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   href?: string
   style?: "primary" | "cancel"
+  className?
   children: JSX.Element | string
 }
 
-const ButtonLink = ({href, children, style, onClick}: ButtonLinkProps) => {
+const ButtonLink = ({href, children, style, className, onClick}: ButtonLinkProps) => {
 
   let bgColor = ''
   let textColor = ''
@@ -36,10 +37,21 @@ const ButtonLink = ({href, children, style, onClick}: ButtonLinkProps) => {
     <Link href={href}>
       <a 
         onClick={onClick} 
-        className={`${hoverEffectStyles} cursor-pointer flex items-center whitespace-nowrap nowrap 
-        font-medium text-sm focus:bg-opacity-50 focus:outline-none active:bg-opacity-50 bg-${bgColor} text-${textColor} rounded-md px-8`}
+        className={`
+        ${className}
+        ${styles.button}
+        ${styles.button_bestia}
+        min-w-16 py-2 px-8
+        whitespace-nowrap nowrap
+        border border-transparent rounded-md
+        text-sm
+        bg-main text-white
+        focus:bg-opacity-50 focus:outline-none 
+        active:bg-opacity-50 
+      `}
       >
-        {children}
+        <div className={styles.button__bg}></div>
+        <span>{children}</span>
       </a>
     </Link>
   )
