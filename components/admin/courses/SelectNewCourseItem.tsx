@@ -1,11 +1,15 @@
+import { setValues } from "framer-motion/types/render/utils/setters";
+import { useState } from "react";
 import Select, { components } from "react-select";
-import { PlusCircle } from '@styled-icons/heroicons-solid/PlusCircle'
-import useModal from "../../../hooks/useModal";
-import { useContext } from "react";
-import { ModalContext } from "../../../context/modalContext";
-import AddLessonModal from "./AddLessonModal";
 import useCreateLesson from "../../../hooks/lessons/useCreateLesson";
 import { lessonTypes } from "./lessonTypes";
+
+const lessonTypesArray = Object.keys(lessonTypes).map(key => {
+  return {
+    ...lessonTypes[key],
+    value: key
+  }
+});
 
 const { Option } = components;
 
@@ -19,7 +23,7 @@ const customStyles = {
 const IconOption = props => (
   <Option {...props} className={`flex bg-main h-10 py-1 space-x-2 text-main-dark`}>
   {/* <Option {...props}> */}
-      <props.data.icon className="h-full text-main-dark"/>
+    <props.data.icon className="h-full text-main-dark"/>
     <span className="text-main-dark">
       {props.data.label}
     </span>
@@ -28,31 +32,28 @@ const IconOption = props => (
 
 const SelectNewCourseItem = ({
   sectionId, 
-  placeholder="Choose an item type..."
+  placeholder="Choose an item type...",
+  onSelect = () => null
 }) => {
-
-  // const { handleModal } = useContext(ModalContext)
+  
   const { createLesson } = useCreateLesson(sectionId)
 
-  const handleNewLessonButton = (data) => {
-    const { content, contentType } = data
-    createLesson({content, contentType})
-    // handleModal({
-    //   title: `Lesson name:`,
-    //   content: <AddLessonModal sectionId={sectionId} />
-    // })
+  const handleNewLessonButton = ({ content, value }) => {
+    createLesson({content, contentType: value})
+    onSelect()
   }
-
   
   return (
     <Select
       placeholder={<span className="text-main-dark">{placeholder}</span>}
-      options={lessonTypes}
+      options={lessonTypesArray}
       styles={customStyles}
       components={{ Option: IconOption }}
       onChange={handleNewLessonButton}
+      value={null}
       className={`w-full`}
       isSearchable={false} 
+      closeMenuOnSelect={true}
     />
   )
 }

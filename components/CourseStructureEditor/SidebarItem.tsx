@@ -5,18 +5,15 @@ import cache, { courseNavigationVar } from "../../graphql/cache"
 import { ContentFragment } from "../../graphql/queries/allQueries"
 
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment'
-import { BookOpenIcon } from "@heroicons/react/outline"
 import { useRouter } from '../../utils/router'
 import Link from "next/link"
-import Button from "../Button"
-import { CSS } from '@dnd-kit/utilities'
-import useModal from "../../hooks/useModal"
 import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 
 import styles from './SidebarItem.module.scss'
 import { useContext } from "react"
 import { ModalContext } from "../../context/modalContext"
+import { lessonTypes } from "../admin/courses/lessonTypes"
 
 const SidebarItem = ({
   dragOverlay,
@@ -66,6 +63,7 @@ const SidebarItem = ({
 
   const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
 
+  const IconComponent = lessonTypes[item.contentType]?.icon
   return (
     <li
       className={classNames(
@@ -106,12 +104,13 @@ const SidebarItem = ({
         {...listeners}
         tabIndex={0}
       >
-        {/* <div className="min-w-0 flex-1 flex items-center"> */}
         <div className="min-w-0 flex-1 flex items-center" onClick={onSelect}>
-        {/* <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/courses/edit?id=${courseId}&cid=${item.id}`)}> */}
         <Link href={`/admin/courses/edit?id=${courseId}&cid=${item.id}`}>
-          <a>
-          <span className="min-w-0 flex-0 text-sm font-medium text-main-dark">{item.title || 'Untitled lesson'}</span>
+          <a className={`flex py-1 space-x-2 text-main-dark`}>
+            { IconComponent && <IconComponent className="h-5 w-5 flex-0 text-main-dark"/> }
+            <span className="min-w-0 flex-1 text-sm font-medium text-main-dark">
+              {item.title || 'Untitled lesson'}
+            </span>
           </a>
         </Link>
 

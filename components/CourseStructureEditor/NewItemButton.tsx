@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { ModalContext } from "../../context/modalContext";
 import { PlusCircle } from '@styled-icons/heroicons-solid/PlusCircle'
 import AddItemToCourseForm from "../admin/courses/AddItemToCourseForm";
@@ -9,13 +9,10 @@ import SelectNewCourseItem from "../admin/courses/SelectNewCourseItem";
 
 const NewItemButton = ({container: containerId}) => {
 
-  // const { handleModal } = useContext(ModalContext);
-  
-  const handleClick = () => {
-    // handleModal({
-    //   title: `Add new item`,
-    //   content: <AddItemToCourseForm sectionId={containerId} />
-    // })
+  const [tippy, setTippy] = useState(null);
+
+  const onNewItemSelect = () => {
+    tippy?.hide()
   }
 
   return (
@@ -26,11 +23,11 @@ const NewItemButton = ({container: containerId}) => {
       arrow={true}
       placement='bottom'
       trigger='click'
-      content={<SelectNewCourseItem sectionId={containerId} />}
+      content={<SelectNewCourseItem sectionId={containerId} onSelect={onNewItemSelect} />}
+      onCreate={(instance) => setTippy(instance)}
     >
       <div
         className={`text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${true && 'opacity-100'}`}
-        onClick={handleClick}
       >
         <div className={`
           flex items-center py-2 h-10 justify-center
@@ -39,8 +36,6 @@ const NewItemButton = ({container: containerId}) => {
         </div>
       </div>
     </Tippy>
-      // <NewThingButton thing="Item" onClick={handleClick} />
-
   )
 }
 

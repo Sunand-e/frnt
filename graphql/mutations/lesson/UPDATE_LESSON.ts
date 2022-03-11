@@ -17,7 +17,7 @@ export const UPDATE_LESSON = gql`
         id: $id,
         title: $title,
         content: $content,
-        type: $contentType,
+        contentType: $contentType,
         scormId: $scormId,
         childrenIds: $childrenIds,
         prerequisites: $prerequisites

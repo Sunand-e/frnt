@@ -13,9 +13,6 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
   const { addBlock } = useBlockEditor(block)
 
-  // const { handleModal } = useModal()
-  const { handleModal } = useContext(ModalContext);
-
   const selectImage = (image) => {
     const newBlock = {
       type: 'image',
@@ -28,14 +25,6 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
     addBlock(newBlock, true)
   }
 
-  const showModal = () => {
-    handleModal({
-      title: `Choose image`,
-      content: <ImageLibraryModal onImageSelect={(image) => selectImage(image)} />,
-      size: 'lg'
-    })
-  }
-
   const  defaultWidth = '50%';
 
   return (
@@ -44,8 +33,8 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
       defaultWidth={defaultWidth}
     >
       <ImageSelect 
-        src={block.properties.url}
-        onClick={showModal}
+        src={block.properties?.url}
+        onSelect={selectImage}
       />
     </ResizeableElement> 
   );

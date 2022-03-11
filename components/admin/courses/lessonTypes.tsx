@@ -2,62 +2,41 @@ import {TextLeft, Bricks} from '@styled-icons/bootstrap'
 import {Text, Box, Video, List, Image, Document} from '@styled-icons/fluentui-system-filled'
 import {Assignment} from '@styled-icons/material'
 import {Quiz} from '@styled-icons/material-rounded/Quiz'
-export const lessonTypes = [
-  {
-    value: "Text",
+export const lessonTypes = {
+  text: {
     label: "Text", 
     icon: TextLeft,
-    contentType: 'text', 
     content: { blocks: [{type:'text'}]}
   },
-  {
-    value: "Video",
+  video: {
     label: "Video",
     icon: Video,
-    contentType: 'video', 
     content: { blocks: [{type:'video'}]}
   },
-  {
-    value: "Image",
+  image: {
     label: "Image",
     icon: Image,
-    contentType: 'text', 
     content: { blocks: [{type:'image'}]}
   },
-  {
-    value: "Document",
+  document: {
     label: "Document",
     icon: Document,
-    contentType: 'text', 
     content: { blocks: [{type:'text'}]}
   },
-  {
-    value: "SCORM",
+  scorm: {
     label: "SCORM",
     icon: Box,
-    contentType: 'text', 
     content: { blocks: [{type:'package'}]}
   },
-  // {
-  //   value: "Assignment",
-  //   label: "Assignment",
-  //   icon: Assignment,
-  //   contentType: 'text', 
-  //   content: { blocks: [{type:'text'}]}
-  // },
-  {
-    value: "Freeform",
+  freeform: {
     label: "Freeform",
     icon: Bricks,
-    contentType: 'text', 
-    content: { blocks: [{type:'text'}]}
+    content: { blocks: []}
   },
-  {
-    value: "Quiz",
+  quiz: {
     label: "Quiz",
     icon: Quiz,
-    contentType: 'text', 
     content: { blocks: [{type:'text'}]}
   },
-]
+}
 

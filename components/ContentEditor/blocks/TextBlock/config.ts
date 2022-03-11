@@ -11,7 +11,7 @@ export const CONFIG: {
   editableProps: {
     // spellCheck: false,
     autoFocus: true,
-    placeholder: 'Type…',
+    placeholder: 'Start typing…',
     // style: {
     //   padding: '15px',
     // },
