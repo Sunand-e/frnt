@@ -7,10 +7,12 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useEffect } from "react";
 import { ReactEditor } from "slate-react";
 import { Editor, Transforms } from "slate";
+import { useReactiveVar } from "@apollo/client";
 
 export const ContentTitle = () => {
 
-  const { id, updateTitleFunction } = currentContentItemVar()
+  const currentContentItem = useReactiveVar(currentContentItemVar)
+  const { id, updateFunction } = currentContentItem
   
   const { title } = cache.readFragment({
     id:`ContentItem:${id}`,
@@ -19,7 +21,7 @@ export const ContentTitle = () => {
   
   const handleChange = useDebouncedCallback((data) => {
     const title = data[0].children[0].text
-    updateTitleFunction(title);
+    updateFunction({title});
   }, 800)
   
   const platePlugins = createPlugins([
@@ -32,10 +34,12 @@ export const ContentTitle = () => {
 
   const focus = () => {
     const editor = getPlateEditorRef(id)
-    Transforms.select(editor, Editor.end(editor, []));
-    ReactEditor.focus(editor);
+    if(editor) {
+      Transforms.select(editor, Editor.end(editor, []));
+      ReactEditor.focus(editor);  
+    }
   }
-
+  
   return (
     <div className={`flex justify-center`}>
 

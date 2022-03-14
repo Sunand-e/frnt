@@ -3,6 +3,7 @@ import { SectionFragment } from "../../graphql/queries/allQueries";
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
 import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
+import { useEffect } from 'react';
 
 function useCreateLesson(sectionId) {
 
@@ -65,7 +66,8 @@ function useCreateLesson(sectionId) {
   }
 
   return {
-    createLesson
+    createLesson,
+    data: createLessonResponse?.data?.createLesson
   }
 }
 

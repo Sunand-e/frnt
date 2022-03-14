@@ -17,7 +17,17 @@ import { useReactiveVar } from "@apollo/client";
 
 const useBlockEditor = (block=null) => {
 
-  const { id, type, updateFunction } = currentContentItemVar()
+  // testing::::
+  const currentContentItem = useReactiveVar(currentContentItemVar)
+    
+  const { id, type, updateFunction } = currentContentItem
+  // end testing
+  
+  // const { id, type, updateFunction } = currentContentItemVar()
+  
+  const updateBlockContent = (blocks) => {
+    updateFunction({content: { blocks }})
+  }
   
   const { content: { blocks } } = cache.readFragment({
     id:`ContentItem:${id}`,
@@ -63,7 +73,7 @@ const useBlockEditor = (block=null) => {
       ...blocks.slice(topLevelIndex + overwrite)
     ]
     
-    updateFunction(newBlocks);
+    updateBlockContent(newBlocks);
   },[blocks])
   
 
@@ -141,13 +151,13 @@ const useBlockEditor = (block=null) => {
           },
           ...blocks.slice(topLevelIndex + 1)
         ]
-        updateFunction(newBlocks)
+        updateBlockContent(newBlocks)
       }
 
     // if the block is NOT contained in a column, remove the block
     } else {
       newBlocks = blocks.filter(b => b.id !== block.id)
-      updateFunction(newBlocks)
+      updateBlockContent(newBlocks)
     }
   }
 
@@ -220,7 +230,7 @@ const useBlockEditor = (block=null) => {
       newBlocks = arrayMove(blocks, index, index+modifier )
     }
 
-    updateFunction(newBlocks);
+    updateBlockContent(newBlocks);
   }
 
   const createPlaceholderBlock = () => {

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import contentTypes from "../contentTypes";
+import contentTypes from "../../../contentTypes";
 import styles from './Item.module.scss'
+
 function ItemTags({ tags }) {
   return (
     <div className="flex">
@@ -20,7 +21,7 @@ function ItemTags({ tags }) {
 export default function Item({ item, options }) {
 
   const itemType = contentTypes.find(type => {
-    return item.__typename === type.name.replace(' ', '');
+    return item.__typename === type.replace(' ', '');
   });
 
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/item-placeholder.jpg';

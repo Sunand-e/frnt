@@ -4,7 +4,7 @@ import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
-import DashboardContentTabs from '../components/DashboardContentTabs';
+import DashboardContentTabs from '../components/dashbaord/DashboardContentTabs';
 import { contentTagsVar, latestContentVar, libraryVar } from '../graphql/cache';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';

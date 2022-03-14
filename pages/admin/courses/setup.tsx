@@ -72,12 +72,12 @@ const AdminCourseSetup = () => {
   const onSubmit = (values) => {
     
     const { title, imageId, ...settings } = values
-    
     // setSubmitted(values);
 
     createCourse({
       variables: { 
         title,
+        imageId,
         settings,
         sections: [{
           title: "Section 1"
@@ -161,7 +161,7 @@ const AdminCourseSetup = () => {
         <TextInput
           label="Course name"
           placeholder="Untitled course"
-          inputAttrs={register("title", { maxLength: 20 })}
+          inputAttrs={register("title", { /*maxLength: 20*/ })}
         />
         <ImageSelectInput
           placeholder={'https://picsum.photos/640/360'}
@@ -173,16 +173,16 @@ const AdminCourseSetup = () => {
         <SelectInput
           label="Course access type"
           options={["Open access", "Assignable", "Paid access"]}
-          inputAttrs={register("accessType", { maxLength: 20 })}
+          inputAttrs={register("accessType")}
         />
         <TextInput
           label="Course price"
           placeholder="Untitled course"
-          inputAttrs={register("coursePrice", { maxLength: 20 })}
+          inputAttrs={register("coursePrice")}
         />
         <CheckboxInput
           label="Enable prerequisites"
-          inputAttrs={register("enablePrerequisites", { maxLength: 20 })}
+          inputAttrs={register("enablePrerequisites")}
         />
         <CheckboxInput
           label="Disable lesson progression"

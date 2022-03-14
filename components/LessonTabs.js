@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import BlockWithTitle from './BlockWithTitle';
-import ContinueWatching from './ContinueWatching';
 import LinkWithIcon from './LinkWithIcon';
 
-import RecentlyReleased from "./RecentlyReleased";
+import RecentlyReleased from "./dashboard/RecentlyReleased";
 
 export default function LessonTabs() {
 

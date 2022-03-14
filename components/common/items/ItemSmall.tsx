@@ -1,5 +1,5 @@
 import Link from "next/link";
-import contentTypes from "../contentTypes";
+import contentTypes from "../../../contentTypes";
 
 export default function ItemSmall({ item, options, className }) {
 

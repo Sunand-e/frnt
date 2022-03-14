@@ -1,4 +1,4 @@
-import ItemCollection from "./ItemCollection";
+import ItemCollection from "../common/items/ItemCollection";
 
 export default function ContinueWatching() {
   

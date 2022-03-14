@@ -11,52 +11,47 @@ import BlockEditor from "../../ContentEditor/BlockEditor";
 import EasyEdit, {Types} from 'react-easy-edit';
 import { ContentTitle } from "../../ContentEditor/ContentTitle";
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
-const LessonEditor = ({id}) => {
+import { useRouter } from "next/router";
+const LessonEditor = () => {
 
+  const currentContentItem = useReactiveVar(currentContentItemVar)
+  const { id } = currentContentItem
+
+  const router = useRouter()
+  
   const {
     lesson,
-    loading,
-    error,
-    updateLessonContent,
-    updateLessonTitle
+    updateLesson
   } = useUpdateLesson(id)
   
-  currentContentItemVar({
-    ...lesson,
-    updateFunction: updateLessonContent,
-    updateTitleFunction: updateLessonTitle,
-  })
-  // const {content, setContent} = useContext(ContentContext)
 
-  // const debouncedContentCallback = useDebouncedCallback((content) => {
-  //   saveLesson(content);
-  // }, 600);
-
-  // const contentChanged = useRef(false);
-
-  // useEffect(() => {
-  //   if (contentChanged.current) {
-  //     debouncedContentCallback(content)
-  //   }
-  //   else contentChanged.current = true;
-  // }, [content]);
-
+    /* REFACTOR NEEDED */
+    useEffect(() => {
+      if(router.query.cid) {
+        currentContentItemVar({
+          id: router.query.cid,
+          type: 'lesson',
+          updateFunction: updateLesson(router.query.cid)
+        })  
+      }
+      return () => {
+        currentContentItemVar({
+          id: null,
+          updateFunction:null,
+          type:null
+        })
+      }
+    },[router.query.cid])
+  
   return (
     <>
-    
-      <ContentTitle />
-      {/* <EasyEdit
-        type={Types.TEXT}
-        onSave={saveLessonTitle}
-        saveButtonLabel="Save"
-        cancelButtonLabel="Cancel"
-        attributes={{ name: "awesome-input", id: 1}}
-        value={lesson.title}
-      /> */}
-      <BlockEditor />
-      {/* <pre>
-      {JSON.stringify(currentContentItemVar(),null,2)}
-      </pre> */}
+      { lesson && (
+      <>
+        <ContentTitle />
+        <BlockEditor />
+       
+      </>
+      ) }
     </>
   )
 }

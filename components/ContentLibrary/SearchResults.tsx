@@ -1,21 +1,11 @@
-import ItemGrid from "./ItemGrid";
-import ItemCollection from "./ItemCollection";
-import contentTypes from "../contentTypes"
-import { useEffect } from "react";
+import ItemGrid from "../common/items/ItemGrid";
+import ItemCollection from "../common/items/ItemCollection";
+import contentTypes from "../../contentTypes"
 
 export default function SearchResults({tags, items, searchParams}) {
 
   let filteredItems = [];
   
-  const toTitleCase = (str) => (
-    str.replace(
-      /\w\S*/g,
-      function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      }
-    )
-  )
-
   if(searchParams.text) {
     const textResultsObject = items.reduce(
       (filtered,item) => {

@@ -20,12 +20,10 @@ const BlockEditor = () => {
 
   const { blocks, blockIds } = useBlockEditor()
   
-  const scormData = useReactiveVar(scormDataVar)
   return (
     <>
       <Flipper
         flipKey={blockIds.join("")}
-        // onComplete={(data) => null}
       >
         <div className="list">
           {blockIds.map((blockId, idx) => {
@@ -34,7 +32,6 @@ const BlockEditor = () => {
               <Flipped translate flipId={blockId} key={idx}>
                 <div className="flipped-container">
                   <BlockContainer
-                    // onClick={() => activeContentBlockVar(block.id)}
                     block={block}
                     key={block.id}
                   />

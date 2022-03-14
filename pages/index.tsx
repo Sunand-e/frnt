@@ -5,17 +5,17 @@ import NoticeBox from '../components/NoticeBox';
 import usePageTitle from '../hooks/usePageTitle'
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
-import DashboardContentTabs from '../components/DashboardContentTabs';
+import DashboardContentTabs from '../components/dashboard/DashboardContentTabs';
 import { contentTagsVar, headerButtonsVar, isLoggedInVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
 import { client } from "../graphql/client";
 import contentTypes from '../contentTypes';
 import { useRouter } from 'next/router'
-import ItemGrid from '../components/ItemGrid';
+import ItemGrid from '../components/common/items/ItemGrid';
 import InnerNav from '../components/InnerNav';
 import Button from '../components/Button';
-import ItemCollection from "../components/ItemCollection";
+import ItemCollection from "../components/common/items/ItemCollection";
 
 // when the page has loaded, and all items have been loaded, 
 

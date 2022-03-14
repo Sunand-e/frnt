@@ -12,50 +12,30 @@ function useUpdateLesson(id = null) {
     UPDATE_LESSON
   );
 
-  const updateLesson = ({title=null, contentBlocks=null, scormId=null}) => {
+  const updateLesson = id => values => {
   // const updateLesson = ({title=null, contentBlocks=null}) => {
 
     const cachedLesson = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${id}`,
       fragment: ContentFragment,
     })
-    
-    const variables = {
-      ...(title && {title}),
-      ...(contentBlocks && {content: {
-        blocks: contentBlocks 
-      }}),
-      scormId
-    }
 
     updateLessonMutation({
       variables: {
         id,
-        ...variables
+        ...values
       },
       optimisticResponse: {
         updateLesson: {
           __typename: 'UpdateLessonPayload',
           lesson: {
             ...cachedLesson,
-            ...variables
+            ...values
           },
         }
       }
     }).catch(res => {
       // TODO: do something if there is an error!!
-    })
-  }
-
-  const updateLessonTitle = (title) => {
-    updateLesson({
-      title
-    })
-  }
-
-  const updateLessonContent = (contentBlocks) => {
-    updateLesson({
-      contentBlocks
     })
   }
   
@@ -73,8 +53,6 @@ function useUpdateLesson(id = null) {
     loading,
     error,
     updateLesson,
-    updateLessonContent,
-    updateLessonTitle,
   }
 }
 

@@ -40,40 +40,6 @@ function useCourse(id) {
       // TODO: do something if there is an error!!
     })
   }
-
-  const updatseCourse = ({title=null, contentBlocks=null}) => {
-
-    const cachedCourse = cache.readFragment<CourseFragmentType>({
-      id:`ContentItem:${id}`,
-      fragment: CourseFragment,
-      fragmentName: 'CourseFragment',
-    })
-    
-    const variables = {
-      ...(title && {title}),
-      ...(contentBlocks && {content: {
-        blocks: contentBlocks 
-      }})
-    }
-
-    updateCourseMutation({
-      variables: {
-        id,
-        ...variables
-      },
-      optimisticResponse: {
-        updateCourse: {
-          __typename: 'UpdateCoursePayload',
-          course: {
-            ...cachedCourse,
-            ...variables
-          },
-        }
-      }
-    }).catch(res => {
-      // TODO: do something if there is an error!!
-    })
-  }
   
   const updateCourseContentBlocks = (contentBlocks) => {
     updateCourse({
