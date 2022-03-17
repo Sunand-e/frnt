@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+
 const NavContext = React.createContext()
 
 function NavContextProvider(props) {

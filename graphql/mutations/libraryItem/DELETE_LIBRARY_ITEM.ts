@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 
 
-export const DELETE_COURSE = gql`
-  mutation DeleteCourse(
+export const DELETE_LIBRARY_ITEM = gql`
+  mutation DeleteLibraryItem(
     $id: ID!
   ) {
-    deleteCourse(
+    deleteLibraryItem(
       id: $id
     ) {
       message

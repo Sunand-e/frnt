@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
 import contentTypes from '../../contentTypes';
@@ -10,6 +10,7 @@ import { GET_LIBRARY } from '../../graphql/queries/GET_LIBRARY';
 import TopicsList from '../../components/TopicsList';
 import { latestContentVar, contentTagsVar } from "../../graphql/cache";
 import RecentlyReleased from '../dashboard/RecentlyReleased';
+import { QueriesContext } from '../../context/QueriesContext';
 
 const libraryContentTypes = contentTypes.filter(type => !(type?.notInLibrary === true))
 
@@ -39,13 +40,16 @@ const ContentLibrary = () => {
 
   const { loading, error, data } = useQuery(GET_LIBRARY);
   
-  // When the GET_LIBRARY query completes and has data,
+  // When the GET_LIBRARY query completes and has data, run allcontent and dashboard queries
+
+  const { queries } = useContext(QueriesContext)
+
   useEffect(() => {
-    if(data) {
+    if(data && queries) {
       queries.getAllContent()
       queries.getDashboard()
     }
-  }, [data])
+  }, [data, queries])
   
   const searching = (searchParams.text || searchParams.type || searchParams.tag)
 

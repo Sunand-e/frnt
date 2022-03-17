@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 
-import {useState, useEffect, createContext, ReactNode} from 'react'
+import {useState, useEffect, createContext, ReactNode, useContext} from 'react'
 import LoginLayout from '../layouts/LoginLayout'
 import { 
   ApolloProvider,
@@ -42,16 +42,13 @@ import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
 import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
-
+import { QueriesContextProvider } from '../context/QueriesContext';
 addIconsToLibrary()
-
-export const QueriesContext = createContext({queries:{}});
 
 interface PagePropertiesType {
   Component: Page,
 }
 type AppPropsExtended = AppProps & PagePropertiesType 
-
 
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
@@ -101,7 +98,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     getAllContent,
     getDashboard
   }
-  
+
   console.log('caused a rerender');
 
   const loginLayout = (
@@ -122,7 +119,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   })
 
   pageProps.setTitle = setTitle;
-  pageProps.queries = queries;
   
   
   useEffect(() => {
@@ -143,6 +139,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   },[libraryData])
   
   // Only show login if not logged in
+  
   useEffect(() => {
     setLayout(isLoggedIn ? 
       getLayout(<PageComponent {...pageProps} />) :
@@ -166,19 +163,19 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
     return () => {
       router.events.off('routeChangeStart', checkIfAdminPage); // remove listener
-    } 
+    }
   }, []);
 
   return (
     <>
     <ApolloProvider client={client}>
-        <QueriesContext.Provider value={{queries}}>
+        <QueriesContextProvider value={{queries}}>
           <ModalProvider>
             {
               layout
             }
           </ModalProvider>
-        </QueriesContext.Provider>
+        </QueriesContextProvider>
       </ApolloProvider>
     </>
   )

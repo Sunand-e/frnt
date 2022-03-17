@@ -27,11 +27,17 @@ export const ContentFragment = gql`
     _deleted @client
   }
 `
-export const LessonFragment = gql`
-  fragment LessonFragment on ContentItem {
+export const LibraryItemFragment = gql`
+  fragment LibraryItemFragment on ContentItem {
     ...ContentFragment
   }
   ${ContentFragment}
+`
+export const LessonFragment = gql`
+fragment LessonFragment on ContentItem {
+  ...ContentFragment
+}
+${ContentFragment}
 `
 export const SectionFragment = gql`
   fragment SectionFragment on ContentItem {
@@ -60,6 +66,22 @@ export const CourseFragment = gql`
   ${ContentFragment}
   ${SectionFragment}
 `
+export const PathwayFragment = gql`
+  fragment PathwayFragment on ContentItem {
+    ...ContentFragment
+    courses {
+      ...CourseFragment
+    }
+    tags {
+      id
+      label
+      tagType
+    }
+  }
+  ${ContentFragment}
+  ${SectionFragment}
+`
+
 export const GET_COURSE = gql`
   query GetCourse($id: ID!) {
     course(id: $id) {
@@ -152,106 +174,38 @@ export const GET_LESSON = gql`
 export const GET_LIBRARY_ITEM = gql`
   query GetLibraryItem($id: ID!) {
     libraryItem(id: $id) {
-      id
+      ...LibraryItemFragment
     }
   }
+  ${LibraryItemFragment}
 `
 
 export const GET_LIBRARY_ITEMS = gql`
   query GetLibraryItems {
     libraryItems {
-      content
-      contentType
-      createdAt
-      image {
-        location
-        id
-        altText
-        properties
-        title
-      }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      title
-      updatedAt
-      tags {
-        id
-        label
-        tagType
-      }
+      ...LibraryItemFragment
     }
   }
+  ${LibraryItemFragment}
 `
 
 export const GET_PATHWAY = gql`
   query GetPathway($id: ID!) {
     pathway(id: $id) {
-      content
-      contentType
-      createdAt
-      image {
-        location
-        id
-        altText
-        properties
-        title
-      }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      title
-      updatedAt
-      tags {
-        id
-        label
-        tagType
-      }
+      ...PathwayFragment
     }
   }
+  ${PathwayFragment}
   
 `
 
 export const GET_PATHWAYS = gql`
   query GetPathways {
     pathways {
-      content
-      contentType
-      createdAt
-      image {
-        location
-        id
-        altText
-        properties
-        title
-      }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      title
-      updatedAt
-      tags {
-        id
-        label
-        tagType
-      }
+      ...PathwayFragment
     }
   }
+  ${PathwayFragment}
 `
 
 export const GET_QUIZ = gql`

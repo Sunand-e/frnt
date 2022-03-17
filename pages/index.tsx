@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useContext, useEffect} from 'react'
 import Head from 'next/head'
 import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
@@ -10,12 +10,11 @@ import { contentTagsVar, headerButtonsVar, isLoggedInVar, latestContentVar, libr
 import LoadingSpinner from '../components/LoadingSpinner';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
 import { client } from "../graphql/client";
-import contentTypes from '../contentTypes';
 import { useRouter } from 'next/router'
 import ItemGrid from '../components/common/items/ItemGrid';
-import InnerNav from '../components/InnerNav';
 import Button from '../components/Button';
 import ItemCollection from "../components/common/items/ItemCollection";
+import { QueriesContext } from '../context/QueriesContext';
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -23,12 +22,19 @@ import ItemCollection from "../components/common/items/ItemCollection";
 
 // When the data from the initial query has been received, run the same query, but with metadata for all content types.
 
-const Dashboard = ({queries}) => {
+const Dashboard = () => {
   // console.log(GET_DASHBOARD)
   const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
 
   usePageTitle({title: "Dashboard"})
+
+  const {queries} = useContext(QueriesContext)
+  
+  useEffect(() => {
+    console.log('queries')
+    console.log(queries)
+  },[queries])
 
   const items = useReactiveVar(latestContentVar)
 
@@ -85,10 +91,12 @@ const Dashboard = ({queries}) => {
       // latestContentVar(data.libraryItems.slice(0, 4))
       // console.log('data')
       // console.log(data)
-      queries.getAllContent()
-      queries.getLibrary()
+      if(queries) {
+        queries.getAllContent()
+        queries.getLibrary()
+      }
     }
-  },[data])
+  },[data, queries])
   
   if (error) {
     return (

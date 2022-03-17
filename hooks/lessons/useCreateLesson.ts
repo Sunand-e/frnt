@@ -18,8 +18,8 @@ function useCreateLesson(sectionId) {
         })
 
         const newSectionData = {
-          ...sectionData,
-          children: [...sectionData.children, createLesson.lesson]
+          ...sectionData.section,
+          children: [...sectionData.section.children, createLesson.lesson]
         }
 
         cache.writeFragment<GetSection_section>({

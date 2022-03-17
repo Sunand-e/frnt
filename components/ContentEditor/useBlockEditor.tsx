@@ -1,16 +1,10 @@
-import ReactDOM from "react-dom"
-import React, { useCallback, useContext, useEffect, useState } from "react"
-import { Flipper, Flipped } from "react-flip-toolkit"
-import shuffle from "lodash.shuffle"
+import { useCallback, useContext, useEffect } from "react"
 import { arrayMove } from "@dnd-kit/sortable";
 import cache, { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
 import { ContentFragment } from "../../graphql/queries/allQueries";
 import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
-import BlockContainer from "./BlockContainer";
-import DeleteContentBlockModal from "../admin/courses/DeleteContentBlockModal";
-import BlockSelector from "./BlockSelector";
-import blocktypes from "./blocktypes"; 
+import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
 import { useReactiveVar } from "@apollo/client";
 // import "./styles.css";

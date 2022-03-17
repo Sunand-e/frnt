@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetPathway
+// GraphQL fragment: PathwayFragment
 // ====================================================
 
-export interface GetPathway_pathway_image {
+export interface PathwayFragment_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -16,14 +16,14 @@ export interface GetPathway_pathway_image {
   title: string | null;
 }
 
-export interface GetPathway_pathway_icon {
+export interface PathwayFragment_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathway_pathway_courses_image {
+export interface PathwayFragment_courses_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -32,14 +32,14 @@ export interface GetPathway_pathway_courses_image {
   title: string | null;
 }
 
-export interface GetPathway_pathway_courses_icon {
+export interface PathwayFragment_courses_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathway_pathway_courses_sections_image {
+export interface PathwayFragment_courses_sections_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -48,14 +48,14 @@ export interface GetPathway_pathway_courses_sections_image {
   title: string | null;
 }
 
-export interface GetPathway_pathway_courses_sections_icon {
+export interface PathwayFragment_courses_sections_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathway_pathway_courses_sections_children_image {
+export interface PathwayFragment_courses_sections_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -64,22 +64,22 @@ export interface GetPathway_pathway_courses_sections_children_image {
   title: string | null;
 }
 
-export interface GetPathway_pathway_courses_sections_children_icon {
+export interface PathwayFragment_courses_sections_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathway_pathway_courses_sections_children {
+export interface PathwayFragment_courses_sections_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetPathway_pathway_courses_sections_children_image | null;
+  image: PathwayFragment_courses_sections_children_image | null;
   id: string;
-  icon: GetPathway_pathway_courses_sections_children_icon | null;
+  icon: PathwayFragment_courses_sections_children_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
@@ -87,80 +87,69 @@ export interface GetPathway_pathway_courses_sections_children {
   _deleted: boolean;
 }
 
-export interface GetPathway_pathway_courses_sections {
+export interface PathwayFragment_courses_sections {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetPathway_pathway_courses_sections_image | null;
+  image: PathwayFragment_courses_sections_image | null;
   id: string;
-  icon: GetPathway_pathway_courses_sections_icon | null;
+  icon: PathwayFragment_courses_sections_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
-  children: GetPathway_pathway_courses_sections_children[] | null;
+  children: PathwayFragment_courses_sections_children[] | null;
 }
 
-export interface GetPathway_pathway_courses_tags {
+export interface PathwayFragment_courses_tags {
   __typename: "Tag";
   id: string;
   label: string;
   tagType: string;
 }
 
-export interface GetPathway_pathway_courses {
+export interface PathwayFragment_courses {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetPathway_pathway_courses_image | null;
+  image: PathwayFragment_courses_image | null;
   id: string;
-  icon: GetPathway_pathway_courses_icon | null;
+  icon: PathwayFragment_courses_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
-  sections: GetPathway_pathway_courses_sections[] | null;
-  tags: GetPathway_pathway_courses_tags[] | null;
+  sections: PathwayFragment_courses_sections[] | null;
+  tags: PathwayFragment_courses_tags[] | null;
 }
 
-export interface GetPathway_pathway_tags {
+export interface PathwayFragment_tags {
   __typename: "Tag";
   id: string;
   label: string;
   tagType: string;
 }
 
-export interface GetPathway_pathway {
+export interface PathwayFragment {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetPathway_pathway_image | null;
+  image: PathwayFragment_image | null;
   id: string;
-  icon: GetPathway_pathway_icon | null;
+  icon: PathwayFragment_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
-  courses: GetPathway_pathway_courses[] | null;
-  tags: GetPathway_pathway_tags[] | null;
-}
-
-export interface GetPathway {
-  /**
-   * Get an pathways based on your conditions or based on id
-   */
-  pathway: GetPathway_pathway;
-}
-
-export interface GetPathwayVariables {
-  id: string;
+  courses: PathwayFragment_courses[] | null;
+  tags: PathwayFragment_tags[] | null;
 }

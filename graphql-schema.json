@@ -7461,6 +7461,18 @@
             "deprecationReason": null
           },
           {
+            "name": "contentType",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "parentIds",
             "description": "{ parentIds: ['1','2','3'..] }",
             "type": {

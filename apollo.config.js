@@ -5,7 +5,7 @@ module.exports = {
       localSchemaFile: './graphql-schema.json'
     },
     includes: [
-      // './schema.graphql',
+      './schema.graphql',
       './pages/**/*.{js,jsx,ts,tsx}',
       './components/**/*.{js,jsx,ts,tsx}',
       './graphql/**/*.{js,jsx,ts,tsx}',

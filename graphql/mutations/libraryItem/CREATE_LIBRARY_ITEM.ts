@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
+import { LibraryItemFragment } from '../../queries/allQueries';
 
 
 export const CREATE_LIBRARY_ITEM = gql`
   mutation CreateLibraryItem(
-    $title: String!,
+    $title: String,
     $contentType: String 
     $content: JSON,
-    $childrenIds: JSON,
+    $settings: JSON,
     $imageId: ID,
     $iconId: ID
   ) {
@@ -16,15 +17,16 @@ export const CREATE_LIBRARY_ITEM = gql`
         title: $title,
         contentType: $contentType,
         content: $content,
-        childrenIds: $childrenIds,
+        settings: $settings,
         imageId: $imageId,
         iconId: $iconId
       }
     ) {
       libraryItem {
-        id
+        ...LibraryItemFragment
       }
       message
     }
   }
+  ${LibraryItemFragment}
 `;

@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetLibraryItem
+// GraphQL fragment: LibraryItemFragment
 // ====================================================
 
-export interface GetLibraryItem_libraryItem_image {
+export interface LibraryItemFragment_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -16,36 +16,25 @@ export interface GetLibraryItem_libraryItem_image {
   title: string | null;
 }
 
-export interface GetLibraryItem_libraryItem_icon {
+export interface LibraryItemFragment_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetLibraryItem_libraryItem {
+export interface LibraryItemFragment {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetLibraryItem_libraryItem_image | null;
+  image: LibraryItemFragment_image | null;
   id: string;
-  icon: GetLibraryItem_libraryItem_icon | null;
+  icon: LibraryItemFragment_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
   _deleted: boolean;
-}
-
-export interface GetLibraryItem {
-  /**
-   * Get an library_items based on your conditions or based on id
-   */
-  libraryItem: GetLibraryItem_libraryItem;
-}
-
-export interface GetLibraryItemVariables {
-  id: string;
 }

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import ButtonLink from '../../../ButtonLink';
 import { PencilAltIcon, PencilIcon } from '@heroicons/react/solid';
 import CourseTitleCell from './CourseTitleCell';
+import { DeleteCourse } from '../../../../graphql/mutations/course/__generated__/DeleteCourse';
 
 const CoursesTable = () => {
 
@@ -25,11 +26,11 @@ const CoursesTable = () => {
         id
       },
       optimisticResponse: {
-        __typename: 'Mutation',
         deleteCourse: {
           __typename: 'DeleteContentItemPayload',
           contentItem: {
             id,
+            __typename: 'ContentItem',
             _deleted: true,
           },
           message: ''

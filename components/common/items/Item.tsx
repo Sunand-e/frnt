@@ -21,7 +21,7 @@ function ItemTags({ tags }) {
 export default function Item({ item, options }) {
 
   const itemType = contentTypes.find(type => {
-    return item.__typename === type.replace(' ', '');
+    return item.__typename === type.name.replace(' ', '');
   });
 
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/item-placeholder.jpg';

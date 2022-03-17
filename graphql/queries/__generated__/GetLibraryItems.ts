@@ -23,18 +23,12 @@ export interface GetLibraryItems_libraryItems_icon {
   id: string;
 }
 
-export interface GetLibraryItems_libraryItems_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface GetLibraryItems_libraryItems {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
+  settings: any | null;
   image: GetLibraryItems_libraryItems_image | null;
   id: string;
   icon: GetLibraryItems_libraryItems_icon | null;
@@ -42,7 +36,7 @@ export interface GetLibraryItems_libraryItems {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  tags: GetLibraryItems_libraryItems_tags[] | null;
+  _deleted: boolean;
 }
 
 export interface GetLibraryItems {
