@@ -26,7 +26,7 @@ const SelectNewCourseItem = ({
   onSelect = () => null
 }) => {
   
-  const { createLesson, data } = useCreateLesson(sectionId)
+  const { createLesson, lesson } = useCreateLesson(sectionId)
   const { updateLesson } = useUpdateLesson()
 
   const handleNewLessonButton = ({ content, value }) => {
@@ -35,14 +35,15 @@ const SelectNewCourseItem = ({
   }
     
   useEffect(() => {
-    if(data) {
+    // alert(JSON.stringify(lesson))
+    if(lesson) {
       currentContentItemVar({
         type: 'lesson',
-        id: data.lesson.id,
-        updateFunction: updateLesson(data?.lesson.id)
+        id: lesson.id,
+        updateFunction: updateLesson(lesson.id)
       })
     }
-  },[data])
+  },[lesson])
 
   return (
     <Select

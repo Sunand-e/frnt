@@ -14,37 +14,39 @@ const LibraryItemEditor = () => {
 
   const router = useRouter()
   
+  // const { id } = router.query
+
   const {
     libraryItem,
     updateLibraryItem
   } = useLibraryItem(id)
-  
 
-    /* REFACTOR NEEDED */
-    useEffect(() => {
-      if(router.query.id) {
-        currentContentItemVar({
-          id: router.query.id,
-          type: 'libraryItem',
-          updateFunction: updateLibraryItem
-        })  
-      }
-      return () => {
-        currentContentItemVar({
-          id: null,
-          updateFunction:null,
-          type:null
-        })
-      }
-    },[router.query.id])
-  
+  /* REFACTOR NEEDED */
+  useEffect(() => {
+    const { id } = router.query;
+    if(id) {
+      currentContentItemVar({
+        id,
+        type: 'libraryItem',
+        updateFunction: updateLibraryItem(id)
+      })  
+    }
+    return () => {
+      currentContentItemVar({
+        id: null,
+        updateFunction:null,
+        type:null
+      })
+    }
+  },[router.query.id])
+
+
   return (
     <>
       { libraryItem && (
         <>
         <ContentTitle />
         <BlockEditor />
-       
       </>
       ) }
     </>

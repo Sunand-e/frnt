@@ -3,7 +3,7 @@ import { SectionFragment } from "../../graphql/queries/allQueries";
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
 import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function useCreateLesson(sectionId) {
 
@@ -11,15 +11,15 @@ function useCreateLesson(sectionId) {
     CREATE_LESSON,
     {
       update(cache, { data: { createLesson } } ) {
-        const sectionData = cache.readFragment<GetSection>({
+        
+        const section = cache.readFragment<GetSection_section>({
           id:`ContentItem:${sectionId}`,
           fragment: SectionFragment,
           fragmentName: 'SectionFragment'
         })
-
         const newSectionData = {
-          ...sectionData.section,
-          children: [...sectionData.section.children, createLesson.lesson]
+          ...section,
+          children: [...section.children, createLesson.lesson]
         }
 
         cache.writeFragment<GetSection_section>({
@@ -39,35 +39,21 @@ function useCreateLesson(sectionId) {
         ...values,
         parentIds: [sectionId]
       },
-      // optimisticResponse: {
-      //   createLesson: {
-      //     __typename: 'CreateLessonPayload',
-      //     lesson: {
-      //       __typename: 'ContentItem',
-      //       id: Math.floor(Math.random() * 10000) + '',
-      //       title: values.title,
-      //       createdAt: '',
-      //       updatedAt: '',
-      //       content: {},
-      //       contentType: null,
-      //       itemType: 'lesson',
-      //       image: null,
-      //       icon: null,
-      //       prerequisites: null,
-      //       _deleted: false,
-      //     },
-      //     message: ''
-      //   }
-      // }
-      // refetchQueries: [{ query: GET_COURSE }]
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
   }
 
+
+
+  useEffect(() => {
+    console.log('createLessonResponse')
+    console.log(createLessonResponse)
+  }, [createLessonResponse])
+
   return {
-    createLesson,
-    data: createLessonResponse?.data?.createLesson
+    lesson: createLessonResponse.data?.createLesson?.lesson,
+    createLesson
   }
 }
 

@@ -15,7 +15,6 @@ const AdminCoursesEdit = () => {
   const router = useRouter()
     
   const { id } = router.query
-  
   const { course, updateCourse } = useCourse(id)
   
   useEffect(() => {

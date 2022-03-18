@@ -44,7 +44,8 @@ function useUpdateLesson(id = null) {
     {
       variables: {
         id
-      }
+      },
+      skip: !id
     }
   );
 

@@ -7,14 +7,15 @@ import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache"
 
 
-function useLibraryItem(id) {
+function useLibraryItem(id=null) {
 
   const { loading, error, data: {libraryItem} = {} } = useQuery(
     GET_LIBRARY_ITEM,
     {
       variables: {
         id
-      }
+      },
+      skip: !id
     }
   );
 
@@ -22,7 +23,7 @@ function useLibraryItem(id) {
     UPDATE_LIBRARY_ITEM
   );
 
-  const updateLibraryItem = (values) => {
+  const updateLibraryItem = (id) => (values) => {
 
     const cachedLibraryItem = cache.readFragment<LibraryItemFragmentType>({
       id:`ContentItem:${id}`,

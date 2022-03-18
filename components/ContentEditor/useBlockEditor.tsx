@@ -28,10 +28,6 @@ const useBlockEditor = (block=null) => {
     fragment: ContentFragment,
   }, true)
   
-  useEffect(() => {
-
-  },[blocks])
-  
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
     console.log('once')
@@ -110,7 +106,7 @@ const useBlockEditor = (block=null) => {
   
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
-  }, 2000);
+  }, 500);
   
   
   

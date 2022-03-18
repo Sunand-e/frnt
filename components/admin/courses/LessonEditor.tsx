@@ -22,27 +22,26 @@ const LessonEditor = () => {
   const {
     lesson,
     updateLesson
-  } = useUpdateLesson(id)
-  
+  } = useUpdateLesson(id)  
 
-    /* REFACTOR NEEDED */
-    useEffect(() => {
-      if(router.query.cid) {
-        currentContentItemVar({
-          id: router.query.cid,
-          type: 'lesson',
-          updateFunction: updateLesson(router.query.cid)
-        })  
-      }
-      return () => {
-        currentContentItemVar({
-          id: null,
-          updateFunction:null,
-          type:null
-        })
-      }
-    },[router.query.cid])
-  
+  /* REFACTOR NEEDED */
+  useEffect(() => {
+    if(router.query.cid) {
+      currentContentItemVar({
+        id: router.query.cid,
+        type: 'lesson',
+        updateFunction: updateLesson(router.query.cid)
+      })
+    }
+    return () => {
+      currentContentItemVar({
+        id: null,
+        updateFunction:null,
+        type:null
+      })
+    }
+  },[router.query.cid])
+
   return (
     <>
       { lesson && (

@@ -21,10 +21,10 @@ const CourseItemEditor = () => {
   const {
     lesson,
     updateLesson
-  } = useUpdateLesson(id)
+  } = useUpdateLesson(contentId)
   
   useEffect(() => {
-    // If there is a course but no item provided, show the first 
+    // If there is a course but no item provided, show the first item
     if(course && !currentContentItem.id) {
       const firstItemInCourse = course?.sections.find(
         (section) => section.children?.length
@@ -35,7 +35,7 @@ const CourseItemEditor = () => {
         currentContentItemVar({
           id: firstItemInCourse.id,
           type:'lesson',
-          updateFunction: updateLesson(id)
+          updateFunction: updateLesson(firstItemInCourse.id)
         })
       }
     }

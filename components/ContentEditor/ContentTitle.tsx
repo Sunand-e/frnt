@@ -8,20 +8,22 @@ import { useEffect } from "react";
 import { ReactEditor } from "slate-react";
 import { Editor, Transforms } from "slate";
 import { useReactiveVar } from "@apollo/client";
+import { useContentTitle } from "./useContentTitle";
 
 export const ContentTitle = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   const { id, updateFunction } = currentContentItem
   
-  const { title } = cache.readFragment({
-    id:`ContentItem:${id}`,
-    fragment: ContentFragment,
-  })
-  
+  const { title } = useContentTitle()
+    
   const handleChange = useDebouncedCallback((data) => {
-    const title = data[0].children[0].text
-    updateFunction({title});
+    const editor = getPlateEditorRef(id)
+    // If the editor change isn't just a change in selection...
+    if (editor.operations.some(op => op.type !== "set_selection")) {
+      const title = data[0].children[0].text
+      updateFunction({title});  
+    }
   }, 800)
   
   const platePlugins = createPlugins([
@@ -40,6 +42,8 @@ export const ContentTitle = () => {
     }
   }
   
+  const initialValue = [{children: [{text: title ?? ''}]}]
+  // alert(JSON.stringify(initialValue))
   return (
     <div className={`flex justify-center`}>
 
@@ -48,7 +52,7 @@ export const ContentTitle = () => {
         id={id}
         editableProps={{placeholder: 'Enter lesson title...'}}
         onChange={handleChange}
-        initialValue={[{children: [{text: title ?? ''}]}]}
+        initialValue={initialValue}
         plugins={platePlugins}
       />
     </h1>
