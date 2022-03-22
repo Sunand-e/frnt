@@ -16,15 +16,18 @@ export const ContentTitle = () => {
   const { id, updateFunction } = currentContentItem
   
   const { title } = useContentTitle()
-    
-  const handleChange = useDebouncedCallback((data) => {
-    const editor = getPlateEditorRef(id)
-    // If the editor change isn't just a change in selection...
-    if (editor.operations.some(op => op.type !== "set_selection")) {
-      const title = data[0].children[0].text
-      updateFunction({title});  
-    }
+
+  const handleUpdate = useDebouncedCallback((data) => {
+    const title = data[0].children[0].text
+    updateFunction({title});
   }, 800)
+
+  const handleChange = data => {
+    const editor = getPlateEditorRef(id)
+    if (editor.operations.some(op => op.type !== "set_selection")) {
+      handleUpdate(data)
+    }
+  }
   
   const platePlugins = createPlugins([
     createSingleLinePlugin()
@@ -43,19 +46,17 @@ export const ContentTitle = () => {
   }
   
   const initialValue = [{children: [{text: title ?? ''}]}]
-  // alert(JSON.stringify(initialValue))
   return (
     <div className={`flex justify-center`}>
-
-    <h1 className="mt-3 mb-8 w-full max-w-screen-lg">
-      <Plate
-        id={id}
-        editableProps={{placeholder: 'Enter lesson title...'}}
-        onChange={handleChange}
-        initialValue={initialValue}
-        plugins={platePlugins}
-      />
-    </h1>
+      <h1 className="mt-3 mb-8 w-full max-w-screen-lg">
+        <Plate
+          id={id}
+          editableProps={{placeholder: 'Enter lesson title...'}}
+          onChange={handleChange}
+          initialValue={initialValue}
+          plugins={platePlugins}
+        />
+      </h1>
     </div>
   );
 }

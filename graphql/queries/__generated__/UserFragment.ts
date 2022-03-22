@@ -4,31 +4,31 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetUsers
+// GraphQL fragment: UserFragment
 // ====================================================
 
-export interface GetUsers_users_courses_edges_node {
+export interface UserFragment_courses_edges_node {
   __typename: "ContentItem";
   id: string;
 }
 
-export interface GetUsers_users_courses_edges {
+export interface UserFragment_courses_edges {
   __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
-  node: GetUsers_users_courses_edges_node | null;
+  node: UserFragment_courses_edges_node | null;
 }
 
-export interface GetUsers_users_courses {
+export interface UserFragment_courses {
   __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
-  edges: (GetUsers_users_courses_edges | null)[] | null;
+  edges: (UserFragment_courses_edges | null)[] | null;
 }
 
-export interface GetUsers_users {
+export interface UserFragment {
   __typename: "User";
   createdAt: any;
   email: string;
@@ -39,12 +39,5 @@ export interface GetUsers_users {
   status: string;
   updatedAt: any;
   userType: string | null;
-  courses: GetUsers_users_courses | null;
-}
-
-export interface GetUsers {
-  /**
-   * Get list of all users
-   */
-  users: GetUsers_users[];
+  courses: UserFragment_courses | null;
 }

@@ -50,7 +50,7 @@ export interface CreateLibraryItem {
 }
 
 export interface CreateLibraryItemVariables {
-  title: string;
+  title?: string | null;
   contentType?: string | null;
   content?: any | null;
   settings?: any | null;

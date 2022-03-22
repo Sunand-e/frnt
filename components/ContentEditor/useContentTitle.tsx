@@ -8,14 +8,18 @@ export const useContentTitle = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
 
-  const { title } = currentContentItem
+  const [title, setTitle] = useState('')
+  useEffect(() => {
 
-  const setTitle = title => {
-    currentContentItemVar({
-      ...currentContentItemVar(),
-      title
+    const { title } = cache.readFragment<ContentFragmentType>({
+      id:`ContentItem:${currentContentItem.id}`,
+      fragment: ContentFragment,
+      optimistic: true
     })
-  }
+    setTitle(title)
+  }, [currentContentItem.id])
 
-  return { title, setTitle }
+
+
+  return { title }
 }
