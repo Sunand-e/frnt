@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react'
 
-const ListBlock: FunctionComponent = ({block}) => {
+const DocumentBlock: FunctionComponent = ({block}) => {
   return (
     <div>
-      {`list`}
+      {`document`}
     </div>
   )
 }
 
-export default ListBlock
+export default DocumentBlock

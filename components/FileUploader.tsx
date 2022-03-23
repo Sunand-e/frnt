@@ -78,13 +78,15 @@ const FileUploader = ({
           })
         } else {
           toast.update(toastId, {
-            progress: progress
+            progress: progress,
           })
         }
 
       }
     }).then(data => {
-      alert(toastId)
+      toast.update(toastId, {
+        render: "Upload completed",
+      })
       toast.done(toastId.current)
       /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
       client.refetchQueries({

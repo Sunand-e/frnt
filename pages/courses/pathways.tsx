@@ -4,20 +4,22 @@ import PageContent from "../../components/PageContent";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useReactiveVar } from "@apollo/client";
 import { libraryVar } from "../../graphql/cache";
-import { useState, useEffect } from "react";
-import ItemFilterTabs from "../../components/ItemFilterTabs";
+import { useState, useEffect, useContext } from "react";
+// import ItemFilterTabs from "../../components/ItemFilterTabs";
 import usePageTitle from "../../hooks/usePageTitle";
+import { QueriesContext } from "../../context/QueriesContext";
 
-const Pathways = ({queries}) => {
+const Pathways = () => {
   
   const items = useReactiveVar(libraryVar);
 
   usePageTitle({ title: 'Pathways' })
 
   const [ programmes, setProgrammes ] = useState([])
+  const { queries } = useContext(QueriesContext)
   useEffect(() => {
-    queries.getLibrary()
-  },[])
+    queries?.getLibrary()
+  },[queries])
 
   useEffect(() => {
     setProgrammes(items?.filter(item => item.__typename === 'Programme'))
@@ -31,7 +33,7 @@ const Pathways = ({queries}) => {
             </Head>
             <PageContent>
                 <div className="flex-grow">
-                 { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> }
+                 {/* { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> } */}
                 </div>
             </PageContent>
         </>
