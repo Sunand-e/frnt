@@ -13,8 +13,8 @@ const DeleteContentBlockModal = ({block, onDelete: handleDeleteBlock}) => {
 
   return (
     <>
-      <p>Are you sure you want to delete this {block.type}?</p>
-      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${block.type}`}</Button>
+      <p>Are you sure you want to delete this {block.type} block?</p>
+      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${block.type} block`}</Button>
     </>
   );
 }

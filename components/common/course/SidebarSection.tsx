@@ -1,14 +1,14 @@
 import React, {forwardRef, useEffect} from 'react';
 import classNames from 'classnames';
 
-import {Handle, Remove} from '../dnd-kit/Item';
+import {Handle, Remove} from '../../dnd-kit/Item';
 
-import styles from './Container.module.scss';
-import { GET_SECTION } from '../../graphql/queries/allQueries';
-import { client } from '../../graphql/client';
-import cache, { courseNavigationVar } from "../../graphql/cache"
-import { ContentFragment } from "../../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
+import styles from './SidebarSection.module.scss';
+import { GET_SECTION } from '../../../graphql/queries/allQueries';
+import { client } from '../../../graphql/client';
+import cache, { courseNavigationVar } from "../../../graphql/cache"
+import { ContentFragment } from "../../../graphql/queries/allQueries"
+import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
 import { useReactiveVar } from '@apollo/client';
 
 export interface Props {
@@ -27,7 +27,7 @@ export interface Props {
   onRemove?(): void;
 }
 
-export const Container = forwardRef<HTMLDivElement, Props>(
+export const SidebarSection = forwardRef<HTMLDivElement, Props>(
   (
     {
       children,
@@ -66,7 +66,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
           } as React.CSSProperties
         }
         className={classNames(
-          styles.Container,
+          styles.SidebarSection,
           // 'bg-white bg-opacity-10',
           expand && styles.expanded
         )}
@@ -94,13 +94,14 @@ export const Container = forwardRef<HTMLDivElement, Props>(
               { section ? section.title : label }
             </span>
             <div className={styles.Actions}>
-              {onRemove ? <Remove onClick={onRemove} /> : undefined}
-              <Handle {...handleProps} />
+              { onRemove && <Remove onClick={onRemove} /> }
+              { handleProps && <Handle {...handleProps} /> }
             </div>
           </div>
         ) : null}
 
-        {placeholder ? children : <ul className={`list-none divide-y divide-gray-200`}>{children}</ul>}
+        {/* {placeholder ? children : <ul className={`list-none divide-y divide-gray-200`}>{children}</ul>} */}
+        {placeholder ? children : <ul className={`list-none border-b border-gray-200`}>{children}</ul>}
 
       </div>
     );

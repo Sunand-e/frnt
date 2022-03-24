@@ -32,7 +32,7 @@ import {
   NewIndexGetter,
 } from '@dnd-kit/sortable';
 
-import {Item, List, Wrapper} from '../../components';
+import {Item, List, Wrapper} from '../../components/dnd-kit';
 
 export interface Props {
   activationConstraint?: PointerActivationConstraint;
@@ -229,7 +229,7 @@ export function Sortable({
             >
               {activeId ? (
                 <Item
-                  value={items[activeIndex]}
+                  id={items[activeIndex]}
                   handle={handle}
                   renderItem={renderItem}
                   wrapperStyle={wrapperStyle({
@@ -310,7 +310,7 @@ export function SortableItem({
   return (
     <Item
       ref={setNodeRef}
-      value={id}
+      id={id}
       disabled={disabled}
       dragging={isDragging}
       sorting={isSorting}

@@ -17,7 +17,7 @@ export function SortableItem({
   return (
     <Item
       ref={disabled ? undefined : setNodeRef}
-      value={id}
+      id={id}
       dragging={isDragging}
       sorting={isSorting}
       handle={handle}
@@ -26,7 +26,7 @@ export function SortableItem({
       style={{
         ...style({
           index,
-          value: id,
+          id: id,
           isDragging,
           isSorting,
           overIndex: over ? getIndex(over.id) : overIndex,

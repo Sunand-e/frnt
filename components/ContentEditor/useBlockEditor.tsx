@@ -189,7 +189,7 @@ const useBlockEditor = (block=null) => {
 
     // } else {
       handleModal({
-        title: `Delete ${block.type}`,
+        title: `Delete block`,
         content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
       })    
     // }

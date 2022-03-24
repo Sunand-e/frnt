@@ -1,28 +1,31 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
+import SidebarItem from "../common/course/SidebarItem"
+import { SidebarSection } from "../common/course/SidebarSection"
 
 const CourseStructureView = ({course}) => {
+  const router = useRouter()
+  
+  const handleItemSelect = id => {
+    router.push({
+      pathname: `/course`,
+      query: {
+        ...router.query,
+        cid: id
+      }
+    })
+  }
 
   return (
     <>
       { course && (
         <ul className="p-4">
-          { course.sections.filter(section => section.children.length).map(section => (
-            <li key={section.id} className="mb-3">
-              <span className="text-lg">{section.title}</span>
-              <ul>
-                { section.children.map(item => (
-                  <li key={item.key}>
-                    <Link href={`/course?id=${course.id}&cid=${item.id}`}>
-                      <a>
-                        <span className="min-w-0 flex-0 text-sm font-medium text-indigo-600">
-                          {item.title}
-                        </span>
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
+          { course.sections.filter(section => section.children.length).map((section, index) => (
+            <SidebarSection key={index} label={section.id}>
+              { section.children.map((item, index) => (
+                <SidebarItem key={index} id={item.id} onSelect={handleItemSelect} />
+              ))}
+              </SidebarSection>
           ))}
         </ul>
       )}

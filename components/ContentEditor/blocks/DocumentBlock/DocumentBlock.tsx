@@ -1,10 +1,12 @@
 import { FunctionComponent } from 'react'
+import DocumentItem from './DocumentItem';
 
 const DocumentBlock: FunctionComponent = ({block}) => {
+
   return (
-    <div>
-      {`document`}
-    </div>
+    <>
+      { block.properties?.file && <DocumentItem file={block.properties?.file}/> }
+    </>
   )
 }
 

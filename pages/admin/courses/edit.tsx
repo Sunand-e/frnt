@@ -46,7 +46,14 @@ const AdminCoursesEdit = () => {
     headerButtonsVar(
       <>
         <Button onClick={() => router.push('/admin/courses')}>Cancel</Button>
-        <Button>Preview course</Button>
+        <Button onClick={() => router.push({
+          pathname: `/course`,
+          query: {
+            id
+          }
+        })}>
+          Preview course
+        </Button>
         <Button>Publish</Button>
       </>
     )

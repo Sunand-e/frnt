@@ -8,7 +8,7 @@ import { useRouter } from '../utils/router';
 import { useQuery } from '@apollo/client';
 import { GET_COURSE } from '../graphql/queries/allQueries';
 import CourseStructureEditor from '../components/CourseStructureEditor/CourseStructureEditor';
-import SidebarItem from '../components/CourseStructureEditor/SidebarItem';
+import SidebarEditableItem from '../components/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
 
 export default function EditorLayout( {page, navState} ) {
@@ -31,7 +31,7 @@ export default function EditorLayout( {page, navState} ) {
   );
   
   const courseStructureEditorProps = {
-    renderItem: SidebarItem
+    renderItem: SidebarEditableItem
   }
   return (
     <Layout page={page} navState={navState}>

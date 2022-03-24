@@ -43,12 +43,12 @@ const blocktypes = {
     editComponent: TextBlockEdit,
     icon: Text,
   },
-  list: {
-    text: 'List',
-    component: ListBlock,
-    editComponent: ListBlockEdit,
-    icon: List,
-  },
+  // list: {
+  //   text: 'List',
+  //   component: ListBlock,
+  //   editComponent: ListBlockEdit,
+  //   icon: List,
+  // },
   image: {
     text: 'Image',
     component: ImageBlock,

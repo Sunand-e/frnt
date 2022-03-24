@@ -54,7 +54,7 @@ interface Props {
   columns?: number;
   containerStyle?: React.CSSProperties;
   getItemStyles?(args: {
-    value: UniqueIdentifier;
+    id: UniqueIdentifier;
     index: number;
     overIndex: number;
     isDragging: boolean;
@@ -525,13 +525,13 @@ export function MultipleContainers({
   function renderSortableItemDragOverlay(id: string) {
     return (
       <Item
-        value={id}
+        id={id}
         handle={handle}
         style={getItemStyles({
           containerId: findContainer(id) as string,
           overIndex: -1,
           index: getIndex(id),
-          value: id,
+          id: id,
           isSorting: true,
           isDragging: true,
           isDragOverlay: true,
@@ -557,13 +557,13 @@ export function MultipleContainers({
         {items[containerId].map((item, index) => (
           <Item
             key={item}
-            value={item}
+            id={item}
             handle={handle}
             style={getItemStyles({
               containerId,
               overIndex: -1,
               index: getIndex(item),
-              value: item,
+              id: item,
               isDragging: false,
               isSorting: false,
               isDragOverlay: false,

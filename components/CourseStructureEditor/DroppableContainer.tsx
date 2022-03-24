@@ -7,7 +7,7 @@ import {
   defaultAnimateLayoutChanges,
 } from '@dnd-kit/sortable';
 
-import {Container} from './Container'
+import {SidebarSection} from '../common/course/SidebarSection'
 import NewItemButton from './NewItemButton'
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
@@ -38,7 +38,7 @@ export function DroppableContainer({
     : false;
 
   return (
-    <Container
+    <SidebarSection
       ref={disabled ? undefined : setNodeRef}
       style={{
         ...style,
@@ -58,6 +58,6 @@ export function DroppableContainer({
       { id !== 'placeholder' && <NewItemButton container={id} /> }
       {/* { CSS.Translate.toString(transform) } */}
 
-    </Container>
+    </SidebarSection>
   );
 }

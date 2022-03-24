@@ -1,4 +1,6 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useContext } from 'react'
+import { ModalContext } from '../../../../context/modalContext';
+import Button from '../../../Button';
 import MediaLibrary from '../../../MediaLibrary/MediaLibrary'
 import useBlockEditor from '../../useBlockEditor';
 import DocumentItem from './DocumentItem';
@@ -7,13 +9,14 @@ import DocumentItem from './DocumentItem';
 // @styled-icons/boxicons-solid/FileDoc
 
 const DocumentBlockEdit: FunctionComponent = ({block}) => {
+
+  const { handleModal, closeModal } = useContext(ModalContext)
+  
   const { updateBlock } = useBlockEditor()
 
   const file = block?.properties?.file;
 
   const selectFile = (file) => {
-    console.log('file')
-    console.log(file)
     updateBlock({
       ...block,
       properties: {
@@ -21,15 +24,36 @@ const DocumentBlockEdit: FunctionComponent = ({block}) => {
         file
       }
     })
+    closeModal()
+  }
+
+  const selectDocumentModal = () => {
+    handleModal({
+      title: `Choose a file`,
+      content: <MediaLibrary typeFilter={['document']} onItemSelect={selectFile} />,
+      size: 'lg'
+    })
+  }
+  
+  const handleDelete = (e) => {
+    e.preventDefault()
+    updateBlock({
+      ...block,
+      properties: {
+        ...block.properties,
+        file: null
+      }
+    })
   }
 
   return (
     <>
-    <p>{JSON.stringify(file,null,2)}</p>
     { file ? (
-      <DocumentItem file={file}/>
+      <DocumentItem file={file} onDelete={handleDelete}/>
     ) : (
-      <MediaLibrary typeFilter={['document']} onItemSelect={selectFile} />
+      <div className='text-center'>
+        <Button onClick={selectDocumentModal}>Select a document</Button>
+      </div>
     )
     }
     </>

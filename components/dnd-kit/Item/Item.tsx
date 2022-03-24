@@ -24,7 +24,7 @@ export interface Props {
   style?: React.CSSProperties;
   transition?: string | null;
   wrapperStyle?: React.CSSProperties;
-  value: React.ReactNode;
+  id: React.ReactNode;
   onRemove?(): void;
   renderItem?(args: {
     dragOverlay: boolean;
@@ -37,7 +37,7 @@ export interface Props {
     style: React.CSSProperties | undefined;
     transform: Props['transform'];
     transition: Props['transition'];
-    value: Props['value'];
+    id: Props['id'];
   }): React.ReactElement;
 }
 
@@ -60,14 +60,14 @@ export const Item = React.memo(
         style,
         transition,
         transform,
-        value,
+        id,
         wrapperStyle,
         ...props
       },
       ref
     ) => {
       const item = cache.readFragment<ContentFragmentType>({
-        id:`ContentItem:${value}`,
+        id:`ContentItem:${id}`,
         fragment: ContentFragment,
       })
 
@@ -95,7 +95,7 @@ export const Item = React.memo(
           style,
           transform,
           transition,
-          value,
+          id,
         })
       ) : (
         <li

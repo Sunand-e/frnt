@@ -1,0 +1,93 @@
+import classNames from 'classnames'
+import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
+import styles from '../common/course/SidebarItem.module.scss'
+import { useContext } from "react"
+import { ModalContext } from "../../context/modalContext"
+import SidebarItem from "../common/course/SidebarItem"
+import { useRouter } from 'next/router'
+
+const SidebarEditableItem = ({
+  dragOverlay,
+  dragging,
+  sorting,
+  index,
+  fadeIn,
+  listeners,
+  ref,
+  style,
+  transform,
+  transition,
+  id
+}) => {
+
+  const router = useRouter()
+
+  const { handleModal } = useContext(ModalContext)
+
+  const handleDelete = (e) => {
+    e.stopPropagation()
+    handleDeleteModal(id)
+  }
+  
+  const handleDeleteModal = (id) => {
+    handleModal({
+      title: `Delete lesson`,
+      content: <DeleteLessonModal lessonId={id} />
+    })
+  }
+  
+  const handleSelect = () => {
+    router.push({
+      pathname: `/admin/courses/edit`,
+      query: {
+        ...router.query,
+        cid: id
+      }
+    })
+  }
+
+  const liClassName = classNames(
+    fadeIn && styles.fadeIn,
+    sorting && styles.sorting,
+    dragOverlay && styles.dragOverlay
+  )
+
+  const liStyle = {
+    transition,
+    '--translate-x': transform
+    ? `${Math.round(transform.x)}px`
+    : undefined,
+    '--translate-y': transform
+    ? `${Math.round(transform.y)}px`
+    : undefined,
+    '--scale-x': transform?.scaleX
+    ? `${transform.scaleX}`
+    : undefined,
+    '--scale-y': transform?.scaleY
+    ? `${transform.scaleY}`
+    : undefined,
+    '--index': index,
+  } as React.CSSProperties
+
+  const divClassName = `
+    ${dragging && 'dragging'}
+    ${dragOverlay && 'dragOverlay'}
+  `
+  console.log('id')
+  console.log(id)
+  return (
+    <SidebarItem
+      listeners={listeners}
+      ref={ref}
+      id={id}
+      liClassName={liClassName}
+      liStyle={liStyle}
+      divStyle={style}
+      divClassName={divClassName}
+      onSelect={handleSelect}
+      onDelete={handleDelete}
+    />
+  )
+}
+
+export default SidebarEditableItem
