@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import useGetUsers from '../../../hooks/users/useGetUsers';
+import CheckboxInput from '../../common/inputs/CheckboxInput';
 
 interface UserCreateFormValues {
   first_name: string
@@ -18,13 +19,13 @@ interface UserCreateFormValues {
   email: string
   userImage: string
   userRole: string
+  invite: boolean
 }
 
 const UserCreateForm = () => {
   
   const router = useRouter()
   const endpoint = "/api/v1/users/"
-  const tenantId = 'fe09e324-2aad-413f-930f-7177caa5b7b8'
   const { refetchUsers } = useGetUsers()
 
   const { register, handleSubmit, control } = useForm<UserCreateFormValues>();
@@ -36,7 +37,6 @@ const UserCreateForm = () => {
     const data = {
       user: {
         ...values,
-        tenant_id: tenantId,
       // invite: true
     }}
 
@@ -75,6 +75,10 @@ const UserCreateForm = () => {
         label="email"
         placeholder="email"
         inputAttrs={register("email", { maxLength: 40 })}
+      />
+      <CheckboxInput
+        label="Send user an invitation upon creation"
+        inputAttrs={register("invite")}
       />
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}

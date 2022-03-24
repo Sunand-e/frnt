@@ -10,8 +10,8 @@ const useHeaderButtons = (buttons) => {
   useEffect(() => {
     headerButtonsVar(
       <>
-        { buttons.map(button => (
-          <Button onClick={() => router.push(button[1])}>{button[0]}</Button>
+        { buttons.map((button, idx) => (
+          <Button key={idx} onClick={() => router.push(button[1])}>{button[0]}</Button>
         ))}
       </>
     )

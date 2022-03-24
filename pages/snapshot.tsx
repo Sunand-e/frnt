@@ -3,7 +3,7 @@ import ContentTypePage from "../components/ContentTypePage";
 import Sidebar from '../components/Sidebar';
 import BlockWithTitle from '../components/BlockWithTitle';
 import LoadingSpinner from '../components/LoadingSpinner';
-import Item from '../components/Item';
+import Item from '../components/common/items/Item';
 
 const Snapshot = () => {
 

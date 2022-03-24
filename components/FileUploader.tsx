@@ -44,14 +44,11 @@ const FileUploader = ({
 }) => {
   
   const token = localStorage.getItem('token');
-  const tenantId = 'fe09e324-2aad-413f-930f-7177caa5b7b8'
 
   const uploadFileAndNotify = async (file) => {
     const toastId = uuidv4()
 
     const data = new FormData()
-
-    data.append('tenant_id', tenantId)
 
     for(const param in additionalParams) {
       data.append(param, additionalParams[param])

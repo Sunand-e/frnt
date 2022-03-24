@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Tippy from '@tippyjs/react';
-import { viewVar } from '../../graphql/cache';
+import { isLoggedInVar, viewVar } from '../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 
 const NavFooter = ({children, isSlim}) => {
