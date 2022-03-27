@@ -1,13 +1,10 @@
 import usePageTitle from '../hooks/usePageTitle'
-import CourseItemEditor from '../components/admin/courses/CourseItemEditor'
 import { useRouter } from '../utils/router'
 import { useQuery, useReactiveVar } from '@apollo/client'
-import { GET_COURSE, GET_LESSON } from "../graphql/queries/allQueries"
+import { GET_COURSE } from "../graphql/queries/allQueries"
 import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useState, useEffect } from 'react'
-import Button from '../components/Button'
-import useCourse from '../hooks/courses/useCourse'
 import CourseItemView from '../components/CourseView/CourseItemView'
 
 const CoursePage = () => {
@@ -17,12 +14,6 @@ const CoursePage = () => {
   */
   const router = useRouter()
   const { id, cid: contentId } = router.query
-
-  const [courseItemId, setCourseItemId] = useState(contentId)
-
-  useEffect(() => {
-    setCourseItemId(router.query.cid)
-  },[router.query])
 
   const { loading, error, data: {course} = {} } = useQuery(
     GET_COURSE,
@@ -48,19 +39,32 @@ const CoursePage = () => {
       viewVar(newView)
     }
   },[])
+
+  const currentContentItem = useReactiveVar(currentContentItemVar) 
+
   
   useEffect(() => {
-    // If there is a course but no item provided, show the first 
-    if(course && !courseItemId) {
-      setCourseItemId(course.sections?.length ? 
-        (course.sections[0].children?.length ?
-          course.sections[0].children[0].id :
-          null
-        ) :
-        null
-      )
+    currentContentItemVar({
+      ...currentContentItem,
+      id: contentId
+    })
+  },[id, contentId])
+
+  useEffect(() => {
+    // If there is a course but no item provided, show the first item
+    if(course && !currentContentItem.id) {
+      const firstItemInCourse = course?.sections.find(
+        (section) => section.children?.length
+      )?.children[0]
+
+      if(firstItemInCourse) {
+        currentContentItemVar({
+          ...currentContentItem,
+          id: firstItemInCourse.id
+        })
+      }
     }
-  },[course])
+  },[id, course?.id])
 
   usePageTitle({ title: `Course: ${course?.title}` })
 
@@ -70,11 +74,10 @@ const CoursePage = () => {
       </>
     )
   },[])
-
   return (
     <>
-      { courseItemId && (
-        <CourseItemView id={courseItemId} />
+      { currentContentItem.id && (
+        <CourseItemView id={currentContentItem.id} />
       )}
     </>
   )

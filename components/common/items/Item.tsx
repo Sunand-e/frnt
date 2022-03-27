@@ -21,13 +21,13 @@ function ItemTags({ tags }) {
 export default function Item({ item, options }) {
 
   const itemType = contentTypes.find(type => {
-    return item.__typename === type.name.replace(' ', '');
+    return item.itemType === type.slug
   });
-
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/item-placeholder.jpg';
   const buttonText = item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
-  const href = item.href ?? `/${itemType?.slug}?id=${item?.slug}`
+
+  const href = item.href ?? `/${item.itemType}?id=${item.id}`
 
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
@@ -58,7 +58,6 @@ export default function Item({ item, options }) {
       </Link>
       <div className="p-6 pt-4 flex-grow flex flex-col">
         {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
-
         { options?.showType && (
           <h2 className="text-lg text-blue mb-2 top-5 font-bold">
             {itemType?.name}

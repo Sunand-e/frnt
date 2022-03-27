@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import cache from "../../../graphql/cache"
+import cache, { currentContentItemVar } from "../../../graphql/cache"
 import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment'
 import { useRouter } from '../../../utils/router'
@@ -8,6 +8,7 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
 import { forwardRef } from "react"
 import { lessonTypes } from "../../admin/courses/lessonTypes"
+import { useReactiveVar } from '@apollo/client'
 
 const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
   listeners,
@@ -25,14 +26,18 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
     fragment: ContentFragment,
   })
 
-  const router = useRouter()
+  const currentContentItem = useReactiveVar(currentContentItemVar)
   
   const IconComponent = lessonTypes[item.contentType]?.icon
+
+  const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
+
   return (
     <li
       className={classNames(
         styles.Wrapper,
-        `flex hover:bg-main hover:bg-opacity-5 text-main-dark hover:text-main`,
+        bg,
+        `flex hover:bg-main hover:bg-opacity-5 text-main-dark`,
         liClassName
       )}
       style={liStyle}

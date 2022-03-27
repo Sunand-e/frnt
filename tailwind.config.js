@@ -51,7 +51,7 @@ module.exports = {
         'height': 'height',
         'max-h': 'max-height'
       },
-      backgroundOpacity: ['active', 'focus'],
+      backgroundOpacity: ['hover', 'active', 'focus'],
     },
   },
   variants: {

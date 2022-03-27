@@ -21,12 +21,17 @@ export const lessonTypes = {
   document: {
     label: "Document",
     icon: Document,
-    content: { blocks: [{type:'text'}]}
+    content: { blocks: [{type:'document'}]}
   },
   scorm: {
     label: "SCORM",
     icon: Box,
-    content: { blocks: [{type:'package'}]}
+    content: { blocks: [{
+      type:'package',
+      properties: {
+        url: '/'
+      }
+    }]}
   },
   freeform: {
     label: "Freeform",
