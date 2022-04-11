@@ -1,0 +1,1 @@
+scp -r ./out/* github@46.101.11.205:~/frontend/

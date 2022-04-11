@@ -19,7 +19,7 @@ const useCreateSection = ({courseId}) => {
   }
 
   return {
-    newSection
+    newSection,
     createSection
   }
 }

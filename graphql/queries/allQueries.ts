@@ -260,6 +260,10 @@ export const UserFragment = gql`
     status
     updatedAt
     userType
+    roles {
+      id
+      name
+    }
     courses {
       edges {
         node {
@@ -305,7 +309,7 @@ export const ContentUserEdgeFragment = gql`
 `
 
 export const GET_USER = gql`
-  query GetUser($id: ID!) {
+  query GetUser($id: ID) {
     user(id: $id) {
       ...UserFragment
     }

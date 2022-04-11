@@ -6,6 +6,7 @@ import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useState, useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
+import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
 
 const CoursePage = () => {
   /*
@@ -23,6 +24,8 @@ const CoursePage = () => {
       }
     }
   );
+
+  const { updateUserContentStatus } = useUpdateUserContentStatus()
 
   useEffect(() => {
     const view = {
@@ -47,6 +50,13 @@ const CoursePage = () => {
     currentContentItemVar({
       ...currentContentItem,
       id: contentId
+    })
+    
+    updateUserContentStatus({
+      contentItemId: contentId,
+      completed: true,
+      score: 100,
+      status: 'In progress'
     })
   },[id, contentId])
 

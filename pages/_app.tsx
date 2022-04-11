@@ -138,10 +138,10 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     }
   },[libraryData])
   
-  // Only show login if not logged in
+  // Show the login form if not logged in
   
   useEffect(() => {
-    setLayout(isLoggedIn ? 
+    setLayout(isLoggedIn || PageComponent.isPublicPage ? 
       getLayout(<PageComponent {...pageProps} />) :
       loginLayout
     )

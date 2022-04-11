@@ -3,10 +3,11 @@ import Head from 'next/head'
 import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
 import NoticeBox from '../components/NoticeBox';
 import usePageTitle from '../hooks/usePageTitle'
+import useLogout from '../hooks/useLogout'
 import PageContent from '../components/PageContent';
 import TopicsList from '../components/TopicsList';
 import DashboardContentTabs from '../components/dashboard/DashboardContentTabs';
-import { contentTagsVar, headerButtonsVar, isLoggedInVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
+import { contentTagsVar, headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
 import { client } from "../graphql/client";
@@ -57,10 +58,10 @@ const Dashboard = () => {
     e.target.blur()
   }
 
+  const { logout } = useLogout()
+
   const handleLogoutClick = (e) => {
-    isLoggedInVar(false)
-    localStorage.removeItem('token')
-    
+    logout()
     e.target.blur()
   }
 

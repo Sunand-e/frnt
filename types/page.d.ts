@@ -7,4 +7,6 @@ export type Page<P = {}> = NextPage<P> & {
   layout?: ComponentType
   title?: string
   navState: object
+  PageComponent: object
+  isPublicPage: boolean
 }

@@ -11,7 +11,15 @@ const useHeaderButtons = (buttons) => {
     headerButtonsVar(
       <>
         { buttons.map((button, idx) => (
-          <Button key={idx} onClick={() => router.push(button[1])}>{button[0]}</Button>
+          <Button key={idx} onClick={() => {
+            if(typeof button[1] === 'string') {
+              router.push(button[1])
+            } else if(typeof button[1] === 'function') {
+              button[1]()
+            }
+          }}>
+            {button[0]}
+          </Button>
         ))}
       </>
     )

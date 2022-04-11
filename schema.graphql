@@ -4,3 +4,6 @@ extend type ContentItem {
 extend type Group {
   _deleted: Boolean!
 }
+extend type Role {
+  _deleted: Boolean!
+}

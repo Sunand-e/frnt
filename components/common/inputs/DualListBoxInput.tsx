@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronDoubleLeft, ChevronRight, ChevronDoubleRight } from
 import DualListBox from 'react-dual-listbox';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 import styles from './DualListBoxInput.module.scss'
+
 type DualListBoxInputProps = {
   control?: Control
   options

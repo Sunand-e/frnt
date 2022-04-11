@@ -7,8 +7,15 @@
 // GraphQL mutation operation: DeleteGroup
 // ====================================================
 
+export interface DeleteGroup_deleteGroup_group {
+  __typename: "Group";
+  id: string;
+  _deleted: boolean;
+}
+
 export interface DeleteGroup_deleteGroup {
   __typename: "DeleteGroupPayload";
+  group: DeleteGroup_deleteGroup_group;
   message: string;
 }
 

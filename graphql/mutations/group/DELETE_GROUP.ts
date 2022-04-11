@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-
 export const DELETE_GROUP = gql`
   mutation DeleteGroup(
     $id: ID!
@@ -8,6 +7,10 @@ export const DELETE_GROUP = gql`
     deleteGroup(
       id: $id
     ) {
+      group {
+        id
+        _deleted @client
+      }
       message
     }
   }

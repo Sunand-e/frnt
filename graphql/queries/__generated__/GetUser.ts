@@ -50,5 +50,5 @@ export interface GetUser {
 }
 
 export interface GetUserVariables {
-  id: string;
+  id?: string | null;
 }

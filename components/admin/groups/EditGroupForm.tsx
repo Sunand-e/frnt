@@ -45,6 +45,8 @@ const GroupForm = ({group}) => {
     router.push('/admin/users/groups')
   },[group])
 
+  const buttonText = group ? 'Save changes' : 'Create group'
+  
   return (
     <form
       className='h-full w-full max-w-lg flex flex-col space-y-4'
@@ -68,7 +70,7 @@ const GroupForm = ({group}) => {
       <AssignedCoursesInput control={control} />
       <EnrolledCoursesInput control={control} />
 
-      <Button type="submit">{group ? 'Save changes' : 'Create group'} </Button>
+      <Button type="submit">{buttonText}</Button>
     </form>
   )
 }

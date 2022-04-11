@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Tippy from '@tippyjs/react';
 import { isLoggedInVar, viewVar } from '../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
+import { LogoutIcon } from '@heroicons/react/outline';
+import useLogout from '../../hooks/useLogout';
 
 const NavFooter = ({children, isSlim}) => {
   
@@ -16,10 +18,10 @@ const NavFooter = ({children, isSlim}) => {
     e.target.blur()
   }
 
+  const { logout } = useLogout()
+
   const handleLogoutClick = (e) => {
-    isLoggedInVar(false)
-    localStorage.removeItem('token')
-    
+    logout()
     e.target.blur()
   }
 

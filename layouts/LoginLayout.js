@@ -1,5 +1,5 @@
 import TopNotificationBar from '../components/TopNotificationBar'
-import LoginForm from '../components/LoginForm'
+import LoginPage from '../components/LoginPage'
 
 export default function LoginLayout( {page, navState, pageState} ) {
   return (
@@ -14,7 +14,7 @@ export default function LoginLayout( {page, navState, pageState} ) {
             <div className="lg:flex">
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:overflow-visible">
                 <div className="w-full flex items-center justify-center">
-                  <LoginForm />
+                  <LoginPage />
                 </div>
               </div>
             </div>
