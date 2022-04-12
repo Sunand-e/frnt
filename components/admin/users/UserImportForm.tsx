@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import FileUploader from '../../FileUploader';
-import { GET_USERS } from '../../../graphql/queries/allQueries';
+import { GET_USERS } from '../../../graphql/queries/users';
 import useGetUsers from '../../../hooks/users/useGetUsers';
 
 const UserImportForm = () => {

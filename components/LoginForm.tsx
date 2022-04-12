@@ -30,9 +30,7 @@ const LoginForm = () => {
     .then(res => res.json())
     .then(
       (result) => {
-        console.log('result........')
         if(result.token) {
-          console.log('result!!')
           localStorage.setItem('token', result.token as string);
           isLoggedInVar(true);
           Router.push('/');

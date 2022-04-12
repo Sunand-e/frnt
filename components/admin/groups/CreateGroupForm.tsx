@@ -8,7 +8,7 @@ import GroupUsersInput from './inputs/GroupUsersInput';
 import { Router, useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
 
-interface CreateUserFormValues {
+interface CreateGroupFormValues {
   name: string 
   email: string
   groupImage: string
@@ -17,7 +17,7 @@ interface CreateUserFormValues {
 
 const CreateGroupForm = () => {
 
-  const { register, handleSubmit, control } = useForm<CreateUserFormValues>();
+  const { register, handleSubmit, control } = useForm<CreateGroupFormValues>();
 
   const router = useRouter()
   

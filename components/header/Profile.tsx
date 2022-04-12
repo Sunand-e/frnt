@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Tippy from '@tippyjs/react';
 import useLogout from '../../hooks/useLogout';
 import useView from '../../hooks/useView';
-import { GET_USER } from '../../graphql/queries/allQueries';
+import { GET_USER } from '../../graphql/queries/users';
 import { GetUser } from '../../graphql/queries/__generated__/GetUser';
 import { useQuery } from '@apollo/client';
 

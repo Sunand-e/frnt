@@ -4,7 +4,7 @@ import { ModalContext } from "../../../context/modalContext";
 import useDeleteLesson from "../../../hooks/lessons/useDeleteLesson";
 import Button from '../../Button';
 
-const DeleteLessonModal = ({lessonId}) => {
+const DeleteLibraryItemModal = ({lessonId}) => {
 
   const { deleteLesson } = useDeleteLesson(lessonId)
 
@@ -23,4 +23,4 @@ const DeleteLessonModal = ({lessonId}) => {
   );
 }
 
-export default DeleteLessonModal
+export default DeleteLibraryItemModal

@@ -10,14 +10,14 @@ type ReactSelectInputProps = {
   control?: Control
   name?: string
   label?: string
-  options: OptionType[]
+  selectProps?
 }
 
 const ReactSelectInput = ({
   control,
   name,
   label,
-  options,
+  selectProps,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -25,21 +25,20 @@ const ReactSelectInput = ({
     control,
     name,
   });
+  
+  const allSelectProps = {
+    ...selectProps,
+    // placeholder={<span className="text-main-dark">{placeholder}</span>}
+    onChange: val => field.onChange(val.value),
+    // value: options.find(c => c.value === field.value)
+    className: `${selectProps?.className} w-full`,
+    isSearchable: false
+  }
 
   return (
     <>
       { label && <label>{label}</label> }
-      <Select
-        // placeholder={<span className="text-main-dark">{placeholder}</span>}
-        options={options}
-        value={options.find(c => c.value === field.value)}
-        onChange={val => field.onChange(val.value)}
-        // styles={customStyles}
-        // components={{ Option: IconOption }}
-        // value={null}
-        className={`w-full`}
-        isSearchable={false}
-      />
+      <Select {...allSelectProps} />
     </>
   )
 }

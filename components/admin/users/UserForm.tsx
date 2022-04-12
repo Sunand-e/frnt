@@ -1,19 +1,14 @@
-import { useMutation } from '@apollo/client';
-import { Form, Formik } from "formik"
-import * as Yup from 'yup'
 import React from 'react';
-// import { CREATE_USER } from '../../../graphql/mutations/allMutations';
 import Button from '../../Button';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
 import TextInput from '../../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import useGetUsers from '../../../hooks/users/useGetUsers';
 import CheckboxInput from '../../common/inputs/CheckboxInput';
+import UserRoleSelect from '../roles/inputs/UserRoleSelect';
 
-interface UserCreateFormValues {
+interface UserFormValues {
+  id?: string
   first_name: string
   last_name: string
   email: string
@@ -22,39 +17,9 @@ interface UserCreateFormValues {
   invite: boolean
 }
 
-const UserCreateForm = () => {
+const UserForm = ({user=null, onSubmit}) => {
   
-  const router = useRouter()
-  const endpoint = "/api/v1/users/"
-  const { refetchUsers } = useGetUsers()
-
-  const { register, handleSubmit, control } = useForm<UserCreateFormValues>();
-
-  const onSubmit = values => {
-    
-    const token = localStorage.getItem('token');
-    
-    const data = {
-      user: {
-        ...values,
-      // invite: true
-    }}
-
-    // alert(JSON.stringify(data, null, 2))
-
-    axios.request({
-      method: "post", 
-      url: endpoint,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      data
-    }).then (data => {
-      refetchUsers()
-      router.push('/admin/users')
-      // alert(JSON.stringify(data, null,2))      
-    })
-  }
+  const { register, handleSubmit, control } = useForm<UserFormValues>();
 
   return (
     <form
@@ -87,10 +52,13 @@ const UserCreateForm = () => {
         name="userImage"
         // inputAttrs={register("image", { required: true })}
       />
-      <SelectInput
+      {/* <SelectInput
         label="User role"
         options={["Employee", "External", "Manager"]}
-        // inputAttrs={register("userRole")}
+        inputAttrs={register("userRole")}
+      /> */}
+      <UserRoleSelect
+        control={control}
       />
 
       <Button type="submit">Submit</Button>
@@ -98,4 +66,4 @@ const UserCreateForm = () => {
   );
 }
 
-export default UserCreateForm
+export default UserForm

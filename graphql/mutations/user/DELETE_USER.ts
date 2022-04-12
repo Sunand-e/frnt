@@ -1,17 +1,16 @@
 import { gql } from '@apollo/client';
 
-export const DELETE_ROLE = gql`
-  mutation DeleteRole(
+export const DELETE_USER = gql`
+  mutation DeleteUser(
     $id: ID!
   ) {
-    deleteRole(
+    deleteUser(
       id: $id
     ) {
-      role {
+      user {
         id
         _deleted @client
       }
-      message
     }
   }
 `;

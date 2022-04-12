@@ -245,7 +245,7 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
 
   const handleDeleteSection = (value) => {
     handleModal({
-      title: `Delete lesson`,
+      title: `Delete section`,
       content: <DeleteSectionModal sectionId={value} />
     })
   }

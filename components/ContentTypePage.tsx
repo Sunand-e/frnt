@@ -3,8 +3,8 @@ import Head from 'next/head'
 // import { useRouter } from 'next/router'
 import { useRouter } from '../utils/router';
 import { useApolloClient, useReactiveVar, gql, useLazyQuery } from '@apollo/client';
-import {QueriesContext} from '../pages/_app'
-import PageContent from '../components/PageContent';
+import { QueriesContext } from '../context/QueriesContext';
+import PageContent from './PageContent';
 import usePageTitle from '../hooks/usePageTitle';
 
 export default function ContentTypePage({type, setData, children}) {
@@ -23,44 +23,8 @@ export default function ContentTypePage({type, setData, children}) {
 
   const camelCaseType = type.charAt().toLowerCase() + type.slice(1);
 
-  const [ singleContentQuery, { loading, queryData, error } ] = useLazyQuery(
-    gql`
-      query GetSchema {
-        __schema {
-          __typename
-        }
-      }
-    `,
-    {
-      client,
-      variables: { id } 
-    }
-  )
-  
   const queries = useContext(QueriesContext);
 
-  usePageTitle({
-    title: data ? data.title : '',
-    subtitle: type
-  })
-
-  useEffect(() => {
-    if(!data) {
-      singleContentQuery()
-    }
-  },[data]);
-
-  useEffect(() => {
-    setData(queryData)
-  },[queryData]);
-
-  useEffect(() => {
-    setData(data)
-    if(data) {
-      queries.getAllContent() 
-      queries.getDashboard() 
-    }
-  },[data]);
 
   return (
     <>

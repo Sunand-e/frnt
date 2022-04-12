@@ -1,8 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
-import { useMemo } from "react";
+
 import { useTable, useSortBy } from "react-table";
-import { GET_GROUPS } from "../graphql/queries/allQueries";
 
 const Table = ({tableData, tableCols}) => {
   const {
@@ -50,8 +47,9 @@ const Table = ({tableData, tableCols}) => {
                       {row.cells.map((cell, index) => {
                         return (
                           <td
-                            {...cell.getCellProps()}
-                            className={`px-6 py-4 ${index > 0 ? 'text-center' : 'text-left'} whitespace-nowrap text-sm text-gray-900`}
+                            {...cell.getCellProps({
+                              className: `${cell.column.className} ${index > 0 ? 'text-center' : ''} px-6 py-4 whitespace-nowrap text-sm text-gray-900`
+                            })}
                           >
                             {cell.render("Cell")}
                           </td>

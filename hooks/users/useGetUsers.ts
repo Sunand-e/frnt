@@ -1,4 +1,4 @@
-import { GET_USERS } from "../../graphql/queries/allQueries"
+import { GET_USERS } from "../../graphql/queries/users"
 import { useQuery } from "@apollo/client"
 import { GetUsers } from "../../graphql/queries/__generated__/GetUsers";
 

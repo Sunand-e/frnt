@@ -7,3 +7,6 @@ extend type Group {
 extend type Role {
   _deleted: Boolean!
 }
+extend type User {
+  _deleted: Boolean!
+}

@@ -13,7 +13,6 @@ const RolesTable = () => {
   const { deleteRole } = useDeleteRole()
 
   const handleDeleteClick = (id) => {
-    alert(id)
     deleteRole(id)
   }
 

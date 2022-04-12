@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle';
-import UserCreateForm from '../../../components/admin/users/UserCreateForm'
-import UsersTable from '../../../components/admin/users/UsersTable'
-import { headerButtonsVar } from '../../../graphql/cache';
-import Button from '../../../components/Button';
-import { useRouter } from 'next/router';
+import UserForm from '../../../components/admin/users/UserForm'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import { useRouter } from 'next/router';
+import useGetUsers from '../../../hooks/users/useGetUsers';
+import axios from 'axios';
 
 const AdminUsersNew = () => {
 
@@ -15,10 +12,37 @@ const AdminUsersNew = () => {
   useHeaderButtons([
     ['Back to user list', '/admin/users'],
   ])
+  
+  const router = useRouter()
+  const endpoint = "/api/v1/users/"
+  const { refetchUsers } = useGetUsers()
+
+  const handleSubmit = values => {
+    
+    const token = localStorage.getItem('token');
+    
+    const data = {
+      user: {
+        ...values,
+      // invite: true
+    }}
+
+    axios.request({
+      method: "post", 
+      url: endpoint,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      data
+    }).then (data => {
+      refetchUsers()
+      router.push('/admin/users')
+    })
+  }
 
   return (
     <>
-      <UserCreateForm />
+      <UserForm onSubmit={handleSubmit}  />
     </>
   )
 }

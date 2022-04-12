@@ -7,6 +7,12 @@
 // GraphQL query operation: GetUser
 // ====================================================
 
+export interface GetUser_user_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+}
+
 export interface GetUser_user_courses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -39,6 +45,7 @@ export interface GetUser_user {
   status: string;
   updatedAt: any;
   userType: string | null;
+  roles: GetUser_user_roles[] | null;
   courses: GetUser_user_courses | null;
 }
 

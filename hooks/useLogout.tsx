@@ -1,11 +1,31 @@
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import { isLoggedInVar } from '../graphql/cache';
+import { client } from '../graphql/client';
 
 const useLogout = () => {
 
-  const logout = () => {
-    isLoggedInVar(false)
-    localStorage.removeItem('token')
-    document.cookie = 'remember_user_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  const router = useRouter()
+
+  const endpoint = '/api/v1/user/sign_out'
+
+  const token = localStorage.getItem('token');
+
+  const logout = async () => {
+
+    await axios.request({
+      method: "delete", 
+      url: endpoint,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      data: {},
+    }).then(data => {  
+      isLoggedInVar(false)
+      localStorage.removeItem('token')
+      client.clearStore()
+      router.push('/')
+    })
   }
 
   return { logout }

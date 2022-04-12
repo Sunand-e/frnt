@@ -7,6 +7,12 @@
 // GraphQL fragment: UserFragment
 // ====================================================
 
+export interface UserFragment_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+}
+
 export interface UserFragment_courses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -39,5 +45,6 @@ export interface UserFragment {
   status: string;
   updatedAt: any;
   userType: string | null;
+  roles: UserFragment_roles[] | null;
   courses: UserFragment_courses | null;
 }
