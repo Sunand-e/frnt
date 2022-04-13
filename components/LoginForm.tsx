@@ -19,7 +19,6 @@ const LoginForm = () => {
       }
     }
 
-    console.log('fetch........')
     fetch(ENDPOINT_SIGNIN, {
       method: 'POST', // or 'PUT'
       headers: {

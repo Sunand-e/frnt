@@ -111,7 +111,6 @@ const Dashboard = () => {
   }
   const router = useRouter()
   const handleTopicClick = tag => e => {
-    // alert(e.target)
     e.preventDefault()
     router.push(`/library?tag=${tag.slug}`, undefined, { shallow: true })
     console.log( libraryVar() ) 
@@ -181,9 +180,6 @@ const Dashboard = () => {
           <DashboardContentTabs />
 
         </div>
-        {/* <pre>
-          { JSON.stringify(items,null,2)}
-        </pre> */}
       </PageContent> 
     </>
   )

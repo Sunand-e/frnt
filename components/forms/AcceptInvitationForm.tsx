@@ -29,8 +29,6 @@ const AcceptInvitationForm = () => {
     .then(res => res.json())
     .then(
       (result) => {
-        alert("result!!")
-        alert(JSON.stringify(result))
         console.log('result........')
         console.log(result)
       }

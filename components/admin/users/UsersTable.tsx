@@ -7,6 +7,7 @@ import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
 import Button from '../../Button';
 import { ModalContext } from '../../../context/modalContext';
+import DeleteUserModal from './DeleteUserModal';
 
 const UsersTable = () => {
 
@@ -30,10 +31,10 @@ const UsersTable = () => {
   const editUrl = '/admin/users/edit'
 
   const handleDelete = (value) => {
-    // handleModal({
-    //   title: `Delete user`,
-    //   content: <DeleteUserModal userId={value} />
-    // })
+    handleModal({
+      title: `Delete user`,
+      content: <DeleteUserModal userId={value} />
+    })
   }
 
   const tableCols = useMemo(
@@ -63,7 +64,12 @@ const UsersTable = () => {
       },
       {
         Header: "Roles",
-        accessor: "lastName", // accessor is the "key" in the data
+        accessor: "roles[0].name", // accessor is the "key" in the data
+        Cell: ({ cell }) => {
+          return cell.row.original.roles.map(role => {
+            return role.name
+          }).join(', ')
+        }
       },
       {
         width: 300,

@@ -29,7 +29,6 @@ const CourseItemEditor = () => {
       const firstItemInCourse = course?.sections.find(
         (section) => section.children?.length
         )?.children[0]
-        // alert(firstItemInCourse.id)
       
       if(firstItemInCourse) {
         currentContentItemVar({

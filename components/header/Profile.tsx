@@ -59,10 +59,6 @@ const Profile = () => {
           </div>
         </a>
       </Tippy>
-      {/* <pre className='absolute bg-white/50'>
-        {JSON.stringify(data, null,2)}
-        {JSON.stringify(error, null,2)}
-      </pre> */}
     </>
   )
 }

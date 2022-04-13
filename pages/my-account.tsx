@@ -36,7 +36,6 @@ const MyAccount = () => {
       <NoticeBox>
         <h1><span className="uppercase">Pick up where you left off:</span> <em>Know your why</em></h1>
       </NoticeBox>
-      {/* {JSON.stringify(data, null, 4)} */}
       {/* {
         data.posts.nodes.map(({ id, content }) => (
           <div key={id}>

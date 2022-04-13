@@ -14,6 +14,7 @@ export const UserFragment = gql`
     roles {
       id
       name
+      roleType
     }
     courses {
       edges {
@@ -36,7 +37,7 @@ export const GET_USER = gql`
 
 export const GET_USERS = gql`
   query GetUsers {
-    users {
+    users(where: { status: "active" }) {
       ...UserFragment
     }
   }

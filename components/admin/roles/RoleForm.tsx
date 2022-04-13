@@ -16,12 +16,9 @@ interface RoleFormValues {
 const RoleForm = ({role=null, onSubmit}) => {
 
   const defaultValues = {
+    ...role,
     capabilityIds: role?.capabilities.map(capability => capability.id),
-    ...role
   }
-
-  console.log('defaultValues')
-  console.log(defaultValues)
   
   const { register, handleSubmit, control, setFocus } = useForm<RoleFormValues>(
     { defaultValues }
@@ -44,6 +41,7 @@ const RoleForm = ({role=null, onSubmit}) => {
         inputAttrs={register("name", { maxLength: 20 })}
       />
       <RoleTypeSelect control={control} />
+
       <RoleCapabilitiesInput control={control} />
 
       <Button type="submit">{buttonText}</Button>

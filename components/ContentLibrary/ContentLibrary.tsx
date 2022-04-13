@@ -54,7 +54,6 @@ const ContentLibrary = () => {
   const searching = (searchParams.text || searchParams.type || searchParams.tag)
 
   const handleTopicClick = tag => e => {
-    // alert(e.target)
     e.preventDefault()
     setSearchParams({
       ...searchParams,

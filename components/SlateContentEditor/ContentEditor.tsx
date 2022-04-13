@@ -128,9 +128,6 @@ const ContentEditor = () => {
       renderLeaf={renderLeaf}
       onKeyDown={handleKeyDown}
     />
-    <pre>
-      { JSON.stringify(value, null, 4) }
-    </pre>
   </Slate>
   )
 }

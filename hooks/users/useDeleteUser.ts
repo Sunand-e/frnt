@@ -18,14 +18,13 @@ function useDeleteUser() {
         id
       },
       optimisticResponse: {
-        __typename: 'Mutation',
         deleteUser: {
           __typename: 'DeleteUserPayload',
           user: {
+            __typename: 'User',
             id,
             _deleted: true,
           },
-          message: ''
         },
       },
       // update(cache, { data: deleteUser }) {

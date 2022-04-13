@@ -76,8 +76,6 @@ const AdminCoursesNew = () => {
     handleModal({
       title: `Choose image`,
       content: <ImageLibraryModal onImageSelect={(image) => updateCourse({imageId: image.id})} />,
-      // content: <ImageLibraryModal onImageSelect={(image) => alert(image.id)} />,
-      // content: <ImageLibraryModal onImageSelect={(img) => alert(JSON.stringify(img,null,2))} />,
       size: 'lg'
     })
   }

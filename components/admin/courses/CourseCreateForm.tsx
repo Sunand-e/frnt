@@ -25,7 +25,7 @@ const CourseCreateForm = () => {
     CREATE_COURSE,
     {
       update(cache, { data: { createCourse } } ) {
-        // alert(JSON.stringify(createCourse))
+        
         const data = cache.readQuery<GetCourses>({
           query: GET_COURSES
         })

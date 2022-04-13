@@ -18,7 +18,7 @@ function useUpdateUser(id = null) {
     UPDATE_USER
   );
 
-  const updateUser = (values) => {
+  const updateUser = (values, cb = null) => {
   // const updateUser = ({name=null, contentBlocks=null}) => {
 
     const variables = {
@@ -38,7 +38,8 @@ function useUpdateUser(id = null) {
             ...variables
           },
         }
-      }
+      },
+      onCompleted: cb
     }).catch(res => {
       // TODO: do something if there is an error!!
     })

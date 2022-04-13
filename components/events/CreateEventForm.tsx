@@ -40,9 +40,6 @@ const CreateEventForm = () => {
         placeholder="Event name"
         inputAttrs={register("name", { maxLength: 20 })}
       />
-      <pre>
-        {/* { courses && JSON.stringify(courses,null,2)} */}
-      </pre>
 
       <ImageSelectInput
         label="Event image"

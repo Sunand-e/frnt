@@ -116,9 +116,6 @@ const CourseStructure = () => {
 
   return (
     <>
-      <pre>
-        {/* {JSON.stringify(itemsBySectionId(course.children), null, 2)} */}
-      </pre>
       <MultipleContainers vertical renderItem={renderItem} />
       <MultipleContainers vertical  />
       {/* <MultipleContainers items={course.children} vertical /> */}

@@ -35,7 +35,6 @@ function useCreateLibraryItem() {
   const [libraryItem, setLibraryItem] = useState(null)
   useEffect(() => {
     if(createLibraryItemResponse.data) {
-      alert(JSON.stringify(createLibraryItemResponse.data))
       setLibraryItem(createLibraryItemResponse.data.createLibraryItem.libraryItem)
     }
 

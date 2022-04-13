@@ -1,11 +1,6 @@
 import Select from "react-select";
 import { Control, useController } from "react-hook-form";
 
-type OptionType = {
-  value: string;
-  label: string;
-};
-
 type ReactSelectInputProps = {
   control?: Control
   name?: string
@@ -26,15 +21,20 @@ const ReactSelectInput = ({
     name,
   });
   
+  const value = selectProps.isMulti
+    ? selectProps.options.filter(c => field.value?.includes(c.value))
+    : selectProps.options.find(c => c.value === field.value)
+
   const allSelectProps = {
     ...selectProps,
     // placeholder={<span className="text-main-dark">{placeholder}</span>}
-    onChange: val => field.onChange(val.value),
-    // value: options.find(c => c.value === field.value)
+    value,
+    onChange: val => {
+      field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
+    },
     className: `${selectProps?.className} w-full`,
     isSearchable: false
   }
-
   return (
     <>
       { label && <label>{label}</label> }

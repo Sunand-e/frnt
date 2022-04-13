@@ -116,9 +116,6 @@ const DnDLists = ({items}) => {
         rowHeight={rowHeight}
         // isVirtualized={false}
       />
-      <pre>
-        {JSON.stringify(treeData, undefined, 2)}
-      </pre>
     </>
   );
 }

@@ -19,7 +19,6 @@ const UserCreateForm = () => {
         email: '',
       }}
       onSubmit={values => {
-        alert(JSON.stringify(values, null, 2))
         // createUser({
         //   variables: { 
         //     firstName: values.firstName,

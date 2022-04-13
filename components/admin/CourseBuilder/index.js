@@ -130,10 +130,6 @@ const CourseBuilder = () => {
 
         </AdminSidebar>
       </div>
-
-      {/* <pre>
-        {JSON.stringify(data, undefined, 2)}
-      </pre> */}
       </BlockWithTitle>
     </ApolloProvider>
     </PostContext.Provider>

@@ -17,7 +17,6 @@ const useModal = () => {
   }
 
   const closeModal = () => {
-    // alert('closeee')
     setModalActive(false)
   }
   

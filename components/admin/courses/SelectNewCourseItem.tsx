@@ -35,7 +35,6 @@ const SelectNewCourseItem = ({
   }
     
   useEffect(() => {
-    // alert(JSON.stringify(lesson))
     if(lesson) {
       currentContentItemVar({
         type: 'lesson',

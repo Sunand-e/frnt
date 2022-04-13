@@ -18,7 +18,8 @@ const DeleteUserModal = ({userId}) => {
   return (
     <>
       <p>Are you sure you want to delete this user?</p>
-      <Button onClick={handleDeleteUser}>Delete user</Button>
+      <p>Warning: This action cannot be undone.</p>
+      <Button onClick={handleDeleteUser} className={`bg-red-500`}>Delete user</Button>
     </>
   );
 }

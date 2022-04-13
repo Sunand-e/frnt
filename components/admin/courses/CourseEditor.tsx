@@ -38,9 +38,6 @@ const CourseEditor = (() => {
         setData={setCourseData}
         instanceRef={instanceRef}
       />
-      <pre>
-        { JSON.stringify(courseData,null,2)}
-      </pre>
     </>
   )
 })

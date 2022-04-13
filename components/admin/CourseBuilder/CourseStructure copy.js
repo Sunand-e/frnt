@@ -132,9 +132,6 @@ const CourseStructure = ({course}) => {
           </div>  
         )}
       </Droppable>
-      {/* <pre>
-        {JSON.stringify(data, undefined, 2)}
-      </pre> */}
     </DragDropContext>
   )
 }

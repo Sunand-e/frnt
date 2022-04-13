@@ -149,15 +149,6 @@ const AdminCourseSetup = () => {
         className='h-full w-full max-w-sm flex flex-col space-y-4'
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* {submitted && (
-          <div>
-            Submitted Data:
-            <br />
-            <pre>
-              {JSON.stringify(submitted,null,2)}
-            </pre>
-          </div>
-        )} */}
         <TextInput
           label="Course name"
           placeholder="Untitled course"

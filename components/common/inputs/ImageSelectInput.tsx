@@ -33,9 +33,6 @@ const ImageSelectInput = ({
 
   return (
     <>
-      {/* <pre>
-        {JSON.stringify(image,null,2)}
-      </pre> */}
       <ImageSelect
         placeholder={placeholder}
         src={image.location}

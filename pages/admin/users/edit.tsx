@@ -4,33 +4,35 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetUser from '../../../hooks/users/useGetUser';
 import useUpdateUser from '../../../hooks/users/useUpdateUser';
 import UserForm from '../../../components/admin/users/UserForm';
+import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 
 
 const AdminUsersEdit = () => {
   
   const router = useRouter()
-  const { user, loading, error } = useGetUser(router.query.id)
-  const { updateUser } = useUpdateUser(router.query.id)
+  const { id } = router.query
+  
+  const { user, loading, error } = useGetUser(id)
+  const { updateUser } = useUpdateUser(id)
+  const { updateUserTenantRoles } = useUpdateUserTenantRoles()
 
   const handleSubmit = (values) => {
-    updateUser(values)
-    router.push('/admin/users/users')
+    updateUser(values, () => updateUserTenantRoles({
+      userId: id,
+      roleIds: values.role_ids
+    }))
+    router.push('/admin/users')
   }
-  usePageTitle({ title: 'Edit User' })
+  usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
   useHeaderButtons([
-    ['Back to users list', '/admin/users/users']
+    ['Back to users list', '/admin/users']
   ])
 
-  console.log('user')
-  console.log(user)
   return (
     <>
       { user &&
         <>
-          <h3>
-            Editing user: {user.name}
-          </h3>
           <UserForm onSubmit={handleSubmit} user={user} />
         </>
       }

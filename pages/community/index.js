@@ -25,7 +25,6 @@ const Community = () => {
         <h1>List of topics</h1>
       </NoticeBox>
       </PageContent>
-      {/* {JSON.stringify(data, null, 4)} */}
       {/* {
         data.posts.nodes.map(({ id, content }) => (
           <div key={id}>

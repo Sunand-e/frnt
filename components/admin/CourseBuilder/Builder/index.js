@@ -171,10 +171,6 @@ const Builder = ({course}) => {
               </div>
             )}
           </Droppable>
-          <pre>
-            {/* {JSON.stringify(sectionOrder, undefined, 2)} */}
-            {/* {JSON.stringify(course.courseSections.nodes, undefined, 2)} */}
-          </pre>
         </DragDropContext>
       </ScrollContainer>
     </div>

@@ -73,6 +73,16 @@ const UserForm = ({user=null, onSubmit}) => {
         control={control}
       />
 
+      <p>Group leader of:</p>
+      <ul>
+        <li>Group 1</li>
+        <li>Group 2</li>
+        <li>Group 3</li>
+        <li>Group 4</li>
+      </ul>
+
+      <Link href="#">Assign as group leader of another group...</Link>
+
       <Button type="submit">Submit</Button>
     </form>
   );

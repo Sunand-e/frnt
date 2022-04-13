@@ -70,7 +70,6 @@ const Dashboard = ({queries}) => {
   }
   const router = useRouter()
   const handleTopicClick = tag => e => {
-    // alert(e.target)
     e.preventDefault()
     router.push(`/library?tag=${tag.slug}`, undefined, { shallow: true })
     console.log( libraryVar() ) 

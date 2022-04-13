@@ -200,7 +200,6 @@ const useBlockEditor = (block=null) => {
 
     const { index, parent } = getIndexAndParent(block)
 
-    // alert('shiftPosition!' + index)
     const modifier = direction === 'down' ? 1 : -1
 
     let newBlocks

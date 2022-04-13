@@ -11,6 +11,7 @@ export interface UserFragment_roles {
   __typename: "Role";
   id: string;
   name: string | null;
+  roleType: string;
 }
 
 export interface UserFragment_courses_edges_node {

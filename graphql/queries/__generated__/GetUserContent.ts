@@ -11,6 +11,7 @@ export interface GetUserContent_user_roles {
   __typename: "Role";
   id: string;
   name: string | null;
+  roleType: string;
 }
 
 export interface GetUserContent_user_courses_edges_node {

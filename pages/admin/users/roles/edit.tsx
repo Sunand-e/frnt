@@ -27,8 +27,6 @@ const AdminUsersRolesEdit = () => {
     ['Back to roles list', '/admin/users/roles']
   ])
 
-  console.log('role')
-  console.log(role)
   return (
     <>
       { role &&
