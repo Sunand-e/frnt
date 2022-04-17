@@ -18,10 +18,12 @@ interface UpdateGroupFormValues {
 
 const GroupForm = ({group}) => {
 
+  const users = group.users.edges.map(edge => edge.node)
+
   const { register, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
     {
       defaultValues: {
-        userIds: group.users.map(user => user.id),
+        userIds: users.map(user => user.id),
         enrolledCourseIds: group.enrolledCourses.map(course => course.id),
         assignedCourseIds: group.assignedCourses.map(course => course.id),
         ...group

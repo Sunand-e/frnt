@@ -19,7 +19,6 @@ const httpLink = createHttpLink({
 //     new Promise<void>((success, fail) => {
 //       setTimeout(() => {
 //         if (typeof window !== 'undefined') {
-//           // alert('delaaaayyyyy')
 //         }
       
 //         success()

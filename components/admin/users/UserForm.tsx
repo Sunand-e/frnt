@@ -49,13 +49,9 @@ const UserForm = ({user=null, onSubmit}) => {
         inputAttrs={register("last_name", { maxLength: 20 })}
       />
       <TextInput
-        label="email"
+        label="Email"
         placeholder="email"
         inputAttrs={register("email", { maxLength: 40 })}
-      />
-      <CheckboxInput
-        label="Send user an invitation upon creation"
-        inputAttrs={register("invite")}
       />
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}
@@ -72,7 +68,10 @@ const UserForm = ({user=null, onSubmit}) => {
       <UserRoleSelect
         control={control}
       />
-
+      <CheckboxInput
+        label="Send user an invitation upon creation"
+        inputAttrs={register("invite")}
+      />
       <Button type="submit">Submit</Button>
     </form>
   );

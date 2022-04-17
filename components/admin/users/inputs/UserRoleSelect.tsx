@@ -19,10 +19,8 @@ const UserRoleSelect = ({control}) => {
           label="Roles"
           control={control}
           name="role_ids"
-          selectProps={{
-            isMulti: true,
-            options
-          }}
+          isMulti={true}
+          options={options}
         />
       }
     </>

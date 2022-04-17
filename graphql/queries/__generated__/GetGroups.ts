@@ -7,9 +7,26 @@
 // GraphQL query operation: GetGroups
 // ====================================================
 
-export interface GetGroups_groups_users {
+export interface GetGroups_groups_users_edges_node {
   __typename: "User";
   id: string;
+}
+
+export interface GetGroups_groups_users_edges {
+  __typename: "GroupUserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetGroups_groups_users_edges_node | null;
+}
+
+export interface GetGroups_groups_users {
+  __typename: "GroupUserConnection";
+  totalCount: number;
+  /**
+   * A list of edges.
+   */
+  edges: (GetGroups_groups_users_edges | null)[] | null;
 }
 
 export interface GetGroups_groups_enrolledCourses {
@@ -28,7 +45,7 @@ export interface GetGroups_groups {
   id: string;
   name: string | null;
   updatedAt: any;
-  users: GetGroups_groups_users[];
+  users: GetGroups_groups_users;
   enrolledCourses: GetGroups_groups_enrolledCourses[];
   assignedCourses: GetGroups_groups_assignedCourses[];
   _deleted: boolean;

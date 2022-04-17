@@ -5,6 +5,9 @@ import useGetUser from '../../../hooks/users/useGetUser';
 import useUpdateUser from '../../../hooks/users/useUpdateUser';
 import UserForm from '../../../components/admin/users/UserForm';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
+import UserGroups from '../../../components/admin/users/groups/UserGroups';
+import UserCourses from '../../../components/admin/users/courses/UserCourses';
+import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
 
 
 const AdminUsersEdit = () => {
@@ -32,9 +35,14 @@ const AdminUsersEdit = () => {
   return (
     <>
       { user &&
-        <>
+        <div className='flex space-x-16'>
           <UserForm onSubmit={handleSubmit} user={user} />
-        </>
+          <div className='flex flex-col space-y-8'>
+            <UserGroups />
+            <UserCourses />
+            <UserLibraryItems />
+          </div>
+        </div>
       }
     </>
   )

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
 import Table from '../../Table';
-import { GET_GROUPS, GroupFragment } from '../../../graphql/queries/allQueries';
+import { GET_GROUPS, GroupFragment } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import Button from '../../Button';
 import { DELETE_GROUP } from "../../../graphql/mutations/group/DELETE_GROUP";

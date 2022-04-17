@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { GroupFragment } from '../../queries/allQueries';
+import { GroupFragment } from '../../queries/groups';
 
 export const CREATE_GROUP = gql`
   mutation CreateGroup(

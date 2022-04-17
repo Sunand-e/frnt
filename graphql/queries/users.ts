@@ -23,6 +23,19 @@ export const UserFragment = gql`
         }
       }
     }
+    groups {
+      edges {
+        node {
+          id
+          name
+        }        
+        role {
+          id
+          name
+          roleType
+        }
+      }
+    }
   }
 `
 

@@ -7,9 +7,26 @@
 // GraphQL fragment: GroupFragment
 // ====================================================
 
-export interface GroupFragment_users {
+export interface GroupFragment_users_edges_node {
   __typename: "User";
   id: string;
+}
+
+export interface GroupFragment_users_edges {
+  __typename: "GroupUserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GroupFragment_users_edges_node | null;
+}
+
+export interface GroupFragment_users {
+  __typename: "GroupUserConnection";
+  totalCount: number;
+  /**
+   * A list of edges.
+   */
+  edges: (GroupFragment_users_edges | null)[] | null;
 }
 
 export interface GroupFragment_enrolledCourses {
@@ -28,7 +45,7 @@ export interface GroupFragment {
   id: string;
   name: string | null;
   updatedAt: any;
-  users: GroupFragment_users[];
+  users: GroupFragment_users;
   enrolledCourses: GroupFragment_enrolledCourses[];
   assignedCourses: GroupFragment_assignedCourses[];
   _deleted: boolean;

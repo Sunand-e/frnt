@@ -1,5 +1,5 @@
 
-import { GET_GROUP } from "../../graphql/queries/allQueries"
+import { GET_GROUP } from "../../graphql/queries/groups"
 import { useQuery } from "@apollo/client"
 
 function useGetEvent(id) {

@@ -14,7 +14,9 @@ export const ADD_USERS_TO_GROUPS = gql`
         id
         name
         users {
-          id
+          nodes {
+            id
+          }
         }
       }
     }

@@ -7,9 +7,26 @@
 // GraphQL mutation operation: UpdateGroup
 // ====================================================
 
-export interface UpdateGroup_updateGroup_group_users {
+export interface UpdateGroup_updateGroup_group_users_edges_node {
   __typename: "User";
   id: string;
+}
+
+export interface UpdateGroup_updateGroup_group_users_edges {
+  __typename: "GroupUserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: UpdateGroup_updateGroup_group_users_edges_node | null;
+}
+
+export interface UpdateGroup_updateGroup_group_users {
+  __typename: "GroupUserConnection";
+  totalCount: number;
+  /**
+   * A list of edges.
+   */
+  edges: (UpdateGroup_updateGroup_group_users_edges | null)[] | null;
 }
 
 export interface UpdateGroup_updateGroup_group_enrolledCourses {
@@ -28,7 +45,7 @@ export interface UpdateGroup_updateGroup_group {
   id: string;
   name: string | null;
   updatedAt: any;
-  users: UpdateGroup_updateGroup_group_users[];
+  users: UpdateGroup_updateGroup_group_users;
   enrolledCourses: UpdateGroup_updateGroup_group_enrolledCourses[];
   assignedCourses: UpdateGroup_updateGroup_group_assignedCourses[];
   _deleted: boolean;

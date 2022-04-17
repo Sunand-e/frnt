@@ -12,7 +12,7 @@ const RoleTypeSelect = ({control}) => {
       label="Role type"
       control={control}
       name="roleType"
-      selectProps={{options}}
+      options={options}
     />
   )
 }

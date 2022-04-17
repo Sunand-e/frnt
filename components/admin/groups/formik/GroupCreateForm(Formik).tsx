@@ -6,7 +6,7 @@ import { CREATE_GROUP } from "../../../../graphql/mutations/group/CREATE_GROUP";
 import TextInput from '../../../TextInput';
 import Button from '../../../Button';
 import { CreateGroup, CreateGroupVariables } from '../../../../graphql/mutations/__generated__/CreateGroup';
-import { GET_GROUPS } from '../../../../graphql/queries/allQueries';
+import { GET_GROUPS } from '../../../../graphql/queries/groups';
 import { GetGroups, GetGroups_groups } from '../../../../graphql/queries/__generated__/GetGroups';
 import CreateForm from '../../forms/CreateForm';
 import { noticesVar } from '../../../../graphql/cache';

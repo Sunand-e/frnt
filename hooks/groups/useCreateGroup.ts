@@ -1,5 +1,5 @@
 
-import { GET_GROUPS } from "../../graphql/queries/allQueries"
+import { GET_GROUPS } from "../../graphql/queries/groups"
 import { useMutation } from "@apollo/client"
 import { CreateGroup, CreateGroupVariables } from "../../graphql/mutations/group/__generated__/CreateGroup";
 import { CREATE_GROUP } from "../../graphql/mutations/group/CREATE_GROUP";

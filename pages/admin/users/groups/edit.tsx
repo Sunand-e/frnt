@@ -1,8 +1,5 @@
-import PageTitle from '../../../../components/header/PageTitle';
 import EditGroupForm from '../../../../components/admin/groups/EditGroupForm'
 import { useRouter } from '../../../../utils/router'
-import { useQuery } from '@apollo/client';
-import { GET_GROUP } from '../../../../graphql/queries/allQueries';
 import usePageTitle from '../../../../hooks/usePageTitle';
 import useGetGroup from '../../../../hooks/groups/useGetGroup';
 

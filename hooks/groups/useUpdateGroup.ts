@@ -1,6 +1,6 @@
 import { UpdateGroup, UpdateGroupVariables } from "../../graphql/mutations/group/__generated__/UpdateGroup";
 import { UPDATE_GROUP } from "../../graphql/mutations/group/UPDATE_GROUP"
-import { GET_GROUP } from "../../graphql/queries/allQueries"
+import { GET_GROUP } from "../../graphql/queries/groups"
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 
 function useUpdateGroup(id = null) {

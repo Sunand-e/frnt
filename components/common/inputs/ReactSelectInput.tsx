@@ -5,14 +5,15 @@ type ReactSelectInputProps = {
   control?: Control
   name?: string
   label?: string
-  selectProps?
+  isMulti?: boolean
+  options?
+  className?
 }
 
 const ReactSelectInput = ({
   control,
   name,
   label,
-  selectProps,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -21,24 +22,26 @@ const ReactSelectInput = ({
     name,
   });
   
-  const value = selectProps.isMulti
-    ? selectProps.options.filter(c => field.value?.includes(c.value))
-    : selectProps.options.find(c => c.value === field.value)
+  const value = props.isMulti
+    ? props.options.filter(c => field.value?.includes(c.value))
+    : props.options.find(c => c.value === field.value)
 
-  const allSelectProps = {
-    ...selectProps,
+  const selectProps = {
+    ...props,
     // placeholder={<span className="text-main-dark">{placeholder}</span>}
     value,
     onChange: val => {
       field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
     },
-    className: `${selectProps?.className} w-full`,
+    className: `${props?.className} w-full`,
     isSearchable: false
   }
   return (
     <>
-      { label && <label>{label}</label> }
-      <Select {...allSelectProps} />
+      { label
+        ? <label>{label}<Select {...selectProps} /></label>
+        : <Select {...selectProps} />
+      }
     </>
   )
 }
