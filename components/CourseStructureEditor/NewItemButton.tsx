@@ -6,6 +6,7 @@ import Tippy from '@tippyjs/react';
 import LineWithIcon from '../LineWithIcon'
 import Select, { components } from "react-select";
 import SelectNewCourseItem from "../admin/courses/SelectNewCourseItem";
+import NewCourseItemList from "../admin/courses/NewCourseItemList";
 
 const NewItemButton = ({container: containerId}) => {
 
@@ -23,7 +24,7 @@ const NewItemButton = ({container: containerId}) => {
       arrow={true}
       placement='bottom'
       trigger='click'
-      content={<SelectNewCourseItem sectionId={containerId} onSelect={onNewItemSelect} />}
+      content={<NewCourseItemList sectionId={containerId} onSelect={onNewItemSelect} />}
       onCreate={(instance) => setTippy(instance)}
     >
       <div
