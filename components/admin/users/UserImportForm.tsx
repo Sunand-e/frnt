@@ -8,7 +8,7 @@ const UserImportForm = () => {
 
   const router = useRouter()
 
-  const users = useGetUsers();
+  // const users = useGetUsers();
   
   const handleAllUploadsComplete = () => {
     router.push('/admin/users')
@@ -39,11 +39,11 @@ const UserImportForm = () => {
     <>
       <FileUploader {...fileUploaderProps} />
       <p>
-        <a>
-          <Link href="/docs/import_user_example.csv">
+        <Link href="/docs/import_user_example.csv">
+          <a>
             Download an example CSV
-          </Link>
-        </a>
+          </a>
+        </Link>
       </p>
     </>
   );

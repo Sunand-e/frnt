@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "../../utils/router";
-import TextInput from "../TextInput";
+import TextInput from "../common/inputs/TextInput";
 
 const SignUpForm = () => {
 
   const router = useRouter()
   const { token } = router.query
 
-  const SIGN_UP_ENDPOINT = '/api/v1/users'
+  const SIGN_UP_ENDPOINT = '/api/v1/users/public_sign_up'
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -60,18 +60,21 @@ const SignUpForm = () => {
         placeholder="email"
         inputAttrs={register("email", { maxLength: 40 })}
       />
-      <input
-        id="password"
-        {...register("password", {
-          required: "required",
-          minLength: {
-            value: 5,
-            message: "min length is 5"
-          }
-        })}
-        type="password"
-      />
-        <label htmlFor="password_confirmation">confirm password</label>
+      <label htmlFor="password">password
+        <input
+          id="password"
+          {...register("password", {
+            required: "required",
+            minLength: {
+              value: 5,
+              message: "min length is 5"
+            }
+          })}
+          type="password"
+          />
+      </label>
+      <label htmlFor="password_confirmation">confirm password
+      
       <input
         id="password_confirmation"
         {...register("password_confirmation", {
@@ -82,7 +85,8 @@ const SignUpForm = () => {
           }
         })}
         type="password"
-      />
+        />
+        </label>
       {errors.password && <span role="alert">{errors.password.message}</span>}
       <button type="submit">SUBMIT</button>
     </form>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useMemo } from "react";
 import useGetUser from "../../../../hooks/users/useGetUser";
 import { useRouter } from "../../../../utils/router";
@@ -39,9 +38,8 @@ const UserGroups = () => {
       {
         width: 300,
         Header: "Actions",
-        Cell: ({ cell }) => {
-          const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
 
+        Cell: ({ cell }) => {
           return (          
             <div className="flex space-x-4">
               <Button
@@ -55,11 +53,15 @@ const UserGroups = () => {
     ]
   }, []);
 
-
+  const button = {
+    text: "Assign to groups",
+    onClick: () => {
+      alert('abc')
+    }
+  }
 
   return (
-    <BoxContainer title="User Groups" >
-        <Button onClick={() => {}}>Assign to groups</Button>
+    <BoxContainer title="Groups" button={button}>
         <Table tableData={tableData} tableCols={tableCols} />
     </BoxContainer>
   );

@@ -14,7 +14,8 @@ const LoginForm = () => {
   const handleSubmit = (values, { setSubmitting }) => {
     const data = {
       user: {
-        remember_me: "1",
+        // remember_me: "1",
+        remember_me: "0",
         ...values
       }
     }
