@@ -65,26 +65,51 @@ const FileUploader = ({
       },
       data, 
       onUploadProgress: (p) => {
-
         const progress = p.loaded / p.total
+        console.log('progress...' + progress)
         // check if we already displayed a toast
-        if(!toast.isActive(toastId)) {
-          toast('Upload in Progress', {
-            toastId,
-            progress
-          })
+        if(progress === 1) {
+
+          const text = `Uploaded ${file.name}.`
+
+          if(!toast.isActive(toastId)) {
+            toast(text, {
+              toastId,
+              autoClose: 3000
+            })
+          } else {
+            // toast.update(toastId, {
+            //   progress,
+            //   hideProgressBar: true,
+            // })
+            toast.update(toastId, {
+              progress,
+              hideProgressBar: false,
+              // autoClose: 1000
+            })
+          }
+
         } else {
-          toast.update(toastId, {
-            progress: progress,
-          })
+          const text = `Uploading ${file.name}`
+
+          if(!toast.isActive(toastId)) {
+            toast(text, {
+              toastId,
+              progress,
+            })
+          } else {
+            toast.update(toastId, {
+              progress,
+            })
+          }
         }
 
       }
     }).then(data => {
-      toast.update(toastId, {
-        render: "Upload completed",
-      })
-      toast.done(toastId.current)
+      // alert('now')
+      setTimeout(() => {
+        // toast.done(toastId)
+      }, 2000)
       /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
       client.refetchQueries({
         include: [refetchQuery]

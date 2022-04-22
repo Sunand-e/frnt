@@ -216,50 +216,6 @@ export const GET_QUIZZES = gql`
   }
 `
 
-export const ContentUserEdgeFragment = gql`
-  fragment ContentUserEdgeFragment on ContentUserConnection {
-    edges {
-      node {
-        id
-      }
-      status
-      lastVisited
-      firstVisited
-      createdAt
-      updatedAt
-      score
-      visits
-      completed
-    }
-  }
-`
-
-export const GET_COURSE_USERS = gql`
-  query GetCourseUsers($id: ID!) {
-    course(id: $id) {
-      ...CourseFragment
-      users {
-        ...ContentUserEdgeFragment
-      }
-      sections {
-        ...SectionFragment
-        users {
-          ...ContentUserEdgeFragment
-        }
-        lessons {
-          ...LessonFragment
-          users {
-            ...ContentUserEdgeFragment
-          }
-        }
-      }
-    }
-  }
-  ${UserFragment}
-  ${ContentUserEdgeFragment}
-`
-
-
 export const GET_MEDIA_ITEMS = gql`
   query GetMediaItems(
     $where: JSON,

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { ContentFragment } from './allQueries';
 
 export const UserFragment = gql`
   fragment UserFragment on User {
@@ -19,7 +20,12 @@ export const UserFragment = gql`
     courses {
       edges {
         node {
+          ...ContentFragment
+        }
+        role {
           id
+          name
+          roleType
         }
       }
     }
@@ -37,6 +43,7 @@ export const UserFragment = gql`
       }
     }
   }
+  ${ContentFragment}
 `
 
 export const GET_USER = gql`
