@@ -22,7 +22,7 @@ export const UserFragment = gql`
         node {
           ...ContentFragment
         }
-        role {
+        roles {
           id
           name
           roleType
@@ -35,7 +35,7 @@ export const UserFragment = gql`
           id
           name
         }        
-        role {
+        roles {
           id
           name
           roleType

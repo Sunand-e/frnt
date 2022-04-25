@@ -10,6 +10,10 @@ import cache, { courseNavigationVar } from "../../../graphql/cache"
 import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
 import { useReactiveVar } from '@apollo/client';
+import {Cancel} from '@styled-icons/material-rounded/Cancel'
+import {Save} from '@styled-icons/material-rounded/Save'
+import EasyEdit, {Types} from 'react-easy-edit';
+import useUpdateSection from '../../../hooks/sections/useUpdateSection';
 
 export interface Props {
   children: React.ReactNode;
@@ -47,6 +51,8 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) => {
+
+    const { updateSection } = useUpdateSection()
 
     const section = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${label}`,
@@ -91,7 +97,16 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
             // expand ? styles.Header : ``
           )}>
             <span>
-              { section ? section.title : label }
+            <EasyEdit
+              type={Types.TEXT}
+              onSave={(title) => updateSection({title})}
+              saveButtonLabel={<Save className="w-6"  />}
+              cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
+              placeHolder="Section title..."
+              attributes={{ name: "awesome-input", id: 1}}
+              value= { section ? section.title : label }
+            />
+
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }

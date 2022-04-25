@@ -20,8 +20,7 @@ const UserCourses = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      alert(JSON.stringify(user,null,2))
-      return user?.courses.edges.map(edge => edge.node).filter(item => !item._deleted) || []
+      return user?.courses.edges.filter(edge => !edge.node._deleted) || []
     }, [user]
   );
   console.log('tableData')
@@ -30,11 +29,21 @@ const UserCourses = () => {
     return [
       {
         Header: "Course",
-        accessor: "title", // accessor is the "key" in the data
+        accessor: "node.title", // accessor is the "key" in the data
       },
       {
-        Header: "Role",
-        accessor: "role",
+        Header: "Roles",
+        accessor: "roles",
+        
+        Cell: ({ cell }) => {
+          console.log('cell')
+          console.log(cell)
+          return (          
+            <div className="flex space-x-4">
+              {cell.value.map(role => role.name).join(', ')}
+            </div>
+          )
+        }
       },
       {
         width: 300,
@@ -44,7 +53,7 @@ const UserCourses = () => {
           return (          
             <div className="flex space-x-4">
               <Button
-                onClick={() => handleAddRole(cell.row.values.id)}
+                onClick={() => handleAddRole(cell.row.values.node.id)}
               >Course Role
               </Button>
             </div>
@@ -57,7 +66,7 @@ const UserCourses = () => {
   const button = {
     text: "Assign courses",
     onClick: () => {
-      alert('abc')
+      alert('assign courses')
     }
   }
 

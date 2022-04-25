@@ -4,15 +4,11 @@ import styles from '../dnd-kit/Item/Item.module.scss'
 import classNames from 'classnames'
 import { useContext, useEffect, useState } from "react"
 import { ModalContext } from "../../context/modalContext"
-import { UpdateSection, UpdateSectionVariables } from '../../graphql/mutations/section/__generated__/UpdateSection';
-import { UpdateCourse, UpdateCourseVariables } from '../../graphql/mutations/course/__generated__/UpdateCourse';
-import { UPDATE_SECTION } from '../../graphql/mutations/section/UPDATE_SECTION';
 import cache from "../../graphql/cache"
-import { ContentFragment, CourseFragment, GET_SECTION, SectionFragment } from "../../graphql/queries/allQueries"
+import { ContentFragment, SectionFragment } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
-import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
 import { SectionFragment as SectionFragmentType } from '../../graphql/queries/__generated__/SectionFragment';
-import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
+import { UpdateCourse, UpdateCourseVariables } from '../../graphql/mutations/course/__generated__/UpdateCourse';
 import Button from "../Button"
 import DeleteLessonModal from "../admin/courses/DeleteLessonModal"
 import { BookOpenIcon } from "@heroicons/react/outline"
@@ -24,6 +20,7 @@ import DeleteSectionModal from "../admin/courses/DeleteSectionModal";
 import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE";
 import router from "next/router";
+import useUpdateSection from "../../hooks/sections/useUpdateSection";
 
 
 type Items = Record<string, string[]>;
@@ -77,33 +74,7 @@ const CourseStructureEditor = ({course, renderSection, renderItem}) => {
       },
     }
   )
-
-  const [updateSection, sectionData] = useMutation<UpdateSection, UpdateSectionVariables>(
-    UPDATE_SECTION,
-    {
-      update(cache, { data: { updateSection } } ) {
-        // const sectionData = cache.readFragment<GetSection>({
-        //   id:`ContentItem:${sectionId}`,
-        //   fragment: SectionFragment,
-        //   fragmentName: 'SectionFragment'
-        // })
-
-        // const newSectionData = {
-        //   ...sectionData,
-        //   children: [...sectionData.children, createLesson.lesson]
-        // }
-
-        // cache.writeFragment<GetSection_section>({
-        //   id:`ContentItem:${sectionId}`,
-        //   fragment: SectionFragment,
-        //   fragmentName: 'SectionFragment',
-        //   data: newSectionData
-        // })
-      },
-    }
-  )
-
-  
+const { updateSection } = useUpdateSection()
   const handleReorderSectionChildren = (newItems) => {
 
     console.log('REORDERING SECTION CHILDREN')

@@ -5,7 +5,7 @@ import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 
 function useUpdateUser(id = null) {
 
-    const { loading, error, data: {user} = {} } = useQuery(
+  const { loading, error, data: {user} = {} } = useQuery(
     GET_USER,
     {
       variables: {
