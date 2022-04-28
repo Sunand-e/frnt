@@ -8,20 +8,23 @@ export const UPDATE_COURSE = gql`
     $title: String,
     $content: JSON,
     $certificateProperties: JSON,
-    # $certificateTemplateId: ID,
-    $childrenIds: JSON,
-    $prerequisites: JSON,
+    $settings: JSON,
+    $tags: [TagInput!],
     $imageId: ID,
-
+    $imageUrl: String,
+    $childrenIds: JSON,
+    $prerequisites: JSON
   ) {
     updateCourse(
       input: {
         id: $id,
         title: $title,
         content: $content,
-        imageId: $imageId,
         certificateProperties: $certificateProperties,
-        # certificateTemplateId: $certificateTemplateId,
+        settings: $settings,
+        tags: $tags,
+        imageId: $imageId,
+        imageUrl: $imageUrl,
         childrenIds: $childrenIds,
         prerequisites: $prerequisites
       }

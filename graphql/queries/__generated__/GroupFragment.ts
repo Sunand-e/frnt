@@ -29,9 +29,25 @@ export interface GroupFragment_users {
   edges: (GroupFragment_users_edges | null)[] | null;
 }
 
-export interface GroupFragment_enrolledCourses {
+export interface GroupFragment_enrolledCourses_edges_node {
   __typename: "ContentItem";
   id: string;
+}
+
+export interface GroupFragment_enrolledCourses_edges {
+  __typename: "GroupEnrolledContentEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GroupFragment_enrolledCourses_edges_node | null;
+}
+
+export interface GroupFragment_enrolledCourses {
+  __typename: "GroupEnrolledContentConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GroupFragment_enrolledCourses_edges | null)[] | null;
 }
 
 export interface GroupFragment_assignedCourses {
@@ -46,7 +62,7 @@ export interface GroupFragment {
   name: string | null;
   updatedAt: any;
   users: GroupFragment_users;
-  enrolledCourses: GroupFragment_enrolledCourses[];
+  enrolledCourses: GroupFragment_enrolledCourses;
   assignedCourses: GroupFragment_assignedCourses[];
   _deleted: boolean;
 }

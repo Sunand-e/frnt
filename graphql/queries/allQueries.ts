@@ -80,7 +80,7 @@ export const PathwayFragment = gql`
     }
   }
   ${ContentFragment}
-  ${SectionFragment}
+  ${CourseFragment}
 `
 
 export const GET_COURSE = gql`

@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { TagInput } from "./../../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL mutation operation: CreatePathway
 // ====================================================
@@ -27,6 +29,8 @@ export interface CreatePathwayVariables {
   certificateProperties?: any | null;
   certificateTemplateId?: string | null;
   childrenIds?: any | null;
+  settings?: any | null;
+  tags?: TagInput[] | null;
   imageId?: string | null;
-  iconId?: string | null;
+  imageUrl?: string | null;
 }

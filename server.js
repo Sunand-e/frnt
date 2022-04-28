@@ -15,6 +15,13 @@ const apiPaths = {
     },
     changeOrigin: true
   },
+  '/graphiql': {
+    target: 'http://127.0.0.1', 
+    pathRewrite: {
+      '^/graphiql': '/graphiql'
+    },
+    changeOrigin: true
+  },
   '/uploads': {
     target: 'http://127.0.0.1', 
     pathRewrite: {
@@ -52,6 +59,7 @@ app.prepare().then(() => {
  
   if (isDevelopment) {
     server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
+    server.use('/graphiql', createProxyMiddleware(apiPaths['/graphiql']));
     server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
     server.use('/auth', createProxyMiddleware(apiPaths['/auth']));
     server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));

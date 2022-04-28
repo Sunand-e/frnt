@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { TagInput } from "./../../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL mutation operation: UpdateCourse
 // ====================================================
@@ -127,7 +129,10 @@ export interface UpdateCourseVariables {
   title?: string | null;
   content?: any | null;
   certificateProperties?: any | null;
+  settings?: any | null;
+  tags?: TagInput[] | null;
+  imageId?: string | null;
+  imageUrl?: string | null;
   childrenIds?: any | null;
   prerequisites?: any | null;
-  imageId?: string | null;
 }

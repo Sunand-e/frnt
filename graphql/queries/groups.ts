@@ -15,7 +15,11 @@ export const GroupFragment = gql`
       }
     }
     enrolledCourses {
-      id
+      edges {
+        node {
+          id
+        }
+      }
     }
     assignedCourses {
       id

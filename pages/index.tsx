@@ -16,6 +16,7 @@ import ItemGrid from '../components/common/items/ItemGrid';
 import Button from '../components/Button';
 import ItemCollection from "../components/common/items/ItemCollection";
 import { QueriesContext } from '../context/QueriesContext';
+import Dashboard from '../components/dashboard/Dashboard';
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -23,7 +24,7 @@ import { QueriesContext } from '../context/QueriesContext';
 
 // When the data from the initial query has been received, run the same query, but with metadata for all content types.
 
-const Dashboard = () => {
+const DashboardPage = () => {
   // console.log(GET_DASHBOARD)
   const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
@@ -77,21 +78,6 @@ const Dashboard = () => {
   
   useEffect(() => {
     if(data) {
-      const serializedState = client.cache.extract()
-      contentTagsVar(
-        Object.values(serializedState).filter(
-          item => item.__typename === 'ContentTag'
-        )
-      )
-
-      if(data.libraryItems.length) {
-        console.log('data.libraryItems')
-        console.log(data.libraryItems)
-      }
-
-      // latestContentVar(data.libraryItems.slice(0, 4))
-      // console.log('data')
-      // console.log(data)
       if(queries) {
         queries.getAllContent()
         queries.getLibrary()
@@ -126,68 +112,16 @@ const Dashboard = () => {
       
       <PageContent>
         <div className="flex-grow ">
-
-          <NoticeBox>
-            <div className="flex justify-between items-center">
-             <h1 className="font-bold text-lg"><span>Pick up where you left off:</span> <em className="text-main">Know your why</em></h1>
-             <Button>Start now</Button>
-            </div>
-          </NoticeBox>
-          { !!items?.length && (
-            <ItemCollection
-            // viewAll={() => setSearchParams(viewAllParams)} 
-              items={items} 
-              options={recentlyViewedOptions}
-             />
-          )}
-
-          <div className="flex space-x-8 mb-8">
-
-            {/* 'Coming Up' events list */}
-            <div className="flex-1">
-              <h3 className="text-xl text-blue-dark text-semibold">Coming Up</h3>
-              { data ? 
-                <ItemGrid
-                items = {
-                  data.events?.slice(0,3) || []
-                }
-                options={{display: 'list'}}
-                />
-                :
-                <LoadingSpinner />
-              }
-            </div>
-
-            {/* 'Latest News' list */}
-            <div className="flex-1">
-              <h3 className="text-xl text-blue-dark text-semibold">Latest News</h3>
-              { data ? 
-                <ItemGrid
-                items = {
-                  data.posts?.slice(0,3) || []
-                }
-                options={{display: 'list'}}
-                />
-                :
-                <LoadingSpinner />
-              }
-            </div>
-          </div>
-
-          <TopicsList onTopicClick={handleTopicClick} />
-          
-          {/* Dashboard Content Tabs include 'Recently viewed' and 'continiue wathcing' sections */}
-          <DashboardContentTabs />
-
+          <Dashboard />
         </div>
       </PageContent> 
     </>
   )
 }
 
-Dashboard.navState = {
+DashboardPage.navState = {
   topLevel: 'dashboard',
   // secondary: 'dashboard'
 }
 
-export default Dashboard
+export default DashboardPage

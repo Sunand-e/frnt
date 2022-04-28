@@ -11,10 +11,7 @@ import {
   TrashIcon,
   UserAddIcon,
 } from '@heroicons/react/solid'
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+import classNames from '../../../../utils/classNames'
 
 export default function TextTypeDropdown() {
   return (

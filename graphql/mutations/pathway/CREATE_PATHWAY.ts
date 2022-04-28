@@ -8,8 +8,10 @@ export const CREATE_PATHWAY = gql`
     $certificateProperties: JSON,
     $certificateTemplateId: ID,
     $childrenIds: JSON,
+    $settings: JSON,
+    $tags: [TagInput!],
     $imageId: ID,
-    $iconId: ID
+    $imageUrl: String,
   ) {
     createPathway(
       input: {
@@ -18,8 +20,10 @@ export const CREATE_PATHWAY = gql`
         certificateProperties: $certificateProperties,
         certificateTemplateId: $certificateTemplateId,
         childrenIds: $childrenIds,
+        settings: $settings,
+        tags: $tags,
         imageId: $imageId,
-        iconId: $iconId
+        imageUrl: $imageUrl
       }
     ) {
       pathway {

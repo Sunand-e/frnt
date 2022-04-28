@@ -7,6 +7,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface TagInput {
+  id?: string | null;
+  label?: string | null;
+  tagType?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

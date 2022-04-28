@@ -66,7 +66,11 @@ export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !
 
 const cache = new InMemoryCache({
   possibleTypes,
-  // typePolicies,
+  typePolicies: {
+    Group: {
+      merge: true,
+    },
+  },
 })
 
 export default cache

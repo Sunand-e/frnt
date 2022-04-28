@@ -29,9 +29,25 @@ export interface GetGroups_groups_users {
   edges: (GetGroups_groups_users_edges | null)[] | null;
 }
 
-export interface GetGroups_groups_enrolledCourses {
+export interface GetGroups_groups_enrolledCourses_edges_node {
   __typename: "ContentItem";
   id: string;
+}
+
+export interface GetGroups_groups_enrolledCourses_edges {
+  __typename: "GroupEnrolledContentEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetGroups_groups_enrolledCourses_edges_node | null;
+}
+
+export interface GetGroups_groups_enrolledCourses {
+  __typename: "GroupEnrolledContentConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetGroups_groups_enrolledCourses_edges | null)[] | null;
 }
 
 export interface GetGroups_groups_assignedCourses {
@@ -46,7 +62,7 @@ export interface GetGroups_groups {
   name: string | null;
   updatedAt: any;
   users: GetGroups_groups_users;
-  enrolledCourses: GetGroups_groups_enrolledCourses[];
+  enrolledCourses: GetGroups_groups_enrolledCourses;
   assignedCourses: GetGroups_groups_assignedCourses[];
   _deleted: boolean;
 }

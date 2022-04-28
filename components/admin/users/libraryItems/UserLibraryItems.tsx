@@ -1,4 +1,4 @@
-import BoxContainer from "../../../common/BoxContainer";
+import BoxContainer from "../../../common/containers/BoxContainer";
 
 const UserLibraryItems = () => {
   

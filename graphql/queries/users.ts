@@ -34,7 +34,7 @@ export const UserFragment = gql`
         node {
           id
           name
-        }        
+        }
         roles {
           id
           name

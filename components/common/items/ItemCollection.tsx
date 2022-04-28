@@ -23,8 +23,13 @@ export default function ItemCollection({items, options, viewAll}: ItemCollection
   return (
     <div className="mb-8">
       <div className="collectionHeader flex justify-between">
+        
         <div className="collectionHeaderLeft">
-          <h3 className="text-xl text-blue-dark text-semibold">{options.heading}</h3>
+          { options?.heading && 
+            <h3 className="text-xl text-blue-dark text-semibold">
+              {options.heading}
+            </h3>
+          }
         </div>
         { viewAll && 
           <div className="collectionHeaderRight">

@@ -1,0 +1,54 @@
+import { useReactiveVar } from '@apollo/client'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import Button from '../../../../components/Button'
+import { Notices } from '../../../../components/Notices'
+import { headerButtonsVar, viewVar } from '../../../../graphql/cache'
+import PathwaysTable from '../../../../components/admin/pathways/PathwaysTable/PathwaysTable'
+import { useContext, useEffect } from 'react'
+import { ModalContext } from '../../../../context/modalContext'
+import usePageTitle from '../../../../hooks/usePageTitle'
+const AdminPathways = () => {
+
+  usePageTitle({
+    title: 'Pathways'
+  })
+
+  const router = useRouter()
+  
+  const { handleModal, closeModal } = useContext(ModalContext);
+
+  const handleAddClick = (e) => {
+    router.push('/admin/courses/pathways/setup')
+    // handleModal({
+    //   title: `Add new pathway`,
+    //   // content: <BasicTextInput label="Pathway name" placeholder='Untitled pathway' />,
+    //   content: <PathwayCreateModalForm />,
+    //   buttons: null
+    // })
+  }
+  
+  useEffect(() => {
+    headerButtonsVar(
+      <>
+        <Button onClick={handleAddClick}>Add new pathway</Button>
+      </>
+    )
+  },[])
+
+  return (
+    <>
+      <Notices />dd
+      <PathwaysTable />
+    </>
+  )
+}
+
+
+
+AdminPathways.navState = {
+  topLevel: 'pathways',
+  secondary: 'pathways'
+}
+
+export default AdminPathways

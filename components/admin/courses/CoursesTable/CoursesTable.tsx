@@ -11,53 +11,19 @@ import ButtonLink from '../../../ButtonLink';
 import { PencilAltIcon, PencilIcon } from '@heroicons/react/solid';
 import CourseTitleCell from './CourseTitleCell';
 import { DeleteCourse } from '../../../../graphql/mutations/course/__generated__/DeleteCourse';
+import useDeleteCourse from '../../../../hooks/courses/useDeleteCourse';
 
 const CoursesTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetCourses>(GET_COURSES);
   
-  const [deleteCourse, { data: deletedData }] = useMutation<DeleteCourse>(DELETE_COURSE);
+  // const [deleteCourse, { data: deletedData }] = useMutation<DeleteCourse>(DELETE_COURSE);
+  const { deleteCourse } = useDeleteCourse();
 
   const editUrl = '/admin/courses/edit'
 
   const handleDeleteClick = (id) => {
-    deleteCourse({
-      variables: { 
-        id
-      },
-      optimisticResponse: {
-        deleteCourse: {
-          __typename: 'DeleteContentItemPayload',
-          contentItem: {
-            id,
-            __typename: 'ContentItem',
-            _deleted: true,
-          },
-          message: ''
-        },
-      },
-
-      update(cache, { data: deleteCourse }) {
-        // We get a single item.
-        const course = cache.readFragment({
-          id: `ContentItem:${id}`,
-          fragment: CourseFragment,
-          fragmentName: 'CourseFragment',
-        });
-        // Then, we update it.
-        if (course) {
-          cache.writeFragment({
-            id: `ContentItem:${id}`,
-            fragment: CourseFragment,
-            fragmentName: 'CourseFragment',
-            data: {
-              ...course,
-              _deleted: true
-            },
-          });
-        }
-      }
-    })
+    deleteCourse(id)
   }
 
   // Table data is memo-ised due to this:
@@ -84,6 +50,16 @@ const CoursesTable = () => {
       {
         Header: "ID",
         accessor: "id",
+      },
+      {
+        Header: "Tags",
+        accessor: "tags",
+        Cell: ({ cell }) => {
+          const tagString = cell.value.map(tag => tag.label).join(', ')
+          return (
+            <span>{tagString}</span>
+          )
+        }
       },
       {
         width: 300,

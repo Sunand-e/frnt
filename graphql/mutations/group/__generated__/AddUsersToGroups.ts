@@ -39,4 +39,5 @@ export interface AddUsersToGroups {
 export interface AddUsersToGroupsVariables {
   userIds: string[];
   groupIds: string[];
+  roleId?: string | null;
 }

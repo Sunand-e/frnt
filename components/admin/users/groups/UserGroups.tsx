@@ -1,11 +1,10 @@
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { ModalContext } from "../../../../context/modalContext";
 import useGetUser from "../../../../hooks/users/useGetUser";
 import { useRouter } from "../../../../utils/router";
-import Button from "../../../Button";
-import BoxContainer from "../../../common/BoxContainer";
-import Table from "../../../Table";
+import BoxContainer from "../../../common/containers/BoxContainer";
 import AssignToGroupsModal from "./AssignToGroupsModal";
+import UserGroupsTable from "./UserGroupsTable";
 
 const UserGroups = () => {
 
@@ -14,10 +13,6 @@ const UserGroups = () => {
   const { id } = router.query
 
   const { loading, error, user } = useGetUser(id)
-  
-  const handleAddRole = (id) => {
-
-  }
 
   const { handleModal, closeModal } = useContext(ModalContext);
 
@@ -27,51 +22,6 @@ const UserGroups = () => {
       content: <AssignToGroupsModal userId={user.id} />
     })
   }
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      return user?.groups.edges.filter(edge => !edge.node._deleted) || []
-    }, [user]
-  );
-
-  const tableCols = useMemo(() => {
-    return [
-      {
-        Header: "Group",
-        accessor: "node.name", // accessor is the "key" in the data
-      },
-      {
-        Header: "Roles",
-        accessor: "roles",
-        
-        Cell: ({ cell }) => {
-          console.log('cell')
-          console.log(cell)
-          return (          
-            <div className="flex space-x-4">
-              {cell.value.map(role => role.name).join(', ')}
-            </div>
-          )
-        }
-      },
-      {
-        width: 300,
-        Header: "Actions",
-
-        Cell: ({ cell }) => {
-          return (          
-            <div className="flex space-x-4">
-              <Button
-                onClick={() => handleAddRole(cell.row.values.node.id)}
-              >Group Role
-              </Button>
-            </div>
-          )
-        }
-      }
-    ]
-  }, []);
 
   const button = {
     text: "Assign to groups",
@@ -80,7 +30,7 @@ const UserGroups = () => {
 
   return (
     <BoxContainer title="Groups" button={button}>
-        <Table tableData={tableData} tableCols={tableCols} />
+        <UserGroupsTable />
     </BoxContainer>
   );
 }

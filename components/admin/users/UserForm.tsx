@@ -13,7 +13,7 @@ interface UserFormValues {
   first_name: string
   last_name: string
   email: string
-  userImage: string
+  profileImage: string
   roleIds: [string]
   invite: boolean
 }
@@ -57,7 +57,7 @@ const UserForm = ({user=null, onSubmit}) => {
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose profile image"
         control={control}
-        name="userImage"
+        name="profileImage"
         // inputAttrs={register("image", { required: true })}
       />
       {/* <SelectInput

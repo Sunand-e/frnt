@@ -33,7 +33,7 @@ const AdminCourseSetup = () => {
 
   useEffect(() => {
     headerButtonsVar(
-      <Button onClick={() => router.push('/admin/courses')}>Course Builder</Button>
+      <Button onClick={() => router.push('/admin/courses')}>Back to Pathways</Button>
     )
   },[])
 
