@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
 import { useCallback, useEffect, useState } from 'react';
 import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
+import courses from '../../../elp-courses';
 
 interface UpdateGroupFormValues {
   name: string 
@@ -19,13 +20,12 @@ interface UpdateGroupFormValues {
 const GroupForm = ({group}) => {
 
   const users = group.users.edges.map(edge => edge.node)
-
   const { register, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
     {
       defaultValues: {
         userIds: users.map(user => user.id),
-        enrolledCourseIds: group.enrolledCourses.map(course => course.id),
-        assignedCourseIds: group.assignedCourses.map(course => course.id),
+        enrolledCourseIds: group.enrolledCourses.edges.map(edge => edge.node.id) || [],
+        assignedCourseIds: group.assignedCourses.map(course => course.id) || [],
         ...group
       }
     }

@@ -25,6 +25,9 @@ export const ContentFragment = gql`
     settings
     title
     updatedAt
+    users {
+      totalCount
+    }
     _deleted @client
   }
 `

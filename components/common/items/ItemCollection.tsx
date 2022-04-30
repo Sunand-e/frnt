@@ -13,7 +13,6 @@ export default function ItemCollection({items, options, viewAll}: ItemCollection
   
   const gridOptions = {
     ...options,
-
   }
 
   // const subHeading = options.subHeading || 'Subheading'

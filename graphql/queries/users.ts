@@ -27,6 +27,11 @@ export const UserFragment = gql`
           name
           roleType
         }
+        lastVisited
+        completed
+        score
+        status
+        visits
       }
     }
     groups {

@@ -51,15 +51,23 @@ const CoursePage = () => {
       ...currentContentItem,
       id: contentId
     })
-    
-    updateUserContentStatus({
-      contentItemId: contentId,
-      completed: true,
-      score: 100,
-      status: 'In progress'
-    })
-  },[id, contentId])
 
+    if(contentId) {
+      updateUserContentStatus({
+        contentItemId: contentId,
+        completed: true,
+        score: 20,
+        status: 'In progress'
+      })
+    } else {
+      updateUserContentStatus({
+        contentItemId: id,
+        score: 20,
+        status: 'In progress'
+      })
+    }
+  },[id, contentId])
+  
   useEffect(() => {
     // If there is a course but no item provided, show the first item
     if(course && !currentContentItem.id) {

@@ -5,6 +5,7 @@ import ButtonLink from '../../../ButtonLink';
 import LibraryItemTitleCell from './LibraryItemTitleCell';
 import useDeleteLibraryItem from '../../../../hooks/libraryItems/useDeleteLibraryItem';
 import useGetLibraryItems from '../../../../hooks/libraryItems/useGetLibraryItems';
+import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
 
 const LibraryItemsTable = () => {
 
@@ -36,7 +37,17 @@ const LibraryItemsTable = () => {
       {
         Header: "LibraryItem Name",
         accessor: "title", // accessor is the "key" in the data
-        Cell: LibraryItemTitleCell
+        Cell: ({ cell }) => {
+          const cellProps = {
+            image: cell.row.original.image?.location,
+            title: cell.value,
+            secondary: cell.row.original.contentType,
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+          }
+          return (
+            <ItemWithImageTableCell { ...cellProps } />
+          )
+        }
       },
       {
         Header: "ID",

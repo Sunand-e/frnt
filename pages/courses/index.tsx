@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from "../../hooks/usePageTitle";
 import useGetCourses from "../../hooks/courses/useGetCourses"
 import ItemCollection from "../../components/common/items/ItemCollection"
+import CourseTabs from '../../components/dashboard/CourseTabs';
 const Courses = () => {
 
   usePageTitle({ title: 'My Courses' })
@@ -14,7 +15,9 @@ const Courses = () => {
   }
   return (
     <>
-    { (!loading && !error) && <ItemCollection options={options} items={courses} /> }
+    { (!loading && !error) && 
+    // <ItemCollection options={options} items={courses} /> }
+    <CourseTabs /> }
     </>
   )
 }

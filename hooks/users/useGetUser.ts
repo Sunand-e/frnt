@@ -2,14 +2,12 @@
 import { useQuery } from "@apollo/client"
 import { GET_USER } from "../../graphql/queries/users";
 
-function useGetUser(id) {
+function useGetUser(id=null) {
 
   const { loading, error, data: {user} = {} } = useQuery(
     GET_USER,
     {
-      variables: {
-        id
-      }
+      variables: id ? { id } : null
     }
   );
 

@@ -7,9 +7,6 @@ import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import CoursesTable from '../../../components/admin/courses/CoursesTable/CoursesTable'
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
-import TextInput from '../../../components/BasicTextInput'
-import LoadingSpinner from '../../../components/LoadingSpinner'
-import CourseCreateModalForm from '../../../components/admin/courses/CourseCreateModalForm'
 import usePageTitle from '../../../hooks/usePageTitle'
 const AdminCourses = () => {
 

@@ -32,7 +32,6 @@ export default function Item({ item, options }) {
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
       <Link href={href}>
-
         <a
           className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}
         >
@@ -63,8 +62,15 @@ export default function Item({ item, options }) {
             {itemType?.name}
           </h2>
         )}
-
         <h2 className="text-xl text-blue-dark font-semibold mb-4">{item?.title}</h2>
+        { item.status && (
+          <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
+            {item.status}
+          </h2>
+        )}
+        {/* <pre>
+          {JSON.stringify(item, null, 2)}
+        </pre> */}
         {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}
         {/* <div dangerouslySetInnerHTML={{
           __html: item.excerpt

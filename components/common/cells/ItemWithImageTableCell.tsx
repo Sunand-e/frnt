@@ -9,17 +9,17 @@ const userImages = [
   'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 ]
 
-const ItemWithImageTableCell = ({title, secondary, href=null}) => {
+const ItemWithImageTableCell = ({title, secondary=null, image=null, href=null}) => {
   return (
     <Link href={href ?? '#'}>
     <a className="text-blue-dark">
       <div className="flex items-center">
         <div className="h-10 w-10 flex-shrink-0">
-          <img className="h-10 w-10 rounded-full" src={userImages[Math.floor(Math.random() * userImages.length)]} alt="" />
+          <img className="h-10 w-10 rounded-full" src={image ?? userImages[Math.floor(Math.random() * userImages.length)]} alt="" />
         </div>
         <div className="ml-4">
           <div className="font-medium text-gray-900">{title}</div>
-          <div className="text-gray-500">{secondary}</div>
+          { secondary && <div className="text-gray-500">{secondary}</div> }
         </div>
       </div>
     </a>

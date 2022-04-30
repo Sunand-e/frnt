@@ -10,6 +10,7 @@ import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
 import { DeleteGroup, DeleteGroupVariables } from '../../../graphql/mutations/group/__generated__/DeleteGroup';
 import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
+import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
 
 const GroupsTable = () => {
 
@@ -37,11 +38,15 @@ const GroupsTable = () => {
         Header: "Group Name",
         accessor: "name", // accessor is the "key" in the data
         Cell: ({ cell }) => {
-          const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
+          const userCount = cell.row.original.users.totalCount
+          const cellProps = {
+            image: cell.row.original.image?.location,
+            title: cell.value,
+            secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+          }
           return (
-            <Link href={href}>
-              <a className="mt-auto text-center p-2 text-blue-dark font-semibold uppercase">{cell.value}</a>
-            </Link>
+            <ItemWithImageTableCell { ...cellProps } />
           )
         }
       },
