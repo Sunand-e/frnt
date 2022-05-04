@@ -58,7 +58,7 @@ const navStructureAdmin = [
       {
         name: 'categories',
         title: 'Categories',
-        urlPath: '/admin/courses/categories',
+        urlPath: '/admin/tags',
       },
       {
         name: 'pathways',

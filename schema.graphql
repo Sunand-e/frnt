@@ -10,3 +10,6 @@ extend type Role {
 extend type User {
   _deleted: Boolean!
 }
+extend type Tag {
+  _deleted: Boolean!
+}

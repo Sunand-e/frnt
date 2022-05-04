@@ -15,9 +15,6 @@ const AdminCourseCategories = () => {
   )
 }
 
-AdminCourseCategories.navState = {
-  topLevel: 'courses',
-  secondary: 'categories'
-}
+
 
 export default AdminCourseCategories
