@@ -9,7 +9,7 @@ export const VideoBlock: FunctionComponent = ({block}) => {
   return (
     <div className="aspect-w-16 aspect-h-9 px-1">
       <iframe 
-        src="https://player.vimeo.com/video/375411414?h=19f812595c&title=0&byline=0&portrait=0" 
+        src={block?.properties?.url} 
         width="640" 
         height="360" 
         frameBorder="0" 

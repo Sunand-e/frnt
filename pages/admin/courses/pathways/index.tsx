@@ -47,7 +47,7 @@ const AdminPathways = () => {
 
 
 AdminPathways.navState = {
-  topLevel: 'pathways',
+  topLevel: 'courses',
   secondary: 'pathways'
 }
 

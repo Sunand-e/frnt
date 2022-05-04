@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 const useModal = () => {
   const [modalActive, setModalActive] = useState(false)
-  const [modalTitle, setModalTitle] = useState("Modal Title")
-  const [modalContent, setModalContent] = useState("Modal Content")
+  const [modalTitle, setModalTitle] = useState("")
+  const [modalContent, setModalContent] = useState("")
   const [modalButtons, setModalButtons] = useState(false)
   const [modalSize, setModalSize] = useState(false)
 
