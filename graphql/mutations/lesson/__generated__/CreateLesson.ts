@@ -23,6 +23,11 @@ export interface CreateLesson_createLesson_lesson_icon {
   id: string;
 }
 
+export interface CreateLesson_createLesson_lesson_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CreateLesson_createLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -36,6 +41,7 @@ export interface CreateLesson_createLesson_lesson {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CreateLesson_createLesson_lesson_users | null;
   _deleted: boolean;
 }
 

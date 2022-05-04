@@ -1,11 +1,11 @@
 import useGetRoles from "../../../../hooks/roles/useGetRoles"
 import ReactSelectInput from "../../../common/inputs/ReactSelectInput"
 
-const UserRoleSelect = ({control}) => {
+const UserRoleSelect = ({control, roleType}) => {
 
   const { roles, loading, error } = useGetRoles()
 
-  const options = roles && roles.filter(role => role.roleType === 'tenant_role').map(role => {
+  const options = roles && roles.filter(role => role.roleType === roleType).map(role => {
     return {
       value: role.id,
       label: role.name

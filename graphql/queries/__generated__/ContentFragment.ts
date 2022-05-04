@@ -23,6 +23,11 @@ export interface ContentFragment_icon {
   id: string;
 }
 
+export interface ContentFragment_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface ContentFragment {
   __typename: "ContentItem";
   content: any | null;
@@ -36,5 +41,6 @@ export interface ContentFragment {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: ContentFragment_users | null;
   _deleted: boolean;
 }

@@ -23,9 +23,12 @@ const Table = ({tableData, tableCols}) => {
                 {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column, index) => (
-                      <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                      <th
+                        {...column.getHeaderProps({
+                          ...column.getSortByToggleProps(),
+                        })}
                         className={`px-6 py-3 ${index > 0 ? 'text-center' : 'text-left'} text-xs font-medium text-gray-500 uppercase tracking-wider`}
-                      >
+                        >
                         {column.render("Header")}
                         <span>
                         {column.isSorted
@@ -48,7 +51,7 @@ const Table = ({tableData, tableCols}) => {
                         return (
                           <td
                             {...cell.getCellProps({
-                              className: `${cell.column.className} ${index > 0 ? 'text-center' : ''} px-6 py-4 whitespace-nowrap text-sm text-gray-900`
+                              className: `${cell.column.className} ${index > 0 ? 'text-center' : ''} px-6 py-4 text-sm text-gray-900`
                             })}
                           >
                             {cell.render("Cell")}

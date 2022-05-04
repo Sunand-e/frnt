@@ -23,6 +23,11 @@ export interface GetLibraryItems_libraryItems_icon {
   id: string;
 }
 
+export interface GetLibraryItems_libraryItems_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface GetLibraryItems_libraryItems {
   __typename: "ContentItem";
   content: any | null;
@@ -36,6 +41,7 @@ export interface GetLibraryItems_libraryItems {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetLibraryItems_libraryItems_users | null;
   _deleted: boolean;
 }
 

@@ -23,6 +23,11 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem_icon {
   id: string;
 }
 
+export interface CreateLibraryItem_createLibraryItem_libraryItem_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CreateLibraryItem_createLibraryItem_libraryItem {
   __typename: "ContentItem";
   content: any | null;
@@ -36,6 +41,7 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CreateLibraryItem_createLibraryItem_libraryItem_users | null;
   _deleted: boolean;
 }
 

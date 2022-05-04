@@ -25,6 +25,11 @@ export interface UpdateCourse_updateCourse_course_icon {
   id: string;
 }
 
+export interface UpdateCourse_updateCourse_course_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface UpdateCourse_updateCourse_course_sections_image {
   __typename: "MediaItem";
   location: string | null;
@@ -39,6 +44,11 @@ export interface UpdateCourse_updateCourse_course_sections_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface UpdateCourse_updateCourse_course_sections_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
 }
 
 export interface UpdateCourse_updateCourse_course_sections_children_image {
@@ -57,6 +67,11 @@ export interface UpdateCourse_updateCourse_course_sections_children_icon {
   id: string;
 }
 
+export interface UpdateCourse_updateCourse_course_sections_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface UpdateCourse_updateCourse_course_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -70,6 +85,7 @@ export interface UpdateCourse_updateCourse_course_sections_children {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: UpdateCourse_updateCourse_course_sections_children_users | null;
   _deleted: boolean;
 }
 
@@ -86,6 +102,7 @@ export interface UpdateCourse_updateCourse_course_sections {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: UpdateCourse_updateCourse_course_sections_users | null;
   _deleted: boolean;
   children: UpdateCourse_updateCourse_course_sections_children[] | null;
 }
@@ -110,6 +127,7 @@ export interface UpdateCourse_updateCourse_course {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: UpdateCourse_updateCourse_course_users | null;
   _deleted: boolean;
   sections: UpdateCourse_updateCourse_course_sections[] | null;
   tags: UpdateCourse_updateCourse_course_tags[] | null;

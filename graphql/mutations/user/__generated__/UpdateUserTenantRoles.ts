@@ -30,6 +30,11 @@ export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_
   id: string;
 }
 
+export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_node_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_node {
   __typename: "ContentItem";
   content: any | null;
@@ -43,6 +48,7 @@ export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_node_users | null;
   _deleted: boolean;
 }
 
@@ -60,6 +66,11 @@ export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges 
    */
   node: UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_node | null;
   roles: UpdateUserTenantRoles_updateUserTenantRoles_user_courses_edges_roles[] | null;
+  lastVisited: any | null;
+  completed: boolean | null;
+  score: number | null;
+  status: string | null;
+  visits: number | null;
 }
 
 export interface UpdateUserTenantRoles_updateUserTenantRoles_user_courses {

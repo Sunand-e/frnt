@@ -23,6 +23,11 @@ export interface UpdateLesson_updateLesson_lesson_icon {
   id: string;
 }
 
+export interface UpdateLesson_updateLesson_lesson_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface UpdateLesson_updateLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -36,6 +41,7 @@ export interface UpdateLesson_updateLesson_lesson {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: UpdateLesson_updateLesson_lesson_users | null;
   _deleted: boolean;
 }
 

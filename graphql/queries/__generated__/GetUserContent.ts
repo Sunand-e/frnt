@@ -30,6 +30,11 @@ export interface GetUserContent_user_courses_edges_node_icon {
   id: string;
 }
 
+export interface GetUserContent_user_courses_edges_node_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface GetUserContent_user_courses_edges_node {
   __typename: "ContentItem";
   content: any | null;
@@ -43,6 +48,7 @@ export interface GetUserContent_user_courses_edges_node {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetUserContent_user_courses_edges_node_users | null;
   _deleted: boolean;
 }
 
@@ -60,14 +66,14 @@ export interface GetUserContent_user_courses_edges {
    */
   node: GetUserContent_user_courses_edges_node | null;
   roles: GetUserContent_user_courses_edges_roles[] | null;
-  status: string | null;
   lastVisited: any | null;
+  completed: boolean | null;
+  score: number | null;
+  status: string | null;
+  visits: number | null;
   firstVisited: any | null;
   createdAt: any;
   updatedAt: any;
-  score: number | null;
-  visits: number | null;
-  completed: boolean | null;
 }
 
 export interface GetUserContent_user_courses {

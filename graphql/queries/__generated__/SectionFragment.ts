@@ -23,6 +23,11 @@ export interface SectionFragment_icon {
   id: string;
 }
 
+export interface SectionFragment_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface SectionFragment_children_image {
   __typename: "MediaItem";
   location: string | null;
@@ -39,6 +44,11 @@ export interface SectionFragment_children_icon {
   id: string;
 }
 
+export interface SectionFragment_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface SectionFragment_children {
   __typename: "ContentItem";
   content: any | null;
@@ -52,6 +62,7 @@ export interface SectionFragment_children {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: SectionFragment_children_users | null;
   _deleted: boolean;
 }
 
@@ -68,6 +79,7 @@ export interface SectionFragment {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: SectionFragment_users | null;
   _deleted: boolean;
   children: SectionFragment_children[] | null;
 }

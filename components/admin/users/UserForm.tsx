@@ -67,6 +67,7 @@ const UserForm = ({user=null, onSubmit}) => {
       /> */}
       <UserRoleSelect
         control={control}
+        roleType='tenant_role'
       />
       <CheckboxInput
         label="Send user an invitation upon creation"

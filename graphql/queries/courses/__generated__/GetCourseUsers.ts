@@ -23,6 +23,36 @@ export interface GetCourseUsers_course_icon {
   id: string;
 }
 
+export interface GetCourseUsers_course_users_edges_node {
+  __typename: "User";
+  id: string;
+}
+
+export interface GetCourseUsers_course_users_edges {
+  __typename: "ContentUserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetCourseUsers_course_users_edges_node | null;
+  status: string | null;
+  lastVisited: any | null;
+  firstVisited: any | null;
+  createdAt: any;
+  updatedAt: any;
+  score: number | null;
+  visits: number | null;
+  completed: boolean | null;
+}
+
+export interface GetCourseUsers_course_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+  /**
+   * A list of edges.
+   */
+  edges: (GetCourseUsers_course_users_edges | null)[] | null;
+}
+
 export interface GetCourseUsers_course_sections_image {
   __typename: "MediaItem";
   location: string | null;
@@ -37,38 +67,6 @@ export interface GetCourseUsers_course_sections_icon {
   provider: string | null;
   properties: any | null;
   id: string;
-}
-
-export interface GetCourseUsers_course_sections_children_image {
-  __typename: "MediaItem";
-  location: string | null;
-  id: string;
-  altText: string | null;
-  properties: any | null;
-  title: string | null;
-}
-
-export interface GetCourseUsers_course_sections_children_icon {
-  __typename: "Icon";
-  provider: string | null;
-  properties: any | null;
-  id: string;
-}
-
-export interface GetCourseUsers_course_sections_children {
-  __typename: "ContentItem";
-  content: any | null;
-  contentType: string | null;
-  createdAt: any;
-  settings: any | null;
-  image: GetCourseUsers_course_sections_children_image | null;
-  id: string;
-  icon: GetCourseUsers_course_sections_children_icon | null;
-  itemType: string;
-  prerequisites: any | null;
-  title: string | null;
-  updatedAt: any;
-  _deleted: boolean;
 }
 
 export interface GetCourseUsers_course_sections_users_edges_node {
@@ -94,10 +92,49 @@ export interface GetCourseUsers_course_sections_users_edges {
 
 export interface GetCourseUsers_course_sections_users {
   __typename: "ContentUserConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */
   edges: (GetCourseUsers_course_sections_users_edges | null)[] | null;
+}
+
+export interface GetCourseUsers_course_sections_children_image {
+  __typename: "MediaItem";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
+export interface GetCourseUsers_course_sections_children_icon {
+  __typename: "Icon";
+  provider: string | null;
+  properties: any | null;
+  id: string;
+}
+
+export interface GetCourseUsers_course_sections_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
+export interface GetCourseUsers_course_sections_children {
+  __typename: "ContentItem";
+  content: any | null;
+  contentType: string | null;
+  createdAt: any;
+  settings: any | null;
+  image: GetCourseUsers_course_sections_children_image | null;
+  id: string;
+  icon: GetCourseUsers_course_sections_children_icon | null;
+  itemType: string;
+  prerequisites: any | null;
+  title: string | null;
+  updatedAt: any;
+  users: GetCourseUsers_course_sections_children_users | null;
+  _deleted: boolean;
 }
 
 export interface GetCourseUsers_course_sections_lessons_image {
@@ -139,6 +176,7 @@ export interface GetCourseUsers_course_sections_lessons_users_edges {
 
 export interface GetCourseUsers_course_sections_lessons_users {
   __typename: "ContentUserConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */
@@ -158,8 +196,8 @@ export interface GetCourseUsers_course_sections_lessons {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  _deleted: boolean;
   users: GetCourseUsers_course_sections_lessons_users | null;
+  _deleted: boolean;
 }
 
 export interface GetCourseUsers_course_sections {
@@ -175,9 +213,9 @@ export interface GetCourseUsers_course_sections {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetCourseUsers_course_sections_users | null;
   _deleted: boolean;
   children: GetCourseUsers_course_sections_children[] | null;
-  users: GetCourseUsers_course_sections_users | null;
   lessons: GetCourseUsers_course_sections_lessons[] | null;
 }
 
@@ -186,35 +224,6 @@ export interface GetCourseUsers_course_tags {
   id: string;
   label: string;
   tagType: string;
-}
-
-export interface GetCourseUsers_course_users_edges_node {
-  __typename: "User";
-  id: string;
-}
-
-export interface GetCourseUsers_course_users_edges {
-  __typename: "ContentUserEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: GetCourseUsers_course_users_edges_node | null;
-  status: string | null;
-  lastVisited: any | null;
-  firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
-  score: number | null;
-  visits: number | null;
-  completed: boolean | null;
-}
-
-export interface GetCourseUsers_course_users {
-  __typename: "ContentUserConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (GetCourseUsers_course_users_edges | null)[] | null;
 }
 
 export interface GetCourseUsers_course {
@@ -230,10 +239,10 @@ export interface GetCourseUsers_course {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetCourseUsers_course_users | null;
   _deleted: boolean;
   sections: GetCourseUsers_course_sections[] | null;
   tags: GetCourseUsers_course_tags[] | null;
-  users: GetCourseUsers_course_users | null;
 }
 
 export interface GetCourseUsers {

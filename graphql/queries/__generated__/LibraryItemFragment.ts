@@ -23,6 +23,11 @@ export interface LibraryItemFragment_icon {
   id: string;
 }
 
+export interface LibraryItemFragment_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface LibraryItemFragment {
   __typename: "ContentItem";
   content: any | null;
@@ -36,5 +41,6 @@ export interface LibraryItemFragment {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: LibraryItemFragment_users | null;
   _deleted: boolean;
 }

@@ -12,9 +12,6 @@ import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell
 
 const CoursesTable = () => {
 
-  // const { loading, error, data: queryData } = useQuery<GetCourses>(GET_COURSES);
-  
-  // const [deleteCourse, { data: deletedData }] = useMutation<DeleteCourse>(DELETE_COURSE);
   const { loading, error, courses } = useGetCourses();
   const { deleteCourse } = useDeleteCourse();
 
@@ -32,13 +29,7 @@ const CoursesTable = () => {
     }, [courses]
   );
 
-  // useEffect(() => {
-  //   console.log('queryData')
-  //   console.log(queryData)
-  //   return queryData?.courses.filter(item => !item._deleted) 
-  // }, [queryData])
-
-   const tableCols = useMemo(
+  const tableCols = useMemo(
     () => [
       {
         Header: "Course Name",
@@ -47,7 +38,7 @@ const CoursesTable = () => {
           const cellProps = {
             image: cell.row.original.image?.location,
             title: cell.value,
-            secondary: cell.row.original.title,
+            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }

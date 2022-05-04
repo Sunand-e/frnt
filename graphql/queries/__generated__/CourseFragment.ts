@@ -23,6 +23,11 @@ export interface CourseFragment_icon {
   id: string;
 }
 
+export interface CourseFragment_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CourseFragment_sections_image {
   __typename: "MediaItem";
   location: string | null;
@@ -37,6 +42,11 @@ export interface CourseFragment_sections_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface CourseFragment_sections_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
 }
 
 export interface CourseFragment_sections_children_image {
@@ -55,6 +65,11 @@ export interface CourseFragment_sections_children_icon {
   id: string;
 }
 
+export interface CourseFragment_sections_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CourseFragment_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -68,6 +83,7 @@ export interface CourseFragment_sections_children {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CourseFragment_sections_children_users | null;
   _deleted: boolean;
 }
 
@@ -84,6 +100,7 @@ export interface CourseFragment_sections {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CourseFragment_sections_users | null;
   _deleted: boolean;
   children: CourseFragment_sections_children[] | null;
 }
@@ -108,6 +125,7 @@ export interface CourseFragment {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CourseFragment_users | null;
   _deleted: boolean;
   sections: CourseFragment_sections[] | null;
   tags: CourseFragment_tags[] | null;

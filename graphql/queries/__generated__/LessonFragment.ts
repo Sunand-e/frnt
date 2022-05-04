@@ -23,6 +23,11 @@ export interface LessonFragment_icon {
   id: string;
 }
 
+export interface LessonFragment_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface LessonFragment {
   __typename: "ContentItem";
   content: any | null;
@@ -36,5 +41,6 @@ export interface LessonFragment {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: LessonFragment_users | null;
   _deleted: boolean;
 }

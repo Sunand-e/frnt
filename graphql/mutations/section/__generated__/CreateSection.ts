@@ -23,6 +23,11 @@ export interface CreateSection_createSection_section_icon {
   id: string;
 }
 
+export interface CreateSection_createSection_section_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CreateSection_createSection_section_children_image {
   __typename: "MediaItem";
   location: string | null;
@@ -39,6 +44,11 @@ export interface CreateSection_createSection_section_children_icon {
   id: string;
 }
 
+export interface CreateSection_createSection_section_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface CreateSection_createSection_section_children {
   __typename: "ContentItem";
   content: any | null;
@@ -52,6 +62,7 @@ export interface CreateSection_createSection_section_children {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CreateSection_createSection_section_children_users | null;
   _deleted: boolean;
 }
 
@@ -68,6 +79,7 @@ export interface CreateSection_createSection_section {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: CreateSection_createSection_section_users | null;
   _deleted: boolean;
   children: CreateSection_createSection_section_children[] | null;
 }

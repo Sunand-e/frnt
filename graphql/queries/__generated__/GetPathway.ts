@@ -23,6 +23,11 @@ export interface GetPathway_pathway_icon {
   id: string;
 }
 
+export interface GetPathway_pathway_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface GetPathway_pathway_courses_image {
   __typename: "MediaItem";
   location: string | null;
@@ -37,6 +42,11 @@ export interface GetPathway_pathway_courses_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface GetPathway_pathway_courses_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
 }
 
 export interface GetPathway_pathway_courses_sections_image {
@@ -55,6 +65,11 @@ export interface GetPathway_pathway_courses_sections_icon {
   id: string;
 }
 
+export interface GetPathway_pathway_courses_sections_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface GetPathway_pathway_courses_sections_children_image {
   __typename: "MediaItem";
   location: string | null;
@@ -71,6 +86,11 @@ export interface GetPathway_pathway_courses_sections_children_icon {
   id: string;
 }
 
+export interface GetPathway_pathway_courses_sections_children_users {
+  __typename: "ContentUserConnection";
+  totalCount: number;
+}
+
 export interface GetPathway_pathway_courses_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -84,6 +104,7 @@ export interface GetPathway_pathway_courses_sections_children {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetPathway_pathway_courses_sections_children_users | null;
   _deleted: boolean;
 }
 
@@ -100,6 +121,7 @@ export interface GetPathway_pathway_courses_sections {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetPathway_pathway_courses_sections_users | null;
   _deleted: boolean;
   children: GetPathway_pathway_courses_sections_children[] | null;
 }
@@ -124,6 +146,7 @@ export interface GetPathway_pathway_courses {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetPathway_pathway_courses_users | null;
   _deleted: boolean;
   sections: GetPathway_pathway_courses_sections[] | null;
   tags: GetPathway_pathway_courses_tags[] | null;
@@ -149,6 +172,7 @@ export interface GetPathway_pathway {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  users: GetPathway_pathway_users | null;
   _deleted: boolean;
   courses: GetPathway_pathway_courses[] | null;
   tags: GetPathway_pathway_tags[] | null;

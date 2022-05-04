@@ -35,7 +35,7 @@ const LibraryItemsTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "LibraryItem Name",
+        Header: "Library Item",
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const cellProps = {

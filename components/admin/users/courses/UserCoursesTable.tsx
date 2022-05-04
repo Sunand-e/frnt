@@ -1,10 +1,12 @@
-import { useContext, useMemo } from "react";
-import { ModalContext } from "../../../../context/modalContext";
+import { useCallback, useContext, useMemo } from "react";
 import useGetUser from "../../../../hooks/users/useGetUser";
-import BoxContainer from "../../../common/containers/BoxContainer";
 import Table from "../../../Table";
 import { useRouter } from '../../../../utils/router';
 import Button from "../../../Button";
+import ItemWithImageTableCell from "../../../common/cells/ItemWithImageTableCell";
+import useGetRoles from "../../../../hooks/roles/useGetRoles";
+import Select from "react-select";
+import UserRoleSelectCell from "../groups/UserRoleSelectCell";
 
 const UserCoursesTable = () => {
   
@@ -12,9 +14,18 @@ const UserCoursesTable = () => {
   const { id } = router.query
 
   const { loading, error, user } = useGetUser(id)
-  
-  const handleAddRole = (id) => {
-  }
+  const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
+
+  const handleChangeRole = useCallback((content, role) => {
+    if(!user?.id) {
+      return false
+    }
+    enrolUsersInContent({
+      userIds: [user.id],
+      groupIds: [content.node.id],
+      roleId: role.id
+    })
+  }, [user])
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -30,18 +41,26 @@ const UserCoursesTable = () => {
       {
         Header: "Course",
         accessor: "node.title", // accessor is the "key" in the data
+        Cell: ({ cell }) => {
+          const course = cell.row.original.node;
+          const cellProps = {
+            title: course.title,
+            image: course.image.location
+            // secondary: JSON.stringify(cell.row.original),
+            // href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+          }
+          return (
+            <ItemWithImageTableCell { ...cellProps } />
+          )
+        }
       },
       {
-        Header: "Roles",
-        accessor: "roles",
-        
+        Header: "Role",
         Cell: ({ cell }) => {
-          console.log('cell')
-          console.log(cell)
-          return (          
-            <div className="flex space-x-4">
-              {cell.value.map(role => role.name).join(', ')}
-            </div>
+          const content = cell.row.original;
+          const handleChange = role => handleChangeRole(content, role);
+          return (
+            <UserRoleSelectCell onChange={handleChange} cell={cell} roleType={'content_item_role'} />
           )
         }
       },
@@ -50,14 +69,13 @@ const UserCoursesTable = () => {
         Header: "Actions",
 
         Cell: ({ cell }) => {
-          return (          
-            <div className="flex space-x-4">
-              <Button
-                onClick={() => handleAddRole(cell.row.values.node.id)}
-              >Course Role
-              </Button>
-            </div>
-          )
+          const content = cell.row.original;
+          return <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
+            handleChangeRole(
+              content,
+              null,
+            )
+          }}>Unenrol from course</a>
         }
       }
     ]
