@@ -43,7 +43,7 @@ const Dashboard = () => {
           <Button>Start now</Button>
         </div>
       </NoticeBox>
-      {/* <ImportElpCourses /> */}
+
       <CourseTabs />
 
       <div className="flex space-x-8 mb-8">
