@@ -49,6 +49,13 @@ const apiPaths = {
       '^/scorm-data': '/scorm-data'
     },
     changeOrigin: true
+  },
+  '/scorm': {
+    target: 'http://127.0.0.1',
+    pathRewrite: {
+      '^/scorm': '/scorm'
+    },
+    changeOrigin: true
   }
 }
 
@@ -63,6 +70,7 @@ app.prepare().then(() => {
     server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
     server.use('/auth', createProxyMiddleware(apiPaths['/auth']));
     server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));
+    server.use('/scorm', createProxyMiddleware(apiPaths['/scorm']));
     server.use('/api/v1', createProxyMiddleware(apiPaths['/api/v1']));
   }
 

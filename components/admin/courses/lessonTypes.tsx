@@ -29,7 +29,7 @@ export const lessonTypes = {
     content: { blocks: [{
       type:'package',
       properties: {
-        url: '/'
+        url: ''
       }
     }]}
   },

@@ -21,7 +21,8 @@ const UsersTable = () => {
   const tableData = useMemo(() => queryData?.users || [], [queryData]);
 
   const editUrl = '/admin/users/edit'
-
+  console.log('tableData')
+  console.log(tableData)
   const handleDelete = (value) => {
     handleModal({
       title: `Delete user`,

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Table from '../../../Table';
 import { GET_COURSES } from '../../../../graphql/queries/allQueries';
 import { GetCourses } from '../../../../graphql/queries/__generated__/GetCourses';
@@ -9,12 +9,15 @@ import CourseTitleCell from './CourseTitleCell';
 import useDeleteCourse from '../../../../hooks/courses/useDeleteCourse';
 import useGetCourses from '../../../../hooks/courses/useGetCourses';
 import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
+import TagSelect from '../../tags/inputs/TagSelect';
+import { Tags } from 'styled-icons/fa-solid';
 
 const CoursesTable = () => {
 
   const { loading, error, courses } = useGetCourses();
   const { deleteCourse } = useDeleteCourse();
 
+  const [ categoryId, setCategoryId ] = useState(null)
   const editUrl = '/admin/courses/edit'
 
   const handleDeleteClick = (id) => {
@@ -25,8 +28,16 @@ const CoursesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return courses?.filter(item => !item._deleted) || []
-    }, [courses]
+      let data = courses?.filter(item => {
+        return !item._deleted
+      })
+      if(categoryId) {
+        data = data?.filter(item => {
+          return item.tags.some(tag => tag.id === categoryId)
+        })
+      }
+      return data || []
+    }, [courses, categoryId]
   );
 
   const tableCols = useMemo(
@@ -63,7 +74,7 @@ const CoursesTable = () => {
         }
       },
       {
-        Header: "Tags",
+        Header: "Categories",
         accessor: "tags",
         Cell: ({ cell }) => {
           const tagString = cell.value.map(tag => tag.label).join(', ')
@@ -95,8 +106,16 @@ const CoursesTable = () => {
     []
   );
 
+  const clearFilters = () => {
+    setCategoryId(null)
+  }
   return (
     <>
+    <div className='flex items-center mb-2'>
+      <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
+      <span className={`text-main-dark hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+    </div>
+
       { loading && (
         <p>loading</p>
       )}

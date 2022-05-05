@@ -5,13 +5,6 @@ import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import { lessonTypes } from "./lessonTypes";
 import NewCourseItem from "./NewCourseItem";
 
-const lessonTypesArray = Object.keys(lessonTypes).map(key => {
-  return {
-    ...lessonTypes[key],
-    value: key
-  }
-});
-
 const NewCourseItemList = ({
   sectionId, 
   onSelect = () => null

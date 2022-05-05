@@ -15,11 +15,12 @@ const ImportElpCourses = () => {
   }
 
   const deleteAllCourses = () => {
-    courses.forEach(course => deleteCourse(course.id))
+    courses?.forEach(course => deleteCourse(course.id))
   }
 
   return (
     <>
+    { courses && 'loaded' }
       <Button onClick={importElpCourses}>Import</Button>
       <Button onClick={deleteAllCourses}>DELETE ALL COURSES</Button>
     </>

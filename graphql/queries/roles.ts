@@ -6,26 +6,27 @@ export const RoleFragment = gql`
     id
     name
     roleType
-    capabilities {
-      ...CapabilityFragment
-    }
     _deleted @client
   }
-  ${CapabilityFragment}
 `
 
 export const GET_ROLE = gql`
   query GetRole($id: ID!) {
     role(id: $id) {
       ...RoleFragment
+      capabilities {
+        ...CapabilityFragment
+      }
     }
   }
   ${RoleFragment}
+  ${CapabilityFragment}
 `
 export const GET_ROLES = gql`
   query GetRoles {
     roles {
       ...RoleFragment
+      
     }
   }
   ${RoleFragment}

@@ -5,7 +5,7 @@ const courses = [
       "tags": [
           {
               "label": "The Pay it Forward Learning Project",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -15,7 +15,7 @@ const courses = [
       "tags": [
           {
               "label": "Infection Control",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -25,7 +25,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -35,7 +35,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -45,7 +45,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -55,7 +55,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -65,7 +65,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -75,7 +75,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -85,7 +85,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -95,7 +95,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -105,7 +105,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -115,7 +115,7 @@ const courses = [
       "tags": [
           {
               "label": "Food Hygiene",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -125,7 +125,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -135,7 +135,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -145,7 +145,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -155,7 +155,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -165,7 +165,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -175,7 +175,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -185,7 +185,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -195,7 +195,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -205,7 +205,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -215,7 +215,7 @@ const courses = [
       "tags": [
           {
               "label": "Diversity and Inclusion",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -225,7 +225,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -235,7 +235,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -245,7 +245,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -255,7 +255,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -265,7 +265,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -275,7 +275,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -285,7 +285,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -295,7 +295,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -305,7 +305,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -315,7 +315,7 @@ const courses = [
       "tags": [
           {
               "label": "GDPR",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -325,7 +325,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -335,7 +335,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -345,7 +345,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -355,7 +355,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -365,7 +365,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -375,7 +375,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -385,7 +385,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -395,7 +395,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -405,7 +405,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -415,7 +415,7 @@ const courses = [
       "tags": [
           {
               "label": "Safeguarding",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -425,7 +425,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -435,7 +435,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -445,7 +445,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -455,7 +455,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -465,7 +465,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -475,7 +475,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -485,7 +485,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -495,7 +495,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -505,7 +505,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -515,7 +515,7 @@ const courses = [
       "tags": [
           {
               "label": "Health and Safety",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -525,7 +525,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -535,7 +535,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -545,7 +545,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -555,7 +555,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -565,7 +565,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -575,7 +575,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -585,7 +585,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -595,7 +595,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -605,7 +605,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -615,7 +615,7 @@ const courses = [
       "tags": [
           {
               "label": "Human Resources",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -625,7 +625,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -635,7 +635,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -645,7 +645,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -655,7 +655,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -665,7 +665,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -675,7 +675,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -685,7 +685,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -695,7 +695,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -705,7 +705,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -715,7 +715,7 @@ const courses = [
       "tags": [
           {
               "label": "Sales Skills",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -725,7 +725,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -735,7 +735,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -745,7 +745,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -755,7 +755,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -765,7 +765,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -775,7 +775,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -785,7 +785,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -795,7 +795,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -805,7 +805,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -815,7 +815,7 @@ const courses = [
       "tags": [
           {
               "label": "Marketing",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -825,7 +825,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -835,7 +835,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -845,7 +845,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -855,7 +855,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -865,7 +865,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -875,7 +875,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -885,7 +885,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -895,7 +895,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -905,7 +905,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -915,7 +915,7 @@ const courses = [
       "tags": [
           {
               "label": "Customer Service",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -925,7 +925,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -935,7 +935,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -945,7 +945,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -955,7 +955,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -965,7 +965,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -975,7 +975,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -985,7 +985,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -995,7 +995,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1005,7 +1005,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1015,7 +1015,7 @@ const courses = [
       "tags": [
           {
               "label": "Policy and Compliance",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1025,7 +1025,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1035,7 +1035,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1045,7 +1045,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1055,7 +1055,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1065,7 +1065,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1075,7 +1075,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1085,7 +1085,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1095,7 +1095,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1105,7 +1105,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1115,7 +1115,7 @@ const courses = [
       "tags": [
           {
               "label": "Personal Development",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1125,7 +1125,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1135,7 +1135,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1145,7 +1145,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1155,7 +1155,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1165,7 +1165,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1175,7 +1175,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1185,7 +1185,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1195,7 +1195,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1205,7 +1205,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   },
@@ -1215,7 +1215,7 @@ const courses = [
       "tags": [
           {
               "label": "Leadership & Management",
-              "tagType": "topic"
+              "tagType": "category"
           }
       ]
   }

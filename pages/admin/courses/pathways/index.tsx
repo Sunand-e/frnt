@@ -38,7 +38,7 @@ const AdminPathways = () => {
 
   return (
     <>
-      <Notices />dd
+      <Notices />
       <PathwaysTable />
     </>
   )

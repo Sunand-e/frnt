@@ -17,6 +17,11 @@ export const UserFragment = gql`
       name
       roleType
     }
+  }
+`
+
+export const UserCoursesFragment = gql`
+  fragment UserCoursesFragment on User {
     courses {
       edges {
         node {
@@ -34,6 +39,12 @@ export const UserFragment = gql`
         visits
       }
     }
+  }
+  ${ContentFragment}
+`
+
+export const UserGroupsFragment = gql`
+  fragment UserGroupsFragment on User {
     groups {
       edges {
         node {
@@ -48,16 +59,19 @@ export const UserFragment = gql`
       }
     }
   }
-  ${ContentFragment}
 `
 
 export const GET_USER = gql`
   query GetUser($id: ID) {
     user(id: $id) {
       ...UserFragment
+      ...UserCoursesFragment
+      ...UserGroupsFragment
     }
   }
   ${UserFragment}
+  ${UserCoursesFragment}
+  ${UserGroupsFragment}
 `
 
 export const GET_USERS = gql`
