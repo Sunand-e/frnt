@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import { Action, Handle, Remove } from '../dnd-kit'
+import React, { useContext, useEffect, useRef } from 'react';
 
 import {MoreVert} from '@styled-icons/material/MoreVert'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
@@ -13,16 +12,31 @@ import 'tippy.js/animations/scale.css';
 import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
-import { currentContentItemVar } from '../../graphql/cache';
 import useBlockEditor from './useBlockEditor';
+import blocktypes from './blocktypes';
+import { ModalContext } from '../../context/modalContext';
 
 const BlockMenu = ({ block, className }) => {
   
+  const { type } = block
+
   const { blocks, addColumn, shiftPosition, handleDeleteBlock } = useBlockEditor()
   
   const isChild = !blocks.some(b => b.id === block.id)
 
   const index = blocks.findIndex(b => b.id === block.id)
+
+  const { handleModal } = useContext(ModalContext)
+
+  const SettingsComponent = blocktypes[type]?.settingsComponent
+
+  const showSettings = () => {
+    handleModal({
+      title: `Choose package`,
+      content: <SettingsComponent block={block} />,
+      size: 'lg'
+    })
+  }
 
   const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
     <button
@@ -60,7 +74,7 @@ const BlockMenu = ({ block, className }) => {
       name: 'settings',
       text: 'Settings',
       iconComponent: Cog,
-      onClick: () => null
+      onClick: showSettings
     },
     {
       name: 'add-column',

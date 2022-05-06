@@ -26,6 +26,16 @@ import PackageBlockEdit from './blocks/PackageBlock/PackageBlockEdit'
 import ColumnsBlockEdit from './blocks/ColumnsBlock/ColumnsBlockEdit'
 import PlaceholderBlockEdit from './blocks/ColumnsBlock/PlaceholderBlockEdit'
 
+import TextBlockSettings from './blocks/TextBlock/TextBlockSettings'
+import HeaderBlockSettings from './blocks/HeaderBlock/HeaderBlockSettings'
+import ListBlockSettings from './blocks/ListBlock/ListBlockSettings'
+import ImageBlockSettings from './blocks/ImageBlock/ImageBlockSettings'
+import VideoBlockSettings from './blocks/VideoBlock/VideoBlockSettings'
+import DocumentBlockSettings from './blocks/DocumentBlock/DocumentBlockSettings'
+import PackageBlockSettings from './blocks/PackageBlock/PackageBlockSettings'
+import ColumnsBlockSettings from './blocks/ColumnsBlock/ColumnsBlockSettings'
+import PlaceholderBlockSettings from './blocks/ColumnsBlock/PlaceholderBlockSettings'
+
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
 
@@ -34,6 +44,7 @@ const blocktypes = {
     text: 'header',
     component: HeaderBlock,
     editComponent: HeaderBlockEdit,
+    settingsComponent: HeaderBlockSettings,
     icon: Text,
     hideFromSelector: true,
   },
@@ -41,48 +52,56 @@ const blocktypes = {
     text: 'Text',
     component: TextBlock,
     editComponent: TextBlockEdit,
+    settingsComponent: TextBlockSettings,
     icon: Text,
   },
   // list: {
   //   text: 'List',
   //   component: ListBlock,
   //   editComponent: ListBlockEdit,
+  // settingsComponent: ListBlockSettings,
   //   icon: List,
   // },
   image: {
     text: 'Image',
     component: ImageBlock,
     editComponent: ImageBlockEdit,
+    settingsComponent: ImageBlockSettings,
     icon: Image,
   },
   video: {
     text: 'Video',
     component: VideoBlock,
     editComponent: VideoBlockEdit,
+    settingsComponent: VideoBlockSettings,
     icon: Video,
   },
   document: {
     text: 'Document',
     component: DocumentBlock,
     editComponent: DocumentBlockEdit,
+    settingsComponent: DocumentBlockSettings,
     icon: Document,
   },
   package: {
     text: 'SCORM / xAPI',
     component: PackageBlock,
     editComponent: PackageBlockEdit,
+    settingsComponent: PackageBlockSettings,
     icon: Box,
   }, 
   columns: {
     text: 'Columns',
     component: ColumnsBlock,
     editComponent: ColumnsBlockEdit,
+    settingsComponent: ColumnsBlockSettings,
     icon: Columns,
   },
   placeholder: {
     text: 'Placeholder',
     component: PlaceholderBlock,
     editComponent: PlaceholderBlockEdit,
+    settingsComponent: PlaceholderBlockSettings,
     icon: AddColumn,
     hideFromSelector: true,
   }

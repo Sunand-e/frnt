@@ -26,7 +26,7 @@ const Tabs = ({tabs, className, activeTabIndex, setActiveTabIndex}) => {
             {tabs.map((tab, index) => (
               <a
                 key={tab.name}
-                href={tab.href}
+                href='#'
                 onClick={() => setActiveTabIndex(index)}
                 className={classNames(
                   index === activeTabIndex

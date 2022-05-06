@@ -39,7 +39,7 @@ export default function CourseTabs() {
     }
     return {
       name,
-      count: courses?.length,
+      count: courses?.length || 0,
       href: '#'
     }
   })
