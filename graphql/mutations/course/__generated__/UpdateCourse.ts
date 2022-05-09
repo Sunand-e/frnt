@@ -149,6 +149,7 @@ export interface UpdateCourseVariables {
   certificateProperties?: any | null;
   settings?: any | null;
   tags?: TagInput[] | null;
+  tagIds?: TagInput[] | null;
   imageId?: string | null;
   imageUrl?: string | null;
   childrenIds?: any | null;

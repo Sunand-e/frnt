@@ -26,25 +26,25 @@ import PackageBlockEdit from './blocks/PackageBlock/PackageBlockEdit'
 import ColumnsBlockEdit from './blocks/ColumnsBlock/ColumnsBlockEdit'
 import PlaceholderBlockEdit from './blocks/ColumnsBlock/PlaceholderBlockEdit'
 
-import TextBlockSettings from './blocks/TextBlock/TextBlockSettings'
-import HeaderBlockSettings from './blocks/HeaderBlock/HeaderBlockSettings'
-import ListBlockSettings from './blocks/ListBlock/ListBlockSettings'
-import ImageBlockSettings from './blocks/ImageBlock/ImageBlockSettings'
-import VideoBlockSettings from './blocks/VideoBlock/VideoBlockSettings'
-import DocumentBlockSettings from './blocks/DocumentBlock/DocumentBlockSettings'
-import PackageBlockSettings from './blocks/PackageBlock/PackageBlockSettings'
-import ColumnsBlockSettings from './blocks/ColumnsBlock/ColumnsBlockSettings'
-import PlaceholderBlockSettings from './blocks/ColumnsBlock/PlaceholderBlockSettings'
+import TextSettings from './blocks/TextBlock/TextSettings'
+import HeaderSettings from './blocks/HeaderBlock/HeaderSettings'
+import ListSettings from './blocks/ListBlock/ListSettings'
+import ImageSettings from './blocks/ImageBlock/ImageSettings'
+import VideoSettings from './blocks/VideoBlock/VideoSettings'
+import DocumentSettings from './blocks/DocumentBlock/DocumentSettings'
+import PackageSettings from './blocks/PackageBlock/PackageSettings'
+import ColumnsSettings from './blocks/ColumnsBlock/ColumnsSettings'
+import PlaceholderSettings from './blocks/ColumnsBlock/PlaceholderSettings'
 
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
 
 const blocktypes = {
   header: {
-    text: 'header',
+    text: 'Header',
     component: HeaderBlock,
     editComponent: HeaderBlockEdit,
-    settingsComponent: HeaderBlockSettings,
+    settingsComponent: HeaderSettings,
     icon: Text,
     hideFromSelector: true,
   },
@@ -52,56 +52,56 @@ const blocktypes = {
     text: 'Text',
     component: TextBlock,
     editComponent: TextBlockEdit,
-    settingsComponent: TextBlockSettings,
+    settingsComponent: TextSettings,
     icon: Text,
   },
   // list: {
   //   text: 'List',
   //   component: ListBlock,
   //   editComponent: ListBlockEdit,
-  // settingsComponent: ListBlockSettings,
+  // settingsComponent: ListSettings,
   //   icon: List,
   // },
   image: {
     text: 'Image',
     component: ImageBlock,
     editComponent: ImageBlockEdit,
-    settingsComponent: ImageBlockSettings,
+    settingsComponent: ImageSettings,
     icon: Image,
   },
   video: {
     text: 'Video',
     component: VideoBlock,
     editComponent: VideoBlockEdit,
-    settingsComponent: VideoBlockSettings,
+    settingsComponent: VideoSettings,
     icon: Video,
   },
   document: {
     text: 'Document',
     component: DocumentBlock,
     editComponent: DocumentBlockEdit,
-    settingsComponent: DocumentBlockSettings,
+    settingsComponent: DocumentSettings,
     icon: Document,
   },
   package: {
     text: 'SCORM / xAPI',
     component: PackageBlock,
     editComponent: PackageBlockEdit,
-    settingsComponent: PackageBlockSettings,
+    settingsComponent: PackageSettings,
     icon: Box,
   }, 
   columns: {
     text: 'Columns',
     component: ColumnsBlock,
     editComponent: ColumnsBlockEdit,
-    settingsComponent: ColumnsBlockSettings,
+    settingsComponent: ColumnsSettings,
     icon: Columns,
   },
   placeholder: {
     text: 'Placeholder',
     component: PlaceholderBlock,
     editComponent: PlaceholderBlockEdit,
-    settingsComponent: PlaceholderBlockSettings,
+    settingsComponent: PlaceholderSettings,
     icon: AddColumn,
     hideFromSelector: true,
   }

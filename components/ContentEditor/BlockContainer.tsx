@@ -23,7 +23,11 @@ const BlockContainer = ({
   return (
     <div className='group flex flex-col'>
       <div
-        className={`${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'} relative flex flex-col items-center`}
+        className={`
+        ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
+        ${parent?.id ? 'px-4' : ''}
+        relative flex flex-col items-center
+      `}
         onClick={() => activeContentBlockVar(block.id)}
       >
         <span className={`absolute z-10 right-2 top-2`}>

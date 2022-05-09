@@ -9,8 +9,7 @@ import RoleTypeSelect from './inputs/RoleTypeSelect';
 interface RoleFormValues {
   name?: string 
   email: string
-  roleImage: string
-  userRole: string
+  roleType: string
 }
 
 const RoleForm = ({role=null, onSubmit}) => {

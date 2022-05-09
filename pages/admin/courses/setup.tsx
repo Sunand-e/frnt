@@ -4,19 +4,14 @@ import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/Button'
 import { v4 as uuidv4 } from 'uuid';
-import useCourse from '../../../hooks/courses/useCourse'
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
 import { GetCourses } from '../../../graphql/queries/__generated__/GetCourses';
 import { ModalContext } from '../../../context/modalContext'
-import TextInput from '../../../components/common/inputs/TextInput'
-import { useForm } from 'react-hook-form'
-import CheckboxInput from '../../../components/common/inputs/CheckboxInput'
-import SelectInput from '../../../components/common/inputs/SelectInput'
-import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
 import { useMutation } from '@apollo/client'
 import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
 import { GET_COURSES } from '../../../graphql/queries/allQueries'
 import LoadingSpinner from '../../../components/LoadingSpinner'
+import CourseForm from '../../../components/admin/courses/CourseForm'
 
 const AdminCourseSetup = () => {
   /*
@@ -71,7 +66,7 @@ const AdminCourseSetup = () => {
 
   const onSubmit = (values) => {
     
-    const { title, imageId, ...settings } = values
+    const { title, imageId, tags, ...settings } = values
     // setSubmitted(values);
 
     createCourse({
@@ -79,6 +74,7 @@ const AdminCourseSetup = () => {
         title,
         imageId,
         settings,
+        tags,
         sections: [{
           title: "Section 1"
         }]
@@ -113,8 +109,10 @@ const AdminCourseSetup = () => {
               prerequisites: null,
               _deleted: false,
               children: [],
+              users: null,
               settings: {},
             }],
+            users: null,
             settings: {},
             _deleted: false,
           },
@@ -131,59 +129,11 @@ const AdminCourseSetup = () => {
     })
   }
 
-  interface CourseSetupFormValues {
-    title: string
-    imageId: string
-    accessType: string
-    coursePrice: string
-    enablePrerequisites: boolean
-    disableProgression: boolean
-  }
-
-  const { register, handleSubmit, control } = useForm<CourseSetupFormValues>();
-
   return (
     // <div className='h-full w-full max-w-lg mx-auto'>
     <>
-      <form
-        className='h-full w-full max-w-sm flex flex-col space-y-4'
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <TextInput
-          label="Course name"
-          placeholder="Untitled course"
-          inputAttrs={register("title", { /*maxLength: 20*/ })}
-        />
-        <ImageSelectInput
-          placeholder={'https://picsum.photos/640/360'}
-          buttonText="Choose course image"
-          control={control}
-          name="imageId"
-          // inputAttrs={register("image", { required: true })}
-        />
-        <SelectInput
-          label="Course access type"
-          options={["Open access", "Assignable", "Paid access"]}
-          inputAttrs={register("accessType")}
-        />
-        <TextInput
-          label="Course price"
-          placeholder="Untitled course"
-          inputAttrs={register("coursePrice")}
-        />
-        <CheckboxInput
-          label="Enable prerequisites"
-          inputAttrs={register("enablePrerequisites")}
-        />
-        <CheckboxInput
-          label="Disable lesson progression"
-          inputAttrs={register("disableProgression")}
-        />
-        <Button type="submit">Course Builder</Button>
-        {/* <p className='text-lg font-bold mt-4'>Create your first course item:</p>
-        <AddItemToCourseForm sectionId={123} /> */}
-      </form>
-      </>
+      <CourseForm submitButtonText='Course Builder' onSubmit={onSubmit}/>
+    </>
   )
 }
 

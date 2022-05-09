@@ -28,6 +28,7 @@ export const pageTitleVar = makeVar({
   title: null,
   subtitle: null,
   editable: null,
+  after: null,
   onEdit: () => false
 })
 export const currentContentItemVar = makeVar({

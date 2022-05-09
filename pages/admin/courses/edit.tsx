@@ -1,11 +1,14 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import CourseItemEditor from '../../../components/admin/courses/CourseItemEditor'
+import CourseEditor from '../../../components/admin/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import { useState, useEffect, useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Button from '../../../components/Button'
+import {Cog} from '@styled-icons/fa-solid/Cog'
 import useCourse from '../../../hooks/courses/useCourse'
+import { ModalContext } from '../../../context/modalContext'
+import CourseForm from '../../../components/admin/courses/CourseForm'
 
 const AdminCoursesEdit = () => {
   /*
@@ -33,19 +36,40 @@ const AdminCoursesEdit = () => {
     }
   },[])
   
+  const { handleModal, closeModal } = useContext(ModalContext)
+
+  const onSettingsSubmit = (values) => {
+    console.log('values')
+    console.log(values)
+    updateCourse(values)
+    closeModal()
+  }
+
+  const openCourseSettings = () => {
+    handleModal({
+      title: `Course settings`,
+      size: 'lg',
+      content: <CourseForm course={course} onSubmit={onSettingsSubmit} submitButtonText="Save settings" />
+    })
+  }
 
   // const { updateCourseTitle } = useCourse(id)
 
   usePageTitle({ 
     title: "Course: ", 
     editable:  course?.title, 
-    onEdit: title => updateCourse({title})
+    onEdit: title => updateCourse({title}),
+    after: (
+      <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>
+        <Cog size="18"  />
+      </div>
+    )
   })
 
   useEffect(() => {
     headerButtonsVar(
       <>
-        <Button onClick={() => router.push('/admin/courses')}>Cancel</Button>
+        <Button onClick={() => router.push('/admin/courses')}>Back</Button>
         <Button onClick={() => router.push({
           pathname: `/course`,
           query: {
@@ -62,7 +86,7 @@ const AdminCoursesEdit = () => {
   return (
     <>
       { course && 
-        <CourseItemEditor />
+        <CourseEditor />
       }
     </>
   )

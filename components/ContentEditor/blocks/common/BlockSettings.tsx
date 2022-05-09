@@ -1,20 +1,23 @@
 import { useState } from "react"
 import Tabs from "../../../common/containers/Tabs"
-import ContentSettings from "./ContentSettings"
-import StylingSettings from "./StylingSettings"
+import blocktypes from "../../blocktypes"
+// import SettingsPanel from "./SettingsPanel"
+import StylingPanel from "./StylingPanel"
 
 const BlockSettings = ({block}) => {
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
+  const SettingsPanel = blocktypes[block.type].settingsComponent
+
   const tabs =  [
     {
-      name: 'Content',
-      component: ContentSettings
+      name: 'Settings',
+      component: SettingsPanel
     },
     {
       name: 'Styling',
-      component: StylingSettings
+      component: StylingPanel
     },
   ]
 
@@ -22,7 +25,7 @@ const BlockSettings = ({block}) => {
   return (
     <>
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} className="mb-2" />
-      <TabPanelComponent />
+      <TabPanelComponent block={block} />
     </>
   )
 }

@@ -19,7 +19,8 @@ const PageTitle : FC = () => {
   // },[])
   
   return (
-    <h1 className="flex my-3 items-center overflow-hidden w-auto text-xl text-main-dark font-bold">
+    <div className="flex items-center text-main-dark">
+    <h1 className="flex my-3 items-center overflow-hidden w-auto text-xl font-bold">
       <span className="pr-2">{ pageTitle.title }</span>
       { !!pageTitle.editable &&
         <EasyEdit
@@ -33,6 +34,8 @@ const PageTitle : FC = () => {
       />
     }
     </h1>
+    { pageTitle.after }
+    </div>
   )
 }
 

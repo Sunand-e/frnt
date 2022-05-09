@@ -13,8 +13,9 @@ import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
-import blocktypes from './blocktypes';
 import { ModalContext } from '../../context/modalContext';
+import BlockSettings from './blocks/common/BlockSettings';
+import blocktypes from './blocktypes';
 
 const BlockMenu = ({ block, className }) => {
   
@@ -28,12 +29,10 @@ const BlockMenu = ({ block, className }) => {
 
   const { handleModal } = useContext(ModalContext)
 
-  const SettingsComponent = blocktypes[type]?.settingsComponent
-
   const showSettings = () => {
     handleModal({
-      title: `Choose package`,
-      content: <SettingsComponent block={block} />,
+      title: `${blocktypes[block.type].text} settings`,
+      content: <BlockSettings block={block} />,
       size: 'lg'
     })
   }

@@ -1,11 +1,6 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import CourseEditForm from '../../../components/admin/courses/CourseEditForm'
-import CourseItemEditor from '../../../components/admin/courses/CourseItemEditor'
 import { useRouter } from '../../../utils/router'
-import { useQuery } from '@apollo/client'
-import { GET_COURSE, GET_LESSON } from "../../../graphql/queries/allQueries"
-import EditorLayout from '../../../layouts/EditorLayout'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
+import { headerButtonsVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/Button'
 import useCourse from '../../../hooks/courses/useCourse'

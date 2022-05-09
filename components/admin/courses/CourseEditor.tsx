@@ -1,45 +1,65 @@
-import { useRef } from 'react';
-import { useState } from 'react';
-import BlockEditor from '../BlockEditor'
-import Button from '../../Button'
 
-const CourseEditor = (() => {
+import { useReactiveVar } from "@apollo/client"
+import { useRouter } from '../../../utils/router'
+import LessonEditor from "./LessonEditor"
+import SelectNewCourseItem from "./SelectNewCourseItem"
+import useCourse from "../../../hooks/courses/useCourse"
+import { useEffect } from "react"
+import { currentContentItemVar } from "../../../graphql/cache"
+import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson"
 
-  const [courseData, setCourseData] = useState({ blocks: [] });
-  const instanceRef = useRef(null);
+const CourseEditor = () => {
+  const router = useRouter()
 
-  const handleClickChangeData = () => {
-    instanceRef.current.blocks.insert(
-      //type, blockdata, config, index, needToFocus
-      "paragraph",
-      {
-        text: "555"
+  const { id, cid: contentId } = router.query
+  const { course } = useCourse(id)
+  const currentContentItem = useReactiveVar(currentContentItemVar)
+  
+  const {
+    lesson,
+    updateLesson
+  } = useUpdateLesson(contentId)
+  
+  useEffect(() => {
+    // If there is a course but no item provided, show the first item
+    if(course && !currentContentItem.id) {
+      const firstItemInCourse = course?.sections.find(
+        (section) => section.children?.length
+        )?.children[0]
+      
+      if(firstItemInCourse) {
+        currentContentItemVar({
+          id: firstItemInCourse.id,
+          type:'lesson',
+          updateFunction: updateLesson(firstItemInCourse.id)
+        })
       }
-    ); // update the block
-    const newData = {
-      blocks: [
-        {
-          type: "paragraph",
-          data: {
-            text: "555"
-          }
-        },
-        ...courseData?.blocks
-      ]
-    };
-    setCourseData(newData);
-  };
+    }
+  },[course?.id])
+
+  
+  // useEffect(() => {
+  //   headerButtonsVar(
+  //     <>
+  //       <Button onClick={() => router.push(`/admin/courses/edit?id=${cid}`)}>Cancel</Button>
+  //       <Button>Preview lesson</Button>
+  //       <Button>Publish</Button>
+  //     </>
+  //   )
+  // },[])
 
   return (
     <>
-      <Button onClick={handleClickChangeData}>change data</Button>
-      <BlockEditor
-        data={courseData}
-        setData={setCourseData}
-        instanceRef={instanceRef}
-      />
+      { currentContentItem.id ? (
+        <>
+          <LessonEditor />
+        </>
+      ) :
+        <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+          <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first lesson" />
+        </div>
+      }
     </>
   )
-})
-
+}
 export default CourseEditor
