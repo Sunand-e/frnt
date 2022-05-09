@@ -1,12 +1,16 @@
 import TopNotificationBar from '../components/TopNotificationBar'
 import LoginPage from '../components/LoginPage'
+import { isLoggedInVar } from '../graphql/cache'
+import { useReactiveVar } from '@apollo/client'
 
 export default function LoginLayout( {page, navState, pageState} ) {
+
+  const isLoggedIn = useReactiveVar(isLoggedInVar)
   return (
     <>
       <div className={`min-h-full bg-blue-superlight`}>
         <div className="fixed w-full">
-          <TopNotificationBar />  
+          <TopNotificationBar />
         </div>
         <div className="flex-grow">
           {/* <Header pageState={pageState} /> */}
@@ -14,7 +18,9 @@ export default function LoginLayout( {page, navState, pageState} ) {
             <div className="lg:flex">
               <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:overflow-visible">
                 <div className="w-full flex items-center justify-center">
-                  <LoginPage />
+                  {!isLoggedIn && (
+                    <LoginPage />
+                  )}
                 </div>
               </div>
             </div>

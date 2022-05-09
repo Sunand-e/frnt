@@ -63,7 +63,7 @@ export const headerButtonsVar = makeVar(<></>)
 
 
 // Initializes to true if localStorage includes a 'token', false otherwise
-export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!localStorage.getItem('token'))
+export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!localStorage.getItem('token') || null)
 
 const cache = new InMemoryCache({
   possibleTypes,
