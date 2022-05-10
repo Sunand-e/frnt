@@ -8,7 +8,7 @@ export const BlockEdit = ({ block, dragOverlay = false }) => {
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `${dragOverlay}-${id}` : id;
   return (
-    <div className={`h-full py-1 w-full max-w-screen-lg`}>
+    <div className={`h-full w-full max-w-screen-lg`}>
       { BlockEditComponent && <BlockEditComponent id={blockId} block={block} /> }
     </div>
   );

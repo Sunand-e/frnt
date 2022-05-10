@@ -7,7 +7,8 @@ const StylingPanel = ({block: origBlock, children = null}) => {
 
   const [block, setBlock] = useState(origBlock)
 
-  const { updateBlockProperties } = useBlockEditor(block)
+  const { updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
+  const { parent } = getIndexAndParent(block)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`
@@ -26,19 +27,38 @@ const StylingPanel = ({block: origBlock, children = null}) => {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex space-x-4">
-        <PaddingSelect
-          side='top'
-          onSelect={data => selectPadding(data.value, 'top')}
-          selected='none'
-          label="Padding Top"
-        />
-        
-        <PaddingSelect 
-          side='bottom'
-          onSelect={data => selectPadding(data.value, 'bottom')}
-          selected='none'
-          label="Padding Bottom"
-        />
+        { !parent ? (
+          <>
+            <PaddingSelect
+              side='top'
+              onSelect={data => selectPadding(data.value, 'top')}
+              selected='none'
+              label="Padding Top"
+            />  
+            <PaddingSelect 
+              side='bottom'
+              onSelect={data => selectPadding(data.value, 'bottom')}
+              selected='none'
+              label="Padding Bottom"
+              />
+            </>
+          ) : (
+            <>
+              <PaddingSelect
+                side='left'
+                onSelect={data => selectPadding(data.value, 'left')}
+                selected='none'
+                label="Padding Left"
+              />
+              <PaddingSelect 
+                side='right'
+                onSelect={data => selectPadding(data.value, 'right')}
+                selected='none'
+                label="Padding Right"
+              />
+            </>
+          )
+        }
       </div>
       <ColorPicker
         label="Background Color"

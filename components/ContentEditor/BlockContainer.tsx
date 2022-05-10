@@ -22,7 +22,7 @@ const BlockContainer = ({
   
   return (
     <div 
-      className='group flex flex-col -mx-16'
+      className={`group flex flex-col h-full ${parent ? '' : '-mx-16'}`}
       style={{
         backgroundColor: block?.properties?.bgColor,
         color: block?.properties?.textColor || 'inherit'

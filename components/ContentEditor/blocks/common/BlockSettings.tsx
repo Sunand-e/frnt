@@ -13,12 +13,12 @@ const BlockSettings = ({block}) => {
 
   const tabs =  [
     {
-      name: 'Settings',
-      component: SettingsPanel
-    },
-    {
       name: 'Styling',
       component: StylingPanel
+    },
+    {
+      name: 'Settings',
+      component: SettingsPanel
     },
   ]
 
