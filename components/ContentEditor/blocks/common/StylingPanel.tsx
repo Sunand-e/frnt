@@ -1,39 +1,56 @@
 import { useState } from "react";
-import { HexColorPicker, HexColorInput } from "react-colorful";
+import useBlockEditor from "../../useBlockEditor";
+import ColorPicker from "./settings/inputs/ColorPicker";
 import PaddingSelect from "./settings/inputs/PaddingSelect"
 
-const StylingPanel = ({children = null}) => {
+const StylingPanel = ({block: origBlock, children = null}) => {
 
-  const [color, setColor] = useState("#aabbcc");
+  const [block, setBlock] = useState(origBlock)
 
-  const selectPadding = v => {
-    alert(JSON.stringify(v.value, null))
+  const { updateBlockProperties } = useBlockEditor(block)
+
+  const selectPadding = (value, side) => {
+    const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`
+    setBlock(updateBlockProperties(block, {[paddingProperty]: value}))
+  }
+  
+  const updateBgColor = value => {
+    setBlock(updateBlockProperties(block, {bgColor: value}))
+  }
+  
+  const updateTextColor = value => {
+    setBlock(updateBlockProperties(block, {textColor: value}))
   }
 
-  const selectBackground = v => {
-    alert(JSON.stringify(v.value, null))
-  }
 
   return (
-    <>
-      <PaddingSelect 
-        side='top'
-        onSelect={selectPadding}
-        selected='none'
-        label="Padding Top"
+    <div className="flex flex-col space-y-4">
+      <div className="flex space-x-4">
+        <PaddingSelect
+          side='top'
+          onSelect={data => selectPadding(data.value, 'top')}
+          selected='none'
+          label="Padding Top"
+        />
+        
+        <PaddingSelect 
+          side='bottom'
+          onSelect={data => selectPadding(data.value, 'bottom')}
+          selected='none'
+          label="Padding Bottom"
+        />
+      </div>
+      <ColorPicker
+        label="Background Color"
+        onChange={updateBgColor}
+        value={block?.properties?.bgColor}
       />
-      
-      <PaddingSelect 
-        side='bottom'
-        onSelect={selectPadding}
-        selected='none'
-        label="Padding Bottom"
+      <ColorPicker
+        label="Default Text Color"
+        onChange={updateTextColor}
+        value={block?.properties?.textColor}
       />
-    <div>
-      <HexColorPicker color={color} onChange={setColor} />
-      <HexColorInput color={color} onChange={setColor} />
     </div>
-    </>
   )
 }
 

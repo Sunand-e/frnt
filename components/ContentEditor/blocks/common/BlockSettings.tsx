@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Tabs from "../../../common/containers/Tabs"
 import blocktypes from "../../blocktypes"
+import useBlockEditor from "../../useBlockEditor"
 // import SettingsPanel from "./SettingsPanel"
 import StylingPanel from "./StylingPanel"
 

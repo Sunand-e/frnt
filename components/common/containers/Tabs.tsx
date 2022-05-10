@@ -26,13 +26,13 @@ const Tabs = ({tabs, className, activeTabIndex, setActiveTabIndex}) => {
             {tabs.map((tab, index) => (
               <a
                 key={tab.name}
-                href='#'
+                // href='#'
                 onClick={() => setActiveTabIndex(index)}
                 className={classNames(
                   index === activeTabIndex
                     ? 'border-main text-main-dark'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200',
-                  'whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm'
+                  'whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm cursor-pointer'
                 )}
                 aria-current={index === activeTabIndex ? 'page' : undefined}
               >

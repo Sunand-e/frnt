@@ -21,13 +21,25 @@ const BlockContainer = ({
   const isActive = useReactiveVar(activeContentBlockVar) === block.id
   
   return (
-    <div className='group flex flex-col'>
+    <div 
+      className='group flex flex-col -mx-16'
+      style={{
+        backgroundColor: block?.properties?.bgColor,
+        color: block?.properties?.textColor || 'inherit'
+      }}
+    >
       <div
         className={`
-        ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
-        ${parent?.id ? 'px-4' : ''}
-        relative flex flex-col items-center
-      `}
+          ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
+          ${parent?.id ? 'px-4' : ''}
+          relative flex flex-col items-center
+        `}
+        style={{
+          paddingTop: block?.properties?.paddingTop,
+          paddingBottom: block?.properties?.paddingBottom,
+          paddingLeft: block?.properties?.paddingLeft,
+          paddingRight: block?.properties?.paddingRight,
+        }}
         onClick={() => activeContentBlockVar(block.id)}
       >
         <span className={`absolute z-10 right-2 top-2`}>

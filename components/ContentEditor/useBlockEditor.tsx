@@ -90,6 +90,19 @@ const useBlockEditor = (block=null) => {
     
   }
 
+  const updateBlockProperties = (block, properties={}) => {
+    
+    const updatedBlock = {
+      ...block,
+      properties: {
+        ...block.properties,
+        ...properties
+      }
+    }
+    updateBlock(updatedBlock)
+    return updatedBlock
+  }
+
   const addBlock = (newBlock, replace=false) => {
     if(block) {
       if(replace) {
@@ -108,10 +121,6 @@ const useBlockEditor = (block=null) => {
     updateBlock(block);
   }, 500);
   
-  
-  
-  
-  
   const deleteBlock = block => {
     
     const { index, parent } = getIndexAndParent(block)
@@ -125,8 +134,6 @@ const useBlockEditor = (block=null) => {
       if(parent.children.length === 2) {
 
         const newBlock = parent.children.find(b => b.id !== block.id)
-        console.log('newBlock')
-        console.log(newBlock)
         updateBlock(parent, newBlock)
 
       // otherwise, remove the block from the column
@@ -268,6 +275,7 @@ const useBlockEditor = (block=null) => {
     insertBlock,
     addBlock,
     updateBlock,
+    updateBlockProperties,
     getIndexAndParent,
     activeBlockId: activeContentBlockVar(),
     debouncedUpdateBlock,

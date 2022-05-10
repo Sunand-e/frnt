@@ -20,8 +20,8 @@ const LessonView = ({id}) => {
   } = useGetLesson(id)
   
   return (
-    <div className="self-center w-full flex flex-col items-center">
-      <h1 className="mt-3 mb-8 w-full max-w-screen-lg">
+    <div className="w-full flex flex-col">
+      <h1 className="mt-3 mb-8 w-full max-w-screen-lg self-center">
         { lesson.title }
       </h1>
         {lesson?.content?.blocks && 

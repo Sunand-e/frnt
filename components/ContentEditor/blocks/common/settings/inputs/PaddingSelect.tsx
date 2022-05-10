@@ -30,10 +30,10 @@ const PaddingSelect = ({side, onSelect, selected, label}) => {
     },
   }
   return (
-    <>
+    <div>
       { label && <label>{label}</label> }
       <Select {...selectProps} />
-    </>
+    </div>
   )
 }
 

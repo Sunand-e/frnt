@@ -52,6 +52,12 @@ const BlockMenu = ({ block, className }) => {
 
   const allBlockMenuItems = [
     {
+      name: 'settings',
+      text: 'Settings',
+      iconComponent: Cog,
+      onClick: showSettings
+    },
+    {
       name: 'move-up',
       text: 'Move up',
       childText: 'Move left',
@@ -68,12 +74,6 @@ const BlockMenu = ({ block, className }) => {
       iconComponent: ArrowDownward,
       isDisabled: () => index === blocks.length-1,
       onClick: () => shiftPosition(block,'down')
-    },
-    {
-      name: 'settings',
-      text: 'Settings',
-      iconComponent: Cog,
-      onClick: showSettings
     },
     {
       name: 'add-column',
@@ -136,7 +136,7 @@ const BlockMenu = ({ block, className }) => {
 
   if(!isChild) {
     return (
-      <div className={`flex flex-col rounded bg-white ${className}`}>
+      <div className={`flex flex-col rounded bg-white text-gray-600 ${className}`}>
         { menuItems }
       </div>
     )
