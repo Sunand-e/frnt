@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import Table from '../../../Table';
 import { GET_COURSES } from '../../../../graphql/queries/allQueries';
 import { GetCourses } from '../../../../graphql/queries/__generated__/GetCourses';
@@ -11,17 +11,23 @@ import useGetCourses from '../../../../hooks/courses/useGetCourses';
 import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
 import TagSelect from '../../tags/inputs/TagSelect';
 import { Tags } from 'styled-icons/fa-solid';
+import DeleteCourseModal from '../DeleteCourseModal';
+import { ModalContext } from '../../../../context/modalContext';
 
 const CoursesTable = () => {
 
-  const { loading, error, courses } = useGetCourses();
-  const { deleteCourse } = useDeleteCourse();
+  const { loading, error, courses } = useGetCourses()
 
   const [ categoryId, setCategoryId ] = useState(null)
   const editUrl = '/admin/courses/edit'
 
+  const { handleModal } = useContext(ModalContext)
+
   const handleDeleteClick = (id) => {
-    deleteCourse(id)
+    handleModal({
+      title: `Delete course`,
+      content: <DeleteCourseModal courseId={id} />
+    })
   }
 
   // Table data is memo-ised due to this:
