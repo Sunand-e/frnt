@@ -20,6 +20,7 @@ export interface Props {
   columns?: number;
   label?: string;
   style?: React.CSSProperties;
+  editing?: boolean;
   horizontal?: boolean;
   hover?: boolean;
   handleProps?: React.HTMLAttributes<any>;
@@ -35,6 +36,7 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
   (
     {
       children,
+      editing = false,
       columns = 1,
       handleProps,
       horizontal,
@@ -97,16 +99,17 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
             // expand ? styles.Header : ``
           )}>
             <span>
-            <EasyEdit
-              type={Types.TEXT}
-              onSave={(title) => updateSection({title})}
-              saveButtonLabel={<Save className="w-6"  />}
-              cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
-              placeHolder="Section title..."
-              attributes={{ name: "awesome-input", id: 1}}
-              value= { section ? section.title : label }
-            />
-
+              {editing ? (
+                <EasyEdit
+                  type={Types.TEXT}
+                  onSave={(title) => updateSection({title})}
+                  saveButtonLabel={<Save className="w-6"  />}
+                  cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
+                  placeHolder="Section title..."
+                  attributes={{ name: "awesome-input", id: 1}}
+                  value= { section ? section.title : label }
+                />
+              ) : section ? section.title : label }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }

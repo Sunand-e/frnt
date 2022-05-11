@@ -11,6 +11,7 @@ import { lessonTypes } from "../../admin/courses/lessonTypes"
 import { useReactiveVar } from '@apollo/client'
 
 const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
+  editing=false,
   listeners,
   id,
   liClassName,
@@ -62,10 +63,11 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
               </span>
             </a>
           {/* </Link> */}
-
-          <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
-            <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/>
-          </div>
+          {editing && (
+            <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
+              <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/>
+            </div>
+          )}
         </div>
       </div>
     </li>

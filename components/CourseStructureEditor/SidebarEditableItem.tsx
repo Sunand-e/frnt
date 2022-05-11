@@ -77,6 +77,7 @@ const SidebarEditableItem = ({
   console.log(id)
   return (
     <SidebarItem
+      editing={true}
       listeners={listeners}
       ref={ref}
       id={id}
