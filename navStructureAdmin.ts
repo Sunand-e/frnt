@@ -1,3 +1,16 @@
+import {TextLeft, Bricks} from '@styled-icons/bootstrap'
+import {Text, Box, Video, List, Image, Document, Speaker2} from '@styled-icons/fluentui-system-filled'
+import {Assignment} from '@styled-icons/material'
+import {Category, Quiz} from '@styled-icons/material-rounded'
+import { FlowChart } from '@styled-icons/remix-editor'
+import {Library} from "@styled-icons/ionicons-solid/"
+import {Flow} from "@styled-icons/fluentui-system-regular"
+import {GraduationCap, Users} from "@styled-icons/fa-solid"
+import {Group2} from "@styled-icons/remix-fill"
+import {Identification} from "@styled-icons/heroicons-solid"
+import {Calendar2PlusFill} from "@styled-icons/bootstrap/"
+import {CalendarAlt} from "@styled-icons/fa-regular/"
+
 const navStructureAdmin = [
   {
     name: 'dashboard',
@@ -16,26 +29,31 @@ const navStructureAdmin = [
         name: 'overview',
         title: 'All Library Items',
         urlPath: '/admin/library',
+        icon: Library
       },
       {
         name: 'oversview',
         title: 'Guides',
+        icon: TextLeft,
         urlPath: '/admin/library',
       },
       {
         name: 'overvsiew',
         title: 'Videos',
         urlPath: '/admin/library',
+        icon: Video,
       },
       {
         name: 'ovesrview',
         title: 'Podcasts',
         urlPath: '/admin/library',
+        icon: Speaker2,
       },
       {
         name: 'ovesrview',
         title: 'Process Flows',
         urlPath: '/admin/library',
+        icon: FlowChart,
       },
       // {
       //   name: 'add',
@@ -54,16 +72,19 @@ const navStructureAdmin = [
         name: 'courses',
         title: 'All Courses',
         urlPath: '/admin/courses',
+        icon: GraduationCap
       },
       {
         name: 'categories',
         title: 'Categories',
         urlPath: '/admin/tags',
+        icon: Category
       },
       {
         name: 'pathways',
         title: 'Pathways',
         urlPath: '/admin/courses/pathways',
+        icon: Flow
       },
     ],
   },
@@ -77,37 +98,40 @@ const navStructureAdmin = [
         name: 'overview',
         title: 'Users',
         urlPath: '/admin/users',
+        icon: Users
       },
       {
         name: 'groups',
         title: 'Groups',
         urlPath: '/admin/users/groups',
+        icon: Group2
       },
       {
         name: 'roles',
         title: 'Roles',
         urlPath: '/admin/users/roles',
+        icon: Identification
       },
-      {
-        name: 'exports',
-        title: 'My Exports',
-        urlPath: '/admin/users/exports',
-      },
-      {
-        name: 'memberships',
-        title: 'Memberships',
-        urlPath: '/admin/users/memberships',
-      },
-      {
-        name: 'leaderboard',
-        title: 'Leaderboard',
-        urlPath: '/admin/users/leaderboard',
-      },
-      {
-        name: 'survey',
-        title: 'Survey',
-        urlPath: '/admin/users/survey',
-      },
+      // {
+      //   name: 'exports',
+      //   title: 'My Exports',
+      //   urlPath: '/admin/users/exports',
+      // },
+      // {
+      //   name: 'memberships',
+      //   title: 'Memberships',
+      //   urlPath: '/admin/users/memberships',
+      // },
+      // {
+      //   name: 'leaderboard',
+      //   title: 'Leaderboard',
+      //   urlPath: '/admin/users/leaderboard',
+      // },
+      // {
+      //   name: 'survey',
+      //   title: 'Survey',
+      //   urlPath: '/admin/users/survey',
+      // },
     ],
   },
   {
@@ -115,18 +139,6 @@ const navStructureAdmin = [
     title: 'Media Library',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
-  },
-  {
-    name: 'reporting',
-    title: 'Reporting',
-    urlPath: '/admin/reports',
-    icon: 'chart-line',
-  },
-  {
-    name: 'messaging',
-    title: 'Messaging',
-    urlPath: '/admin/messaging',
-    icon: 'comments',
   },
   {
     name: 'events',
@@ -138,14 +150,28 @@ const navStructureAdmin = [
         name: 'events',
         title: 'Live Sessions',
         urlPath: '/admin/events',
+        icon: CalendarAlt
       },
       {
         name: 'events',
         title: 'Add New',
         urlPath: '/admin/events/add',
+        icon: Calendar2PlusFill
       },
     ],
   },
+  {
+    name: 'reporting',
+    title: 'Reporting',
+    urlPath: '/admin/reports',
+    icon: 'chart-line',
+  },
+  // {
+  //   name: 'messaging',
+  //   title: 'Messaging',
+  //   urlPath: '/admin/messaging',
+  //   icon: 'comments',
+  // },
   // {
   //   name: 'store',
   //   title: 'Store',

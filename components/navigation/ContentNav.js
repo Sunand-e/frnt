@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function ContentNav({show, topNavItem, pageNavState}) {
 
   return (
-    <div id="contentNav" className={`bg-main bg-opacity-20 transition-width ${show ? 'w-48' : 'w-0'}`}>
+    <div id="contentNav" className={`bg-main bg-opacity-20 transition-width ${show ? 'w-56' : 'w-0'}`}>
       <div className={`sticky z-20 top-0 flex flex-col relative`}>
         { show && (
           <h3 className="h-18 px-4 bg-main bg-opacity-50 text-white flex items-center text-base">

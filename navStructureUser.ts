@@ -1,3 +1,11 @@
+import {TextLeft} from '@styled-icons/bootstrap'
+import {Video, Speaker2} from '@styled-icons/fluentui-system-filled'
+import {Category} from '@styled-icons/material-rounded'
+import { FlowChart } from '@styled-icons/remix-editor'
+import {Library} from "@styled-icons/ionicons-solid/"
+import {Flow} from "@styled-icons/fluentui-system-regular"
+import {GraduationCap} from "@styled-icons/fa-solid"
+
 const navStructureUser = [
   {
     name: 'dashboard',
@@ -15,16 +23,19 @@ const navStructureUser = [
         name: 'mycourses',
         title: 'My Courses',
         urlPath: '/courses',
+        icon: GraduationCap
       },
       {
-        name: 'available',
-        title: 'Available Courses',
-        urlPath: '/courses/available',
+        name: 'categories',
+        title: 'Categories',
+        urlPath: '/categories',
+        icon: Category
       },
       {
         name: 'pathways',
         title: 'Pathways',
-        urlPath: '/courses/pathways'
+        urlPath: '/courses/pathways',
+        icon: Flow
       },
       
     ],
@@ -40,26 +51,31 @@ const navStructureUser = [
         name: 'overview',
         title: 'All Library Items',
         urlPath: '/library',
+        icon: Library
       },
       {
         name: 'library-guides',
         title: 'Guides',
         urlPath: '/library',
+        icon: TextLeft,
       },
       {
         name: 'library-videos',
         title: 'Videos',
         urlPath: '/library',
+        icon: Video,
       },
       {
         name: 'library-podcasts',
         title: 'Podcasts',
         urlPath: '/library',
+        icon: Speaker2,
       },
       {
         name: 'library-process-flows',
         title: 'Process Flows',
         urlPath: '/library',
+        icon: FlowChart,
       }
     ]
   },
@@ -69,12 +85,12 @@ const navStructureUser = [
     urlPath: '/events',
     icon: 'calendar-alt',
   },
-  {
-    name: 'messaging',
-    title: 'Messaging',
-    urlPath: '/messaging',
-    icon: 'comments',
-  },
+  // {
+  //   name: 'messaging',
+  //   title: 'Messaging',
+  //   urlPath: '/messaging',
+  //   icon: 'comments',
+  // },
   // {
   //   name: 'community',
   //   title: 'Community',
