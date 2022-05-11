@@ -1,5 +1,6 @@
 import {
-  FunctionComponent, useContext
+  forwardRef,
+  FunctionComponent, useContext, useRef
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
@@ -8,6 +9,7 @@ import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 import PackageLibrary from '../../../PackageLibrary/PackageLibrary';
 import { v4 as uuidv4 } from 'uuid';
+import { useFullscreen } from 'rooks';
 
 const DynamicPackageIFrame = dynamic(
   () => import('./PackageIFrame'),
@@ -20,9 +22,15 @@ export const PackageBlockEdit: FunctionComponent = ({block}) => {
   
   const  defaultWidth = '100%';
  
+  const iframeRef = useRef();
+  
+  const {
+    isEnabled: isFullscreenEnabled,
+    request,
+  } = useFullscreen()
   
   const { updateBlock, addBlock } = useBlockEditor(block)
-
+  
    
   const handlePackageSelect = (module) => {
     updateBlock({
@@ -37,7 +45,6 @@ export const PackageBlockEdit: FunctionComponent = ({block}) => {
 
   const selectFile = (module) => {
 
-    alert(JSON.stringify(block))
     const newBlock = {
       type: 'package',
       id: uuidv4(),
@@ -63,24 +70,25 @@ export const PackageBlockEdit: FunctionComponent = ({block}) => {
   }
   return (
     <>
-    {/* <pre>
-    { JSON.stringify(block, null, 2)}
-    </pre> */}
-      
-    <ResizeableElement
-      block={block}
-      defaultWidth={defaultWidth}
-    >
-      { block.properties?.url ? (
-        <div className="aspect-w-16 aspect-h-9 px-1">
-          <DynamicPackageIFrame block={block}/>
-        </div>
-      ) : (
-        <div className='text-center'>
-          <Button onClick={selectPackageModal}>Select a SCORM zip file</Button>
+      { isFullscreenEnabled && (
+        <div className='flex justify-end my-4'>
+          <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
         </div>
       )}
-    </ResizeableElement>
+      <ResizeableElement
+        block={block}
+        defaultWidth={defaultWidth}
+        >
+        { block.properties?.url ? (
+          <div className="aspect-w-16 aspect-h-9 px-1">
+            <DynamicPackageIFrame block={block} iframeRef={iframeRef} />
+          </div>
+        ) : (
+          <div className='text-center'>
+            <Button onClick={selectPackageModal}>Select a SCORM zip file</Button>
+          </div>
+        )}
+      </ResizeableElement>
     </>
   );
 }

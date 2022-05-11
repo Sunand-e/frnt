@@ -96,6 +96,7 @@
     "react-toastify": "^9.0.0-rc-2",
     "react-transition-group": "^4.4.2",
     "recharts": "^2.1.9",
+    "rooks": "^5.11.0",
     "sass": "^1.47.0",
     "scorm-again": "^1.6.1",
     "sizeme": "^1.0.2",

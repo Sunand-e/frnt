@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import ScormAgain from 'scorm-again'
 import { useReactiveVar } from '@apollo/client';
 import { scormDataVar } from '../../../../graphql/cache';
+import { useFullscreen } from "rooks";
 
 declare global {
   interface Window {
@@ -16,9 +17,16 @@ declare global {
   }
 }
 
-export const PackageIFrame = ({block}) => {
+
+
+export const IFrameWithRef = ({ iframeRef, ...props }) => {
+  return <PackageIFrame {...props} ref={iframeRef} />;
+}
+
+export const PackageIFrame = React.forwardRef(({block}, ref) => {
 
   const {properties} = block
+  const sayHello = () => console.log("say Hello");
 
   const scormData = useReactiveVar(scormDataVar)
 
@@ -94,11 +102,11 @@ export const PackageIFrame = ({block}) => {
     <>
       {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
-    <iframe src={block.properties.url}></iframe>
+    <iframe ref={ref} src={block.properties.url}></iframe>
     
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )
-}
+})
 
-export default React.memo(PackageIFrame)
+export default React.memo(IFrameWithRef)
