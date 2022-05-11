@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "../../utils/router";
+import Button from "../Button";
+import TextInput from "../common/inputs/TextInput";
 
 const AcceptInvitationForm = () => {
 
@@ -26,11 +28,14 @@ const AcceptInvitationForm = () => {
       },
       body: JSON.stringify(formData),
     })
-    .then(res => res.json())
+    .then(res => {
+      return res.json()
+    })
     .then(
       (result) => {
-        console.log('result........')
-        console.log(result)
+        if(result.status === 'Invitation Accepted!') {
+          router.push('/')
+        }
       }
     )
   }
@@ -42,33 +47,34 @@ const AcceptInvitationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
-      <label htmlFor="password">password</label>
-      <input
-        id="password"
-        {...register("password", {
+    <form onSubmit={handleSubmit(onSubmit)} className={``}>
+      <TextInput
+        label="Password"
+        type="password"
+        className="mb-4"
+        inputAttrs={register("password", {
+          required: "required", 
+          minLength: {
+            value: 5,
+            message: "min length is 5"
+          }
+        })}
+      />
+      <TextInput
+        label="Confirm password"
+        type="password"
+        className="mb-4"
+        inputAttrs={register("password_confirmation", {
           required: "required",
           minLength: {
             value: 5,
             message: "min length is 5"
           }
         })}
-        type="password"
       />
-        <label htmlFor="password_confirmation">confirm password</label>
-      <input
-        id="password_confirmation"
-        {...register("password_confirmation", {
-          required: "required",
-          minLength: {
-            value: 5,
-            message: "min length is 5"
-          }
-        })}
-        type="password"
-      />
+      
       {errors.password && <span role="alert">{errors.password.message}</span>}
-      <button type="submit">SUBMIT</button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 }

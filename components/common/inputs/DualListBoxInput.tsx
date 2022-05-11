@@ -40,6 +40,7 @@ const DualListBoxInput = ({
         className={styles.DualInput}
         onChange={handleChange}
         showHeaderLabels={true}
+        canFilter
         icons={{
           moveLeft: <ChevronLeft className='h-5' />,
           moveAllLeft: <ChevronDoubleLeft className='h-5' />,

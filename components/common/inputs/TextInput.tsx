@@ -1,14 +1,16 @@
 const TextInput = ({
   label,
   inputAttrs,
+  type="text",
+  className='',
   placeholder: placeholder = ''
 }) => {
 
   return (
-    <label className="block">
+    <label className={`block ${className}`}>
       <span className="text-gray-700">{ label }</span>
-      <input 
-        type="text"
+      <input
+        type={type}
         className="
           mt-1
           block

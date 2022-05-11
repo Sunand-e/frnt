@@ -1,6 +1,4 @@
 import AcceptInvitationForm from "../components/forms/AcceptInvitationForm"
-import PageTitle from "../components/header/PageTitle"
-import ContentEditor from "../components/SlateContentEditor/ContentEditor"
 import usePageTitle from "../hooks/usePageTitle"
 
 const AcceptInvitationPage = () => {
@@ -9,6 +7,7 @@ const AcceptInvitationPage = () => {
 
   return (
     <>
+    <h2 className="mb-4 text-main-dark">Accept invitation</h2>
       <AcceptInvitationForm />
     </>
   )
