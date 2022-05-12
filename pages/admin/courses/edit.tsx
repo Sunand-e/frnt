@@ -17,7 +17,7 @@ const AdminCoursesEdit = () => {
   */
   const router = useRouter()
     
-  const { id } = router.query
+  const { id, cid } = router.query
   const { course, updateCourse } = useCourse(id)
   
   useEffect(() => {
@@ -73,15 +73,17 @@ const AdminCoursesEdit = () => {
         <Button onClick={() => router.push({
           pathname: `/course`,
           query: {
-            id
+            id,
+            cid,
+            showEdit: true
           }
         })}>
-          Preview course
+          Preview
         </Button>
         <Button>Publish</Button>
       </>
     )
-  },[])
+  },[id, cid])
 
   return (
     <>

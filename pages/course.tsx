@@ -7,6 +7,9 @@ import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cac
 import { useState, useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
 import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
+import useGetCourse from '../hooks/courses/useGetCourse'
+import useGetUser from '../hooks/users/useGetUser'
+import Button from '../components/Button'
 
 const CoursePage = () => {
   /*
@@ -14,16 +17,10 @@ const CoursePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId } = router.query
+  const { id, cid: contentId, showEdit=false } = router.query
 
-  const { loading, error, data: {course} = {} } = useQuery(
-    GET_COURSE,
-    {
-      variables: {
-        id
-      }
-    }
-  );
+  const { loading, error, course } = useGetCourse(id);
+  const { user } = useGetUser();
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
@@ -45,6 +42,15 @@ const CoursePage = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 
+  const editCourse = () => {
+    router.push({
+      pathname: `/admin/courses/edit`,
+      query: {
+        id,
+        cid: contentId
+      }
+    })
+  }
   
   useEffect(() => {
     currentContentItemVar({
@@ -85,13 +91,14 @@ const CoursePage = () => {
   },[id, course?.id])
 
   usePageTitle({ title: `Course: ${course?.title}` })
-
   useEffect(() => {
+    user && console.log('user',user)
     headerButtonsVar(
       <>
+        {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
       </>
     )
-  },[])
+  },[showEdit])
   return (
     <>
       { currentContentItem.id && (
