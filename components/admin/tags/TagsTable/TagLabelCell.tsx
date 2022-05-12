@@ -1,4 +1,4 @@
-import { PencilIcon } from "@heroicons/react/solid"
+import PencilIcon from "@heroicons/react/solid/PencilIcon"
 import Link from "next/link"
 
 const TagNameCell = ({ cell }) => {

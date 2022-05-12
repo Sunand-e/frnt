@@ -1,15 +1,16 @@
-import {TextLeft, Bricks} from '@styled-icons/bootstrap'
-import {Text, Box, Video, List, Image, Document, Speaker2} from '@styled-icons/fluentui-system-filled'
-import {Assignment} from '@styled-icons/material'
-import {Category, Quiz} from '@styled-icons/material-rounded'
-import { FlowChart } from '@styled-icons/remix-editor'
-import {Library} from "@styled-icons/ionicons-solid/"
-import {Flow} from "@styled-icons/fluentui-system-regular"
-import {GraduationCap, Users} from "@styled-icons/fa-solid"
-import {Group2} from "@styled-icons/remix-fill"
-import {Identification} from "@styled-icons/heroicons-solid"
-import {Calendar2PlusFill} from "@styled-icons/bootstrap/"
-import {CalendarAlt} from "@styled-icons/fa-regular/"
+import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
+import {Video} from '@styled-icons/fluentui-system-filled/Video'
+import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {Category} from '@styled-icons/material-rounded/Category'
+import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
+import {Library} from "@styled-icons/ionicons-solid/Library"
+import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
+import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
+import {Users} from "@styled-icons/fa-solid/Users"
+import {Group2} from "@styled-icons/remix-fill/Group2"
+import {Identification} from "@styled-icons/heroicons-solid/Identification"
+import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
+import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 
 const navStructureAdmin = [
   {
@@ -34,8 +35,8 @@ const navStructureAdmin = [
       {
         name: 'oversview',
         title: 'Guides',
-        icon: TextLeft,
         urlPath: '/admin/library',
+        icon: TextLeft,
       },
       {
         name: 'overvsiew',

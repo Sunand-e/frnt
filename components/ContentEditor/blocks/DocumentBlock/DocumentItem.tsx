@@ -1,4 +1,3 @@
-import { CheckCircleIcon, ChevronDownIcon, MailIcon } from '@heroicons/react/solid'
 import { FilePdf, FileEarmarkFill } from '@styled-icons/bootstrap'
 import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
 import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'

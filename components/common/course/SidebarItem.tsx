@@ -2,8 +2,6 @@ import classNames from 'classnames'
 import cache, { currentContentItemVar } from "../../../graphql/cache"
 import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment'
-import { useRouter } from '../../../utils/router'
-import Link from "next/link"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
 import { forwardRef } from "react"

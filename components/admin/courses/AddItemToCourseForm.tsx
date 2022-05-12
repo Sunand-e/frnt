@@ -1,10 +1,3 @@
-import { useMutation } from "@apollo/client";
-import { CreateLesson } from "../../../graphql/mutations/lesson/__generated__/CreateLesson";
-import { CREATE_LESSON } from "../../../graphql/mutations/lesson/CREATE_LESSON";
-import { CreateLessonVariables } from "../../../graphql/mutations/lesson/__generated__/CreateLesson";
-import { v4 as uuidv4 } from 'uuid';
-import { GetSection, GetSection_section } from "../../../graphql/queries/__generated__/GetSection";
-import { GET_COURSE, GET_SECTION, SectionFragment } from "../../../graphql/queries/allQueries";
 import AddLessonModal from "./AddLessonModal";
 import { useContext } from "react";
 import { ModalContext } from "../../../context/modalContext";

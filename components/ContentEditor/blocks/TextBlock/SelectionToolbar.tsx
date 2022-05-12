@@ -24,7 +24,7 @@ import {
 import FontSizeDropdown from '../common/FontSizeDropdown';
 import { H1, H2, H3 } from '@styled-icons/remix-editor';
 import { FormatColorText } from '@styled-icons/material-rounded/FormatColorText';
-import { CheckIcon } from '@heroicons/react/solid';
+import CheckIcon from '@heroicons/react/solid/CheckIcon';
 import { FontDownload } from '@styled-icons/material-rounded/FontDownload';
 import { AlignToolbarButtons } from '../../../plate/Toolbar';
 

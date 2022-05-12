@@ -1,16 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import {
-  ArchiveIcon,
-  ArrowCircleRightIcon,
-  ChevronDownIcon,
-  DuplicateIcon,
-  HeartIcon,
-  PencilAltIcon,
-  TrashIcon,
-  UserAddIcon,
-} from '@heroicons/react/solid'
+import ChevronDownIcon from '@heroicons/react/solid/ChevronDownIcon'
 import classNames from "../../../../utils/classNames"
 
 const fontSizes = [12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52]

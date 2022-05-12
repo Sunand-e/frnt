@@ -3,7 +3,7 @@ import { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { ModalContext } from '../context/modalContext'
-import { XCircleIcon } from '@heroicons/react/solid'
+import XCircleIcon from '@heroicons/react/solid/XCircleIcon'
 
 const sizeMap = new Map<any,any>([
   ['sm', 'sm:max-w-sm'],

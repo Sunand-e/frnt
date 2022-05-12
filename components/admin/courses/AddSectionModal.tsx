@@ -1,15 +1,12 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Form, Formik, useField } from "formik"
 import React, { useContext } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { useRouter } from 'next/router';
-import { noticesVar } from '../../../graphql/cache';
-import { GET_COURSE, CourseFragment } from "../../../graphql/queries/allQueries";
+import { CourseFragment } from "../../../graphql/queries/allQueries";
 import { ModalContext } from '../../../context/modalContext';
 import LoadingSpinner from '../../LoadingSpinner';
 import { CreateSection, CreateSectionVariables } from '../../../graphql/mutations/section/__generated__/CreateSection';
 import { CREATE_SECTION } from '../../../graphql/mutations/section/CREATE_SECTION';
-import { GetCourse, GetCourse_course } from '../../../graphql/queries/__generated__/GetCourse';
+import { GetCourse_course } from '../../../graphql/queries/__generated__/GetCourse';
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);

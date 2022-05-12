@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../../../Table';
 import { GET_COURSES } from '../../../../graphql/queries/allQueries';
 import { GetCourses } from '../../../../graphql/queries/__generated__/GetCourses';
@@ -13,10 +13,23 @@ import TagSelect from '../../tags/inputs/TagSelect';
 import { Tags } from 'styled-icons/fa-solid';
 import DeleteCourseModal from '../DeleteCourseModal';
 import { ModalContext } from '../../../../context/modalContext';
+import useGetCoursesBasic from '../../../../hooks/courses/useGetCoursesBasic';
 
 const CoursesTable = () => {
 
-  const { loading, error, courses } = useGetCourses()
+  // const { loading, error, courses } = useGetCourses()
+  const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
+  const { courses: coursesFull } = useGetCourses()
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    if(coursesFull) {
+      setCourses(coursesFull)
+    } else if(coursesBasic) {
+      setCourses(coursesBasic)
+    }
+  }, [coursesFull,coursesBasic])
 
   const [ categoryId, setCategoryId ] = useState(null)
   const editUrl = '/admin/courses/edit'
@@ -64,40 +77,38 @@ const CoursesTable = () => {
           )
         }
       },
-      // {
-      //   Header: "Course Name",
-      //   accessor: "title", // accessor is the "key" in the data
-      //   Cell: CourseTitleCell
-      // },
       {
         Header: "Active users",
         accessor: "users.totalCount",
         Cell: ({ cell }) => {
-          let userCount = cell.row.original.users.totalCount
+          let userCount = cell.row.original.users?.totalCount
           return (
             <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
           )
         }
       },
-      {
-        Header: "Categories",
-        accessor: "tags",
-        Cell: ({ cell }) => {
-          const tagString = cell.value.map(tag => tag.label).join(', ')
-          return (
-            <span>{tagString}</span>
-          )
-        }
-      },
+      // {
+      //   Header: "Categories",
+      //   accessor: "tags",
+      //   Cell: ({ cell }) => {
+      //     const tagString = cell.row.original.tags?.map(tag => tag.label).join(', ')
+      //     return (
+      //       <span>{tagString}</span>
+      //     )
+      //   }
+      // },
       {
         width: 300,
+        style: {
+          width:"300px"
+        },
         Header: "Actions",
         accessor: "wa",
         Cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
 
           return (
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
               <Button 
                 onClick={() => handleDeleteClick(cell.row.original.id)}

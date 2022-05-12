@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { noticesVar } from '../../../graphql/cache';
-import { GET_COURSE, CourseFragment } from "../../../graphql/queries/allQueries";
+import { CourseFragment } from "../../../graphql/queries/allQueries";
 import { ModalContext } from '../../../context/modalContext';
 import LoadingSpinner from '../../LoadingSpinner';
 import { CreateSection, CreateSectionVariables } from '../../../graphql/mutations/section/__generated__/CreateSection';

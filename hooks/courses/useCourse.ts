@@ -6,6 +6,7 @@ import { CourseFragment, GET_COURSE } from "../../graphql/queries/allQueries"
 import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 import cache, { currentContentItemVar } from "../../graphql/cache"
+import useGetCourse from "./useGetCourse";
 
 
 function useCourse(id) {
@@ -48,15 +49,8 @@ function useCourse(id) {
       }
     })
   }
-  
-  const { loading, error, data: {course} = {} } = useQuery(
-    GET_COURSE,
-    {
-      variables: {
-        id
-      }
-    }
-  );
+
+  const { course, loading, error } = useGetCourse(id)
 
   return {
     course,

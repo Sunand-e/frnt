@@ -1,9 +1,6 @@
-import { useReactiveVar } from '@apollo/client';
 import Router from 'next/router';
 import { Form, Formik } from 'formik';
 import { isLoggedInVar } from '../graphql/cache';
-import { LockClosedIcon } from '@heroicons/react/solid'
-import Button from './Button';
 
 const ENDPOINT_SIGNIN = '/auth/users/sign_in'
 

@@ -1,5 +1,4 @@
-import { PencilIcon } from "@heroicons/react/solid"
-import Link from "next/link"
+import PencilIcon from "@heroicons/react/solid/PencilIcon"
 
 const EventTitleCell = ({ cell }) => {
 

@@ -84,7 +84,7 @@ const UserGroupsTable = () => {
 
         Cell: ({ cell }) => {
           const group = cell.row.original;
-          return <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
+          return <a className="text-red-600 hover:text-red-800 self-center" href="#" onClick={() => {
             removeUserFromGroup({
               userId: user.id,
               groupId: group.node.id,

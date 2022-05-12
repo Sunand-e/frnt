@@ -110,6 +110,34 @@ export const GET_COURSES = gql`
   }
   ${CourseFragment}
 `
+export const GET_COURSES_BASIC = gql`
+  query GetCoursesBasic {
+    courses {
+      content
+      contentType
+      createdAt
+      settings
+      image {
+        location
+        id
+        altText
+        properties
+        title
+      }
+      id
+      icon {
+        provider
+        properties
+        id
+      }
+      itemType
+      prerequisites
+      settings
+      title
+      updatedAt
+    }
+  }
+`
 
 export const GET_SECTION = gql`
   query GetSection($id: ID!) {
