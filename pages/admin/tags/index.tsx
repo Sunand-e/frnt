@@ -22,7 +22,7 @@ const AdminTags = () => {
   }
 
   useHeaderButtons([
-    ['Add new tag', () => handleNewTagButton()]
+    ['Add new category', () => handleNewTagButton()]
   ])
 
   

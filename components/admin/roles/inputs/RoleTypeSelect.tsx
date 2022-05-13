@@ -4,7 +4,7 @@ const RoleTypeSelect = ({control}) => {
 
   const options = [
     { value: 'tenant_role', label: 'Global Role'},
-    { value: 'content_item_role', label: 'Item Role'},
+    // { value: 'content_item_role', label: 'Item Role'},
     { value: 'group_role', label: 'Group Role'},
   ]
   return (

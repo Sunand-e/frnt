@@ -16,7 +16,8 @@ const AdminUsersRolesEdit = () => {
     updateRole(values)
     router.push('/admin/users/roles')
   }
-  usePageTitle({ title: 'Edit Role' })
+
+  usePageTitle({ title: `Edit Role${role?.name && `: ${role.name}`}` })
 
   useHeaderButtons([
     ['Back to roles list', '/admin/users/roles']
@@ -26,9 +27,6 @@ const AdminUsersRolesEdit = () => {
     <>
       { role &&
         <>
-          <h3>
-            Editing role: {role.name}
-          </h3>
           <RoleForm onSubmit={handleSubmit} role={role} />
         </>
       }

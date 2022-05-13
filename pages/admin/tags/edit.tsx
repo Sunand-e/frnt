@@ -1,12 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '../../../components/Button';
 import usePageTitle from '../../../hooks/usePageTitle';
-import { ModalContext } from '../../../context/modalContext';
 import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetTag from '../../../hooks/tags/useGetTag';
-import GroupUsersInput from '../../../components/admin/groups/inputs/GroupUsersInput';
 import TagForm from '../../../components/admin/tags/TagForm';
 import useUpdateTag from '../../../hooks/tags/useUpdateTag';
 
@@ -19,21 +14,19 @@ const AdminUsersTagsEdit = () => {
 
   const handleSubmit = (values) => {
     updateTag(values)
-    router.push('/admin/users/roles')
+    alert('no')
+    router.push('/admin/tags')
   }
-  usePageTitle({ title: 'Edit Tag' })
+  usePageTitle({ title: `Edit Category${tag?.label && `: ${tag.label}`}` })
 
   useHeaderButtons([
-    ['Back to tags list', '/admin/users/roles']
+    ['Back to tags list', '/admin/tags']
   ])
 
   return (
     <>
       { tag &&
         <>
-          <h3>
-            Editing tag: {tag.name}
-          </h3>
           <TagForm onSubmit={handleSubmit} tag={tag} />
         </>
       }

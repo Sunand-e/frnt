@@ -4,24 +4,21 @@ import React, {
   useState,
 } from 'react';
 import { Container, Section, Bar, Resizer } from 'react-simple-resizer';
-import { Block } from '../../Block';
 import BlockContainer from '../../BlockContainer';
-import { BlockEdit } from '../../BlockEdit';
+import useBlockEditor from '../../useBlockEditor';
 
-export const ColumnsBlockEdit = ({id, block, onUpdateBlock: updateBlock}) => {
+export const ColumnsBlockEdit = ({id, block}) => {
+
+  const [widths,setWidths] = useState(block.widths)
+  const { updateBlock, addBlock } = useBlockEditor(block)
+
 
   const containerRef = useRef<any>()
 
-  const [isSorting, setIsSorting] = useState({
-    
-  })
   const columns = block.children?.map((childBlock, index, blocks) => (
     <React.Fragment key={index}>
-      {/* <div> */}
-      {/* <Section> */}
       <Section style={{ overflow: 'visible' }}>
-      {/* <Section minSize={240} style={{ overflow: 'visible' }}> */}
-        <BlockContainer 
+        <BlockContainer
           isColumn={true} 
           block={{
             ...childBlock,
@@ -43,7 +40,6 @@ export const ColumnsBlockEdit = ({id, block, onUpdateBlock: updateBlock}) => {
         }}
         />
       }
-      {/* </div> */}
     </React.Fragment>
   ))
   
@@ -56,6 +52,7 @@ export const ColumnsBlockEdit = ({id, block, onUpdateBlock: updateBlock}) => {
     const sectionCount = block.children.length
     let sectionEndPoint = 0
 
+    let newWidths = []
     for (let sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++) {
 
       sectionEndPoint = resizer.getSectionSize(sectionIndex)
@@ -74,8 +71,30 @@ export const ColumnsBlockEdit = ({id, block, onUpdateBlock: updateBlock}) => {
       resizer.resizeSection(sectionIndex, {
         toSize: sectionUnitCount * gridUnitWidth
       });
+      newWidths.push(sectionUnitCount)
+
+      // updateBlock(colBlock)
     }
+    setWidths(newWidths)
   }
+
+  useEffect(() => {
+
+    if(!widths.length) return
+    // alert(JSON.stringify(widths))
+    const resizer = containerRef.current.getResizer()
+
+    const containerWidth = resizer.getTotalSize()
+    const gridUnitWidth = containerWidth/12
+
+    widths.forEach((colSize, index) => {
+      resizer.resizeSection(index, { toSize: colSize * gridUnitWidth });
+    })
+
+    updateBlock({...block, widths})
+  
+  }, [JSON.stringify(widths)])
+
   // /* SNAP TO 12-GRID WITHIN 10PX OF BREAKPOINT
   // const beforeApplyResizer = (resizer: Resizer): void => {
   //   for (let sectionIndex = 0; sectionIndex < block.children.length; sectionIndex++) {
@@ -103,21 +122,23 @@ export const ColumnsBlockEdit = ({id, block, onUpdateBlock: updateBlock}) => {
   //     }
   //   }
   // }
-  useEffect(() => {
-    if(containerRef.current) {
-      resizeToGrid(containerRef.current.getResizer())
-    }
-  },[block])
+  // useEffect(() => {
+  //   if(containerRef.current) {
+  //     resizeToGrid(containerRef.current.getResizer())
+  //   }
+  // },[block])
 
   return (
-    <Container
-      ref={containerRef} 
-      beforeApplyResizer={resizeToGrid}
-      className={`group`}
-    >
-      { columns }
-    </Container>
-  );    
+    <>
+      <Container
+        ref={containerRef} 
+        beforeApplyResizer={resizeToGrid}
+        className={`group`}
+        >
+        { columns }
+      </Container>
+    </>
+  );
 }
 
 export default ColumnsBlockEdit

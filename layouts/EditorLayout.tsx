@@ -35,7 +35,7 @@ export default function EditorLayout( {page, navState} ) {
   }
   return (
     <Layout page={page} navState={navState}>
-      <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-blue-superlight">
+      <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-white">
         <div className="lg:flex h-full">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />

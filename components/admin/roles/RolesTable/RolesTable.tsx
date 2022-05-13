@@ -22,7 +22,9 @@ const RolesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return roles?.filter(item => !item._deleted) || []
+      return roles?.filter(item => {
+        return !item._deleted && item.roleType !== 'content_item_role'
+      }) || []
     }, [roles]
   );
 
@@ -36,6 +38,14 @@ const RolesTable = () => {
       {
         Header: "Role Type",
         accessor: "roleType",
+        Cell: ({cell}) => {
+          const roleTypes = {
+            'tenant_role': 'Global Role',
+            'group_role': 'Group Role',
+          }
+          return roleTypes[cell.value] || ''
+        }
+
       },
       {
         width: 300,
@@ -44,7 +54,7 @@ const RolesTable = () => {
         Cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
               <Button
                 onClick={() => handleDeleteClick(cell.row.original.id)}

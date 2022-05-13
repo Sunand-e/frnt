@@ -32,6 +32,7 @@ const CoursesTable = () => {
   }, [coursesFull,coursesBasic])
 
   const [ categoryId, setCategoryId ] = useState(null)
+  
   const editUrl = '/admin/courses/edit'
 
   const { handleModal } = useContext(ModalContext)

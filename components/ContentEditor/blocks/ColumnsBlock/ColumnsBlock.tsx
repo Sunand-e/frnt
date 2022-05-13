@@ -13,7 +13,10 @@ export const ColumnsBlock = ({id, block}) => {
     <div className="flex">
       { 
         block.children?.map((childBlock, index, blocks) => (
-          <Block block={childBlock} key={childBlock.id} />
+          <div className='flex-1'>
+            <Block block={childBlock} key={childBlock.id} />
+          </div>
+
         ))
       }
     </div>

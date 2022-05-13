@@ -25,3 +25,17 @@ export const GET_TAGS = gql`
   }
   ${TagFragment}
 `
+export const GET_TAGS_FULL = gql`
+  query GetTagsFull {
+    tags {
+      ...TagFragment
+      courses {
+        id
+      }
+      libraryItems {
+        id
+      }
+    }
+  }
+  ${TagFragment}
+`

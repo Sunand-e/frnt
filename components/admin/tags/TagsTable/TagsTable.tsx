@@ -1,17 +1,29 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Table from '../../../Table';
 import ButtonLink from '../../../ButtonLink';
 import TagLabelCell from './TagLabelCell';
 import useGetTags from '../../../../hooks/tags/useGetTags';
 import useDeleteTag from '../../../../hooks/tags/useDeleteTag';
 import Button from '../../../Button';
+import useGetTagsFull from '../../../../hooks/tags/useGetTagsFull';
 
 const TagsTable = () => {
 
-  const { tags, loading, error } = useGetTags()
-  
+  const { tags: tagsBasic, loading, error } = useGetTags()
+  const { tags: tagsFull } = useGetTagsFull()
   const { deleteTag } = useDeleteTag()
 
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    if(tagsFull) {
+      setTags(tagsFull)
+    } else if(tagsBasic) {
+      setTags(tagsBasic)
+    }
+  }, [tagsFull,tagsBasic])
+
+  
   const handleDeleteClick = (id) => {
     deleteTag(id)
   }
@@ -29,22 +41,26 @@ const TagsTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "Tag Name",
+        Header: "Category Name",
         accessor: "label", // accessor is the "key" in the data
         Cell: TagLabelCell
       },
       {
-        Header: "Tag Type",
-        accessor: "tagType",
+        Header: "Item count",
+        Cell: ({ cell }) => {
+          let contentCount = cell.row.original.courses?.length
+          return (
+            <span>{`${contentCount || 0} item${contentCount !== 1 ? 's' : ''}`}</span>
+          )
+        }
       },
       {
         width: 300,
         Header: "Actions",
-        accessor: "wa",
         Cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
               <Button
                 onClick={() => handleDeleteClick(cell.row.original.id)}

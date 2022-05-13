@@ -32,9 +32,9 @@ const TagForm = ({tag=null, onSubmit}) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput
-        label="Label"
-        placeholder="Tag name"
-        inputAttrs={register("label", { maxLength: 20 })}
+        label="Category Name"
+        placeholder="Untitled category"
+        inputAttrs={register("label")}
       />
       {/* <TagTypeSelect control={control} /> */}
 

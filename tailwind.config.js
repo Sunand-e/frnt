@@ -6,13 +6,14 @@ module.exports = {
     extend: {
       colors: {
         blue: {
-          DEFAULT: '#097BD8',
-          dark: '#043877',
-          superlight: '#F3F8FD'
+          DEFAULT: '#4D8BF7',
+          dark: '#1835B2',
+          light: '#E4EEFE',
+          superlight: '#EDF3FE'
         },
         main: {
-          DEFAULT: '#097BD8',
-          dark: '#043877',
+          DEFAULT: '#4D8BF7',
+          dark: '#1835B2',
           semitransparent: '#E5EBF175'
         },
         grey: {
