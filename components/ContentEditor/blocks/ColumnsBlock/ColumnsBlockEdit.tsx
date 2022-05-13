@@ -80,7 +80,7 @@ export const ColumnsBlockEdit = ({id, block}) => {
 
   useEffect(() => {
 
-    if(!widths.length) return
+    if(!widths?.length) return
     // alert(JSON.stringify(widths))
     const resizer = containerRef.current.getResizer()
 
