@@ -5,6 +5,9 @@ import ImageSelect from "../../ContentEditor/ImageSelect";
 type ImageSelectInputProps = { 
   control?: Control;
   src?: string;
+  origImage?;
+  onSelect?;
+  isModal?: boolean;
   label?: string;
   placeholder?: string;
   buttonText?: string;
@@ -16,7 +19,8 @@ const ImageSelectInput = ({
   buttonText,
   control,
   name,
-  label
+  origImage,
+  onSelect,
 }: ImageSelectInputProps) => {
 
   const { field } = useController({
@@ -24,18 +28,19 @@ const ImageSelectInput = ({
     name
   });
 
-  const [image, setImage] = useState({id: null, location: null});
+  const [image, setImage] = useState(origImage);
 
   const handleSelect = image => {
     field.onChange(image.id)
     setImage(image)
+    onSelect && onSelect(image)
   }
 
   return (
     <>
       <ImageSelect
         placeholder={placeholder}
-        src={image.location}
+        src={image?.location}
         buttonText={buttonText}
         onSelect={handleSelect}
         isButtonAlwaysVisible={true}

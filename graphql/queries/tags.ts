@@ -5,6 +5,13 @@ export const TagFragment = gql`
     id
     label
     tagType
+    image {
+      location
+      id
+      altText
+      properties
+      title
+    }
     _deleted @client
   }
 `

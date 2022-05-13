@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { ModalContext } from "../../context/modalContext"
-import ImageLibraryModal from "./blocks/ImageBlock/ImageLibraryModal"
+import MediaLibrary from "../MediaLibrary/MediaLibrary";
 
 type ImageSelectProps = { 
   src?: string;
@@ -23,7 +23,7 @@ const ImageSelect = ({
   const selectImageModal = () => {
     handleModal({
       title: `Choose image`,
-      content: <ImageLibraryModal onImageSelect={onSelect} />,
+      content: <MediaLibrary onItemSelect={onSelect} typeFilter={['image']} />,
       size: 'lg'
     })
   }

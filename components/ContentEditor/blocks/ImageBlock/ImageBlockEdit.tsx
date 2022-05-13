@@ -1,11 +1,8 @@
 import {
   FunctionComponent,
-  useContext
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import useBlockEditor from '../../useBlockEditor';
-import ImageLibraryModal from './ImageLibraryModal';
-import { ModalContext } from '../../../../context/modalContext';
 import ImageSelect from '../../ImageSelect';
 import { v4 as uuidv4 } from 'uuid';
 

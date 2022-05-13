@@ -14,7 +14,6 @@ const AdminUsersTagsEdit = () => {
 
   const handleSubmit = (values) => {
     updateTag(values)
-    alert('no')
     router.push('/admin/tags')
   }
   usePageTitle({ title: `Edit Category${tag?.label && `: ${tag.label}`}` })

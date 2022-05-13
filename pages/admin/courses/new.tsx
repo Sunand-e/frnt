@@ -7,8 +7,8 @@ import useCourse from '../../../hooks/courses/useCourse'
 import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCourseForm'
 import ImageSelect from '../../../components/ContentEditor/ImageSelect'
 import { ModalContext } from '../../../context/modalContext'
-import ImageLibraryModal from '../../../components/ContentEditor/blocks/ImageBlock/ImageLibraryModal'
 import InputWithLabel from '../../../components/common/inputs/InputWithLabel'
+import MediaLibrary from '../../../components/MediaLibrary/MediaLibrary'
 
 const AdminCoursesNew = () => {
   /*
@@ -70,10 +70,12 @@ const AdminCoursesNew = () => {
   const selectImageModal = () => {
     handleModal({
       title: `Choose image`,
-      content: <ImageLibraryModal onImageSelect={(image) => updateCourse({imageId: image.id})} />,
+      content: <MediaLibrary onItemSelect={(image) => updateCourse({imageId: image.id})} typeFilter={['image']} />,
       size: 'lg'
     })
   }
+
+
 
   return (
     <div className='h-full w-full max-w-sm'>

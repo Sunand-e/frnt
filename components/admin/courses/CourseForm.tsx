@@ -1,15 +1,17 @@
 import Button from '../../Button';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
 import CheckboxInput from '../../common/inputs/CheckboxInput';
+import { ModalContext } from '../../../context/modalContext';
 
 interface CourseFormValues {
   title: string
   imageId: string
+  image: string
   tags: [any]
   accessType: string
   coursePrice: string
@@ -17,24 +19,28 @@ interface CourseFormValues {
   disableProgression: boolean
 }
 
-const CourseForm = ({course=null, onSubmit, submitButtonText="Submit"}) => {
+const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Submit"}) => {
 
   const defaultValues = {
     ...course
   }
+  const { handleModal, closeModal } = useContext(ModalContext)
 
-  const { register, watch, handleSubmit, control, setFocus } = useForm<CourseFormValues>({defaultValues});
+  const { register, watch, handleSubmit, control, setFocus, getValues, setValue } = useForm<CourseFormValues>({defaultValues});
 
   useEffect(() => {
     setFocus('title')
   },[])
 
-  const watchTags = watch("tags"); // you can supply default value as second argument
-
-  useEffect(() => {
-console.log('watchTags')
-console.log(watchTags)
-  }, [watch("tags")]);
+  const onImageSelect = (image) => {
+    isModal ?
+      handleModal({
+        title: `Course settings`,
+        size: 'lg',
+        content: <CourseForm course={{...getValues(), image}} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
+      })
+    : closeModal()
+  }
 
   return (
     <form
@@ -49,8 +55,10 @@ console.log(watchTags)
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose course image"
+        origImage={defaultValues?.image}
         control={control}
         name="imageId"
+        onSelect={onImageSelect}
         // inputAttrs={register("image", { required: true })}
       />
       <TagSelectInput

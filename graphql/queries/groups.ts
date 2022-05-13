@@ -14,6 +14,13 @@ export const GroupFragment = gql`
         }
       }
     }
+    image {
+      location
+      id
+      altText
+      properties
+      title
+    }
     enrolledCourses {
       edges {
         node {

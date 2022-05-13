@@ -4,6 +4,7 @@ import TextInput from '../../common/inputs/TextInput';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import TagTypeSelect from './inputs/TagTypeSelect';
+import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 
 interface TagFormValues {
   label: string
@@ -36,9 +37,21 @@ const TagForm = ({tag=null, onSubmit}) => {
         placeholder="Untitled category"
         inputAttrs={register("label")}
       />
+      <ImageSelectInput
+        label="Category image"
+        origImage={tag?.image}
+        placeholder={'https://picsum.photos/640/360'}
+        buttonText="Choose category image"
+        control={control}
+        name="mediaItemId"
+        // inputAttrs={register("image", { required: true })}
+      />
       {/* <TagTypeSelect control={control} /> */}
 
       <Button type="submit">{buttonText}</Button>
+      <pre>
+      { JSON.stringify(tag,null,2) }
+      </pre>
     </form>
   )
 }

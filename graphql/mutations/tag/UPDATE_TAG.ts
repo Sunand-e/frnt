@@ -6,11 +6,15 @@ export const UPDATE_TAG = gql`
     $id: ID!
     $label: String,
     $tagType: String,
+    $mediaItemId: ID,
   ) {
     updateTag(
       input: {
         id: $id,
         label: $label,
+        tagType: $tagType,
+        mediaItemId: $mediaItemId,
+
       }
     ) {
       tag {

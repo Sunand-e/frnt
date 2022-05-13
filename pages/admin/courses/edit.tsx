@@ -39,8 +39,6 @@ const AdminCoursesEdit = () => {
   const { handleModal, closeModal } = useContext(ModalContext)
 
   const onSettingsSubmit = (values) => {
-    console.log('values')
-    console.log(values)
     updateCourse(values)
     closeModal()
   }
@@ -49,7 +47,7 @@ const AdminCoursesEdit = () => {
     handleModal({
       title: `Course settings`,
       size: 'lg',
-      content: <CourseForm course={course} onSubmit={onSettingsSubmit} submitButtonText="Save settings" />
+      content: <CourseForm course={course} isModal={true} onSubmit={onSettingsSubmit} submitButtonText="Save settings" />
     })
   }
 
