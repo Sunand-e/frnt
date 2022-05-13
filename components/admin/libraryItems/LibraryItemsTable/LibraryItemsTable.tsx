@@ -49,22 +49,22 @@ const LibraryItemsTable = () => {
           )
         }
       },
-      {
-        Header: "ID",
-        accessor: "id",
-      },
+      // {
+      //   Header: "ID",
+      //   accessor: "id",
+      // },
       {
         width: 300,
         Header: "Actions",
         accessor: "wa",
         Cell: ({ cell }) => {
-          const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
+          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
 
           return (
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
               <Button 
-                onClick={() => handleDeleteClick(cell.row.values.id)}
+                onClick={() => handleDeleteClick(cell.row.original.id)}
               >
                 Delete
               </Button>

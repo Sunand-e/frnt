@@ -30,7 +30,15 @@ const AdminLibraryItemsEdit = () => {
     headerButtonsVar(
       <>
         <Button onClick={() => router.push('/admin/library')}>Cancel</Button>
-        <Button>Preview library item</Button>
+        <Button onClick={() => router.push({
+          pathname: `/library_item`,
+          query: {
+            id,
+            showEdit: true
+          }
+        })}>
+          Preview
+        </Button>
         <Button>Publish</Button>
       </>
     )

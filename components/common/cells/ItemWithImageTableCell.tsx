@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-const ItemWithImageTableCell = ({title, placeholder, secondary=null, image=null, href=null}) => {
+const ItemWithImageTableCell = ({title, placeholder=null, secondary=null, image=null, href=null}) => {
   return (
     <Link href={href ?? '#'}>
     <a className="text-blue-dark">

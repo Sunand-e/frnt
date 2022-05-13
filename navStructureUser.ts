@@ -57,25 +57,25 @@ const navStructureUser = [
       {
         name: 'library-guides',
         title: 'Guides',
-        urlPath: '/library',
+        urlPath: '/library?filter=guide',
         icon: TextLeft,
       },
       {
         name: 'library-videos',
         title: 'Videos',
-        urlPath: '/library',
+        urlPath: '/library?filter=video',
         icon: Video,
       },
       {
         name: 'library-podcasts',
         title: 'Podcasts',
-        urlPath: '/library',
+        urlPath: '/library?filter=podcast',
         icon: Speaker2,
       },
       {
         name: 'library-process-flows',
         title: 'Process Flows',
-        urlPath: '/library',
+        urlPath: '/library?filter=process-flow',
         icon: FlowChart,
       }
     ]

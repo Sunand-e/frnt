@@ -21,9 +21,7 @@ const Library = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageContent>
         <ContentLibrary />
-      </PageContent>
     </>
   )
 }
