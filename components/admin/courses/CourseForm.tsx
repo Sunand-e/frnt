@@ -24,7 +24,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
   const defaultValues = {
     ...course
   }
-  const { handleModal, closeModal } = useContext(ModalContext)
+  const { handleModal } = useContext(ModalContext)
 
   const { register, watch, handleSubmit, control, setFocus, getValues, setValue } = useForm<CourseFormValues>({defaultValues});
 
@@ -32,14 +32,12 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
     setFocus('title')
   },[])
 
-  const onImageSelect = (image) => {
-    isModal ?
-      handleModal({
-        title: `Course settings`,
-        size: 'lg',
-        content: <CourseForm course={{...getValues(), image}} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
-      })
-    : closeModal()
+  const reopenFormInModal = (image) => {
+    handleModal({
+      title: `Course settings`,
+      size: 'lg',
+      content: <CourseForm course={{...getValues(), image}} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
+    })
   }
 
   return (
@@ -58,7 +56,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
         origImage={defaultValues?.image}
         control={control}
         name="imageId"
-        onSelect={onImageSelect}
+        onSelect={isModal ? reopenFormInModal : null}
         // inputAttrs={register("image", { required: true })}
       />
       <TagSelectInput

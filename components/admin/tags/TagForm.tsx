@@ -2,22 +2,25 @@ import Button from '../../Button';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import TagTypeSelect from './inputs/TagTypeSelect';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
+import { ModalContext } from '../../../context/modalContext';
 
 interface TagFormValues {
   label: string
+  mediaItemId: string
 }
 
-const TagForm = ({tag=null, onSubmit}) => {
+const TagForm = ({tag=null, onSubmit, isModal=false}) => {
 
   const defaultValues = {
     tagType: 'category',
     ...tag
   }
+  const { handleModal } = useContext(ModalContext)
   
-  const { register, handleSubmit, control, setFocus } = useForm<TagFormValues>(
+  const { register, handleSubmit, control, setFocus, getValues } = useForm<TagFormValues>(
     { defaultValues }
   );
 
@@ -27,9 +30,17 @@ const TagForm = ({tag=null, onSubmit}) => {
 
   const buttonText = tag ? 'Save changes' : 'Create tag'
   
+  const reopenFormInModal = (image) => {
+    handleModal({
+      title: `Course settings`,
+      size: 'lg',
+      content: <TagForm tag={{...getValues(), image}} isModal={true} onSubmit={onSubmit} />
+    })
+  }
+
   return (
     <form
-      className='h-full w-full max-w-lg flex flex-col space-y-4'
+      className='h-full w-full max-w-sm flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput
@@ -44,14 +55,12 @@ const TagForm = ({tag=null, onSubmit}) => {
         buttonText="Choose category image"
         control={control}
         name="mediaItemId"
+        onSelect={isModal ? reopenFormInModal : null}
         // inputAttrs={register("image", { required: true })}
       />
       {/* <TagTypeSelect control={control} /> */}
 
       <Button type="submit">{buttonText}</Button>
-      <pre>
-      { JSON.stringify(tag,null,2) }
-      </pre>
     </form>
   )
 }

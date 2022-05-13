@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '../../Button';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import CheckboxInput from '../../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
 import Link from 'next/link';
+import { ModalContext } from '../../../context/modalContext';
 
 interface UserFormValues {
   id?: string
@@ -33,6 +34,8 @@ const UserForm = ({user=null, onSubmit}) => {
     defaultValues
   });
 
+  const { closeModal } = useContext(ModalContext)
+
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
@@ -58,6 +61,7 @@ const UserForm = ({user=null, onSubmit}) => {
         buttonText="Choose profile image"
         control={control}
         name="profileImage"
+        onSelect={closeModal()}
         // inputAttrs={register("image", { required: true })}
       />
       {/* <SelectInput

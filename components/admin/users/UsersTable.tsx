@@ -15,7 +15,6 @@ const UsersTable = () => {
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
 
   const { handleModal } = useContext(ModalContext)
-  
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => queryData?.users || [], [queryData]);
@@ -41,7 +40,7 @@ const UsersTable = () => {
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
           )
         }
       },

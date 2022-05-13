@@ -34,7 +34,7 @@ const AdminUsersTagsEdit = () => {
 }
 
 AdminUsersTagsEdit.navState = {
-  topLevel: 'users',
-  secondary: 'tags'
+  topLevel: 'courses',
+  secondary: 'categories'
 }
 export default AdminUsersTagsEdit

@@ -6,6 +6,7 @@ import useGetTags from '../../../../hooks/tags/useGetTags';
 import useDeleteTag from '../../../../hooks/tags/useDeleteTag';
 import Button from '../../../Button';
 import useGetTagsFull from '../../../../hooks/tags/useGetTagsFull';
+import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
 
 const TagsTable = () => {
 
@@ -43,7 +44,18 @@ const TagsTable = () => {
       {
         Header: "Category Name",
         accessor: "label", // accessor is the "key" in the data
-        Cell: TagLabelCell
+        Cell: ({ cell }) => {
+          const cellProps = {
+            image: cell.row.original.image?.location,
+            title: cell.value,
+            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
+            // secondary: cell.row.original.title,
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+          }
+          return (
+            <ItemWithImageTableCell { ...cellProps } />
+          )
+        }
       },
       {
         Header: "Item count",

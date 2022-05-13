@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Control, useController } from "react-hook-form";
+import { ModalContext } from "../../../context/modalContext";
 import ImageSelect from "../../ContentEditor/ImageSelect";
 
 type ImageSelectInputProps = { 
@@ -28,12 +29,14 @@ const ImageSelectInput = ({
     name
   });
 
+  const { closeModal } = useContext(ModalContext)
+
   const [image, setImage] = useState(origImage);
 
   const handleSelect = image => {
     field.onChange(image.id)
     setImage(image)
-    onSelect && onSelect(image)
+    onSelect ? onSelect(image) : closeModal()
   }
 
   return (

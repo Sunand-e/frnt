@@ -19,7 +19,7 @@ const AddTagModal = ({type}) => {
   },[])
   return (
     <>
-      <TagForm onSubmit={handleSubmit} />
+      <TagForm isModal={true} onSubmit={handleSubmit} />
     </>
   );
 }
