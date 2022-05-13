@@ -47,7 +47,7 @@ const CoursePage = () => {
       pathname: `/admin/courses/edit`,
       query: {
         id,
-        cid: contentId
+        ...(contentId && {cid: contentId})
       }
     })
   }
