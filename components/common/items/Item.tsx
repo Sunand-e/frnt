@@ -29,6 +29,15 @@ export default function Item({ item, options }) {
 
   const href = item.href ?? `/${item.itemType}?id=${item.id}`
 
+  let title
+  switch(item.__typename) {
+    case 'Tag':
+      title = item.label
+      break;
+    default:
+      title = item.title
+      break;
+  } 
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
       <Link href={href}>
@@ -57,7 +66,7 @@ export default function Item({ item, options }) {
       </Link>
       <div className="p-6 pt-4 flex-grow flex flex-col">
         {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
-        <h2 className="text-xl text-blue-dark font-semibold mb-2">{item?.title}</h2>
+        <h2 className="text-xl text-blue-dark font-semibold mb-2">{title}</h2>
         { options?.showType && (
           <h2 className="text-lg text-white mb-4 top-5 font-bold">
             <span className="bg-main py-1 px-2">
@@ -65,6 +74,7 @@ export default function Item({ item, options }) {
             </span>
           </h2>
         )}
+
         { item.status && (
           <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
             {item.status}

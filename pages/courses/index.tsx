@@ -10,13 +10,9 @@ const Courses = () => {
   
   const {courses, loading, error } = useGetCourses();
 
-  const options = {
-    heading:'My courses'
-  }
   return (
     <>
     { (!loading && !error) && 
-    // <ItemCollection options={options} items={courses} /> }
     <CourseTabs /> }
     </>
   )
