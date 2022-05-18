@@ -72,7 +72,7 @@ export default function ContentLibraryFilters({hasSearch=true, hasCategories=tru
             }}
             // defaultValue={category}
             value={category && {value: category, label: category}}
-            onChange={(option) => onFilterChange('category', option?.label)}
+            onChange={(option) => onFilterChange('category', option?.value)}
             placeholder={'Select category...'}
             options={tagOptions}
             instanceId="category"
@@ -92,9 +92,9 @@ export default function ContentLibraryFilters({hasSearch=true, hasCategories=tru
                 minWidth: "100%"
               }),
             }}
-            // defaultValue={category}
-            value={type && {value: type, label: type}}
-            onChange={(option) => onFilterChange('type', option?.label)}
+            // defaultValue={category}libraryItemTypes[typeName].label
+            value={type && {value: type, label: libraryItemTypes[type].label}}
+            onChange={(option) => onFilterChange('type', option?.value)}
             placeholder={'Select type...'}
             options={typeOptions}
             instanceId="type"
