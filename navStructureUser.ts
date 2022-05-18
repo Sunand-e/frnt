@@ -1,6 +1,7 @@
 import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Category} from '@styled-icons/material-rounded/Category'
 import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
 import {Library} from "@styled-icons/ionicons-solid/Library"
@@ -27,9 +28,9 @@ const navStructureUser = [
         icon: GraduationCap
       },
       {
-        name: 'categories',
-        title: 'Categories',
-        urlPath: '/categories',
+        name: 'catalogue',
+        title: 'Catalogue',
+        urlPath: '/catalogue',
         icon: Category
       },
       {
@@ -57,25 +58,31 @@ const navStructureUser = [
       {
         name: 'library-guides',
         title: 'Guides',
-        urlPath: '/library?filter=guide',
+        urlPath: '/library?type=guide',
         icon: TextLeft,
       },
       {
         name: 'library-videos',
         title: 'Videos',
-        urlPath: '/library?filter=video',
+        urlPath: '/library?type=video',
         icon: Video,
+      },
+      {
+        name: 'library-documents',
+        title: 'Documents',
+        urlPath: '/library?type=document',
+        icon: Document,
       },
       {
         name: 'library-podcasts',
         title: 'Podcasts',
-        urlPath: '/library?filter=podcast',
+        urlPath: '/library?type=podcast',
         icon: Speaker2,
       },
       {
         name: 'library-process-flows',
         title: 'Process Flows',
-        urlPath: '/library?filter=process-flow',
+        urlPath: '/library?type=process-flow',
         icon: FlowChart,
       }
     ]

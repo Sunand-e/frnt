@@ -11,7 +11,7 @@ interface ItemGridProps {
 export default function ItemGrid({className, items, options}: ItemGridProps) {
   
   const [display, setDisplay] = useState(options?.display ?? 'grid');
-  const gridClasses = (display === 'grid') ? 'grid gap-8 grid-cols-4' : 'flex flex-col gap-6'
+  const gridClasses = (display === 'grid') ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'flex flex-col gap-6'
   const ItemComponent = (display === 'grid') ? Item : ItemSmall
 
   return (

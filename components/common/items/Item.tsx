@@ -10,7 +10,7 @@ function ItemTags({ tags }) {
       {
         tags.map(tag => {
           return (
-            <a href="#" className="text-blue-dark font-semibold">{tag.name}</a>
+            <a href="#" className="text-blue-dark font-semibold">{tag.label}</a>
           )}
         )
       }
@@ -23,11 +23,11 @@ export default function Item({ item, options }) {
   const itemType = contentTypes.find(type => {
     return item.itemType === type.slug
   });
-  const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/item-placeholder.jpg';
+  const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
   const buttonText = item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
-  const href = item.href ?? `/${item.itemType}?id=${item.id}`
+  const href = options?.getHref ? options.getHref(item) : item.href ?? `/${item.itemType}?id=${item.id}`
 
   let title
   switch(item.__typename) {
@@ -39,18 +39,20 @@ export default function Item({ item, options }) {
       break;
   } 
   return (
-    <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-xl bg-white relative mb-8">
+    <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
       <Link href={href}>
         <a
           className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}
         >
           <img
             src={imageSrc}
+            className={'bg-main/20'}
             style={{
               // backgroundImage: `url(${imageSrc})`,
               width: '100%',
               height: '100%',
               position: 'absolute',
+              // backgroundColor: 'rgba(0,0,0,0.1)',
               objectFit: 'cover'
             }}
           />
@@ -77,12 +79,18 @@ export default function Item({ item, options }) {
 
         { item.status && (
           <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
-            {item.status}
+            {item.status}r
           </h2>
         )}
-        {/* <pre>
-          {JSON.stringify(item, null, 2)}
-        </pre> */}
+        { item.tags && (
+          <h2 className="text-lg text-blue mb-2 top-5 font-bold">
+            { item.tags && (
+              <span className="bg-main-superlight">
+                { item.tags.map(tag => tag.label).join(', ') }
+              </span>
+            )}
+          </h2>
+        )}
         {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}
         {/* <div dangerouslySetInnerHTML={{
           __html: item.excerpt

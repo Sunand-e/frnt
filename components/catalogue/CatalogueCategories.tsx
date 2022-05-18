@@ -1,10 +1,7 @@
-import { useState } from "react"
 import useGetTags from "../../hooks/tags/useGetTags"
-import useGetUser from "../../hooks/users/useGetUser"
-import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
 
-export default function CategoriesGrid() {
+export default function CatalogueCategories() {
 
   const { tags, loading, error } = useGetTags()
 
@@ -14,10 +11,14 @@ export default function CategoriesGrid() {
     <>
       { categories?.length && (
         <>
+        <h2 className="inline-block border-grey-dark ">Categories</h2>
           <ItemCollection
             items={categories || []}
             options={{
               maxItems: 120,
+              itemOptions: {
+                getHref: item => `/catalogue?category=${encodeURIComponent(item.label)}`
+              }
             }}
           />
         </>

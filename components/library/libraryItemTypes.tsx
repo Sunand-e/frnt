@@ -15,11 +15,11 @@ export const libraryItemTypes = {
     icon: Video,
     content: { blocks: [{type:'video'}]}
   },
-  image: {
-    label: "Image",
-    icon: Image,
-    content: { blocks: [{type:'image'}]}
-  },
+  // image: {
+  //   label: "Image",
+  //   icon: Image,
+  //   content: { blocks: [{type:'image'}]}
+  // },
   document: {
     label: "Document",
     icon: Document,

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import useGetUser from "../../hooks/users/useGetUser"
+import { useRouter } from "../../utils/router"
 import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
 
@@ -16,6 +17,7 @@ export default function CourseTabs() {
   }
   
   const { user: { courses: courseConnection } = {} } = useGetUser()
+
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
     return {

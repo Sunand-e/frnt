@@ -1,6 +1,6 @@
 export default function SearchInput({  }) {
 
-  const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : '/item-placeholder.jpg';
+  const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : '/placeholder-image.png';
 
   return (
     <div className="relative mr-6 my-2">

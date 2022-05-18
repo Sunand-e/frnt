@@ -1,6 +1,6 @@
 const TextInput = ({
   label,
-  inputAttrs,
+  inputAttrs = {},
   type="text",
   className='',
   placeholder: placeholder = ''

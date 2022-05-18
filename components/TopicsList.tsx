@@ -37,11 +37,11 @@ export default function TopicsList({className, onTopicClick}: TopicsListProps) {
 
               onClick={onTopicClick && onTopicClick(tag)}
               key={tag.id}
-              href={`library?tag=${tag.slug}`}
+              href={`library?tag=${tag.label}`}
               theme="boxed"
               icon={icon}
             >
-              {`${tag.name}`}
+              {`${tag.label}`}
             </LinkWithIcon>
           )
         }) }

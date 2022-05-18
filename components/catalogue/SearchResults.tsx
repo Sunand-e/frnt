@@ -11,7 +11,7 @@ interface SearchFilters extends ParsedUrlQuery {
 export default function SearchResults({items}) {
   
   const router = useRouter()
-  const { search, category, type } = router.query
+  const { search, category } = router.query
 
   let filteredItems = [];
   
@@ -57,21 +57,9 @@ export default function SearchResults({items}) {
       return item.tags && item.tags.some(isSelectedCategory);   
     });
   }
-
-  if(type) {
-    console.log('type')
-    console.log(type)
-    filteredItems = filteredItems.filter(item => item.contentType === type);
-  }
-  console.log('filteredItems')
-  console.log(filteredItems)
-
-  const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
+  const resultCountString = `${filteredItems.length || 'No'} course${filteredItems.length !== 1 ? 's' : ''} found`
   const options = {
-    heading: resultCountString,
-    itemOptions: {
-      showType: true
-    }
+    heading: resultCountString
   }
   return (
     <>

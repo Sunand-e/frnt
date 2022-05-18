@@ -31,7 +31,7 @@ const Dashboard = () => {
 
   const handleTopicClick = tag => e => {
     e.preventDefault()
-    router.push(`/library?tag=${tag.slug}`, undefined, { shallow: true })
+    router.push(`/library?tag=${tag.label}`, undefined, { shallow: true })
     console.log( libraryVar() ) 
   }
   

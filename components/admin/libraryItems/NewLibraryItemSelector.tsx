@@ -1,6 +1,6 @@
 import { useController } from "react-hook-form";
 import useCreateLibraryItem from "../../../hooks/libraryItems/useCreateLibraryItem";
-import { libraryItemTypes } from "./libraryItemTypes";
+import { libraryItemTypes } from "../../library/libraryItemTypes";
 
 const libraryItemTypesArray = Object.keys(libraryItemTypes).map(key => {
   return {

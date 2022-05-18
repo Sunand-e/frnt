@@ -28,6 +28,10 @@ export const ContentFragment = gql`
     users {
       totalCount
     }
+    tags {
+      tagType
+      label
+    }
     _deleted @client
   }
 `

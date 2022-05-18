@@ -1,20 +1,13 @@
 import {useContext, useEffect} from 'react'
 import Head from 'next/head'
-import { useQuery, useMutation, gql, useReactiveVar } from '@apollo/client';
-import NoticeBox from '../components/NoticeBox';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import usePageTitle from '../hooks/usePageTitle'
 import useLogout from '../hooks/useLogout'
 import PageContent from '../components/PageContent';
-import TopicsList from '../components/TopicsList';
-import DashboardContentTabs from '../components/dashboard/DashboardContentTabs';
-import { contentTagsVar, headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
-import { client } from "../graphql/client";
 import { useRouter } from 'next/router'
-import ItemGrid from '../components/common/items/ItemGrid';
 import Button from '../components/Button';
-import ItemCollection from "../components/common/items/ItemCollection";
 import { QueriesContext } from '../context/QueriesContext';
 import Dashboard from '../components/dashboard/Dashboard';
 
@@ -98,7 +91,7 @@ const DashboardPage = () => {
   const router = useRouter()
   const handleTopicClick = tag => e => {
     e.preventDefault()
-    router.push(`/library?tag=${tag.slug}`, undefined, { shallow: true })
+    router.push(`/library?tag=${tag.label}`, undefined, { shallow: true })
     console.log( libraryVar() ) 
   }
   return (
