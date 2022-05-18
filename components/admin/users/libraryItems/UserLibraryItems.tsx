@@ -5,7 +5,6 @@ const UserLibraryItems = () => {
   const button = {
     text: "Assign items",
     onClick: () => {
-      alert('abc')
     }
   }
 

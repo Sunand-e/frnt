@@ -84,7 +84,7 @@ const navStructureAdmin = [
       {
         name: 'pathways',
         title: 'Pathways',
-        urlPath: '/admin/courses/pathways',
+        urlPath: '/admin/pathways',
         icon: Flow
       },
     ],

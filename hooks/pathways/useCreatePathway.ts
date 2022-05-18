@@ -10,22 +10,22 @@ function useCreatePathway() {
   const [createPathwayMutation, createPathwayResponse] = useMutation<CreatePathway, CreatePathwayVariables>(
     CREATE_PATHWAY,
     {
-      update(cache, { data: { createPathway } } ) {
+      // update(cache, { data: { createPathway } } ) {
         
-        const data = cache.readQuery<GetPathways>({
-          query: GET_PATHWAYS
-        })
-        cache.writeQuery({
-          query: GET_PATHWAYS,
-          data: { 
-            pathways: [createPathway.pathway, ...data.pathways]
-          }
-        })
-      }
+      //   const data = cache.readQuery<GetPathways>({
+      //     query: GET_PATHWAYS
+      //   })
+      //   cache.writeQuery({
+      //     query: GET_PATHWAYS,
+      //     data: { 
+      //       pathways: [createPathway.pathway, ...data.pathways]
+      //     }
+      //   })
+      // }
     }
   );
 
-  const createPathway = (values) => {
+  const createPathway = (values, cb=null) => {
     createPathwayMutation({ 
       variables: values,
       optimisticResponse: {
@@ -42,7 +42,8 @@ function useCreatePathway() {
           },
           message: ''
         }
-      }
+      },
+      onCompleted: cb
       // refetchQueries: [{ query: GET_PATHWAY }]
     })
   }

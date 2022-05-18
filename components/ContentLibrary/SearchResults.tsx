@@ -1,8 +1,8 @@
 import ItemGrid from "../common/items/ItemGrid";
 import ItemCollection from "../common/items/ItemCollection";
-import contentTypes from "../../contentTypes"
 import { useRouter } from "../../utils/router";
 import { ParsedUrlQuery } from 'querystring';
+import { libraryItemTypes } from "../library/libraryItemTypes";
 
 interface SearchFilters extends ParsedUrlQuery {
   search: string;
@@ -70,7 +70,25 @@ export default function SearchResults({items}) {
   const options = {
     heading: resultCountString,
     itemOptions: {
-      showType: true
+      // showType: true,
+      getReadMoreLabel: (item) => {
+        return libraryItemTypes[item.contentType].readMoreLabel ?? 'Read More'
+      },
+      getItemTitle: item => {
+        const IconComponent = libraryItemTypes[item.contentType].icon
+        return (
+          <>
+          <span className="flex items-center space-x-3">
+            <span className="flex items-center justify-center bg-main text-white w-8 h-8 rounded-full overflow-hidden">
+              <IconComponent className=" w-5" />
+            </span>
+            <span>
+              {item.title}
+            </span>
+          </span>
+          </>
+        )
+      }
     }
   }
   return (

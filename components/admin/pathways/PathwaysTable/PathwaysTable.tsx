@@ -12,7 +12,7 @@ const CoursesTable = () => {
   
   const { deletePathway } = useDeletePathway();
 
-  const editUrl = '/admin/courses/pathways/edit'
+  const editUrl = '/admin/pathways/edit'
 
   const handleDeleteClick = (id) => {
     deletePathway(id)

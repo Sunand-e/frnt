@@ -45,7 +45,7 @@ const AdminCourseSetup = () => {
         
         cache.writeQuery({
           query: GET_COURSES,
-          data: { 
+          data: {
             courses: data ? [createCourse.course, ...data.courses] : [createCourse.course]
           }
         })

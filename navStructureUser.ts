@@ -36,7 +36,7 @@ const navStructureUser = [
       {
         name: 'pathways',
         title: 'Pathways',
-        urlPath: '/courses/pathways',
+        urlPath: '/pathways',
         icon: Flow
       },
       

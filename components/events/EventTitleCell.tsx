@@ -9,7 +9,7 @@ const EventTitleCell = ({ cell }) => {
       {/* <Link href={href}> */}
         <a className="mt-auto text-center p-2 text-blue-dark font-semibold">{cell.value}{cell.row.values.id}</a>
       {/* </Link> */}
-      <PencilIcon className="cursor-pointer text-blue-dark inline w-5 pb-1" onClick={() => alert('a')} />
+      <PencilIcon className="cursor-pointer text-blue-dark inline w-5 pb-1" />
     </>
   )
 }

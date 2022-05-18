@@ -7,11 +7,13 @@ import { FlowChart } from '@styled-icons/remix-editor'
 export const libraryItemTypes = {
   guide: {
     label: "Guide", 
+    readMoreLabel: "Read Guide", 
     icon: TextLeft,
     content: { blocks: [{type:'text'}]}
   },
   video: {
     label: "Video",
+    readMoreLabel: 'Watch now',
     icon: Video,
     content: { blocks: [{type:'video'}]}
   },
@@ -22,16 +24,19 @@ export const libraryItemTypes = {
   // },
   document: {
     label: "Document",
+    readMoreLabel: 'View document',
     icon: Document,
     content: { blocks: [{type:'text'}]}
   },
   podcast: {
     label: 'Podcast',
+    readMoreLabel: 'Listen now',
     icon: Speaker2,
     content: { blocks: [{type:'text'}]}
   },
   process_flow: {
     label: 'Process Flow',
+    readMoreLabel: 'Get started',
     icon: FlowChart,
     content: { blocks: [{type:'text'}]}
   },

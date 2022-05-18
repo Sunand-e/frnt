@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const PathwayTitleCell = ({ cell }) => {
 
-  const href = cell.row.values.id && `/admin/courses/pathways/edit?id=${cell.row.values.id}`
+  const href = cell.row.values.id && `/admin/pathways/edit?id=${cell.row.values.id}`
   
   return (
     <>

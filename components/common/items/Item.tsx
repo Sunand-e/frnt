@@ -24,10 +24,10 @@ export default function Item({ item, options }) {
     return item.itemType === type.slug
   });
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
-  const buttonText = item.buttonText || 'Read more';
+  const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
-  const href = options?.getHref ? options.getHref(item) : item.href ?? `/${item.itemType}?id=${item.id}`
+  const href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?id=${item.id}`
 
   let title
   switch(item.__typename) {
@@ -37,7 +37,10 @@ export default function Item({ item, options }) {
     default:
       title = item.title
       break;
-  } 
+  }
+
+  const itemTitle = options?.getItemTitle?.(item) || title
+
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
       <Link href={href}>
@@ -68,7 +71,7 @@ export default function Item({ item, options }) {
       </Link>
       <div className="p-6 pt-4 flex-grow flex flex-col">
         {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
-        <h2 className="text-xl text-blue-dark font-semibold mb-2">{title}</h2>
+        <h2 className="text-xl text-blue-dark font-semibold mb-2">{itemTitle}</h2>
         { options?.showType && (
           <h2 className="text-lg text-white mb-4 top-5 font-bold">
             <span className="bg-main py-1 px-2">

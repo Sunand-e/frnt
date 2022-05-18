@@ -5,7 +5,7 @@ import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { CreateCourse, CreateCourseVariables } from "../../graphql/mutations/course/__generated__/CreateCourse";
 
 
-function useCreateCourse() {
+function useCreateCourse(cb) {
   
   const [createCourseMutation, createCourseResponse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,
@@ -25,7 +25,7 @@ function useCreateCourse() {
     }
   );
 
-  const createCourse = (values) => {
+  const createCourse = (values, cb = null) => {
     createCourseMutation({ 
       variables: values,
       optimisticResponse: {
@@ -42,7 +42,8 @@ function useCreateCourse() {
           },
           message: ''
         }
-      }
+      },
+      onCompleted: cb
       // refetchQueries: [{ query: GET_COURSE }]
     })
   }

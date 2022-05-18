@@ -1,11 +1,11 @@
-import usePageTitle from '../../../../hooks/usePageTitle'
-import { useRouter } from '../../../../utils/router'
-import EditorLayout from '../../../../layouts/EditorLayout'
-import { headerButtonsVar, viewVar } from '../../../../graphql/cache'
+import usePageTitle from '../../../hooks/usePageTitle'
+import { useRouter } from '../../../utils/router'
+import EditorLayout from '../../../layouts/EditorLayout'
+import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
-import Button from '../../../../components/Button'
-import useUpdatePathway from '../../../../hooks/pathways/useUpdatePathway'
-import PathwayEditor from '../../../../components/admin/pathways/PathwayEditor'
+import Button from '../../../components/Button'
+import useUpdatePathway from '../../../hooks/pathways/useUpdatePathway'
+import PathwayEditor from '../../../components/admin/pathways/PathwayEditor'
 
 const AdminPathwaysEdit = () => {
   /*
@@ -28,7 +28,7 @@ const AdminPathwaysEdit = () => {
   useEffect(() => {
     headerButtonsVar(
       <>
-        <Button onClick={() => router.push('/admin/courses/pathways')}>Cancel</Button>
+        <Button onClick={() => router.push('/admin/pathways')}>Cancel</Button>
         <Button onClick={() => router.push({
           pathname: `/pathway`,
           query: {
