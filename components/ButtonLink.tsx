@@ -4,7 +4,7 @@ import styles from './Button.module.scss'
 
 interface ButtonLinkProps {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  href?: string
+  href?
   style?: "primary" | "cancel"
   className?
   children: JSX.Element | string

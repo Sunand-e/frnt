@@ -10,9 +10,9 @@ const PathwayEditor = () => {
 
   const addCourse = () => {
     handleModal({
-      title: `Lesson name:`,
+      title: `Add courses to pathway:`,
       size: 'lg',
-      content: <CoursesTable />
+      content: <CoursesTable selectable={true} />
     })
   }
 

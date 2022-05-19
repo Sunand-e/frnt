@@ -1,7 +1,7 @@
 
 import { useTable, useSortBy } from "react-table";
 
-const Table = ({tableData, tableCols}) => {
+const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null}) => {
   const {
     getTableProps,
     getTableBodyProps,

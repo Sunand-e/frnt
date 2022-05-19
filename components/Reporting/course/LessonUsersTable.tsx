@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../../../Table';
-import Button from '../../../Button';
-import ButtonLink from '../../../ButtonLink';
-import useGetCourses from '../../../../hooks/courses/useGetCourses';
-import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
-import TagSelect from '../../tags/inputs/TagSelect';
-import DeleteCourseModal from '../DeleteCourseModal';
-import { ModalContext } from '../../../../context/modalContext';
-import useGetCoursesBasic from '../../../../hooks/courses/useGetCoursesBasic';
+import Table from '../../Table';
+import ButtonLink from '../../ButtonLink';
+import useGetCourses from '../../../hooks/courses/useGetCourses';
+import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import { ModalContext } from '../../../context/modalContext';
+import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
+import TagSelect from '../../admin/tags/inputs/TagSelect';
 
-const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
+const LessonUsersTable = () => {
 
   // const { loading, error, courses } = useGetCourses()
   const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
@@ -30,13 +28,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const editUrl = '/admin/courses/edit'
 
   const { handleModal } = useContext(ModalContext)
-
-  const handleDeleteClick = (id) => {
-    handleModal({
-      title: `Delete course`,
-      content: <DeleteCourseModal courseId={id} />
-    })
-  }
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -73,12 +64,45 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         }
       },
       {
-        Header: "Active users",
+        Header: "Enrolled users",
         accessor: "users.totalCount",
         Cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
-            <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
+            <span>{userCount}</span>
+          )
+        }
+      },
+      {
+        Header: "Not started",
+        accessor: "users.totalCosnt",
+        Cell: ({ cell }) => {
+          return (
+            <span>-</span>
+          )
+        }
+      },
+      {
+        Header: "In progress",
+        Cell: ({ cell }) => {
+          return (
+            <span>-</span>
+          )
+        }
+      },
+      {
+        Header: "Completed",
+        Cell: ({ cell }) => {
+          return (
+            <span>-</span>
+          )
+        }
+      },
+      {
+        Header: "% Complete",
+        Cell: ({ cell }) => {
+          return (
+            <span>0%</span>
           )
         }
       },
@@ -98,18 +122,12 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
           width:"300px"
         },
         Header: "Actions",
-        accessor: "wa",
         Cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button 
-                onClick={() => handleDeleteClick(cell.row.original.id)}
-              >
-                Delete
-              </Button>
+              <ButtonLink href={href}>See reports</ButtonLink>
             </div>
           )
         }
@@ -148,4 +166,4 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   );
 }
 
-export default CoursesTable
+export default LessonUsersTable
