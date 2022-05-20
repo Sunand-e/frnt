@@ -6,7 +6,6 @@ const UserCourses = () => {
   const button = {
     text: "Assign courses",
     onClick: () => {
-      alert('assign courses')
     }
   }
 

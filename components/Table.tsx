@@ -1,7 +1,8 @@
-
 import { useTable, useSortBy } from "react-table";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null}) => {
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -10,6 +11,8 @@ const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null})
     prepareRow,
   } = useTable({ columns: tableCols, data: tableData }, useSortBy);
 
+  const [parent] = useAutoAnimate()
+  
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -17,7 +20,7 @@ const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null})
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table
               {...getTableProps()}
-              className="min-w-full divide-y divide-gray-200"
+              className="min-w-full divide-y divide-gray-200 bg-white"
             >
               <thead className="bg-gray-50">
                 {headerGroups.map((headerGroup) => (
@@ -42,7 +45,7 @@ const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null})
                   </tr>
                 ))}
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
+              <tbody ref={parent} className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
                 {rows.map((row) => {
                   prepareRow(row);
                   return (
