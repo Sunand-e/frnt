@@ -101,6 +101,20 @@ export const UserContentEdgeFragment = gql`
   }
 `
 
+export const GET_USERS_COURSES = gql`
+  query GetUsersCourses {
+    users {
+      ...UserFragment
+      courses {
+        ...UserContentEdgeFragment
+      }
+    }
+  }
+  ${UserFragment}
+  ${UserContentEdgeFragment}
+`
+
+
 export const GET_USER_CONTENT = gql`
   query GetUserContent($id: ID!) {
     user(id: $id) {

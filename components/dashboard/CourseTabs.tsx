@@ -8,7 +8,7 @@ export default function CourseTabs() {
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
-  const recentlyViewedOptions = { 
+  const defaultOptions = { 
     // subHeading: 'Courses and workshops that were recently released',
     maxItems: 4,
     itemOptions: {
@@ -27,17 +27,28 @@ export default function CourseTabs() {
   })
 
   const coursePanels = [
-    { name: 'In progress', courses: courses?.filter(course => course.status === 'In progress') },
-    { name: 'Not started', courses: courses?.filter(course => !course.status ) },
-    { name: 'Completed', href: '#', courses: courses?.filter(course => course.status === 'Completed') },
+    {
+      name: 'In progress',
+      courses: courses?.filter(course => course.status === 'In progress'),
+      readMoreLabel: 'Continue course'
+    },
+    {
+      name: 'Not started',
+      courses: courses?.filter(course => !course.status ),
+      readMoreLabel: 'Start course'
+    },
+    {
+      name: 'Completed',
+      href: '#',
+      courses: courses?.filter(course => course.status === 'Completed'),
+      readMoreLabel: 'View course'
+    },
   ]
 
-  let filteredCourses
+  const currentPanel = coursePanels[activeTabIndex]
+  const { courses: filteredCourses, readMoreLabel } = currentPanel
 
-  const tabs = coursePanels.map(({name, courses}, index) => {
-    if(index === activeTabIndex) {
-      filteredCourses = courses
-    }
+  const tabs = coursePanels.map(({name, courses}) => {
     return {
       name,
       count: courses?.length || 0,
@@ -46,22 +57,23 @@ export default function CourseTabs() {
   })
 
   return (
-    !!courses?.length && (
-      <>
+    <>
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} className="mb-2" />
-      <pre>
-        {/* { JSON.stringify(courseConnection?.edges,null,2)} */}
-        {/* { courseConnection?.edges.forEach(edge => JSON.stringify(edge,null,2)) }     */}
-      </pre>
-      <ItemCollection
-        // viewAll={() => alert('a')} 
-        items={filteredCourses || []}
-        options={{
-          ...recentlyViewedOptions,
-          maxItems: 120,
-        }}
-      />
+      { !!courses?.length && (
+        <>
+          <ItemCollection
+            items={filteredCourses || []}
+            options={{
+              ...defaultOptions,
+              itemOptions: {
+                ...defaultOptions.itemOptions,
+                getReadMoreLabel: (item) => readMoreLabel
+              },
+              maxItems: 120,
+            }}
+          />
+        </>
+      ) }
     </>
-    )
   )
 }

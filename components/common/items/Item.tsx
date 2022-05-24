@@ -41,6 +41,8 @@ export default function Item({ item, options }) {
 
   const itemTitle = options?.getItemTitle?.(item) || title
 
+  // { item.tags.find(tag => tag.label).image }
+  
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
       <Link href={href}>
@@ -71,7 +73,10 @@ export default function Item({ item, options }) {
       </Link>
       <div className="p-6 pt-4 flex-grow flex flex-col">
         {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
-        <h2 className="text-xl text-blue-dark font-semibold mb-2">{itemTitle}</h2>
+        <div className="flex space-x-2 items-start justify-between">
+          <h2 className="text-xl text-blue-dark font-semibold mb-2">{itemTitle}</h2>
+          { item.tags?.[0] && <img src={item.tags[0].image.location} className="mt-1 h-12 rounded-full" /> }
+        </div>
         { options?.showType && (
           <h2 className="text-lg text-white mb-4 top-5 font-bold">
             <span className="bg-main py-1 px-2">
@@ -79,19 +84,27 @@ export default function Item({ item, options }) {
             </span>
           </h2>
         )}
-
-        { item.status && (
-          <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
-            {item.status}r
-          </h2>
-        )}
         { item.tags && (
-          <h2 className="text-lg text-blue mb-2 top-5 font-bold">
+          <h2 className="text-lg text-blue mb-2 top-5 font-normal text-sm">
             { item.tags && (
               <span className="bg-main-superlight">
-                { item.tags.map(tag => tag.label).join(', ') }
+                { item.tags.map(tag => {
+                  return (
+                    <div className="flex space-x-2 items-center">
+                      {/* <img src={tag.image.location} className="h-8 rounded-full" /> */}
+                      <span>
+                        {tag.label}
+                      </span>
+                    </div>
+                  )
+                }) }
               </span>
             )}
+          </h2>
+        )}
+        { item.status && (
+          <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
+            {item.status}
           </h2>
         )}
         {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}

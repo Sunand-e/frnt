@@ -20,7 +20,7 @@ const CourseUsersTable = () => {
 
   const { course: id } = router.query
 
-  const { loading, error, users } = useGetCourseUsers(id)
+  const { loading, error, users, course } = useGetCourseUsers(id)
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -128,7 +128,9 @@ const CourseUsersTable = () => {
   );
 
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <>
+      <Table tableData={tableData} tableCols={tableCols} />
+    </>
   );
 }
 

@@ -1,16 +1,14 @@
-import { useMutation, useQuery } from '@apollo/client';
-import React, { useMemo } from 'react';
+import { useQuery } from '@apollo/client';
+import React, { useContext, useMemo } from 'react';
 import Table from '../../Table';
 import { GET_GROUPS, GroupFragment } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import Button from '../../Button';
-import { DELETE_GROUP } from "../../../graphql/mutations/group/DELETE_GROUP";
-import { client } from '../../../graphql/client';
-import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
-import { DeleteGroup, DeleteGroupVariables } from '../../../graphql/mutations/group/__generated__/DeleteGroup';
 import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import DeleteGroupModal from './DeleteGroupModal';
+import { ModalContext } from '../../../context/modalContext';
 
 const GroupsTable = () => {
 
@@ -20,8 +18,13 @@ const GroupsTable = () => {
 
   const editUrl = '/admin/users/groups/edit'
 
+  const { handleModal } = useContext(ModalContext)
+
   const handleDeleteClick = (id) => {
-    deleteGroup(id)
+    handleModal({
+      title: `Delete group`,
+      content: <DeleteGroupModal groupId={id} />
+    })
   }
 
   // Table data is memo-ised due to this:

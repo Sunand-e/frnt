@@ -22,8 +22,10 @@ function useGetCourseUsers(id) {
       ...courseData
     }
   })
+  const course = data?.course
   
   return {
+    course,
     users,
     loading,
     error

@@ -31,6 +31,9 @@ export const ContentFragment = gql`
     tags {
       tagType
       label
+      image {
+        location
+      }
     }
     _deleted @client
   }

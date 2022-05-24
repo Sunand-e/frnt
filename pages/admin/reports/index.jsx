@@ -6,6 +6,11 @@ const AdminReports = () => {
 
   usePageTitle({ title: 'Reports' })
   
+  useHeaderButtons([
+    ['Course reports', '/admin/reports'],
+    ['User reports', '/admin/reports?view=users']
+  ])
+  
   return (
     <Reporting />
   )
