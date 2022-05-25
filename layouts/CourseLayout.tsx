@@ -19,19 +19,21 @@ export default function CourseLayout( {page, navState} ) {
 
   const router = useRouter()
   
-  const { id } = router.query
-
-  const { loading, error, course } = useGetCourse(id)
-  
   return (
-    <Layout page={page} navState={navState}>
-      <div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-white">
+    <Layout 
+    page={page} 
+    navState={navState}
+    sidebarComponent={() => (
+      <div className="sticky h-[100vh] w-[300px] bg-blue bg-opacity-10 flex flex-col">
+        <CourseStructureView />
+      </div>
+    )}
+    >
+      <div className="w-full h-[calc(100vh-4.5rem)] mx-auto bg-white">
         <div className="lg:flex h-full">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
-            <div className="sticky top-18 h-[calc(100vh-4.5rem)] w-[360px] bg-blue bg-opacity-10 flex flex-col">
-              { course && <CourseStructureView course={course} /> }
-            </div>
+
             <div className="w-full flex justify-center px-16">
               <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
                 {page}

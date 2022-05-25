@@ -10,7 +10,6 @@ import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatu
 import useGetCourse from '../hooks/courses/useGetCourse'
 import useGetUser from '../hooks/users/useGetUser'
 import Button from '../components/Button'
-
 const CoursePage = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
@@ -19,10 +18,10 @@ const CoursePage = () => {
   const router = useRouter()
   const { id, cid: contentId, showEdit=false } = router.query
 
-  const { loading, error, course } = useGetCourse(id);
+  const { course } = useGetCourse(id);
   const { user } = useGetUser();
-
-  const { updateUserContentStatus } = useUpdateUserContentStatus()
+  
+  const currentContentItem = useReactiveVar(currentContentItemVar) 
 
   useEffect(() => {
     const view = {
@@ -40,7 +39,6 @@ const CoursePage = () => {
     }
   },[])
 
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
 
   const editCourse = () => {
     router.push({
@@ -58,20 +56,6 @@ const CoursePage = () => {
       id: contentId
     })
 
-    if(contentId) {
-      updateUserContentStatus({
-        contentItemId: contentId,
-        completed: true,
-        score: 20,
-        status: 'In progress'
-      })
-    } else {
-      updateUserContentStatus({
-        contentItemId: id,
-        score: 20,
-        status: 'In progress'
-      })
-    }
   },[id, contentId])
   
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle'
 import Reporting from '../../../components/reporting/Reporting'
+import useHeaderButtons from '../../../hooks/useHeaderButtons'
+
 const AdminReports = () => {
 
   usePageTitle({ title: 'Reports' })
@@ -10,7 +10,7 @@ const AdminReports = () => {
     ['Course reports', '/admin/reports'],
     ['User reports', '/admin/reports?view=users']
   ])
-  
+
   return (
     <Reporting />
   )

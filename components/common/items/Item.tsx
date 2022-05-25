@@ -1,5 +1,7 @@
 import Link from "next/link";
 import contentTypes from "../../../contentTypes";
+import ButtonLink from "../../ButtonLink";
+import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
 
 function ItemTags({ tags }) {
@@ -71,7 +73,7 @@ export default function Item({ item, options }) {
           </div> */}
         </a>
       </Link>
-      <div className="p-6 pt-4 flex-grow flex flex-col">
+      <div className="p-4 pt-4 flex-grow flex flex-col">
         {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
           <h2 className="text-xl text-blue-dark font-semibold mb-2">{itemTitle}</h2>
@@ -84,37 +86,42 @@ export default function Item({ item, options }) {
             </span>
           </h2>
         )}
-        { item.tags && (
+        { !!item?.tags.length && (
           <h2 className="text-lg text-blue mb-2 top-5 font-normal text-sm">
-            { item.tags && (
-              <span className="bg-main-superlight">
-                { item.tags.map(tag => {
-                  return (
-                    <div className="flex space-x-2 items-center">
-                      {/* <img src={tag.image.location} className="h-8 rounded-full" /> */}
-                      <span>
-                        {tag.label}
-                      </span>
-                    </div>
-                  )
-                }) }
-              </span>
-            )}
+            <span className="bg-main-superlight">
+              { item.tags.map(tag => {
+                return (
+                  <div className="flex space-x-2 items-center">
+                    {/* <img src={tag.image.location} className="h-8 rounded-full" /> */}
+                    <span>
+                      {tag.label}
+                    </span>
+                  </div>
+                )
+              }) }
+            </span>
           </h2>
         )}
-        { item.status && (
-          <h2 className="text-lg te6xt-blue mb-2 top-5 font-bold">
+        {/* { item.status && (
+          <h2 className="text-lg text-blue mb-2 top-5 font-bold">
             {item.status}
           </h2>
+        )} */}
+        { item?.score && (
+          <span className="mb-1">
+            <ProgressBar value={item.score} />
+          </span>
         )}
         {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}
         {/* <div dangerouslySetInnerHTML={{
           __html: item.excerpt
         }}></div> */}
-        <Link href={href}>
-        {/* <Link href={itemType.urlPath + '/' + item.slug}> */}
-          <a className="mt-auto bg-blue text-center p-2 text-white uppercase">{buttonText}</a>
-        </Link>
+        <ButtonLink className="uppercase mt-auto" href={href}>
+          <span className="w-full text-center">
+            {buttonText}
+          </span>
+        </ButtonLink>
+
       </div>
     </div>
   )

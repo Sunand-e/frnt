@@ -29,7 +29,7 @@ const Button = ({onClick, type="button", size, className, children}: ButtonProps
     onClick={onClick}
   >
     <div className={styles.button__bg}></div>
-    <span>{children}</span>
+    <span className={styles.button__span}>{children}</span>
   </button>
 )
 export default Button

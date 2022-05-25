@@ -25,22 +25,23 @@ export default function CourseTabs() {
       ...node
     }
   })
-
+console.log('courses')
+console.log(courses)
   const coursePanels = [
     {
       name: 'In progress',
-      courses: courses?.filter(course => course.status === 'In progress'),
+      courses: courses?.filter(course => course.status === 'in_progress'),
       readMoreLabel: 'Continue course'
     },
     {
       name: 'Not started',
-      courses: courses?.filter(course => !course.status ),
+      courses: courses?.filter(course => !course.status || course.status === 'not_started'),
       readMoreLabel: 'Start course'
     },
     {
       name: 'Completed',
       href: '#',
-      courses: courses?.filter(course => course.status === 'Completed'),
+      courses: courses?.filter(course => course.status === 'completed'),
       readMoreLabel: 'View course'
     },
   ]
@@ -69,7 +70,7 @@ export default function CourseTabs() {
                 ...defaultOptions.itemOptions,
                 getReadMoreLabel: (item) => readMoreLabel
               },
-              maxItems: 120,
+              maxItems: 0,
             }}
           />
         </>

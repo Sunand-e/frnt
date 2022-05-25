@@ -1,14 +1,7 @@
 import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
-import { useQuery, useReactiveVar } from '@apollo/client'
-import { GET_COURSE } from "../graphql/queries/allQueries"
-import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useState, useEffect } from 'react'
-import CourseItemView from '../components/CourseView/CourseItemView'
-import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
-import useGetCourse from '../hooks/courses/useGetCourse'
-import useGetUser from '../hooks/users/useGetUser'
 import Button from '../components/Button'
 import LibraryItemView from '../components/ContentLibrary/LibraryItemView'
 

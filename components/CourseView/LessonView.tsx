@@ -1,17 +1,20 @@
-import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
-import { UpdateLesson, UpdateLessonVariables } from "../../graphql/mutations/lesson/__generated__/UpdateLesson"
-import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
-import { useContext, useEffect, useRef, useState } from "react";
-// import { ContentContext } from "../../context/contentContext";
-import { useDebouncedCallback } from "use-debounce";
-import BlockEditor from "../ContentEditor/BlockEditor";
-import { ContentTitle } from "../ContentEditor/ContentTitle";
+import { useCallback, useEffect, useState } from "react";
+import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
+import useGetCourse from '../../hooks/courses/useGetCourse'
 import useGetLesson from "../../hooks/lessons/useGetLesson";
 import { Block } from "../ContentEditor/Block";
+import Button from "../Button";
+import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
+import { useRouter } from "../../utils/router";
+import PrevNextButtons from "./PrevNextButtons";
+import usePageTitle from "../../hooks/usePageTitle";
+
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 const LessonView = ({id}) => {
+
+  const router = useRouter()
+
+  const { id: courseId } = router.query
 
   const {
     lesson,
@@ -19,16 +22,23 @@ const LessonView = ({id}) => {
     error,
   } = useGetLesson(id)
   
+  const { updateUserContentStatus } = useUpdateUserContentStatus()
+
+  useEffect(() => {
+    updateUserContentStatus({
+      contentItemId: id,
+      status: 'in_progress'
+    })
+  },[id])
+usePageTitle({title: lesson.title})
   return (
     <div className="w-full flex flex-col">
-      <h1 className="mt-3 mb-8 w-full max-w-screen-lg self-center">
-        { lesson.title }
-      </h1>
-        {lesson?.content?.blocks && 
-          lesson.content.blocks.map(block => (
-            <Block block={block} />
-          ))
-        }
+      {lesson?.content?.blocks && 
+        lesson.content.blocks.map((block, index) => (
+          <Block block={block} key={index} />
+        ))
+      }
+      <PrevNextButtons id={id} />
     </div>
   )
 }

@@ -51,7 +51,7 @@ const ButtonLink = ({href, children, style, className, onClick}: ButtonLinkProps
       `}
       >
         <div className={styles.button__bg}></div>
-        <span>{children}</span>
+        <span className={styles.button__span}>{children}</span>
       </a>
     </Link>
   )

@@ -4,7 +4,6 @@
 	background: theme('colors.blue.dark');
 	border: none;
 	padding: 1.5rem 3rem;
-	margin: 0;
 	font-family: inherit;
 	font-size: inherit;
 	position: relative;
@@ -81,8 +80,8 @@
 	transition-delay: 0.3s;
 }
 
-.button_bestia span {
-	display: block;
+.button__span {
+	display: flex;
 	position: relative;
 	padding: 0.5rem 1rem;
 }

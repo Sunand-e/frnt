@@ -1,5 +1,4 @@
-import { GET_USERS } from "../../graphql/queries/allQueries"
-import { useMutation, useQuery } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import { UpdateUserContentStatus, UpdateUserContentStatusVariables } from "../../graphql/mutations/user/__generated__/UpdateUserContentStatus";
 import { UPDATE_USER_CONTENT_STATUS } from "../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
 import { useEffect } from "react";
@@ -24,8 +23,8 @@ function useUpdateUserContentStatus() {
   
   
     useEffect(() => {
-      console.log('updateUserContentStatusResponse')
-      console.log(updateUserContentStatusResponse)
+      // console.log('updateUserContentStatusResponse')
+      // console.log(updateUserContentStatusResponse)
     }, [updateUserContentStatusResponse])
   
     return {
