@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import { GET_COURSE } from '../graphql/queries/allQueries';
 import Layout from './Layout';
 import CourseStructureView from '../components/CourseView/CourseStructureView';
+import useGetCourse from '../hooks/courses/useGetCourse';
 
 export default function CourseLayout( {page, navState} ) {
   /*
@@ -18,16 +19,9 @@ export default function CourseLayout( {page, navState} ) {
 
   const router = useRouter()
   
-  const { id: courseId } = router.query
+  const { id } = router.query
 
-  const { loading, error, data: {course} = {} } = useQuery(
-    GET_COURSE,
-    {
-      variables: {
-        id: courseId
-      }
-    }
-  );
+  const { loading, error, course } = useGetCourse(id)
   
   return (
     <Layout page={page} navState={navState}>
