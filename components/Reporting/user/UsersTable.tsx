@@ -36,15 +36,15 @@ const UsersTable = () => {
           )
         }
       },
-      {
-        Header: "JSON",
-        Cell: ({ cell }) => (
-          <pre className='text-left'>
-            {JSON.stringify(cell.row.original,null,2)}
-          </pre>
-        ),
-        className: 'text-left'
-      },
+      // {
+      //   Header: "JSON",
+      //   Cell: ({ cell }) => (
+      //     <pre className='text-left'>
+      //       {JSON.stringify(cell.row.original,null,2)}
+      //     </pre>
+      //   ),
+      //   className: 'text-left'
+      // },
       {
         Header: "Courses Enrolled",
         accessor: "courses.totalCount",
