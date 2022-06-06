@@ -24,12 +24,13 @@ const LessonView = ({id}) => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
-  useEffect(() => {
-    updateUserContentStatus({
-      contentItemId: id,
-      status: 'in_progress'
-    })
-  },[id])
+  // useEffect(() => {
+  //   updateUserContentStatus({
+  //     contentItemId: id,
+  //     status: 'in_progress'
+  //   })
+  // },[id])
+
 usePageTitle({title: lesson.title})
   return (
     <div className="w-full flex flex-col">

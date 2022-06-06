@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useGetCourse from "../../hooks/courses/useGetCourse"
 import useGetUserContent from "../../hooks/users/useGetUserContent"
 import SidebarItem from "../common/course/SidebarItem"
@@ -12,11 +12,18 @@ const CourseStructureView = () => {
   const { id } = router.query
 
   const { loading, error, course } = useGetCourse(id)
-  const { user } = useGetUserContent(id)
-useEffect(() => {
-  console.log('user')
-  console.log(user)
-},[user])
+  const { user } = useGetUserContent()
+
+  const [ progress, setProgress ] = useState()
+
+
+  useEffect(() => {
+    if(user) {
+      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
+      userContent && setProgress(userContent.score)
+    }
+  },[user, id])
+
   const handleItemSelect = id => {
     router.push({
       pathname: `/course`,
@@ -32,17 +39,28 @@ useEffect(() => {
       { course && (
         <>
           <div className="flex flex-col justify-between p-2 px-4 h-18 bg-main bg-opacity-10 text-main-dark">
-            <h2
-                className="text-base h-10 font-bold flex items-center overflow-hidden leading-5"
-                style={{
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical'  
-                }}
-            >
-              <span className="flex-1">{course?.title}</span>
-            </h2>
-            <ProgressBar value={20} />
+            
+            <div className="flex items-center max-w-xs h-10">
+              { course.tags?.[0] && (
+              <div className="h-8 w-8 flex-shrink-0">
+                <img className="rounded-full" src={course.tags[0].image.location ?? '/images/placeholder-image.png'} alt="" />
+              </div>
+              ) }
+              <div className="ml-3 flex items-center h-10">
+                <h3 
+                  className="text-base font-bold font-medium text-main-dark overflow-hidden leading-5"
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical'  
+                  }}
+                >
+                  {course?.title}
+                </h3>
+              </div>
+            </div>
+
+            { progress && <ProgressBar value={progress} className={`-mb-0.5`} /> }
           </div>
           <ul className="p-4">
             { course.sections.filter(section => section.children.length).map((section, index) => (

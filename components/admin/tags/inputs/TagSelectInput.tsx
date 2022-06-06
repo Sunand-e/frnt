@@ -17,7 +17,7 @@ const TagSelectInput = ({control, tagType, label}) => {
     value: field.value,
     getOptionValue: option => option.value ?? option.id,
     onChange: val => {
-      field.onChange(val.map(({__typename, ...value}) => value))
+      field.onChange(val.map(({__typename, image, ...value}) => value))
     },
     className: `w-full`,
     isSearchable: false

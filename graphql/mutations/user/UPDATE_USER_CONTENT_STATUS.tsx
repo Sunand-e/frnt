@@ -32,6 +32,17 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
         visits
         completed
       }
+      ancestorUserContents {
+        id
+        status
+        lastVisited
+        firstVisited
+        createdAt
+        updatedAt
+        score
+        visits
+        completed
+      }
     }
   }
 `

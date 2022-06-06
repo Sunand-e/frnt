@@ -116,7 +116,7 @@ export const GET_USERS_COURSES = gql`
 
 
 export const GET_USER_CONTENT = gql`
-  query GetUserContent($id: ID!) {
+  query GetUserContent($id: ID) {
     user(id: $id) {
       ...UserFragment
       courses {

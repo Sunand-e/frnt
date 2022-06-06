@@ -86,7 +86,7 @@ export default function Item({ item, options }) {
             </span>
           </h2>
         )}
-        { !!item?.tags.length && (
+        { !!item?.tags?.length && (
           <h2 className="text-lg text-blue mb-2 top-5 font-normal text-sm">
             <span className="bg-main-superlight">
               { item.tags.map(tag => {
@@ -108,11 +108,10 @@ export default function Item({ item, options }) {
           </h2>
         )} */}
         { item?.score && (
-          <span className="mb-1">
+          <span className="mb-2">
             <ProgressBar value={item.score} />
           </span>
         )}
-        {/* { item.contentTagss && <ItemTags tags={item.contentTagss.nodes} /> } */}
         {/* <div dangerouslySetInnerHTML={{
           __html: item.excerpt
         }}></div> */}
