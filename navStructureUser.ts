@@ -45,7 +45,7 @@ const navStructureUser = [
   
   {
     name: 'library',
-    title: 'Content Library',
+    title: 'Resource Library',
     urlPath: '/library',
     icon: 'school',
     subPages: [
