@@ -5,9 +5,6 @@ import { isLoggedInVar, viewVar } from '../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 import { LogoutIcon } from '@heroicons/react/outline';
 import useLogout from '../../hooks/useLogout';
-import { applyTheme } from '../../themes/utils';
-import baseTheme from '../../themes/base';
-import darkTheme from '../../themes/dark';
 
 const NavFooter = ({children, isSlim}) => {
   
@@ -41,8 +38,6 @@ const NavFooter = ({children, isSlim}) => {
         theme="memberhub-white"
         content={
           <ul className="flex flex-col shadow-2 space-y-3">
-            <li className="hover:text-main-dark cursor-pointer" onClick={() => applyTheme(baseTheme)}>Base theme</li>
-            <li className="hover:text-main-dark cursor-pointer" onClick={() => applyTheme(darkTheme)}>Dark theme</li>
             <li className="hover:text-main-dark cursor-pointer" onClick={handleLogoutClick}>Log out</li>
             <li className="hover:text-main-dark cursor-pointer" onClick={handleAdminButtonClick}>
               <Link href={view.isAdmin ? '/' : '/admin'}>
