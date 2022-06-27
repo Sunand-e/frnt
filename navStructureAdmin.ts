@@ -22,7 +22,7 @@ const navStructureAdmin = [
   },
   {
     name: 'library',
-    title: 'Resource Library',
+    title: 'Content Library',
     urlPath: '/admin/library',
     icon: 'school',
     subPages: [

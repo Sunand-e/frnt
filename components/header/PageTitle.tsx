@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 // import { useReactiveVar } from '@apollo/client';
 
 import { pageTitleVar } from "../../graphql/cache";
