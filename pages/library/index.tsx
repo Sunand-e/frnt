@@ -13,7 +13,7 @@ import ContentLibrary from '../../components/ContentLibrary/ContentLibrary';
 
 const Library = ({queries}) => {
 
-  usePageTitle({ title: 'Content Library' })
+  usePageTitle({ title: 'Resource Library' })
   
   return (
     <>

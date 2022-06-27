@@ -5,6 +5,7 @@ import useView from '../../hooks/useView';
 import { GET_USER } from '../../graphql/queries/users';
 import { GetUser } from '../../graphql/queries/__generated__/GetUser';
 import { useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const Profile = () => {
   const { logout } = useLogout()
@@ -16,7 +17,18 @@ const Profile = () => {
 
   const { view, toggleIsAdmin } = useView()
 
-  const { loading, error, data, refetch } = useQuery<GetUser>(GET_USER);
+  const USER_PROFILE = gql`
+    query GetUserProfile {
+      user {
+        fullName
+        roles {
+          name
+        }
+      }
+    }
+  `
+  // const { loading, error, data, refetch } = useQuery<GetUser>(GET_USER);
+  const { loading, error, data, refetch } = useQuery<GetUser>(USER_PROFILE);
 
   // console.log('user')
   // console.log(user)

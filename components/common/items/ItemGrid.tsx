@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import Item from "./Item";
 import ItemSmall from "./ItemSmall";
@@ -17,8 +18,17 @@ export default function ItemGrid({className, items, options}: ItemGridProps) {
   return (
     <div className={`mt-4 ${gridClasses} ${!!className ? className : ''}`}>
       { items.map((item, index) => {
-        return <ItemComponent key={index} item={item} options={options?.itemOptions} />
-      }) }
+        return (
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <ItemComponent key={index} item={item} options={options?.itemOptions} />
+          </motion.div>
+        )
+      })}
     </div>
   )
 } 

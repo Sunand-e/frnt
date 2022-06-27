@@ -1,6 +1,5 @@
 import { useState } from "react"
 import useGetUser from "../../hooks/users/useGetUser"
-import { useRouter } from "../../utils/router"
 import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
 
@@ -25,8 +24,7 @@ export default function CourseTabs() {
       ...node
     }
   })
-console.log('courses')
-console.log(courses)
+  
   const coursePanels = [
     {
       name: 'In progress',

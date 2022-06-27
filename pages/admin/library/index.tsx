@@ -11,7 +11,7 @@ import usePageTitle from '../../../hooks/usePageTitle'
 const AdminLibraryItems = () => {
 
   usePageTitle({
-    title: 'Content Library'
+    title: 'Resource Library'
   })
 
   const router = useRouter()
