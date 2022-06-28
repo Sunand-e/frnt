@@ -73,8 +73,7 @@ const SidebarEditableItem = ({
     ${dragging && 'dragging'}
     ${dragOverlay && 'dragOverlay'}
   `
-  console.log('id')
-  console.log(id)
+  
   return (
     <SidebarItem
       editing={true}

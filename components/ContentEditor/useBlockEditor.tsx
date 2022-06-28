@@ -30,7 +30,6 @@ const useBlockEditor = (block=null) => {
   
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
-    console.log('once')
     let overwrite = replace ? 1 : 0
     
     let newTopLevelBlock;
@@ -67,24 +66,41 @@ const useBlockEditor = (block=null) => {
   },[blocks])
   
 
-  const getIndexAndParent = (block) => {
+  const getIndexAndParent = (id) => {
     let parent = null
 
-    let index = blocks.findIndex(b => b.id === block.id)
+    let index = blocks.findIndex(b => b.id === id)
 
     if(index < 0) {
-      let blocksWithChildren = blocks.filter(block => block.type === 'columns')
-      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === block.id))
-      index = parent.children.findIndex(b => b.id === block.id)
+      let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
+      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
+      index = parent.children.findIndex(b => b.id === id)
     }
 
     return { index, parent }
   }
 
+  const getBlock = (id) => {
+    let parent = null
+
+    let index = blocks.findIndex(b => b.id === id)
+
+    let block
+
+    if(index < 0) {
+      let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
+      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
+      index = parent.children.findIndex(b => b.id === id)
+      block = parent.children[index]
+    } else {
+      block = blocks[index]
+    }
+    return block
+  }
+
 
   const updateBlock = (block, newBlock=null) => {
-    // console.log('updateBlock', block)
-    const { index, parent } = getIndexAndParent(block)
+    const { index, parent } = getIndexAndParent(block.id)
     
     insertBlock(newBlock ?? block, index, parent, 1)
     
@@ -108,7 +124,7 @@ const useBlockEditor = (block=null) => {
       if(replace) {
         updateBlock(block, newBlock)
       } else {
-        const { index, parent } = getIndexAndParent(block)
+        const { index, parent } = getIndexAndParent(block.id)
         insertBlock(newBlock, index + 1, parent, replace)
       }
     } else {
@@ -123,7 +139,7 @@ const useBlockEditor = (block=null) => {
   
   const deleteBlock = block => {
     
-    const { index, parent } = getIndexAndParent(block)
+    const { index, parent } = getIndexAndParent(block.id)
     
     let newBlocks
     
@@ -205,7 +221,7 @@ const useBlockEditor = (block=null) => {
 
   const shiftPosition = (block, direction='down') => {
 
-    const { index, parent } = getIndexAndParent(block)
+    const { index, parent } = getIndexAndParent(block.id)
 
     const modifier = direction === 'down' ? 1 : -1
 
@@ -274,6 +290,7 @@ const useBlockEditor = (block=null) => {
     shiftPosition,
     insertBlock,
     addBlock,
+    getBlock,
     updateBlock,
     updateBlockProperties,
     getIndexAndParent,

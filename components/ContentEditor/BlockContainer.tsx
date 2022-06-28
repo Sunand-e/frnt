@@ -7,17 +7,16 @@ import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
 
 const BlockContainer = ({
-  block,
+  id,
   isColumn = false,
   dragging = false,
   // onClick: handleClick, 
   handle = true,
 }) => {
-  const {id, type} = block
 
-  const { blocks, getIndexAndParent } = useBlockEditor()
-  const { index, parent } = getIndexAndParent(block)
-
+  const { blocks, getIndexAndParent, getBlock } = useBlockEditor()
+  const block = getBlock(id)
+  const { index, parent } = getIndexAndParent(block.id)
   const isActive = useReactiveVar(activeContentBlockVar) === block.id
   
   return (
@@ -53,7 +52,7 @@ const BlockContainer = ({
           />
 
         </span>
-        <BlockEdit block={block} />
+        <BlockEdit id={id} />
       </div>
       {
         (!isColumn && index !== blocks.length -1) && <BlockFooter block={block} />

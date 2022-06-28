@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import { Container, Section, Bar, Resizer } from 'react-simple-resizer';
 import { Block } from '../../Block';
-import BlockContainer from '../../BlockContainer';
 
 export const ColumnsBlock = ({id, block}) => {
 

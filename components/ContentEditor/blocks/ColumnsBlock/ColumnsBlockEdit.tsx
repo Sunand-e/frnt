@@ -10,7 +10,7 @@ import useBlockEditor from '../../useBlockEditor';
 export const ColumnsBlockEdit = ({id, block}) => {
 
   const [widths,setWidths] = useState(block.widths)
-  const { updateBlock, addBlock } = useBlockEditor(block)
+  const { updateBlock } = useBlockEditor(block)
 
 
   const containerRef = useRef<any>()
@@ -20,10 +20,11 @@ export const ColumnsBlockEdit = ({id, block}) => {
       <Section style={{ overflow: 'visible' }}>
         <BlockContainer
           isColumn={true} 
-          block={{
-            ...childBlock,
-            parent: id
-          }}
+          id={childBlock.id}
+          // block={{
+          //   ...childBlock,
+          //   parent: id
+          // }}
           />
       </Section>
       { index + 1 !== blocks.length && 

@@ -1,9 +1,32 @@
 
+import { memo } from "react"
 import { Flipper, Flipped } from "react-flip-toolkit"
 import BlockContainer from "./BlockContainer";
 import BlockSelector from "./BlockSelector";
 import useBlockEditor from "./useBlockEditor";
 
+interface FlippedContainerProps {
+  blockId: any;
+}
+const FlippedContainer = memo(({blockId}: FlippedContainerProps) => {
+  
+  const { blocks } = useBlockEditor()
+
+  const block = blocks.find(block => block.id === blockId)
+  
+  // console.log('rendered a bock in a map from blockId. id: ' + block.id)
+  return (
+    // <Flipped translate flipId={blockId} key={idx}>
+    <div className="flipped-container">
+    <BlockContainer
+      id={block.id}
+      key={block.id}
+    />
+  </div>
+// </Flipped>
+
+  )
+}) 
 const BlockEditor = () => {
 
   const { blocks, blockIds } = useBlockEditor()
@@ -15,17 +38,8 @@ const BlockEditor = () => {
       >
         <div className="list">
           {blockIds.map((blockId, idx) => {
-            const block = blocks.find(block => block.id === blockId)
-            return (
-              <Flipped translate flipId={blockId} key={idx}>
-                <div className="flipped-container">
-                  <BlockContainer
-                    block={block}
-                    key={block.id}
-                  />
-                </div>
-              </Flipped>
-          )})}
+            return <FlippedContainer key={idx} blockId={blockId} />
+          })}
         </div>
       </Flipper>
       <div className={`w-full flex flex-col items-center mt-4`}>

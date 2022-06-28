@@ -1,10 +1,15 @@
 import blocktypes from './blocktypes';
+import useBlockEditor from './useBlockEditor';
 
-export const BlockEdit = ({ block, dragOverlay = false }) => {
+export const BlockEdit = ({ id, dragOverlay = false }) => {
 
-  const { id, type } = block
+  const { getBlock } = useBlockEditor()
+
+  const block = getBlock(id)
+
+  const { type } = block
   const BlockEditComponent = blocktypes[type]?.editComponent
-
+console.log('bloooooock')
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `${dragOverlay}-${id}` : id;
   return (

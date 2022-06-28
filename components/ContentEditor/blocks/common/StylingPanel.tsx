@@ -8,7 +8,7 @@ const StylingPanel = ({block: origBlock, children = null}) => {
   const [block, setBlock] = useState(origBlock)
 
   const { updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
-  const { parent } = getIndexAndParent(block)
+  const { parent } = getIndexAndParent(block?.id)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`

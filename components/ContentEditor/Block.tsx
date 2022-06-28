@@ -8,7 +8,7 @@ export const Block = ({ block, dragOverlay = false }) => {
 
   const { getIndexAndParent } = useBlockEditor(block)
 
-  const { parent } = getIndexAndParent(block)
+  const { parent } = getIndexAndParent(block.id)
 
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `${dragOverlay}-${id}` : id;

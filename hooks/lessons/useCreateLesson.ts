@@ -47,8 +47,8 @@ function useCreateLesson(sectionId) {
 
 
   useEffect(() => {
-    console.log('createLessonResponse')
-    console.log(createLessonResponse)
+    // console.log('createLessonResponse')
+    // console.log(createLessonResponse)
   }, [createLessonResponse])
 
   return {
