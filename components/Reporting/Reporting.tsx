@@ -1,10 +1,10 @@
 import { useRouter } from '../../utils/router';
-import CoursesTable from './course/CoursesTable';
-import CourseUsersTable from './course/CourseUsersTable';
-import LessonUsersTable from './course/LessonUsersTable';
-import UserCoursesTable from './user/UserCoursesTable';
-import UserLessonsTable from './user/UserLessonsTable';
-import UsersTable from './user/UsersTable';
+import CoursesReportTable from './course/CoursesReportTable';
+import CourseUsersReportTable from './course/CourseUsersReportTable';
+import LessonUsersReportTable from './course/LessonUsersReportTable';
+import UserCoursesReportTable from './user/UserCoursesReportTable';
+import UserLessonsReportTable from './user/UserLessonsReportTable';
+import UsersReportTable from './user/UsersReportTable';
 
 const Reporting = () => {
 
@@ -12,13 +12,13 @@ const Reporting = () => {
 
   const { user, group, course, lesson, category, view } = router.query
 
-  let TableComponent = CoursesTable;
+  let TableComponent = CoursesReportTable;
   let tableProps = {};
   let title = "Course reports";
   
   if(view === 'users') {
     title = "User reports";
-    TableComponent = UsersTable;
+    TableComponent = UsersReportTable;
   }
   
   if(user) {
@@ -29,21 +29,21 @@ const Reporting = () => {
       // tableProps = {id:lesson};
     } else if(course) {
       title = "User's lessons";
-      TableComponent = UserLessonsTable
+      TableComponent = UserLessonsReportTable
       tableProps = {userId: user, courseId:course};
     } else {
-      title = "User's courses'";
-      TableComponent = UserCoursesTable
+      title = "User's courses";
+      TableComponent = UserCoursesReportTable
       tableProps = {id: user};
     }
   } else {
     if(lesson) {
       title = "Lesson users report";
-      TableComponent = LessonUsersTable
+      TableComponent = LessonUsersReportTable
       tableProps = {id: lesson};
     } else if(course) {
       title = "Course users report";
-      TableComponent = CourseUsersTable
+      TableComponent = CourseUsersReportTable
       tableProps = {id: course}
     }
   }

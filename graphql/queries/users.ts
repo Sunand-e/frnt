@@ -98,6 +98,7 @@ export const UserContentEdgeFragment = gql`
       visits
       completed
     }
+    totalCount
   }
 `
 

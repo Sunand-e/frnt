@@ -7,7 +7,7 @@ import { ModalContext } from '../../../context/modalContext';
 import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import TagSelect from '../../admin/tags/inputs/TagSelect';
 
-const CoursesTable = () => {
+const CoursesReportTable = () => {
 
   const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
   const { courses: coursesFull } = useGetCourses()
@@ -181,4 +181,4 @@ const CoursesTable = () => {
   );
 }
 
-export default CoursesTable
+export default CoursesReportTable

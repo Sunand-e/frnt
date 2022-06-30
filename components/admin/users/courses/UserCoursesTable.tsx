@@ -45,7 +45,7 @@ const UserCoursesTable = () => {
           const course = cell.row.original.node;
           const cellProps = {
             title: course.title,
-            image: course.image.location
+            image: course.image?.location
             // secondary: JSON.stringify(cell.row.original),
             // href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
