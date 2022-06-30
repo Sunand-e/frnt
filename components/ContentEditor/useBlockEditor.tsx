@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { useReactiveVar } from "@apollo/client";
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 // import "./styles.css";
 
 const useBlockEditor = (block=null) => {
@@ -16,18 +16,28 @@ const useBlockEditor = (block=null) => {
     
   const { id, type, updateFunction } = currentContentItem
   // end testing
-  
   // const { id, type, updateFunction } = currentContentItemVar()
   
   const updateBlockContent = (blocks) => {
     updateFunction({content: { blocks }})
   }
   
-  const { content: { blocks } } = cache.readFragment({
-    id:`ContentItem:${id}`,
-    fragment: ContentFragment,
-  }, true)
+  const { loading, error, data: { lesson } = {} } = useQuery(
+    gql`
+      query GetLessonContent($id: String!) {
+        lesson(id: $id) {
+          content
+        }
+      }
+    `,
+    {
+      variables: { id },
+      onCompleted: () => {}
+    }
+  )
   
+  const blocks = lesson?.content?.blocks;
+
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
     let overwrite = replace ? 1 : 0
@@ -66,7 +76,7 @@ const useBlockEditor = (block=null) => {
   },[blocks])
   
 
-  const getIndexAndParent = (id) => {
+  const getIndexAndParent = useCallback((id) => {
     let parent = null
 
     let index = blocks.findIndex(b => b.id === id)
@@ -78,7 +88,7 @@ const useBlockEditor = (block=null) => {
     }
 
     return { index, parent }
-  }
+  }, [blocks])
 
   const getBlock = (id) => {
     let parent = null
@@ -185,46 +195,16 @@ const useBlockEditor = (block=null) => {
   
   
   const handleDeleteBlock = (block) => {
-
-    // if(block.type === 'columns') {
-    //   handleModal({
-    //     title: `Delete ${block.type}`,
-    //     content: (
-    //       <div className="flex flex-col space-y-2 mt-5 sm:mt-6">
-    //         <p>Do you want to delete only the column block, or all of its children blocks too?</p>
-    //       <button
-    //         type="button"
-    //         className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-main text-base font-medium text-white hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm"
-    //         onClick={() => deleteColumnsBlock(block, true)}
-    //       >
-    //         Preserve children blocks
-    //       </button>
-    //       <button
-    //         type="button"
-    //         className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-main text-base font-medium text-white hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm"
-    //         onClick={() => deleteColumnsBlock(block, false)}
-    //         >
-    //           Delete children blocks
-    //       </button>
-    //     </div>
-    //     )
-    //   })    
-
-    // } else {
       handleModal({
         title: `Delete block`,
         content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
       })    
-    // }
-
   }
 
   const shiftPosition = (block, direction='down') => {
 
     const { index, parent } = getIndexAndParent(block.id)
-
     const modifier = direction === 'down' ? 1 : -1
-
     let newBlocks
 
     if(parent) {

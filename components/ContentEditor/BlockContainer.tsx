@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { activeContentBlockVar } from '../../graphql/cache'
 import BlockMenu from './BlockMenu'
 import useBlockEditor from './useBlockEditor'
@@ -14,11 +14,20 @@ const BlockContainer = ({
   handle = true,
 }) => {
 
-  const { blocks, getIndexAndParent, getBlock } = useBlockEditor()
+  const [ showFooter, setShowFooter ]  = useState(false)
+  const { blockIds, blocks, getIndexAndParent, getBlock } = useBlockEditor()
   const block = getBlock(id)
-  const { index, parent } = getIndexAndParent(block.id)
-  const isActive = useReactiveVar(activeContentBlockVar) === block.id
+  const { index, parent } = getIndexAndParent(id)
+  const isActive = useReactiveVar(activeContentBlockVar) === id
   
+  useEffect(() => {
+    if(!isColumn && index !== blocks.length -1) {
+      setShowFooter(true)
+    } else {
+      setShowFooter(false)
+    }
+  },[blockIds])
+
   return (
     <div 
       className={`group flex flex-col h-full ${parent ? '' : '-mx-16'}`}
@@ -39,7 +48,7 @@ const BlockContainer = ({
           paddingLeft: block?.properties?.paddingLeft,
           paddingRight: block?.properties?.paddingRight,
         }}
-        onClick={() => activeContentBlockVar(block.id)}
+        onClick={() => activeContentBlockVar(id)}
       >
         <span className={`absolute z-10 right-2 top-2`}>
         {/* <span className={`absolute -right-14`}> */}
@@ -55,7 +64,7 @@ const BlockContainer = ({
         <BlockEdit id={id} />
       </div>
       {
-        (!isColumn && index !== blocks.length -1) && <BlockFooter block={block} />
+        showFooter && <BlockFooter block={block} />
       }
     </div>
   );

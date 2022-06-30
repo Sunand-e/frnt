@@ -1,47 +1,35 @@
 
-import { memo } from "react"
-import { Flipper, Flipped } from "react-flip-toolkit"
+import { motion, AnimatePresence, useMotionValue, useDragControls } from "framer-motion";
+import { memo, useState } from "react"
+import { Reorder } from "framer-motion";
 import BlockContainer from "./BlockContainer";
 import BlockSelector from "./BlockSelector";
 import useBlockEditor from "./useBlockEditor";
+import { useRaisedShadow } from "../../hooks/useRaisedShadow";
 
-interface FlippedContainerProps {
-  blockId: any;
-}
-const FlippedContainer = memo(({blockId}: FlippedContainerProps) => {
-  
-  const { blocks } = useBlockEditor()
-
-  const block = blocks.find(block => block.id === blockId)
-  
-  // console.log('rendered a bock in a map from blockId. id: ' + block.id)
+const ReorderableBlock = ({id}) => {
+  const y = useMotionValue(0);
+  const boxShadow = useRaisedShadow(y);
+ 
   return (
-    // <Flipped translate flipId={blockId} key={idx}>
-    <div className="flipped-container">
-    <BlockContainer
-      id={block.id}
-      key={block.id}
-    />
-  </div>
-// </Flipped>
-
+    <Reorder.Item value={id} id={id} dragListener={false} style={{ boxShadow, y }}>
+      <BlockContainer id={id} />
+    </Reorder.Item> 
   )
-}) 
+}
+
 const BlockEditor = () => {
 
   const { blocks, blockIds } = useBlockEditor()
-  
+  const [items, setItems] = useState(blocks);
+
   return (
     <>
-      <Flipper
-        flipKey={blockIds.join("")}
-      >
         <div className="list">
-          {blockIds.map((blockId, idx) => {
-            return <FlippedContainer key={idx} blockId={blockId} />
-          })}
+          <Reorder.Group axis="y" onReorder={setItems} values={items}>
+            {blockIds.map((id, idx) => <ReorderableBlock key={id} id={id} />)}
+          </Reorder.Group>
         </div>
-      </Flipper>
       <div className={`w-full flex flex-col items-center mt-4`}>
         <div className="w-full max-w-screen-lg bg-blue p-4 bg-opacity-10 border-2 border-dashed border-grey">
           <div className={`text-center text-main-dark font-semibold pb-4`}>
