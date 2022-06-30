@@ -1,133 +1,152 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import Table from '../../Table';
 import ButtonLink from '../../ButtonLink';
-import useGetCourses from '../../../hooks/courses/useGetCourses';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
 import { ModalContext } from '../../../context/modalContext';
-import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
-import TagSelect from '../../admin/tags/inputs/TagSelect';
+import { gql, useQuery } from '@apollo/client';
+import { useRouter } from '../../../utils/router';
+import dayjs from 'dayjs';
+var advancedFormat = require('dayjs/plugin/advancedFormat')
 
 const LessonUsersReportTable = () => {
 
-  // const { loading, error, courses } = useGetCourses()
-  const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
-  const { courses: coursesFull } = useGetCourses()
+  const router = useRouter()
 
-  const [courses, setCourses] = useState([]);
+  const { lesson: lessonId, course: courseId } = router.query
 
-  useEffect(() => {
-    if(coursesFull) {
-      setCourses(coursesFull)
-    } else if(coursesBasic) {
-      setCourses(coursesBasic)
+  const { loading, error, data } = useQuery(gql`
+    query getLessonsUsers($lessonId: ID!) {
+      lesson(id: $lessonId) {
+        users {
+          edges {
+            node {
+              id
+              fullName
+              email
+            }
+            status
+            lastVisited
+            firstVisited
+            createdAt
+            updatedAt
+            score
+            visits
+            completed
+          }
+          totalCount
+        }
+      }
     }
-  }, [coursesFull,coursesBasic])
-
-  const [ categoryId, setCategoryId ] = useState(null)
-  
-  const editUrl = '/admin/courses/edit'
-
-  const { handleModal } = useContext(ModalContext)
+  `, {
+    variables: {
+      lessonId
+    }
+  })
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      let data = courses?.filter(item => {
-        return !item._deleted
-      })
-      if(categoryId) {
-        data = data?.filter(item => {
-          return item.tags.some(tag => tag.id === categoryId)
-        })
-      }
-      return data || []
-    }, [courses, categoryId]
-  );
+  const tableData = useMemo(() => {
+    const users = data?.lesson?.users.edges
+    return users || []
+  }, [data]);
 
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course Name",
-        accessor: "title", // accessor is the "key" in the data
+        Header: "Name",
         Cell: ({ cell }) => {
+          const user = cell.row.original.node
           const cellProps = {
-            image: cell.row.original.image?.location,
-            title: cell.value,
-            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
-            // secondary: cell.row.original.title,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            title: user.fullName,
+            secondary: user.email,
+            href: {
+              query: {
+                lesson: lessonId,
+                ...(user.id && { user: user.id } )
+              }
+            }
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
-          )
-        }
-      },
-      {
-        Header: "Enrolled users",
-        accessor: "users.totalCount",
-        Cell: ({ cell }) => {
-          let userCount = cell.row.original.users?.totalCount
-          return (
-            <span>{userCount}</span>
-          )
-        }
-      },
-      {
-        Header: "Not started",
-        accessor: "users.totalCosnt",
-        Cell: ({ cell }) => {
-          return (
-            <span>-</span>
-          )
-        }
-      },
-      {
-        Header: "In progress",
-        Cell: ({ cell }) => {
-          return (
-            <span>-</span>
-          )
-        }
-      },
-      {
-        Header: "Completed",
-        Cell: ({ cell }) => {
-          return (
-            <span>-</span>
-          )
-        }
-      },
-      {
-        Header: "% Complete",
-        Cell: ({ cell }) => {
-          return (
-            <span>0%</span>
+            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
           )
         }
       },
       // {
-      //   Header: "Categories",
-      //   accessor: "tags",
+      //   Header: "JSON",
+      //   Cell: ({ cell }) => (
+      //     <pre className='text-left'>
+      //       {JSON.stringify(cell.row.original,null,2)}
+      //     </pre>
+      //   ),
+      //   className: 'text-left'
+      // },
+      {
+        Header: "lesson status",
+        accessor: "status",
+        Cell: ({ cell }) => {
+          return cell.value
+        }
+      },
+      {
+        Header: "Score",
+        accessor: "score",
+        Cell: ({ cell }) => {
+          return cell.value
+        }
+      },
+      {
+        Header: "First access",
+        accessor: "createdAt",
+        Cell: ({ cell }) => {
+          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+        }
+      },
+
+      {
+        Header: "Last visited",
+        accessor: "updatedAt",
+        Cell: ({ cell }) => {
+          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+        }
+      },
+      {
+        id: "completedAt",
+        Header: "Completed at",
+        accessor: "updatedAt",
+        Cell: ({ cell }) => {
+          return <span>&mdash;</span>
+          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+        }
+      },
+
+      // "visits": null,
+      // "completed": null
+      // {
+      //   Header: "Roles",
+      //   accessor: "roles[0].name", // accessor is the "key" in the data
       //   Cell: ({ cell }) => {
-      //     const tagString = cell.row.original.tags?.map(tag => tag.label).join(', ')
-      //     return (
-      //       <span>{tagString}</span>
-      //     )
+      //     return cell.row.original.roles.map(role => {
+      //       return role.name
+      //     }).join(', ')
       //   }
       // },
       {
+        id: "actions",
         width: 300,
-        style: {
-          width:"300px"
-        },
-        Header: "Actions",
+        Header: '',
         Cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+          const userId = cell.row.original.node.id
+          const href = {
+            query: {
+              lesson: lessonId,
+              course: courseId,
+              ...( userId && { user: userId } )
+            }
+          }
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>See reports</ButtonLink>
+              <ButtonLink href={href}>See details</ButtonLink>
             </div>
           )
         }
@@ -136,32 +155,9 @@ const LessonUsersReportTable = () => {
     []
   );
 
-  const clearFilters = () => {
-    setCategoryId(null)
-  }
-
-  const tableProps = {
-    tableData,
-    tableCols,
-    selectable: true
-  }
-
   return (
     <>
-    <div className='flex items-center mb-2'>
-      <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-      <span className={`text-main-dark hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
-    </div>
-
-      { loading && (
-        <p>loading</p>
-      )}
-      { error && (
-        <p>error</p>
-      )}
-      { (!loading && !error) && (
-        <Table {...tableProps} />
-      )}
+      <Table tableData={tableData} tableCols={tableCols} />
     </>
   );
 }

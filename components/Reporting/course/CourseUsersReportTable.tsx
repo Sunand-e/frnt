@@ -38,7 +38,12 @@ const CourseUsersReportTable = () => {
           const cellProps = {
             title: cell.row.original.fullName,
             secondary: cell.row.original.email,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.id && {
+              query: {
+                course: id,
+                user: cell.row.original.id
+              }
+              }
           }
           return (
             <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
@@ -109,10 +114,11 @@ const CourseUsersReportTable = () => {
         width: 300,
         Header: '',
         Cell: ({ cell }) => {
-          const href = cell.row.original.id && {
+          const userId = cell.row.original.id
+          const href = {
             query: {
               course: id,
-              user: cell.row.original.id
+              ...(userId && {user: userId})
             }
           }
 

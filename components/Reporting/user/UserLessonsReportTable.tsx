@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import React, { useContext, useMemo } from 'react';
 import Table from '../../Table';
 import ButtonLink from '../../ButtonLink';
@@ -11,28 +11,58 @@ const UserLessonsReportTable = () => {
 
   const router = useRouter()
 
-  const { course: id } = router.query
+  const { user: userId, course: courseId } = router.query
 
-  const { loading, error, users } = useGetCourseUsers(id)
+  const { loading, error, data } = useQuery(gql`
+    query getUsersLessons($userId: ID! $where: JSON) {
+      user(id: $userId) {
+        lessons(where: $where) {
+          edges {
+            node {
+              id
+              title
+            }
+            status
+            lastVisited
+            firstVisited
+            createdAt
+            updatedAt
+            score
+            visits
+            completed
+          }
+          totalCount
+        }
+      }
+    }
+  `, {
+    variables: {
+      userId
+    }
+  })
 
-  const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => users || [], [users]);
-
-  const editUrl = '/admin/users/edit'
-  console.log('tableData')
-  console.log(tableData)
+  const tableData = useMemo(() => {
+    const lessons = data?.user?.lessons.edges
+    return lessons || []
+  }, [data]);
 
   const tableCols = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Lesson",
         Cell: ({ cell }) => {
           const cellProps = {
-            title: cell.row.original.fullName,
-            secondary: cell.row.original.email,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            title: cell.row.original.node.title,
+            // secondary: cell.row.original.email,
+            href: cell.row.original.node.id && {
+              query: {
+                user: userId,
+                course: courseId,
+                lesson: cell.row.original.node.id
+              }
+            }
           }
           return (
             <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
@@ -95,10 +125,12 @@ const UserLessonsReportTable = () => {
         width: 300,
         Header: '',
         Cell: ({ cell }) => {
-          const href = cell.row.original.id && {
+          const lessonId = cell.row.original.node?.id
+          const href = {
             query: {
-              course: id,
-              user: cell.row.original.id
+              user: userId,
+              course: courseId,
+              ...(lessonId && {lesson: lessonId})
             }
           }
 

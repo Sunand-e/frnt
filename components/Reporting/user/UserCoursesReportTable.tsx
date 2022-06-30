@@ -2,15 +2,16 @@ import { useCallback, useMemo } from "react"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import useGetUser from "../../../hooks/users/useGetUser"
 import { useRouter } from "../../../utils/router"
+import ButtonLink from "../../ButtonLink"
 import ItemWithImageTableCell from "../../common/cells/ItemWithImageTableCell"
 import Table from "../../Table"
 
 const UserCoursesReportTable = () => {
 
   const router = useRouter()
-  const { user: id } = router.query
+  const { user: userId } = router.query
 
-  const { loading, error, user } = useGetUser(id)
+  const { loading, error, user } = useGetUser(userId)
   
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -30,9 +31,14 @@ const UserCoursesReportTable = () => {
           const course = cell.row.original.node;
           const cellProps = {
             title: course.title,
-            image: course.image?.location
+            image: course.image?.location,
             // secondary: JSON.stringify(cell.row.original),
-            // href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: course.id && {
+              query: {
+                course: course.id,
+                user: userId
+              }
+            }
           }
           return (
             <ItemWithImageTableCell { ...cellProps } />
@@ -42,11 +48,30 @@ const UserCoursesReportTable = () => {
       {
         Header: "Role",
         Cell: ({ cell }) => {
-          const content = cell.row.original.roles;
+          const content = cell.row.original.node.roles;
           return (
             <pre>
             { JSON.stringify(content,null,2) }
             </pre>
+          )
+        }
+      },
+      {
+        width: 300,
+        Header: "Actions",
+        // className: 'text-center',
+        Cell: ({ cell }) => {
+          const course = cell.row.original.node;
+          const href = {
+            query: {
+              ...(course.id && {course: course.id}),
+              user: userId
+            }
+          }
+          return (          
+            <div className="space-x-4">
+              <ButtonLink href={href}>See details</ButtonLink>
+            </div>
           )
         }
       }

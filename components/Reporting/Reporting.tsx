@@ -12,9 +12,9 @@ const Reporting = () => {
 
   const { user, group, course, lesson, category, view } = router.query
 
+  let title = "Course reports";
   let TableComponent = CoursesReportTable;
   let tableProps = {};
-  let title = "Course reports";
   
   if(view === 'users') {
     title = "User reports";
