@@ -21,22 +21,43 @@ const useBlockEditor = (block=null) => {
   const updateBlockContent = (blocks) => {
     updateFunction({content: { blocks }})
   }
-  
-  const { loading, error, data: { lesson } = {} } = useQuery(
-    gql`
-      query GetLessonContent($id: String!) {
-        lesson(id: $id) {
-          content
-        }
+
+  const GET_LESSON_CONTENT = gql`
+    query GetLessonContent($id: String!) {
+      lesson(id: $id) {
+        content
       }
-    `,
+    }
+  `
+
+  const GET_LIBRARY_ITEM_CONTENT = gql`
+    query GetLibraryItemContent($id: ID!) {
+      libraryItem(id: $id) {
+        content
+      }
+    }
+  `
+  
+  let contentQuery;
+  
+  switch(type) {
+    case 'lesson':
+      contentQuery = GET_LESSON_CONTENT
+      break
+    case 'libraryItem':
+      contentQuery = GET_LIBRARY_ITEM_CONTENT
+      break
+  }
+
+  const { loading, error, data = {} } = useQuery(
+    contentQuery,
     {
       variables: { id },
       onCompleted: () => {}
     }
   )
   
-  const blocks = lesson?.content?.blocks;
+  const blocks = data[type]?.content?.blocks;
 
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
