@@ -28,9 +28,9 @@ const navStructureUser = [
         icon: GraduationCap
       },
       {
-        name: 'catalogue',
-        title: 'Catalogue',
-        urlPath: '/catalogue',
+        name: 'categories',
+        title: 'Categories',
+        urlPath: '/categories',
         icon: Category
       },
       {

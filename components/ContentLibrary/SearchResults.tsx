@@ -59,12 +59,8 @@ export default function SearchResults({items}) {
   }
 
   if(type) {
-    console.log('type')
-    console.log(type)
     filteredItems = filteredItems.filter(item => item.contentType === type);
   }
-  console.log('filteredItems')
-  console.log(filteredItems)
 
   const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
   const options = {
@@ -93,9 +89,7 @@ export default function SearchResults({items}) {
   }
   return (
     <>
-    <pre>
-    </pre>
-    <ItemCollection items={filteredItems} options={options}></ItemCollection>
+      <ItemCollection items={filteredItems} options={options}></ItemCollection>
     </>
   )
 }

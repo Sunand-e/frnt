@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 import Table from '../../../Table';
 import Button from '../../../Button';
 import ButtonLink from '../../../ButtonLink';
-import LibraryItemTitleCell from './LibraryItemTitleCell';
 import useDeleteLibraryItem from '../../../../hooks/libraryItems/useDeleteLibraryItem';
 import useGetLibraryItems from '../../../../hooks/libraryItems/useGetLibraryItems';
 import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
+import { useRouter } from '../../../../utils/router';
+import { libraryItemTypes } from '../../../library/libraryItemTypes';
 
 const LibraryItemsTable = () => {
 
@@ -20,10 +21,75 @@ const LibraryItemsTable = () => {
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
+
+  const router = useRouter()
+  const { search, category, type } = router.query
+
+  let filteredItems = [];
+  if(search) {
+    const textResultsObject = libraryItems?.reduce(
+      (filtered,item) => {
+        if(item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+          return {
+            ...filtered,
+            title: filtered.title.concat([item])
+          }
+          // } else if(item.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+            //   return {
+              //     ...filtered,
+              //     excerpt: filtered.excerpt.concat([item])
+              //   }
+              // } else if(item.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+                //   return {
+                  //     ...filtered,
+        //     content: filtered.content.concat([item])
+        //   }
+        } else {
+          return filtered
+        }
+      },
+      {
+        title: [],
+        excerpt: [],
+        content: []
+      }
+    ) || {
+      title: [],
+      excerpt: [],
+      content: []
+    }
+
+    filteredItems = textResultsObject.title.concat(textResultsObject.excerpt, textResultsObject.content)
+  } else {
+    filteredItems = libraryItems ?? filteredItems;
+  }
+  console.log('filteredItems1')
+  console.log(filteredItems)
+
+  if(category) {
+    filteredItems = filteredItems.filter(item => {
+      const isSelectedCategory = tag => {
+        return tag.tagType === 'category' && tag.label === category
+      }
+      return item.tags && item.tags.some(isSelectedCategory);   
+    });
+  }
+  console.log('filteredItems2')
+  console.log(filteredItems)
+
+  if(type) {
+    filteredItems = filteredItems.filter(item => item.contentType === type);
+  }
+
+  console.log('filteredItems3')
+  console.log(filteredItems)
+
+  const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
+
   const tableData = useMemo(
     () => {
-      return libraryItems?.filter(item => !item._deleted) || []
-    }, [libraryItems]
+      return filteredItems?.filter(item => !item._deleted) || []
+    }, [filteredItems]
   );
 
   // useEffect(() => {

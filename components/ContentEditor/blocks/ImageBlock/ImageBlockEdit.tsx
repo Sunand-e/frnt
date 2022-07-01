@@ -1,14 +1,16 @@
 import {
-  FunctionComponent,
+  FunctionComponent, useContext,
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import useBlockEditor from '../../useBlockEditor';
 import ImageSelect from '../../ImageSelect';
 import { v4 as uuidv4 } from 'uuid';
+import { ModalContext } from '../../../../context/modalContext';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
   const { addBlock } = useBlockEditor(block)
+  const { closeModal } = useContext(ModalContext)
 
   const selectImage = (image) => {
     const newBlock = {
@@ -20,6 +22,7 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
       }
     }
     addBlock(newBlock, true)
+    closeModal()
   }
 
   const  defaultWidth = '50%';

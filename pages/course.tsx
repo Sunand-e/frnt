@@ -53,9 +53,10 @@ const CoursePage = () => {
   useEffect(() => {
     currentContentItemVar({
       ...currentContentItem,
+      type: 'lesson',
       id: contentId
     })
-
+    
   },[id, contentId])
   
   useEffect(() => {
@@ -63,10 +64,11 @@ const CoursePage = () => {
     if(course && !currentContentItem.id) {
       const firstItemInCourse = course?.sections.find(
         (section) => section.children?.length
-      )?.children[0]
-
-      if(firstItemInCourse) {
-        currentContentItemVar({
+        )?.children[0]
+        
+        if(firstItemInCourse) {
+          currentContentItemVar({
+          type: 'lesson',
           ...currentContentItem,
           id: firstItemInCourse.id
         })

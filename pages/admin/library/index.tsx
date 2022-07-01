@@ -8,6 +8,7 @@ import LibraryItemsTable from '../../../components/admin/libraryItems/LibraryIte
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
+import LibraryFilters from '../../../components/admin/libraryItems/LibraryFilters'
 const AdminLibraryItems = () => {
 
   usePageTitle({
@@ -33,6 +34,7 @@ const AdminLibraryItems = () => {
   return (
     <>
       <Notices />
+      <LibraryFilters />
       <LibraryItemsTable />
     </>
   )
