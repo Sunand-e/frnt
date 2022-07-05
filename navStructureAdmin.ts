@@ -11,6 +11,8 @@ import {Group2} from "@styled-icons/remix-fill/Group2"
 import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
 import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
+import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
+
 
 const navStructureAdmin = [
   {
@@ -166,6 +168,13 @@ const navStructureAdmin = [
     title: 'Reporting',
     urlPath: '/admin/reports',
     icon: 'chart-line',
+  },
+  {
+    name: 'tenants',
+    title: 'Tenants',
+    urlPath: '/admin/tenants',
+    icon: Buildings,
+    superAdminOnly: true
   },
   // {
   //   name: 'messaging',
