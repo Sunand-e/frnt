@@ -4,8 +4,14 @@ import RGL, { WidthProvider } from "react-grid-layout";
 const ReactGridLayout = WidthProvider(RGL);
 
 const GridLayout = ({layout, children}) => {
+  
+  const handleLayoutChange = layout => {
+    // prompt('y',JSON.stringify(layout,null,2))
+  }
+
   return (
     <ReactGridLayout
+      onLayoutChange={handleLayoutChange}
       className="layout relative"
       containerPadding={[0,0]}
       margin={[30,30]}

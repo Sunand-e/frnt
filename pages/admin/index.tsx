@@ -7,6 +7,7 @@ import Calendar from '../../components/Calendar/CalendarTime';
 import CalendarDay from '../../components/Calendar/CalendarDay';
 import CalendarTime from '../../components/Calendar/CalendarTime';
 import GridLayout from '../../components/GridLayout/GridLayout';
+import QuickActions from '../../components/admin/dashboard/QuickActions';
 
 const AdminDashTopBoxes = ({boxes}) => (
   <div className='grid grid-cols-4 gap-4'>
@@ -45,10 +46,46 @@ const AdminDashboard = () => {
     },
   ]
 
-  const gridLayout = [{ i: "a", x: 0, y: 0, w: 8, h: 8 },
-    { i: "b", x: 8, y: 0, w: 4, h: 10, minW: 2, maxW: 4 },
-    { i: "c", x: 0, y: 8, w: 8, h: 28 }
-  ];
+  const gridLayout = [
+    {
+      "w": 8,
+      "h": 8,
+      "x": 0,
+      "y": 0,
+      "i": "a",
+      "moved": false,
+      "static": false
+    },
+    {
+      "w": 4,
+      "h": 10,
+      "x": 8,
+      "y": 8,
+      "i": "b",
+      "minW": 2,
+      "maxW": 4,
+      "moved": false,
+      "static": false
+    },
+    {
+      "w": 8,
+      "h": 10,
+      "x": 0,
+      "y": 8,
+      "i": "c",
+      "moved": false,
+      "static": false
+    },
+    {
+      "w": 4,
+      "h": 8,
+      "x": 8,
+      "y": 0,
+      "i": "d",
+      "moved": false,
+      "static": false
+    }
+  ]
 
   return (
     <>
@@ -57,6 +94,7 @@ const AdminDashboard = () => {
         <Graph key="a" />
         <CalendarDay key="b" />
         <CalendarTime key="c" />
+        <QuickActions key="d" />
       </GridLayout>
     </>
   )

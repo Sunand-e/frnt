@@ -13,7 +13,7 @@ const BoxContainer = ({title, button, children}) => {
   }
 
   return (
-    <div className="bg-white shadow-xl rounded-md">
+    <div className="bg-white shadow-xl rounded-md containerClassname">
       <div className="bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
         <h3 className="text-main-dark">{title}</h3>
         {button && <HeaderButton />}
