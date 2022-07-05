@@ -8,8 +8,6 @@ import Profile from "./Profile";
 
 export default function Header() {
 
-  const view = useReactiveVar(viewVar)
-
   return (
     <>
       <div className="sticky top-0 z-20 w-full h-18 mx-auto bg-white flex bg-white shadow-sm justify-between">

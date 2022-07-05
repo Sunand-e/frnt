@@ -6,7 +6,7 @@ export const ENROL_USERS_IN_COURSES = gql`
     $userIds: [ID!]!,
     $contentItemIds: [ID!]!
   ) {
-    enrolUsersInCourses(
+    enrolUsersInContent(
       input: {
         userIds: $userIds,
         contentItemIds: $contentItemIds

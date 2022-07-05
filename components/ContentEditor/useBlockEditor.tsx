@@ -23,7 +23,7 @@ const useBlockEditor = (block=null) => {
   }
 
   const GET_LESSON_CONTENT = gql`
-    query GetLessonContent($id: String!) {
+    query GetLessonContent($id: ID!) {
       lesson(id: $id) {
         content
       }

@@ -47,17 +47,17 @@ export const GET_COURSE_USERS = gql`
 `
 
 
-// INCOMPLETE...
-export const GET_USER_COURSE_LESSONS = gql`
-  query GetUserCourseLessons($userId: ID!, $courseId: ID!) {
-    course(id: $userId) {
-      ...CourseFragment
-      users {
-        ...ContentUserEdgeFragment
-      }
-    }
-  }
-  ${CourseFragment}
-  ${UserFragment}
-  ${ContentUserEdgeFragment}
-`
+// // INCOMPLETE...
+// export const GET_USER_COURSE_LESSONS = gql`
+//   query GetUserCourseLessons($userId: ID!, $courseId: ID!) {
+//     course(id: $userId) {
+//       ...CourseFragment
+//       users {
+//         ...ContentUserEdgeFragment
+//       }
+//     }
+//   }
+//   ${CourseFragment}
+//   ${UserFragment}
+//   ${ContentUserEdgeFragment}
+// `
