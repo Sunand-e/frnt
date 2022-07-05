@@ -18,7 +18,7 @@ export default function NavContainer({navState}) {
   // If the 'topLevel' property of navState is empty, create the default navstate.
   const pageNavState = navState?.topLevel ? navState : {
     topLevel: 'dashboard',
-    secondary: 'dashboard'
+    // secondary: 'dashboard'
   }
 
   const topNavItem = navStructure.find(
