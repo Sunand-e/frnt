@@ -23,9 +23,25 @@ export interface GetCourseUsers_course_icon {
   id: string;
 }
 
+export interface GetCourseUsers_course_users_edges_node_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+  roleType: string;
+}
+
 export interface GetCourseUsers_course_users_edges_node {
   __typename: "User";
+  createdAt: any;
+  email: string;
+  firstName: string | null;
+  fullName: string | null;
   id: string;
+  lastName: string | null;
+  status: string;
+  updatedAt: any;
+  userType: string | null;
+  roles: GetCourseUsers_course_users_edges_node_roles[] | null;
 }
 
 export interface GetCourseUsers_course_users_edges {
@@ -37,8 +53,8 @@ export interface GetCourseUsers_course_users_edges {
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
   score: number | null;
   visits: number | null;
   completed: boolean | null;
@@ -51,6 +67,19 @@ export interface GetCourseUsers_course_users {
    * A list of edges.
    */
   edges: (GetCourseUsers_course_users_edges | null)[] | null;
+}
+
+export interface GetCourseUsers_course_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourseUsers_course_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourseUsers_course_tags_image | null;
+  id: string;
 }
 
 export interface GetCourseUsers_course_sections_image {
@@ -69,34 +98,21 @@ export interface GetCourseUsers_course_sections_icon {
   id: string;
 }
 
-export interface GetCourseUsers_course_sections_users_edges_node {
-  __typename: "User";
-  id: string;
-}
-
-export interface GetCourseUsers_course_sections_users_edges {
-  __typename: "ContentUserEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: GetCourseUsers_course_sections_users_edges_node | null;
-  status: string | null;
-  lastVisited: any | null;
-  firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
-  score: number | null;
-  visits: number | null;
-  completed: boolean | null;
-}
-
 export interface GetCourseUsers_course_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
-  /**
-   * A list of edges.
-   */
-  edges: (GetCourseUsers_course_sections_users_edges | null)[] | null;
+}
+
+export interface GetCourseUsers_course_sections_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourseUsers_course_sections_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourseUsers_course_sections_tags_image | null;
 }
 
 export interface GetCourseUsers_course_sections_children_image {
@@ -120,6 +136,18 @@ export interface GetCourseUsers_course_sections_children_users {
   totalCount: number;
 }
 
+export interface GetCourseUsers_course_sections_children_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourseUsers_course_sections_children_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourseUsers_course_sections_children_tags_image | null;
+}
+
 export interface GetCourseUsers_course_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -134,69 +162,7 @@ export interface GetCourseUsers_course_sections_children {
   title: string | null;
   updatedAt: any;
   users: GetCourseUsers_course_sections_children_users | null;
-  _deleted: boolean;
-}
-
-export interface GetCourseUsers_course_sections_lessons_image {
-  __typename: "MediaItem";
-  location: string | null;
-  id: string;
-  altText: string | null;
-  properties: any | null;
-  title: string | null;
-}
-
-export interface GetCourseUsers_course_sections_lessons_icon {
-  __typename: "Icon";
-  provider: string | null;
-  properties: any | null;
-  id: string;
-}
-
-export interface GetCourseUsers_course_sections_lessons_users_edges_node {
-  __typename: "User";
-  id: string;
-}
-
-export interface GetCourseUsers_course_sections_lessons_users_edges {
-  __typename: "ContentUserEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: GetCourseUsers_course_sections_lessons_users_edges_node | null;
-  status: string | null;
-  lastVisited: any | null;
-  firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
-  score: number | null;
-  visits: number | null;
-  completed: boolean | null;
-}
-
-export interface GetCourseUsers_course_sections_lessons_users {
-  __typename: "ContentUserConnection";
-  totalCount: number;
-  /**
-   * A list of edges.
-   */
-  edges: (GetCourseUsers_course_sections_lessons_users_edges | null)[] | null;
-}
-
-export interface GetCourseUsers_course_sections_lessons {
-  __typename: "ContentItem";
-  content: any | null;
-  contentType: string | null;
-  createdAt: any;
-  settings: any | null;
-  image: GetCourseUsers_course_sections_lessons_image | null;
-  id: string;
-  icon: GetCourseUsers_course_sections_lessons_icon | null;
-  itemType: string;
-  prerequisites: any | null;
-  title: string | null;
-  updatedAt: any;
-  users: GetCourseUsers_course_sections_lessons_users | null;
+  tags: GetCourseUsers_course_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
@@ -214,16 +180,9 @@ export interface GetCourseUsers_course_sections {
   title: string | null;
   updatedAt: any;
   users: GetCourseUsers_course_sections_users | null;
+  tags: GetCourseUsers_course_sections_tags[] | null;
   _deleted: boolean;
   children: GetCourseUsers_course_sections_children[] | null;
-  lessons: GetCourseUsers_course_sections_lessons[] | null;
-}
-
-export interface GetCourseUsers_course_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
 }
 
 export interface GetCourseUsers_course {
@@ -240,9 +199,9 @@ export interface GetCourseUsers_course {
   title: string | null;
   updatedAt: any;
   users: GetCourseUsers_course_users | null;
+  tags: GetCourseUsers_course_tags[] | null;
   _deleted: boolean;
   sections: GetCourseUsers_course_sections[] | null;
-  tags: GetCourseUsers_course_tags[] | null;
 }
 
 export interface GetCourseUsers {

@@ -18,8 +18,8 @@ export interface GetRole_role {
   id: string;
   name: string | null;
   roleType: string;
-  capabilities: GetRole_role_capabilities[] | null;
   _deleted: boolean;
+  capabilities: GetRole_role_capabilities[] | null;
 }
 
 export interface GetRole {

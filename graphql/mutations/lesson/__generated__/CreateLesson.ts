@@ -28,6 +28,18 @@ export interface CreateLesson_createLesson_lesson_users {
   totalCount: number;
 }
 
+export interface CreateLesson_createLesson_lesson_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface CreateLesson_createLesson_lesson_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: CreateLesson_createLesson_lesson_tags_image | null;
+}
+
 export interface CreateLesson_createLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -42,6 +54,7 @@ export interface CreateLesson_createLesson_lesson {
   title: string | null;
   updatedAt: any;
   users: CreateLesson_createLesson_lesson_users | null;
+  tags: CreateLesson_createLesson_lesson_tags[] | null;
   _deleted: boolean;
 }
 

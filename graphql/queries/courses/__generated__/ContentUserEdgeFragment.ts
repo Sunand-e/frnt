@@ -7,9 +7,25 @@
 // GraphQL fragment: ContentUserEdgeFragment
 // ====================================================
 
+export interface ContentUserEdgeFragment_edges_node_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+  roleType: string;
+}
+
 export interface ContentUserEdgeFragment_edges_node {
   __typename: "User";
+  createdAt: any;
+  email: string;
+  firstName: string | null;
+  fullName: string | null;
   id: string;
+  lastName: string | null;
+  status: string;
+  updatedAt: any;
+  userType: string | null;
+  roles: ContentUserEdgeFragment_edges_node_roles[] | null;
 }
 
 export interface ContentUserEdgeFragment_edges {
@@ -21,8 +37,8 @@ export interface ContentUserEdgeFragment_edges {
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
   score: number | null;
   visits: number | null;
   completed: boolean | null;

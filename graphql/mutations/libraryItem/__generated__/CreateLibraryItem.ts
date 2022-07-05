@@ -28,6 +28,18 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem_users {
   totalCount: number;
 }
 
+export interface CreateLibraryItem_createLibraryItem_libraryItem_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface CreateLibraryItem_createLibraryItem_libraryItem_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: CreateLibraryItem_createLibraryItem_libraryItem_tags_image | null;
+}
+
 export interface CreateLibraryItem_createLibraryItem_libraryItem {
   __typename: "ContentItem";
   content: any | null;
@@ -42,6 +54,7 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem {
   title: string | null;
   updatedAt: any;
   users: CreateLibraryItem_createLibraryItem_libraryItem_users | null;
+  tags: CreateLibraryItem_createLibraryItem_libraryItem_tags[] | null;
   _deleted: boolean;
 }
 

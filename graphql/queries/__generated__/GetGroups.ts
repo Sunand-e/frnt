@@ -29,6 +29,15 @@ export interface GetGroups_groups_users {
   edges: (GetGroups_groups_users_edges | null)[] | null;
 }
 
+export interface GetGroups_groups_image {
+  __typename: "MediaItem";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
 export interface GetGroups_groups_enrolledCourses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -62,6 +71,7 @@ export interface GetGroups_groups {
   name: string | null;
   updatedAt: any;
   users: GetGroups_groups_users;
+  image: GetGroups_groups_image | null;
   enrolledCourses: GetGroups_groups_enrolledCourses;
   assignedCourses: GetGroups_groups_assignedCourses[];
   _deleted: boolean;

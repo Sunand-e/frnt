@@ -28,6 +28,18 @@ export interface GetSections_sections_users {
   totalCount: number;
 }
 
+export interface GetSections_sections_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetSections_sections_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetSections_sections_tags_image | null;
+}
+
 export interface GetSections_sections_children_image {
   __typename: "MediaItem";
   location: string | null;
@@ -49,6 +61,18 @@ export interface GetSections_sections_children_users {
   totalCount: number;
 }
 
+export interface GetSections_sections_children_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetSections_sections_children_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetSections_sections_children_tags_image | null;
+}
+
 export interface GetSections_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -63,6 +87,7 @@ export interface GetSections_sections_children {
   title: string | null;
   updatedAt: any;
   users: GetSections_sections_children_users | null;
+  tags: GetSections_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
@@ -80,6 +105,7 @@ export interface GetSections_sections {
   title: string | null;
   updatedAt: any;
   users: GetSections_sections_users | null;
+  tags: GetSections_sections_tags[] | null;
   _deleted: boolean;
   children: GetSections_sections_children[] | null;
 }

@@ -7,18 +7,11 @@
 // GraphQL mutation operation: CreateRole
 // ====================================================
 
-export interface CreateRole_createRole_role_capabilities {
-  __typename: "Capability";
-  id: string;
-  name: string | null;
-}
-
 export interface CreateRole_createRole_role {
   __typename: "Role";
   id: string;
   name: string | null;
   roleType: string;
-  capabilities: CreateRole_createRole_role_capabilities[] | null;
   _deleted: boolean;
 }
 
