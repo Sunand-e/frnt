@@ -56,13 +56,13 @@ const UserLessonsReportTable = () => {
           const cellProps = {
             title: cell.row.original.node.title,
             // secondary: cell.row.original.email,
-            href: cell.row.original.node.id && {
-              query: {
-                user: userId,
-                course: courseId,
-                lesson: cell.row.original.node.id
-              }
-            }
+            // href: cell.row.original.node.id && {
+            //   query: {
+            //     user: userId,
+            //     course: courseId,
+            //     lesson: cell.row.original.node.id
+            //   }
+            // }
           }
           return (
             <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
@@ -136,7 +136,7 @@ const UserLessonsReportTable = () => {
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>See details</ButtonLink>
+              {/* <ButtonLink href={href}>See details</ButtonLink> */}
             </div>
           )
         }
