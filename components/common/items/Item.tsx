@@ -10,9 +10,9 @@ function ItemTags({ tags }) {
 
       <span>Tags:</span>
       {
-        tags.map(tag => {
+        tags.map((tag, index) => {
           return (
-            <a href="#" className="text-blue-dark font-semibold">{tag.label}</a>
+            <a href="#" key={index} className="text-blue-dark font-semibold">{tag.label}</a>
           )}
         )
       }
@@ -89,9 +89,9 @@ export default function Item({ item, options }) {
         { !!item?.tags?.length && (
           <h2 className="text-lg text-blue mb-2 top-5 font-normal text-sm">
             <span className="bg-main-superlight">
-              { item.tags.map(tag => {
+              { item.tags.map((tag, index) => {
                 return (
-                  <div className="flex space-x-2 items-center">
+                  <div key={index} className="flex space-x-2 items-center">
                     {/* <img src={tag.image.location} className="h-8 rounded-full" /> */}
                     <span>
                       {tag.label}

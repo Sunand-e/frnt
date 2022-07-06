@@ -82,7 +82,7 @@ const navStructureUser = [
       {
         name: 'library-process-flows',
         title: 'Process Flows',
-        urlPath: '/library?type=process-flow',
+        urlPath: '/library?type=process_flow',
         icon: FlowChart,
       }
     ]

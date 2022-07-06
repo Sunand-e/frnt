@@ -33,27 +33,33 @@ const navStructureAdmin = [
         icon: Library
       },
       {
-        name: 'oversview',
+        name: 'library-guides',
         title: 'Guides',
-        urlPath: '/admin/library',
+        urlPath: '/admin/library?type=guide',
         icon: TextLeft,
       },
       {
-        name: 'overvsiew',
+        name: 'library-videos',
         title: 'Videos',
-        urlPath: '/admin/library',
+        urlPath: '/admin/library?type=video',
         icon: Video,
       },
       {
-        name: 'ovesrview',
+        name: 'library-documents',
+        title: 'Documents',
+        urlPath: '/admin/library?type=document',
+        icon: Video,
+      },
+      {
+        name: 'library-podcasts',
         title: 'Podcasts',
-        urlPath: '/admin/library',
+        urlPath: '/admin/library?type=podcast',
         icon: Speaker2,
       },
       {
-        name: 'ovesrview',
+        name: 'library-process-flows',
         title: 'Process Flows',
-        urlPath: '/admin/library',
+        urlPath: '/admin/library?type=process_flow',
         icon: FlowChart,
       },
       // {

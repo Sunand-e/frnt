@@ -21,7 +21,7 @@ const QuickActions = () => {
   return (
     <>
     <div className="-mx-4 -mt-4 bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
-      <h3 className="text-main-dark text-2xl">{'Quick actions'}</h3>
+      <h3 className="text-main-dark text-xl">Quick actions</h3>
     </div>
 
     <div className="flex flex-col items-start px-4 py-2 space-y-4">

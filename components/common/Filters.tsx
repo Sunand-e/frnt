@@ -50,7 +50,7 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
 
           <input 
             onChange={(e) => onFilterChange('search', e.target.value)}
-            value={search || null}
+            value={search || ''}
             type="search"
             name="q"
             className="

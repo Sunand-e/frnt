@@ -45,6 +45,7 @@ const useBlockEditor = (block=null) => {
       contentQuery = GET_LESSON_CONTENT
       break
     case 'libraryItem':
+    default:
       contentQuery = GET_LIBRARY_ITEM_CONTENT
       break
   }
@@ -57,7 +58,7 @@ const useBlockEditor = (block=null) => {
     }
   )
   
-  const blocks = data[type]?.content?.blocks;
+  const blocks = data[type]?.content?.blocks || [];
 
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
@@ -105,7 +106,7 @@ const useBlockEditor = (block=null) => {
     if(index < 0) {
       let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
       parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
-      index = parent.children.findIndex(b => b.id === id)
+      index = parent?.children.findIndex(b => b.id === id)
     }
 
     return { index, parent }

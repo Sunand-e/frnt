@@ -20,7 +20,7 @@ export default function ItemGrid({className, items, options}: ItemGridProps) {
       { items.map((item, index) => {
         return (
           <motion.div
-            key="modal"
+            key={index}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

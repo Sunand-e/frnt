@@ -63,7 +63,7 @@ const DashboardPage = () => {
 
     headerButtonsVar(
       <>
-        <Button onClick={handleLogoutClick}>Log out</Button>
+        {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
         <Button onClick={handleAdminButtonClick}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</Button>
       </>
     )
