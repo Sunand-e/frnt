@@ -33,7 +33,7 @@ const NewCourseItemList = ({
   },[lesson])
 
   const items = Object.keys(lessonTypes).map(key => {
-    return <NewCourseItem onClick={() => handleItemClick(key)} label={lessonTypes[key].label} IconComponent={lessonTypes[key].icon} />
+    return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={lessonTypes[key].label} IconComponent={lessonTypes[key].icon} />
   })
 
   return (
