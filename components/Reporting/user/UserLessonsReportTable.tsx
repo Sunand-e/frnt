@@ -37,7 +37,8 @@ const UserLessonsReportTable = () => {
     }
   `, {
     variables: {
-      userId
+      userId,
+      where: { courseId }
     }
   })
 
