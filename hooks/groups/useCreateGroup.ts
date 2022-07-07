@@ -35,6 +35,7 @@ function useCreateGroup() {
             __typename: 'Group',
             id: Math.floor(Math.random() * 10000) + '',
             _deleted: false,
+            image: null,
             users: [],
             enrolledCourses: [],
             assignedCourses: [],

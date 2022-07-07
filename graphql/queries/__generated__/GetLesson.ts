@@ -28,6 +28,18 @@ export interface GetLesson_lesson_users {
   totalCount: number;
 }
 
+export interface GetLesson_lesson_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetLesson_lesson_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetLesson_lesson_tags_image | null;
+}
+
 export interface GetLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -42,6 +54,7 @@ export interface GetLesson_lesson {
   title: string | null;
   updatedAt: any;
   users: GetLesson_lesson_users | null;
+  tags: GetLesson_lesson_tags[] | null;
   _deleted: boolean;
 }
 

@@ -11,6 +11,7 @@ export interface TagInput {
   id?: string | null;
   label?: string | null;
   tagType?: string | null;
+  mediaItemId?: string | null;
 }
 
 //==============================================================

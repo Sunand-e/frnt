@@ -7,13 +7,13 @@
 // GraphQL mutation operation: EnrolUsersInCourses
 // ====================================================
 
-export interface EnrolUsersInCourses_enrolUsersInCourses {
-  __typename: "EnrolUsersInCoursesPayload";
+export interface EnrolUsersInCourses_enrolUsersInContent {
+  __typename: "EnrolUsersInContentPayload";
   status: string;
 }
 
 export interface EnrolUsersInCourses {
-  enrolUsersInCourses: EnrolUsersInCourses_enrolUsersInCourses | null;
+  enrolUsersInContent: EnrolUsersInCourses_enrolUsersInContent | null;
 }
 
 export interface EnrolUsersInCoursesVariables {

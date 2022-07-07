@@ -29,6 +29,15 @@ export interface CreateGroup_createGroup_group_users {
   edges: (CreateGroup_createGroup_group_users_edges | null)[] | null;
 }
 
+export interface CreateGroup_createGroup_group_image {
+  __typename: "MediaItem";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
 export interface CreateGroup_createGroup_group_enrolledCourses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -62,6 +71,7 @@ export interface CreateGroup_createGroup_group {
   name: string | null;
   updatedAt: any;
   users: CreateGroup_createGroup_group_users;
+  image: CreateGroup_createGroup_group_image | null;
   enrolledCourses: CreateGroup_createGroup_group_enrolledCourses;
   assignedCourses: CreateGroup_createGroup_group_assignedCourses[];
   _deleted: boolean;

@@ -29,6 +29,15 @@ export interface GroupFragment_users {
   edges: (GroupFragment_users_edges | null)[] | null;
 }
 
+export interface GroupFragment_image {
+  __typename: "MediaItem";
+  location: string | null;
+  id: string;
+  altText: string | null;
+  properties: any | null;
+  title: string | null;
+}
+
 export interface GroupFragment_enrolledCourses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -62,6 +71,7 @@ export interface GroupFragment {
   name: string | null;
   updatedAt: any;
   users: GroupFragment_users;
+  image: GroupFragment_image | null;
   enrolledCourses: GroupFragment_enrolledCourses;
   assignedCourses: GroupFragment_assignedCourses[];
   _deleted: boolean;

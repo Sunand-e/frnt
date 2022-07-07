@@ -28,6 +28,18 @@ export interface UpdateLesson_updateLesson_lesson_users {
   totalCount: number;
 }
 
+export interface UpdateLesson_updateLesson_lesson_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface UpdateLesson_updateLesson_lesson_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: UpdateLesson_updateLesson_lesson_tags_image | null;
+}
+
 export interface UpdateLesson_updateLesson_lesson {
   __typename: "ContentItem";
   content: any | null;
@@ -42,6 +54,7 @@ export interface UpdateLesson_updateLesson_lesson {
   title: string | null;
   updatedAt: any;
   users: UpdateLesson_updateLesson_lesson_users | null;
+  tags: UpdateLesson_updateLesson_lesson_tags[] | null;
   _deleted: boolean;
 }
 

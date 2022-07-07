@@ -21,8 +21,8 @@ export interface UserContentEdgeFragment_edges {
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
   score: number | null;
   visits: number | null;
   completed: boolean | null;
@@ -34,4 +34,5 @@ export interface UserContentEdgeFragment {
    * A list of edges.
    */
   edges: (UserContentEdgeFragment_edges | null)[] | null;
+  totalCount: number;
 }

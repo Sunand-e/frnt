@@ -1,18 +1,40 @@
 import Link from 'next/link'
 import navStructureUser from '../../navStructureUser'
 import navStructureAdmin from '../../navStructureAdmin'
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import { viewVar } from '../../graphql/cache';
-import { useReactiveVar } from '@apollo/client';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
+
+const GET_CURRENT_USER_TYPE = gql`
+query GetCurrentUserType {
+  user {
+    userType
+  }
+}
+`
 
 export default function PrimaryNav({isSlim, pageNavState}) {
 
   const view = useReactiveVar(viewVar);
 
+  const [ isSuperAdmin, setIsSuperAdmin ] = useState(false)
+
+  const { loading, error, data } = useQuery(GET_CURRENT_USER_TYPE);
+
+  useEffect(() => {
+    if(data) {
+      setIsSuperAdmin(data.user.userType === 'SuperAdmin')
+    }
+  },[data])
+
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
   
+  const navItems = isSuperAdmin ? navStructure : navStructure.filter(item => {
+    return !(item.superAdminOnly) || item.superAdminOnly === false
+  })
+
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16' : 'w-64'}`}>
       <div className="sticky z-30 top-0">
@@ -32,7 +54,7 @@ export default function PrimaryNav({isSlim, pageNavState}) {
           >
             <ul>
 
-              { navStructure.map((item, index) => {
+              { navItems.map((item, index) => {
                 let menuItemClasses, menuIconClasses
                 if (pageNavState?.topLevel === item.name) {
 
