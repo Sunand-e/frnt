@@ -266,8 +266,13 @@ const useBlockEditor = (block=null) => {
   const addColumn = block => {
     let newTopLevelBlock
     if(block.type === 'columns') {
+      let currentColumnCount = block.children.length
+      let newColWidth = 12 / (currentColumnCount + 1)
+      const widths = Array(currentColumnCount + 1).fill(newColWidth)
+
       newTopLevelBlock = {
         ...block,
+        widths,
         children: [
           ...block.children,
           createPlaceholderBlock()
@@ -276,12 +281,14 @@ const useBlockEditor = (block=null) => {
     } else {
       newTopLevelBlock = {
         ...createColumnsBlock(),
+        widths: [6,6],
         children: [
           block,
           createPlaceholderBlock()
         ]
       }
     }
+    // alert(JSON.stringify(newTopLevelBlock,null,2))
     updateBlock(block, newTopLevelBlock)
   }
 
