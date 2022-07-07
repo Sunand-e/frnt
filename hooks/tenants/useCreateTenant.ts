@@ -11,7 +11,18 @@ function useCreateTenant() {
   const [createTenantMutation, createTenantResponse] = useMutation<CreateTenant, CreateTenantVariables>(
     CREATE_TENANT,
     {
-      refetchQueries: [GET_TENANTS],
+      // refetchQueries: [GET_TENANTS],
+      update(cache, { data: { createTenant } } ) {
+        const data = cache.readQuery<GetTenants>({
+          query: GET_TENANTS
+        })
+        cache.writeQuery({
+          query: GET_TENANTS,
+          data: {
+            tenants: [createTenant.tenant, ...data.tenants]
+          }
+        })
+      }
     }
   );
 
@@ -34,7 +45,7 @@ function useCreateTenant() {
           },
         }
       },
-      onCompleted: cb
+      // onCompleted: cb
       // refetchQueries: [{ query: GET_TENANT }]
     }).catch(res => {
       // : do something if there is an error!!
