@@ -13,8 +13,15 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
 
   const [width, setWidth] = useState( block.properties?.width || defaultWidth || 0)
   // const  [width, setWidth] = useState(0)
-  const { updateBlock, addBlock } = useBlockEditor(block)
+  const { updateBlock, addBlock, getIndexAndParent } = useBlockEditor(block)
 
+  const { index, parent } = getIndexAndParent(block.id)
+
+  const isColumn = parent?.type === 'columns'
+  if(isColumn) {
+      console.log(parent.widths[index])
+  }
+  
   useEffect(() => {
     const updatedBlock = {
       ...block,
@@ -41,7 +48,8 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
               width: width,
               height: '100%'
             }}
-            maxWidth="100%"
+            // maxWidth="100%"
+            maxWidth={ parent ? (1024 * parent?.widths[index] / 12 - 32) : '100%'}
             lockAspectRatio
             resizeRatio={align === 'center' ? 2 : 1}
             enable={{
