@@ -28,6 +28,19 @@ export interface GetCourse_course_users {
   totalCount: number;
 }
 
+export interface GetCourse_course_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourse_course_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourse_course_tags_image | null;
+  id: string;
+}
+
 export interface GetCourse_course_sections_image {
   __typename: "MediaItem";
   location: string | null;
@@ -47,6 +60,18 @@ export interface GetCourse_course_sections_icon {
 export interface GetCourse_course_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
+}
+
+export interface GetCourse_course_sections_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourse_course_sections_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourse_course_sections_tags_image | null;
 }
 
 export interface GetCourse_course_sections_children_image {
@@ -70,6 +95,18 @@ export interface GetCourse_course_sections_children_users {
   totalCount: number;
 }
 
+export interface GetCourse_course_sections_children_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetCourse_course_sections_children_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetCourse_course_sections_children_tags_image | null;
+}
+
 export interface GetCourse_course_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -84,6 +121,7 @@ export interface GetCourse_course_sections_children {
   title: string | null;
   updatedAt: any;
   users: GetCourse_course_sections_children_users | null;
+  tags: GetCourse_course_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
@@ -101,15 +139,9 @@ export interface GetCourse_course_sections {
   title: string | null;
   updatedAt: any;
   users: GetCourse_course_sections_users | null;
+  tags: GetCourse_course_sections_tags[] | null;
   _deleted: boolean;
   children: GetCourse_course_sections_children[] | null;
-}
-
-export interface GetCourse_course_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
 }
 
 export interface GetCourse_course {
@@ -126,9 +158,9 @@ export interface GetCourse_course {
   title: string | null;
   updatedAt: any;
   users: GetCourse_course_users | null;
+  tags: GetCourse_course_tags[] | null;
   _deleted: boolean;
   sections: GetCourse_course_sections[] | null;
-  tags: GetCourse_course_tags[] | null;
 }
 
 export interface GetCourse {

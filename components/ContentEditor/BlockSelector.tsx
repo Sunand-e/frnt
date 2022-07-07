@@ -51,12 +51,11 @@ const BlockSelector = ({
           { type: 'placeholder', id: uuidv4() },
           { type: 'placeholder', id: uuidv4() }
         ]
-        // insertBlock(newBlock, index, null, replace)
+        newBlock.widths = [6,6]
         addBlock(newBlock, replace)
         break;
       }
       default: {
-        // insertBlock(newBlock, index, null, replace)
         addBlock(newBlock, replace)
       }
     }

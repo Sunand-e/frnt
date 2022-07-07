@@ -28,6 +28,18 @@ export interface ContentFragment_users {
   totalCount: number;
 }
 
+export interface ContentFragment_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface ContentFragment_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: ContentFragment_tags_image | null;
+}
+
 export interface ContentFragment {
   __typename: "ContentItem";
   content: any | null;
@@ -42,5 +54,6 @@ export interface ContentFragment {
   title: string | null;
   updatedAt: any;
   users: ContentFragment_users | null;
+  tags: ContentFragment_tags[] | null;
   _deleted: boolean;
 }

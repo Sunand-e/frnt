@@ -28,6 +28,19 @@ export interface CourseFragment_users {
   totalCount: number;
 }
 
+export interface CourseFragment_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface CourseFragment_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: CourseFragment_tags_image | null;
+  id: string;
+}
+
 export interface CourseFragment_sections_image {
   __typename: "MediaItem";
   location: string | null;
@@ -47,6 +60,18 @@ export interface CourseFragment_sections_icon {
 export interface CourseFragment_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
+}
+
+export interface CourseFragment_sections_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface CourseFragment_sections_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: CourseFragment_sections_tags_image | null;
 }
 
 export interface CourseFragment_sections_children_image {
@@ -70,6 +95,18 @@ export interface CourseFragment_sections_children_users {
   totalCount: number;
 }
 
+export interface CourseFragment_sections_children_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface CourseFragment_sections_children_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: CourseFragment_sections_children_tags_image | null;
+}
+
 export interface CourseFragment_sections_children {
   __typename: "ContentItem";
   content: any | null;
@@ -84,6 +121,7 @@ export interface CourseFragment_sections_children {
   title: string | null;
   updatedAt: any;
   users: CourseFragment_sections_children_users | null;
+  tags: CourseFragment_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
@@ -101,15 +139,9 @@ export interface CourseFragment_sections {
   title: string | null;
   updatedAt: any;
   users: CourseFragment_sections_users | null;
+  tags: CourseFragment_sections_tags[] | null;
   _deleted: boolean;
   children: CourseFragment_sections_children[] | null;
-}
-
-export interface CourseFragment_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
 }
 
 export interface CourseFragment {
@@ -126,7 +158,7 @@ export interface CourseFragment {
   title: string | null;
   updatedAt: any;
   users: CourseFragment_users | null;
+  tags: CourseFragment_tags[] | null;
   _deleted: boolean;
   sections: CourseFragment_sections[] | null;
-  tags: CourseFragment_tags[] | null;
 }

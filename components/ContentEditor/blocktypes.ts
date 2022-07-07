@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import {Text} from '@styled-icons/fluentui-system-filled/Text'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
+import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+
 import {List} from '@styled-icons/fluentui-system-filled/List'
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
@@ -11,6 +13,7 @@ import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
 import ImageBlock from './blocks/ImageBlock/ImageBlock'
 import VideoBlock from './blocks/VideoBlock/VideoBlock'
+import AudioBlock from './blocks/AudioBlock/AudioBlock'
 import DocumentBlock from './blocks/DocumentBlock/DocumentBlock'
 import PackageBlock from './blocks/PackageBlock/PackageBlock'
 import ColumnsBlock from './blocks/ColumnsBlock/ColumnsBlock'
@@ -21,6 +24,7 @@ import HeaderBlockEdit from './blocks/HeaderBlock/HeaderBlock'
 import ListBlockEdit from './blocks/ListBlock/ListBlockEdit'
 import ImageBlockEdit from './blocks/ImageBlock/ImageBlockEdit'
 import VideoBlockEdit from './blocks/VideoBlock/VideoBlockEdit'
+import AudioBlockEdit from './blocks/AudioBlock/AudioBlockEdit'
 import DocumentBlockEdit from './blocks/DocumentBlock/DocumentBlockEdit'
 import PackageBlockEdit from './blocks/PackageBlock/PackageBlockEdit'
 import ColumnsBlockEdit from './blocks/ColumnsBlock/ColumnsBlockEdit'
@@ -31,6 +35,7 @@ import HeaderSettings from './blocks/HeaderBlock/HeaderSettings'
 import ListSettings from './blocks/ListBlock/ListSettings'
 import ImageSettings from './blocks/ImageBlock/ImageSettings'
 import VideoSettings from './blocks/VideoBlock/VideoSettings'
+import AudioSettings from './blocks/AudioBlock/AudioSettings'
 import DocumentSettings from './blocks/DocumentBlock/DocumentSettings'
 import PackageSettings from './blocks/PackageBlock/PackageSettings'
 import ColumnsSettings from './blocks/ColumnsBlock/ColumnsSettings'
@@ -75,6 +80,13 @@ const blocktypes = {
     editComponent: VideoBlockEdit,
     settingsComponent: VideoSettings,
     icon: Video,
+  },
+  audio: {
+    text: 'Audio',
+    component: AudioBlock,
+    editComponent: AudioBlockEdit,
+    settingsComponent: AudioSettings,
+    icon: Speaker2,
   },
   document: {
     text: 'Document',

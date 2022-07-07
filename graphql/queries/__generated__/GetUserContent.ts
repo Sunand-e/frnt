@@ -14,49 +14,9 @@ export interface GetUserContent_user_roles {
   roleType: string;
 }
 
-export interface GetUserContent_user_courses_edges_node_image {
-  __typename: "MediaItem";
-  location: string | null;
-  id: string;
-  altText: string | null;
-  properties: any | null;
-  title: string | null;
-}
-
-export interface GetUserContent_user_courses_edges_node_icon {
-  __typename: "Icon";
-  provider: string | null;
-  properties: any | null;
-  id: string;
-}
-
-export interface GetUserContent_user_courses_edges_node_users {
-  __typename: "ContentUserConnection";
-  totalCount: number;
-}
-
 export interface GetUserContent_user_courses_edges_node {
   __typename: "ContentItem";
-  content: any | null;
-  contentType: string | null;
-  createdAt: any;
-  settings: any | null;
-  image: GetUserContent_user_courses_edges_node_image | null;
   id: string;
-  icon: GetUserContent_user_courses_edges_node_icon | null;
-  itemType: string;
-  prerequisites: any | null;
-  title: string | null;
-  updatedAt: any;
-  users: GetUserContent_user_courses_edges_node_users | null;
-  _deleted: boolean;
-}
-
-export interface GetUserContent_user_courses_edges_roles {
-  __typename: "Role";
-  id: string;
-  name: string | null;
-  roleType: string;
 }
 
 export interface GetUserContent_user_courses_edges {
@@ -65,15 +25,14 @@ export interface GetUserContent_user_courses_edges {
    * The item at the end of the edge.
    */
   node: GetUserContent_user_courses_edges_node | null;
-  roles: GetUserContent_user_courses_edges_roles[] | null;
-  lastVisited: any | null;
-  completed: boolean | null;
-  score: number | null;
   status: string | null;
-  visits: number | null;
+  lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
+  score: number | null;
+  visits: number | null;
+  completed: boolean | null;
 }
 
 export interface GetUserContent_user_courses {
@@ -82,36 +41,7 @@ export interface GetUserContent_user_courses {
    * A list of edges.
    */
   edges: (GetUserContent_user_courses_edges | null)[] | null;
-}
-
-export interface GetUserContent_user_groups_edges_node {
-  __typename: "Group";
-  id: string;
-  name: string | null;
-}
-
-export interface GetUserContent_user_groups_edges_roles {
-  __typename: "Role";
-  id: string;
-  name: string | null;
-  roleType: string;
-}
-
-export interface GetUserContent_user_groups_edges {
-  __typename: "UserGroupEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: GetUserContent_user_groups_edges_node | null;
-  roles: GetUserContent_user_groups_edges_roles[] | null;
-}
-
-export interface GetUserContent_user_groups {
-  __typename: "UserGroupConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (GetUserContent_user_groups_edges | null)[] | null;
+  totalCount: number;
 }
 
 export interface GetUserContent_user_sections_edges_node {
@@ -128,8 +58,8 @@ export interface GetUserContent_user_sections_edges {
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
   score: number | null;
   visits: number | null;
   completed: boolean | null;
@@ -141,6 +71,7 @@ export interface GetUserContent_user_sections {
    * A list of edges.
    */
   edges: (GetUserContent_user_sections_edges | null)[] | null;
+  totalCount: number;
 }
 
 export interface GetUserContent_user_lessons_edges_node {
@@ -157,8 +88,8 @@ export interface GetUserContent_user_lessons_edges {
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: any | null;
+  updatedAt: any | null;
   score: number | null;
   visits: number | null;
   completed: boolean | null;
@@ -170,6 +101,7 @@ export interface GetUserContent_user_lessons {
    * A list of edges.
    */
   edges: (GetUserContent_user_lessons_edges | null)[] | null;
+  totalCount: number;
 }
 
 export interface GetUserContent_user {
@@ -185,7 +117,6 @@ export interface GetUserContent_user {
   userType: string | null;
   roles: GetUserContent_user_roles[] | null;
   courses: GetUserContent_user_courses | null;
-  groups: GetUserContent_user_groups | null;
   sections: GetUserContent_user_sections | null;
   lessons: GetUserContent_user_lessons | null;
 }
@@ -198,5 +129,5 @@ export interface GetUserContent {
 }
 
 export interface GetUserContentVariables {
-  id: string;
+  id?: string | null;
 }

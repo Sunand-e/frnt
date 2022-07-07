@@ -13,3 +13,6 @@ extend type User {
 extend type Tag {
   _deleted: Boolean!
 }
+extend type Tenant {
+  _deleted: Boolean!
+}

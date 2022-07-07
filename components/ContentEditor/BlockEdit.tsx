@@ -9,7 +9,7 @@ export const BlockEdit = ({ id, dragOverlay = false }) => {
 
   const { type } = block
   const BlockEditComponent = blocktypes[type]?.editComponent
-console.log('bloooooock')
+  
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `${dragOverlay}-${id}` : id;
   return (

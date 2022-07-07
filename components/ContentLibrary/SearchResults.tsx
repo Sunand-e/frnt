@@ -63,11 +63,14 @@ export default function SearchResults({items}) {
   }
 
   const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
+
   const options = {
     heading: resultCountString,
     itemOptions: {
       // showType: true,
       getReadMoreLabel: (item) => {
+        console.log('item')
+        console.log(item)
         return libraryItemTypes[item.contentType].readMoreLabel ?? 'Read More'
       },
       getItemTitle: item => {

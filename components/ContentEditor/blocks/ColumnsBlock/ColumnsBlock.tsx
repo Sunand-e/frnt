@@ -8,8 +8,12 @@ import { Block } from '../../Block';
 
 export const ColumnsBlock = ({id, block}) => {
 
+  const gridTemplateColumns = block.widths.map(width => `${width}fr`).join(' ')
+
   return (
-    <div className="flex">
+    <div className="grid" style={{
+      gridTemplateColumns
+    }}>
       { 
         block.children?.map((childBlock, index, blocks) => (
           <div className='flex-1'>

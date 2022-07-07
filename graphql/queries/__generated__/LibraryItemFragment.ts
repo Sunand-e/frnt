@@ -28,6 +28,18 @@ export interface LibraryItemFragment_users {
   totalCount: number;
 }
 
+export interface LibraryItemFragment_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface LibraryItemFragment_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: LibraryItemFragment_tags_image | null;
+}
+
 export interface LibraryItemFragment {
   __typename: "ContentItem";
   content: any | null;
@@ -42,5 +54,6 @@ export interface LibraryItemFragment {
   title: string | null;
   updatedAt: any;
   users: LibraryItemFragment_users | null;
+  tags: LibraryItemFragment_tags[] | null;
   _deleted: boolean;
 }

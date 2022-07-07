@@ -35,6 +35,18 @@ export interface GetUser_user_courses_edges_node_users {
   totalCount: number;
 }
 
+export interface GetUser_user_courses_edges_node_tags_image {
+  __typename: "MediaItem";
+  location: string | null;
+}
+
+export interface GetUser_user_courses_edges_node_tags {
+  __typename: "Tag";
+  tagType: string;
+  label: string;
+  image: GetUser_user_courses_edges_node_tags_image | null;
+}
+
 export interface GetUser_user_courses_edges_node {
   __typename: "ContentItem";
   content: any | null;
@@ -49,6 +61,7 @@ export interface GetUser_user_courses_edges_node {
   title: string | null;
   updatedAt: any;
   users: GetUser_user_courses_edges_node_users | null;
+  tags: GetUser_user_courses_edges_node_tags[] | null;
   _deleted: boolean;
 }
 
