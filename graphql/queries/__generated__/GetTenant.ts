@@ -20,5 +20,5 @@ export interface GetTenant {
 }
 
 export interface GetTenantVariables {
-  id?: string | null;
+  id: string;
 }

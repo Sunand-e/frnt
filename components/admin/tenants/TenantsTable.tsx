@@ -1,59 +1,73 @@
 import { useQuery } from '@apollo/client';
 import React, { useContext, useMemo } from 'react';
 import Table from '../../Table';
-import { GET_USERS } from '../../../graphql/queries/users';
-import { GetUsers } from '../../../graphql/queries/__generated__/GetUsers';
+import { GET_TENANTS } from '../../../graphql/queries/tenants';
+import { GetTenants } from '../../../graphql/queries/__generated__/GetTenants';
 import Link from 'next/link';
 import ButtonLink from '../../ButtonLink';
 import Button from '../../Button';
 import { ModalContext } from '../../../context/modalContext';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import DeleteTenantModal from './DeleteTenantModal';
+import dayjs from 'dayjs'
 
-const UsersTable = () => {
+const TenantsTable = () => {
 
-  const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
+  // const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
+  const { loading, error, data: queryData } = useQuery<GetTenants>(GET_TENANTS);
 
   const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.users || [], [queryData]);
+  const tableData = useMemo(() => queryData?.tenants || [], [queryData]);
 
-  const editUrl = '/admin/users/edit'
-  console.log('tableData')
-  console.log(tableData)
+  const editUrl = '/admin/tenants/edit'
   const handleDelete = (value) => {
     handleModal({
-      title: `Delete user`,
-      content: <DeleteUserModal userId={value} />
+      title: `Delete tenant`,
+      content: <DeleteTenantModal tenantId={value} />
     })
   }
 
   const tableCols = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Tenant",
         Cell: ({ cell }) => {
           const cellProps = {
-            title: cell.row.original.fullName,
-            secondary: cell.row.original.email,
+            title: cell.row.original.name,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
-            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImageTableCell { ...cellProps } />
           )
         }
       },
       {
-        Header: "Email",
-        accessor: 'email'
+        Header: "URL",
+        accessor: "url",
+        Cell: ({ cell }) => {
+          return (
+              <a href={cell.value}>{cell.value}</a>
+          )
+        },
       },
       {
-        Header: "Roles",
-        accessor: "roles[0].name", // accessor is the "key" in the data
+        Header: "Date Created",
+        accessor: "createdAt",
         Cell: ({ cell }) => {
-          return cell.row.original.roles.map(role => {
-            return role.name
-          }).join(', ')
+          return (
+              dayjs(cell.value).format('DD/MM')
+          )
+        }
+      },
+      {
+        Header: "Date Updated",
+        accessor: "updatedAt",
+        Cell: ({ cell }) => {
+          return (
+              dayjs(cell.value).format('DD/MM')
+          )
         }
       },
       {
@@ -83,4 +97,4 @@ const UsersTable = () => {
   );
 }
 
-export default UsersTable
+export default TenantsTable

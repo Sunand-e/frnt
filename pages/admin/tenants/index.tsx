@@ -1,6 +1,7 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import UsersTable from '../../../components/admin/users/UsersTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import TenantsTable from "../../../components/admin/tenants/TenantsTable";
 
 const AdminTenants = () => {
 
@@ -12,7 +13,7 @@ const AdminTenants = () => {
 
   return (
     <>
-      <UsersTable />
+      <TenantsTable />
     </>
   )
 }

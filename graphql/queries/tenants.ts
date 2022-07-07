@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { CapabilityFragment } from './capabilities';
 
 export const TenantFragment = gql`
   fragment TenantFragment on Tenant {
@@ -7,14 +6,19 @@ export const TenantFragment = gql`
     name
     url
     updatedAt
+    createdAt
+    shortName
     # _deleted @client
   }
 `
 
 export const GET_TENANT = gql`
-  query GetTenant($id: ID) {
+  query GetTenant($id: ID!) {
     tenant(id: $id) {
       ...TenantFragment
+      children {
+        ...TenantFragment
+      }
     }
   }
   ${TenantFragment}

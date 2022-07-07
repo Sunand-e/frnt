@@ -13911,7 +13911,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "JSON",
               "ofType": null
             },
             "defaultValue": null,
@@ -13999,7 +13999,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "JSON",
               "ofType": null
             },
             "defaultValue": null,

@@ -1,13 +1,13 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import useGetUser from '../../../hooks/users/useGetUser';
-import useUpdateUser from '../../../hooks/users/useUpdateUser';
-import UserForm from '../../../components/admin/users/UserForm';
-import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import UserGroups from '../../../components/admin/users/groups/UserGroups';
-import UserCourses from '../../../components/admin/users/courses/UserCourses';
-import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
+import useGetTenant from '../../../hooks/tenants/useGetTenant';
+import useUpdateTenant from '../../../hooks/tenants/useUpdateTenant';
+import TenantForm from '../../../components/admin/tenants/TenantForm';
+// import useUpdateTenantTenantRoles from '../../../hooks/tenants/useUpdateTenantTenantRoles';
+// import UserGroups from '../../../components/admin/tenants/groups/UserGroups';
+// import UserCourses from '../../../components/admin/tenants/courses/UserCourses';
+// import UserLibraryItems from '../../../components/admin/tenants/libraryItems/UserLibraryItems';
 
 
 const AdminTenantsEdit = () => {
@@ -15,32 +15,31 @@ const AdminTenantsEdit = () => {
   const router = useRouter()
   const { id } = router.query
   
-  const { user, loading, error } = useGetUser(id)
-  const { updateUser } = useUpdateUser(id)
-  const { updateUserTenantRoles } = useUpdateUserTenantRoles()
+  const { tenant, loading, error } = useGetTenant(id)
+  const { updateTenant } = useUpdateTenant(id)
+  // const { updateTenantTenantRoles } = useUpdateTenantTenantRoles()
 
   const handleSubmit = (values) => {
-    updateUser(values, () => updateUserTenantRoles({
-      userId: id,
-      roleIds: values.role_ids
+    updateTenant(values, () => ({
+      tenantId: id
     }))
-    router.push('/admin/users')
+    router.push('/admin/tenants')
   }
-  usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
+  usePageTitle({ title: `Edit Tenant${tenant ? `: ${tenant.name}` : ''}` })
 
   useHeaderButtons([
-    ['Back to users list', '/admin/users']
+    ['Back to tenants list', '/admin/tenants']
   ])
 
   return (
     <>
-      { user &&
+      { tenant &&
         <div className='flex space-x-16'>
-          <UserForm onSubmit={handleSubmit} user={user} />
+          <TenantForm onSubmit={handleSubmit} tenant={tenant} />
           <div className='flex flex-col space-y-8'>
-            <UserGroups />
-            <UserCourses />
-            <UserLibraryItems />
+            {/*<UserGroups />*/}
+            {/*<UserCourses />*/}
+            {/*<UserLibraryItems />*/}
           </div>
         </div>
       }
@@ -49,7 +48,6 @@ const AdminTenantsEdit = () => {
 }
 
 AdminTenantsEdit.navState = {
-  topLevel: 'users',
-  secondary: 'users'
+  topLevel: 'tenants'
 }
 export default AdminTenantsEdit
