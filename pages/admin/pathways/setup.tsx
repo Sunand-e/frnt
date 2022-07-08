@@ -1,7 +1,7 @@
 import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/Button'
 import { v4 as uuidv4 } from 'uuid';
 import { CreatePathway, CreatePathwayVariables } from '../../../graphql/mutations/pathway/__generated__/CreatePathway';
@@ -74,7 +74,7 @@ const AdminPathwaySetup = () => {
     disableProgression: boolean
   }
 
-  const { register, handleSubmit, control } = useForm<PathwaySetupFormValues>();
+  const { register, handleSubmit, control, formState: { errors } } = useForm<PathwaySetupFormValues>();
 
   return (
     // <div className='h-full w-full max-w-lg mx-auto'>
@@ -86,8 +86,11 @@ const AdminPathwaySetup = () => {
         <TextInput
           label="Pathway name"
           placeholder="Untitled pathway"
-          inputAttrs={register("title", { /*maxLength: 20*/ })}
+          inputAttrs={register("title", {
+            required: "Pathway name is required"
+          })}
         />
+        {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
         <ImageSelectInput
           placeholder={'https://picsum.photos/640/360'}
           buttonText="Choose pathway image"

@@ -3,7 +3,7 @@ import useCreateEvent from '../../hooks/events/useCreateEvent';
 import { useForm } from 'react-hook-form';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextInput from '../common/inputs/TextInput';
 
 interface CreateEventFormValues {
@@ -15,7 +15,7 @@ interface CreateEventFormValues {
 
 const CreateEventForm = () => {
 
-  const { register, handleSubmit, control, setFocus } = useForm<CreateEventFormValues>();
+  const { register, handleSubmit, control, setFocus, formState: { errors } } = useForm<CreateEventFormValues>();
 
   useEffect(() => {
     setFocus('name')
@@ -38,8 +38,12 @@ const CreateEventForm = () => {
       <TextInput
         label="Event name"
         placeholder="Event name"
-        inputAttrs={register("name", { maxLength: 20 })}
+        inputAttrs={register("name", {
+          required: "Evwnr name is required",
+          maxLength: 20
+        })}
       />
+      {errors.name && (<small className="text-danger text-rose-800">{errors.name.message}</small>)}
 
       <ImageSelectInput
         label="Event image"

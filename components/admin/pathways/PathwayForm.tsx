@@ -1,7 +1,7 @@
 import Button from '../../Button';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
@@ -26,7 +26,7 @@ const PathwayForm = ({pathway=null, onSubmit, isModal=false, submitButtonText="S
   }
   const { handleModal } = useContext(ModalContext)
 
-  const { register, watch, handleSubmit, control, setFocus, getValues, setValue } = useForm<PathwayFormValues>({defaultValues});
+  const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<PathwayFormValues>({defaultValues});
 
   useEffect(() => {
     setFocus('title')
@@ -48,8 +48,11 @@ const PathwayForm = ({pathway=null, onSubmit, isModal=false, submitButtonText="S
       <TextInput
         label="Pathway name"
         placeholder="Untitled pathway"
-        inputAttrs={register("title", { /*maxLength: 20*/ })}
+        inputAttrs={register("title", {
+          required: "Pathway name is required"
+        })}
       />
+      {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose pathway image"

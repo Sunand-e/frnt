@@ -7,6 +7,7 @@ import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 import GroupUsersInput from './inputs/GroupUsersInput';
 import { Router, useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
+import React from "react";
 
 interface CreateGroupFormValues {
   name: string 
@@ -17,7 +18,7 @@ interface CreateGroupFormValues {
 
 const CreateGroupForm = () => {
 
-  const { register, handleSubmit, control } = useForm<CreateGroupFormValues>();
+  const { register, handleSubmit, control, formState: { errors } } = useForm<CreateGroupFormValues>();
 
   const router = useRouter()
   
@@ -36,8 +37,11 @@ const CreateGroupForm = () => {
       <TextInput
         label="Group name"
         placeholder="Group name"
-        inputAttrs={register("name", { maxLength: 20 })}
+        inputAttrs={register("name", {
+          required: "Group name is required"
+        })}
       />
+      {errors.name && (<small className="text-danger text-red-500">{errors.name.message}</small>)}
 
       <ImageSelectInput
         label="Group image"
