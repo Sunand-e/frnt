@@ -80,21 +80,18 @@ export const ColumnsBlockEdit = ({id, block}) => {
       });
       newWidths.push(sectionUnitCount)
     }
+    console.log(newWidths)
     setWidths(newWidths)
   }
 
   useEffect(() => {
-
-    if(!widths?.length) return
-    // alert('JSON.stringify(widths)')
-    // alert(JSON.stringify(widths))
     const container = containerRef.current;
     const resizer = container.getResizer()
 
     const containerWidth = resizer.getTotalSize()
     const gridUnitWidth = containerWidth/12
 
-    widths.forEach((colSize, index) => {
+    widths?.forEach((colSize, index) => {
       resizer.resizeSection(index, { toSize: colSize * gridUnitWidth });
     })
     container.applyResizer(resizer);
@@ -102,6 +99,37 @@ export const ColumnsBlockEdit = ({id, block}) => {
     updateBlock({...block, widths})
   
   }, [JSON.stringify(widths)])
+
+  // This useeffect triggers if there is any change in the cached block's widths,
+  // e.g. from adding a new column from the block menu.
+  useEffect(() => {
+    setWidths(block.widths)
+  }, [JSON.stringify(block.widths)])
+
+
+
+  // useEffect(() => {
+  //   alert('widds')
+  //   if(!widths?.length) {
+  //     alert('#dontodfod')
+  //     return
+  //   }
+  //   // alert('JSON.stringify(widths)')
+  //   // alert(JSON.stringify(widths))
+  //   const container = containerRef.current;
+  //   const resizer = container.getResizer()
+
+  //   const containerWidth = resizer.getTotalSize()
+  //   const gridUnitWidth = containerWidth/12
+
+  //   widths.forEach((colSize, index) => {
+  //     resizer.resizeSection(index, { toSize: colSize * gridUnitWidth });
+  //   })
+  //   container.applyResizer(resizer);
+
+  //   updateBlock({...block, widths})
+  
+  // }, [JSON.stringify(widths)])
 
     // /* SNAP TO 12-GRID WITHIN 10PX OF BREAKPOINT
   // const beforeApplyResizer = (resizer: Resizer): void => {

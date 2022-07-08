@@ -19,20 +19,33 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
 
   const isColumn = parent?.type === 'columns'
   if(isColumn) {
-      console.log(parent.widths[index])
+      // console.log(parent.widths[index])
   }
   
+  useEffect(() => {
+    console.log(parent)
+  },[parent]);
+
   useEffect(() => {
     const updatedBlock = {
       ...block,
       properties: {
         ...block.properties,
-        width: width + 'px'
+        width: width
       }
     }
     updateBlock(updatedBlock)
   }, [width]);
 
+  // Determine the max width depending on if it is a column or not
+  let maxWidth
+  if(parent) {
+    const widthUnits = parent.widths?.[index] || 12 / parent.children.length
+    maxWidth = (((1024 / 12) * widthUnits) - 32)
+  } else {
+    maxWidth = '100%'
+  }
+  // alert(JSON.stringify(parent,null,2))
   return (
     <div
       className={``}
@@ -45,11 +58,11 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
             // @ts-ignore
             className={`mx-auto`}
             size={{
-              width: width,
+              width: isNaN(width) ? width : width + 'px',
               height: '100%'
             }}
             // maxWidth="100%"
-            maxWidth={ parent ? (1024 * parent?.widths[index] / 12 - 32) : '100%'}
+            maxWidth={ maxWidth }
             lockAspectRatio
             resizeRatio={align === 'center' ? 2 : 1}
             enable={{
