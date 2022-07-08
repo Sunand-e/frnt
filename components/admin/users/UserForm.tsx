@@ -30,12 +30,12 @@ const UserForm = ({user=null, onSubmit}) => {
     role_ids: user?.roles.map(role => role.id),
   }
 
-  const { register, handleSubmit, control } = useForm<UserFormValues>({
+  const { register, handleSubmit, control, formState: { errors } } = useForm<UserFormValues>({
     defaultValues
   });
 
   const { closeModal } = useContext(ModalContext)
-
+console.log("errors", errors);
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
@@ -44,18 +44,45 @@ const UserForm = ({user=null, onSubmit}) => {
       <TextInput
         label="First name"
         placeholder="First name"
-        inputAttrs={register("first_name", { maxLength: 20 })}
+        inputAttrs={register("first_name", {
+          required:"First name is required",
+          maxLength: {
+            value: 20,
+            message:"Max length of the name is 20"
+          }
+        })}
       />
+      {errors.first_name && (<small className="text-danger text-red-500">{errors.first_name.message}</small>)}
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("last_name", { maxLength: 20 })}
+        inputAttrs={register("last_name",
+  {
+          required:"Last is required",
+          maxLength: {
+            value: 20,
+            message:"Max length of the name is 20"
+          }
+        }
+        )}
       />
+      {errors.last_name && (<small className="text-danger text-red-500">{errors.last_name.message}</small>)}
       <TextInput
         label="Email"
         placeholder="email"
-        inputAttrs={register("email", { maxLength: 40 })}
+        inputAttrs={register("email", {
+          required:"Email is required",
+          maxLength: {
+            value: 40,
+            message:"Max length of the name is 40"
+          },
+          pattern:{
+            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+            message: "Please give valid email"
+          }
+        })}
       />
+      {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
       <ImageSelectInput
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose profile image"

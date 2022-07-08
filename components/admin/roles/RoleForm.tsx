@@ -2,7 +2,7 @@ import Button from '../../Button';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import RoleCapabilitiesInput from './inputs/RoleCapabilitiesInput';
 import RoleTypeSelect from './inputs/RoleTypeSelect';
 
@@ -19,7 +19,7 @@ const RoleForm = ({role=null, onSubmit}) => {
     capabilityIds: role?.capabilities.map(capability => capability.id),
   }
   
-  const { register, handleSubmit, control, setFocus } = useForm<RoleFormValues>(
+  const { register, handleSubmit, control, setFocus, formState: { errors } } = useForm<RoleFormValues>(
     { defaultValues }
   );
 
@@ -37,8 +37,12 @@ const RoleForm = ({role=null, onSubmit}) => {
       <TextInput
         label="Role name"
         placeholder="Role name"
-        inputAttrs={register("name", { maxLength: 20 })}
+        inputAttrs={register("name", {
+          required: "Role name is required",
+          maxLength: 20
+        })}
       />
+      {errors.name && (<small className="text-danger text-red-500">{errors.name.message}</small>)}
       <RoleTypeSelect control={control} />
 
       <RoleCapabilitiesInput control={control} />
