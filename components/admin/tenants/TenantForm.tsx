@@ -40,9 +40,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput
-        label="First name"
-        placeholder="First name"
-        inputAttrs={register("name", { maxLength: 20 })}
+        label="Name"
+        placeholder="Name"
+        inputAttrs={register("name", { maxLength: {
+            value: 20,
+            message: 'Max length is 20'
+          } })}
       />
       {errors.name && "Name is required"}
       <TextInput
@@ -60,7 +63,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         buttonText="Choose tenant image"
         control={control}
         name="tenantImage"
-        onSelect={closeModal()}
+        onSelect={closeModal}
         // inputAttrs={register("image", { required: true })}
       />
       {/*<SelectInput*/}

@@ -2,7 +2,7 @@ import Button from '../../Button';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import TagTypeSelect from './inputs/TagTypeSelect';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import { ModalContext } from '../../../context/modalContext';
@@ -20,7 +20,7 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
   }
   const { handleModal } = useContext(ModalContext)
   
-  const { register, handleSubmit, control, setFocus, getValues } = useForm<TagFormValues>(
+  const { register, handleSubmit, control, setFocus, getValues, formState: { errors } } = useForm<TagFormValues>(
     { defaultValues }
   );
 
@@ -46,8 +46,11 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
       <TextInput
         label="Category Name"
         placeholder="Untitled category"
-        inputAttrs={register("label")}
+        inputAttrs={register("label", {
+          required: "Category name is required"
+        })}
       />
+      {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
       <ImageSelectInput
         label="Category image"
         origImage={tag?.image}
