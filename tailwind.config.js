@@ -12,9 +12,9 @@ module.exports = {
           superlight: '#EDF3FE'
         },
         main: {
-          DEFAULT: '#4D8BF7',
-          dark: '#1835B2',
-          semitransparent: '#E5EBF175'
+          DEFAULT: 'var(--theme-main)',
+          dark: 'var(--theme-dark)',
+          semitransparent: 'var(--theme-semitransparent)'
         },
         grey: {
           // DEFAULT: '#ebedf4',

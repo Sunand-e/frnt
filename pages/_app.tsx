@@ -43,6 +43,8 @@ import { useRouter } from 'next/router'
 import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { QueriesContextProvider } from '../context/QueriesContext';
+import { applyTheme } from '../themes/utils';
+import baseTheme from "../themes/base";
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -147,7 +149,12 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     )
   },[isLoggedIn, PageComponent])
     
-  // On page change, check if it's an admin page and change the reactive 'viewVar' if necessary
+  // After initial render, apply the theme
+  useEffect(() => {
+    applyTheme(baseTheme);
+  }, []);
+
+  // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
   useEffect(() => {
     const checkIfAdminPage = () => {
       console.log('router.pathname')
