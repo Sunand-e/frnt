@@ -1,3 +1,8 @@
+const rgbaStringFunction = (colorName) => ({opacityValue}) => {
+  const opacity = opacityValue ?? '255'
+  return `rgba(var(--theme-${colorName}), ${opacity})`
+}
+
 module.exports = {
   purge: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   mode: 'jit', // or 'media' or 'class'
@@ -12,9 +17,10 @@ module.exports = {
           superlight: '#EDF3FE'
         },
         main: {
-          DEFAULT: 'var(--theme-main)',
-          dark: 'var(--theme-dark)',
-          semitransparent: 'var(--theme-semitransparent)'
+          DEFAULT: rgbaStringFunction('main'),
+          dark: rgbaStringFunction('dark'),
+          secondary: rgbaStringFunction('secondary'),
+          superlight: rgbaStringFunction('superlight'),
         },
         grey: {
           // DEFAULT: '#ebedf4',
