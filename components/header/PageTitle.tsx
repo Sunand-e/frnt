@@ -19,7 +19,7 @@ const PageTitle : FC = () => {
   // },[])
   
   return (
-    <div className="flex items-center text-main-dark">
+    <div className="flex items-center text-main-secondary">
     <h1 className="flex my-3 items-center overflow-hidden w-auto text-xl font-bold">
       <span className="pr-2">{ pageTitle.title }</span>
       { !!pageTitle.editable &&

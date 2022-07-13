@@ -12,13 +12,13 @@ const MessagingSidebar = () => {
           </li>
           <li>
             <a href="#"
-                className="flex items-center pb-3 text-xs text-main-dark font-semibold">
+                className="flex items-center pb-3 text-xs text-main-secondary font-semibold">
               <span>Archived</span>
             </a>
           </li>
           <li>
             <a href="#"
-                className="flex items-center pb-3 text-xs text-main-dark font-semibold">
+                className="flex items-center pb-3 text-xs text-main-secondary font-semibold">
               <span>Starred</span>
             </a>
           </li>
@@ -45,7 +45,7 @@ const MessagingSidebar = () => {
         <div className="flex flex-col -mx-4">
           <div className="relative flex flex-row items-center p-4">
             <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">5 min</div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -57,7 +57,7 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4 bg-gradient-to-r from-main/10 to-transparent border-l-2 border-main">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -77,7 +77,7 @@ const MessagingSidebar = () => {
         <div className="flex flex-col divide-y h-full overflow-y-auto -mx-4">
           <div className="flex flex-row items-center p-4 relative">
             <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">2 hours ago</div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -89,7 +89,7 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -101,7 +101,7 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -113,7 +113,7 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">
@@ -125,7 +125,7 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
               T
             </div>
             <div className="flex flex-col flex-grow ml-3">

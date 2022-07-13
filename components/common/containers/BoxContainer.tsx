@@ -5,7 +5,7 @@ const BoxContainer = ({title, button, children}) => {
       <a 
         href="#" 
         onClick={button?.onClick}
-        className={` text-main hover:text-main-dark`}
+        className={` text-main hover:text-main-secondary`}
       >
         {button?.text}
       </a>
@@ -15,7 +15,7 @@ const BoxContainer = ({title, button, children}) => {
   return (
     <div className="bg-white shadow-xl rounded-md containerClassname">
       <div className="bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
-        <h3 className="text-main-dark">{title}</h3>
+        <h3 className="text-main-secondary">{title}</h3>
         {button && <HeaderButton />}
       </div>
       {children}

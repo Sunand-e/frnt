@@ -2,7 +2,7 @@ const Messaging = () => {
   return (
     <div className="flex flex-col h-full w-full">
       <div className="flex flex-row items-center py-4 px-6 rounded-2xl shadow bg-white">
-        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-dark text-pink-100">
+        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-pink-100">
           T
         </div>
         <div className="flex flex-col ml-3">

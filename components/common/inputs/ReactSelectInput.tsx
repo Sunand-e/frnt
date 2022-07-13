@@ -28,7 +28,7 @@ const ReactSelectInput = ({
 
   const selectProps = {
     ...props,
-    // placeholder={<span className="text-main-dark">{placeholder}</span>}
+    // placeholder={<span className="text-main-secondary">{placeholder}</span>}
     value,
     onChange: val => {
       field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)

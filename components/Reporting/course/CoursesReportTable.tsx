@@ -165,7 +165,7 @@ const CoursesReportTable = () => {
     <>
     <div className='flex items-center mb-2'>
       <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-      <span className={`text-main-dark hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+      <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
     </div>
 
       { loading && (

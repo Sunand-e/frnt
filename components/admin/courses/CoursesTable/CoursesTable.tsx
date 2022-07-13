@@ -133,7 +133,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
     <div className='flex items-center justify-between mb-2'>
       <div className='flex items-center'>
         <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-        <span className={`text-main-dark hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+        <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
       </div>
       <p>Showing {tableData.length} courses</p>
     </div>

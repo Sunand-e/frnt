@@ -32,7 +32,7 @@ const Workshop = () => {
                     <h3 className="bg-blue text-white p-2 px-4">In this video:</h3>
                       { workshop.videoMarkers.map(marker => (
                         <div className="flex mt-1 items-center cursor-pointer" onClick={() => handleMarkerClick(marker.time)}>
-                            <span className="bg-main-dark text-white px-4 py-2">{new Date(marker.time * 1000).toISOString().substr(11, 8)}</span>
+                            <span className="bg-main-secondary text-white px-4 py-2">{new Date(marker.time * 1000).toISOString().substr(11, 8)}</span>
                             <span className="bg-white px-4 py-2 flex-grow hover:font-bold ">{marker.title}</span>
                         </div>
                       ) ) }

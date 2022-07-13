@@ -2,7 +2,7 @@ export const AdminDashTopBox = ({ box, index }) => (
   <div className={`
     relative overflow-hidden shadow-xl mb-8 
     rounded-2xl 
-    text-white ${index % 2 ? 'bg-main' : 'bg-main-dark'}
+    text-white ${index % 2 ? 'bg-main' : 'bg-main-secondary'}
   `}>
     <div className={`
       flex flex-col relative

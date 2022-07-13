@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ActionPlanBlock({children}) {
   return (
-    <div className="w-full my-8 border-blue-dark border-4 relative">
-      <span className="bg-main-dark text-white relative inline-block top-0 left-0 px-4">Activity</span>
-      <div className="rounded-full absolute -top-4 -right-4 bg-main-dark text-white">
+    <div className="w-full my-8 border-main-secondary border-4 relative">
+      <span className="bg-main-secondary text-white relative inline-block top-0 left-0 px-4">Activity</span>
+      <div className="rounded-full absolute -top-4 -right-4 bg-main-secondary text-white">
        <FontAwesomeIcon className="h-8 p-2" icon={`pencil-alt`} />
       </div>
 

@@ -38,7 +38,7 @@ export default function PrimaryNav({isSlim, pageNavState}) {
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16' : 'w-64'}`}>
       <div className="sticky z-30 top-0">
-        <div className={`h-18 bg-main${view.isAdmin ? '-dark' : ''} flex justify-center py-4`}>
+        <div className={`h-18 bg-main${view.isAdmin ? '-secondary' : ''} flex justify-center py-4`}>
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
           {/* {isSlim ? 'secondary active' : 'secondary INACTIVE'} */}
         </div>
@@ -59,11 +59,11 @@ export default function PrimaryNav({isSlim, pageNavState}) {
                 if (pageNavState?.topLevel === item.name) {
 
                 // if (current === item.urlPath) {
-                  menuIconClasses = 'bg-blue bg-opacity-20 text-blue'
-                  menuIconClasses = 'bg-blue text-white border-white'
+                  menuIconClasses = 'bg-main bg-opacity-20 text-main'
+                  menuIconClasses = 'bg-main text-white border-white'
                 } else {
-                  menuItemClasses = 'group bg-white text-blue-dark hover:bg-blue hover:bg-opacity-10'
-                  // menuIconClasses = 'group-hover:bg-white border-2 group-hover:border-blue-dark'
+                  menuItemClasses = 'group bg-white text-main-secondary hover:bg-main hover:bg-opacity-10'
+                  // menuIconClasses = 'group-hover:bg-white border-2 group-hover:border-main-secondary'
                   menuIconClasses = ''
                 }
 

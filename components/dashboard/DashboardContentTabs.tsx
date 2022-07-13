@@ -31,17 +31,17 @@ export default function DashboardContentTabs() {
         tabs.map((tab, idx) => {
           let classNames = ''
           if(tab.name === current) {
-            classNames = 'bg-main-dark text-white'
+            classNames = 'bg-main-secondary text-white'
           } else {
-            classNames = 'bg-grey text-main-dark'
+            classNames = 'bg-grey text-main-secondary'
           }
           return (
             <a 
             key={tab.name}
             className={`py-2 px-4
             font-semibold border-2
-            border-main-dark  
-            hover:bg-main-dark 
+            border-main-secondary  
+            hover:bg-main-secondary 
             hover:text-white 
             transition ease-in duration-200 transform 
             top-1 ${classNames}

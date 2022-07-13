@@ -12,7 +12,7 @@ function ItemTags({ tags }) {
       {
         tags.map((tag, index) => {
           return (
-            <a href="#" key={index} className="text-blue-dark font-semibold">{tag.label}</a>
+            <a href="#" key={index} className="text-main-secondary font-semibold">{tag.label}</a>
           )}
         )
       }
@@ -74,9 +74,9 @@ export default function Item({ item, options }) {
         </a>
       </Link>
       <div className="p-4 pt-4 flex-grow flex flex-col">
-        {/* <h2 className="text-lg text-blue-dark mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
+        {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
-          <h2 className="text-xl text-blue-dark font-semibold mb-2">{itemTitle}</h2>
+          <h2 className="text-xl text-main-secondary font-semibold mb-2">{itemTitle}</h2>
           { item.tags?.[0] && <img src={item.tags[0].image.location} className="mt-1 h-12 rounded-full" /> }
         </div>
         { options?.showType && (
@@ -87,7 +87,7 @@ export default function Item({ item, options }) {
           </h2>
         )}
         { !!item?.tags?.length && (
-          <h2 className="text-lg text-blue mb-2 top-5 font-normal text-sm">
+          <h2 className="text-lg text-main mb-2 top-5 font-normal text-sm">
             <span className="bg-main-superlight">
               { item.tags.map((tag, index) => {
                 return (
@@ -103,7 +103,7 @@ export default function Item({ item, options }) {
           </h2>
         )}
         {/* { item.status && (
-          <h2 className="text-lg text-blue mb-2 top-5 font-bold">
+          <h2 className="text-lg text-main mb-2 top-5 font-bold">
             {item.status}
           </h2>
         )} */}

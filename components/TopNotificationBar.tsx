@@ -25,7 +25,7 @@ const TopNotificationBar = () => {
                 py-2 px-3
                 text-xs
                 font-semibold uppercase
-                text-blue-500
+                text-main-500
                 hover:bg-opacity-90
                 "
                 >

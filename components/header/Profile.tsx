@@ -119,8 +119,8 @@ const Profile = () => {
         theme="memberhub-white"
         content={
           <ul className="flex flex-col shadow-2 space-y-3">
-            <li className="hover:text-main-dark cursor-pointer" onClick={handleLogoutClick}>Log out</li>
-            <li className="hover:text-main-dark cursor-pointer" onClick={toggleIsAdmin}>
+            <li className="hover:text-main-secondary cursor-pointer" onClick={handleLogoutClick}>Log out</li>
+            <li className="hover:text-main-secondary cursor-pointer" onClick={toggleIsAdmin}>
               <Link href={view.isAdmin ? '/' : '/admin'}>
                 <a>
                   {`${view.isAdmin ? 'User' : 'Admin'} View`}

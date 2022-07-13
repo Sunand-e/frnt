@@ -31,7 +31,7 @@ const NewLibraryItemSelector = ({
   const typeBoxes = libraryItemTypesArray.map(type => (
     <div 
       onClick={(e) => handleNewLibraryItemButton(type)}
-      className="flex flex-col cursor-pointer text-main-dark items-center hover:text-main w-32 text-xs"
+      className="flex flex-col cursor-pointer text-main-secondary items-center hover:text-main w-32 text-xs"
     >
     { type.icon && <type.icon className="w-8"/> }
     <span className="text-center">

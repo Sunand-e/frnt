@@ -48,7 +48,7 @@ export default function InnerNav() {
 
           return (  
             // <li className={current === item.title ? styles.current : ''} key={index}>
-            <li className={`${(current === item.link) ? 'text-blue': 'text-blue-dark'} ${current === item.link && styles.current}`} key={index}>
+            <li className={`${(current === item.link) ? 'text-main': 'text-main-secondary'} ${current === item.link && styles.current}`} key={index}>
               {
                 item.onClick ? 
                   ( <span onClick={item.onClick}>{item.title}</span>)

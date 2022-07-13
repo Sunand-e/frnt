@@ -104,7 +104,7 @@ const Dashboard = ({queries}) => {
 
             {/* 'Coming Up' events list */}
             <div className="flex-1">
-              <h3 className="text-xl text-blue-dark text-semibold">Coming Up</h3>
+              <h3 className="text-xl text-main-secondary text-semibold">Coming Up</h3>
               { data ? 
                 <ItemGrid
                 items = {
@@ -119,7 +119,7 @@ const Dashboard = ({queries}) => {
 
             {/* 'Latest News' list */}
             <div className="flex-1">
-              <h3 className="text-xl text-blue-dark text-semibold">Latest News</h3>
+              <h3 className="text-xl text-main-secondary text-semibold">Latest News</h3>
               { data ? 
                 <ItemGrid
                 items = {

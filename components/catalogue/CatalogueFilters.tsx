@@ -74,7 +74,7 @@ export default function CatalogueFilters({hasSearch=true, hasCategories=true, ha
             isSearchable={false}
           />
         </div>
-        {/* <button className="text-main-dark uppercase p-2 font-semibold" onClick={resetFilters}>
+        {/* <button className="text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
             Clear filters 
         </button> */}
       </div>

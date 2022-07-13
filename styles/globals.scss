@@ -79,20 +79,20 @@ a {
 
 .tippy-box[data-theme~='memberhub'] {
 
-  background-color: #097BD8;
+  background-color: theme('colors.main.DEFAULT');;
   color: white;
 
   &[data-placement^=right] .tippy-arrow:before {
-    border-right-color: #097BD8;
+    border-right-color: theme('colors.main.DEFAULT');;
   }
   &[data-placement^=top] .tippy-arrow:before {
-    border-top-color: #097BD8;
+    border-top-color: theme('colors.main.DEFAULT');;
   }
   &[data-placement^=left] .tippy-arrow:before {
-    border-left-color: #097BD8;
+    border-left-color: theme('colors.main.DEFAULT');;
   }
   &[data-placement^=bottom] .tippy-arrow:before {
-    border-bottom-color: #097BD8;
+    border-bottom-color: theme('colors.main.DEFAULT');;
   }
 }
 
@@ -111,7 +111,7 @@ a {
 .tippy-box[data-theme~='memberhub-white'] {
 
   background-color: white;
-  color: #097BD8;
+  color: theme('colors.main.DEFAULT');
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, .2));
 
   &[data-placement^=right] .tippy-arrow:before {
