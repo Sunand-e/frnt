@@ -9,12 +9,18 @@ export function applyTheme(theme) {
 
 export function createTheme({
   main,
-  dark,
-  semitransparent,
+  dark, //remove this when classnames have been changed
+  secondary,
+  superlight
 }) {
   return {
     "--theme-main": main,
-    "--theme-dark": dark,
-    "--theme-semitransparent": semitransparent,
+    "--theme-secondary": secondary,
+    "--theme-dark": dark, //remove this when classnames have been changed
+    "--theme-superlight": superlight,
   };
+}
+
+export const rgbaStringFunction = (colorName) => ({opacityValue}) => {
+  return `rgba(var(--theme-${colorName}), ${opacityValue})`
 }
