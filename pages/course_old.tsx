@@ -32,7 +32,7 @@ const Course = () => {
         <div 
           key={idx} 
           onClick={() => handleLessonClick(child.id)} 
-          className={`${currentLesson===child.id ? 'text-white bg-main-dark' : 'text-main-dark bg-white'} p-4 py-2 mb-1 flex items-center hover:text-white hover:bg-main-dark`}
+          className={`${currentLesson===child.id ? 'text-white bg-main-dark' : 'text-main-secondary bg-white'} p-4 py-2 mb-1 flex items-center hover:text-white hover:bg-main-dark`}
         >
           <FontAwesomeIcon className="h-4 mr-2" icon={`angle-right`} />
           {/* { 

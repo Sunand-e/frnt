@@ -30,7 +30,7 @@ const Tabs = ({tabs, className, activeTabIndex, setActiveTabIndex}) => {
                 onClick={() => setActiveTabIndex(index)}
                 className={classNames(
                   index === activeTabIndex
-                    ? 'border-main text-main-dark'
+                    ? 'border-main text-main-secondary'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200',
                   'whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm cursor-pointer'
                 )}
@@ -40,7 +40,7 @@ const Tabs = ({tabs, className, activeTabIndex, setActiveTabIndex}) => {
                 {tab.count ? (
                   <span
                     className={classNames(
-                      index === activeTabIndex ? 'bg-main/20 text-main-dark' : 'bg-gray-100 text-gray-900',
+                      index === activeTabIndex ? 'bg-main/20 text-main-secondary' : 'bg-gray-100 text-gray-900',
                       'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
                     )}
                   >

@@ -108,7 +108,7 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
             isSearchable={false}
           />
         </div>
-        {/* <button className="text-main-dark uppercase p-2 font-semibold" onClick={resetFilters}>
+        {/* <button className="text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
             Clear filters 
         </button> */}
       </div>

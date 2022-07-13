@@ -16,11 +16,11 @@ export default function TopicsList({className, onTopicClick}: TopicsListProps) {
   return (
     <div id="topicList" className="mb-16">
       <div className="flex">
-        <div className="bg-blue-dark rounded-full mr-5 h-10 w-10 flex items-center justify-center">
+        <div className="bg-main-secondary rounded-full mr-5 h-10 w-10 flex items-center justify-center">
           <FontAwesomeIcon className="w-4 h-4 text-white" icon={{prefix: 'fas', iconName: 'list'}} />
         </div>
         <div className="flex flex-col">
-        <h3 className="text-xl uppercase font-bold text-blue-dark">Choose a topic</h3>
+        <h3 className="text-xl uppercase font-bold text-main-secondary">Choose a topic</h3>
         <span>What do you want to learn about today?</span>
         </div>
       </div>

@@ -67,7 +67,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
     <div className="flex-col py-6 px-8 my-8 mb-16 shadow-lg bg-main-semitransparent">
       <div className="flex items-stretch space-x-16 mb-6">    
         <div className="flex-1 flex flex-col">
-          <label className="mb-2 uppercase font-bold text-lg text-main-dark" htmlFor="search">Search</label>
+          <label className="mb-2 uppercase font-bold text-lg text-main-secondary" htmlFor="search">Search</label>
             <div className="relative text-gray-600 focus-within:text-gray-400">
               <span className="absolute inset-y-0 right-4 flex items-center pl-2">
                 {/* <button type="submit" class="p-1 focus:outline-none focus:shadow-outline"> */}
@@ -87,7 +87,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
         </div>
 
         <div className="flex-1 flex flex-col">
-          <label className="mb-2 uppercase font-bold text-lg text-main-dark" htmlFor="last_name">Content Type</label>
+          <label className="mb-2 uppercase font-bold text-lg text-main-secondary" htmlFor="last_name">Content Type</label>
           <Select 
             defaultValue={typeOptions[0]}
             onChange={(option) => onSearchChange('type', option)}
@@ -102,7 +102,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
           </div>
           
         <div className="flex-1 flex flex-col">
-          <label className="mb-2 uppercase font-bold text-lg text-main-dark" htmlFor="last_name">Tags</label>
+          <label className="mb-2 uppercase font-bold text-lg text-main-secondary" htmlFor="last_name">Tags</label>
           <Select
             name="colors"
             // defaultValue={tagOptions[0]}
@@ -118,7 +118,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
         </div>
       </div>
       <div className="text-center">
-        <button className="border-2 border-blue text-main-dark uppercase p-2 font-semibold" onClick={resetFilters}>
+        <button className="border-2 border-blue text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
             Clear search filters 
         </button>
       </div>

@@ -36,7 +36,7 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
       className={classNames(
         styles.Wrapper,
         bg,
-        `flex hover:bg-main hover:bg-opacity-5 text-main-dark`,
+        `flex hover:bg-main hover:bg-opacity-5 text-main-secondary`,
         liClassName
       )}
       style={liStyle}

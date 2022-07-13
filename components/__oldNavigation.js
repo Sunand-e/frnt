@@ -28,6 +28,6 @@ export default function Navigation() {
     },
   ]
   return (
-    <Menu items={items} className="max-w-screen-xl bg-blue mx-auto text-lg text-white uppercase p-8 flex justify-between space-x-5" />
+    <Menu items={items} className="max-w-screen-xl bg-main mx-auto text-lg text-white uppercase p-8 flex justify-between space-x-5" />
   )
 }

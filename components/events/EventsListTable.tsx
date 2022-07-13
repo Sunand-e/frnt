@@ -63,7 +63,7 @@ const EventsListTable = () => {
           const provider = providers[cell.value]
           const ProviderLogo = provider.logo
           return (
-            <div className='flex flex-col items-center text-main-dark'>
+            <div className='flex flex-col items-center text-main-secondary'>
               <div className='w-10'>
                 <ProviderLogo />
               </div>

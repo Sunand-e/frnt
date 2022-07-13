@@ -46,7 +46,7 @@ const SelectNewCourseItem = ({
 
   return (
     <Select
-      placeholder={<span className="text-main-dark">{placeholder}</span>}
+      placeholder={<span className="text-main-secondary">{placeholder}</span>}
       options={lessonTypesArray}
       styles={customStyles}
       components={{ Option: IconOption }}

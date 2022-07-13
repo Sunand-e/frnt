@@ -19,9 +19,9 @@ export default function ContentNav({show, topNavItem, pageNavState}) {
               if (pageNavState?.secondary === item.name) {
 
               // if (current === item.urlPath) {
-                menuItemClasses = 'bg-blue bg-opacity-20 text-blue'
+                menuItemClasses = 'bg-main bg-opacity-20 text-main'
               } else {
-                menuItemClasses = 'text-blue-dark'
+                menuItemClasses = 'text-main-secondary'
               }
 
               return (  

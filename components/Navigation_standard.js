@@ -59,11 +59,11 @@ export default function Navigation() {
             { items.map((item, index) => {
               let menuItemClasses, menuIconClasses 
               if (current === item.link) {
-                menuItemClasses = 'bg-blue bg-opacity-20 text-blue'
-                menuIconClasses = 'bg-blue text-white'
+                menuItemClasses = 'bg-main bg-opacity-20 text-main'
+                menuIconClasses = 'bg-main text-white'
               } else {
-                menuItemClasses = 'bg-white text-blue-dark'
-                menuIconClasses = 'bg-blue bg-opacity-10'
+                menuItemClasses = 'bg-white text-main-secondary'
+                menuIconClasses = 'bg-main bg-opacity-10'
               }
 
               return (  

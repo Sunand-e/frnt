@@ -48,7 +48,7 @@ const Dashboard = () => {
 
       <div className="flex space-x-8 mb-8">
         <div className="flex-1">
-          <h3 className="text-xl text-blue-dark text-semibold">Upcoming events</h3>
+          <h3 className="text-xl text-main-secondary text-semibold">Upcoming events</h3>
           { data ? 
             <ItemGrid
             items = {
@@ -63,7 +63,7 @@ const Dashboard = () => {
 
         {/* 'Latest News' list */}
         <div className="flex-1">
-          <h3 className="text-xl text-blue-dark text-semibold">Latest News</h3>
+          <h3 className="text-xl text-main-secondary text-semibold">Latest News</h3>
           { data ? 
             <ItemGrid
               items = {data.posts?.slice(0,3) || []}

@@ -51,7 +51,7 @@ const Reporting = () => {
 
   return (
     <>
-      <h3 className="text-main-dark font-semibold">{title}</h3>
+      <h3 className="text-main-secondary font-semibold">{title}</h3>
       <TableComponent {...tableProps} />
     </>
   )

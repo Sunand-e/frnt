@@ -42,8 +42,8 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                   dark:scrollbar-thumb:!bg-slate-500/50 
                   max-h-96 supports-scrollbars:pr-2 lg:max-h-96">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-blue bg-opacity-10">
-                  <tr className="bg-blue bg-opacity-10">
+                <thead className="bg-main bg-opacity-10">
+                  <tr className="bg-main bg-opacity-10">
                     <th
                       scope="col"
                       className="

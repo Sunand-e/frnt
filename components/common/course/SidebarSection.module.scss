@@ -84,7 +84,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   // background-color: rgba(246, 246, 246, 1);
   // background-color: rgba(246, 246, 246, 1);
-  @apply bg-main bg-opacity-20 text-main-dark;
+  @apply bg-main bg-opacity-20 text-main-secondary;
   &:hover {
     .Actions > * {
       opacity: 1 !important;

@@ -31,8 +31,8 @@ const BlockEditor = () => {
           </Reorder.Group>
         </div>
       <div className={`w-full flex flex-col items-center mt-4`}>
-        <div className="w-full max-w-screen-lg bg-blue p-4 bg-opacity-10 border-2 border-dashed border-grey">
-          <div className={`text-center text-main-dark font-semibold pb-4`}>
+        <div className="w-full max-w-screen-lg bg-main p-4 bg-opacity-10 border-2 border-dashed border-grey">
+          <div className={`text-center text-main-secondary font-semibold pb-4`}>
             Add a new block
           </div>
           <BlockSelector className={``} style={{}} />

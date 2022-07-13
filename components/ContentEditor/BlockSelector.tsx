@@ -85,7 +85,7 @@ const BlockSelector = ({
   />)
 
   return (
-    <div style={style} className={`flex flex-col text-center text-main-dark ${className}`}>
+    <div style={style} className={`flex flex-col text-center text-main-secondary ${className}`}>
       <div 
         className="mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
         { BlockButtons }

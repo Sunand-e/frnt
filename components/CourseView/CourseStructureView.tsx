@@ -38,7 +38,7 @@ const CourseStructureView = () => {
     <div className="flex flex-col">
       { course && (
         <>
-          <div className="flex flex-col justify-between p-2 px-4 h-18 bg-main bg-opacity-10 text-main-dark">
+          <div className="flex flex-col justify-between p-2 px-4 h-18 bg-main bg-opacity-10 text-main-secondary">
             
             <div className="flex items-center max-w-xs h-10">
               { course.tags?.[0] && (
@@ -48,7 +48,7 @@ const CourseStructureView = () => {
               ) }
               <div className="ml-3 flex items-center h-10">
                 <h3 
-                  className="text-base font-bold font-medium text-main-dark overflow-hidden leading-5"
+                  className="text-base font-bold font-medium text-main-secondary overflow-hidden leading-5"
                   style={{
                     display: '-webkit-box',
                     WebkitLineClamp: 2,

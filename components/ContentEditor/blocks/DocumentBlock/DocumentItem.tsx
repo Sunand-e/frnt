@@ -34,7 +34,7 @@ const DocumentItem = ({file, onDelete: handleDelete}) => {
           <div className="flex-shrink-0">
             <IconComponent className="h-12 w-12 text-main" />
           </div>
-          <p className="text-sm font-medium text-main-dark truncate">{file.fileName}</p>
+          <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
         </div>
         { handleDelete && (
           <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">

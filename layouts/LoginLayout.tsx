@@ -15,7 +15,7 @@ export default function LoginLayout( {page, navState, pageState} ) {
   const isLoggedIn = useReactiveVar(isLoggedInVar)
   return (
     <>
-      <div className={`min-h-full bg-blue-superlight`}>
+      <div className={`min-h-full bg-main-superlight`}>
         <div className="fixed w-full">
           <TopNotificationBar />
         </div>

@@ -9,7 +9,7 @@ const QuickActionLink = ({text,icon,href}) => {
   const IconComponent = icon
   return (
     <Link href={href}>
-      <a className="text-main-dark flex space-x-4 text-xl">
+      <a className="text-main-secondary flex space-x-4 text-xl">
         <span className="w-8"><IconComponent /></span>
         <span>{text}</span>      
       </a>
@@ -21,7 +21,7 @@ const QuickActions = () => {
   return (
     <>
     <div className="-mx-4 -mt-4 bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
-      <h3 className="text-main-dark text-xl">Quick actions</h3>
+      <h3 className="text-main-secondary text-xl">Quick actions</h3>
     </div>
 
     <div className="flex flex-col items-start px-4 py-2 space-y-4">

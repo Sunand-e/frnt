@@ -8,11 +8,11 @@ export function applyTheme(theme) {
 }
 
 export function createTheme({
-  main,
-  dark, //remove this when classnames have been changed
-  secondary,
-  superlight
-}) {
+                              main,
+                              dark, //remove this when classnames have been changed
+                              secondary,
+                              superlight
+                            }) {
   return {
     "--theme-main": main,
     "--theme-secondary": secondary,

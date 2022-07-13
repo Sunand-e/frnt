@@ -38,7 +38,7 @@ const NewCourseItemList = ({
 
   return (
     <div>
-      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-dark font-semibold">Choose a lesson type...</p>
+      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-secondary font-semibold">Choose a lesson type...</p>
       {items}
     </div>
   )

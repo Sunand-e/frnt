@@ -42,7 +42,7 @@ const BlockMenu = ({ block, className }) => {
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-4 py-3 flex align-left items-center rounded hover:bg-main-dark hover:bg-opacity-5 justify-center
+        px-4 py-3 flex align-left items-center rounded hover:bg-main-secondary hover:bg-opacity-5 justify-center
         ${className}
       `}
     >

@@ -32,7 +32,7 @@ const AddLessonModal = ({sectionId}) => {
             label=""
             placeholder='Untitled lesson'
           />
-          <button type="submit" className={'mt-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-main text-base font-medium text-white hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm'}>
+          <button type="submit" className={'mt-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-main text-base font-medium text-white hover:bg-main-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main sm:text-sm'}>
             {`Create new lesson`}
           </button>
         </Form>
