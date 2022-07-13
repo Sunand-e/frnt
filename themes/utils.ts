@@ -7,17 +7,23 @@ export function applyTheme(theme) {
   });
 }
 
+
+function hex2RgbVals(color) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  return result
+   ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+   : color;
+}
+
 export function createTheme({
   main,
-  dark, //remove this when classnames have been changed
   secondary,
   superlight
 }) {
   return {
-    "--theme-main": main,
-    "--theme-secondary": secondary,
-    "--theme-dark": dark, //remove this when classnames have been changed
-    "--theme-superlight": superlight,
+    "--theme-main": hex2RgbVals(main),
+    "--theme-secondary": hex2RgbVals(secondary),
+    "--theme-superlight": hex2RgbVals(superlight),
   };
 }
 
