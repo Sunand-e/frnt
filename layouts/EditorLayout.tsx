@@ -39,7 +39,7 @@ export default function EditorLayout( {page, navState} ) {
         <div className="lg:flex h-full">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
-            <div className="sticky top-18 h-[calc(100vh-4.5rem)] w-[360px] bg-blue bg-opacity-10 flex flex-col px-3 py-3 overflow-x-auto">
+            <div className="sticky top-18 h-[calc(100vh-4.5rem)] w-[360px] bg-blue bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
               { course && <CourseStructureEditor {...courseStructureEditorProps} course={course} /> }
             </div>
             <div className="w-full flex justify-center px-16">
