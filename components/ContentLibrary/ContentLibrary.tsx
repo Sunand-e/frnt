@@ -17,6 +17,7 @@ const ContentLibrary = () => {
 
   const { tags } = useGetTags()
   const { libraryItems } = useGetLibraryItems()
+  const libraryItemNodes = libraryItems?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
   
   const [ searching, setSearching ] = useState(false)
 
