@@ -13,8 +13,6 @@ import { ModalContext } from '../../../context/modalContext';
 const GroupsTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetGroups>(GET_GROUPS);
-  
-  const { deleteGroup } = useDeleteGroup()
 
   const editUrl = '/admin/users/groups/edit'
 
@@ -31,7 +29,7 @@ const GroupsTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return queryData?.groups.filter(item => !item._deleted) || []
+      return queryData?.groups?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
     }, [queryData]
   );
 

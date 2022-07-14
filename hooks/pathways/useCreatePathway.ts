@@ -1,9 +1,6 @@
-import { GET_PATHWAYS } from "../../graphql/queries/allQueries"
 import { useMutation } from "@apollo/client"
 import { CREATE_PATHWAY } from "../../graphql/mutations/pathway/CREATE_PATHWAY";
-import { GetPathways } from "../../graphql/queries/__generated__/GetPathways";
 import { CreatePathway, CreatePathwayVariables } from "../../graphql/mutations/pathway/__generated__/CreatePathway";
-
 
 function useCreatePathway() {
   

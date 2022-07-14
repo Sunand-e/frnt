@@ -27,22 +27,22 @@ const LibraryItemsTable = () => {
 
   let filteredItems = [];
   if(search) {
-    const textResultsObject = libraryItems?.reduce(
-      (filtered,item) => {
-        if(item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+    const textResultsObject = libraryItems?.edges?.map(edge => edge.node).reduce(
+      (filtered,node) => {
+        if(node.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
           return {
             ...filtered,
-            title: filtered.title.concat([item])
+            title: filtered.title.concat([node])
           }
-          // } else if(item.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+          // } else if(node.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
             //   return {
               //     ...filtered,
-              //     excerpt: filtered.excerpt.concat([item])
+              //     excerpt: filtered.excerpt.concat([node])
               //   }
-              // } else if(item.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              // } else if(node.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
                 //   return {
                   //     ...filtered,
-        //     content: filtered.content.concat([item])
+        //     content: filtered.content.concat([node])
         //   }
         } else {
           return filtered
@@ -61,7 +61,7 @@ const LibraryItemsTable = () => {
 
     filteredItems = textResultsObject.title.concat(textResultsObject.excerpt, textResultsObject.content)
   } else {
-    filteredItems = libraryItems ?? filteredItems;
+    filteredItems = libraryItems?.edges?.map(edge => edge.node) ?? filteredItems;
   }
   console.log('filteredItems1')
   console.log(filteredItems)

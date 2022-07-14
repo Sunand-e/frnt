@@ -6,7 +6,7 @@ import useGetPathways from '../../../../hooks/pathways/useGetPathway';
 import PathwayTitleCell from './PathwayTitleCell';
 import useDeletePathway from '../../../../hooks/pathways/useDeletePathway';
 
-const CoursesTable = () => {
+const PathwaysTable = () => {
 
   const { loading, error, pathways } = useGetPathways()
   
@@ -22,7 +22,7 @@ const CoursesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return pathways?.filter(item => !item._deleted) || []
+      return pathways?.edges?.map(edge => edge.node).filter(item => !item._deleted) || []
     }, [pathways]
   );
 
@@ -91,4 +91,4 @@ const CoursesTable = () => {
   );
 }
 
-export default CoursesTable
+export default PathwaysTable

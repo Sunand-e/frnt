@@ -7,7 +7,7 @@
 // GraphQL query operation: GetSections
 // ====================================================
 
-export interface GetSections_sections_image {
+export interface GetSections_sections_nodes_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -16,31 +16,31 @@ export interface GetSections_sections_image {
   title: string | null;
 }
 
-export interface GetSections_sections_icon {
+export interface GetSections_sections_nodes_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetSections_sections_users {
+export interface GetSections_sections_nodes_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface GetSections_sections_tags_image {
+export interface GetSections_sections_nodes_tags_image {
   __typename: "MediaItem";
   location: string | null;
 }
 
-export interface GetSections_sections_tags {
+export interface GetSections_sections_nodes_tags {
   __typename: "Tag";
   tagType: string;
   label: string;
-  image: GetSections_sections_tags_image | null;
+  image: GetSections_sections_nodes_tags_image | null;
 }
 
-export interface GetSections_sections_children_image {
+export interface GetSections_sections_nodes_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -49,70 +49,78 @@ export interface GetSections_sections_children_image {
   title: string | null;
 }
 
-export interface GetSections_sections_children_icon {
+export interface GetSections_sections_nodes_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetSections_sections_children_users {
+export interface GetSections_sections_nodes_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface GetSections_sections_children_tags_image {
+export interface GetSections_sections_nodes_children_tags_image {
   __typename: "MediaItem";
   location: string | null;
 }
 
-export interface GetSections_sections_children_tags {
+export interface GetSections_sections_nodes_children_tags {
   __typename: "Tag";
   tagType: string;
   label: string;
-  image: GetSections_sections_children_tags_image | null;
+  image: GetSections_sections_nodes_children_tags_image | null;
 }
 
-export interface GetSections_sections_children {
+export interface GetSections_sections_nodes_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
-  image: GetSections_sections_children_image | null;
+  image: GetSections_sections_nodes_children_image | null;
   id: string;
-  icon: GetSections_sections_children_icon | null;
+  icon: GetSections_sections_nodes_children_icon | null;
   itemType: string;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: GetSections_sections_children_users | null;
-  tags: GetSections_sections_children_tags[] | null;
+  users: GetSections_sections_nodes_children_users | null;
+  tags: GetSections_sections_nodes_children_tags[] | null;
   _deleted: boolean;
+}
+
+export interface GetSections_sections_nodes {
+  __typename: "ContentItem";
+  content: any | null;
+  contentType: string | null;
+  createdAt: any;
+  settings: any | null;
+  image: GetSections_sections_nodes_image | null;
+  id: string;
+  icon: GetSections_sections_nodes_icon | null;
+  itemType: string;
+  prerequisites: any | null;
+  title: string | null;
+  updatedAt: any;
+  users: GetSections_sections_nodes_users | null;
+  tags: GetSections_sections_nodes_tags[] | null;
+  _deleted: boolean;
+  children: GetSections_sections_nodes_children[] | null;
 }
 
 export interface GetSections_sections {
-  __typename: "ContentItem";
-  content: any | null;
-  contentType: string | null;
-  createdAt: any;
-  settings: any | null;
-  image: GetSections_sections_image | null;
-  id: string;
-  icon: GetSections_sections_icon | null;
-  itemType: string;
-  prerequisites: any | null;
-  title: string | null;
-  updatedAt: any;
-  users: GetSections_sections_users | null;
-  tags: GetSections_sections_tags[] | null;
-  _deleted: boolean;
-  children: GetSections_sections_children[] | null;
+  __typename: "ContentItemConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (GetSections_sections_nodes | null)[] | null;
 }
 
 export interface GetSections {
   /**
    * Get list of all sections
    */
-  sections: GetSections_sections[];
+  sections: GetSections_sections;
 }

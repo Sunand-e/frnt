@@ -7,24 +7,24 @@
 // GraphQL query operation: GetUsersCourses
 // ====================================================
 
-export interface GetUsersCourses_users_roles {
+export interface GetUsersCourses_users_edges_node_roles {
   __typename: "Role";
   id: string;
   name: string | null;
   roleType: string;
 }
 
-export interface GetUsersCourses_users_courses_edges_node {
+export interface GetUsersCourses_users_edges_node_courses_edges_node {
   __typename: "ContentItem";
   id: string;
 }
 
-export interface GetUsersCourses_users_courses_edges {
+export interface GetUsersCourses_users_edges_node_courses_edges {
   __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
-  node: GetUsersCourses_users_courses_edges_node | null;
+  node: GetUsersCourses_users_edges_node_courses_edges_node | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -35,16 +35,16 @@ export interface GetUsersCourses_users_courses_edges {
   completed: boolean | null;
 }
 
-export interface GetUsersCourses_users_courses {
+export interface GetUsersCourses_users_edges_node_courses {
   __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
-  edges: (GetUsersCourses_users_courses_edges | null)[] | null;
+  edges: (GetUsersCourses_users_edges_node_courses_edges | null)[] | null;
   totalCount: number;
 }
 
-export interface GetUsersCourses_users {
+export interface GetUsersCourses_users_edges_node {
   __typename: "User";
   createdAt: any;
   email: string;
@@ -55,13 +55,29 @@ export interface GetUsersCourses_users {
   status: string;
   updatedAt: any;
   userType: string | null;
-  roles: GetUsersCourses_users_roles[] | null;
-  courses: GetUsersCourses_users_courses | null;
+  roles: GetUsersCourses_users_edges_node_roles[] | null;
+  courses: GetUsersCourses_users_edges_node_courses | null;
+}
+
+export interface GetUsersCourses_users_edges {
+  __typename: "UserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUsersCourses_users_edges_node | null;
+}
+
+export interface GetUsersCourses_users {
+  __typename: "UserConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUsersCourses_users_edges | null)[] | null;
 }
 
 export interface GetUsersCourses {
   /**
    * Get list of all users
    */
-  users: GetUsersCourses_users[];
+  users: GetUsersCourses_users;
 }

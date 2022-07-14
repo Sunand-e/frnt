@@ -19,7 +19,9 @@ const TenantsTable = () => {
   const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.tenants || [], [queryData]);
+  const tableData = useMemo(() => {
+    return queryData?.tenants?.edges?.map(({node}) => node).filter(node => !node._deleted) || []
+  }, [queryData]);
 
   const editUrl = '/admin/tenants/edit'
   const handleDelete = (value) => {

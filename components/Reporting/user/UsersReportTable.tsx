@@ -15,7 +15,7 @@ const UsersReportTable = () => {
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS_COURSES);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.users || [], [queryData]);
+  const tableData = useMemo(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
 
   const editUrl = '/admin/users/edit'
 

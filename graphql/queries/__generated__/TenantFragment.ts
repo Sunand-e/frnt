@@ -13,4 +13,6 @@ export interface TenantFragment {
   name: string;
   url: string;
   updatedAt: any;
+  createdAt: any;
+  shortName: string;
 }
