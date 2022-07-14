@@ -45,8 +45,8 @@ const ContentLibrary = () => {
 
       {
       // If user is searching, only show search results
-        libraryItems && (
-          <SearchResults items={libraryItems} />
+      libraryItemNodes && (
+          <SearchResults items={libraryItemNodes} />
         )
         
       }
