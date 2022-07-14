@@ -7,7 +7,7 @@ export const CREATE_TENANT = gql`
     $shortName: String!,
     $parentId: ID,
     $settings: JSON,
-    $url: String
+    $url: String!
   ) {
     createTenant(
       input: {

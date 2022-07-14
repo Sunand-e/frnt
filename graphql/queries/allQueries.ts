@@ -254,19 +254,23 @@ export const GET_QUIZ = gql`
 export const GET_QUIZZES = gql`
   query GetQuizzes {
     quizzes {
-      title
-      updatedAt
-      prerequisites
-      id
-      itemType
-      content
-      createdAt
-      questions {
-        answers
-        content
-        createdAt
-        id
-        questionType
+      edges {
+        node {
+          title
+          updatedAt
+          prerequisites
+          id
+          itemType
+          content
+          createdAt
+          questions {
+            answers
+            content
+            createdAt
+            id
+            questionType
+          }
+        }
       }
     }
   }
