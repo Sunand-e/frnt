@@ -5,13 +5,13 @@ const GroupUsersInput = ({control}) => {
 
   const { users } = useGetUsers();
 
-  const usersOptions = users?.map(user => {
+  const usersOptions = users?.edges?.map(({node: user}) => {
     return { value: user.id, label: user.fullName }
   })
 
   return (
     <>
-      { users && (
+      { usersOptions && (
         <DualListBoxInput
           label="Group users"
           control={control}

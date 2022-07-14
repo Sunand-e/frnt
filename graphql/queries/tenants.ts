@@ -26,8 +26,11 @@ export const GET_TENANT = gql`
 export const GET_TENANTS = gql`
   query GetTenants {
     tenants {
-      ...TenantFragment
-      
+      edges {
+        node {
+          ...TenantFragment
+        }
+      }
     }
   }
   ${TenantFragment}

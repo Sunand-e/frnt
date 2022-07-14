@@ -32,7 +32,7 @@ const CoursesReportTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      let data = courses?.filter(item => {
+      let data = courses?.edges?.map(({node}) => node)?.filter(item => {
         return !item._deleted
       })
       if(categoryId) {

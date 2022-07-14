@@ -4,8 +4,8 @@ import DualListBoxInput from "../../../common/inputs/DualListBoxInput"
 const EnrolledCoursesInput = ({control}) => {
 
   const { courses } = useGetCourses();
-  
-  const coursesOptions = courses?.map(course => {
+  // Get array of {value: label:} objects from fetched courses object 
+  const coursesOptions = courses?.edges?.map(({node: course}) => {
     return { value: course.id, label: course.title }
   })
 

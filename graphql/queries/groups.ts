@@ -46,7 +46,11 @@ export const GET_GROUP = gql`
 export const GET_GROUPS = gql`
   query GetGroups {
     groups {
-      ...GroupFragment
+      edges {
+        node {
+          ...GroupFragment
+        }
+      }
     }
   }
   ${GroupFragment}

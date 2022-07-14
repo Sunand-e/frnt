@@ -112,7 +112,11 @@ export const GET_COURSE = gql`
 export const GET_COURSES = gql`
   query GetCourses {
     courses {
-      ...CourseFragment
+      edges {
+        node {
+          ...CourseFragment
+        }
+      }
     }
   }
   ${CourseFragment}
@@ -120,28 +124,32 @@ export const GET_COURSES = gql`
 export const GET_COURSES_BASIC = gql`
   query GetCoursesBasic {
     courses {
-      content
-      contentType
-      createdAt
-      settings
-      image {
-        location
-        id
-        altText
-        properties
-        title
+      edges {
+        node {
+          content
+          contentType
+          createdAt
+          settings
+          image {
+            location
+            id
+            altText
+            properties
+            title
+          }
+          id
+          icon {
+            provider
+            properties
+            id
+          }
+          itemType
+          prerequisites
+          settings
+          title
+          updatedAt
+        }
       }
-      id
-      icon {
-        provider
-        properties
-        id
-      }
-      itemType
-      prerequisites
-      settings
-      title
-      updatedAt
     }
   }
 `
@@ -157,7 +165,9 @@ export const GET_SECTION = gql`
 export const GET_SECTIONS = gql`
   query GetSections {
     sections {
-      ...SectionFragment
+      nodes {
+        ...SectionFragment
+      }
     }
   }
   ${SectionFragment}
@@ -187,7 +197,11 @@ export const GET_LIBRARY_ITEM = gql`
 export const GET_LIBRARY_ITEMS = gql`
   query GetLibraryItems {
     libraryItems {
-      ...LibraryItemFragment
+      edges {
+        node {
+          ...LibraryItemFragment
+        }
+      }
     }
   }
   ${LibraryItemFragment}
@@ -206,7 +220,11 @@ export const GET_PATHWAY = gql`
 export const GET_PATHWAYS = gql`
   query GetPathways {
     pathways {
-      ...PathwayFragment
+      edges {
+        node {
+          ...PathwayFragment
+        }
+      }
     }
   }
   ${PathwayFragment}
