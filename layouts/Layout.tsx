@@ -8,7 +8,7 @@ export default function Layout( {page, children, navState, sidebarComponent=null
   return (
     <>
       <TopNotificationBar />
-      <div className={`flex min-h-full`}>
+      <div className={`flex min-h-full relative`}>
         <NavContainer page={page} navState={navState} />
         { SidebarComponent && <SidebarComponent /> }
         <div className="flex-grow">

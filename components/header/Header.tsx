@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <>
       <div className="sticky top-0 z-20 w-full h-18 mx-auto bg-white flex bg-white shadow-sm justify-between">
-        <div className="flex-none pl-4 sm:pl-6 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0">
+        <div className="flex-none pl-4 lg:pl-6 pl-20 xl:pl-8 flex items-center border-b border-gray-200 lg:border-b-0">
           <PageTitle />
             {/* <a className="overflow-hidden w-auto text-lg text-main-secondary font-bold" href="/"> */}
               {/* {` isAdmin: ${view.isAdmin ? 'on' : 'off'}.`} */}

@@ -7,7 +7,7 @@ const TopNotificationBar = () => {
   const view = useReactiveVar(viewVar);
   
   return (
-    <div className={`py-2 bg-main${!view.isAdmin ? '-dark' : ''}`}>
+    <div className={`py-2 ${!view.isAdmin ? 'bg-main-secondary' : 'bg-main'}`}>
       <div className="relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex justify-center items-center">
           <div className="text-sm font-medium text-white">
