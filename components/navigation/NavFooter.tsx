@@ -29,7 +29,7 @@ const NavFooter = ({children, isSlim}) => {
   }
 
   return (
-      <div id="navFooter" className={`fixed bottom-0 overflow-visible transition-width ${isSlim ? 'w-16' : 'w-60'}`}>
+      <div id="navFooter" className={` overflow-visible transition-width ${isSlim ? 'w-16' : 'w-60'}`}>
 
         {children}
 
