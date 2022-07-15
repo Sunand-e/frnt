@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import navStructureUser from '../../navStructureUser'
 import navStructureAdmin from '../../navStructureAdmin'
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import { viewVar } from '../../graphql/cache';
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
+import { useWindowSize } from 'rooks';
 
 const GET_CURRENT_USER_TYPE = gql`
 query GetCurrentUserType {
@@ -15,7 +16,36 @@ query GetCurrentUserType {
 }
 `
 
-export default function PrimaryNav({isSlim, pageNavState}) {
+const PrimaryNav = ({isSlim, pageNavState}) => {
+
+  /*
+    If we need to use js to change the positioning of 
+    the 'Settings' menu item, we can use the following code, to set a boolean,
+    'showSettingsAtBottomOfScreen'.
+  */
+  const { innerHeight } = useWindowSize();
+
+  const ref = useRef(null)
+
+  const [showSettingsAtBottomOfScreen, setShowSettingsAtBottomOfScreen] = useState(true);
+
+  useEffect(() => {
+    console.log('innerHeight')
+    console.log(innerHeight)
+    console.log('ref?.current')
+    console.log(ref?.current.clientHeight)
+    // do the calculation here
+    if(innerHeight < ref?.current.clientHeight) {
+      setShowSettingsAtBottomOfScreen(false)    
+    } else {
+      setShowSettingsAtBottomOfScreen(true)
+    }
+
+  },[innerHeight])
+  /*
+   This is the end of the 'optional' code block
+  */
+
 
   const view = useReactiveVar(viewVar);
 
@@ -37,7 +67,7 @@ export default function PrimaryNav({isSlim, pageNavState}) {
 
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16' : 'w-64'}`}>
-      <div className="sticky z-30 top-0">
+      <div ref={ref} className="sticky z-30 top-0">
         <div className={`h-18 bg-main${view.isAdmin ? '-secondary' : ''} flex justify-center py-4`}>
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
           {/* {isSlim ? 'secondary active' : 'secondary INACTIVE'} */}
@@ -118,3 +148,5 @@ export default function PrimaryNav({isSlim, pageNavState}) {
     </div>
   )
 }
+
+export default PrimaryNav
