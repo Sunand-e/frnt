@@ -13,6 +13,8 @@ export interface CreateTenant_createTenant_tenant {
   name: string;
   url: string;
   updatedAt: any;
+  createdAt: any;
+  shortName: string;
 }
 
 export interface CreateTenant_createTenant {
@@ -29,5 +31,5 @@ export interface CreateTenantVariables {
   shortName: string;
   parentId?: string | null;
   settings?: any | null;
-  url?: string | null;
+  url: string;
 }

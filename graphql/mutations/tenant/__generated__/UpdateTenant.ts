@@ -13,6 +13,8 @@ export interface UpdateTenant_updateTenant_tenant {
   name: string;
   url: string;
   updatedAt: any;
+  createdAt: any;
+  shortName: string;
 }
 
 export interface UpdateTenant_updateTenant {

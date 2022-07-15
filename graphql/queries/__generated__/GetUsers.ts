@@ -7,14 +7,14 @@
 // GraphQL query operation: GetUsers
 // ====================================================
 
-export interface GetUsers_users_roles {
+export interface GetUsers_users_edges_node_roles {
   __typename: "Role";
   id: string;
   name: string | null;
   roleType: string;
 }
 
-export interface GetUsers_users {
+export interface GetUsers_users_edges_node {
   __typename: "User";
   createdAt: any;
   email: string;
@@ -25,12 +25,28 @@ export interface GetUsers_users {
   status: string;
   updatedAt: any;
   userType: string | null;
-  roles: GetUsers_users_roles[] | null;
+  roles: GetUsers_users_edges_node_roles[] | null;
+}
+
+export interface GetUsers_users_edges {
+  __typename: "UserEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUsers_users_edges_node | null;
+}
+
+export interface GetUsers_users {
+  __typename: "UserConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUsers_users_edges | null)[] | null;
 }
 
 export interface GetUsers {
   /**
    * Get list of all users
    */
-  users: GetUsers_users[];
+  users: GetUsers_users;
 }

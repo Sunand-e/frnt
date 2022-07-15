@@ -59,12 +59,12 @@ const LessonUsersReportTable = () => {
           const cellProps = {
             title: user.fullName,
             secondary: user.email,
-            href: {
-              query: {
-                lesson: lessonId,
-                ...(user.id && { user: user.id } )
-              }
-            }
+            // href: {
+            //   query: {
+            //     lesson: lessonId,
+            //     ...(user.id && { user: user.id } )
+            //   }
+            // }
           }
           return (
             <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
@@ -146,7 +146,7 @@ const LessonUsersReportTable = () => {
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>See details</ButtonLink>
+              {/* <ButtonLink href={href}>See details</ButtonLink> */}
             </div>
           )
         }

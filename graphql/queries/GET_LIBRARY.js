@@ -7,7 +7,11 @@ import { gql } from '@apollo/client';
 export const GET_LIBRARY = gql`
   query GetLibrary {
     libraryItems {
-      title
+      edges {
+        node {
+          title
+        }
+      }
     }
   }
 `

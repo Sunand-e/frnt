@@ -17,7 +17,7 @@ const UsersTable = () => {
   const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.users || [], [queryData]);
+  const tableData = useMemo(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
 
   const editUrl = '/admin/users/edit'
   console.log('tableData')

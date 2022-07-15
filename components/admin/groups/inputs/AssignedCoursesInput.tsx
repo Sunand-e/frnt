@@ -5,7 +5,7 @@ const AssignedCoursesInput = ({control}) => {
 
   const { courses } = useGetCourses();
   
-  const coursesOptions = courses?.map(course => {
+  const coursesOptions = courses?.edges?.map(({node: course}) => {
     return { value: course.id, label: course.title }
   })
 

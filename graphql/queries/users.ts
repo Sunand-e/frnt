@@ -77,7 +77,11 @@ export const GET_USER = gql`
 export const GET_USERS = gql`
   query GetUsers {
     users(where: { status: "active" }) {
-      ...UserFragment
+      edges {
+        node {
+          ...UserFragment
+        }
+      }
     }
   }
   ${UserFragment}
@@ -105,9 +109,13 @@ export const UserContentEdgeFragment = gql`
 export const GET_USERS_COURSES = gql`
   query GetUsersCourses {
     users {
-      ...UserFragment
-      courses {
-        ...UserContentEdgeFragment
+      edges {
+        node {
+          ...UserFragment
+          courses {
+            ...UserContentEdgeFragment
+          }
+        }
       }
     }
   }

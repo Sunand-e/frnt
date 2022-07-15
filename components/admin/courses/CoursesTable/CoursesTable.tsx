@@ -19,9 +19,9 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
   useEffect(() => {
     if(coursesFull) {
-      setCourses(coursesFull)
+      setCourses(coursesFull.edges)
     } else if(coursesBasic) {
-      setCourses(coursesBasic)
+      setCourses(coursesBasic.edges)
     }
   }, [coursesFull,coursesBasic])
 
@@ -42,9 +42,10 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      let data = courses?.filter(item => {
-        return !item._deleted
+      let data = courses?.edges?.map(edge => edge.node).filter(node => {
+        return !node._deleted
       })
+      
       if(categoryId) {
         data = data?.filter(item => {
           return item.tags.some(tag => tag.id === categoryId)

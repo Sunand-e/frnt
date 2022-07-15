@@ -8,6 +8,7 @@ import CheckboxInput from '../../common/inputs/CheckboxInput';
 // import UserRoleSelect from './inputs/UserRoleSelect';
 import Link from 'next/link';
 import { ModalContext } from '../../../context/modalContext';
+import ColorPickerInput from '../../common/inputs/ColorPickerInput';
 
 interface TenantFormValues {
   id?: string
@@ -15,6 +16,7 @@ interface TenantFormValues {
   shortName: string
   url: string
   profileImage: string
+  primary_color: string
 }
 
 const TenantForm = ({tenant=null, onSubmit}) => {
@@ -24,6 +26,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     ...tenant,
     name: tenant?.name,
     url: tenant?.url,
+    primary_color: '',
+    settings: {}
     // anotherattr: 123,
     // role_ids: tenant?.roles.map(role => role.id),
   }
@@ -65,6 +69,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="tenantImage"
         onSelect={closeModal}
         // inputAttrs={register("image", { required: true })}
+        />
+
+      <ColorPickerInput
+        label="Primary brand colour"
+        name="primary_color"
+        control={control}
       />
       {/*<SelectInput*/}
       {/*  label="User role"*/}
