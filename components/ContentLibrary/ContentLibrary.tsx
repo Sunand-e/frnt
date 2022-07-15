@@ -17,6 +17,7 @@ const ContentLibrary = () => {
 
   const { tags } = useGetTags()
   const { libraryItems } = useGetLibraryItems()
+  const libraryItemNodes = libraryItems?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
   
   const [ searching, setSearching ] = useState(false)
 
@@ -44,8 +45,8 @@ const ContentLibrary = () => {
 
       {
       // If user is searching, only show search results
-        libraryItems && (
-          <SearchResults items={libraryItems} />
+      libraryItemNodes && (
+          <SearchResults items={libraryItemNodes} />
         )
         
       }

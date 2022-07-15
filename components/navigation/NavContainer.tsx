@@ -107,10 +107,11 @@ export default function NavContainer({navState}) {
 
       <div className="hidden shadow-md font-text-base relative z-40 inset-0 flex-none lg:flex lg:static lg:h-auto lg:overflow-y-visible lg:pt-0">
     <div
+
       id="sidebar"
       className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-18 bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
     >
-      <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState} />
+      <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
       <NavFooter isSlim={isSlimNav} />
     </div>
