@@ -12,7 +12,7 @@ import { useReactiveVar } from '@apollo/client'
 import {Dialog, Transition} from "@headlessui/react";
 import {MenuAlt1Icon, XIcon} from "@heroicons/react/outline";
 
-export default function NavContainer({navState}) {
+export default function NavContainer({navState, sidebarComponent}) {
 
   const view = useReactiveVar(viewVar)
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
@@ -94,6 +94,7 @@ export default function NavContainer({navState}) {
                 >
                   <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState} />
                   <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
+                  { sidebarComponent }
                   <NavFooter isSlim={isSlimNav} />
                 </div>
               </Dialog.Panel>

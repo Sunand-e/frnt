@@ -52,7 +52,7 @@ const filterDeletedCourseItems = (course) => {
   }
 }
 
-const CourseStructureEditor = ({course, renderSection, renderItem}) => {
+const CourseStructureEditor = ({course, renderItem=null}) => {
 
   
   const [courseItems, setCourseItems] = useState(
