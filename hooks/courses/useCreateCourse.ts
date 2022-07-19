@@ -12,13 +12,17 @@ function useCreateCourse(cb) {
     {
       update(cache, { data: { createCourse } } ) {
         
-        const data = cache.readQuery<GetCourses>({
+        const cachedData = cache.readQuery<GetCourses>({
           query: GET_COURSES
         })
         cache.writeQuery({
           query: GET_COURSES,
-          data: { 
-            courses: [createCourse.course, ...data.courses]
+          data: {
+            ...cachedData,
+            courses: {
+              ...cachedData.courses,
+              edges: [{node: createCourse.course}, ...cachedData.courses.edges]
+            }
           }
         })
       }
@@ -35,6 +39,7 @@ function useCreateCourse(cb) {
             __typename: 'ContentItem',
             id: Math.floor(Math.random() * 10000) + '',
             title: values.title,
+            tags: [],
             createdAt: '',
             updatedAt: '',
             _deleted: false,
