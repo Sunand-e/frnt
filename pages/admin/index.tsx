@@ -10,7 +10,7 @@ import GridLayout from '../../components/GridLayout/GridLayout';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 
 const AdminDashTopBoxes = ({boxes}) => (
-  <div className='grid grid-cols-4 gap-4'>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 '>
     { boxes.map((box, index) => <AdminDashTopBox box={box} index={index} />) }
   </div>     
 )
