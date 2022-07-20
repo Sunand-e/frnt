@@ -67,7 +67,7 @@ export default function NavContainer({navState, sidebarComponent}) {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex-1 flex flex-col max-w-max w-full pb-4 bg-white">
+              <Dialog.Panel className="dialog-panel-menu relative flex-1 flex flex-col max-w-max w-full bg-white">
                 <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -90,12 +90,12 @@ export default function NavContainer({navState, sidebarComponent}) {
                 </Transition.Child>
                 <div
                     id="sidebar"
-                    className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-18 bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
+                    className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-full bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
                 >
-                  <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState} />
+                  <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState}/>
                   <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
                   { sidebarComponent }
-                  <NavFooter isSlim={isSlimNav} />
+                  {/*<NavFooter isSlim={isSlimNav} />*/}
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -114,7 +114,7 @@ export default function NavContainer({navState, sidebarComponent}) {
     >
       <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
-      <NavFooter isSlim={isSlimNav} />
+      {/*<NavFooter isSlim={isSlimNav} />*/}
     </div>
         </div>
 </>

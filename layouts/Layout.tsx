@@ -10,7 +10,7 @@ export default function Layout( {children, navState, sidebarComponent=null} ) {
       <div className={`flex min-h-full relative`}>
         <NavContainer navState={navState} sidebarComponent={sidebarComponent} />
         {/* { SidebarComponent && <SidebarComponent /> } */}
-        <div className="flex-grow">
+        <div className="flex-grow main-right-block">
           <Header />
           { children }
         </div>

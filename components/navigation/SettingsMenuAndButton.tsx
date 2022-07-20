@@ -31,6 +31,7 @@ const SettingsMenuAndButton = () => {
     <Tippy
         className="bg-white text-main p-3 w-60"
         interactive={true}
+        appendTo={document.body}
         hideOnClick={false}
         placement='top' // placement='right-start'
         theme="memberhub-white"
