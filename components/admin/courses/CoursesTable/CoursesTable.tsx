@@ -15,13 +15,13 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
   const { courses: coursesFull } = useGetCourses()
 
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState(null);
 
   useEffect(() => {
     if(coursesFull) {
-      setCourses(coursesFull.edges)
+      setCourses(coursesFull)
     } else if(coursesBasic) {
-      setCourses(coursesBasic.edges)
+      setCourses(coursesBasic)
     }
   }, [coursesFull,coursesBasic])
 
@@ -37,7 +37,10 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       content: <DeleteCourseModal courseId={id} />
     })
   }
-
+console.log('courses')
+console.log('courses')
+console.log('courses')
+console.log(courses)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
