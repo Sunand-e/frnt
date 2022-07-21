@@ -26,11 +26,16 @@ jobs:
         with: 
           node-version: "14.16.1"
 
+      - name: Check npm version
+        run: npm -v
+      - name: Check node version
+        run: node -v
+
       - name: Install dependencies
         run: npm install
 
       - name: Export
-        run: npm test
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
