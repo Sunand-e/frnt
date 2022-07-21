@@ -6,5 +6,4 @@ RUN mkdir log
 COPY docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY out /var/www
 # RUN envsubst '$NEXTJS_ROOT' < /tmp/docker.nginx > /etc/nginx/conf.d/default.conf
-EXPOSE 8091
 CMD [ "nginx", "-g", "daemon off;" ]
