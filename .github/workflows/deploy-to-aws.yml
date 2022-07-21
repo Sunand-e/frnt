@@ -26,8 +26,9 @@ jobs:
         with: 
           node-version: "14.x"
 
-      - name: Install dependencies
+      - name: Check npm version
         run: npm -v
+      - name: Check node version
         run: node -v
 
 
