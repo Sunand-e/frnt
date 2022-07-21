@@ -36,6 +36,7 @@ import {
   SearchIcon,
 } from '@heroicons/react/solid'
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
+import DashboardLayout from '../../layouts/DashboardLayout';
 
 const AdminDashTopBoxes = ({boxes}) => (
   <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 '>
@@ -200,7 +201,7 @@ const AdminDashboard = () => {
       <main className="flex-1 pb-8">
         {/* Page header */}
         <div className="bg-white shadow">
-          <div className="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+          <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
             <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
               <div className="flex-1 min-w-0">
                 {/* Profile */}
@@ -260,7 +261,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 max-w-screen-2xl mx-auto px-8">
           <DashboardItem title="Overview">
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {/* Card */}
@@ -495,5 +496,12 @@ const AdminDashboard = () => {
 AdminDashboard.navState = {
   topLevel: 'dashboard',
 }
+
+AdminDashboard.getLayout = page => (
+  <DashboardLayout
+    navState={AdminDashboard.navState || {}}
+    page={page}
+  />
+)
 
 export default AdminDashboard
