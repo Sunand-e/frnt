@@ -1,9 +1,9 @@
 FROM nginx
 RUN apt-get update -qq && apt-get -y install apache2-utils
 # ENV NEXTJS_ROOT /
-# WORKDIR $RAILS_ROOT
+WORKDIR /app
 RUN mkdir log
 COPY docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY out /var/www
+COPY out /app/public
 # RUN envsubst '$NEXTJS_ROOT' < /tmp/docker.nginx > /etc/nginx/conf.d/default.conf
 CMD [ "nginx", "-g", "daemon off;" ]
