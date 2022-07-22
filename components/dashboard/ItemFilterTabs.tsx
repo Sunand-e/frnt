@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ContinueWatching from './ContinueWatching';
 import ItemCollection from '../common/items/ItemCollection';
 import ItemGrid from '../common/items/ItemGrid';
 

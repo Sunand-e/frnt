@@ -27,6 +27,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     color:#333;
     line-height:1.8;
+  overflow: hidden;
 }
 html {
   height: 100%;
@@ -139,4 +140,15 @@ a {
   padding:20px;
   width:400px;
   color:#fff;
+}
+#sidebar,.main-right-block{
+  height: calc(100vh - 48px);
+}
+.dialog-panel-menu{
+  #sidebar{
+    height: 100%;
+  }
+}
+.main-right-block,#secondaryNav{
+  overflow: auto;
 }

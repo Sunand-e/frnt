@@ -26,11 +26,6 @@ const DashboardPage = () => {
 
   const {queries} = useContext(QueriesContext)
   
-  useEffect(() => {
-    console.log('queries')
-    console.log(queries)
-  },[queries])
-
   const items = useReactiveVar(latestContentVar)
 
   const recentlyViewedOptions = { 

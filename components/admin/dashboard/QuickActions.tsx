@@ -4,14 +4,15 @@ import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import {Group2} from "@styled-icons/remix-fill/Group2"
 
 import Link from "next/link";
+import DashboardItem from "./DashboardItem";
 
 const QuickActionLink = ({text,icon,href}) => {
   const IconComponent = icon
   return (
     <Link href={href}>
-      <a className="text-main-secondary flex space-x-4 text-xl">
-        <span className="w-8"><IconComponent /></span>
-        <span>{text}</span>      
+      <a className="text-sm font-medium text-gray-500 flex space-x-4">
+        <span className="w-6"><IconComponent /></span>
+        <span className="text-gray-900">{text}</span>
       </a>
     </Link>
   )
@@ -19,29 +20,25 @@ const QuickActionLink = ({text,icon,href}) => {
 const QuickActions = () => {
   
   return (
-    <>
-    <div className="-mx-4 -mt-4 bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
-      <h3 className="text-main-secondary text-xl">Quick actions</h3>
-    </div>
-
-    <div className="flex flex-col items-start px-4 py-2 space-y-4">
-      <QuickActionLink
-        text={'Add a new course'} 
-        href='/admin/courses/setup'
-        icon={GraduationCap}
-      />
-      <QuickActionLink
-        text={'Add a new user'} 
-        href='/admin/users/new'
-        icon={UserAdd}
-        />
-      <QuickActionLink
-        text={'Add a new group'} 
-        href='/admin/groups/new'
-        icon={Group2}
-      />
-    </div>
-    </>
+    <DashboardItem title="Quick actions">
+        <div className="flex flex-col items-start px-4 py-6 space-y-4 bg-white shadow rounded-md ">
+          <QuickActionLink
+            text={'Add a new course'} 
+            href='/admin/courses/setup'
+            icon={GraduationCap}
+          />
+          <QuickActionLink
+            text={'Add a new user'} 
+            href='/admin/users/new'
+            icon={UserAdd}
+            />
+          <QuickActionLink
+            text={'Add a new group'} 
+            href='/admin/groups/new'
+            icon={Group2}
+          />
+        </div>
+    </DashboardItem>
   );
 }
 export default QuickActions

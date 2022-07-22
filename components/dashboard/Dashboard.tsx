@@ -11,6 +11,8 @@ import Button from '../../components/Button';
 import CourseTabs from './CourseTabs';
 import useGetCourses from '../../hooks/courses/useGetCourses';
 import ImportElpCourses from './ImportElpCourses';
+import ResumeRecentActivity from './ResumeRecentActivity';
+import WelcomeUserPanel from './WelcomeUserPanel';
 
 const Dashboard = () => {
 
@@ -37,13 +39,8 @@ const Dashboard = () => {
   
   return (
     <>
-      <NoticeBox>
-        <div className="flex justify-between items-center">
-          <h1 className="font-bold text-lg"><span>Pick up where you left off:</span> <em className="text-main">Know your why</em></h1>
-          <Button>Start now</Button>
-        </div>
-      </NoticeBox>
-
+      <WelcomeUserPanel />
+      <ResumeRecentActivity />
       <CourseTabs />
 
       <div className="flex space-x-8 mb-8">
