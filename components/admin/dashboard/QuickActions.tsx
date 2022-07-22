@@ -10,9 +10,9 @@ const QuickActionLink = ({text,icon,href}) => {
   const IconComponent = icon
   return (
     <Link href={href}>
-      <a className="text-main-secondary flex space-x-4 text-xl">
-        <span className="w-8"><IconComponent /></span>
-        <span>{text}</span>      
+      <a className="text-sm font-medium text-gray-500 flex space-x-4">
+        <span className="w-6"><IconComponent /></span>
+        <span className="text-gray-900">{text}</span>
       </a>
     </Link>
   )
@@ -21,7 +21,7 @@ const QuickActions = () => {
   
   return (
     <DashboardItem title="Quick actions">
-        <div className="flex flex-col items-start px-4 py-2 space-y-4">
+        <div className="flex flex-col items-start px-4 py-6 space-y-4 bg-white shadow rounded-md ">
           <QuickActionLink
             text={'Add a new course'} 
             href='/admin/courses/setup'

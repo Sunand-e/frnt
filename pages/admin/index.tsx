@@ -131,10 +131,35 @@ const AdminDashboard = () => {
     { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
   ]
   const cards = [
-    { name: '1Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },
-    { name: '2Account balance', href: '#', icon: ScaleIcon, amount: '$40,659.45' },
-    { name: '3Account balance', href: '#', icon: ScaleIcon, amount: '$20,659.45' },
-    { name: '4Account balance', href: '#', icon: ScaleIcon, amount: '$10,659.45' },
+    // { name: '1Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },
+    // { name: '2Account balance', href: '#', icon: ScaleIcon, amount: '$40,659.45' },
+    // { name: '3Account balance', href: '#', icon: ScaleIcon, amount: '$20,659.45' },
+    // { name: '4Account balance', href: '#', icon: ScaleIcon, amount: '$10,659.45' },
+    {
+      name: 'allCourses',
+      label: 'Total courses',
+      value: 18,
+      IconComponent: GraduationCap,
+      // href: '#', icon: ScaleIcon,
+    },
+    {
+      name: 'allUsers',
+      label: 'Total users',
+      value: 162,
+      IconComponent: Users
+    },
+    {
+      name: 'activeCourses',
+      label: 'Active courses',
+      value: 7,
+      IconComponent: GraduationCap
+    },
+    {
+      name: 'activeUsers',
+      label: 'Active users',
+      value: 37,
+      IconComponent: Users
+    },
     // More items...
   ]
   const transactions = [
@@ -200,7 +225,7 @@ const AdminDashboard = () => {
     // </>
       <main className="flex-1 pb-8">
         {/* Page header */}
-        <div className="bg-white shadow">
+        <div className="bg-white shadow hidden md:block">
           <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
             <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
               <div className="flex-1 min-w-0">
@@ -261,28 +286,28 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="mt-8 max-w-screen-2xl mx-auto px-8">
+        <div className="pt-8 max-w-screen-2xl mx-auto px-8 md:mt-8">
           <DashboardItem title="Overview">
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {/* Card */}
               {cards.map((card) => (
-                  <div key={card.name} className="bg-white overflow-hidden shadow rounded-lg">
-                    <div className="p-5">
+                  <div key={card.label} className="bg-white overflow-hidden shadow rounded-lg">
+                    <div className="p-5 pb-3">
                       <div className="flex items-center">
                         <div className="flex-shrink-0">
-                          <card.icon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                          <card.IconComponent className="h-6 w-8 text-gray-400" aria-hidden="true" />
                         </div>
                         <div className="ml-5 w-0 flex-1">
                           <dl>
-                            <dt className="text-sm font-medium text-gray-500 truncate">{card.name}</dt>
+                            <dt className="text-sm font-medium text-gray-500 truncate">{card.label}</dt>
                             <dd>
-                              <div className="text-lg font-medium text-gray-900">{card.amount}</div>
+                              <div className="text-3xl font-medium text-gray-900">{card.value}</div>
                             </dd>
                           </dl>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 px-5 py-3">
+                    <div className="bg-gray-50 px-5 py-3 pt-1">
                       <div className="text-sm">
                         <a href={card.href} className="font-medium text-cyan-700 hover:text-cyan-900">
                           View all
@@ -446,44 +471,48 @@ const AdminDashboard = () => {
               </div>
             </div>
           </DashboardItem>
-          <div className="col-span-12 lg:col-span-4 flex-none lg:block md:flex ">
-              <QuickActions key="d" />
-              <div className="bg-white shadow mt-5 rounded-md p-4 w-full lg:w-full md:w-1/2">
-                <div className="flow-root mt-6">
-                  <ul role="list" className="-my-5 divide-y divide-gray-200">
-                    {people.map((person) => (
-                        <li key={person.handle} className="py-4">
-                          <div className="flex items-center space-x-4">
-                            <div className="flex-shrink-0">
-                              <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
-                              <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
-                            </div>
-                            <div>
-                              <a
-                                  href="#"
-                                  className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-                              >
-                                View
-                              </a>
-                            </div>
-                          </div>
-                        </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-6">
-                  <a
-                      href="#"
-                      className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    View all
-                  </a>
-                </div>
+            <div className="mt-8 col-span-12 lg:col-span-4 flex-none lg:block md:grid md:grid-cols-2 md:gap-4">
+              <div className="w-full lg:w-full lg:ml-0 md:mr-4">
+                <QuickActions key="d" />
               </div>
-              <div className="bg-white shadow rounded-md mt-5 p-4 w-full lg:w-full lg:ml-0 md:w-1/2 md:ml-4">
+              <DashboardItem className="mt-5 w-full lg:mt-5 lg:w-full md:mr-4 md:mt-0" title="Most active users">
+                <div className="bg-white shadow mt-5 rounded-md p-4">
+                  <div className="flow-root mt-6">
+                    <ul role="list" className="-my-5 divide-y divide-gray-200">
+                      {people.map((person) => (
+                          <li key={person.handle} className="py-4">
+                            <div className="flex items-center space-x-4">
+                              <div className="flex-shrink-0">
+                                <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
+                                <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
+                              </div>
+                              <div>
+                                <a
+                                    href="#"
+                                    className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
+                                >
+                                  View
+                                </a>
+                              </div>
+                            </div>
+                          </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="mt-6">
+                    <a
+                        href="#"
+                        className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      View all
+                    </a>
+                  </div>
+                </div>
+              </DashboardItem>
+              <div className="mt-5 bg-white shadow rounded-md  p-4 w-full lg:w-full lg:ml-0">
                 <CalendarDay key="b" />
               </div>
             </div>
