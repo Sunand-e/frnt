@@ -1,140 +1,24 @@
 import usePageTitle from '../../hooks/usePageTitle';
-import { AdminDashTopBox } from '../../components/admin/dashboard/AdminDashTopBox';
 import Graph from '../../components/admin/dashboard/Graph';
 import { GraduationCap } from 'styled-icons/entypo';
 import { Users } from 'styled-icons/fa-solid';
-import Calendar from '../../components/Calendar/CalendarTime';
 import CalendarDay from '../../components/Calendar/CalendarDay';
-import CalendarTime from '../../components/Calendar/CalendarTime';
-import GridLayout from '../../components/GridLayout/GridLayout';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 
-
-
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  BellIcon,
-  ClockIcon,
-  CogIcon,
-  CreditCardIcon,
-  DocumentReportIcon,
-  HomeIcon,
-  MenuAlt1Icon,
-  QuestionMarkCircleIcon,
-  ScaleIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
-  XIcon,
-} from '@heroicons/react/outline'
 import {
   CashIcon,
-  CheckCircleIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  OfficeBuildingIcon,
-  SearchIcon,
+  ChevronRightIcon
 } from '@heroicons/react/solid'
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
+import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
+import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 
-const AdminDashTopBoxes = ({boxes}) => (
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 '>
-    { boxes.map((box, index) => <AdminDashTopBox box={box} index={index} />) }
-  </div>     
-)
-
-const AdminDashboard = () => {
+const AdminDashboardPage = () => {
 
   usePageTitle({ title: 'Admin Dashboard' })
 
-  const topBoxes = [
-    {
-      name: 'allCourses',
-      label: 'Total courses',
-      value: 18,
-      IconComponent: GraduationCap
-    },
-    {
-      name: 'allUsers',
-      label: 'Total users',
-      value: 162,
-      IconComponent: Users
-    },
-    {
-      name: 'activeCourses',
-      label: 'Active courses',
-      value: 7,
-      IconComponent: GraduationCap
-    },
-    {
-      name: 'activeUsers',
-      label: 'Active users',
-      value: 37,
-      IconComponent: Users
-    },
-  ]
-
-  const gridLayout = [
-    {
-      "w": 8,
-      "h": 8,
-      "x": 0,
-      "y": 0,
-      "i": "a",
-      "moved": false,
-      "static": false
-    },
-    {
-      "w": 4,
-      "h": 10,
-      "x": 8,
-      "y": 8,
-      "i": "b",
-      "minW": 2,
-      "maxW": 4,
-      "moved": false,
-      "static": false
-    },
-    {
-      "w": 8,
-      "h": 10,
-      "x": 0,
-      "y": 8,
-      "i": "c",
-      "moved": false,
-      "static": false
-    },
-    {
-      "w": 4,
-      "h": 8,
-      "x": 8,
-      "y": 0,
-      "i": "d",
-      "moved": false,
-      "static": false
-    }
-  ]
-
-
-  const navigation = [
-    { name: 'Home', href: '#', icon: HomeIcon, current: true },
-    { name: 'History', href: '#', icon: ClockIcon, current: false },
-    { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
-    { name: 'Cards', href: '#', icon: CreditCardIcon, current: false },
-    { name: 'Recipients', href: '#', icon: UserGroupIcon, current: false },
-    { name: 'Reports', href: '#', icon: DocumentReportIcon, current: false },
-  ]
-  const secondaryNavigation = [
-    { name: 'Settings', href: '#', icon: CogIcon },
-    { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
-    { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
-  ]
   const cards = [
-    // { name: '1Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },
-    // { name: '2Account balance', href: '#', icon: ScaleIcon, amount: '$40,659.45' },
-    // { name: '3Account balance', href: '#', icon: ScaleIcon, amount: '$20,659.45' },
-    // { name: '4Account balance', href: '#', icon: ScaleIcon, amount: '$10,659.45' },
     {
       name: 'allCourses',
       label: 'Total courses',
@@ -224,98 +108,14 @@ const AdminDashboard = () => {
     //   </GridLayout>
     // </>
       <main className="flex-1 pb-8">
-        {/* Page header */}
-        <div className="bg-white shadow hidden md:block">
-          <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
-            <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
-              <div className="flex-1 min-w-0">
-                {/* Profile */}
-                <div className="flex items-center">
-                  <img
-                      className="hidden h-16 w-16 rounded-full sm:block"
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                      alt=""
-                  />
-                  <div>
-                    <div className="flex items-center">
-                      <img
-                          className="h-16 w-16 rounded-full sm:hidden"
-                          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                          alt=""
-                      />
-                      <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                        Good morning, Emilia Birch
-                      </h1>
-                    </div>
-                    <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
-                      <dt className="sr-only">Company</dt>
-                      <dd className="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
-                        <OfficeBuildingIcon
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                        />
-                        Duke street studio
-                      </dd>
-                      <dt className="sr-only">Account status</dt>
-                      <dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
-                        <CheckCircleIcon
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
-                            aria-hidden="true"
-                        />
-                        Verified account
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-                <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-                >
-                  Add money
-                </button>
-                <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-                >
-                  Send money
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        
+        <WelcomeUserPanel />
 
         <div className="pt-8 max-w-screen-2xl mx-auto px-8 md:mt-8">
           <DashboardItem title="Overview">
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {/* Card */}
-              {cards.map((card) => (
-                  <div key={card.label} className="bg-white overflow-hidden shadow rounded-lg">
-                    <div className="p-5 pb-3">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                          <card.IconComponent className="h-6 w-8 text-gray-400" aria-hidden="true" />
-                        </div>
-                        <div className="ml-5 w-0 flex-1">
-                          <dl>
-                            <dt className="text-sm font-medium text-gray-500 truncate">{card.label}</dt>
-                            <dd>
-                              <div className="text-3xl font-medium text-gray-900">{card.value}</div>
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 px-5 py-3 pt-1">
-                      <div className="text-sm">
-                        <a href={card.href} className="font-medium text-cyan-700 hover:text-cyan-900">
-                          View all
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-              ))}
+              {cards.map(card => <AdminDashCard card={card} />)}
             </div>
           </DashboardItem>
 
@@ -522,15 +322,15 @@ const AdminDashboard = () => {
   )
 }
 
-AdminDashboard.navState = {
+AdminDashboardPage.navState = {
   topLevel: 'dashboard',
 }
 
-AdminDashboard.getLayout = page => (
+AdminDashboardPage.getLayout = page => (
   <DashboardLayout
-    navState={AdminDashboard.navState || {}}
+    navState={AdminDashboardPage.navState || {}}
     page={page}
   />
 )
 
-export default AdminDashboard
+export default AdminDashboardPage
