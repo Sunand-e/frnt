@@ -1,7 +1,6 @@
-import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
-import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
-import { useState, useEffect } from 'react'
+import { headerButtonsVar } from '../graphql/cache'
+import { useEffect } from 'react'
 import Button from '../components/Button'
 import LibraryItemView from '../components/ContentLibrary/LibraryItemView'
 
@@ -12,7 +11,6 @@ const LibraryItemPage = () => {
   */
   const router = useRouter()
   const { id, showEdit=false } = router.query
-
 
   const editItem = () => {
     router.push({
