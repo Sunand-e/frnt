@@ -19,7 +19,16 @@ const AdminTenantsEdit = () => {
   const { updateTenant } = useUpdateTenant(id)
   // const { updateTenantTenantRoles } = useUpdateTenantTenantRoles()
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (formValues) => {
+    const values = {
+      ...formValues,
+      settings: {
+        ...formValues.settings,
+        ...(formValues.primaryBrandColor && {...{primaryBrandColor: formValues.primaryBrandColor}}),
+        ...(formValues.secondaryBrandColor && {...{secondaryBrandColor: formValues.secondaryBrandColor}})
+      }
+    }
+
     updateTenant(values, () => ({
       tenantId: id
     }))

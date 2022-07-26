@@ -8,6 +8,7 @@ export const TenantFragment = gql`
     updatedAt
     createdAt
     shortName
+    settings
     # _deleted @client
   }
 `
