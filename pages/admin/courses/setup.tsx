@@ -23,12 +23,12 @@ const AdminCourseSetup = () => {
   const { handleModal, closeModal } = useContext(ModalContext);
 
   usePageTitle({ 
-    title: "New course"
+    title: "Set up a new course"
   })
 
   useEffect(() => {
     headerButtonsVar(
-      <Button onClick={() => router.push('/admin/courses')}>Back to Pathways</Button>
+      <Button onClick={() => router.push('/admin/courses')}>Back to Courses</Button>
     )
   },[])
 
@@ -39,20 +39,23 @@ const AdminCourseSetup = () => {
       // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createCourse } } ) {
 
-        const data = cache.readQuery<GetCourses>({
+        const cachedData = cache.readQuery<GetCourses>({
           query: GET_COURSES
         })
-        
+
         cache.writeQuery({
           query: GET_COURSES,
           data: {
-            courses: data ? [createCourse.course, ...data.courses] : [createCourse.course]
+            ...cachedData,
+            courses: {
+              ...cachedData?.courses,
+              edges: [{node: createCourse.course}, ...(cachedData?.courses.edges || [])]
+            }
           }
         })
-        
-        if(createCourse.course.id.indexOf('tmp-') !== 0) {
-          
-        closeModal()
+
+        if(createCourse.course.id.indexOf('tmp-') !== 0) {          
+          closeModal()
           router.push({
             pathname: `/admin/courses/edit`,
             query: {
@@ -111,6 +114,7 @@ const AdminCourseSetup = () => {
               children: [],
               users: null,
               settings: {},
+              tags: [],
             }],
             users: null,
             settings: {},
