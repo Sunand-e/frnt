@@ -38,7 +38,9 @@ export default function EditorLayout( {page, navState} ) {
   const layoutProps = {
     page,
     navState,
-    ...(course && {sidebarComponent: <CourseStructureEditor {...courseStructureEditorProps} course={course} /> }) 
+    ...(course && {
+      sidebarComponent: <CourseStructureEditor {...courseStructureEditorProps} course={course} />
+    }) 
   }
 
   return (
