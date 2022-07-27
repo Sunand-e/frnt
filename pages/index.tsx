@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import Button from '../components/Button';
 import { QueriesContext } from '../context/QueriesContext';
 import Dashboard from '../components/dashboard/Dashboard';
+import WelcomeUserPanel from "../components/dashboard/WelcomeUserPanel";
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -97,7 +98,7 @@ const DashboardPage = () => {
       </Head>
       
       {/* <InnerNav /> */}
-      
+      <WelcomeUserPanel />
       <PageContent>
         <div className="flex-grow ">
           <Dashboard />
