@@ -38,28 +38,11 @@ export const PackageBlockEdit: FunctionComponent = ({block}) => {
       properties: {
         ...block.properties,
         url: module.launchUrl,
+        moduleId: module.id
       }
     })
     closeModal()
   }
-
-  const selectFile = (module) => {
-
-    const newBlock = {
-      type: 'package',
-      id: uuidv4(),
-      properties: {
-        // this needs to change to insert the url package location!
-        // url: '/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html',
-        // url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
-        url: module.launchUrl,
-      }
-    }
-    addBlock(newBlock)
-    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
-    closeModal()
-  }
-
 
   const selectPackageModal = () => {
     handleModal({
@@ -68,6 +51,7 @@ export const PackageBlockEdit: FunctionComponent = ({block}) => {
       size: 'lg'
     })
   }
+  
   return (
     <>
       { isFullscreenEnabled && (

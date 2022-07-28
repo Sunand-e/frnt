@@ -15,9 +15,6 @@ interface PackageLibraryProps {
 
 const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSelect}) => {
 
-  
-  const { handleModal } = useModal()
-
   const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
 
   const handleItemDelete = () => {
