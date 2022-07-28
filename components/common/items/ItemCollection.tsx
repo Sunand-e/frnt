@@ -7,9 +7,10 @@ interface ItemCollectionProps {
   viewAll?: MouseEventHandler<HTMLButtonElement>
   items: Array<any>
   options: any
+  gridClasses: string
 }
 
-export default function ItemCollection({items, options, viewAll}: ItemCollectionProps) {
+export default function ItemCollection({items, options, viewAll, gridClasses}: ItemCollectionProps) {
   
   const gridOptions = {
     ...options,
@@ -36,7 +37,7 @@ export default function ItemCollection({items, options, viewAll}: ItemCollection
           </div>
         }
       </div>
-      <ItemGrid options={gridOptions} items={gridItems}></ItemGrid>
+      <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses}></ItemGrid>
     </div>
   )
 }

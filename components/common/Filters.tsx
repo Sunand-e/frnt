@@ -40,8 +40,9 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
 
   return (
     <div>
-      <div className="flex items-center space-x-4 mb-6 z-10 relative">    
-        <div className="relative text-gray-600 focus-within:text-gray-400">
+      <div className="flex flex-col items-center space-x-4 mb-6 z-10 relative md:flex-row md:flex md:space-x-4 sm:grid sm:grid-cols-2 sm:space-x-0 sm:gap-4">
+      {/*<div className="grid grid-cols-3 gap-4 place-content-center  mb-6 z-10 relative">*/}
+        <div className="relative ml-0 text-gray-600 focus-within:text-gray-400 sm:col-span-2">
           <span className="absolute inset-y-0 left-3 flex items-center ">
             {/* <button type="submit" class="p-1 focus:outline-none focus:shadow-outline"> */}
               <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" className="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -64,7 +65,7 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
             autoComplete="off"
           />
         </div>
-        <div className="relative">
+        <div className="relative ml-0 w-full mt-5 md:w-auto md:pr-0 sm:mt-0 ">
           <Select
             name="colors"
             className='absolute z-10'
@@ -86,10 +87,10 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
             isSearchable={false}
           />
         </div>
-        <div className="relative">
+        <div className="relative ml-0  w-full mt-5 md:w-auto md:mt-0 sm:mt-0">
           <Select
             name="colors"
-            className='absolute z-10'
+            className='absolute z-0'
             styles={{
               menu: (base) => ({
                 ...base,
