@@ -8,7 +8,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           {/* This is where we might put a div which can be used as a react 'portal' */}
-          {/* <div id="debug_panel"></div> */}
+          <div id="debug_panel"></div>
           <NextScript />
         </body>
       </Html>
