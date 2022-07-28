@@ -56,6 +56,7 @@ const LoginForm = () => {
       }
     )
       // console.log(data);
+      // console.log("log:" + " " + JSON.stringify(data))
   }
 
   return (

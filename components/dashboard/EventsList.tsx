@@ -9,7 +9,6 @@ import UserDashTitles from "./UserDashTitles";
 
 const meetings = [
     {
-        id: 1,
         date: 'January 10th, 2022',
         time: '5:00 PM',
         datetime: '2022-01-10T17:00',
@@ -19,7 +18,6 @@ const meetings = [
         location: 'Starbucks',
     },
     {
-        id: 1,
         date: 'January 10th, 2022',
         time: '5:00 PM',
         datetime: '2022-01-10T17:00',
@@ -29,7 +27,6 @@ const meetings = [
         location: 'Starbucks',
     },
     {
-        id: 1,
         date: 'January 10th, 2022',
         time: '5:00 PM',
         datetime: '2022-01-10T17:00',
@@ -49,8 +46,8 @@ export default function EventListBlock() {
     return (
         <UserDashTitles title="Events">
             <ol className="mt-4 divide-y divide-gray-100 text-sm leading-6 bg-white shadow px-4 rounded-md">
-                {meetings.map((meeting) => (
-                    <li key={meeting.id} className="relative flex space-x-6 py-6 xl:static">
+                {meetings.map((meeting, index) => (
+                    <li key={index} className="relative flex space-x-6 py-6 xl:static">
                         <img src={meeting.imageUrl} alt="" className="h-14 w-14 flex-none rounded-full" />
                         <div className="flex-auto">
                             <h3 className="pr-10 font-semibold text-gray-900 xl:pr-0">{meeting.name}</h3>

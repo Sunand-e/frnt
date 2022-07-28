@@ -10,7 +10,6 @@ import UserDashTitles from "./UserDashTitles";
 
 const messages = [
     {
-        id: 1,
         subject: 'Velit placeat sit ducimus non sed',
         sender: 'Gloria Roberston',
         time: '1d ago',
@@ -19,7 +18,6 @@ const messages = [
             'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.',
     },
     {
-        id: 1,
         subject: 'Velit placeat sit ducimus non sed',
         sender: 'Gloria Roberston',
         time: '1d ago',
@@ -28,7 +26,6 @@ const messages = [
             'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.',
     },
     {
-        id: 1,
         subject: 'Velit placeat sit ducimus non sed',
         sender: 'Gloria Roberston',
         time: '1d ago',
@@ -42,9 +39,9 @@ export default function LatestNewsBlock() {
     return (
         <UserDashTitles title="Latest News">
             <ul role="list" className="divide-y divide-gray-200 bg-white shadow rounded-md">
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                     <li
-                        key={message.id}
+                        key={index}
                         className="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
                     >
                         <div className="flex justify-between space-x-3">
