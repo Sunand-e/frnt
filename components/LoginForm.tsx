@@ -55,7 +55,7 @@ const LoginForm = () => {
         // });
       }
     )
-      console.log(data);
+      // console.log(data);
   }
 
   return (
