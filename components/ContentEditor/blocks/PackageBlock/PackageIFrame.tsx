@@ -11,6 +11,7 @@ import ScormAgain from 'scorm-again'
 import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { currentContentItemVar, scormDataVar } from '../../../../graphql/cache';
 import { useFullscreen } from "rooks";
+import { CREATE_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT, UPDATE_SCO_ATTEMPT } from '../../../../graphql/queries/scoAttempts';
 
 declare global {
   interface Window {
@@ -26,62 +27,15 @@ export const IFrameWithRef = ({ iframeRef, ...props }) => {
 }
 
 export const PackageIFrame = React.forwardRef(({block}, ref) => {
-
-  const CREATE_SCO_ATTEMPT = gql`
-    mutation CreateScoAttempt(
-      $attempt: Int!,
-      $data: JSON!,
-      $contentItemId: ID!, 
-      $scormModuleId: ID!
-    ) {
-      createUserScoAttempt(input: {
-        attempt: $attempt,
-        data: $data,
-        contentItemId: $contentItemId,
-        scormModuleId: $scormModuleId
-      }) {
-        id
-        data
-      }
-    }
-  `
   
   const [createScoAttempt, createScoAttemptResponse] = useMutation(
     CREATE_SCO_ATTEMPT
   );
 
-  const UPDATE_SCO_ATTEMPT = gql`
-    mutation UpdateScoAttempt(
-      $id: ID!,
-      $data: JSON!,
-    ) {
-      updateUserScoAttempt(input: {
-        id: $id,
-        data: $data,
-      }) {
-        data
-      }
-    }
-  `
-  
   const [updateScoAttempt, updateScoAttemptResponse] = useMutation(
     UPDATE_SCO_ATTEMPT
   );
 
-  const GET_LATEST_SCO_ATTEMPT = gql`
-    query GetLatestScoAttempt(
-      $courseId: ID!,
-      $scormModuleId: ID!,
-    ) {
-      userLatestScoAttempt(
-        courseId: $courseId,
-        scormModuleId: $scormModuleId
-      ) {
-        id
-      }
-    }
-  `
-  
   const { loading, data, error } = useQuery(
     GET_LATEST_SCO_ATTEMPT,
     {
@@ -104,9 +58,9 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
 
   const saveData = useCallback((data) => {
     if(!data) return
-    alert('saving data, ' + attemptId)
+    // alert('saving data, ' + attemptId)
     if(!attemptId) {
-    alert('creating')
+    // alert('creating')
     /* DO A LOAD OF DEBUGGING HERE */
     /* DO A LOAD OF DEBUGGING HERE */
       /* DO A LOAD OF DEBUGGING HERE */
@@ -122,21 +76,21 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
           data
         }
       }).then(res => {
-        alert('CREATED')
+        // alert('CREATED')
         console.log('SRSESESESESESESESESEESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEsresresresres')
         console.log(res)
-        alert(res.data?.createUserScoAttempt?.id)
+        // alert(res.data?.createUserScoAttempt?.id)
         setAttemptId(res.data?.createUserScoAttempt.id)
       })
     } else {
-      alert('updating')
+      // alert('updating')
       updateScoAttempt({
         variables: {
           id: attemptId,
           data,
         }
       }).then(res => {
-        alert('UPDATED')
+        // alert('UPDATED')
         console.log('resresresresresresresresresresresresresresresresresresresresresresresresresresresresresres')
         console.log(res)
       })
@@ -161,7 +115,7 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
       const API = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
-        alert(JSON.stringify(CMIElement,null,2) + ' ' +  value)
+        // alert(JSON.stringify(CMIElement,null,2) + ' ' +  value)
         API.storeData(true);
 
         const data = API.renderCommitCMI(true)
