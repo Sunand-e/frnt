@@ -19,7 +19,7 @@ export default function ItemGrid({className, items, options, gridClasses = ''}: 
   const ItemComponent = (display === 'grid') ? Item : ItemSmall
 
   return (
-    <div className={`mt-4 ${flexOrGridClasses} ${!!className ? className : ''}`}>
+    <div className={`${flexOrGridClasses} ${!!className ? className : ''}`}>
       { items.map((item, index) => {
         return (
           <motion.div
