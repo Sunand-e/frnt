@@ -43,7 +43,7 @@ import { useRouter } from 'next/router'
 import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { QueriesContextProvider } from '../context/QueriesContext';
-import { applyTheme } from '../themes/utils';
+import { applyTheme, createTheme } from '../themes/utils';
 import baseTheme from "../themes/base";
 addIconsToLibrary()
 
@@ -152,6 +152,28 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   // After initial render, apply the theme
   useEffect(() => {
     applyTheme(baseTheme);
+    fetch('/api/v1/tenant/setting')
+    .then(response => {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status code: ' + response.status);
+        return;
+      }
+      // Examine the text in the response
+      response.json().then(function(data) {
+        const theme = createTheme({
+          main: data.primaryBrandColor,
+          secondary: data.secondaryBrandColor,
+          superlight: '#ffffff'
+        });
+        applyTheme(theme)
+        console.log(data);
+      });
+    })
+    .catch(function(err) {
+      console.log('Fetch error', err);
+    });
+    applyTheme(baseTheme);
+    
   }, []);
 
   // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
