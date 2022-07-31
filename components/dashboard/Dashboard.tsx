@@ -13,6 +13,9 @@ import useGetCourses from '../../hooks/courses/useGetCourses';
 import ImportElpCourses from './ImportElpCourses';
 import ResumeRecentActivity from './ResumeRecentActivity';
 import WelcomeUserPanel from './WelcomeUserPanel';
+import EventListBlock from './EventsList';
+import LatestNewsBlock from "./LatestNewsList";
+import CalendarDay from "../Calendar/CalendarDay";
 
 const Dashboard = () => {
 
@@ -39,43 +42,56 @@ const Dashboard = () => {
   
   return (
     <>
-      <WelcomeUserPanel />
-      <ResumeRecentActivity />
-      <CourseTabs />
+        <ResumeRecentActivity />
+        <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-8">
+            <CourseTabs gridClasses={'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3'} />
 
-      <div className="flex space-x-8 mb-8">
-        <div className="flex-1">
-          <h3 className="text-xl text-main-secondary text-semibold">Upcoming events</h3>
-          { data ? 
-            <ItemGrid
-            items = {
-              data.events?.slice(0,3) || []
-            }
-            options={{display: 'list'}}
-            />
-            :
-            <LoadingSpinner />
-          }
+            {/*<div className="flex space-x-8 mb-8">*/}
+            {/*    <div className="flex-1">*/}
+            {/*        <h3 className="text-xl text-main-secondary text-semibold">Upcoming events</h3>*/}
+            {/*        { data ?*/}
+            {/*            <ItemGrid*/}
+            {/*                items = {*/}
+            {/*                    data.events?.slice(0,3) || []*/}
+            {/*                }*/}
+            {/*                options={{display: 'list'}}*/}
+            {/*            />*/}
+            {/*            :*/}
+            {/*            <LoadingSpinner />*/}
+            {/*        }*/}
+            {/*    </div>*/}
+
+            {/*    /!* 'Latest News' list *!/*/}
+            {/*    <div className="flex-1">*/}
+            {/*        <h3 className="text-xl text-main-secondary text-semibold">Latest News</h3>*/}
+            {/*        { data ?*/}
+            {/*            <ItemGrid*/}
+            {/*                items = {data.posts?.slice(0,3) || []}*/}
+            {/*                options={{display: 'list'}}*/}
+            {/*            />*/}
+            {/*            :*/}
+            {/*            <LoadingSpinner />*/}
+            {/*        }*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+
+            {/*<TopicsList onTopicClick={handleTopicClick} />*/}
+
+            {/* Dashboard Content Tabs include 'Recently viewed' and 'continiue wathcing' sections */}
+            {/*<DashboardContentTabs />*/}
+            <div className="grid grid-cols-2 gap-4">
+                <EventListBlock />
+                <LatestNewsBlock />
+            </div>
+
         </div>
-
-        {/* 'Latest News' list */}
-        <div className="flex-1">
-          <h3 className="text-xl text-main-secondary text-semibold">Latest News</h3>
-          { data ? 
-            <ItemGrid
-              items = {data.posts?.slice(0,3) || []}
-              options={{display: 'list'}}
-            />
-            :
-            <LoadingSpinner />
-          }
+            <div className="col-span-4">
+                <div className="mt-5 bg-white shadow rounded-md  p-4 w-full lg:w-full lg:ml-0">
+                    <CalendarDay key="b" />
+                </div>
+            </div>
         </div>
-      </div>
-
-      <TopicsList onTopicClick={handleTopicClick} />
-      
-      {/* Dashboard Content Tabs include 'Recently viewed' and 'continiue wathcing' sections */}
-      <DashboardContentTabs />
     </>
   )
 }

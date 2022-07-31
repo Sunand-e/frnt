@@ -12,7 +12,7 @@ const ColorPickerInput = ({label, name, control}) => {
   });
 
   // Internal component state to change colours in colour pickers, and value of input element
-  const [ color, setColor ] = useState('');
+  const [ color, setColor ] = useState(field.value);
 
   // On selecting a colour, update local state AND form field value
   const onChange = (value) => {

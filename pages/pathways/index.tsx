@@ -1,7 +1,5 @@
 import Head from "next/head";
-import PageTitle from "../../components/header/PageTitle";
 import PageContent from "../../components/PageContent";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { useReactiveVar } from "@apollo/client";
 import { libraryVar } from "../../graphql/cache";
 import { useState, useEffect, useContext } from "react";
@@ -9,7 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import usePageTitle from "../../hooks/usePageTitle";
 import { QueriesContext } from "../../context/QueriesContext";
 
-const Pathways = () => {
+const PathwaysPage = () => {
   
   const items = useReactiveVar(libraryVar);
 
@@ -25,24 +23,24 @@ const Pathways = () => {
     setProgrammes(items?.filter(item => item.__typename === 'Programme'))
   },[items])
 
-    return (
-        <>
-            <Head>
-                <title>Membership Academy</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <PageContent>
-                <div className="flex-grow">
-                 {/* { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> } */}
-                </div>
-            </PageContent>
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>Membership Academy</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <PageContent>
+        <div className="flex-grow">
+          {/* { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> } */}
+        </div>
+      </PageContent>
+    </>
+  );
 }
 
-Pathways.navState = {
+PathwaysPage.navState = {
   topLevel: 'courses',
   secondary: 'pathways'
 }
 
-export default Pathways
+export default PathwaysPage

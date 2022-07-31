@@ -20,6 +20,7 @@ const PackageSelectModal = ({block}) => {
         // url: '/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html',
         // url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
         url: module.launchUrl,
+        moduleId: module.id,
       }
     }
     addBlock(newBlock)

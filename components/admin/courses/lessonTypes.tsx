@@ -3,37 +3,38 @@ import {Text, Box, Video, List, Image, Document} from '@styled-icons/fluentui-sy
 import {Assignment} from '@styled-icons/material'
 import {Quiz} from '@styled-icons/material-rounded/Quiz'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import { v4 as uuidv4 } from 'uuid'
 export const lessonTypes = {
   text: {
     label: "Text", 
     icon: TextLeft,
-    content: { blocks: [{type:'text'}]}
+    content: { blocks: [{id: uuidv4(), type:'text'}]}
   },
   video: {
     label: "Video",
     icon: Video,
-    content: { blocks: [{type:'video'}]}
+    content: { blocks: [{id: uuidv4(), type:'video'}]}
   },
   image: {
     label: "Image",
     icon: Image,
-    content: { blocks: [{type:'image'}]}
+    content: { blocks: [{id: uuidv4(), type:'image'}]}
   },
   document: {
     label: "Document",
     icon: Document,
-    content: { blocks: [{type:'document'}]}
+    content: { blocks: [{id: uuidv4(), type:'document'}]}
   },
   audio: {
     label: "Audio",
     icon: Speaker2,
-    content: { blocks: [{type:'audio'}]}
+    content: { blocks: [{id: uuidv4(), type:'audio'}]}
   },
   scorm: {
     label: "SCORM",
     icon: Box,
     content: { blocks: [{
-      type:'package',
+      id: uuidv4(), type:'package',
       properties: {
         url: ''
       }
@@ -47,7 +48,7 @@ export const lessonTypes = {
   quiz: {
     label: "Quiz",
     icon: Quiz,
-    content: { blocks: [{type:'text'}]}
+    content: { blocks: [{id: uuidv4(), type:'text'}]}
   },
 }
 

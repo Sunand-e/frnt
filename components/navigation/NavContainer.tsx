@@ -94,7 +94,11 @@ export default function NavContainer({navState, sidebarComponent}) {
                 >
                   <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState}/>
                   <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
-                  { sidebarComponent }
+                  { sidebarComponent && (
+                    <div className="sticky top-18 h-[calc(100vh)] w-[300px] bg-main bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
+                      { sidebarComponent }
+                    </div>
+                  )}
                   {/*<NavFooter isSlim={isSlimNav} />*/}
                 </div>
               </Dialog.Panel>
@@ -114,6 +118,11 @@ export default function NavContainer({navState, sidebarComponent}) {
     >
       <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
+      { sidebarComponent && (
+        <div className="sticky top-18 h-[calc(100vh-48px)] w-[300px] bg-main bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
+          { sidebarComponent }
+        </div>
+      )}
       {/*<NavFooter isSlim={isSlimNav} />*/}
     </div>
         </div>

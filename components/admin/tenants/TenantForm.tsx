@@ -16,20 +16,18 @@ interface TenantFormValues {
   shortName: string
   url: string
   profileImage: string
-  primary_color: string
+  primaryBrandColor: string
+  secondaryBrandColor: string
 }
 
 const TenantForm = ({tenant=null, onSubmit}) => {
 
   const defaultValues = {
-    // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...tenant,
     name: tenant?.name,
     url: tenant?.url,
-    primary_color: '',
-    settings: {}
-    // anotherattr: 123,
-    // role_ids: tenant?.roles.map(role => role.id),
+    primaryBrandColor: tenant?.settings?.primaryBrandColor,
+    secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
   }
 
   const { register, handleSubmit,formState: { errors }, control } = useForm<TenantFormValues>({
@@ -73,7 +71,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
 
       <ColorPickerInput
         label="Primary brand colour"
-        name="primary_color"
+        name="primaryBrandColor"
+        control={control}
+      />
+      <ColorPickerInput
+        label="Secondary brand colour"
+        name="secondaryBrandColor"
         control={control}
       />
       {/*<SelectInput*/}

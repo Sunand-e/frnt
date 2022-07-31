@@ -7,16 +7,19 @@ interface ItemGridProps {
   className?: string
   items: Array<any>
   options: any
+  gridClasses: string
 }
 
-export default function ItemGrid({className, items, options}: ItemGridProps) {
+export default function ItemGrid({className, items, options, gridClasses = ''}: ItemGridProps) {
   
   const [display, setDisplay] = useState(options?.display ?? 'grid');
-  const gridClasses = (display === 'grid') ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'flex flex-col gap-6'
+  const defaultGridClasses = 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5';
+  const gridClassName = (gridClasses === '') ? defaultGridClasses : gridClasses;
+  const flexOrGridClasses = (display === 'grid') ? gridClassName : 'flex flex-col gap-6';
   const ItemComponent = (display === 'grid') ? Item : ItemSmall
 
   return (
-    <div className={`mt-4 ${gridClasses} ${!!className ? className : ''}`}>
+    <div className={`mt-4 ${flexOrGridClasses} ${!!className ? className : ''}`}>
       { items.map((item, index) => {
         return (
           <motion.div
@@ -31,4 +34,4 @@ export default function ItemGrid({className, items, options}: ItemGridProps) {
       })}
     </div>
   )
-} 
+}
