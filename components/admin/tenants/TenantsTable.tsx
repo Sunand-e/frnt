@@ -49,8 +49,10 @@ const TenantsTable = () => {
         Header: "URL",
         accessor: "url",
         Cell: ({ cell }) => {
+          const domainUrl = `${location.protocol}//${cell.value}`
+          const port = location.port && `:${location.port}`
           return (
-              <a href={cell.value}>{cell.value}</a>
+              <a href={domainUrl + port}>{cell.value}</a>
           )
         },
       },

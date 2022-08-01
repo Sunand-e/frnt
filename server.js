@@ -7,12 +7,20 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+// This custom router function will redirect any requests to the same URL, minus the port.
+// For example, it will redirect any requests to http://t1.local:3001 to http://t1.local
+function customRouter(req) {
+  // const tenant = hostname.split('.')[0]
+  return `http://${req.hostname}`
+}
+
 const apiPaths = {
   '/graphql': {
     target: 'http://127.0.0.1', 
     pathRewrite: {
       '^/graphql': '/graphql'
     },
+    router: customRouter,
     changeOrigin: true
   },
   '/graphiql': {
@@ -20,6 +28,7 @@ const apiPaths = {
     pathRewrite: {
       '^/graphiql': '/graphiql'
     },
+    router: customRouter,
     changeOrigin: true
   },
   '/uploads': {
@@ -27,6 +36,7 @@ const apiPaths = {
     pathRewrite: {
       '^/uploads': '/uploads'
     },
+    router: customRouter,
     changeOrigin: false
   },
   '/auth': {
@@ -34,6 +44,7 @@ const apiPaths = {
     pathRewrite: {
       '^/auth': '/auth'
     },
+    router: customRouter,
     changeOrigin: true
   },
   '/api/v1': {
@@ -41,6 +52,7 @@ const apiPaths = {
     pathRewrite: {
       '^/api/v1': '/api/v1'
     },
+    router: customRouter,
     changeOrigin: true
   },
   '/scorm-data': {
@@ -48,6 +60,7 @@ const apiPaths = {
     pathRewrite: {
       '^/scorm-data': '/scorm-data'
     },
+    router: customRouter,
     changeOrigin: true
   },
   '/scorm': {
@@ -55,6 +68,7 @@ const apiPaths = {
     pathRewrite: {
       '^/scorm': '/scorm'
     },
+    router: customRouter,
     changeOrigin: true
   }
 }
