@@ -1,4 +1,5 @@
 // See: https://blog.logrocket.com/theming-react-components-tailwind-css/
+import chroma from "chroma-js";
 
 export function applyTheme(theme) {
   const root = document.documentElement;
@@ -6,24 +7,19 @@ export function applyTheme(theme) {
     root.style.setProperty(cssVar, theme[cssVar]);
   });
 }
+// HSL manipulators
+const lighten = (color, hslPercent) => color.set("hsl.l", color.get("hsl.l") + hslPercent);
+const darken = (color, hslPercent) => lighten(color, -hslPercent);
 
-
-function hex2RgbVals(color) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  return result
-   ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-   : color;
-}
 
 export function createTheme({
   main,
-  secondary,
-  superlight
+  secondary
 }) {
   return {
-    "--theme-main": hex2RgbVals(main),
-    "--theme-secondary": hex2RgbVals(secondary),
-    "--theme-superlight": hex2RgbVals(superlight),
+    "--theme-main": chroma(main).rgb().join(', '),
+    "--theme-secondary": chroma(secondary).rgb().join(', '),
+    "--theme-superlight": lighten(chroma(main), 0.68).rgb().join(', '),
   };
 }
 
