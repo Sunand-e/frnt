@@ -54,6 +54,7 @@ const blocktypes = {
     hideFromSelector: true,
   },
   text: {
+    name: 'text',
     text: 'Text',
     component: TextBlock,
     editComponent: TextBlockEdit,
