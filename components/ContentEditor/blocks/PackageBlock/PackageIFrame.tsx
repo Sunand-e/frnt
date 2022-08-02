@@ -97,9 +97,9 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
     }
   },[attemptId])
 
-  useEffect(() => {
-    localScormData && saveData(localScormData)
-  }, [saveData, localScormData])
+  // useEffect(() => {
+  //   localScormData && saveData(localScormData)
+  // }, [saveData, localScormData])
 
 
   useEffect(() => {
