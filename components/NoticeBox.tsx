@@ -24,7 +24,7 @@ export default function NoticeBox({ className, notice, children }: NoticeBoxProp
 
   return (
     <div className={`min-h-60 w-full`}>
-      <div className={`w-full rounded-2xl flex items-center border-l-20 border-blue text-main-secondary py-4 px-6 mb-6 ${bgClass} ${className}`}>
+      <div className={`w-full rounded-2xl flex items-center border-l-20 border-main text-main-secondary py-4 px-6 mb-6 ${bgClass} ${className}`}>
         <FontAwesomeIcon className="h-6 mr-9 text-main" icon={{prefix: 'fas', iconName: 'file-pdf'}} />
         <div className={`w-full`}>
           {notice?.content || children}

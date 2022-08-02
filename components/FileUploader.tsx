@@ -4,43 +4,18 @@ import axios from 'axios';
 import { client } from '../graphql/client';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-
-const baseStyle: CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '20px',
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: '#eeeeee',
-  borderStyle: 'dashed',
-  backgroundColor: '#fafafa',
-  color: '#bdbdbd',
-  outline: 'none',
-  transition: 'border .24s ease-in-out'
-};
-
-const activeStyle: CSSProperties = {
-  borderColor: '#2196f3'
-};
-
-const acceptStyle: CSSProperties = {
-  borderColor: '#00e676'
-};
-
-const rejectStyle: CSSProperties = {
-  borderColor: '#ff1744'
-};
+import FileDropzone from './FileDropzone';
 
 const FileUploader = ({
-  accept, 
-  dropZoneText, 
-  endpoint, 
-  refetchQuery, 
+  accept,
+  dropZoneContent,
+  endpoint=null,
+  refetchQuery=null,
   fileParameterName,
+  onDrop = acceptedFiles => null,
   onAllUploadsComplete = () => null,
-  additionalParams={}
+  multiple=true,
+  additionalParams={},
 }) => {
   
   const token = localStorage.getItem('token');
@@ -118,50 +93,19 @@ const FileUploader = ({
   }
 
   const handleDrop = (acceptedFiles) => {
-    
     const uploadPromises = acceptedFiles.map(uploadFileAndNotify)
-
     Promise.all(uploadPromises).then(onAllUploadsComplete)
+    onDrop(acceptedFiles)
   }
 
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject
-  } = useDropzone({
-    accept,
-    onDrop: handleDrop
-  });
-
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isDragActive ? activeStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
-  
   return (
-    <div className="container mb-4">
-      <div {...getRootProps({style})}>
-        <input {...getInputProps()} />
-        <p>{dropZoneText}</p>
-      </div>
-    </div>
-    
-  );
+    <FileDropzone
+      accept={accept}
+      dropZoneContent={dropZoneContent}
+      onDrop={handleDrop}
+      multiple={multiple}
+    />
+  )
 }
 
 export default FileUploader

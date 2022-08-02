@@ -9,6 +9,7 @@ import CheckboxInput from '../../common/inputs/CheckboxInput';
 import Link from 'next/link';
 import { ModalContext } from '../../../context/modalContext';
 import ColorPickerInput from '../../common/inputs/ColorPickerInput';
+import ImageDropzoneInput from '../../common/inputs/ImageDropzoneInput';
 
 interface TenantFormValues {
   id?: string
@@ -28,18 +29,25 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     url: tenant?.url,
     primaryBrandColor: tenant?.settings?.primaryBrandColor,
     secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
+    tenantImage: ''
   }
 
-  const { register, handleSubmit,formState: { errors }, control } = useForm<TenantFormValues>({
+
+  const { watch, register, handleSubmit,formState: { errors }, control } = useForm<TenantFormValues>({
     defaultValues
   });
 
+  const big = watch()
   const { closeModal } = useContext(ModalContext)
 
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((data) => {
+        console.log('data');
+        console.log(data);
+      })}
     >
       <TextInput
         label="Name"
@@ -60,15 +68,14 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         placeholder="url"
         inputAttrs={register("url", { maxLength: 40 })}
       />
-      <ImageSelectInput
-        placeholder={'https://picsum.photos/640/360'}
+      
+      <ImageDropzoneInput
+        // placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose tenant image"
         control={control}
         name="tenantImage"
         onSelect={closeModal}
-        // inputAttrs={register("image", { required: true })}
-        />
-
+      />
       <ColorPickerInput
         label="Primary brand colour"
         name="primaryBrandColor"
@@ -93,6 +100,9 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       {/*  inputAttrs={register("invite")}*/}
       {/*/>*/}
       <Button type="submit">Submit</Button>
+      <pre>
+      { JSON.stringify(big,null,2) }
+      </pre>
     </form>
   );
 }

@@ -20,6 +20,7 @@ export function createTheme({
     "--theme-main": chroma(main).rgb().join(', '),
     "--theme-secondary": chroma(secondary).rgb().join(', '),
     "--theme-superlight": lighten(chroma(main), 0.68).rgb().join(', '),
+    "--theme-dark-05": darken(chroma(main), 0.05).rgb().join(', '),
   };
 }
 

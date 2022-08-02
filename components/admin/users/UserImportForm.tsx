@@ -25,7 +25,7 @@ const UserImportForm = () => {
       'text/comma-separated-values',
       'text/x-comma-separated-values'
     ],
-    dropZoneText: 'Upload a CSV',
+    dropZoneContent: 'Upload a CSV',
     endpoint: "/api/v1/users/bulk_import",
     refetchQuery: GET_USERS,
     fileParameterName: 'csv_file',

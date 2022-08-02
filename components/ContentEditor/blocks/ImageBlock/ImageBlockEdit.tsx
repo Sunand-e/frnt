@@ -3,9 +3,9 @@ import {
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import useBlockEditor from '../../useBlockEditor';
-import ImageSelect from '../../ImageSelect';
 import { v4 as uuidv4 } from 'uuid';
 import { ModalContext } from '../../../../context/modalContext';
+import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
@@ -32,7 +32,7 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
       block={block}
       defaultWidth={defaultWidth}
     >
-      <ImageSelect 
+      <ImageSelectFromLibrary
         src={block.properties?.url}
         onSelect={selectImage}
       />

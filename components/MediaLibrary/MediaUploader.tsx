@@ -5,7 +5,11 @@ const MediaUploader = () => {
 
   const refetchQuery = GET_MEDIA_ITEMS
   const endpoint = "/uploads/upload_media"
-  const dropZoneText = "Drag and drop some files here, or click this box to select files"
+  const dropZoneContent = (
+    <p>
+      Drag and drop some files here, or click this box to select files"
+    </p>
+  )
   const accept = [
     'image/jpeg',
     'image/pjpeg',
@@ -71,7 +75,7 @@ const MediaUploader = () => {
       additionalParams={additionalParams}
       endpoint={endpoint}
       accept={accept}
-      dropZoneText={dropZoneText}
+      dropZoneContent={dropZoneContent}
     />
   )
 }
