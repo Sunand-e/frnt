@@ -42,7 +42,7 @@ const CourseStructureView = () => {
             
             <div className="flex items-center max-w-xs h-10">
               { course.tags?.[0] && (
-              <div className="h-8 w-8 flex-shrink-0">
+              <div className="h-8 w-8 shrink-0">
                 <img className="rounded-full" src={course.tags[0].image.location ?? '/images/placeholder-image.png'} alt="" />
               </div>
               ) }

@@ -11,7 +11,7 @@ const Post = () => {
 
   return (
     <ContentTypePage type="Post" setData={setPost}>
-      <div className="flex-grow w-9/12">
+      <div className="grow w-9/12">
         { !post && <LoadingSpinner /> }
         { post && <div className="mb-8" dangerouslySetInnerHTML={{__html: post.content}} /> }
       </div>

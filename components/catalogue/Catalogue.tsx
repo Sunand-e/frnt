@@ -40,7 +40,7 @@ const CatalogueLibrary = () => {
   },[search, category])
 
   return (
-    <div className="flex flex-col items-stretch flex-grow">
+    <div className="flex flex-col items-stretch grow">
       { tags && <CatalogueFilters /> }
       { !courses && <LoadingSpinner text="Loading courses..."/> }
 
