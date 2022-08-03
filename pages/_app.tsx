@@ -45,6 +45,7 @@ import DefaultLayout from '../layouts/DefaultLayout'
 import { QueriesContextProvider } from '../context/QueriesContext';
 import { applyTheme, createTheme } from '../themes/utils';
 import baseTheme from "../themes/base";
+import { TenantContextProvider } from '../context/TenantContext';
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -149,33 +150,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     )
   },[isLoggedIn, PageComponent])
     
-  // After initial render, apply the theme
-  useEffect(() => {
-    applyTheme(baseTheme);
-    fetch('/api/v1/tenant/setting')
-    .then(response => {
-      if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status code: ' + response.status);
-        return;
-      }
-      // Examine the text in the response
-      response.json().then(function(data) {
-        const theme = createTheme({
-          main: data.primaryBrandColor,
-          secondary: data.secondaryBrandColor,
-          superlight: '#ffffff'
-        });
-        applyTheme(theme)
-        console.log(data);
-      });
-    })
-    .catch(function(err) {
-      console.log('Fetch error', err);
-    });
-    applyTheme(baseTheme);
-    
-  }, []);
-
   // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
   useEffect(() => {
     const checkIfAdminPage = () => {
@@ -198,13 +172,15 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   return (
     <>
     <ApolloProvider client={client}>
-        <QueriesContextProvider value={{queries}}>
-          <ModalProvider>
-            {
-              layout
-            }
-          </ModalProvider>
-        </QueriesContextProvider>
+        <TenantContextProvider>
+          <QueriesContextProvider value={{queries}}>
+            <ModalProvider>
+              {
+                layout
+              }
+            </ModalProvider>
+          </QueriesContextProvider>
+        </TenantContextProvider>
       </ApolloProvider>
     </>
   )

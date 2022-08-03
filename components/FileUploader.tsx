@@ -1,10 +1,5 @@
-import {CSSProperties, useMemo} from 'react';
-import {useDropzone} from 'react-dropzone';
-import axios from 'axios';
-import { client } from '../graphql/client';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
 import FileDropzone from './FileDropzone';
+import useUploadAndNotify from '../hooks/useUploadAndNotify';
 
 const FileUploader = ({
   accept,
@@ -17,80 +12,13 @@ const FileUploader = ({
   multiple=true,
   additionalParams={},
 }) => {
-  
-  const token = localStorage.getItem('token');
 
-  const uploadFileAndNotify = async (file) => {
-    const toastId = uuidv4()
-
-    const data = new FormData()
-
-    for(const param in additionalParams) {
-      data.append(param, additionalParams[param])
-    }
-
-    // data.append('title', file.name)
-    data.append(fileParameterName, file, file.name)
-
-    await axios.request({
-      method: "post", 
-      url: endpoint,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      data, 
-      onUploadProgress: (p) => {
-        const progress = p.loaded / p.total
-        console.log('progress...' + progress)
-        // check if we already displayed a toast
-        if(progress === 1) {
-
-          const text = `Uploaded ${file.name}.`
-
-          if(!toast.isActive(toastId)) {
-            toast(text, {
-              toastId,
-              autoClose: 3000
-            })
-          } else {
-            // toast.update(toastId, {
-            //   progress,
-            //   hideProgressBar: true,
-            // })
-            toast.update(toastId, {
-              progress,
-              hideProgressBar: false,
-              // autoClose: 1000
-            })
-          }
-
-        } else {
-          const text = `Uploading ${file.name}`
-
-          if(!toast.isActive(toastId)) {
-            toast(text, {
-              toastId,
-              progress,
-            })
-          } else {
-            toast.update(toastId, {
-              progress,
-            })
-          }
-        }
-
-      }
-    }).then(data => {
-      // alert('now')
-      setTimeout(() => {
-        // toast.done(toastId)
-      }, 2000)
-      /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
-      client.refetchQueries({
-        include: [refetchQuery]
-      })
-    })
-  }
+  const { uploadFileAndNotify } = useUploadAndNotify({
+    additionalParams,
+    fileParameterName,
+    endpoint,
+    refetchQuery
+  })    
 
   const handleDrop = (acceptedFiles) => {
     const uploadPromises = acceptedFiles.map(uploadFileAndNotify)

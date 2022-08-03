@@ -1,7 +1,4 @@
-import { useContext, useEffect, useState } from "react";
 import { Control, useController } from "react-hook-form";
-import { ModalContext } from "../../../context/modalContext";
-import ImageSelect from "../../ContentEditor/ImageSelect";
 import ImageDropzone from "./ImageDropzone";
 
 type ImageDropzoneInputProps = { 
@@ -18,6 +15,7 @@ type ImageDropzoneInputProps = {
 const ImageDropzoneInput = ({
   control,
   name,
+  label
 }: ImageDropzoneInputProps) => {
 
   const { field } = useController({
@@ -25,7 +23,7 @@ const ImageDropzoneInput = ({
     name
   });
 
-  const handleDrop = (file, event) => {
+  const handleDrop = (file) => {
     console.log(file)
     field.onChange(file)
   }
@@ -34,7 +32,7 @@ const ImageDropzoneInput = ({
     <div>
       <label className="block">
         <span className="text-sm font-medium text-gray-700">
-          Cover photo
+          {label}
         </span>
       </label>
       <ImageDropzone

@@ -1,15 +1,15 @@
 import { GET_MEDIA_ITEMS } from "../../graphql/queries/allQueries"
+import DropzoneIconAndText from "../common/inputs/DropzoneIconAndText"
 import FileUploader from "../FileUploader"
 
 const MediaUploader = () => {
 
   const refetchQuery = GET_MEDIA_ITEMS
   const endpoint = "/uploads/upload_media"
-  const dropZoneContent = (
-    <p>
-      Drag and drop some files here, or click this box to select files"
-    </p>
-  )
+  const dropZoneContent = <DropzoneIconAndText
+    fileHintText="PNG, JPG, GIF, PDF, DOC, XLS, PPT, MP3, WAV up to 10MB"
+  />
+
   const accept = [
     'image/jpeg',
     'image/pjpeg',

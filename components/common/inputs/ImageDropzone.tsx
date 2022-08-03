@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ImageSelect from "../../ContentEditor/ImageSelect";
 import FileDropzone from "../../FileDropzone";
+import DropzoneIconAndText from "./DropzoneIconAndText";
 
 const ImageDropzone = ({
   multiple=true,
@@ -8,8 +9,9 @@ const ImageDropzone = ({
 }) => {
 
   const dropZoneContent = (
-    <>
-      <svg
+    <DropzoneIconAndText
+      icon={(
+        <svg
         className="mx-auto h-12 w-12 text-gray-400"
         stroke="currentColor"
         fill="none"
@@ -23,17 +25,9 @@ const ImageDropzone = ({
           strokeLinejoin="round"
         />
       </svg>
-      <div className="flex text-sm text-gray-600">
-        <label
-          htmlFor="file-upload"
-          className="relative cursor-pointer rounded-md font-medium text-main hover:opacity-70 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-        >
-          <span>Upload a file</span>
-        </label>
-        <p className="pl-1">or drag and drop</p>
-      </div>
-      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-    </>
+      )}
+      fileHintText="PNG, JPG, GIF up to 10MB"
+    />
   )
 
   const accept = [

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { ModalContext } from '../../../context/modalContext';
 import ColorPickerInput from '../../common/inputs/ColorPickerInput';
 import ImageDropzoneInput from '../../common/inputs/ImageDropzoneInput';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 
 interface TenantFormValues {
   id?: string
@@ -32,22 +33,40 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     tenantImage: ''
   }
 
+  const endpoint = "/api/v1/tenant/update"
+  const method = "PUT"
 
-  const { watch, register, handleSubmit,formState: { errors }, control } = useForm<TenantFormValues>({
+  const { uploadFileAndNotify: uploadCompanyLogo } = useUploadAndNotify({
+    fileParameterName: "profile_image",
+    endpoint,
+    method
+  })
+  const { uploadFileAndNotify: uploadSquareLogo } = useUploadAndNotify({
+    fileParameterName: "login_image",
+    endpoint,
+    method
+  })
+
+  const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantFormValues>({
     defaultValues
   });
 
   const big = watch()
-  const { closeModal } = useContext(ModalContext)
+
+  const handleSubmit = (data) => {
+    console.log('data.companyLogo')
+    console.log(data.companyLogo)
+    console.log('data.squareLogo')
+    console.log(data.squareLogo)
+    data.companyLogo && uploadCompanyLogo(data.companyLogo)
+    data.squareLogo && uploadSquareLogo(data.squareLogo)
+    onSubmit(data)
+  }
 
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      // onSubmit={handleSubmit(onSubmit)}
-      onSubmit={handleSubmit((data) => {
-        console.log('data');
-        console.log(data);
-      })}
+      onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
         label="Name"
@@ -68,13 +87,17 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         placeholder="url"
         inputAttrs={register("url", { maxLength: 40 })}
       />
-      
       <ImageDropzoneInput
-        // placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose tenant image"
+        label="Company logo"
         control={control}
-        name="tenantImage"
-        onSelect={closeModal}
+        name="companyLogo"
+        />
+      <ImageDropzoneInput
+        buttonText="Choose tenant image"
+        label="Company logo (square)"
+        control={control}
+        name="squareLogo"
       />
       <ColorPickerInput
         label="Primary brand colour"
@@ -86,19 +109,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="secondaryBrandColor"
         control={control}
       />
-      {/*<SelectInput*/}
-      {/*  label="User role"*/}
-      {/*  options={["Employee", "External", "Manager"]}*/}
-      {/*  inputAttrs={register("name")}*/}
-      {/*/>*/}
-      {/*<UserRoleSelect*/}
-      {/*  control={control}*/}
-      {/*  roleType='tenant_role'*/}
-      {/*/>*/}
-      {/*<CheckboxInput*/}
-      {/*  label="Send tenant an invitation upon creation"*/}
-      {/*  inputAttrs={register("invite")}*/}
-      {/*/>*/}
       <Button type="submit">Submit</Button>
       <pre>
       { JSON.stringify(big,null,2) }
