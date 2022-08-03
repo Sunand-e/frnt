@@ -61,14 +61,6 @@ module.exports = {
       backgroundOpacity: ['hover', 'active', 'focus'],
     },
   },
-  variants: {
-    extend: {
-      fontWeight: ['hover', 'focus'],
-      zIndex: ['hover', 'active'],
-      flexGrow: ['before', 'after'],
-    },
-    scrollbar: ['rounded']
-  },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
