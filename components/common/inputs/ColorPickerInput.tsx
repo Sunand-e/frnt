@@ -43,7 +43,7 @@ const ColorPickerInput = ({label, name, control}) => {
               </div>
             }
             >
-            <input onClick={(e) => e.preventDefault()} className="flex items-center w-12 h-8" type="color" value={color} />
+            <input onClick={(e) => e.preventDefault()} className="flex items-center w-12 h-8" type="color" value={color} onChange={onChange} />
           </Tippy>
           <HexColorInput color={color} alpha={true} onChange={onChange} />
         </div>
