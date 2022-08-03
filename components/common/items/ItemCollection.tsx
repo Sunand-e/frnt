@@ -8,9 +8,10 @@ interface ItemCollectionProps {
   items: Array<any>
   options: any
   gridClasses: string
+  noItemsText: string
 }
 
-export default function ItemCollection({items, options, viewAll, gridClasses}: ItemCollectionProps) {
+export default function ItemCollection({items, options, viewAll, gridClasses, noItemsText}: ItemCollectionProps) {
   
   const gridOptions = {
     ...options,
@@ -19,9 +20,9 @@ export default function ItemCollection({items, options, viewAll, gridClasses}: I
   // const subHeading = options.subHeading || 'Subheading'
 
   const gridItems = gridOptions.maxItems ? items.slice(0, gridOptions.maxItems) : items;
-
+  // alert(JSON.stringify())
   return (
-    <div className="mb-8">
+    <div className="mb-8 bg-white shadow rounded-md px-6 pt-6">
       <div className="collectionHeader flex justify-between">
         
         <div className="collectionHeaderLeft">
@@ -37,7 +38,7 @@ export default function ItemCollection({items, options, viewAll, gridClasses}: I
           </div>
         }
       </div>
-      <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses}></ItemGrid>
+      {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses}></ItemGrid>}
     </div>
   )
 }

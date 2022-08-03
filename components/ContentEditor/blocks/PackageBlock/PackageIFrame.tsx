@@ -11,7 +11,7 @@ import ScormAgain from 'scorm-again'
 import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { currentContentItemVar, scormDataVar } from '../../../../graphql/cache';
 import { useFullscreen } from "rooks";
-import { CREATE_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT, UPDATE_SCO_ATTEMPT } from '../../../../graphql/queries/scoAttempts';
+import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../graphql/queries/scoAttempts';
 
 declare global {
   interface Window {
@@ -28,12 +28,8 @@ export const IFrameWithRef = ({ iframeRef, ...props }) => {
 
 export const PackageIFrame = React.forwardRef(({block}, ref) => {
   
-  const [createScoAttempt, createScoAttemptResponse] = useMutation(
-    CREATE_SCO_ATTEMPT
-  );
-
-  const [updateScoAttempt, updateScoAttemptResponse] = useMutation(
-    UPDATE_SCO_ATTEMPT
+  const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
+    UPSERT_SCO_ATTEMPT
   );
 
   const { loading, data, error } = useQuery(
@@ -57,36 +53,11 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
   const [localScormData, setLocalScormData] = useState(null)
 
   const saveData = useCallback((data) => {
-    if(!data) return
-    // alert('saving data, ' + attemptId)
-    if(!attemptId) {
-    // alert('creating')
-    /* DO A LOAD OF DEBUGGING HERE */
-    /* DO A LOAD OF DEBUGGING HERE */
-      /* DO A LOAD OF DEBUGGING HERE */
-      /* DO A LOAD OF DEBUGGING HERE */
-      /* DO A LOAD OF DEBUGGING HERE */
-      /* DO A LOAD OF DEBUGGING HERE */
-      
-      createScoAttempt({
-        variables: {
-          scormModuleId: block.properties.moduleId,
-          contentItemId: currentContentItemVar().id,
-          attempt: 1,
-          data
-        }
-      }).then(res => {
-        // alert('CREATED')
-        console.log('SRSESESESESESESESESEESEEEEEEEEEEEEEEEEEEEEEEEEEEEEEsresresresres')
-        console.log(res)
-        // alert(res.data?.createUserScoAttempt?.id)
-        setAttemptId(res.data?.createUserScoAttempt.id)
-      })
-    } else {
       // alert('updating')
-      updateScoAttempt({
+      upsertScoAttempt({
         variables: {
-          id: attemptId,
+          contentItemId: attemptId,
+          scormModuleId: block.properties.moduleId,
           data,
         }
       }).then(res => {
@@ -94,11 +65,10 @@ export const PackageIFrame = React.forwardRef(({block}, ref) => {
         console.log('resresresresresresresresresresresresresresresresresresresresresresresresresresresresresres')
         console.log(res)
       })
-    }
-  },[attemptId])
+  },[])
 
   useEffect(() => {
-    localScormData && saveData(localScormData)
+    // localScormData && saveData(localScormData)
   }, [saveData, localScormData])
 
 

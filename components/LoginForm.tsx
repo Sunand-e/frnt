@@ -82,27 +82,27 @@ const LoginForm = () => {
           },
           pattern:{
             value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            message: "Please give valid email"
+            message: "Please enter a valid email address"
           }
         })}
       />
-      {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
+      {errors.email && (<small className="text-danger text-red-600">{errors.email.message}</small>)}
       <TextInput
         label="Password"
         placeholder="Password"
         type="password"
-        className="mt-6"
+        className="mt-4"
         inputAttrs={register("password", {
             required:"Password is required"
         })}
       />
       {errors.password && (<small className="text-danger text-red-500">{errors.password.message}</small>)}
-      <div className="flex items-center justify-between my-6">
+      <div className="flex flex-col items-start justify-between my-4">
         <div className="flex items-center">
           <input
             id="remember-me"
             type="checkbox"
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            className="h-4 w-4 text-main focus:ring-main border-gray-300 rounded"
             {...register("remember-me")}
           />
           <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
@@ -110,17 +110,19 @@ const LoginForm = () => {
           </label>
         </div>
 
-        <div className="text-sm">
-          <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-            Forgot your password?
-          </a>
-        </div>
       </div>
+      
       <button
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="w-full flex justify-center py-2 px-4 mb-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-main hover:bg-main-dark-05 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         Sign In
       </button>
+
+      <div className="text-sm">
+          <a href="#" className="font-medium text-main hover:opacity-70">
+            Forgot your password?
+          </a>
+        </div>
     </form>
   )
 }

@@ -74,7 +74,7 @@ export default function Item({ item, options }) {
         </a>
       </Link>
       <div className="p-4 pt-4 flex-grow flex flex-col">
-        {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
+        {/* <h2 className="text-lg text-main-secondary mb-2 border-main border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
           <h2 className="text-xl text-main-secondary font-semibold mb-2">{itemTitle}</h2>
           { item.tags?.[0] && <img src={item.tags[0].image.location} className="mt-1 h-12 rounded-full" /> }

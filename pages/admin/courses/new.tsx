@@ -5,10 +5,9 @@ import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/Button'
 import useCourse from '../../../hooks/courses/useCourse'
 import AddItemToCourseForm from '../../../components/admin/courses/AddItemToCourseForm'
-import ImageSelect from '../../../components/ContentEditor/ImageSelect'
 import { ModalContext } from '../../../context/modalContext'
 import InputWithLabel from '../../../components/common/inputs/InputWithLabel'
-import MediaLibrary from '../../../components/MediaLibrary/MediaLibrary'
+import ImageSelectFromLibrary from '../../../components/ContentEditor/ImageSelectFromLibrary'
 
 const AdminCoursesNew = () => {
   /*
@@ -67,16 +66,8 @@ const AdminCoursesNew = () => {
     )
   },[])
 
-  const selectImageModal = () => {
-    handleModal({
-      title: `Choose image`,
-      content: <MediaLibrary onItemSelect={(image) => updateCourse({imageId: image.id})} typeFilter={['image']} />,
-      size: 'lg'
-    })
-  }
-
-
-
+  const selectImage = (image) => updateCourse({imageId: image.id})
+  
   return (
     <div className='h-full w-full max-w-sm'>
       <InputWithLabel
@@ -86,9 +77,9 @@ const AdminCoursesNew = () => {
         name="videoUrl"
         placeholder="Untitled course"
       />
-      <ImageSelect 
+      <ImageSelectFromLibrary
         src={course?.image?.location}
-        onClick={selectImageModal}
+        onSelect={selectImage}
         buttonText="Choose course image"
         isButtonAlwaysVisible={true}
       />

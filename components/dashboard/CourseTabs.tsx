@@ -29,18 +29,21 @@ export default function CourseTabs({gridClasses}) {
     {
       name: 'In progress',
       courses: courses?.filter(course => course.status === 'in_progress'),
-      readMoreLabel: 'Continue course'
+      readMoreLabel: 'Continue course',
+      noItemsText: 'No courses are currently in progress'
     },
     {
       name: 'Not started',
       courses: courses?.filter(course => !course.status || course.status === 'not_started'),
-      readMoreLabel: 'Start course'
+      readMoreLabel: 'Start course',
+      noItemsText: 'No courses found'
     },
     {
       name: 'Completed',
       href: '#',
       courses: courses?.filter(course => course.status === 'completed'),
-      readMoreLabel: 'View course'
+      readMoreLabel: 'View course',
+      noItemsText: 'You have not completed any courses'
     },
   ]
 
@@ -54,7 +57,7 @@ export default function CourseTabs({gridClasses}) {
       href: '#'
     }
   })
-
+// alert(JSON.stringify(currentPanel));
   return (
     <>
       <Tabs tabs={tabs} activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} className="mb-2" />
@@ -63,6 +66,7 @@ export default function CourseTabs({gridClasses}) {
           <ItemCollection
             items={filteredCourses || []}
             gridClasses={gridClasses}
+            noItemsText={currentPanel.noItemsText}
             options={{
               ...defaultOptions,
               itemOptions: {
