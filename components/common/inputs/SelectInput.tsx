@@ -7,7 +7,7 @@ const SelectInput = ({
 
   return (
     <label className="block">
-      <span className="text-gray-700">{ label }</span>
+      <span className="text-sm font-medium text-gray-700">{ label }</span>
       <select
         className="
           block

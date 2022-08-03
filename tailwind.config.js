@@ -19,8 +19,10 @@ module.exports = {
         main: {
           DEFAULT: rgbaStringFunction('main'),
           dark: rgbaStringFunction('dark'),
+          'dark-05': rgbaStringFunction('dark-05'),
           secondary: rgbaStringFunction('secondary'),
           superlight: rgbaStringFunction('superlight'),
+          'lighten-test': rgbaStringFunction('lighten-test'),
         },
         grey: {
           // DEFAULT: '#ebedf4',
@@ -64,6 +66,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/line-clamp'),
     require('tailwind-scrollbar')
   ],
 }
