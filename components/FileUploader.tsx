@@ -18,7 +18,7 @@ const FileUploader = ({
     fileParameterName,
     endpoint,
     refetchQuery
-  })    
+  })
 
   const handleDrop = (acceptedFiles) => {
     const uploadPromises = acceptedFiles.map(uploadFileAndNotify)

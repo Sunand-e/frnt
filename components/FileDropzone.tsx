@@ -27,8 +27,6 @@ const FileDropzone = ({
   multiple=true,
 }) => {
   
-  const token = localStorage.getItem('token');
-
   const handleDrop = (acceptedFiles, fileRejections, event) => {
     onDrop(acceptedFiles, fileRejections, event)
   }

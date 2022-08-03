@@ -28,6 +28,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     ...tenant,
     name: tenant?.name,
     url: tenant?.url,
+    id: tenant?.id,
     primaryBrandColor: tenant?.settings?.primaryBrandColor,
     secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
     tenantImage: ''
@@ -38,11 +39,13 @@ const TenantForm = ({tenant=null, onSubmit}) => {
 
   const { uploadFileAndNotify: uploadCompanyLogo } = useUploadAndNotify({
     fileParameterName: "profile_image",
+    additionalParams: { tenant_id: tenant.id },
     endpoint,
-    method
+    method,
   })
   const { uploadFileAndNotify: uploadSquareLogo } = useUploadAndNotify({
     fileParameterName: "login_image",
+    additionalParams: { tenant_id: tenant.id },
     endpoint,
     method
   })
@@ -54,10 +57,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
   const big = watch()
 
   const handleSubmit = (data) => {
-    console.log('data.companyLogo')
-    console.log(data.companyLogo)
-    console.log('data.squareLogo')
-    console.log(data.squareLogo)
     data.companyLogo && uploadCompanyLogo(data.companyLogo)
     data.squareLogo && uploadSquareLogo(data.squareLogo)
     onSubmit(data)
