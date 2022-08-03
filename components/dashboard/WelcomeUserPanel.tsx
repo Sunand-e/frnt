@@ -5,17 +5,17 @@ import {
 import {gql, useQuery} from "@apollo/client";
 import {GetUser} from "../../graphql/queries/__generated__/GetUser";
 
-const USER_PROFILE_NAME = gql`
-    query GetUserProfile {
-      user {
-        fullName
-        roles {
-          name
-        }
-      }
-    }
-  `
-const { loading, error, data } = useQuery(USER_PROFILE_NAME);
+// const USER_PROFILE_NAME = gql`
+//     query GetUserProfile {
+//       user {
+//         fullName
+//         roles {
+//           name
+//         }
+//       }
+//     }
+//   `
+// const { loading, error, data } = useQuery(USER_PROFILE_NAME);
 
 const WelcomeUserPanel = () => {
   return (
@@ -38,7 +38,8 @@ const WelcomeUserPanel = () => {
                       alt=""
                   />
                   <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                    Good morning, {data?.user?.fullName || error?.message}
+                    {/*Good morning, {data?.user?.fullName || error?.message}*/}
+                    Good morning, UserName
                   </h1>
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
