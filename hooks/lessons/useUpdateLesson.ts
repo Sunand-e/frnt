@@ -20,10 +20,18 @@ function useUpdateLesson(id = null) {
       fragment: ContentFragment,
     })
 
+    /*
+     * If the leeson contains a package block, get the scormId
+     * and pass it to the mutation as a variable 
+     */
+    const scormBlock = values.content?.blocks?.find(block => block.type === 'package')
+    const scormId = scormBlock?.properties?.moduleId
+
     updateLessonMutation({
       variables: {
         id,
-        ...values
+        ...values,
+        ...(scormId && {scormId})
       },
       optimisticResponse: {
         updateLesson: {

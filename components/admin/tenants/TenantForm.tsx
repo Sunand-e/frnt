@@ -39,13 +39,13 @@ const TenantForm = ({tenant=null, onSubmit}) => {
 
   const { uploadFileAndNotify: uploadCompanyLogo } = useUploadAndNotify({
     fileParameterName: "profile_image",
-    additionalParams: { tenant_id: tenant.id },
+    additionalParams: { tenant_id: tenant?.id },
     endpoint,
     method,
   })
   const { uploadFileAndNotify: uploadSquareLogo } = useUploadAndNotify({
     fileParameterName: "login_image",
-    additionalParams: { tenant_id: tenant.id },
+    additionalParams: { tenant_id: tenant?.id },
     endpoint,
     method
   })
