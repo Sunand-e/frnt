@@ -109,9 +109,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         control={control}
       />
       <Button type="submit">Submit</Button>
-      <pre>
-      { JSON.stringify(big,null,2) }
-      </pre>
     </form>
   );
 }
