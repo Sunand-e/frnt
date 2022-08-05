@@ -70,21 +70,27 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       <TextInput
         label="Name"
         placeholder="Name"
-        inputAttrs={register("name", { maxLength: {
-            value: 20,
-            message: 'Max length is 20'
-          } })}
+        inputAttrs={register("name", { 
+          maxLength: {
+            value: 30,
+            message: 'Tenant name is required',
+          },
+          required: true, 
+        })}
       />
-      {errors.name && "Name is required"}
+      {errors.name && errors.name.type === "required" && <span role="alert">{errors.name.message}</span>}
+      {errors.name && errors.name.type === "maxLength" && <span role="alert">{errors.name.message}</span> }
       <TextInput
         label="Short name"
         placeholder="Short name"
         inputAttrs={register("shortName", { maxLength: 20 })}
       />
+      {errors.name && errors.name.type === "required" && <span>Tenant short name is required</span>}
+      {errors.name && errors.name.type === "maxLength" && <span>The tenant short name should be no longer than 20 characters</span> }
       <TextInput
         label="URL"
         placeholder="url"
-        inputAttrs={register("url", { maxLength: 40 })}
+        inputAttrs={register("url", { maxLength: 50 })}
       />
       <ImageDropzoneInput
         buttonText="Choose tenant image"
