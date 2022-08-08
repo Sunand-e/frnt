@@ -7,7 +7,7 @@
 /* Joined both selectors, since were pretty much the same */
 .container::before,
 .container::after {      
-  flex-grow: 1;
+  grow: 1;
   /* Changed to border-top (instead of border) to simulate a line better */
   border-top: 1px solid #111;
   content: '';

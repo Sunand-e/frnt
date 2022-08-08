@@ -131,7 +131,7 @@ const AdminDashboardPage = () => {
                       <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
                           <span className="flex items-center space-x-4">
                             <span className="flex-1 flex space-x-2 truncate">
-                              <CashIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                              <CashIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                               <span className="flex flex-col text-gray-500 text-sm truncate">
                                 <span className="truncate">{transaction.name}</span>
                                 <span>
@@ -141,7 +141,7 @@ const AdminDashboardPage = () => {
                                 <time dateTime={transaction.datetime}>{transaction.date}</time>
                               </span>
                             </span>
-                            <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <ChevronRightIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </span>
                       </a>
                     </li>
@@ -210,7 +210,7 @@ const AdminDashboardPage = () => {
                               <div className="flex">
                                 <a href={transaction.href} className="group inline-flex space-x-2 truncate text-sm">
                                   <CashIcon
-                                      className="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                      className="shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                       aria-hidden="true"
                                   />
                                   <p className="text-gray-500 truncate group-hover:text-gray-900">
@@ -282,7 +282,7 @@ const AdminDashboardPage = () => {
                       {people.map((person) => (
                           <li key={person.handle} className="py-4">
                             <div className="flex items-center space-x-4">
-                              <div className="flex-shrink-0">
+                              <div className="shrink-0">
                                 <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
                               </div>
                               <div className="flex-1 min-w-0">

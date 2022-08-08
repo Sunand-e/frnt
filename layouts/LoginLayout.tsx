@@ -19,7 +19,7 @@ export default function LoginLayout( {page, navState, pageState} ) {
         <div className="fixed w-full">
           <TopNotificationBar />
         </div>
-        <div className="flex-grow">
+        <div className="grow">
           {/* <Header pageState={pageState} /> */}
           <div className="w-full mx-auto">
             <div className="lg:flex">

@@ -290,7 +290,7 @@ const { updateSection } = useUpdateSection()
           tabIndex={0}
         >
           <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>
-            <div className="flex-shrink-0 w-8 bg-main-secondary text-white p-1 rounded-full align-top">
+            <div className="shrink-0 w-8 bg-main-secondary text-white p-1 rounded-full align-top">
               <BookOpenIcon />
             </div>
             <div className="min-w-0 flex-0 px-4 md:grid md:grid-cols-2 md:gap-4 items-center">

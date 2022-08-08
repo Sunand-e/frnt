@@ -53,7 +53,7 @@ export default function LatestNewsBlock() {
                                 </a>
                             </div>
                             <time dateTime={message.datetime}
-                                  className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">
+                                  className="shrink-0 whitespace-nowrap text-sm text-gray-500">
                                 {message.time}
                             </time>
                         </div>

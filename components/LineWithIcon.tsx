@@ -9,8 +9,8 @@ const LineWithIcon = ({onClick, children}: LineWithIconProps) => (
   <div className={`
     flex items-center
     h-12
-    before:flex-grow before:border-t-2
-    after:flex-grow after:border-t-2
+    before:grow before:border-t-2
+    after:grow after:border-t-2
   `}>
     <PlusCircle className={`px-4 w-16`} />
   </div>
