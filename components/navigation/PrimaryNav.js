@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import navStructureUser from '../../navStructureUser'
 import navStructureAdmin from '../../navStructureAdmin'
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import { viewVar } from '../../graphql/cache';
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
 import { useWindowSize } from 'rooks';
 import NavFooter from "./NavFooter";
+import { TenantContext } from '../../context/TenantContext';
 
 const GET_CURRENT_USER_TYPE = gql`
 query GetCurrentUserType {
@@ -51,6 +52,8 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const [ isSuperAdmin, setIsSuperAdmin ] = useState(false)
 
+  const tenant = useContext(TenantContext)
+
   const { loading, error, data } = useQuery(GET_CURRENT_USER_TYPE);
 
   useEffect(() => {
@@ -70,7 +73,15 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
       <div ref={ref} className="sticky z-30 top-0 flex flex-col justify-between h-full overflow-auto">
         <div className={"prim-list-content"}>
           <div className={`h-18 ${view.isAdmin ? 'bg-main-secondary' : 'bg-main'} flex justify-center py-4`}>
-            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
+            { tenant?.login_logo ? (
+              <img
+                className="mx-auto max-h-12 w-auto"
+                src={tenant?.login_logo} 
+                alt="Logo"
+              />
+            ) : (
+              <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`} className="w-auto"/>
+            )}
             {/* {isSlim ? 'secondary active' : 'secondary INACTIVE'} */}
           </div>
 
