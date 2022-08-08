@@ -9,6 +9,8 @@ import CheckboxInput from '../../common/inputs/CheckboxInput';
 import Link from 'next/link';
 import { ModalContext } from '../../../context/modalContext';
 import ColorPickerInput from '../../common/inputs/ColorPickerInput';
+import ImageDropzoneInput from '../../common/inputs/ImageDropzoneInput';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 
 interface TenantFormValues {
   id?: string
@@ -26,49 +28,82 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     ...tenant,
     name: tenant?.name,
     url: tenant?.url,
+    id: tenant?.id,
     primaryBrandColor: tenant?.settings?.primaryBrandColor,
     secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
+    tenantImage: ''
   }
 
-  const { register, handleSubmit,formState: { errors }, control } = useForm<TenantFormValues>({
+  const endpoint = "/api/v1/tenant/update"
+  const method = "PUT"
+
+  const { uploadFileAndNotify: uploadCompanyLogo } = useUploadAndNotify({
+    fileParameterName: "profile_image",
+    additionalParams: { tenant_id: tenant?.id },
+    endpoint,
+    method,
+  })
+  const { uploadFileAndNotify: uploadSquareLogo } = useUploadAndNotify({
+    fileParameterName: "login_image",
+    additionalParams: { tenant_id: tenant?.id },
+    endpoint,
+    method
+  })
+
+  const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantFormValues>({
     defaultValues
   });
 
-  const { closeModal } = useContext(ModalContext)
+  const big = watch()
+
+  const handleSubmit = (data) => {
+    data.companyLogo && uploadCompanyLogo(data.companyLogo)
+    data.squareLogo && uploadSquareLogo(data.squareLogo)
+    onSubmit(data)
+  }
 
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
         label="Name"
         placeholder="Name"
-        inputAttrs={register("name", { maxLength: {
-            value: 20,
-            message: 'Max length is 20'
-          } })}
+        inputAttrs={register("name", { 
+          maxLength: {
+            value: 30,
+            message: 'Tenant name is required',
+          },
+          required: true, 
+        })}
       />
-      {errors.name && "Name is required"}
+      {errors.name && errors.name.type === "required" && <span role="alert">{errors.name.message}</span>}
+      {errors.name && errors.name.type === "maxLength" && <span role="alert">{errors.name.message}</span> }
       <TextInput
         label="Short name"
         placeholder="Short name"
         inputAttrs={register("shortName", { maxLength: 20 })}
       />
+      {errors.name && errors.name.type === "required" && <span>Tenant short name is required</span>}
+      {errors.name && errors.name.type === "maxLength" && <span>The tenant short name should be no longer than 20 characters</span> }
       <TextInput
         label="URL"
         placeholder="url"
-        inputAttrs={register("url", { maxLength: 40 })}
+        inputAttrs={register("url", { maxLength: 50 })}
       />
-      <ImageSelectInput
-        placeholder={'https://picsum.photos/640/360'}
+      <ImageDropzoneInput
         buttonText="Choose tenant image"
+        label="Company logo"
         control={control}
-        name="tenantImage"
-        onSelect={closeModal}
-        // inputAttrs={register("image", { required: true })}
+        name="companyLogo"
         />
-
+      <ImageDropzoneInput
+        buttonText="Choose tenant image"
+        label="Company logo (square)"
+        control={control}
+        name="squareLogo"
+      />
       <ColorPickerInput
         label="Primary brand colour"
         name="primaryBrandColor"
@@ -79,19 +114,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="secondaryBrandColor"
         control={control}
       />
-      {/*<SelectInput*/}
-      {/*  label="User role"*/}
-      {/*  options={["Employee", "External", "Manager"]}*/}
-      {/*  inputAttrs={register("name")}*/}
-      {/*/>*/}
-      {/*<UserRoleSelect*/}
-      {/*  control={control}*/}
-      {/*  roleType='tenant_role'*/}
-      {/*/>*/}
-      {/*<CheckboxInput*/}
-      {/*  label="Send tenant an invitation upon creation"*/}
-      {/*  inputAttrs={register("invite")}*/}
-      {/*/>*/}
       <Button type="submit">Submit</Button>
     </form>
   );

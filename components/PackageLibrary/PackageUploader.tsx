@@ -5,7 +5,9 @@ const PackageUploader = () => {
 
   const refetchQuery = GET_SCORM_MODULES
   const endpoint = "/uploads/upload_scorm"
-  const dropZoneText = "Drag and drop a SCORM zip archive here, or click this box to select from your computer"
+  const dropZoneContent = (
+    <p>Drag and drop a SCORM zip archive here, or click this box to select from your computer</p>
+  )
   const accept = [ 'application/zip', 'application/x-zip-compressed', 'multipart/x-zip' ]
   const fileParameterName = 'document'
   const additionalParams = {
@@ -18,7 +20,7 @@ const PackageUploader = () => {
       fileParameterName={fileParameterName}
       endpoint={endpoint}
       accept={accept}
-      dropZoneText={dropZoneText}
+      dropZoneContent={dropZoneContent}
       additionalParams={additionalParams}
     />
   )

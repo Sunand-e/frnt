@@ -79,7 +79,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
                 value={searchParams.text}
                 type="search"
                 name="q"
-                className="py-2 w-full rounded-md pl-4 border-2 border-blue focus:outline-none focus:bg-white focus:text-gray-900"
+                className="py-2 w-full rounded-md pl-4 border-2 border-main focus:outline-none focus:bg-white focus:text-gray-900"
                 placeholder="Search..."
                 autoComplete="off"
               />
@@ -96,7 +96,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
             options={typeOptions}
             styles={customSelectStyles}
             placeholder={'Select type...'}
-            // className="py-2 w-full rounded-md pl-4 border-2 border-blue focus:outline-none focus:bg-white focus:text-gray-900"
+            // className="py-2 w-full rounded-md pl-4 border-2 border-main focus:outline-none focus:bg-white focus:text-gray-900"
             instanceId="type"
             />
           </div>
@@ -118,7 +118,7 @@ export default function SearchFilter({tags, searchParams, setSearchParams}) {
         </div>
       </div>
       <div className="text-center">
-        <button className="border-2 border-blue text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
+        <button className="border-2 border-main text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
             Clear search filters 
         </button>
       </div>

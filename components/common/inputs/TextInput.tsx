@@ -6,12 +6,9 @@ const TextInput = ({
   placeholder: placeholder = ''
 }) => {
 
-  console.log('inputAttrs')
-  console.log(inputAttrs)
-  
   return (
     <label className={`block ${className}`}>
-      <span className="text-gray-700">{ label }</span>
+      <span className="text-sm font-medium text-gray-700">{ label }</span>
       <input
         type={type}
         className="
