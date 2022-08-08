@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import { useForm } from 'react-hook-form';
 import TextInput from "./common/inputs/TextInput";
 
-const ENDPOINT_SIGNIN = '/auth/users/sign_in'
+const ENDPOINT_SIGNIN = '/api/v1/users/sign_in'
 
 interface UserLoginFormValues{
     email: string;
