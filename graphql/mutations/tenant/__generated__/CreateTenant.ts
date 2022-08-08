@@ -15,6 +15,7 @@ export interface CreateTenant_createTenant_tenant {
   updatedAt: any;
   createdAt: any;
   shortName: string;
+  settings: any;
 }
 
 export interface CreateTenant_createTenant {

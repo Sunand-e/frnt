@@ -25,7 +25,7 @@ export const UPSERT_SCO_ATTEMPT = gql`
     $contentItemId: ID!,
     $scormModuleId: ID!
   ) {
-    upsertUserScoAttempt(input: {
+    upsertScoAttempt(input: {
       attempt: $attempt,
       data: $data,
       contentItemId: $contentItemId,

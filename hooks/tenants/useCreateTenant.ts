@@ -40,7 +40,7 @@ function useCreateTenant() {
             _deleted: false,
             createdAt: 0,
             updatedAt: 0,
-            shortName: '',
+            settings: {},
             ...values
           },
         }
