@@ -4,7 +4,7 @@ const rgbaStringFunction = (colorName) => ({opacityValue}) => {
 }
 
 module.exports = {
-  purge: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  content: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   mode: 'jit', // or 'media' or 'class'
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -61,14 +61,14 @@ module.exports = {
       backgroundOpacity: ['hover', 'active', 'focus'],
     },
   },
-  variants: {
-    extend: {
-      fontWeight: ['hover', 'focus'],
-      zIndex: ['hover', 'active'],
-      flexGrow: ['before', 'after'],
-    },
-    scrollbar: ['rounded']
-  },
+  // variants: {
+  //   extend: {
+  //     fontWeight: ['hover', 'focus'],
+  //     zIndex: ['hover', 'active'],
+  //     flexGrow: ['before', 'after'],
+  //   },
+  //   scrollbar: ['rounded']
+  // },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
