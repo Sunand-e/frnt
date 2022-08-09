@@ -170,7 +170,7 @@ const navStructureAdmin = [
     ],
   },
   {
-    name: 'reporting',
+    name: 'reports',
     title: 'Reporting',
     urlPath: '/admin/reports',
     icon: 'chart-line',
