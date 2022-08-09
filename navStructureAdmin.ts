@@ -151,21 +151,29 @@ const navStructureAdmin = [
   },
   {
     name: 'events',
-    title: 'Live Sessions',
+    title: 'Events',
     urlPath: '/admin/events',
     icon: 'calendar-alt',
     subPages: [
       {
         name: 'events',
-        title: 'Live Sessions',
+        title: 'All Events',
         urlPath: '/admin/events',
         icon: CalendarAlt
       },
       {
-        name: 'events',
-        title: 'Add New',
+        name: 'virtual',
+        title: 'Virtual Event',
+        // urlPath: '/admin/events?type=virtual',
         urlPath: '/admin/events/add',
-        icon: Calendar2PlusFill
+        icon: CalendarAlt
+      },
+      {
+        name: 'physical',
+        title: 'Physical Event',
+        // urlPath: '/admin/events?type=physical',
+        urlPath: '/admin/events/add',
+        icon: CalendarAlt
       },
     ],
   },

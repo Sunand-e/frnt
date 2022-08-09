@@ -3,15 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle'
 import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
+import EventFilters from "../../../components/admin/events/EventFilters";
 
 const AdminEvents = () => {
 
-  usePageTitle({ title: 'Live Sessions' })
+  usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    ['Add live session', '/admin/events/add'],
+    ['Add new event', '/admin/events/selectEventType'],
   ])
   return (
-    <EventsListTable />
+    <>
+      <EventFilters />
+      <EventsListTable />
+    </>
   )
 }
 
