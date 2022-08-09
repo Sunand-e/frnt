@@ -164,15 +164,13 @@ const navStructureAdmin = [
       {
         name: 'virtual',
         title: 'Virtual Event',
-        // urlPath: '/admin/events?type=virtual',
-        urlPath: '/admin/events/add',
+        urlPath: '/admin/events?type=virtual',
         icon: CalendarAlt
       },
       {
         name: 'physical',
         title: 'Physical Event',
-        // urlPath: '/admin/events?type=physical',
-        urlPath: '/admin/events/add',
+        urlPath: '/admin/events?type=physical',
         icon: CalendarAlt
       },
     ],

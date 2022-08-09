@@ -5,13 +5,13 @@ import {Quiz} from '@styled-icons/material-rounded/Quiz'
 import { FlowChart } from '@styled-icons/remix-editor'
 
 export const eventItemTypes = {
-  physicalEvent: {
+  physical: {
     label: "Physical Event",
     readMoreLabel: "Physical Event",
     icon: TextLeft,
     content: { blocks: [{type:'text'}]}
   },
-  virtualEvent: {
+  virtual: {
     label: "Virtual Event",
     readMoreLabel: 'Virtual Event',
     icon: TextLeft,
