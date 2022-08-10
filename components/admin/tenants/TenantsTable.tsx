@@ -38,7 +38,9 @@ const TenantsTable = () => {
         Cell: ({ cell }) => {
           const cellProps = {
             title: cell.row.original.name,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
+            image: cell.row.original.logos.logo_square,
+            rounded: "none"
           }
           return (
             <ItemWithImageTableCell { ...cellProps } />

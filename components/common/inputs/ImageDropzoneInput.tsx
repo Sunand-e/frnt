@@ -4,7 +4,8 @@ import ImageDropzone from "./ImageDropzone";
 type ImageDropzoneInputProps = { 
   control?: Control;
   src?: string;
-  origImage?;
+  initialValue?;
+  previewClassName?: string;
   onSelect?;
   endpoint?;
   isModal?: boolean;
@@ -15,7 +16,9 @@ type ImageDropzoneInputProps = {
 const ImageDropzoneInput = ({
   control,
   name,
-  label
+  label,
+  initialValue=null,
+  previewClassName=''
 }: ImageDropzoneInputProps) => {
 
   const { field } = useController({
@@ -36,8 +39,10 @@ const ImageDropzoneInput = ({
         </span>
       </label>
       <ImageDropzone
+        initialValue={initialValue}
         multiple={false}
         onDrop={handleDrop}
+        previewClassName={previewClassName}
       />
     </div>
   )

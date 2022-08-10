@@ -1,12 +1,27 @@
 import Link from "next/link"
 
-const ItemWithImageTableCell = ({title, placeholder=null, secondary=null, image=null, href=null}) => {
+const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, secondary=null, image=null, href=null}) => {
+
+  let roundedClass
+  switch(rounded) {
+    case 'none':
+      roundedClass = ''
+      break
+    case 'md':
+      roundedClass = 'rounded-md'
+      break
+    case 'full':
+    default:
+      roundedClass = 'rounded-full'
+      break
+
+  }
   return (
     <Link href={href ?? '#'}>
     <a className="text-main-secondary">
       <div className="flex items-center max-w-xs">
         <div className="h-10 w-10 shrink-0">
-          <img className="h-10 w-10 rounded-full" src={image ?? placeholder ?? '/images/placeholder-image.png'} alt="" />
+          <img className={`max-h-full w-auto ${roundedClass}`} src={image ?? placeholder ?? '/images/placeholder-image.png'} alt="" />
         </div>
         <div className="ml-4">
           <div className="font-medium text-gray-900">{title}</div>
