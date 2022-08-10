@@ -97,7 +97,7 @@ const CourseBuilder = () => {
 
       <div className="flex p-2">
 
-        {/* <TabPanel className="flex-grow w-9/12 mr-4"> */}
+        {/* <TabPanel className="grow w-9/12 mr-4"> */}
         { data &&
           <Builder
             tabTitle="Course Builder"

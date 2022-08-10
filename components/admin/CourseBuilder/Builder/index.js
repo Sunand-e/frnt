@@ -123,7 +123,7 @@ const Builder = ({course}) => {
   //   return false
   // }
   return (
-    <div className="w-4/5 p-2 shadow-lg bg-white flex-shrink">
+    <div className="w-4/5 p-2 shadow-lg bg-white shrink">
       <ScrollContainer
         ignoreElements="*[preventdragscroll]"
         hideScrollbars={false}

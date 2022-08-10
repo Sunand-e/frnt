@@ -30,7 +30,7 @@ const PathwaysPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContent>
-        <div className="flex-grow">
+        <div className="grow">
           {/* { !programmes?.length ? <LoadingSpinner /> : <ItemFilterTabs items={programmes} /> } */}
         </div>
       </PageContent>

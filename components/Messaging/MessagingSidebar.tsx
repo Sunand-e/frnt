@@ -45,22 +45,22 @@ const MessagingSidebar = () => {
         <div className="flex flex-col -mx-4">
           <div className="relative flex flex-row items-center p-4">
             <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">5 min</div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="text-sm font-medium">Cuberto</div>
               <div className="text-xs truncate w-48">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
             </div>
-            <div className="flex-shrink-0 ml-2 self-end mb-1">
+            <div className="shrink-0 ml-2 self-end mb-1">
               <span className="flex items-center justify-center h-5 w-5 bg-red-600 text-white text-xs rounded-full">5</span>
             </div>
           </div>
           <div className="flex flex-row items-center p-4 bg-gradient-to-r from-main/10 to-transparent border-l-2 border-main">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="flex items-center">
                 <div className="text-sm font-medium">UI Art Design</div>
                 <div className="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
@@ -77,22 +77,22 @@ const MessagingSidebar = () => {
         <div className="flex flex-col divide-y h-full overflow-y-auto -mx-4">
           <div className="flex flex-row items-center p-4 relative">
             <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">2 hours ago</div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="text-sm font-medium">Flo Steinle</div>
               <div className="text-xs truncate w-48">Good after noon! how can i help you?</div>
             </div>
-            <div className="flex-shrink-0 ml-2 self-end mb-1">
+            <div className="shrink-0 ml-2 self-end mb-1">
               <span className="flex items-center justify-center h-5 w-5 bg-red-600 text-white text-xs rounded-full">3</span>
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="flex items-center">
                 <div className="text-sm font-medium">Sarah D</div>
                 <div className="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
@@ -101,10 +101,10 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="flex items-center">
                 <div className="text-sm font-medium">Sarah D</div>
                 <div className="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
@@ -113,10 +113,10 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="flex items-center">
                 <div className="text-sm font-medium">Sarah D</div>
                 <div className="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
@@ -125,10 +125,10 @@ const MessagingSidebar = () => {
             </div>
           </div>
           <div className="flex flex-row items-center p-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white flex-shrink-0">
+            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-main-secondary text-white shrink-0">
               T
             </div>
-            <div className="flex flex-col flex-grow ml-3">
+            <div className="flex flex-col grow ml-3">
               <div className="flex items-center">
                 <div className="text-sm font-medium">Sarah D</div>
                 <div className="h-2 w-2 rounded-full bg-green-500 ml-2"></div>

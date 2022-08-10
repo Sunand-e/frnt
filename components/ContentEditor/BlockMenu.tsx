@@ -82,7 +82,9 @@ const BlockMenu = ({ block, className }) => {
       onClick: () => {
         addColumn(block)
       },
-      isDisabled: () => block.children?.length > 3,
+      isDisabled: () => {
+        block.children?.length > 3 || block.name === "package"
+      },
       hideOnChild: true
     },
     {

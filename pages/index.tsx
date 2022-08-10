@@ -101,7 +101,7 @@ const DashboardPage = () => {
       {/* <InnerNav /> */}
       <WelcomeUserPanel />
       <PageContent>
-        <div className="flex-grow ">
+        <div className="grow ">
           <Dashboard />
         </div>
       </PageContent> 

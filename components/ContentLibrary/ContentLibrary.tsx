@@ -39,7 +39,7 @@ const ContentLibrary = () => {
 
 
   return (
-    <div className="flex flex-col items-stretch flex-grow">
+    <div className="flex flex-col items-stretch grow">
       { tags && <ContentLibraryFilters /> }
       { !libraryItems && <LoadingSpinner text="Loading library items..."/> }
 

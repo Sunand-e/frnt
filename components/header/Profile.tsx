@@ -83,7 +83,7 @@ const Profile = () => {
               <span className="flex-1 text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</span>
             </span>
             <ChevronDownIcon
-              className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
+              className="hidden shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
               aria-hidden="true"
             />
           </Menu.Button>
@@ -130,7 +130,7 @@ const Profile = () => {
           </ul>
         }
       >
-        <a href="#" className="flex-shrink-0 group block">  
+        <a href="#" className="shrink-0 group block">
 
           <div className="flex items-center">
             <div>
