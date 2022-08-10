@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
-export const DELETE_PHYSICAL_EVENT = gql`
-  mutation DeletePhysicalEvent(
+export const DELETE_EVENT = gql`
+  mutation DeleteEvent(
     $id: ID!
   ) {
-    deletePhysicalEvent(
+    deleteEvent(
       id: $id
     ) {
-      physicalEvent {
+      event {
         id
         _deleted @client
       }

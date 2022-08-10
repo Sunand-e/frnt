@@ -9,7 +9,7 @@
 
 export interface EventFragment_physicalEvent {
   __typename: "PhysicalEvent";
-  location: string | null;
+  location: any | null;
 }
 
 export interface EventFragment_virtualEvent {
@@ -19,6 +19,7 @@ export interface EventFragment_virtualEvent {
 
 export interface EventFragment {
   __typename: "Event";
+  title: string | null;
   content: any | null;
   createdAt: any;
   eventModelType: string | null;

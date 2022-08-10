@@ -5,60 +5,69 @@ import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import TextInput from '../common/inputs/TextInput';
+import { CREATE_EVENT } from '../../graphql/mutations/event/CREATE_EVENT';
+import { useMutation } from '@apollo/client';
 
-interface CreateEventFormValues {
-  name: string 
-  email: string
+interface EventFormValues {
+  title: string
   eventImage: string
-  userRole: string
 }
 
-const CreateEventForm = () => {
+const EventForm = ({event=null, type, onSubmit}) => {
 
-  const { register, handleSubmit, control, setFocus, formState: { errors } } = useForm<CreateEventFormValues>();
+  const defaultValues = {
+    ...event,
+    eventModelType: type,
+    title: event?.title
+  }
+
+  const { watch, register, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<EventFormValues>({
+    defaultValues
+  });
 
   useEffect(() => {
-    setFocus('name')
+    setFocus('title')
   },[])
 
   const router = useRouter()
-  
-  const { createEvent } = useCreateEvent();
 
-  const onSubmit = values => {
-    createEvent(values)
+  const handleSubmit = values => {
+    onSubmit(values)
     router.push('/admin/events')
   }
 
+  const formVals = watch()
   return (
     <form
       className='h-full w-full max-w-lg flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
         label="Event name"
         placeholder="Event name"
-        inputAttrs={register("name", {
-          required: "Evwnr name is required",
+        inputAttrs={register("title", {
+          required: "Event name is required",
           maxLength: 20
         })}
       />
-      {errors.name && (<small className="text-danger text-rose-800">{errors.name.message}</small>)}
+      {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
 
-      <ImageSelectInput
+      {/* <ImageSelectInput
         label="Event image"
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose event image"
         control={control}
         name="eventImage"
         // inputAttrs={register("image", { required: true })}
-      />
-
-      {/* <EventUsersInput control={control} /> */}
+      /> */}
 
       <Button type="submit">Create event</Button>
+      <pre>
+      { JSON.stringify(formVals,null,2) }
+      </pre>
     </form>
+    
   )
 }
 
-export default CreateEventForm
+export default EventForm

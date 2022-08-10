@@ -16,4 +16,5 @@ export interface TenantFragment {
   createdAt: any;
   shortName: string;
   settings: any;
+  logos: any | null;
 }

@@ -5,11 +5,17 @@ import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import EventFilters from "../../../components/admin/events/EventFilters";
 
-const AdminEvents = () => {
+const AddEventButton = () => (
+  <>
+  <span>Add new event</span>
+  </>
+)
+
+  const AdminEvents = () => {
 
   usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    ['Add new event', '/admin/events/selectEventType'],
+    [<AddEventButton />, '/admin/events/add'],
   ])
   return (
     <>

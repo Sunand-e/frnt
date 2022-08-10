@@ -9,7 +9,7 @@ const useHeaderButtons = (buttons) => {
 
   useEffect(() => {
     headerButtonsVar(
-      <>
+      <div className="space-x-2">
         { buttons.map((button, idx) => (
           <Button key={idx} onClick={() => {
             if(typeof button[1] === 'string') {
@@ -21,7 +21,7 @@ const useHeaderButtons = (buttons) => {
             {button[0]}
           </Button>
         ))}
-      </>
+      </div>
     )
   },[])
 

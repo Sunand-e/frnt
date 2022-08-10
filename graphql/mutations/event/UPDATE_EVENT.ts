@@ -2,22 +2,22 @@ import { gql } from '@apollo/client';
 import { EventFragment } from '../../queries/events';
 
 
-export const UPDATE_PHYSICAL_EVENT = gql`
-  mutation UpdateVirtualEvent(
+export const UPDATE_EVENT = gql`
+  mutation UpdateEvent(
     $id: ID!,
-    $name: String,
-    $shortName: String,
-    $parentId: ID,
-    $settings: JSON,
-    $url: String
+    $title: String,
+    $location: JSON,
+    $provider: String,
   ) {
-    updateVirtualEvent(
+    updateEvent(
       input: {
         id: $id,
         title: $title
+        location: $location
+        provider: $provider
       }
     ) {
-      virtualEvent {
+      event {
         ...EventFragment
       }
     }

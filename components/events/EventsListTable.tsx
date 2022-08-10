@@ -8,6 +8,9 @@ import EventTitleCell from './EventTitleCell';
 import dayjs from 'dayjs';
 import providers from './providers';
 import ItemWithImageTableCell from "../common/cells/ItemWithImageTableCell";
+import { GetEvents } from '../../graphql/queries/__generated__/GetEvents';
+import { GET_EVENTS } from '../../graphql/queries/events';
+import { useQuery } from '@apollo/client';
 
 const EventsListTable = () => {
 
@@ -16,60 +19,16 @@ const EventsListTable = () => {
   const handleDeleteClick = (id) => {
   }
 
-  const tableData = useMemo(
-    () => {
-      return [
-        // {
-        //   id: 'ev001',
-        //   title: 'Diversity & Inclusion Workshop',
-        //   provider: 'zoom',
-        //   date: dayjs().subtract(2, 'days').format('DD/MM'),
-        // },
-        // {
-        //   id: 'ev002',
-        //   title: 'Onboarding Training',
-        //   provider: 'teams',
-        //   date: dayjs().format('DD/MM'),
-        // },
-        // {
-        //   id: 'ev003',
-        //   title: 'Fire Safety Lecture',
-        //   provider: 'webex',
-        //   date: dayjs().add(3, 'days').format('DD/MM'),
-        // },
-        // {
-        //   id: 'ev004',
-        //   title: 'Employee #036 Appraisal',
-        //   provider: 'teams',
-        //   date: dayjs().add(5, 'days').format('DD/MM'),
-        // },
-        {
-          id: "629717e5-f5f6-4f95-a3d8-ab2c2166b625",
-          title: "Event 1",
-          type: "virtual",
-          provider: "zoom",
-        },
-        {
-          id: "329717e5-f5f6-4f95-a3d8-ab2c2166b625",
-          title: "Event 2",
-          type: "physical",
-          location: {
-            title: "Warren Bruce Court",
-            latlong: [53.4675725,-2.3041324,15],
-          }
-        },
-        {
-          id: "429717e5-f5f6-4f95-a3d8-ab2c2166b625",
-          title: "Event 3",
-          type: "virtual",
-          provider: "teams",
-        },
+  const { loading, error, data: queryData } = useQuery<GetEvents>(GET_EVENTS);
 
-      ]
-    }, []
-  );
+  const tableData = useMemo(() => {
+    return queryData?.events?.edges?.map(({node}) => node).filter(node => !node._deleted) || []
+  }, [queryData]);
 
-   const tableCols = useMemo(
+  console.log('tableData')
+  console.log(tableData)
+
+  const tableCols = useMemo(
     () => [
       {
         Header: "Event title",

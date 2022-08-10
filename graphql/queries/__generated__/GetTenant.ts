@@ -16,6 +16,7 @@ export interface GetTenant_tenant_children {
   createdAt: any;
   shortName: string;
   settings: any;
+  logos: any | null;
 }
 
 export interface GetTenant_tenant {
@@ -27,6 +28,7 @@ export interface GetTenant_tenant {
   createdAt: any;
   shortName: string;
   settings: any;
+  logos: any | null;
   children: GetTenant_tenant_children[] | null;
 }
 

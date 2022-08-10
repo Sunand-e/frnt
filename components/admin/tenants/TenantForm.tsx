@@ -93,7 +93,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         label="Company logo"
         control={control}
         name="logo"
-        initialValue={tenant.logos.logo}
+        initialValue={tenant?.logos.logo}
         />
       <ImageDropzoneInput
         buttonText="Choose logo (white)"
@@ -101,14 +101,14 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         control={control}
         name="whiteLogo"
         previewClassName="bg-black/40"
-        initialValue={tenant.logos.logo_white}
+        initialValue={tenant?.logos.logo_white}
       />
       <ImageDropzoneInput
         buttonText="Choose logo (square)"
         label="Company logo (square)"
         control={control}
         name="squareLogo"
-        initialValue={tenant.logos.logo_square}
+        initialValue={tenant?.logos.logo_square}
       />
       <ImageDropzoneInput
         buttonText="Choose logo (white, square)"
@@ -116,7 +116,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         control={control}
         name="squareWhiteLogo"
         previewClassName="bg-black/40"
-        initialValue={tenant.logos.logo_square_white}
+        initialValue={tenant?.logos.logo_square_white}
       />
       <ColorPickerInput
         label="Primary brand colour"
