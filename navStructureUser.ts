@@ -89,7 +89,7 @@ const navStructureUser = [
   },
   {
     name: 'events',
-    title: 'Live Sessions',
+    title: 'Events',
     urlPath: '/events',
     icon: 'calendar-alt',
   },

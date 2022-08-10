@@ -11,7 +11,7 @@ export default function CatalogueCategories() {
     <>
       { categories?.length && (
         <>
-        <h2 className="inline-block border-grey-dark ">Categories</h2>
+        <h2 className="inline-block border-grey-dark mb-2">Categories</h2>
           <ItemCollection
             items={categories || []}
             options={{

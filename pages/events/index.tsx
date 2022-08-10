@@ -4,7 +4,7 @@ import usePageTitle from '../../hooks/usePageTitle'
 
 const Events = () => {
 
-  usePageTitle({ title: 'Live Sessions' })
+  usePageTitle({ title: 'All Events' })
 
   return (
     <>

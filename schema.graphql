@@ -16,3 +16,6 @@ extend type Tag {
 extend type Tenant {
   _deleted: Boolean!
 }
+extend type Event {
+  _deleted: Boolean!
+}

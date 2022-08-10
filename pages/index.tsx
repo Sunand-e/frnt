@@ -100,7 +100,7 @@ const DashboardPage = () => {
       
       {/* <InnerNav /> */}
       <WelcomeUserPanel />
-      <PageContent>
+      <PageContent className={'px-4 md:px-16'}>
         <div className="grow ">
           <Dashboard />
         </div>

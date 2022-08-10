@@ -30,7 +30,7 @@ const MediaLibraryPage = () => {
 
   return (
     <>
-      <div className="px-8">
+      <div className="px-0 sm:px-8">
         <MediaLibrary onItemSelect={console.log}/>
       </div>
     </>

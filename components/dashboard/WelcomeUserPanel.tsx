@@ -2,6 +2,20 @@ import {
   CheckCircleIcon,
   OfficeBuildingIcon
 } from '@heroicons/react/solid'
+import {gql, useQuery} from "@apollo/client";
+import {GetUser} from "../../graphql/queries/__generated__/GetUser";
+
+// const USER_PROFILE_NAME = gql`
+//     query GetUserProfile {
+//       user {
+//         fullName
+//         roles {
+//           name
+//         }
+//       }
+//     }
+//   `
+// const { loading, error, data } = useQuery(USER_PROFILE_NAME);
 
 const WelcomeUserPanel = () => {
   return (
@@ -24,7 +38,8 @@ const WelcomeUserPanel = () => {
                       alt=""
                   />
                   <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                    Good morning, Emilia Birch
+                    {/*Good morning, {data?.user?.fullName || error?.message}*/}
+                    Good morning, UserName
                   </h1>
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -36,7 +51,7 @@ const WelcomeUserPanel = () => {
                     />
                     Duke street studio
                   </dd>
-                  {/*<dt className="sr-only">Account status</dt>*/}
+                  <dt className="sr-only">Account status</dt>
                   {/*<dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">*/}
                   {/*  <CheckCircleIcon*/}
                   {/*      className="shrink-0 mr-1.5 h-5 w-5 text-green-400"*/}

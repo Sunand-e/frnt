@@ -108,7 +108,7 @@ const AdminDashboardPage = () => {
     //   </GridLayout>
     // </>
       <main className="flex-1 pb-8">
-        
+
         <WelcomeUserPanel />
 
         <div className="pt-8 max-w-screen-2xl mx-auto px-8 md:mt-8">
@@ -120,7 +120,7 @@ const AdminDashboardPage = () => {
           </DashboardItem>
 
           <div className="grid grid-cols-12 gap-5 sm:grid-cols-1 lg:grid-cols-12">
-          
+
           <DashboardItem className="mt-8 col-span-12 lg:col-span-8" title="Recent activity">
 
             {/* Activity list (smallest breakpoint only) */}

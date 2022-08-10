@@ -3,7 +3,7 @@ import CreateEventForm from '../../../components/events/CreateEventForm'
 
 const AddEventPage = () => {
 
-  usePageTitle({ title: 'Add New Live Session' })
+  usePageTitle({ title: 'Add New Event' })
 
   return (
     <>
@@ -14,7 +14,7 @@ const AddEventPage = () => {
 
 AddEventPage.navState = {
 topLevel: 'events',
-secondary: 'add'
+secondary: 'virtual'
 }
 
 export default AddEventPage

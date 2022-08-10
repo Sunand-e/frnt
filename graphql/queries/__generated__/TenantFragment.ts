@@ -15,4 +15,5 @@ export interface TenantFragment {
   updatedAt: any;
   createdAt: any;
   shortName: string;
+  settings: any;
 }
