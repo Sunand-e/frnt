@@ -17,7 +17,7 @@ export default function Header() {
               {/* {` isAdmin: ${view.isAdmin ? 'on' : 'off'}.`} */}
             {/* </a> */}
         </div>
-        <div className="flex items-center justify-between space-x-8 px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
             <HeaderButtons />
             <Profile />
 

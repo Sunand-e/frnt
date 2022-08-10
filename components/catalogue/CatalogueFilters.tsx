@@ -27,7 +27,7 @@ export default function CatalogueFilters({hasSearch=true, hasCategories=true, ha
 
   return (
     <div>
-      <div className="flex items-center space-x-4 mb-6 z-10 relative">    
+      <div className="flex items-center space-y-4 mb-6 z-10 relative flex-col sm:flex-row sm:space-x-4 sm:space-y-0">
         <div className="relative text-gray-600 focus-within:text-gray-400">
           <span className="absolute inset-y-0 left-3 flex items-center ">
             {/* <button type="submit" class="p-1 focus:outline-none focus:shadow-outline"> */}
