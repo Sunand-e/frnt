@@ -8,7 +8,15 @@ import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRo
 import UserGroups from '../../../components/admin/users/groups/UserGroups';
 import UserCourses from '../../../components/admin/users/courses/UserCourses';
 import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
+import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
+import {Back} from "@styled-icons/entypo/Back";
 
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to user list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersEdit = () => {
   
@@ -29,7 +37,7 @@ const AdminUsersEdit = () => {
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
   useHeaderButtons([
-    ['Back to users list', '/admin/users']
+    [<BackButton />, '/admin/users']
   ])
 
   return (
