@@ -9,6 +9,16 @@ import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
 import LibraryFilters from '../../../components/admin/libraryItems/LibraryFilters'
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import useHeaderButtons from "../../../hooks/useHeaderButtons";
+
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Add new library item</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
+
 const AdminLibraryItems = () => {
 
   usePageTitle({
@@ -19,17 +29,11 @@ const AdminLibraryItems = () => {
   
   const { handleModal, closeModal } = useContext(ModalContext);
 
-  const handleAddClick = (e) => {
-    router.push('/admin/library/create')
-  }
-  
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button onClick={handleAddClick}>Add new library item</Button>
-      </>
-    )
-  },[])
+
+  useHeaderButtons([
+    [<AddButton />, '/admin/library/create']
+  ])
+
 
   return (
     <>

@@ -10,6 +10,17 @@ import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput
 import LoadingSpinner from '../../../components/LoadingSpinner'
 import useCreateLibraryItem from '../../../hooks/libraryItems/useCreateLibraryItem'
 import NewLibraryItemSelector from '../../../components/admin/libraryItems/NewLibraryItemSelector'
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+import useHeaderButtons from "../../../hooks/useHeaderButtons";
+
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to Library list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
+
 
 const AdminLibraryItemSetup = () => {
   /*
@@ -20,15 +31,10 @@ const AdminLibraryItemSetup = () => {
 
   const { handleModal, closeModal } = useContext(ModalContext);
 
-  usePageTitle({ 
-    title: "New Library Item"
-  })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <Button onClick={() => router.push('/admin/library')}>LibraryItem Editor</Button>
-    )
-  },[])
+  useHeaderButtons([
+    [<BackButton />, '/admin/library']
+  ])
 
 
   const { createLibraryItem, libraryItem } = useCreateLibraryItem()
