@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import usePageTitle from '../hooks/usePageTitle'
 import useLogout from '../hooks/useLogout'
-import PageContent from '../components/PageContent';
 import { headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
 import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
 import { useRouter } from 'next/router'
@@ -100,10 +99,8 @@ const DashboardPage = () => {
       
       {/* <InnerNav /> */}
       <WelcomeUserPanel />
-      <div className="max-w-screen-2xl mx-auto mt-4">
-        <div className="grow ">
-          <Dashboard />
-        </div>
+      <div className="grow ">
+        <Dashboard />
       </div>
     </>
   )

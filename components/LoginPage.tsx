@@ -10,10 +10,10 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        { tenant?.profile_logo && (
+        { tenant?.logo && (
         <img
           className="mx-auto h-12 w-auto"
-          src={tenant?.profile_logo} 
+          src={tenant?.logo}
           alt="Logo"
         />
         )}

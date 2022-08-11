@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import ContentTypePage from "../ContentTypePage";
 import BlockWithTitle from '../BlockWithTitle';
 import LoadingSpinner from '../LoadingSpinner';
 import VideoPlayer from '../VideoPlayer';

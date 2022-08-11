@@ -2,4 +2,8 @@
   select {
     @apply mt-1 block w-full rounded-md border-main/50 shadow-sm focus:border-main focus:ring focus:ring-main/50 
   }
+
+  label {
+    @apply text-sm text-gray-700 pl-1
+  }
 }
