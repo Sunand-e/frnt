@@ -111,7 +111,7 @@ const AdminDashboardPage = () => {
 
         <WelcomeUserPanel />
 
-        <div className="pt-8 max-w-screen-2xl mx-auto px-8 md:mt-8">
+        <div className="pt-4 mt-4 max-w-screen-2xl mx-auto px-8">
           <DashboardItem title="Overview">
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {/* Card */}

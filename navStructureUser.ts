@@ -100,12 +100,6 @@ const navStructureUser = [
   //   icon: 'comments',
   // },
   // {
-  //   name: 'community',
-  //   title: 'Community',
-  //   urlPath: '/community',
-  //   icon: 'comments',
-  // },
-  // {
   //   name: 'store',
   //   title: 'Store',
   //   urlPath: '/store',
