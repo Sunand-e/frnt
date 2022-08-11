@@ -26,8 +26,8 @@ const TenantContextProvider = ({children}) => {
       // Examine the text in the response
       response.json().then(function(data) {
         const theme = createTheme({
-          main: data.primaryBrandColor,
-          secondary: data.secondaryBrandColor
+          main: data.primaryBrandColor || '#444',
+          secondary: data.secondaryBrandColor || '#999'
         });
         applyTheme(theme)
         setTenant(data)
