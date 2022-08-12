@@ -4,7 +4,14 @@ import useHeaderButtons from '../../../../hooks/useHeaderButtons';
 import useGetRole from '../../../../hooks/roles/useGetRole';
 import RoleForm from '../../../../components/admin/roles/RoleForm';
 import useUpdateRole from '../../../../hooks/roles/useUpdateRole';
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to roles list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersRolesEdit = () => {
   
@@ -20,7 +27,7 @@ const AdminUsersRolesEdit = () => {
   usePageTitle({ title: `Edit Role${role?.name && `: ${role.name}`}` })
 
   useHeaderButtons([
-    ['Back to roles list', '/admin/users/roles']
+    [<BackButton />, '/admin/users/roles']
   ])
 
   return (

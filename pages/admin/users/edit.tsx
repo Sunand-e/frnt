@@ -9,7 +9,6 @@ import UserGroups from '../../../components/admin/users/groups/UserGroups';
 import UserCourses from '../../../components/admin/users/courses/UserCourses';
 import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import {Back} from "@styled-icons/entypo/Back";
 
 const BackButton = () => (
   <>

@@ -1,13 +1,22 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import TenantsTable from "../../../components/admin/tenants/TenantsTable";
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+
+
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Add tenant</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
 
 const AdminTenants = () => {
 
   usePageTitle({ title: 'Tenants' })
   
   useHeaderButtons([
-    ['Add tenant', '/admin/tenants/new'],
+    [<AddButton />, '/admin/tenants/new'],
   ])
 
   return (

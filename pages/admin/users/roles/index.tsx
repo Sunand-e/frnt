@@ -6,6 +6,14 @@ import useHeaderButtons from '../../../../hooks/useHeaderButtons';
 import { ModalContext } from '../../../../context/modalContext';
 import AddRoleModal from '../../../../components/admin/roles/AddRoleModal';
 import RolesTable from '../../../../components/admin/roles/RolesTable/RolesTable';
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Add new role</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
 
 const AdminUsersRoles = () => {
   
@@ -22,7 +30,7 @@ const AdminUsersRoles = () => {
   }
 
   useHeaderButtons([
-    ['Add new role', () => handleNewRoleButton()]
+    [<AddButton />, () => handleNewRoleButton()]
   ])
 
   

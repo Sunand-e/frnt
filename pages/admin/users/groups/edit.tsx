@@ -2,6 +2,15 @@ import EditGroupForm from '../../../../components/admin/groups/EditGroupForm'
 import { useRouter } from '../../../../utils/router'
 import usePageTitle from '../../../../hooks/usePageTitle';
 import useGetGroup from '../../../../hooks/groups/useGetGroup';
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+import useHeaderButtons from "../../../../hooks/useHeaderButtons";
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to groups list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersGroupsEdit = () => {
   /*
@@ -13,6 +22,10 @@ const AdminUsersGroupsEdit = () => {
   const { id } = router.query
 
   const { group } = useGetGroup(id)
+
+  useHeaderButtons([
+    [<BackButton />, '/admin/users/groups']
+  ])
 
   usePageTitle({ title: `Edit group: ${group?.name}` })
   return (

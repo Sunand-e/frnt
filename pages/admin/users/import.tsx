@@ -2,12 +2,12 @@ import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import UserImportForm from '../../../components/admin/users/UserImportForm';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import {Back} from '@styled-icons/entypo/Back'
+
 
 const BackButton = () => (
   <>
     <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><Back  width="20" /></span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
   </>
 )
 

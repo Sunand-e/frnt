@@ -5,14 +5,23 @@ import { useRouter } from 'next/router';
 import useGetTenants from '../../../hooks/tenants/useGetTenants';
 import axios from 'axios';
 import useCreateTenant from "../../../hooks/tenants/useCreateTenant";
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 // import useUpdateUserTenantRoles from '../../../hooks/tenants/useUpdateUserTenantRoles';
+
+
+const BackButton = () => (
+  <>
+      <span className='hidden lg:block'>Back to tenant list</span>
+      <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminTenantsNew = () => {
 
     usePageTitle({ title: 'Add new tenant' })
 
     useHeaderButtons([
-        ['Back to tenant list', '/admin/tenants'],
+        [<BackButton />, '/admin/tenants'],
     ])
 
     const router = useRouter()

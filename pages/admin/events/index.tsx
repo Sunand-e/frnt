@@ -4,10 +4,13 @@ import usePageTitle from '../../../hooks/usePageTitle'
 import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import EventFilters from "../../../components/admin/events/EventFilters";
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
-const AddEventButton = () => (
+
+const AddButton = () => (
   <>
-  <span>Add new event</span>
+    <span className='hidden lg:block'>Add new event</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
   </>
 )
 
@@ -15,7 +18,7 @@ const AddEventButton = () => (
 
   usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    [<AddEventButton />, '/admin/events/add'],
+    [<AddButton />, '/admin/events/add'],
   ])
   return (
     <>

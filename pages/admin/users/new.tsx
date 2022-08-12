@@ -6,7 +6,6 @@ import useGetUsers from '../../../hooks/users/useGetUsers';
 import axios from 'axios';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import {Back} from "@styled-icons/entypo/Back";
 
 
 const BackButton = () => (

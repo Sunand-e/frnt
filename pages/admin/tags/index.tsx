@@ -6,6 +6,15 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import { ModalContext } from '../../../context/modalContext';
 import AddTagModal from '../../../components/admin/tags/AddTagModal';
 import TagsTable from '../../../components/admin/tags/TagsTable/TagsTable';
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+
+
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Add new category</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
 
 const AdminTags = () => {
   
@@ -22,7 +31,7 @@ const AdminTags = () => {
   }
 
   useHeaderButtons([
-    ['Add new category', () => handleNewTagButton()]
+    [<AddButton />, () => handleNewTagButton()]
   ])
 
   
