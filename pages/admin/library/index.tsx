@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
 import { Notices } from '../../../components/Notices'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import ResourcesTable from '../../../components/admin/resources/ResourcesTable/ResourcesTable'
+import ResourcesTable from '../../../components/admin/resources/ResourcesTable'
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
@@ -17,7 +17,7 @@ const AddButton = () => (
   </>
 )
 
-const AdminLibraryItems = () => {
+const AdminResources = () => {
 
   usePageTitle({
     title: 'Resource Library'
