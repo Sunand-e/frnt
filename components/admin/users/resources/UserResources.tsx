@@ -1,6 +1,6 @@
 import BoxContainer from "../../../common/containers/BoxContainer";
 
-const UserLibraryItems = () => {
+const UserResources = () => {
   
   const button = {
     text: "Assign items",
@@ -17,4 +17,4 @@ const UserLibraryItems = () => {
   );
 }
 
-export default UserLibraryItems
+export default UserResources

@@ -7,7 +7,7 @@ import UserForm from '../../../components/admin/users/UserForm';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import UserGroups from '../../../components/admin/users/groups/UserGroups';
 import UserCourses from '../../../components/admin/users/courses/UserCourses';
-import UserLibraryItems from '../../../components/admin/users/resources/UserLibraryItems';
+import UserResources from '../../../components/admin/users/resources/UserResources';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 
 const BackButton = () => (
@@ -47,7 +47,7 @@ const AdminUsersEdit = () => {
           <div className='flex flex-col space-y-8 mt-4 md:mt-0'>
             <UserGroups />
             <UserCourses />
-            <UserLibraryItems />
+            <UserResources />
           </div>
         </div>
       }

@@ -12,13 +12,13 @@ export default function Header() {
     <>
       <div className="sticky top-0 z-20 w-full mx-auto bg-white shadow-sm">
         <div className="h-18 mx-auto flex justify-between max-w-screen-2xl w-full pl-20 pr-4 lg:pl-6 lg:pr-6 xl:pl-8 xl:pr-8">
-          <div className="flex-none flex items-center border-b border-gray-200 lg:border-b-0">
+          <div className="flex items-center border-b border-gray-200 lg:border-b-0">
             <PageTitle />
               {/* <a className="overflow-hidden w-auto text-lg text-main-secondary font-bold" href="/"> */}
                 {/* {` isAdmin: ${view.isAdmin ? 'on' : 'off'}.`} */}
               {/* </a> */}
           </div>
-          <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
+          <div className="flex items-center justify-between pl-4 sm:pl-6 lg:px-0">
               <HeaderButtons />
               <Profile />
           </div>

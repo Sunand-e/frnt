@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import Table from '../../../Table';
-import Button from '../../../Button';
-import ButtonLink from '../../../ButtonLink';
-import useDeleteResource from '../../../../hooks/resources/useDeleteResource';
-import useGetResources from '../../../../hooks/resources/useGetResources';
-import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
-import { useRouter } from '../../../../utils/router';
-import { resourceTypes } from '../../../resources/resourceTypes';
+import Table from '../../Table';
+import Button from '../../Button';
+import ButtonLink from '../../ButtonLink';
+import useDeleteResource from '../../../hooks/resources/useDeleteResource';
+import useGetResources from '../../../hooks/resources/useGetResources';
+import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import { useRouter } from '../../../utils/router';
+import { resourceTypes } from '../../resources/resourceTypes';
 
 const ResourcesTable = () => {
 
