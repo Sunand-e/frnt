@@ -48,13 +48,13 @@ const navStructureUser = [
   {
     name: 'library',
     title: 'Resource Library',
-    urlPath: '/library',
+    urlPath: '/resources',
     icon: 'school',
     subPages: [
       {
         name: 'overview',
-        title: 'All Library Items',
-        urlPath: '/library',
+        title: 'All Resources',
+        urlPath: '/resources',
         icon: Library
       },
       // {
@@ -66,37 +66,37 @@ const navStructureUser = [
       {
         name: 'documents',
         title: 'Documents',
-        urlPath: '/library?type=document',
+        urlPath: '/resources?type=document',
         icon: Document,
       },
       {
         name: 'videos',
         title: 'Videos',
-        urlPath: '/library?type=video',
+        urlPath: '/resources?type=video',
         icon: Video,
       },
       {
         name: 'images',
         title: 'Images',
-        urlPath: '/library?type=audio',
+        urlPath: '/resources?type=audio',
         icon: Image,
       },
       {
         name: 'audio',
         title: 'Audio',
-        urlPath: '/library?type=audio',
+        urlPath: '/resources?type=audio',
         icon: Speaker2,
       },
       {
         name: 'links',
         title: 'Links',
-        urlPath: '/library?type=link',
+        urlPath: '/resources?type=link',
         icon: Link,
       },
       // {
       //   name: 'process-flows',
       //   title: 'Process Flows',
-      //   urlPath: '/library?type=process_flow',
+      //   urlPath: '/resources?type=process_flow',
       //   icon: FlowChart,
       // }
     ]

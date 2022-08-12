@@ -1,6 +1,4 @@
-import { useController } from "react-hook-form";
-import useCreateResource from "../../../hooks/resources/useCreateResource";
-import { resourceTypes } from "../../resources/resourceTypes";
+import { resourceTypes } from "./resourceTypes";
 
 const resourceTypesArray = Object.keys(resourceTypes).map(key => {
   return {
@@ -9,13 +7,13 @@ const resourceTypesArray = Object.keys(resourceTypes).map(key => {
   }
 });
 
-const NewResourceSelector = ({
-  onSelect = (type) => null
+const ResourceTypeSelector = ({
+  onSelect: handleSelect
 }) => {
 
   const typeBoxes = resourceTypesArray.map(type => (
     <div 
-      onClick={(e) => onSelect(type)}
+      onClick={(e) => handleSelect(type)}
       className="flex flex-col cursor-pointer text-main-secondary items-center hover:text-main w-32 text-xs"
     >
       { type.icon && <type.icon className="w-8"/> }
@@ -35,4 +33,4 @@ const NewResourceSelector = ({
   )
 }
 
-export default NewResourceSelector
+export default ResourceTypeSelector

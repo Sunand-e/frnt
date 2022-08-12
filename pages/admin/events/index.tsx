@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle'
 import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
-import EventFilters from "../../../components/admin/events/EventFilters";
+import EventFilters from "../../../components/events/EventFilters";
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 
