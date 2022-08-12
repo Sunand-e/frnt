@@ -2,7 +2,7 @@ import ItemGrid from "../common/items/ItemGrid";
 import ItemCollection from "../common/items/ItemCollection";
 import { useRouter } from "../../utils/router";
 import { ParsedUrlQuery } from 'querystring';
-import { libraryItemTypes } from "../library/libraryItemTypes";
+import { resourceTypes } from "../resources/resourceTypes";
 
 interface SearchFilters extends ParsedUrlQuery {
   search: string;
@@ -71,10 +71,10 @@ export default function SearchResults({items}) {
       getReadMoreLabel: (item) => {
         console.log('item')
         console.log(item)
-        return libraryItemTypes[item.contentType].readMoreLabel ?? 'Read More'
+        return resourceTypes[item.contentType].readMoreLabel ?? 'Read More'
       },
       getItemTitle: item => {
-        const IconComponent = libraryItemTypes[item.contentType].icon
+        const IconComponent = resourceTypes[item.contentType].icon
         return (
           <>
           <span className="flex items-center space-x-3">

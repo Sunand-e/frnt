@@ -5,18 +5,14 @@ import EventTypeSelector from '../../../components/events/EventTypeSelector'
 import { useState } from 'react'
 import useCreateEvent from '../../../hooks/events/useCreateEvent'
 
-const AddEventPage = () => {
+const CreateEventPage = () => {
 
-  usePageTitle({ title: 'Add New Event' })
+  usePageTitle({ title: 'Create New Event' })
   
   useHeaderButtons([
     [
       'Back to events list',
       '/admin/events'
-    ],
-    [
-      'Alert hello',
-      () => alert('hello')
     ]
   ])
 
@@ -39,9 +35,9 @@ const AddEventPage = () => {
   )
 }
 
-AddEventPage.navState = {
+CreateEventPage.navState = {
 topLevel: 'events',
 secondary: 'virtual'
 }
 
-export default AddEventPage
+export default CreateEventPage

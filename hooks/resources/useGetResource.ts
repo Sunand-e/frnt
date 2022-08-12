@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache"
 
 
-function useGetLibraryItem(id=null) {
+function useGetResource(id=null) {
 
   const { loading, error, data: {libraryItem} = {} } = useQuery(
     GET_LIBRARY_ITEM,
@@ -25,4 +25,4 @@ function useGetLibraryItem(id=null) {
   }
 }
 
-export default useGetLibraryItem
+export default useGetResource

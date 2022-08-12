@@ -12,10 +12,10 @@ const useHeaderButtons = (buttons) => {
       <div className="space-x-2">
         { buttons.map((button, idx) => (
           <Button key={idx} onClick={() => {
-            if(typeof button[1] === 'string') {
-              router.push(button[1])
-            } else if(typeof button[1] === 'function') {
+            if(typeof button[1] === 'function') {
               button[1]()
+            } else {
+              router.push(button[1])
             }
           }}>
             {button[0]}

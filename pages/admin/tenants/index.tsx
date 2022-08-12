@@ -7,7 +7,7 @@ const AdminTenants = () => {
   usePageTitle({ title: 'Tenants' })
   
   useHeaderButtons([
-    ['Add tenant', '/admin/tenants/new'],
+    ['Add tenant', '/admin/tenants/create'],
   ])
 
   return (

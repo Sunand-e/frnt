@@ -1,14 +1,21 @@
 import {TextLeft, Bricks} from '@styled-icons/bootstrap'
 import {Text, Box, Video, List, Image, Document, Speaker2} from '@styled-icons/fluentui-system-filled'
+import {Link} from '@styled-icons/entypo/Link'
 import {Assignment} from '@styled-icons/material'
 import {Quiz} from '@styled-icons/material-rounded/Quiz'
 import { FlowChart } from '@styled-icons/remix-editor'
 
-export const libraryItemTypes = {
-  guide: {
-    label: "Guide", 
-    readMoreLabel: "Read Guide", 
-    icon: TextLeft,
+export const resourceTypes = {
+  // guide: {
+  //   label: "Guide", 
+  //   readMoreLabel: "Read Guide", 
+  //   icon: TextLeft,
+  //   content: { blocks: [{type:'text'}]}
+  // },
+  document: {
+    label: "Document",
+    readMoreLabel: 'View document',
+    icon: Document,
     content: { blocks: [{type:'text'}]}
   },
   video: {
@@ -23,23 +30,23 @@ export const libraryItemTypes = {
     icon: Image,
     content: { blocks: [{type:'image'}]}
   },
-  document: {
-    label: "Document",
-    readMoreLabel: 'View document',
-    icon: Document,
-    content: { blocks: [{type:'text'}]}
-  },
-  podcast: {
-    label: 'Podcast',
+  audio: {
+    label: 'Audio',
     readMoreLabel: 'Listen now',
     icon: Speaker2,
-    content: { blocks: [{type:'text'}]}
+    content: { blocks: [{type:'audio'}]}
   },
-  process_flow: {
-    label: 'Process Flow',
-    readMoreLabel: 'Get started',
-    icon: FlowChart,
-    content: { blocks: [{type:'text'}]}
+  link: {
+    label: 'Link',
+    readMoreLabel: 'Visit link',
+    icon: Link,
+    content: { blocks: [{type:'button'}]}
   },
+  // process_flow: {
+  //   label: 'Process Flow',
+  //   readMoreLabel: 'Get started',
+  //   icon: FlowChart,
+  //   content: { blocks: [{type:'text'}]}
+  // },
 }
 

@@ -10,7 +10,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="sticky top-0 z-20 w-full mx-auto bg-white flex shadow-sm">
+      <div className="sticky top-0 z-20 w-full mx-auto bg-white shadow-sm">
         <div className="h-18 mx-auto flex justify-between max-w-screen-2xl w-full px-4 lg:px-6 xl:px-8 ">
           <div className="flex-none flex items-center border-b border-gray-200 lg:border-b-0">
             <PageTitle />
@@ -21,7 +21,6 @@ export default function Header() {
           <div className="flex items-center justify-between px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
               <HeaderButtons />
               <Profile />
-
           </div>
         </div>
       </div>

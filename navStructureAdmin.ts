@@ -1,6 +1,7 @@
 import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Category} from '@styled-icons/material-rounded/Category'
 import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
 import {Library} from "@styled-icons/ionicons-solid/Library"
@@ -12,7 +13,7 @@ import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
 import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
-
+import {Image} from '@styled-icons/fluentui-system-filled/Image'
 
 const navStructureAdmin = [
   {
@@ -34,36 +35,42 @@ const navStructureAdmin = [
         urlPath: '/admin/library',
         icon: Library
       },
+      // {
+      //   name: 'library-guides',
+      //   title: 'Guides',
+      //   urlPath: '/admin/library?type=guide',
+      //   icon: TextLeft,
+      // },
       {
-        name: 'library-guides',
-        title: 'Guides',
-        urlPath: '/admin/library?type=guide',
-        icon: TextLeft,
+        name: 'documents',
+        title: 'Documents',
+        urlPath: '/admin/library?type=document',
+        icon: Document,
       },
       {
-        name: 'library-videos',
+        name: 'videos',
         title: 'Videos',
         urlPath: '/admin/library?type=video',
         icon: Video,
       },
       {
-        name: 'library-documents',
-        title: 'Documents',
-        urlPath: '/admin/library?type=document',
-        icon: Video,
+        name: 'images',
+        title: 'Images',
+        urlPath: '/admin/library?type=image',
+        icon: Image,
       },
       {
-        name: 'library-podcasts',
-        title: 'Podcasts',
-        urlPath: '/admin/library?type=podcast',
+        name: 'audio',
+        title: 'Audio',
+        urlPath: '/admin/library?type=audio',
         icon: Speaker2,
       },
-      {
-        name: 'library-process-flows',
-        title: 'Process Flows',
-        urlPath: '/admin/library?type=process_flow',
-        icon: FlowChart,
-      },
+      // {
+      //   name: 'process-flows',
+      //   title: 'Process Flows',
+      //   urlPath: '/admin/library?type=process_flow',
+      //   icon: FlowChart,
+      // },
       // {
       //   name: 'add',
       //   title: 'Add New',

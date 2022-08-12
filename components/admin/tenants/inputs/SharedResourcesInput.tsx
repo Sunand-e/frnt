@@ -1,9 +1,9 @@
-import useGetLibraryItems from "../../../../hooks/libraryItems/useGetLibraryItems";
+import useGetResources from "../../../../hooks/resources/useGetResources";
 import DualListBoxInput from "../../../common/inputs/DualListBoxInput"
 
 const SharedResourcesInput = ({control}) => {
 
-  const { libraryItems } = useGetLibraryItems();
+  const { libraryItems } = useGetResources();
   
   const libraryItemsOptions = libraryItems?.edges?.map(({node: libraryItem}) => {
     return { value: libraryItem.id, label: libraryItem.title }

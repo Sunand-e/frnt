@@ -11,7 +11,7 @@ import BlockEditor from "../ContentEditor/BlockEditor";
 import { ContentTitle } from "../ContentEditor/ContentTitle";
 import useGetLib from "../../hooks/lessons/useGetLesson";
 import { Block } from "../ContentEditor/Block";
-import useGetLibraryItem from "../../hooks/libraryItems/useGetLibraryItem";
+import useGetResource from "../../hooks/resources/useGetResource";
 import usePageTitle from "../../hooks/usePageTitle";
 const LibraryItemView = ({id}) => {
 
@@ -19,7 +19,7 @@ const LibraryItemView = ({id}) => {
     libraryItem,
     loading,
     error,
-  } = useGetLibraryItem(id)
+  } = useGetResource(id)
 
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 

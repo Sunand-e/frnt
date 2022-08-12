@@ -7,9 +7,9 @@ import axios from 'axios';
 import useCreateTenant from "../../../hooks/tenants/useCreateTenant";
 // import useUpdateUserTenantRoles from '../../../hooks/tenants/useUpdateUserTenantRoles';
 
-const AdminTenantsNew = () => {
+const AdminTenantsCreate = () => {
 
-    usePageTitle({ title: 'Add new tenant' })
+    usePageTitle({ title: 'Create new tenant' })
 
     useHeaderButtons([
         ['Back to tenant list', '/admin/tenants'],
@@ -32,9 +32,9 @@ const AdminTenantsNew = () => {
     )
 }
 
-AdminTenantsNew.navState = {
+AdminTenantsCreate.navState = {
     topLevel: 'tenants',
     secondary: 'overview'
 }
 
-export default AdminTenantsNew
+export default AdminTenantsCreate

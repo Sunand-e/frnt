@@ -15,7 +15,7 @@ const AddEventButton = () => (
 
   usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    [<AddEventButton />, '/admin/events/add'],
+    [<AddEventButton />, '/admin/events/create'],
   ])
   return (
     <>

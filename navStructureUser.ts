@@ -2,11 +2,13 @@ import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
+import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Category} from '@styled-icons/material-rounded/Category'
 import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
 import {Library} from "@styled-icons/ionicons-solid/Library"
 import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
+import {Link} from '@styled-icons/entypo/Link'
 
 const navStructureUser = [
   {
@@ -55,36 +57,48 @@ const navStructureUser = [
         urlPath: '/library',
         icon: Library
       },
+      // {
+      //   name: 'library-guides',
+      //   title: 'Guides',
+      //   urlPath: '/library?type=guide',
+      //   icon: TextLeft,
+      // },
       {
-        name: 'library-guides',
-        title: 'Guides',
-        urlPath: '/library?type=guide',
-        icon: TextLeft,
-      },
-      {
-        name: 'library-videos',
-        title: 'Videos',
-        urlPath: '/library?type=video',
-        icon: Video,
-      },
-      {
-        name: 'library-documents',
+        name: 'documents',
         title: 'Documents',
         urlPath: '/library?type=document',
         icon: Document,
       },
       {
-        name: 'library-podcasts',
-        title: 'Podcasts',
-        urlPath: '/library?type=podcast',
+        name: 'videos',
+        title: 'Videos',
+        urlPath: '/library?type=video',
+        icon: Video,
+      },
+      {
+        name: 'images',
+        title: 'Images',
+        urlPath: '/library?type=audio',
+        icon: Image,
+      },
+      {
+        name: 'audio',
+        title: 'Audio',
+        urlPath: '/library?type=audio',
         icon: Speaker2,
       },
       {
-        name: 'library-process-flows',
-        title: 'Process Flows',
-        urlPath: '/library?type=process_flow',
-        icon: FlowChart,
-      }
+        name: 'links',
+        title: 'Links',
+        urlPath: '/library?type=link',
+        icon: Link,
+      },
+      // {
+      //   name: 'process-flows',
+      //   title: 'Process Flows',
+      //   urlPath: '/library?type=process_flow',
+      //   icon: FlowChart,
+      // }
     ]
   },
   {

@@ -2,21 +2,21 @@ import React, { useMemo } from 'react';
 import Table from '../../../Table';
 import Button from '../../../Button';
 import ButtonLink from '../../../ButtonLink';
-import useDeleteLibraryItem from '../../../../hooks/libraryItems/useDeleteLibraryItem';
-import useGetLibraryItems from '../../../../hooks/libraryItems/useGetLibraryItems';
+import useDeleteResource from '../../../../hooks/resources/useDeleteResource';
+import useGetResources from '../../../../hooks/resources/useGetResources';
 import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
 import { useRouter } from '../../../../utils/router';
-import { libraryItemTypes } from '../../../library/libraryItemTypes';
+import { resourceTypes } from '../../../resources/resourceTypes';
 
-const LibraryItemsTable = () => {
+const ResourcesTable = () => {
 
-  const { loading, error, libraryItems } = useGetLibraryItems()
+  const { loading, error, resources } = useGetResources()
   
-  const { deleteLibraryItem } = useDeleteLibraryItem()
+  const { deleteResource } = useDeleteResource()
   const editUrl = '/admin/library/edit'
 
   const handleDeleteClick = (id) => {
-    deleteLibraryItem(id)
+    deleteResource(id)
   }
 
   // Table data is memo-ised due to this:
@@ -27,23 +27,13 @@ const LibraryItemsTable = () => {
 
   let filteredItems = [];
   if(search) {
-    const textResultsObject = libraryItems?.edges?.map(edge => edge.node).reduce(
+    const textResultsObject = resources?.edges?.map(edge => edge.node).reduce(
       (filtered,node) => {
         if(node.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
           return {
             ...filtered,
             title: filtered.title.concat([node])
           }
-          // } else if(node.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-            //   return {
-              //     ...filtered,
-              //     excerpt: filtered.excerpt.concat([node])
-              //   }
-              // } else if(node.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-                //   return {
-                  //     ...filtered,
-        //     content: filtered.content.concat([node])
-        //   }
         } else {
           return filtered
         }
@@ -61,7 +51,7 @@ const LibraryItemsTable = () => {
 
     filteredItems = textResultsObject.title.concat(textResultsObject.excerpt, textResultsObject.content)
   } else {
-    filteredItems = libraryItems?.edges?.map(edge => edge.node) ?? filteredItems;
+    filteredItems = resources?.edges?.map(edge => edge.node) ?? filteredItems;
   }
   console.log('filteredItems1')
   console.log(filteredItems)
@@ -93,10 +83,10 @@ const LibraryItemsTable = () => {
   );
 
   // useEffect(() => {
-  //   console.log('libraryItems')
-  //   console.log(libraryItems)
-  //   return libraryItems?.libraryItems.filter(item => !item._deleted) 
-  // }, [libraryItems])
+  //   console.log('resources')
+  //   console.log(resources)
+  //   return resources?.resources.filter(item => !item._deleted) 
+  // }, [resources])
 
    const tableCols = useMemo(
     () => [
@@ -157,4 +147,4 @@ const LibraryItemsTable = () => {
   );
 }
 
-export default LibraryItemsTable
+export default ResourcesTable

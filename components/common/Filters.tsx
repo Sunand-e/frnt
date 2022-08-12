@@ -98,7 +98,7 @@ export default function Filters({hasSearch=true, hasCategories=true, types={}}) 
                 minWidth: "100%"
               }),
             }}
-            // defaultValue={category}libraryItemTypes[typeName].label
+            // defaultValue={category}resourceTypes[typeName].label
             value={type && {value: type, label: types[type].label}}
             onChange={(option) => onFilterChange('type', option?.value)}
             placeholder={'Select type...'}
