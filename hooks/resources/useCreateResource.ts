@@ -6,7 +6,7 @@ import { CreateLibraryItem, CreateLibraryItemVariables } from "../../graphql/mut
 import { useEffect, useState } from "react";
 
 
-function useCreateLibraryItem() {
+function useCreateResource() {
 
   const [createLibraryItemMutation, createLibraryItemResponse] = useMutation<CreateLibraryItem, CreateLibraryItemVariables>(
     CREATE_LIBRARY_ITEM,
@@ -75,10 +75,9 @@ function useCreateLibraryItem() {
   }
 
   return {
-    
-    libraryItem,
-    createLibraryItem
+    resource: libraryItem,
+    createResource: createLibraryItem
   }
 }
 
-export default useCreateLibraryItem
+export default useCreateResource

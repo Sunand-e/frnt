@@ -16,9 +16,9 @@ const BackButton = () => (
   </>
 )
 
-const AdminTenantsNew = () => {
+const AdminTenantsCreate = () => {
 
-    usePageTitle({ title: 'Add new tenant' })
+    usePageTitle({ title: 'Create new tenant' })
 
     useHeaderButtons([
         [<BackButton />, '/admin/tenants'],
@@ -41,9 +41,9 @@ const AdminTenantsNew = () => {
     )
 }
 
-AdminTenantsNew.navState = {
+AdminTenantsCreate.navState = {
     topLevel: 'tenants',
     secondary: 'overview'
 }
 
-export default AdminTenantsNew
+export default AdminTenantsCreate

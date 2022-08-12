@@ -1,13 +1,14 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import LibraryItemEditor from '../../../components/admin/libraryItems/LibraryItemEditor'
+import ResourceEditor from '../../../components/admin/resources/ResourceEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/Button'
-import useLibraryItem from '../../../hooks/libraryItems/useLibraryItem'
+import useResource from '../../../hooks/resources/useResource'
+import useHeaderButtons from '../../../hooks/useHeaderButtons'
 
-const AdminLibraryItemsEdit = () => {
+const AdminResourcesEdit = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
@@ -16,46 +17,58 @@ const AdminLibraryItemsEdit = () => {
     
   const { id } = router.query
   
-  const { libraryItem, updateLibraryItem } = useLibraryItem(id)
+  const { resource, updateResource } = useResource(id)
 
-  // const { updateLibraryItemTitle } = useLibraryItem(id)
+  // const { updateResourceTitle } = useResource(id)
 
   usePageTitle({ 
     title: "Library Item: ", 
-    editable:  libraryItem?.title, 
-    onEdit: title => updateLibraryItem({title})
+    editable:  resource?.title,
+    onEdit: title => updateResource({title})
   })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button onClick={() => router.push('/admin/library')}>Cancel</Button>
-        <Button onClick={() => router.push({
-          pathname: `/library_item`,
-          query: {
-            id,
-            showEdit: true
-          }
-        })}>
-          Preview
-        </Button>
-        <Button>Publish</Button>
-      </>
-    )
-  },[])
+  // useEffect(() => {
+  //   headerButtonsVar(
+  //     <>
+  //       <Button onClick={() => router.push('/admin/library')}>Cancel</Button>
+  //       <Button onClick={() => router.push({
+  //         pathname: `/library_item`,
+  //         query: {
+  //           id,
+  //           showEdit: true
+  //         }
+  //       })}>
+  //         Preview
+  //       </Button>
+  //       <Button>Publish</Button>
+  //     </>
+  //   )
+  // },[])
+
+  useHeaderButtons([
+    ['Cancel','/admin/library'],
+    ['Preview', {
+      pathname: `/library_item`,
+      query: {
+        id,
+        showEdit: true
+      }
+    }],
+    ['Publish','']
+  ])
 
   return (
     <>
-      { libraryItem && 
-        <LibraryItemEditor />
+      { updateResource &&
+        <ResourceEditor />
       }
     </>
   )
 }
 
-AdminLibraryItemsEdit.navState = {
+AdminResourcesEdit.navState = {
   topLevel: 'library',
   secondary: 'library'
 }
 
-export default AdminLibraryItemsEdit
+export default AdminResourcesEdit

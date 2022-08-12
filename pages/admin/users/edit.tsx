@@ -7,7 +7,7 @@ import UserForm from '../../../components/admin/users/UserForm';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import UserGroups from '../../../components/admin/users/groups/UserGroups';
 import UserCourses from '../../../components/admin/users/courses/UserCourses';
-import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
+import UserLibraryItems from '../../../components/admin/users/resources/UserLibraryItems';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 
 const BackButton = () => (

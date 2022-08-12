@@ -7,9 +7,9 @@ import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache"
 
 
-function useLibraryItem(id=null) {
+function useResource(id=null) {
 
-  const { loading, error, data: {libraryItem} = {} } = useQuery(
+  const { loading, error, data: {libraryItem: resource} = {} } = useQuery(
     GET_LIBRARY_ITEM,
     {
       variables: {
@@ -23,9 +23,9 @@ function useLibraryItem(id=null) {
     UPDATE_LIBRARY_ITEM
   );
 
-  const updateLibraryItem = (id) => (values) => {
+  const updateResource = (id) => (values) => {
 
-    const cachedLibraryItem = cache.readFragment<LibraryItemFragmentType>({
+    const cachedResource = cache.readFragment<LibraryItemFragmentType>({
       id:`ContentItem:${id}`,
       fragment: LibraryItemFragment,
       fragmentName: 'LibraryItemFragment',
@@ -40,7 +40,7 @@ function useLibraryItem(id=null) {
         updateLibraryItem: {
           __typename: 'UpdateLibraryItemPayload',
           libraryItem: {
-            ...cachedLibraryItem,
+            ...cachedResource,
             ...values
           },
         }
@@ -50,8 +50,8 @@ function useLibraryItem(id=null) {
     })
   }
   
-  const updateLibraryItemContentBlocks = (contentBlocks) => {
-    updateLibraryItem({
+  const updateResourceContentBlocks = (contentBlocks) => {
+    updateResource({
       content: {
         blocks: contentBlocks 
       }
@@ -59,12 +59,12 @@ function useLibraryItem(id=null) {
   }
 
   return {
-    libraryItem,
+    resource,
     loading,
     error,
-    updateLibraryItem,
-    updateLibraryItemContentBlocks,
+    updateResource,
+    updateResourceContentBlocks
   }
 }
 
-export default useLibraryItem
+export default useResource

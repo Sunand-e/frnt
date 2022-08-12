@@ -4,7 +4,7 @@ import { DeleteLibraryItem } from "../../graphql/mutations/libraryItem/__generat
 import { LibraryItemFragment } from "../../graphql/queries/allQueries";
 
 
-const useDeleteLibraryItem = () => {
+const useDeleteResource = () => {
 
   const [deleteLibraryItemMutation, { data: deletedData }] = useMutation<DeleteLibraryItem>(DELETE_LIBRARY_ITEM);
 
@@ -51,8 +51,8 @@ const useDeleteLibraryItem = () => {
   }
 
   return {
-    deleteLibraryItem
+    deleteResource: deleteLibraryItem
   }
 }
 
-export default useDeleteLibraryItem
+export default useDeleteResource

@@ -4,10 +4,10 @@ import { currentContentItemVar } from "../../../graphql/cache"
 import { useEffect } from "react";
 import BlockEditor from "../../ContentEditor/BlockEditor";
 import { ContentTitle } from "../../ContentEditor/ContentTitle";
-import useLibraryItem from "../../../hooks/libraryItems/useLibraryItem";
+import useResource from "../../../hooks/resources/useResource";
 import { useRouter } from "next/router";
 
-const LibraryItemEditor = () => {
+const ResourceEditor = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   const { id } = currentContentItem
@@ -17,9 +17,9 @@ const LibraryItemEditor = () => {
   // const { id } = router.query
 
   const {
-    libraryItem,
-    updateLibraryItem
-  } = useLibraryItem(id)
+    resource,
+    updateResource
+  } = useResource(id)
 
   /* REFACTOR NEEDED */
   useEffect(() => {
@@ -28,7 +28,7 @@ const LibraryItemEditor = () => {
       currentContentItemVar({
         id,
         type: 'libraryItem',
-        updateFunction: updateLibraryItem(id)
+        updateFunction: updateResource(id)
       })  
     }
     return () => {
@@ -43,7 +43,7 @@ const LibraryItemEditor = () => {
 
   return (
     <>
-      { libraryItem && (
+      { resource && (
         <>
         <ContentTitle />
         <BlockEditor />
@@ -53,4 +53,4 @@ const LibraryItemEditor = () => {
   )
 }
 
-export default LibraryItemEditor
+export default ResourceEditor

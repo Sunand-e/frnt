@@ -8,8 +8,8 @@ import TextInput from '../../../components/common/inputs/TextInput'
 import { useForm } from 'react-hook-form'
 import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
 import LoadingSpinner from '../../../components/LoadingSpinner'
-import useCreateLibraryItem from '../../../hooks/libraryItems/useCreateLibraryItem'
-import NewLibraryItemSelector from '../../../components/admin/libraryItems/NewLibraryItemSelector'
+import useCreateResource from '../../../hooks/resources/useCreateResource'
+import NewResourceSelector from '../../../components/admin/resources/NewResourceSelector'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 
@@ -22,7 +22,7 @@ const BackButton = () => (
 )
 
 
-const AdminLibraryItemSetup = () => {
+const CreateResourcePage = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
@@ -31,41 +31,41 @@ const AdminLibraryItemSetup = () => {
 
   const { handleModal, closeModal } = useContext(ModalContext);
 
+  usePageTitle({
+    title: "New Library Item"
+  })
 
   useHeaderButtons([
     [<BackButton />, '/admin/library']
   ])
 
 
-  const { createLibraryItem, libraryItem } = useCreateLibraryItem()
+  const { createResource, resource } = useCreateResource()
   
-  const goToLibraryItemEditor = data => {
+  const goToResourceEditor = data => {
     router.push({
       pathname: '/admin/library/edit',
-      query: { id: data?.createLibraryItem?.libraryItem.id },
+      query: { id: data?.createResource?.resource.id },
     })
     closeModal()
   }
 
   const onSubmit = (values) => {
     
-    createLibraryItem(values, goToLibraryItemEditor)
+    createResource(values, goToResourceEditor)
 
     handleModal({
       content: <LoadingSpinner />
     })
   }
 
-  interface LibraryItemSetupFormValues {
+  interface ResourceSetupFormValues {
     title: string
     imageId: string
     accessType: string
-    libraryItemPrice: string
-    enablePrerequisites: boolean
-    disableProgression: boolean
   }
 
-  const { register, handleSubmit, control } = useForm<LibraryItemSetupFormValues>();
+  const { register, handleSubmit, control } = useForm<ResourceSetupFormValues>();
 
   return (
     // <div className='h-full w-full max-w-lg mx-auto'>
@@ -85,19 +85,14 @@ const AdminLibraryItemSetup = () => {
           control={control}
           name="imageId"
         />
-        <NewLibraryItemSelector 
-          control={control}
-          name="contentType"
-          onSelect={handleSubmit(onSubmit)}
-        />
       </form>
       </>
   )
 }
 
-AdminLibraryItemSetup.navState = {
+CreateResourcePage.navState = {
   topLevel: 'library',
   // secondary: 'library'
 }
 
-export default AdminLibraryItemSetup
+export default CreateResourcePage

@@ -9,7 +9,7 @@ import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 const AddButton = () => (
   <>
-    <span className='hidden lg:block'>Add new event</span>
+    <span className='hidden lg:block'>Create new event</span>
     <span className='block lg:hidden'><Add  width="20" /></span>
   </>
 )
@@ -18,7 +18,7 @@ const AddButton = () => (
 
   usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    [<AddButton />, '/admin/events/add'],
+    [<AddButton />, '/admin/events/create'],
   ])
   return (
     <>

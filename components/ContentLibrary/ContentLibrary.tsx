@@ -8,7 +8,7 @@ import LoadingSpinner from '../LoadingSpinner';
 import useGetTags from '../../hooks/tags/useGetTags';
 import useGetCourses from '../../hooks/courses/useGetCourses';
 import ContentLibraryFilters from './ContentLibraryFilters';
-import useGetLibraryItems from '../../hooks/libraryItems/useGetLibraryItems';
+import useGetResources from '../../hooks/resources/useGetResources';
 
 const ContentLibrary = () => {
   
@@ -16,7 +16,7 @@ const ContentLibrary = () => {
   const { search, category } = router.query
 
   const { tags } = useGetTags()
-  const { libraryItems } = useGetLibraryItems()
+  const { libraryItems } = useGetResources()
   const libraryItemNodes = libraryItems?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
   
   const [ searching, setSearching ] = useState(false)

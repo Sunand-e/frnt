@@ -1,14 +1,12 @@
-import { useReactiveVar } from '@apollo/client'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
 import { Notices } from '../../../components/Notices'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import LibraryItemsTable from '../../../components/admin/libraryItems/LibraryItemsTable/LibraryItemsTable'
+import ResourcesTable from '../../../components/admin/resources/ResourcesTable/ResourcesTable'
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
-import LibraryFilters from '../../../components/admin/libraryItems/LibraryFilters'
+import ResourceFilters from '../../../components/admin/resources/ResourceFilters'
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 
@@ -34,21 +32,20 @@ const AdminLibraryItems = () => {
     [<AddButton />, '/admin/library/create']
   ])
 
-
   return (
     <>
       <Notices />
-      <LibraryFilters />
-      <LibraryItemsTable />
+      <ResourceFilters />
+      <ResourcesTable />
     </>
   )
 }
 
 
 
-AdminLibraryItems.navState = {
+AdminResources.navState = {
   topLevel: 'library',
   secondary: 'library'
 }
 
-export default AdminLibraryItems
+export default AdminResources
