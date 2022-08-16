@@ -3,21 +3,34 @@ import {
   OfficeBuildingIcon
 } from '@heroicons/react/solid'
 import {gql, useQuery} from "@apollo/client";
-import {GetUser} from "../../graphql/queries/__generated__/GetUser";
+import dayjs from 'dayjs';
 
-// const USER_PROFILE_NAME = gql`
-//     query GetUserProfile {
-//       user {
-//         fullName
-//         roles {
-//           name
-//         }
-//       }
-//     }
-//   `
-// const { loading, error, data } = useQuery(USER_PROFILE_NAME);
+const USER_FIRST_NAME = gql`
+  query GetUserWelcome {
+    user {
+      fullName
+    }
+  }
+`
+
+const [hour, am_pm] = dayjs().format("dddd,h,A").split(",");
+
+let timeOfDay;
+
+if (am_pm === 'AM') {
+  timeOfDay = 'morning';
+} else {
+  if (hour === '12' || hour < '6') {
+    timeOfDay = 'afternoon';
+  } else {
+    timeOfDay = 'evening';
+  }
+}
 
 const WelcomeUserPanel = () => {
+
+  const { loading, error, data } = useQuery(USER_FIRST_NAME);
+
   return (
     <div className="bg-white shadow hidden md:block">
       <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
@@ -39,7 +52,7 @@ const WelcomeUserPanel = () => {
                   />
                   <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                     {/*Good morning, {data?.user?.fullName || error?.message}*/}
-                    Good morning, UserName
+                    Good { timeOfDay }, { data?.user?.fullName }
                   </h1>
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">

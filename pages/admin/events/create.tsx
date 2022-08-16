@@ -5,6 +5,7 @@ import EventTypeSelector from '../../../components/events/EventTypeSelector'
 import { useState } from 'react'
 import useCreateEvent from '../../../hooks/events/useCreateEvent'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+import dayjs from 'dayjs'
 
 const BackButton = () => (
   <>
@@ -25,7 +26,7 @@ const CreateEventPage = () => {
 
   const [eventModelType, setEventModelType] = useState(null)
 
-  const handleSubmit = (values) => {    
+  const handleSubmit = (values) => {
     createEvent(values)
   }
 

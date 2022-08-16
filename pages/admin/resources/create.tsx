@@ -29,10 +29,6 @@ const CreateResourcePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
 
-  usePageTitle({
-    title: "New Library Item"
-  })
-
   useHeaderButtons([
     [<BackButton />, '/admin/resources']
   ])
@@ -46,12 +42,18 @@ const CreateResourcePage = () => {
     createResource(values)
   }
 
+  usePageTitle({
+    title: `New ${resourceType ? resourceType.value : ''} resource`
+  })
+
   return (
     <>
       { resourceType ? (
         <ResourceForm type={resourceType} onSubmit={handleSubmit} />
       ) : (
-        <ResourceTypeSelector onSelect={setResourceType} />
+        <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+          <ResourceTypeSelector onSelect={setResourceType} />
+        </div>
       )}
     </>
   )

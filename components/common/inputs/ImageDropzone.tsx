@@ -7,7 +7,7 @@ const ImageDropzone = ({
   multiple=true,
   onDrop,
   initialValue=null,
-  previewClassName
+  previewClassName=''
 }) => {
 
   const dropZoneContent = (

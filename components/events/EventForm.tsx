@@ -7,10 +7,13 @@ import React, { useEffect } from 'react';
 import TextInput from '../common/inputs/TextInput';
 import { CREATE_EVENT } from '../../graphql/mutations/event/CREATE_EVENT';
 import { useMutation } from '@apollo/client';
+import DateRangePickerInput from '../common/inputs/DateRangePickerInput';
+import dayjs from 'dayjs';
 
 interface EventFormValues {
   title: string
   eventImage: string
+  dateRange: [Date, Date]
 }
 
 const EventForm = ({event=null, type, onSubmit}) => {
@@ -32,7 +35,13 @@ const EventForm = ({event=null, type, onSubmit}) => {
   const router = useRouter()
 
   const handleSubmit = values => {
-    onSubmit(values)
+    const newValues = {
+      ...values,
+      startTime: values.dateRange[0],
+      duration: dayjs(values.dateRange[0]).diff(values.dateRange[1])
+    }
+
+    onSubmit(newValues)
     router.push('/admin/events')
   }
 
@@ -52,6 +61,11 @@ const EventForm = ({event=null, type, onSubmit}) => {
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
 
+      <DateRangePickerInput
+        label={'Date'}
+        name="dateRange"
+        control={control}
+      />
       {/* <ImageSelectInput
         label="Event image"
         placeholder={'https://picsum.photos/640/360'}

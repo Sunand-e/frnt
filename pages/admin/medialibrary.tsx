@@ -1,12 +1,10 @@
-import { useContext, useEffect } from 'react';
-import { headerButtonsVar } from '../../graphql/cache';
-import Button from '../../components/Button';
+import { useContext } from 'react';
 import MediaLibrary from '../../components/MediaLibrary/MediaLibrary';
-import UploadModal from '../../components/MediaLibrary/UploadModal';
 import { ModalContext } from '../../context/modalContext';
 import usePageTitle from '../../hooks/usePageTitle';
 import { Upload } from '@styled-icons/boxicons-regular/Upload'
 import useHeaderButtons from "../../hooks/useHeaderButtons";
+import MediaUploader from '../../components/MediaLibrary/MediaUploader';
 
 const UploadButton = () => (
   <>
@@ -24,7 +22,7 @@ const MediaLibraryPage = () => {
   const handleUploadModal = () => {
     handleModal({
       title: `Upload files`,
-      content: <UploadModal />
+      content: <MediaUploader />
     })
   }
 

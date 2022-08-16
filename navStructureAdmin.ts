@@ -151,9 +151,9 @@ const navStructureAdmin = [
     ],
   },
   {
-    name: 'mediaresources',
+    name: 'medialibrary',
     title: 'Media Library',
-    urlPath: '/admin/mediaresources',
+    urlPath: '/admin/medialibrary',
     icon: 'photo-video',
   },
   {

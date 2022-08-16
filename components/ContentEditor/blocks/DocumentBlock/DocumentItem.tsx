@@ -3,7 +3,7 @@ import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
 import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 
-const DocumentItem = ({file, onDelete: handleDelete}) => {
+const DocumentItem = ({file, onRemove}) => {
 
   let IconComponent;
 
@@ -24,8 +24,12 @@ const DocumentItem = ({file, onDelete: handleDelete}) => {
       break;
     default:
       IconComponent = FileEarmarkFill;
+  } 
 
-} 
+  const handleRemove = (e) => {
+    e.preventDefault()
+    onRemove(e)
+  }
 
   return (
     <a href={file.location} className="block hover:bg-gray-50 group">
@@ -36,9 +40,9 @@ const DocumentItem = ({file, onDelete: handleDelete}) => {
           </div>
           <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
         </div>
-        { handleDelete && (
+        { handleRemove && (
           <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
-            <Trash className={`w-4 cursor-pointer`} onClick={handleDelete}/>
+            <Trash className={`w-4 cursor-pointer`} onClick={handleRemove}/>
           </div>
         )}
       </div>
