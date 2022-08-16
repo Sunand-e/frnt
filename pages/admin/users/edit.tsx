@@ -42,7 +42,7 @@ const AdminUsersEdit = () => {
   return (
     <>
       { user &&
-        <div className='flex space-x-0 flex-col md:flex-row md:space-x-16'>
+        <div className='flex space-x-0 flex-col md:flex-row md:space-x-11'>
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col space-y-8 mt-4 md:mt-0'>
             <UserGroups />

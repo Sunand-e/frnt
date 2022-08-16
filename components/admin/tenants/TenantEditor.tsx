@@ -28,9 +28,9 @@ const TenantEditor = () => {
   }
 
   return (
-    <div className='flex space-x-16'>
+    <div className='flex space-x-0 flex-col md:flex-row md:space-x-11'>
       <TenantForm onSubmit={handleSubmit} />
-      <div className='flex flex-col space-y-8'>
+      <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
         <TenantSharedContentForm />
       </div>
     </div>

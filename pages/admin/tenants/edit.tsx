@@ -5,7 +5,15 @@ import useGetTenant from '../../../hooks/tenants/useGetTenant';
 import useUpdateTenant from '../../../hooks/tenants/useUpdateTenant';
 import TenantForm from '../../../components/admin/tenants/TenantForm';
 import TenantEditor from '../../../components/admin/tenants/TenantEditor';
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to tenants list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminTenantsEdit = () => {
   
@@ -17,7 +25,7 @@ const AdminTenantsEdit = () => {
   usePageTitle({ title: `Edit Tenant${tenant ? `: ${tenant.name}` : ''}` })
 
   useHeaderButtons([
-    ['Back to tenants list', '/admin/tenants']
+    [<BackButton />, '/admin/tenants']
   ])
 
   return (
