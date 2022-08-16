@@ -40,7 +40,7 @@ function useCreateResource() {
 
   }, [createLibraryItemResponse.data])
 
-  const createLibraryItem = (values, cb) => {
+  const createLibraryItem = (values, cb = null) => {
     createLibraryItemMutation({
       variables: { 
         ...values

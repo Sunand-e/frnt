@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
-import contentTypes from '../../contentTypes';
 import ItemCollection from '../common/items/ItemCollection';
 import SearchResults from './SearchResults';
 import LoadingSpinner from '../LoadingSpinner';
@@ -16,8 +15,8 @@ const ContentLibrary = () => {
   const { search, category } = router.query
 
   const { tags } = useGetTags()
-  const { libraryItems } = useGetResources()
-  const libraryItemNodes = libraryItems?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
+  const { resources } = useGetResources()
+  const resourceNodes = resources?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
   
   const [ searching, setSearching ] = useState(false)
 
@@ -41,12 +40,12 @@ const ContentLibrary = () => {
   return (
     <div className="flex flex-col items-stretch grow">
       { tags && <ContentLibraryFilters /> }
-      { !libraryItems && <LoadingSpinner text="Loading library items..."/> }
+      { !resources && <LoadingSpinner text="Loading resources..."/> }
 
       {
       // If user is searching, only show search results
-      libraryItemNodes && (
-          <SearchResults items={libraryItemNodes} />
+      resourceNodes && (
+          <SearchResults items={resourceNodes} />
         )
         
       }

@@ -2,18 +2,18 @@ import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
 import { Notices } from '../../../components/Notices'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import ResourcesTable from '../../../components/admin/resources/ResourcesTable'
+import ResourcesTable from '../../../components/resources/ResourcesTable'
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
-import ResourceFilters from '../../../components/admin/resources/ResourceFilters'
+import ResourceFilters from '../../../components/resources/ResourceFilters'
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 
 const AddButton = () => (
   <>
-    <span className='hidden lg:block'>Add new library item</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
+    <span className='hidden lg:block'>Add new resource</span>
+    <span className='block lg:hidden'><Add width="20" /></span>
   </>
 )
 
@@ -23,13 +23,8 @@ const AdminResources = () => {
     title: 'Resource Library'
   })
 
-  const router = useRouter()
-  
-  const { handleModal, closeModal } = useContext(ModalContext);
-
-
   useHeaderButtons([
-    [<AddButton />, '/admin/library/create']
+    [<AddButton />, '/admin/resources/create']
   ])
 
   return (
@@ -40,8 +35,6 @@ const AdminResources = () => {
     </>
   )
 }
-
-
 
 AdminResources.navState = {
   topLevel: 'library',

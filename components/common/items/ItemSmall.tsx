@@ -1,16 +1,11 @@
 import Link from "next/link";
-import contentTypes from "../../../contentTypes";
 
 export default function ItemSmall({ item, options, className }) {
 
   const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : process.env.NEXT_PUBLIC_BASE_PATH || '' + '/images/placeholder-image.png';
 
-  const itemType = contentTypes.find(type => {
-    return item.__typename === type.name.replace(' ', '');
-  });
-
   // const href = item.href ?? typeObj.urlPath + '/' + item.slug;
-  const href = item.href ?? `/${itemType.slug}?id=${item.slug}`
+  const href = item.href ?? ''
 
   return (
     <Link href={href}>
