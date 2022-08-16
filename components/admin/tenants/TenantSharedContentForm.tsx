@@ -60,9 +60,9 @@ const TenantSharedContentForm = () => {
       <SharedPathwaysInput control={control} />
       <SharedResourcesInput control={control} />
       <Button type="submit">Share content with this tenant</Button>
-      {/*<pre>*/}
-      {/*{ JSON.stringify(terwfds,null,2) }*/}
-      {/*</pre>*/}
+      <pre>
+      { JSON.stringify(terwfds,null,2) }
+      </pre>
     </form>
   );
 }
