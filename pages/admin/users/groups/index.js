@@ -12,7 +12,7 @@ import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 
 const AddButton = () => (
     <>
-        <span className='hidden lg:block'>Add new group</span>
+        <span className='hidden lg:block'>Create new group</span>
         <span className='block lg:hidden'><Add  width="20" /></span>
     </>
 )

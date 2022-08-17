@@ -6,7 +6,7 @@ import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 const AddButton = () => (
   <>
-    <span className='hidden lg:block'>Add tenant</span>
+    <span className='hidden lg:block'>Create new tenant</span>
     <span className='block lg:hidden'><Add  width="20" /></span>
   </>
 )

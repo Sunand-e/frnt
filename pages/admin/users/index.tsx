@@ -7,7 +7,7 @@ import {Import} from '@styled-icons/boxicons-regular/Import';
 
 const AddButton = () => (
   <>
-    <span className='hidden lg:block'>Add user</span>
+    <span className='hidden lg:block'>Create new user</span>
     <span className='block lg:hidden'><Add  width="20" /></span>
   </>
 )
