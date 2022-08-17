@@ -24,7 +24,7 @@ const ResourceTypeSelector = ({
   ))
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <p>Choose a content type:</p>
       <div className="bg-main bg-opacity-10 py-4 border border-1 border-main">
         <div className="flex">{typeBoxes}</div>
