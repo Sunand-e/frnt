@@ -11,7 +11,7 @@ import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 const AddButton = () => (
   <>
-    <span className='hidden lg:block'>Add new category</span>
+    <span className='hidden lg:block'>Create new category</span>
     <span className='block lg:hidden'><Add  width="20" /></span>
   </>
 )
