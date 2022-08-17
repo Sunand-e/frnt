@@ -14,7 +14,6 @@ import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import ResourceForm from '../../../components/resources/ResourceForm'
 
-
 const BackButton = () => (
   <>
     <span className='hidden lg:block'>Back to Resource Library</span>
@@ -22,39 +21,25 @@ const BackButton = () => (
   </>
 )
 
-
 const CreateResourcePage = () => {
-  /*
-    Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
-    See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
-  */
 
   useHeaderButtons([
     [<BackButton />, '/admin/resources']
   ])
 
-
   const { createResource, resource } = useCreateResource()
-
-  const [resourceType, setResourceType] = useState(null)
 
   const handleSubmit = (values) => {
     createResource(values)
   }
 
   usePageTitle({
-    title: `New ${resourceType ? resourceType.value : ''} resource`
+    title: `New resource`
   })
 
   return (
     <>
-      { resourceType ? (
-        <ResourceForm type={resourceType} onSubmit={handleSubmit} />
-      ) : (
-        <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-          <ResourceTypeSelector onSelect={setResourceType} />
-        </div>
-      )}
+      <ResourceForm onSubmit={handleSubmit} />
     </>
   )
 }
