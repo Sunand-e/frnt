@@ -1,37 +1,33 @@
 import Button from '../Button';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import TextInput from '../common/inputs/TextInput';
 import RTEInput from '../common/inputs/RTEInput';
-import { resourceTypes } from './resourceTypes';
-import ResourceFileInput from './ResourceFileInput';
 import ResourcePreview from './ResourcePreview';
-import DividerWithText from '../common/DividerWithText';
-import ResourceUrlInput from './ResourceURLInput';
+import ResourceTypeSelector from './ResourceTypeSelector';
 
 interface ResourceFormValues {
   title: string
-  resource
-  type: null | string
+  resourceValue
+  type: null | {[key: string]: any}
 }
   
 const ResourceForm = ({resource=null, onSubmit}) => {
   
-  const [type, setType] = useState(null)
-
-    const defaultValues = {
+  const defaultValues = {
+    resourceValue: null,
+    type: null,
+    title: null,
     ...resource,
-    title: resource?.title
   }
 
-  const { watch, register, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
+  const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
     defaultValues
   });
 
-  useEffect(() => {
-    setFocus('title')
-  },[])
+  const formVals = watch()
+  const { type, resourceValue } = formVals
 
   const router = useRouter()
 
@@ -40,8 +36,15 @@ const ResourceForm = ({resource=null, onSubmit}) => {
     router.push('/admin/resources')
   }
 
-  const formVals = watch()
-  return (
+  useEffect(() => {
+    if(resourceValue) {
+      setFocus('title')
+    }
+  },[resourceValue])
+
+  return !resourceValue ? (
+    <ResourceTypeSelector control={control} />
+  ) : (
     <form
       className='h-full w-full max-w-lg flex flex-col space-y-4'
       onSubmit={rhfHandleSubmit(handleSubmit)}
@@ -56,27 +59,9 @@ const ResourceForm = ({resource=null, onSubmit}) => {
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
       <RTEInput label="Description" name="description" control={control}/>
-      { type ? (
-        <ResourcePreview type={type} control={control} onRemove={() => setType(null)} />
-      ) : (
-        <>
-          <ResourceFileInput setType={setType} label="Resource" name="resource" control={control}/>
-          <DividerWithText text={'OR'} />
-          <ResourceUrlInput
-            setType={setType}
-            inputAttrs={register("resource", {
-              required: "Resource name is required",
-              maxLength: 20
-            })}
-          />
-        </>
-      )}
-      <Button type="submit">Create resource</Button>
-      <pre>
-        { JSON.stringify(formVals,null,2) }
-      </pre>
+      <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
+      <Button type="submit"><>Add {type?.name} to resource library</></Button>
     </form>
-    
   )
 }
 

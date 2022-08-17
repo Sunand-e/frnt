@@ -1,15 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import { useRouter } from '../../../utils/router'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import { useState, useEffect, useContext } from 'react'
-import Button from '../../../components/Button'
-import { ModalContext } from '../../../context/modalContext'
-import TextInput from '../../../components/common/inputs/TextInput'
-import { useForm } from 'react-hook-form'
-import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
-import LoadingSpinner from '../../../components/LoadingSpinner'
 import useCreateResource from '../../../hooks/resources/useCreateResource'
-import ResourceTypeSelector from '../../../components/resources/ResourceTypeSelector'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import ResourceForm from '../../../components/resources/ResourceForm'

@@ -15,7 +15,7 @@ const PdfViewer = ({url}) => {
 
   return (
     <div style={{ height: '600px' }}>
-    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.9.359/build/pdf.worker.js">
       <Viewer
         fileUrl={url}    
         defaultScale={SpecialZoomLevel.PageFit}

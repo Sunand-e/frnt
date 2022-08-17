@@ -1,20 +1,31 @@
 import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 import DocumentItem from "../ContentEditor/blocks/DocumentBlock/DocumentItem";
+import VideoItem from "./display/VideoItem";
+import ImageItem from "./display/ImageItem";
+import AudioPlayer from "../common/audio/AudioPlayer";
 
-const ResourcePreview = ({type, control, onRemove}) => {
+const ResourcePreview = ({control, onRemove}) => {
 
   const { field } = useController({
     control,
-    name: 'resource'
+    name: 'resourceValue'
   });
 
-  switch(type) {
+  const { field: typeField } = useController({
+    control,
+    name: 'type'
+  });
+
+  switch(typeField.value?.name) {
     case 'document':
-      return <DocumentItem file={field.value} onRemove={onRemove} />
+      return <DocumentItem pdfPreview={true} file={field.value} onRemove={onRemove} />
     case 'video':
-    case 'image':
-    case 'audio':
+      return <VideoItem url={field.value} onRemove={onRemove} />
+      case 'image':
+      return <ImageItem image={field.value} onRemove={onRemove} />
+      case 'audio':
+      return <AudioPlayer url={field.value?.location} onClose={onRemove} />
     case 'link':
     default:
       return <>Something went wrong. Please go back and try again.</>

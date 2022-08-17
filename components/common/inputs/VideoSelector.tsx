@@ -1,16 +1,11 @@
-import {
-  FunctionComponent, useContext, useEffect, useState
-} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
 import urlParser from "js-video-url-parser";
-import InputWithLabel from '../../../common/inputs/InputWithLabel';
-import Button from '../../../Button';
-import { ModalContext } from '../../../../context/modalContext';
+import InputWithLabel from './InputWithLabel';
+import Button from '../../Button';
+import VideoItem from '../../resources/display/VideoItem';
 
 export const VideoSelector = ({onAddVideo}) => {
 
-
-  const  defaultWidth = '50%';
   const [videoUrl, setVideoUrl] = useState('')
   const [embedUrl, setEmbedUrl] = useState('')
 
@@ -40,20 +35,11 @@ export const VideoSelector = ({onAddVideo}) => {
           <label className="block text-gray-500 text-sm font-bold mb-2">
             Preview:
           </label>
-          <div className="aspect-w-16 aspect-h-9 px-1 mb-4 ">          
-            <iframe
-              src={embedUrl} 
-              width="640" 
-              height="360" 
-              frameBorder="0" 
-              allow="autoplay; fullscreen; picture-in-picture" 
-              allowFullScreen
-            />
-          </div>
+          <VideoItem url={embedUrl} />
         </>
       )}
       <div className="flex justify-end">
-      { embedUrl && <Button className="ml-2" onClick={onAddVideo}>Add Video</Button> }
+      { embedUrl && <Button className="ml-2" onClick={() => onAddVideo(embedUrl)}>Add Video</Button> }
       </div>
     </>
   );
