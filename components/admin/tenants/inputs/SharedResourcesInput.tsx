@@ -3,20 +3,20 @@ import DualListBoxInput from "../../../common/inputs/DualListBoxInput"
 
 const SharedResourcesInput = ({control}) => {
 
-  const { libraryItems } = useGetResources();
+  const { resources } = useGetResources();
   
-  const libraryItemsOptions = libraryItems?.edges?.map(({node: libraryItem}) => {
+  const resourcesOptions = resources?.edges?.map(({node: libraryItem}) => {
     return { value: libraryItem.id, label: libraryItem.title }
   })
 
   return (
     <>
-      { libraryItems && (
+      { resources && (
         <DualListBoxInput
           label="Shared resources"
           control={control}
           name="sharedResourceIds"
-          options={libraryItemsOptions}
+          options={resourcesOptions}
           lang={{
             availableHeader: 'Available',
             selectedHeader: 'Shared',

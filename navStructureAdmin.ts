@@ -14,7 +14,7 @@ import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
 import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
-
+import {Link} from '@styled-icons/entypo/Link'
 const navStructureAdmin = [
   {
     name: 'dashboard',
@@ -64,6 +64,12 @@ const navStructureAdmin = [
         title: 'Audio',
         urlPath: '/admin/resources?type=audio',
         icon: Speaker2,
+      },
+      {
+        name: 'link',
+        title: 'Link',
+        urlPath: '/admin/resources?type=link',
+        icon: Link,
       },
       // {
       //   name: 'process-flows',

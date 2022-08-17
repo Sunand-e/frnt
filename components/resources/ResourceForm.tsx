@@ -8,9 +8,11 @@ import { resourceTypes } from './resourceTypes';
 import ResourceFileInput from './ResourceFileInput';
 import ResourcePreview from './ResourcePreview';
 import DividerWithText from '../common/DividerWithText';
+import ResourceUrlInput from './ResourceURLInput';
 
 interface ResourceFormValues {
   title: string
+  resource
   type: null | string
 }
   
@@ -60,6 +62,13 @@ const ResourceForm = ({resource=null, onSubmit}) => {
         <>
           <ResourceFileInput setType={setType} label="Resource" name="resource" control={control}/>
           <DividerWithText text={'OR'} />
+          <ResourceUrlInput
+            setType={setType}
+            inputAttrs={register("resource", {
+              required: "Resource name is required",
+              maxLength: 20
+            })}
+          />
         </>
       )}
       <Button type="submit">Create resource</Button>

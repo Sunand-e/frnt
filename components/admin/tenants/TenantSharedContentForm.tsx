@@ -11,6 +11,7 @@ import SharedPathwaysInput from './inputs/SharedPathwaysInput';
 import SharedResourcesInput from './inputs/SharedResourcesInput';
 import { useRouter } from '../../../utils/router';
 import useShareContentItems from '../../../hooks/tenants/useShareContentItems';
+import { gql, useQuery } from '@apollo/client';
 
 interface TenantSharedContentFormValues {
   id?: string | string[]
@@ -19,6 +20,37 @@ interface TenantSharedContentFormValues {
   sharedResourceIds  
 }
 
+
+const TENANT_SHARED_ITEMS = gql`
+  query GetTenantSharedItems {
+    courses(where: {
+      sharedWith: 
+      ) {
+      edges {
+        node {
+          fullName
+        }
+      }
+    }
+    pathways {
+      edges {
+        node {
+          fullName
+        }
+      }
+    }
+    resources {
+      edges {
+        node {
+          fullName
+        }
+      }
+    }
+
+  }
+`
+
+
 const TenantSharedContentForm = () => {
 
   const router = useRouter()
@@ -26,11 +58,13 @@ const TenantSharedContentForm = () => {
 
   const { shareContentItems } = useShareContentItems()
   
+  const { loading, error, data } = useQuery(TENANT_SHARED_ITEMS);
+
   const defaultValues = {
     id,
-    sharedCourseIds: [],
-    sharedResourceIds: [],
-    sharedPathwayIds: [],
+    sharedCourseIds: [...data.courses.edges.map(edge => edge.node.id)],
+    sharedResourceIds: [...data.libraryItems.edges.map(edge => edge.node.id)],
+    sharedPathwayIds: [...data.pathways.edges.map(edge => edge.node.id)],
     }
 
   const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantSharedContentFormValues>({

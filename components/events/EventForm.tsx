@@ -3,24 +3,25 @@ import useCreateEvent from '../../hooks/events/useCreateEvent';
 import { useForm } from 'react-hook-form';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextInput from '../common/inputs/TextInput';
 import { CREATE_EVENT } from '../../graphql/mutations/event/CREATE_EVENT';
 import { useMutation } from '@apollo/client';
-import DateRangePickerInput from '../common/inputs/DateRangePickerInput';
+import DatePickerInput from '../common/inputs/DatePickerInput';
 import dayjs from 'dayjs';
+import CheckboxInput from '../common/inputs/CheckboxInput';
 
 interface EventFormValues {
   title: string
   eventImage: string
-  dateRange: [Date, Date]
+  date: [Date]
 }
 
 const EventForm = ({event=null, type, onSubmit}) => {
 
   const defaultValues = {
     ...event,
-    eventModelType: type,
+    eventModelType: type?.eventModel,
     title: event?.title
   }
 
@@ -61,19 +62,12 @@ const EventForm = ({event=null, type, onSubmit}) => {
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
 
-      <DateRangePickerInput
+      <DatePickerInput
+        isRangeAvailable={true}
         label={'Date'}
-        name="dateRange"
+        name="date"
         control={control}
       />
-      {/* <ImageSelectInput
-        label="Event image"
-        placeholder={'https://picsum.photos/640/360'}
-        buttonText="Choose event image"
-        control={control}
-        name="eventImage"
-        // inputAttrs={register("image", { required: true })}
-      /> */}
 
       <Button type="submit">Create event</Button>
       <pre>

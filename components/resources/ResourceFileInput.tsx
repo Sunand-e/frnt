@@ -28,7 +28,7 @@ const ResourceFileInput = ({
   const openMediaLibrary = () => {
     handleModal({
       title: `Choose a file`,
-      content: <MediaLibrary onItemSelect={handleChange} />,
+      content: <MediaLibrary typeFilter={['document']} onItemSelect={handleChange} />,
       size: 'lg'
     })
   }
