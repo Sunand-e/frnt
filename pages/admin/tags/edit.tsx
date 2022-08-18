@@ -4,7 +4,15 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetTag from '../../../hooks/tags/useGetTag';
 import TagForm from '../../../components/admin/tags/TagForm';
 import useUpdateTag from '../../../hooks/tags/useUpdateTag';
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to tags list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersTagsEdit = () => {
   
@@ -19,7 +27,7 @@ const AdminUsersTagsEdit = () => {
   usePageTitle({ title: `Edit Category${tag?.label && `: ${tag.label}`}` })
 
   useHeaderButtons([
-    ['Back to tags list', '/admin/tags']
+    [<BackButton />, '/admin/tags']
   ])
 
   return (

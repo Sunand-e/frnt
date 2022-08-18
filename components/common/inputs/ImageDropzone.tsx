@@ -6,6 +6,8 @@ import DropzoneIconAndText from "./DropzoneIconAndText";
 const ImageDropzone = ({
   multiple=true,
   onDrop,
+  initialValue=null,
+  previewClassName=''
 }) => {
 
   const dropZoneContent = (
@@ -37,40 +39,42 @@ const ImageDropzone = ({
     'image/pjpeg',
     'image/png',
     'image/gif',
+    'image/svg+xml'
   ]
   
   const handleDrop = (acceptedFiles, fileRejections, event) => {
     const file = acceptedFiles[0]
-    const fileWithPreview = Object.assign(file, {
-      preview: URL.createObjectURL(file)
-    })
-    setFile(fileWithPreview)
+    // const fileWithPreview = Object.assign(file, {
+    //   preview: URL.createObjectURL(file)
+    // })
+    setFileUrl(URL.createObjectURL(file))
     onDrop(file, event)
   }
 
-  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(initialValue);
 
   const onImgLoad = useCallback(() => { 
-    URL.revokeObjectURL(file.preview)
-  },[file?.preview])
+    URL.revokeObjectURL(fileUrl)
+  },[fileUrl])
   
   useEffect(() => {
     // Make sure to revoke the data uri to avoid memory leaks, will run on unmount
     return () => {
-      file && URL.revokeObjectURL(file.preview);
+      fileUrl && URL.revokeObjectURL(fileUrl);
     }
-  }, [file]);
+  }, [fileUrl]);
 
   return (
     <FileDropzone
       multiple={multiple}
       onDrop={handleDrop}
       accept={accept}
-      dropZoneContent={file ? (
+      dropZoneContent={fileUrl ? (
         <ImageSelect
-          src={file.preview}
+          src={fileUrl}
           buttonText={'Change image'}
           onLoad={onImgLoad}
+          className={previewClassName}
         />
       ) : dropZoneContent
       }

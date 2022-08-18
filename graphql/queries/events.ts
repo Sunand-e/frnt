@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 export const EventFragment = gql`
   fragment EventFragment on Event {
+    title
     content
     createdAt
     eventModelType

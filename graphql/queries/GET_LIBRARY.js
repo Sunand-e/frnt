@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 
 // Generate the string of all graphQL types for the library query
 
-// Define the query for the entire library, using the contentTypesGQL string
+// Define the query for the entire library
 export const GET_LIBRARY = gql`
   query GetLibrary {
     libraryItems {

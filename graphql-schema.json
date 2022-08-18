@@ -4681,6 +4681,18 @@
             "deprecationReason": null
           },
           {
+            "name": "title",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "updatedAt",
             "description": null,
             "args": [],
@@ -4850,6 +4862,18 @@
             "deprecationReason": null
           },
           {
+            "name": "title",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "selfRegistration",
             "description": null,
             "type": {
@@ -4967,6 +4991,42 @@
             "type": {
               "kind": "SCALAR",
               "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "location",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "JSON",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "provider",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "eventType",
+            "description": "Event Types should be these values only for VirtualEvent [ :webinar, :one_to_one, :p2p_group ] and\n Event Types should be these values only for PhysicalEvent [ :class_room, :workshop ] ",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null,
@@ -9199,7 +9259,7 @@
             "deprecationReason": null
           },
           {
-            "name": "shareContentItem",
+            "name": "shareContentItems",
             "description": "TO share the content between the Tenants",
             "args": [
               {
@@ -9210,7 +9270,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "ShareContentItemInput",
+                    "name": "ShareContentItemsInput",
                     "ofType": null
                   }
                 },
@@ -9221,7 +9281,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "ShareContentItemPayload",
+              "name": "ShareContentItemsPayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10662,6 +10722,18 @@
             "deprecationReason": null
           },
           {
+            "name": "event",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Event",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "eventType",
             "description": null,
             "args": [],
@@ -10669,26 +10741,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "events",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Event",
-                  "ofType": null
-                }
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -10715,7 +10767,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "JSON",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10779,7 +10831,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "JSON",
               "ofType": null
             },
             "defaultValue": null,
@@ -10788,7 +10840,7 @@
           },
           {
             "name": "eventType",
-            "description": "Types should be these values only [ :webinar, :one_to_one, :p2p_group ]",
+            "description": "Types should be these values only [ :class_room, :workshop ]",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -14533,7 +14585,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ShareContentItemInput",
+        "name": "ShareContentItemsInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -14555,15 +14607,23 @@
             "deprecationReason": null
           },
           {
-            "name": "contentItemId",
+            "name": "contentItemIds",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
               }
             },
             "defaultValue": null,
@@ -14577,8 +14637,8 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ShareContentItemPayload",
-        "description": "Autogenerated return type of ShareContentItem",
+        "name": "ShareContentItemsPayload",
+        "description": "Autogenerated return type of ShareContentItems",
         "specifiedByUrl": null,
         "fields": [
           {
@@ -15311,12 +15371,12 @@
             "deprecationReason": null
           },
           {
-            "name": "loginLogo",
+            "name": "logos",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "JSON",
               "ofType": null
             },
             "isDeprecated": false,
@@ -15406,18 +15466,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "ContentItemConnection",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileLogo",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -19503,6 +19551,18 @@
             "deprecationReason": null
           },
           {
+            "name": "event",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Event",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "eventType",
             "description": null,
             "args": [],
@@ -19510,26 +19570,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "events",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Event",
-                  "ofType": null
-                }
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -19629,7 +19669,7 @@
           },
           {
             "name": "eventType",
-            "description": null,
+            "description": "Types should be these values only [ :webinar, :one_to_one, :p2p_group ]",
             "type": {
               "kind": "SCALAR",
               "name": "String",

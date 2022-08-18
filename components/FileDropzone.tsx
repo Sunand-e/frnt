@@ -16,6 +16,7 @@ const rejectStyle: CSSProperties = {
 export interface FileDropzoneProps {
   accept;
   dropZoneContent;
+  onClick;
   onDrop;
   multiple;
 }
@@ -23,6 +24,7 @@ export interface FileDropzoneProps {
 const FileDropzone = ({
   accept,
   dropZoneContent,
+  onClick = null,
   onDrop = (acceptedFiles, fileRejections, event) => null,
   multiple=true,
 }) => {
@@ -58,7 +60,8 @@ const FileDropzone = ({
     <div className="container mb-4">
       <div {...getRootProps({
         style,
-        className: "flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+        className: "flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md",
+        ...(onClick && { onClick })
       })}>
         <input {...getInputProps()} />
         <div className="space-y-1 text-center">

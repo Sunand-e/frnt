@@ -34,7 +34,7 @@ const DualListBoxInput = ({
 
   return (
     <div>
-      { label && <label>{label}</label> }
+      { label && <label className="text-sm font-medium text-gray-700">{label}</label> }
       <DualListBox
         selected={selected}
         className={styles.DualInput}

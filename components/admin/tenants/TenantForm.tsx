@@ -1,13 +1,8 @@
 import React, { useContext } from 'react';
 import Button from '../../Button';
-import ImageSelectInput from '../../common/inputs/ImageSelectInput';
-import SelectInput from '../../common/inputs/SelectInput';
 import TextInput from '../../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import CheckboxInput from '../../common/inputs/CheckboxInput';
 // import UserRoleSelect from './inputs/UserRoleSelect';
-import Link from 'next/link';
-import { ModalContext } from '../../../context/modalContext';
 import ColorPickerInput from '../../common/inputs/ColorPickerInput';
 import ImageDropzoneInput from '../../common/inputs/ImageDropzoneInput';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
@@ -31,35 +26,36 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     id: tenant?.id,
     primaryBrandColor: tenant?.settings?.primaryBrandColor,
     secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
-    tenantImage: ''
   }
 
   const endpoint = "/api/v1/tenant/update"
   const method = "PUT"
 
-  const { uploadFileAndNotify: uploadCompanyLogo } = useUploadAndNotify({
-    fileParameterName: "profile_image",
+  const { uploadFileAndNotify } = useUploadAndNotify({
     additionalParams: { tenant_id: tenant?.id },
     endpoint,
     method,
-  })
-  const { uploadFileAndNotify: uploadSquareLogo } = useUploadAndNotify({
-    fileParameterName: "login_image",
-    additionalParams: { tenant_id: tenant?.id },
-    endpoint,
-    method
   })
 
   const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantFormValues>({
     defaultValues
   });
 
-  const big = watch()
+  const formVals = watch()
 
-  const handleSubmit = (data) => {
-    data.companyLogo && uploadCompanyLogo(data.companyLogo)
-    data.squareLogo && uploadSquareLogo(data.squareLogo)
-    onSubmit(data)
+  const handleSubmit = async (data) => {
+
+    await Promise.all([
+      data.logo instanceof File && await uploadFileAndNotify(data.logo, 'logo_image'),
+      data.whiteLogo instanceof File && await uploadFileAndNotify(data.whiteLogo, 'logo_white_image'),
+      data.squareLogo instanceof File && await uploadFileAndNotify(data.squareLogo, 'logo_square_image'),
+      data.squareWhiteLogo instanceof File && await uploadFileAndNotify(data.squareWhiteLogo, 'logo_square_white_image'),
+    ]).then(res => {
+      console.log('resresresresresresresresresres')
+      console.log(res)
+      onSubmit(data)
+    }
+    )
   }
 
   return (
@@ -93,16 +89,34 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         inputAttrs={register("url", { maxLength: 50 })}
       />
       <ImageDropzoneInput
-        buttonText="Choose tenant image"
+        buttonText="Choose tenant logo"
         label="Company logo"
         control={control}
-        name="companyLogo"
+        name="logo"
+        initialValue={tenant?.logos.logo}
         />
       <ImageDropzoneInput
-        buttonText="Choose tenant image"
+        buttonText="Choose logo (white)"
+        label="Company logo (white)"
+        control={control}
+        name="whiteLogo"
+        previewClassName="bg-black/40"
+        initialValue={tenant?.logos.logo_white}
+      />
+      <ImageDropzoneInput
+        buttonText="Choose logo (square)"
         label="Company logo (square)"
         control={control}
         name="squareLogo"
+        initialValue={tenant?.logos.logo_square}
+      />
+      <ImageDropzoneInput
+        buttonText="Choose logo (white, square)"
+        label="Company logo (white, square)"
+        control={control}
+        name="squareWhiteLogo"
+        previewClassName="bg-black/40"
+        initialValue={tenant?.logos.logo_square_white}
       />
       <ColorPickerInput
         label="Primary brand colour"

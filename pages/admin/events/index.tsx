@@ -3,15 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle'
 import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
+import EventFilters from "../../../components/events/EventFilters";
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
-const AdminEvents = () => {
 
-  usePageTitle({ title: 'Live Sessions' })
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Create new event</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
+
+  const AdminEvents = () => {
+
+  usePageTitle({ title: 'All Events' })
   useHeaderButtons([
-    ['Add live session', '/admin/events/add'],
+    [<AddButton />, '/admin/events/create'],
   ])
   return (
-    <EventsListTable />
+    <>
+      <EventFilters />
+      <EventsListTable />
+    </>
   )
 }
 

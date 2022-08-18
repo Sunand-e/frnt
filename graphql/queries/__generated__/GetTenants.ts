@@ -16,6 +16,7 @@ export interface GetTenants_tenants_edges_node {
   createdAt: any;
   shortName: string;
   settings: any;
+  logos: any | null;
 }
 
 export interface GetTenants_tenants_edges {

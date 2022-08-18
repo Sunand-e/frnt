@@ -2,8 +2,9 @@ import { FilePdf, FileEarmarkFill } from '@styled-icons/bootstrap'
 import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
 import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import PdfViewer from '../../../PdfViewer'
 
-const DocumentItem = ({file, onDelete: handleDelete}) => {
+const DocumentItem = ({file, onRemove, pdfPreview=false}) => {
 
   let IconComponent;
 
@@ -24,25 +25,34 @@ const DocumentItem = ({file, onDelete: handleDelete}) => {
       break;
     default:
       IconComponent = FileEarmarkFill;
+  } 
 
-} 
+  const handleRemove = (e) => {
+    e.preventDefault()
+    onRemove(e)
+  }
 
   return (
-    <a href={file.location} className="block hover:bg-gray-50 group">
-      <div className="flex items-center px-4 py-4 sm:px-6">
-        <div className="min-w-0 flex-1 flex items-center space-x-4">
-          <div className="flex-shrink-0">
-            <IconComponent className="h-12 w-12 text-main" />
+    <>
+      <a href={file.location} className="block hover:bg-gray-50 group">
+        <div className="flex items-center px-4 py-4 sm:px-6">
+          <div className="min-w-0 flex-1 flex items-center space-x-4">
+            <div className="shrink-0">
+              <IconComponent className="h-12 w-12 text-main" />
+            </div>
+            <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
           </div>
-          <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
+          { handleRemove && (
+            <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
+              <Trash className={`w-4 cursor-pointer`} onClick={handleRemove}/>
+            </div>
+          )}
         </div>
-        { handleDelete && (
-          <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
-            <Trash className={`w-4 cursor-pointer`} onClick={handleDelete}/>
-          </div>
-        )}
-      </div>
-    </a>
+      </a>
+      { pdfPreview && file.location.endsWith('pdf') && (
+        <PdfViewer url={file.location} />
+      )}
+    </>
   )
 }
 

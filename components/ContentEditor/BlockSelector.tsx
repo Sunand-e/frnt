@@ -76,13 +76,19 @@ const BlockSelector = ({
     }
   }
 
-  const BlockButtons = blockButtons.map((type, index) => <BlockButton 
-    key={index}
-    type={type.name}
-    text={type.text}
-    Icon={type.icon}
-    onSelectBlock={handleSelectBlock}
-  />)
+  const BlockButtons = blockButtons.map((type, index) => {
+    const isDisabled = type.name === 'package' && blocks.some(({type}) => type === 'package')
+    return(
+      <BlockButton
+        key={index}
+        type={type.name}
+        text={type.text}
+        Icon={type.icon}
+        isDisabled={isDisabled}
+        onSelectBlock={handleSelectBlock}
+      />
+    )
+  })
 
   return (
     <div style={style} className={`flex flex-col text-center text-main-secondary ${className}`}>
@@ -92,6 +98,6 @@ const BlockSelector = ({
       </div>
     </div>
   )
-}
+};
 
 export default BlockSelector

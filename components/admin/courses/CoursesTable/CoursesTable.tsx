@@ -134,8 +134,8 @@ console.log(courses)
 
   return (
     <>
-    <div className='flex items-center justify-between mb-2'>
-      <div className='flex items-center'>
+    <div className='flex items-center flex-col mb-2 sm:justify-between sm:flex-row'>
+      <div className='flex items-center flex-col sm:flex-row'>
         <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
         <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
       </div>

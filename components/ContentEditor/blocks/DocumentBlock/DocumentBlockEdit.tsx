@@ -1,6 +1,7 @@
 import { FunctionComponent, useContext } from 'react'
 import { ModalContext } from '../../../../context/modalContext';
 import Button from '../../../Button';
+import DocumentSelector from '../../../common/inputs/DocumentSelector';
 import MediaLibrary from '../../../MediaLibrary/MediaLibrary'
 import useBlockEditor from '../../useBlockEditor';
 import DocumentItem from './DocumentItem';
@@ -26,16 +27,8 @@ const DocumentBlockEdit: FunctionComponent = ({block}) => {
     })
     closeModal()
   }
-
-  const selectDocumentModal = () => {
-    handleModal({
-      title: `Choose a file`,
-      content: <MediaLibrary typeFilter={['document']} onItemSelect={selectFile} />,
-      size: 'lg'
-    })
-  }
   
-  const handleDelete = (e) => {
+  const handleRemove = (e) => {
     e.preventDefault()
     updateBlock({
       ...block,
@@ -47,17 +40,9 @@ const DocumentBlockEdit: FunctionComponent = ({block}) => {
   }
 
   return (
-    <>
-    { file ? (
-      <DocumentItem file={file} onDelete={handleDelete}/>
-    ) : (
-      <div className='text-center'>
-        <Button onClick={selectDocumentModal}>Select a document</Button>
-      </div>
-    )
-    }
-    </>
-  )
+    <DocumentSelector onSelect={selectFile} onRemove={handleRemove} file={file} />
+  ) 
+
 }
 
 export default DocumentBlockEdit

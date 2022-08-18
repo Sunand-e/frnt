@@ -3,7 +3,7 @@ import useGetUser from "../../hooks/users/useGetUser"
 import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
 
-export default function CourseTabs({gridClasses}) {
+export default function CourseTabs({gridClasses=''}) {
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 

@@ -9,6 +9,15 @@ import {Cog} from '@styled-icons/fa-solid/Cog'
 import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/admin/courses/CourseForm'
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to user list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminCoursesEdit = () => {
   /*

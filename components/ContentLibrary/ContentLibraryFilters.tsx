@@ -1,10 +1,10 @@
 
 import Filters from '../common/Filters';
-import { libraryItemTypes } from '../library/libraryItemTypes';
+import { resourceTypes } from '../resources/resourceTypes';
 
 export default function ContentLibraryFilters() {
   
   return (
-    <Filters types={libraryItemTypes} />
+    <Filters types={resourceTypes} />
   )
 }

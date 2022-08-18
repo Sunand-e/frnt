@@ -1,7 +1,10 @@
+import classNames from "../../utils/classNames";
+
 type ImageSelectProps = { 
   src?: string;
   placeholder?: string;
   buttonText?: string;
+  className?: string;
   onLoad?: (e) => void;
   onClick?: (e) => void;
   isButtonAlwaysVisible?: boolean;
@@ -13,11 +16,12 @@ const ImageSelect = ({
   buttonText,
   onClick,
   onLoad,
+  className,
   isButtonAlwaysVisible
 }: ImageSelectProps) => {
 
   return (
-    <div className={`relative`}>
+    <div className={classNames(`relative`, className)}>
       <img
       onLoad={onLoad}
         className={`block max-w-full px-1 w-full borderRadius[3px] object-cover boxShadow[0 0 0 1px rgb(59,130,249)]`}

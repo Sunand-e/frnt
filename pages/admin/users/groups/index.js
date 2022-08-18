@@ -7,24 +7,26 @@ import { Notices } from '../../../../components/Notices';
 import { headerButtonsVar } from '../../../../graphql/cache';
 import Button from '../../../../components/Button';
 import { useRouter } from 'next/router';
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import useHeaderButtons from "../../../../hooks/useHeaderButtons";
+
+const AddButton = () => (
+    <>
+        <span className='hidden lg:block'>Create new group</span>
+        <span className='block lg:hidden'><Add  width="20" /></span>
+    </>
+)
 
 const AdminUsersGroups = () => {
   
   usePageTitle({ title: 'Groups' })
 
   const router = useRouter()
-  
-  const handleAddClick = (e) => {
-    router.push('/admin/users/groups/add')
-    e.target.blur()
-  }
 
 
-  headerButtonsVar(
-    <>
-      <Button onClick={handleAddClick}>Add new group</Button>
-    </>
-  )
+  useHeaderButtons([
+    [<AddButton />, '/admin/users/groups/add']
+  ])
 
   return (
     <>

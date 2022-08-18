@@ -2,8 +2,35 @@ import {
   CheckCircleIcon,
   OfficeBuildingIcon
 } from '@heroicons/react/solid'
+import {gql, useQuery} from "@apollo/client";
+import dayjs from 'dayjs';
+
+const USER_FIRST_NAME = gql`
+  query GetUserWelcome {
+    user {
+      fullName
+    }
+  }
+`
+
+const [hour, am_pm] = dayjs().format("dddd,h,A").split(",");
+
+let timeOfDay;
+
+if (am_pm === 'AM') {
+  timeOfDay = 'morning';
+} else {
+  if (hour === '12' || hour < '6') {
+    timeOfDay = 'afternoon';
+  } else {
+    timeOfDay = 'evening';
+  }
+}
 
 const WelcomeUserPanel = () => {
+
+  const { loading, error, data } = useQuery(USER_FIRST_NAME);
+
   return (
     <div className="bg-white shadow hidden md:block">
       <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
@@ -24,43 +51,30 @@ const WelcomeUserPanel = () => {
                       alt=""
                   />
                   <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                    Good morning, Emilia Birch
+                    {/*Good morning, {data?.user?.fullName || error?.message}*/}
+                    Good { timeOfDay }, { data?.user?.fullName }
                   </h1>
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                   <dt className="sr-only">Company</dt>
                   <dd className="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
                     <OfficeBuildingIcon
-                        className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                        className="shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                     />
                     Duke street studio
                   </dd>
                   <dt className="sr-only">Account status</dt>
-                  <dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
-                    <CheckCircleIcon
-                        className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
-                        aria-hidden="true"
-                    />
-                    Verified account
-                  </dd>
+                  {/*<dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">*/}
+                  {/*  <CheckCircleIcon*/}
+                  {/*      className="shrink-0 mr-1.5 h-5 w-5 text-green-400"*/}
+                  {/*      aria-hidden="true"*/}
+                  {/*  />*/}
+                  {/*  Verified account*/}
+                  {/*</dd>*/}
                 </dl>
               </div>
             </div>
-          </div>
-          <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-            <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            >
-              Add money
-            </button>
-            <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            >
-              Send money
-            </button>
           </div>
         </div>
       </div>

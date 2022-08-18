@@ -9,7 +9,7 @@
 
 export interface GetEvents_events_edges_node_physicalEvent {
   __typename: "PhysicalEvent";
-  location: string | null;
+  location: any | null;
 }
 
 export interface GetEvents_events_edges_node_virtualEvent {
@@ -19,6 +19,7 @@ export interface GetEvents_events_edges_node_virtualEvent {
 
 export interface GetEvents_events_edges_node {
   __typename: "Event";
+  title: string | null;
   content: any | null;
   createdAt: any;
   eventModelType: string | null;

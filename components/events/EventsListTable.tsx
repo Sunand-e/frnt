@@ -7,6 +7,10 @@ import ButtonLink from '../ButtonLink';
 import EventTitleCell from './EventTitleCell';
 import dayjs from 'dayjs';
 import providers from './providers';
+import ItemWithImageTableCell from "../common/cells/ItemWithImageTableCell";
+import { GetEvents } from '../../graphql/queries/__generated__/GetEvents';
+import { GET_EVENTS } from '../../graphql/queries/events';
+import { useQuery } from '@apollo/client';
 
 const EventsListTable = () => {
 
@@ -15,60 +19,44 @@ const EventsListTable = () => {
   const handleDeleteClick = (id) => {
   }
 
-  const tableData = useMemo(
-    () => {
-      return [
-        {
-          id: 'ev001',
-          title: 'Diversity & Inclusion Workshop',
-          provider: 'zoom',
-          date: dayjs().subtract(2, 'days').format('DD/MM'),
-        },
-        {
-          id: 'ev002',
-          title: 'Onboarding Training',
-          provider: 'teams',
-          date: dayjs().format('DD/MM'),
-        },
-        {
-          id: 'ev003',
-          title: 'Fire Safety Lecture',
-          provider: 'webex',
-          date: dayjs().add(3, 'days').format('DD/MM'),
-        },
-        {
-          id: 'ev004',
-          title: 'Employee #036 Appraisal',
-          provider: 'teams',
-          date: dayjs().add(5, 'days').format('DD/MM'),
-        },
+  const { loading, error, data: queryData } = useQuery<GetEvents>(GET_EVENTS);
 
-      ]
-    }, []
-  );
+  const tableData = useMemo(() => {
+    return queryData?.events?.edges?.map(({node}) => node).filter(node => !node._deleted) || []
+  }, [queryData]);
 
-   const tableCols = useMemo(
+  console.log('tableData')
+  console.log(tableData)
+
+  const tableCols = useMemo(
     () => [
       {
-        Header: "Session",
+        Header: "Event title",
         accessor: "title", // accessor is the "key" in the data
-        Cell: EventTitleCell,
-        className: 'text-red-500',
-        headerqqed: 'text-green-500'
+        Cell: ({ cell }) => {
+          const cellProps = {
+            title: cell.row.original.title,
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
+            secondary: cell.row.original.provider
+          }
+          return (
+            <ItemWithImageTableCell { ...cellProps } />
+          )
+        }
       },
       {
         Header: "Provider",
         accessor: "provider",
-        Cell: ({ cell }) => {
-          const provider = providers[cell.value]
-          const ProviderLogo = provider.logo
-          return (
-            <div className='flex flex-col items-center text-main-secondary'>
-              <div className='w-10'>
-                <ProviderLogo />
-              </div>
-              <span className='text-xs'>{provider.name}</span>
-            </div>
+        Cell: ({cell})=> {
+          return(<p>{cell.value}</p>)
+        }
+      }
+      ,{
+        Header: "Location",
+        accessor: "location.title",
+        Cell: ({cell})=> {
+          return(
+            <p>{cell.value}</p>
           )
         }
       },
@@ -81,7 +69,7 @@ const EventsListTable = () => {
           return (
             <div className="flex space-x-4">
               {/* <ButtonLink href={href}>Edit</ButtonLink> */}
-              <Button 
+              <Button
                 onClick={() => handleDeleteClick(cell.row.values.id)}
               >
                 Delete
@@ -93,6 +81,71 @@ const EventsListTable = () => {
     ],
     []
   );
+
+    // const tableCols = useMemo(
+    //     () => [
+    //         {
+    //             Header: "Event title",
+    //             Cell: ({ cell }) => {
+    //                 const cellProps = {
+    //                     title: cell.row.original.name,
+    //                     href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+    //                 }
+    //                 return (
+    //                     <ItemWithImageTableCell { ...cellProps } />
+    //                 )
+    //             }
+    //         },
+    //         {
+    //             Header: "URL",
+    //             accessor: "url",
+    //             Cell: ({ cell }) => {
+    //                 const domainUrl = `${location.protocol}//${cell.value}`
+    //                 const port = location.port && `:${location.port}`
+    //                 return (
+    //                     <a href={domainUrl + port}>{cell.value}</a>
+    //                 )
+    //             },
+    //         },
+    //         {
+    //             Header: "Date Created",
+    //             accessor: "createdAt",
+    //             Cell: ({ cell }) => {
+    //                 return (
+    //                     dayjs(cell.value).format('DD/MM')
+    //                 )
+    //             }
+    //         },
+    //         {
+    //             Header: "Date Updated",
+    //             accessor: "updatedAt",
+    //             Cell: ({ cell }) => {
+    //                 return (
+    //                     dayjs(cell.value).format('DD/MM')
+    //                 )
+    //             }
+    //         },
+    //         {
+    //             width: 300,
+    //             Header: "Actions",
+    //             // className: 'text-center',
+    //             Cell: ({ cell }) => {
+    //                 const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+    //                 return (
+    //                     <div className="space-x-4">
+    //                         <ButtonLink href={href}>Edit</ButtonLink>
+    //                         <Button
+    //                             onClick={() => handleDelete(cell.row.original.id)}
+    //                         >
+    //                             Delete
+    //                         </Button>
+    //                     </div>
+    //                 )
+    //             }
+    //         }
+    //     ],
+    //     []
+    // );
 
   return (
     <>

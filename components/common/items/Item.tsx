@@ -1,30 +1,10 @@
 import Link from "next/link";
-import contentTypes from "../../../contentTypes";
 import ButtonLink from "../../ButtonLink";
 import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
 
-function ItemTags({ tags }) {
-  return (
-    <div className="flex">
-
-      <span>Tags:</span>
-      {
-        tags.map((tag, index) => {
-          return (
-            <a href="#" key={index} className="text-main-secondary font-semibold">{tag.label}</a>
-          )}
-        )
-      }
-    </div>
-  )
-}
-
 export default function Item({ item, options }) {
 
-  const itemType = contentTypes.find(type => {
-    return item.itemType === type.slug
-  });
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
   const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
@@ -42,8 +22,6 @@ export default function Item({ item, options }) {
   }
 
   const itemTitle = options?.getItemTitle?.(item) || title
-
-  // { item.tags.find(tag => tag.label).image }
   
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
@@ -73,8 +51,8 @@ export default function Item({ item, options }) {
           </div> */}
         </a>
       </Link>
-      <div className="p-4 pt-4 flex-grow flex flex-col">
-        {/* <h2 className="text-lg text-main-secondary mb-2 border-main border-2 bg-white top-5 font-bold p-1 px-5"> */}
+      <div className="p-4 pt-4 grow flex flex-col">
+        {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
           <h2 className="text-xl text-main-secondary font-semibold mb-2">{itemTitle}</h2>
           { item.tags?.[0] && <img src={item.tags[0].image.location} className="mt-1 h-12 rounded-full" /> }

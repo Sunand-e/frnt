@@ -16,6 +16,7 @@ export interface UpdateTenant_updateTenant_tenant {
   createdAt: any;
   shortName: string;
   settings: any;
+  logos: any | null;
 }
 
 export interface UpdateTenant_updateTenant {

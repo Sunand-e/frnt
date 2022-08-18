@@ -20,7 +20,6 @@ function useUpdateTenant(id = null) {
 
     const updateTenant = (values, cb = null) => {
         // const updateTenant = ({name=null, contentBlocks=null}) => {
-
         const variables = {
             ...values
         }

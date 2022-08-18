@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import ContentTypePage from "../ContentTypePage";
 import BlockWithTitle from '../BlockWithTitle';
 import LoadingSpinner from '../LoadingSpinner';
 import VideoPlayer from '../VideoPlayer';
@@ -30,7 +29,7 @@ const Webinar = () => {
                   { webinar.videoMarkers.map(marker => (
                     <div className="flex mt-1 items-center cursor-pointer" onClick={() => handleMarkerClick(marker.time)}>
                         <span className="bg-main-secondary text-white px-4 py-2">{new Date(marker.time * 1000).toISOString().substr(11, 8)}</span>
-                        <span className="bg-white px-4 py-2 flex-grow hover:font-bold ">{marker.title}</span>
+                        <span className="bg-white px-4 py-2 grow hover:font-bold ">{marker.title}</span>
                     </div>
                   ) ) }
               </>

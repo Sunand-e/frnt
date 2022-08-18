@@ -1,6 +1,7 @@
 import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Category} from '@styled-icons/material-rounded/Category'
 import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
 import {Library} from "@styled-icons/ionicons-solid/Library"
@@ -12,8 +13,8 @@ import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
 import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
-
-
+import {Image} from '@styled-icons/fluentui-system-filled/Image'
+import {Link} from '@styled-icons/entypo/Link'
 const navStructureAdmin = [
   {
     name: 'dashboard',
@@ -23,51 +24,63 @@ const navStructureAdmin = [
     subPages: [],
   },
   {
-    name: 'library',
+    name: 'resources',
     title: 'Resource Library',
-    urlPath: '/admin/library',
+    urlPath: '/admin/resources',
     icon: 'school',
     subPages: [
       {
         name: 'overview',
         title: 'All Library Items',
-        urlPath: '/admin/library',
+        urlPath: '/admin/resources',
         icon: Library
       },
+      // {
+      //   name: 'guides',
+      //   title: 'Guides',
+      //   urlPath: '/admin/resources?type=guide',
+      //   icon: TextLeft,
+      // },
       {
-        name: 'library-guides',
-        title: 'Guides',
-        urlPath: '/admin/library?type=guide',
-        icon: TextLeft,
-      },
-      {
-        name: 'library-videos',
-        title: 'Videos',
-        urlPath: '/admin/library?type=video',
-        icon: Video,
-      },
-      {
-        name: 'library-documents',
+        name: 'documents',
         title: 'Documents',
-        urlPath: '/admin/library?type=document',
+        urlPath: '/admin/resources?type=document',
+        icon: Document,
+      },
+      {
+        name: 'videos',
+        title: 'Videos',
+        urlPath: '/admin/resources?type=video',
         icon: Video,
       },
       {
-        name: 'library-podcasts',
-        title: 'Podcasts',
-        urlPath: '/admin/library?type=podcast',
+        name: 'images',
+        title: 'Images',
+        urlPath: '/admin/resources?type=image',
+        icon: Image,
+      },
+      {
+        name: 'audio',
+        title: 'Audio',
+        urlPath: '/admin/resources?type=audio',
         icon: Speaker2,
       },
       {
-        name: 'library-process-flows',
-        title: 'Process Flows',
-        urlPath: '/admin/library?type=process_flow',
-        icon: FlowChart,
+        name: 'link',
+        title: 'Link',
+        urlPath: '/admin/resources?type=link',
+        icon: Link,
       },
+      // {
+      //   name: 'process-flows',
+      //   title: 'Process Flows',
+      //   urlPath: '/admin/resources?type=process_flow',
+      //   icon: FlowChart,
+      // },
       // {
       //   name: 'add',
       //   title: 'Add New',
-      //   urlPath: '/admin/library/add',
+      //   urlPath: '/admin/resources/add',
       // },
     ],
   },
@@ -151,26 +164,32 @@ const navStructureAdmin = [
   },
   {
     name: 'events',
-    title: 'Live Sessions',
+    title: 'Events',
     urlPath: '/admin/events',
     icon: 'calendar-alt',
     subPages: [
       {
         name: 'events',
-        title: 'Live Sessions',
+        title: 'All Events',
         urlPath: '/admin/events',
         icon: CalendarAlt
       },
       {
-        name: 'events',
-        title: 'Add New',
-        urlPath: '/admin/events/add',
-        icon: Calendar2PlusFill
+        name: 'virtual',
+        title: 'Virtual Event',
+        urlPath: '/admin/events?type=virtual',
+        icon: CalendarAlt
+      },
+      {
+        name: 'physical',
+        title: 'Physical Event',
+        urlPath: '/admin/events?type=physical',
+        icon: CalendarAlt
       },
     ],
   },
   {
-    name: 'reporting',
+    name: 'reports',
     title: 'Reporting',
     urlPath: '/admin/reports',
     icon: 'chart-line',

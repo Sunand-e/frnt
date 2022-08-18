@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
-  fileParameterName: string,
   endpoint: string,
   method?: Method,
   refetchQuery?;
@@ -15,7 +14,6 @@ interface UseUploadAndNotifyProps {
 
 const useUploadAndNotify = ({
   additionalParams={},
-  fileParameterName,
   endpoint,
   method="POST",
   refetchQuery=null
@@ -23,7 +21,7 @@ const useUploadAndNotify = ({
   
   const token = localStorage.getItem('token');
 
-  const uploadFileAndNotify = useCallback(async (file) => {
+  const uploadFileAndNotify = useCallback(async (file, fileParameterName) => {
     const toastId = uuidv4()
 
     const data = new FormData()
@@ -31,7 +29,6 @@ const useUploadAndNotify = ({
     for(const param in additionalParams) {
       data.append(param, additionalParams[param])
     }
-
     // data.append('title', file.name)
     data.append(fileParameterName, file, file.name)
 

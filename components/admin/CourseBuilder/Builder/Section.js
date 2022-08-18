@@ -25,7 +25,7 @@ const handleBoxToggle = () => {
         <div 
           {...provided.draggableProps}
           ref={provided.innerRef}
-          className={`section ${active && 'active'} border bg-main-semitransparent overflow-hidden flex flex-col w-60 flex-shrink-0`}
+          className={`section ${active && 'active'} border bg-main-semitransparent overflow-hidden flex flex-col w-60 shrink-0`}
           // style={{minWidth:260}}
         >
           <h3 

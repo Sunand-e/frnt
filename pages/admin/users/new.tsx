@@ -5,13 +5,22 @@ import { useRouter } from 'next/router';
 import useGetUsers from '../../../hooks/users/useGetUsers';
 import axios from 'axios';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
+import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
+
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to user list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersNew = () => {
   
   usePageTitle({ title: 'Add new user' })
   
   useHeaderButtons([
-    ['Back to user list', '/admin/users'],
+    [<BackButton />, '/admin/users'],
   ])
   
   const router = useRouter()

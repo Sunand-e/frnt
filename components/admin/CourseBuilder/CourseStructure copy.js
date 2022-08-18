@@ -126,7 +126,7 @@ const CourseStructure = ({course}) => {
               return <Section key={section.id} section={section} items={items} index={index} />
             })}
             { provided.placeholder }
-            {/* <div className="border-dashed text-center align-center mb-8 m-2 p-2 border-2 border-dashed border-grey-dark text-grey-dark w-1/4 flex-shrink-0 flex flex-col justify-center">
+            {/* <div className="border-dashed text-center align-center mb-8 m-2 p-2 border-2 border-dashed border-grey-dark text-grey-dark w-1/4 shrink-0 flex flex-col justify-center">
               +
             </div> */}
           </div>  

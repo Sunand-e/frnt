@@ -7,8 +7,15 @@ import UserForm from '../../../components/admin/users/UserForm';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import UserGroups from '../../../components/admin/users/groups/UserGroups';
 import UserCourses from '../../../components/admin/users/courses/UserCourses';
-import UserLibraryItems from '../../../components/admin/users/libraryItems/UserLibraryItems';
+import UserResources from '../../../components/admin/users/resources/UserResources';
+import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to user list</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminUsersEdit = () => {
   
@@ -29,18 +36,18 @@ const AdminUsersEdit = () => {
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
   useHeaderButtons([
-    ['Back to users list', '/admin/users']
+    [<BackButton />, '/admin/users']
   ])
 
   return (
     <>
       { user &&
-        <div className='flex space-x-16'>
+        <div className='flex space-x-0 flex-col md:flex-row md:space-x-11'>
           <UserForm onSubmit={handleSubmit} user={user} />
-          <div className='flex flex-col space-y-8'>
+          <div className='flex flex-col space-y-8 mt-4 md:mt-0'>
             <UserGroups />
             <UserCourses />
-            <UserLibraryItems />
+            <UserResources />
           </div>
         </div>
       }

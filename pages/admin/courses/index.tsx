@@ -8,6 +8,17 @@ import CoursesTable from '../../../components/admin/courses/CoursesTable/Courses
 import { useContext, useEffect } from 'react'
 import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
+import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import useHeaderButtons from "../../../hooks/useHeaderButtons";
+
+
+const AddButton = () => (
+  <>
+    <span className='hidden lg:block'>Create new course</span>
+    <span className='block lg:hidden'><Add  width="20" /></span>
+  </>
+)
+
 const AdminCourses = () => {
 
   usePageTitle({
@@ -18,23 +29,10 @@ const AdminCourses = () => {
   
   const { handleModal, closeModal } = useContext(ModalContext);
 
-  const handleAddClick = (e) => {
-    router.push('/admin/courses/setup')
-    // handleModal({
-    //   title: `Add new course`,
-    //   // content: <BasicTextInput label="Course name" placeholder='Untitled course' />,
-    //   content: <CourseCreateModalForm />,
-    //   buttons: null
-    // })
-  }
-  
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button onClick={handleAddClick}>Add new course</Button>
-      </>
-    )
-  },[])
+  useHeaderButtons([
+    [<AddButton />, '/admin/courses/setup']
+  ])
+
 
   return (
     <>

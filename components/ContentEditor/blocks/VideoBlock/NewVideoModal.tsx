@@ -8,31 +8,15 @@ import Button from '../../../Button';
 import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 
-export const NewVideoModal = ({block}) => {
+export const NewVideoModal = ({handleAddVideo}) => {
 
-  
   const { closeModal } = useContext(ModalContext)
-  const { addBlock } = useBlockEditor(block)
-
-  const handleAddVideo = () => {
-    const newBlock = {
-      type: 'video',
-      id: uuidv4(),
-      properties: {
-        url: embedUrl,
-        width: defaultWidth
-      }
-    }
-    addBlock(newBlock)
-    closeModal()
-  }
 
   const  defaultWidth = '50%';
   const [videoUrl, setVideoUrl] = useState('')
   const [embedUrl, setEmbedUrl] = useState('')
 
   useEffect(() => {
-    console.log()
     const video = urlParser.parse(videoUrl);
     const newEmbedUrl = urlParser.create({
       videoInfo: video,

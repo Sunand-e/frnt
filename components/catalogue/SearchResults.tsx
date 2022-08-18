@@ -1,6 +1,5 @@
 import ItemGrid from "../common/items/ItemGrid";
 import ItemCollection from "../common/items/ItemCollection";
-import contentTypes from "../../contentTypes"
 import { useRouter } from "../../utils/router";
 import { ParsedUrlQuery } from 'querystring';
 

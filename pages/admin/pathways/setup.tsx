@@ -14,6 +14,16 @@ import SelectInput from '../../../components/common/inputs/SelectInput'
 import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
 import LoadingSpinner from '../../../components/LoadingSpinner'
 import useCreatePathway from '../../../hooks/pathways/useCreatePathway'
+import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+import useHeaderButtons from "../../../hooks/useHeaderButtons";
+
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to Pathways</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminPathwaySetup = () => {
   /*
@@ -30,11 +40,10 @@ const AdminPathwaySetup = () => {
     title: "New pathway"
   })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <Button onClick={() => router.push('/admin/pathways')}>Back to Pathways</Button>
-    )
-  },[])
+
+  useHeaderButtons([
+    [<BackButton />,'/admin/pathways']
+  ])
 
   const onSubmit = (formValues) => {
     

@@ -9,7 +9,7 @@
 
 export interface GetEvent_event_physicalEvent {
   __typename: "PhysicalEvent";
-  location: string | null;
+  location: any | null;
 }
 
 export interface GetEvent_event_virtualEvent {
@@ -19,6 +19,7 @@ export interface GetEvent_event_virtualEvent {
 
 export interface GetEvent_event {
   __typename: "Event";
+  title: string | null;
   content: any | null;
   createdAt: any;
   eventModelType: string | null;
