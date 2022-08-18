@@ -8,7 +8,7 @@ import Button from '../../../Button';
 import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 
-export const NewVideoModal = ({handleAddVideo}) => {
+export const NewVideoBlock = ({handleAddVideo}) => {
 
   const { closeModal } = useContext(ModalContext)
 
@@ -61,4 +61,4 @@ export const NewVideoModal = ({handleAddVideo}) => {
   );
 }
 
-export default NewVideoModal
+export default NewVideoBlock

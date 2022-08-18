@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import cache, { currentContentItemVar } from '../../graphql/cache';
 import { ContentFragment } from '../../graphql/queries/allQueries';
 import useBlockEditor from './useBlockEditor';
-import NewVideoModal from './blocks/VideoBlock/NewVideoModal';
+import NewVideoBlock from './blocks/VideoBlock/NewVideoBlock';
 
 const BlockSelector = ({
   block=null, 
@@ -19,8 +19,6 @@ const BlockSelector = ({
 }) => {
 
   const { blocks, insertBlock, updateBlock, getIndexAndParent, addBlock } = useBlockEditor(block)
-
-
   const { handleModal } = useContext(ModalContext);
 
   const handleSelectBlock = (newBlock) => {
@@ -37,7 +35,15 @@ const BlockSelector = ({
       case 'video': {
         handleModal({
           title: `Add video`,
-          content: <NewVideoModal block={block} />,
+          content: <NewVideoBlock block={block} />,
+          size: 'md'
+        })
+        break;
+      }
+      case 'video': {
+        handleModal({
+          title: `Add video`,
+          content: <NewVideoBlock block={block} />,
           size: 'md'
         })
         break;
