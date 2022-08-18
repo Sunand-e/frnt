@@ -1,5 +1,4 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import ResourceEditor from '../../../components/admin/resources/ResourceEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
@@ -59,9 +58,9 @@ const AdminResourcesEdit = () => {
 
   return (
     <>
-      { updateResource &&
+      {/* { updateResource &&
         <ResourceEditor />
-      }
+      } */}
     </>
   )
 }

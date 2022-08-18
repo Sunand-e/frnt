@@ -23,9 +23,7 @@ interface TenantSharedContentFormValues {
 
 const TENANT_SHARED_ITEMS = gql`
   query GetTenantSharedItems {
-    courses(where: {
-      sharedWith: 
-      ) {
+    courses {
       edges {
         node {
           fullName
@@ -62,9 +60,9 @@ const TenantSharedContentForm = () => {
 
   const defaultValues = {
     id,
-    sharedCourseIds: [...data.courses.edges.map(edge => edge.node.id)],
-    sharedResourceIds: [...data.libraryItems.edges.map(edge => edge.node.id)],
-    sharedPathwayIds: [...data.pathways.edges.map(edge => edge.node.id)],
+    sharedCourseIds: data ? [...data?.courses.edges.map(edge => edge.node.id)]: [],
+    sharedResourceIds: data ? [...data?.libraryItems.edges.map(edge => edge.node.id)]: [],
+    sharedPathwayIds: data ? [...data?.pathways.edges.map(edge => edge.node.id)]: [],
     }
 
   const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantSharedContentFormValues>({
