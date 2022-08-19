@@ -8,6 +8,8 @@ import CheckboxInput from '../../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
 import Link from 'next/link';
 import { ModalContext } from '../../../context/modalContext';
+import ImageDropzoneInput from "../../common/inputs/ImageDropzoneInput";
+import useUploadAndNotify from "../../../hooks/useUploadAndNotify";
 
 interface UserFormValues {
   id?: string
@@ -29,17 +31,36 @@ const UserForm = ({user=null, onSubmit}) => {
     // anotherattr: 123,
     role_ids: user?.roles.map(role => role.id),
   }
+  const endpoint = "/api/v1/user/update"
+  const method = "PUT"
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<UserFormValues>({
+  const { uploadFileAndNotify } = useUploadAndNotify({
+    additionalParams: { user_id: user?.id },
+    endpoint,
+    method,
+  })
+
+  const { register, handleSubmit: rhfHandleSubmit, control, formState: { errors }, watch } = useForm<UserFormValues>({
     defaultValues
   });
+  const formValues = watch();
+
+  const handleSubmit = async (data) => {
+    await Promise.all([
+      data.profileImage instanceof File && await uploadFileAndNotify(data.logo, 'profileImage')
+    ]).then(res => {
+        onSubmit(data)
+      }
+    )
+  }
 
   const { closeModal } = useContext(ModalContext)
-console.log("errors", errors);
+  console.log("errors", errors);
+  
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
         label="First name"
@@ -83,13 +104,20 @@ console.log("errors", errors);
         })}
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
-      <ImageSelectInput
-        placeholder={'https://picsum.photos/640/360'}
-        buttonText="Choose profile image"
+      {/*<ImageSelectInput*/}
+      {/*  placeholder={'https://picsum.photos/640/360'}*/}
+      {/*  buttonText="Choose profile image"*/}
+      {/*  control={control}*/}
+      {/*  name="profileImage"*/}
+      {/*  onSelect={() =>closeModal() }*/}
+      {/*  // inputAttrs={register("image", { required: true })}*/}
+      {/*/>*/}
+      <ImageDropzoneInput
+        buttonText="Choose tenant logo"
+        label="Company logo"
         control={control}
-        name="profileImage"
-        onSelect={closeModal()}
-        // inputAttrs={register("image", { required: true })}
+        name="logo"
+        initialValue={user?.profileImage}
       />
       {/* <SelectInput
         label="User role"
@@ -105,6 +133,10 @@ console.log("errors", errors);
         inputAttrs={register("invite")}
       />
       <Button type="submit">Submit</Button>
+
+      <pre>
+        {JSON.stringify(formValues, null, 2)}
+      </pre>
     </form>
   );
 }
