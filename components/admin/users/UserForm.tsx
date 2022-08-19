@@ -44,22 +44,23 @@ const UserForm = ({user=null, onSubmit}) => {
     defaultValues
   });
   const formValues = watch();
+
   const handleSubmit = async (data) => {
     await Promise.all([
       data.profileImage instanceof File && await uploadFileAndNotify(data.logo, 'profileImage')
     ]).then(res => {
-        console.log('resresresresresresresresresres')
-        console.log(res)
         onSubmit(data)
       }
     )
   }
+
   const { closeModal } = useContext(ModalContext)
-console.log("errors", errors);
+  console.log("errors", errors);
+  
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
         label="First name"
