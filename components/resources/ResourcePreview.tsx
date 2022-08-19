@@ -17,6 +17,8 @@ const ResourcePreview = ({control, onRemove}) => {
     name: 'type'
   });
 
+  // alert(JSON.stringify(field.value))
+  
   switch(typeField.value?.name) {
     case 'document':
       return <DocumentItem pdfPreview={true} file={field.value} onRemove={onRemove} />

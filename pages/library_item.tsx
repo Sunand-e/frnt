@@ -14,7 +14,7 @@ const LibraryItemPage = () => {
 
   const editItem = () => {
     router.push({
-      pathname: `/admin/library/edit`,
+      pathname: `/admin/resources/edit`,
       query: {
         id
       }

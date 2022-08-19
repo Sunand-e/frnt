@@ -14,20 +14,19 @@ function useCreateResource() {
       // the update function updates the list of libraryItems returned from the cached query.
       // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createLibraryItem } } ) {
-
-        const data = cache.readQuery<GetLibraryItems>({
+        const cachedData = cache.readQuery<GetLibraryItems>({
           query: GET_LIBRARY_ITEMS
         })
-        
-        if(createLibraryItem.libraryItem.id.indexOf('tmp-') !== 0) {        
-          // closeModal()
-          // router.push({
-          //   pathname: `/admin/library/edit`,
-          //   query: {
-          //     id: createLibraryItem.libraryItem.id
-          //   }
-          // })
-        }
+        cache.writeQuery({
+          query: GET_LIBRARY_ITEMS,
+          data: {
+            ...cachedData,
+            libraryItems: {
+              ...cachedData.libraryItems,
+              edges: [{node: createLibraryItem.libraryItem}, ...cachedData.libraryItems.edges]
+            }            
+          }
+        })
       },
     }
   );
@@ -40,6 +39,8 @@ function useCreateResource() {
   }, [createResourceResponse.data])
 
   const createLibraryItem = (values, cb = null) => {
+    console.log('values')
+    console.log(values)
     createResourceMutation({
       variables: { 
         ...values
@@ -56,7 +57,8 @@ function useCreateResource() {
             updatedAt: '',
             content: {},
             contentType: null,
-            itemType: 'lesson',
+            itemType: 'libraryItem',
+            mediaItem: null,
             image: null,
             icon: null,
             prerequisites: null,

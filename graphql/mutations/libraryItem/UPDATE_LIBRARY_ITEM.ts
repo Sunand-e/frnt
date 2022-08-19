@@ -9,7 +9,7 @@ export const UPDATE_LIBRARY_ITEM = gql`
     $content: JSON,
     $settings: JSON,
     $imageId: ID,
-
+    $mediaItemId: ID,
   ) {
     updateLibraryItem(
       input: {
@@ -18,6 +18,7 @@ export const UPDATE_LIBRARY_ITEM = gql`
         content: $content,
         settings: $settings,
         imageId: $imageId
+        mediaItemId: $mediaItemId
       }
     ) {
       libraryItem {

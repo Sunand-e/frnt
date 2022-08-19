@@ -7,6 +7,7 @@ import ResourcePreview from './ResourcePreview';
 import ResourceReselect from './ResourceReselect';
 import ResourceTypeSelector from './ResourceTypeSelector';
 import { useRouter } from 'next/router';
+import { resourceTypes } from './resourceTypes';
 
 interface ResourceFormValues {
   title: string
@@ -18,11 +19,13 @@ const ResourceForm = ({resource=null, onSubmit}) => {
   
 const router = useRouter()
   
+  const isUrl = ['link','video'].includes(resource?.contentType)
+  
   const defaultValues = {
-    resourceValue: resource,
-    type: null,
-    title: null,
-    ...resource,
+    ...(resource?.id && { id: resource.id }),
+    resourceValue: (isUrl ? resource?.content?.url : resource?.mediaItem) || null,
+    type: resource && {name: resource.contentType, ...resourceTypes[resource.contentType]},
+    title: resource?.title
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
@@ -34,7 +37,6 @@ const router = useRouter()
   const [typeSelected, setTypeSelected] = useState(false)
 
   const handleSubmit = formValues => {
-
     // 'values' in this case will be just 'title', and 'id' too if editing (19/08/2022)
     const {resourceValue, type, description, ...values} = formValues
     let resourceValues
@@ -42,7 +44,7 @@ const router = useRouter()
       case 'document':
       case 'image':
       case 'audio':
-        resourceValues = { media_id: resourceValue?.id}
+        resourceValues = { mediaItemId: resourceValue?.id}
         break;
       case 'video':
       case 'link':
@@ -87,7 +89,9 @@ const router = useRouter()
     }
   }
 
-  return !typeSelected ? (
+  const submitButtonText = resource ? `Update ${type?.name} resource` : `Add ${type?.name} to resource library`
+
+  return (!typeSelected && !resource) ? (
     <ResourceTypeSelector control={control} />
   ) : (
     <form
@@ -107,7 +111,7 @@ const router = useRouter()
       { resourceValue ? (
         <>
           <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
-          <Button type="submit"><>Add {type?.name} to resource library</></Button>
+          <Button type="submit">{submitButtonText}</Button>
         </>
       ) : (
         <ResourceReselect control={control} />

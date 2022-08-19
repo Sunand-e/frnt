@@ -9,6 +9,7 @@ export const CREATE_LIBRARY_ITEM = gql`
     $content: JSON,
     $settings: JSON,
     $imageId: ID,
+    $mediaItemId: ID,
     $iconId: ID
   ) {
 
@@ -19,6 +20,7 @@ export const CREATE_LIBRARY_ITEM = gql`
         content: $content,
         settings: $settings,
         imageId: $imageId,
+        mediaItemId: $mediaItemId,
         iconId: $iconId
       }
     ) {

@@ -21,6 +21,12 @@ export const ContentFragment = gql`
       id
     }
     itemType
+    mediaItem {
+      id
+      mediaType
+      location
+      fileName
+    }
     prerequisites
     settings
     title
