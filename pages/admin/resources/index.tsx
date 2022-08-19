@@ -37,8 +37,8 @@ const AdminResources = () => {
 }
 
 AdminResources.navState = {
-  topLevel: 'library',
-  secondary: 'library'
+  topLevel: 'resources',
+  secondary: 'overview'
 }
 
 export default AdminResources

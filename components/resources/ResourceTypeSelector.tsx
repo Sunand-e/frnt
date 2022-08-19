@@ -1,79 +1,9 @@
-import { useContext } from "react";
-import { useController } from "react-hook-form";
-import { ModalContext } from "../../context/modalContext";
-import UrlEntry from "../common/inputs/UrlEntry";
-import VideoSelector from "../common/inputs/VideoSelector";
-import MediaLibrary from "../MediaLibrary/MediaLibrary";
 import { resourceTypes } from "./resourceTypes";
+import useResourceSelect from "./useResourceSelect";
 
 const ResourceTypeSelector = ({control}) => {
 
-  const { handleModal, closeModal } = useContext(ModalContext)
-
-  const { field: typeField } = useController({ control, name: 'type' })
-  
-  const {field: resourceField} = useController({
-    control,
-    name: 'resourceValue'
-  })
-  
-  const openMediaLibrary = (type) => {
-    let modalTitle
-    switch(type.name) {
-      case 'image':
-        modalTitle = 'Choose an image'
-      case 'audio':
-        modalTitle = 'Choose an audio file'
-      case 'document':
-        modalTitle = 'Choose a document'
-      default:
-        modalTitle = 'Choose a file'
-    }
-    
-    handleModal({
-      title: modalTitle,
-      content: <MediaLibrary typeFilter={[type.name]} onItemSelect={handleResourceSelect} />,
-      size: 'lg'
-    })
-  }
-
-  const openVideoSelector = () => {
-    handleModal({
-      title: `Video URL`,
-      content: <VideoSelector onAddVideo={handleResourceSelect} />,
-      size: 'lg'
-    })
-  }
-
-  const openUrlInput = () => {
-    handleModal({
-      title: `Choose a file`,
-      content: <UrlEntry onAddLink={handleResourceSelect} />,
-      size: 'lg'
-    })
-  }
-
-  const handleTypeSelect = (type) => {
-    typeField.onChange(type)
-    switch(type.name) {
-      case 'document':
-      case 'image':
-      case 'audio':
-        openMediaLibrary(type)
-        break;
-      case 'video':
-        openVideoSelector()
-        break;
-      case 'link':
-        openUrlInput()
-        break;
-    }
-  }
-
-  const handleResourceSelect = (resource) => {
-    resourceField.onChange(resource)
-    closeModal()
-  }
+  const { handleTypeSelect } = useResourceSelect(control)
 
   const typeBoxes = Object.entries(resourceTypes).map(([name, type], index) => (
     <div

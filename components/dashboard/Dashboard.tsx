@@ -16,6 +16,7 @@ import WelcomeUserPanel from './WelcomeUserPanel';
 import EventListBlock from './EventsList';
 import LatestNewsBlock from "./LatestNewsList";
 import CalendarDay from "../Calendar/CalendarDay";
+import LinkPreview from '../common/LinkPreview';
 
 const Dashboard = () => {
 

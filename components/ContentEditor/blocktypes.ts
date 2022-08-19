@@ -7,6 +7,7 @@ import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
 import {List} from '@styled-icons/fluentui-system-filled/List'
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
+import {Expand} from '@styled-icons/material-twotone/Expand'
 
 import TextBlock from './blocks/TextBlock/TextBlock'
 import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
@@ -43,6 +44,9 @@ import PlaceholderSettings from './blocks/ColumnsBlock/PlaceholderSettings'
 
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
+import AccordionBlock from './blocks/AccordionBlock/AccordionBlock'
+import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
+import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
 
 const blocktypes = {
   header: {
@@ -117,6 +121,13 @@ const blocktypes = {
     settingsComponent: PlaceholderSettings,
     icon: AddColumn,
     hideFromSelector: true,
+  },
+  accordion: {
+    text: 'Accordion',
+    component: AccordionBlock,
+    editComponent: AccordionBlockEdit,
+    settingsComponent: AccordionSettings,
+    icon: Expand
   }
 }
 

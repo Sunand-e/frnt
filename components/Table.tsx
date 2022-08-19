@@ -11,7 +11,7 @@ const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null})
     prepareRow,
   } = useTable({ columns: tableCols, data: tableData }, useSortBy);
 
-  const [parent] = useAutoAnimate()
+  // const [parent] = useAutoAnimate()
   
   return (
     <div className="flex flex-col">
@@ -45,7 +45,7 @@ const Table = ({tableData, tableCols, selectable=false, onSelectionChange=null})
                   </tr>
                 ))}
               </thead>
-              <tbody ref={parent} className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
+              <tbody className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
                 {rows.map((row) => {
                   prepareRow(row);
                   return (

@@ -17,7 +17,7 @@ const CreateResourcePage = () => {
     [<BackButton />, '/admin/resources']
   ])
 
-  const { createResource, resource } = useCreateResource()
+  const { createResource } = useCreateResource()
 
   const handleSubmit = (values) => {
     createResource(values)
