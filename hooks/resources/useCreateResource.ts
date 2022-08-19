@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 function useCreateResource() {
 
-  const [createLibraryItemMutation, createLibraryItemResponse] = useMutation<CreateLibraryItem, CreateLibraryItemVariables>(
+  const [createResourceMutation, createResourceResponse] = useMutation<CreateLibraryItem, CreateLibraryItemVariables>(
     CREATE_LIBRARY_ITEM,
     {
       // the update function updates the list of libraryItems returned from the cached query.
@@ -34,14 +34,13 @@ function useCreateResource() {
 
   const [libraryItem, setLibraryItem] = useState(null)
   useEffect(() => {
-    if(createLibraryItemResponse.data) {
-      setLibraryItem(createLibraryItemResponse.data.createLibraryItem.libraryItem)
+    if(createResourceResponse.data) {
+      setLibraryItem(createResourceResponse.data.createLibraryItem.libraryItem)
     }
-
-  }, [createLibraryItemResponse.data])
+  }, [createResourceResponse.data])
 
   const createLibraryItem = (values, cb = null) => {
-    createLibraryItemMutation({
+    createResourceMutation({
       variables: { 
         ...values
       },
@@ -62,6 +61,8 @@ function useCreateResource() {
             icon: null,
             prerequisites: null,
             _deleted: false,
+            users: { totalCount: 0 },
+            tags: [],
             ...values
           },
           message: ''

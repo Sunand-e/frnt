@@ -14,6 +14,7 @@ export const resourceTypes = {
   // },
   document: {
     titleLabel: "Document name",
+    chooseLabel: "Choose a document",
     label: "Document",
     readMoreLabel: 'View document',
     icon: Document,
@@ -21,6 +22,7 @@ export const resourceTypes = {
   },
   video: {
     titleLabel: "Video title",
+    chooseLabel: "Choose a video",
     label: "Video",
     readMoreLabel: 'Watch now',
     icon: Video,
@@ -28,6 +30,7 @@ export const resourceTypes = {
   },
   image: {
     titleLabel: "Image title",
+    chooseLabel: "Choose an image",
     label: "Image",
     readMoreLabel: "View image",
     icon: Image,
@@ -35,6 +38,7 @@ export const resourceTypes = {
   },
   audio: {
     titleLabel: "Audio title",
+    chooseLabel: "Choose audio file",
     label: 'Audio',
     readMoreLabel: 'Listen now',
     icon: Speaker2,
@@ -42,6 +46,7 @@ export const resourceTypes = {
   },
   link: {
     titleLabel: "Link title",
+    chooseLabel: "Enter URL",
     label: 'Link',
     readMoreLabel: 'Visit link',
     icon: Link,

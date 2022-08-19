@@ -91,11 +91,15 @@ const ResourcesTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "Library Item",
+        Header: "Resource",
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
+
+          const IconComponent = resourceTypes[cell.row.original.contentType].icon
+
           const cellProps = {
             image: cell.row.original.image?.location,
+            icon: <IconComponent />,
             title: cell.value,
             secondary: cell.row.original.contentType,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
@@ -105,10 +109,12 @@ const ResourcesTable = () => {
           )
         }
       },
-      // {
-      //   Header: "ID",
-      //   accessor: "id",
-      // },
+      {
+        Header: "Type",
+        Cell: ({ cell }) => {
+          return resourceTypes[cell.row.original.contentType].label
+        },
+      },
       {
         width: 300,
         Header: "Actions",

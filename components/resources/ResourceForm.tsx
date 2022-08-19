@@ -1,11 +1,12 @@
 import Button from '../Button';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextInput from '../common/inputs/TextInput';
 import RTEInput from '../common/inputs/RTEInput';
 import ResourcePreview from './ResourcePreview';
+import ResourceReselect from './ResourceReselect';
 import ResourceTypeSelector from './ResourceTypeSelector';
+import { useRouter } from 'next/router';
 
 interface ResourceFormValues {
   title: string
@@ -15,8 +16,10 @@ interface ResourceFormValues {
   
 const ResourceForm = ({resource=null, onSubmit}) => {
   
+const router = useRouter()
+  
   const defaultValues = {
-    resourceValue: null,
+    resourceValue: resource,
     type: null,
     title: null,
     ...resource,
@@ -27,22 +30,64 @@ const ResourceForm = ({resource=null, onSubmit}) => {
   });
 
   const formVals = watch()
-  const { type, resourceValue } = formVals
+  const { type, resourceValue, title } = formVals
+  const [typeSelected, setTypeSelected] = useState(false)
 
-  const router = useRouter()
+  const handleSubmit = formValues => {
 
-  const handleSubmit = values => {
-    onSubmit(values)
+    // 'values' in this case will be just 'title', and 'id' too if editing (19/08/2022)
+    const {resourceValue, type, description, ...values} = formValues
+    let resourceValues
+    switch(type.name) {
+      case 'document':
+      case 'image':
+      case 'audio':
+        resourceValues = { media_id: resourceValue?.id}
+        break;
+      case 'video':
+      case 'link':
+        resourceValues = { content: { url: resourceValue }}
+        break;
+    }
+
+    const queryValues = {
+      ...values,
+      ...resourceValues,
+      content: {
+        ...resourceValues.content,
+        description,
+      },
+      contentType: type.name
+    }
+    
+    onSubmit(queryValues)
+    
     router.push('/admin/resources')
   }
 
   useEffect(() => {
-    if(resourceValue) {
-      setFocus('title')
+    if(type && resourceValue) {
+      setTypeSelected(true)
+      !title && setTitle(resourceValue)
+      // setFocus('title')
     }
-  },[resourceValue])
+  },[type, resourceValue])
 
-  return !resourceValue ? (
+  const setTitle = (resource) => {
+    switch(type?.name) {
+      case 'document':
+      case 'image':
+      case 'audio':
+        !title && setValue('title', resource.fileName.replace(/\.[^/.]+$/, ""))
+        break;
+      case 'video':
+        break;
+      case 'link':
+        break;
+    }
+  }
+
+  return !typeSelected ? (
     <ResourceTypeSelector control={control} />
   ) : (
     <form
@@ -54,13 +99,22 @@ const ResourceForm = ({resource=null, onSubmit}) => {
         placeholder="Resource name"
         inputAttrs={register("title", {
           required: "Resource name is required",
-          maxLength: 20
+          maxLength: 50
         })}
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
       <RTEInput label="Description" name="description" control={control}/>
-      <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
-      <Button type="submit"><>Add {type?.name} to resource library</></Button>
+      { resourceValue ? (
+        <>
+          <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
+          <Button type="submit"><>Add {type?.name} to resource library</></Button>
+        </>
+      ) : (
+        <ResourceReselect control={control} />
+      )}
+      {/* <pre>
+      { JSON.stringify(formVals,null,2) }
+      </pre> */}
     </form>
   )
 }

@@ -40,14 +40,6 @@ const BlockSelector = ({
         })
         break;
       }
-      case 'video': {
-        handleModal({
-          title: `Add video`,
-          content: <NewVideoBlock block={block} />,
-          size: 'md'
-        })
-        break;
-      }
       case 'text': {
         addBlock(newBlock, replace)
         break;

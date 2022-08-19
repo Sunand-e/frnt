@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 import DocumentItem from "../ContentEditor/blocks/DocumentBlock/DocumentItem";
 import VideoItem from "./display/VideoItem";
 import ImageItem from "./display/ImageItem";
 import AudioPlayer from "../common/audio/AudioPlayer";
+import LinkPreview from "../common/LinkPreview";
 
 const ResourcePreview = ({control, onRemove}) => {
 
@@ -26,7 +26,8 @@ const ResourcePreview = ({control, onRemove}) => {
       return <ImageItem image={field.value} onRemove={onRemove} />
       case 'audio':
       return <AudioPlayer url={field.value?.location} onClose={onRemove} />
-    case 'link':
+      case 'link':
+      return <LinkPreview url={field.value} onRemove={onRemove} />
     default:
       return <>Something went wrong. Please go back and try again.</>
   }

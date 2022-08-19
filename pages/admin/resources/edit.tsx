@@ -1,73 +1,44 @@
 import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
-import EditorLayout from '../../../layouts/EditorLayout'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import { useState, useEffect, useContext } from 'react'
-import Button from '../../../components/Button'
 import useResource from '../../../hooks/resources/useResource'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
+import ResourceForm from '../../../components/resources/ResourceForm'
+import { ArrowBack } from '@styled-icons/boxicons-regular/ArrowBack'
+
+const BackButton = () => (
+  <>
+    <span className='hidden lg:block'>Back to resource library</span>
+    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+  </>
+)
 
 const AdminResourcesEdit = () => {
-  /*
-    Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
-    See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
-  */
+
   const router = useRouter()
     
   const { id } = router.query
   
   const { resource, updateResource } = useResource(id)
 
-  // const { updateResourceTitle } = useResource(id)
+  useHeaderButtons([
+    [<BackButton />, '/admin/resources']
+  ])
 
   usePageTitle({ 
-    title: "Library Item: ", 
+    title: "Edit Resource: ", 
     editable:  resource?.title,
     onEdit: title => updateResource({title})
   })
 
-  // useEffect(() => {
-  //   headerButtonsVar(
-  //     <>
-  //       <Button onClick={() => router.push('/admin/library')}>Cancel</Button>
-  //       <Button onClick={() => router.push({
-  //         pathname: `/library_item`,
-  //         query: {
-  //           id,
-  //           showEdit: true
-  //         }
-  //       })}>
-  //         Preview
-  //       </Button>
-  //       <Button>Publish</Button>
-  //     </>
-  //   )
-  // },[])
-
-  useHeaderButtons([
-    ['Cancel','/admin/library'],
-    ['Preview', {
-      pathname: `/library_item`,
-      query: {
-        id,
-        showEdit: true
-      }
-    }],
-    ['Publish','']
-  ])
-
   return (
     <>
-      {/* { updateResource &&
-        <ResourceEditor />
-      } */}
+      <ResourceForm resource={resource} onSubmit={handleSubmit} />
     </>
   )
 }
 
 AdminResourcesEdit.navState = {
-  topLevel: 'library',
-  secondary: 'library'
+  topLevel: 'resources'
 }
 
 export default AdminResourcesEdit

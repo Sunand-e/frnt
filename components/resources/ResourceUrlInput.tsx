@@ -1,9 +1,3 @@
-import { Control, useController } from "react-hook-form";
-import { useContext, useState } from "react";
-import { ModalContext } from "../../context/modalContext";
-import MediaLibrary from "../MediaLibrary/MediaLibrary";
-import Button from "../Button";
-
 type ResourceUrlInputProps = { 
   inputAttrs?
   label?: string
