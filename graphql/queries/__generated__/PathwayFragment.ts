@@ -23,6 +23,14 @@ export interface PathwayFragment_icon {
   id: string;
 }
 
+export interface PathwayFragment_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface PathwayFragment_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -55,6 +63,14 @@ export interface PathwayFragment_courses_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface PathwayFragment_courses_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
 }
 
 export interface PathwayFragment_courses_users {
@@ -91,6 +107,14 @@ export interface PathwayFragment_courses_sections_icon {
   id: string;
 }
 
+export interface PathwayFragment_courses_sections_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface PathwayFragment_courses_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -124,6 +148,14 @@ export interface PathwayFragment_courses_sections_children_icon {
   id: string;
 }
 
+export interface PathwayFragment_courses_sections_children_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface PathwayFragment_courses_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -151,6 +183,7 @@ export interface PathwayFragment_courses_sections_children {
   id: string;
   icon: PathwayFragment_courses_sections_children_icon | null;
   itemType: string;
+  mediaItem: PathwayFragment_courses_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -169,6 +202,7 @@ export interface PathwayFragment_courses_sections {
   id: string;
   icon: PathwayFragment_courses_sections_icon | null;
   itemType: string;
+  mediaItem: PathwayFragment_courses_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -188,6 +222,7 @@ export interface PathwayFragment_courses {
   id: string;
   icon: PathwayFragment_courses_icon | null;
   itemType: string;
+  mediaItem: PathwayFragment_courses_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -207,6 +242,7 @@ export interface PathwayFragment {
   id: string;
   icon: PathwayFragment_icon | null;
   itemType: string;
+  mediaItem: PathwayFragment_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

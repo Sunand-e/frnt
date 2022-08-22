@@ -23,6 +23,14 @@ export interface LibraryItemFragment_icon {
   id: string;
 }
 
+export interface LibraryItemFragment_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface LibraryItemFragment_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface LibraryItemFragment {
   id: string;
   icon: LibraryItemFragment_icon | null;
   itemType: string;
+  mediaItem: LibraryItemFragment_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

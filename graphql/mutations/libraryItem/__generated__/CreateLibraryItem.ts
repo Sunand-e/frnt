@@ -23,6 +23,14 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem_icon {
   id: string;
 }
 
+export interface CreateLibraryItem_createLibraryItem_libraryItem_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface CreateLibraryItem_createLibraryItem_libraryItem_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem {
   id: string;
   icon: CreateLibraryItem_createLibraryItem_libraryItem_icon | null;
   itemType: string;
+  mediaItem: CreateLibraryItem_createLibraryItem_libraryItem_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -74,5 +83,6 @@ export interface CreateLibraryItemVariables {
   content?: any | null;
   settings?: any | null;
   imageId?: string | null;
+  mediaItemId?: string | null;
   iconId?: string | null;
 }

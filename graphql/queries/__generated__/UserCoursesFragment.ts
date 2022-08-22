@@ -23,6 +23,14 @@ export interface UserCoursesFragment_courses_edges_node_icon {
   id: string;
 }
 
+export interface UserCoursesFragment_courses_edges_node_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UserCoursesFragment_courses_edges_node_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface UserCoursesFragment_courses_edges_node {
   id: string;
   icon: UserCoursesFragment_courses_edges_node_icon | null;
   itemType: string;
+  mediaItem: UserCoursesFragment_courses_edges_node_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

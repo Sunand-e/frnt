@@ -37,3 +37,34 @@ export const GET_TENANTS = gql`
   }
   ${TenantFragment}
 `
+
+export const TENANT_SHARED_ITEMS = gql`
+  query GetTenantSharedItems(
+    $where: JSON!
+  ) {
+    courses(where: $where) {
+      edges {
+        node {
+          title
+          id
+        }
+      }
+    }
+    pathways(where: $where) {
+      edges {
+        node {
+          title
+          id
+        }
+      }
+    }
+    libraryItems(where: $where) {
+      edges {
+        node {
+          title
+          id
+        }
+      }
+    }
+  }
+`

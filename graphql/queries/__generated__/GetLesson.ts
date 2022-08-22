@@ -23,6 +23,14 @@ export interface GetLesson_lesson_icon {
   id: string;
 }
 
+export interface GetLesson_lesson_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface GetLesson_lesson_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface GetLesson_lesson {
   id: string;
   icon: GetLesson_lesson_icon | null;
   itemType: string;
+  mediaItem: GetLesson_lesson_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

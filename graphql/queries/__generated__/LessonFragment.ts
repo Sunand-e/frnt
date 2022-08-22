@@ -23,6 +23,14 @@ export interface LessonFragment_icon {
   id: string;
 }
 
+export interface LessonFragment_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface LessonFragment_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface LessonFragment {
   id: string;
   icon: LessonFragment_icon | null;
   itemType: string;
+  mediaItem: LessonFragment_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

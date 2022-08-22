@@ -24,19 +24,17 @@ const DualListBoxInput = ({
     control,
     name,
   });
-
-  const [selected, setSelected] = useState(field.value || []);
+  console.log(field.value)
 
   const handleChange = value => {
     field.onChange(value)
-    setSelected(value)
   }
 
   return (
     <div>
       { label && <label className="text-sm font-medium text-gray-700">{label}</label> }
       <DualListBox
-        selected={selected}
+        selected={field.value}
         className={styles.DualInput}
         onChange={handleChange}
         showHeaderLabels={true}

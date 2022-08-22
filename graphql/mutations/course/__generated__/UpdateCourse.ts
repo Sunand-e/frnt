@@ -25,6 +25,14 @@ export interface UpdateCourse_updateCourse_course_icon {
   id: string;
 }
 
+export interface UpdateCourse_updateCourse_course_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdateCourse_updateCourse_course_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -57,6 +65,14 @@ export interface UpdateCourse_updateCourse_course_sections_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface UpdateCourse_updateCourse_course_sections_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
 }
 
 export interface UpdateCourse_updateCourse_course_sections_users {
@@ -92,6 +108,14 @@ export interface UpdateCourse_updateCourse_course_sections_children_icon {
   id: string;
 }
 
+export interface UpdateCourse_updateCourse_course_sections_children_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdateCourse_updateCourse_course_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -119,6 +143,7 @@ export interface UpdateCourse_updateCourse_course_sections_children {
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_children_icon | null;
   itemType: string;
+  mediaItem: UpdateCourse_updateCourse_course_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -137,6 +162,7 @@ export interface UpdateCourse_updateCourse_course_sections {
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_icon | null;
   itemType: string;
+  mediaItem: UpdateCourse_updateCourse_course_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -156,6 +182,7 @@ export interface UpdateCourse_updateCourse_course {
   id: string;
   icon: UpdateCourse_updateCourse_course_icon | null;
   itemType: string;
+  mediaItem: UpdateCourse_updateCourse_course_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
