@@ -1,19 +1,12 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
-  useState,
 } from 'react';
-import ResizeableElement from '../common/ResizeableElement';
-import dynamic from 'next/dynamic';
 import ScormAgain from 'scorm-again'
 import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { useFullscreen } from "rooks";
 import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../graphql/queries/scoAttempts';
 import { useRouter } from '../../../../utils/router';
-import Button from '../../../Button';
-import { GetUser } from '../../../../graphql/queries/__generated__/GetUser';
 
 declare global {
   interface Window {
@@ -59,15 +52,10 @@ export const PackageIFrame = React.forwardRef(({
       }
     }
   );
-
-  // const { data: userData } = useQuery<GetUser>(USER_ID_FOR_SCORM);
   
   const apiRef = useRef(null)
 
-  // const [localScormData, setLocalScormData] = useState(null)
-
   const saveData = useCallback((data) => {
-    // alert('upsert')
     upsertScoAttempt({
       variables: {
         attempt,
@@ -103,7 +91,6 @@ export const PackageIFrame = React.forwardRef(({
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
-        // alert(JSON.stringify(CMIElement,null,2) + ' ' +  value)
         API.storeData(true);
 
         const scormData = API.renderCommitCMI(true)
@@ -114,25 +101,13 @@ export const PackageIFrame = React.forwardRef(({
           // apiRef.current = window.API =null
           // setReload(true)
         } else {
-          // alert(CMIElement)
-          // alert(value)
           document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
         }
 
         saveData(scormData)
   
       });
-  
-      let initialData = { // this data is passed from the LMS
-        cmi: {
-          core: {
-            // entry: 'ab-initio',
-            student_id: '@moxley',
-            student_name: 'Mark Oxley',
-          }
-        }
-      };
-  
+
       API.loadFromJSON(data?.latestScoAttempt?.data, '');
   
       window.addEventListener('beforeunload', unloadHandler)
