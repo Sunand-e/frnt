@@ -21,11 +21,13 @@ import { gql } from "@apollo/client"
 export const UPSERT_SCO_ATTEMPT = gql`
   mutation UpsertScoAttempt(
     $data: JSON!,
+    $attempt: Int!,
     $contentItemId: ID!,
     $scormModuleId: ID!
   ) {
     upsertScoAttempt(input: {
       data: $data,
+      attempt: $attempt,
       contentItemId: $contentItemId,
       scormModuleId: $scormModuleId
     }) {

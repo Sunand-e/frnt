@@ -5,11 +5,8 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from '../utils/router';
-import { useQuery } from '@apollo/client';
-import { GET_COURSE } from '../graphql/queries/allQueries';
 import Layout from './Layout';
 import CourseStructureView from '../components/CourseView/CourseStructureView';
-import useGetCourse from '../hooks/courses/useGetCourse';
 
 export default function CourseLayout( {page, navState} ) {
   /*
@@ -21,13 +18,12 @@ export default function CourseLayout( {page, navState} ) {
   
   return (
     <Layout 
-    page={page} 
-    navState={navState}
-    sidebarComponent={() => (
-      <div className="sticky h-[100vh] w-[300px] bg-blue bg-opacity-10 flex flex-col">
-        <CourseStructureView />
-      </div>
-    )}
+      navState={navState}
+      sidebarComponent={(
+        <div className="sticky h-[100vh] w-[300px] bg-blue bg-opacity-10 flex flex-col">
+          <CourseStructureView />
+        </div>
+      )}
     >
       <div className="w-full h-[calc(100vh-4.5rem)] mx-auto bg-white">
         <div className="lg:flex h-full">

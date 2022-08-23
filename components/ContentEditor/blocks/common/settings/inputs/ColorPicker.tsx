@@ -1,7 +1,7 @@
 import Tippy from "@tippyjs/react"
 import { HexColorInput, HexColorPicker } from "react-colorful"
 
-const ColorPicker = ({label, value, onChange}) => {
+const ColorPicker = ({label=null, value, onChange}) => {
   return (
     <div>
       { label && <label>{label}</label> }

@@ -35,12 +35,7 @@ export const IFrameWithRef = ({ iframeRef, ...props }) => {
   return <PackageIFrame {...props} ref={iframeRef} />;
 }
 
-export const PackageIFrame = React.forwardRef(({
-  block,
-  setAttempt,
-  attempt
-}, ref) => {
-
+export const PackageIFrame = React.forwardRef(({block}, ref) => {
   
   const router = useRouter()
 
@@ -59,48 +54,48 @@ export const PackageIFrame = React.forwardRef(({
       }
     }
   );
-
-  // const { data: userData } = useQuery<GetUser>(USER_ID_FOR_SCORM);
   
-  const apiRef = useRef(null)
+  const [attempt, setAttempt] = useState(1)
 
-  // const [localScormData, setLocalScormData] = useState(null)
+  useEffect(() => {
+    data && setAttempt(data?.latestScoAttempt?.attempt ?? 1)
+  },[data])
+
+
+  const [localScormData, setLocalScormData] = useState(null)
 
   const saveData = useCallback((data) => {
-    // alert('upsert')
-    upsertScoAttempt({
-      variables: {
-        attempt,
-        contentItemId: courseId,
-        scormModuleId: block.properties.moduleId,
-        data,
-      }
-    }).then(res => {
-      console.log('res')
-      console.log(res)
-      console.log(`attempt: ${attempt}`)
-    })
-  },[attempt])
+      upsertScoAttempt({
+        variables: {
+          attempt: 1,
+          contentItemId: courseId,
+          scormModuleId: block.properties.moduleId,
+          data,
+        }
+      }).then(res => {
+        // alert('UPDATED')
+        console.log('resresresresresresresresresresresresresresresresresresresresresresresresresresresresresres')
+        console.log(res)
+      })
+  },[])
 
-  const unloadHandler = () => {
-    // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
-    // if (!unloaded && !API.isTerminated()) {
-    //   API.LMSSetValue('cmi.core.exit', 'suspend'); //Set exit to whatever is needed
-    //   API.LMSCommit(''); //save all data that has already been set
-    //   API.LMSTerminate(''); //close the SCORM API connection properly
-    //   setUnloaded(true);
-    // }
-  }
+  useEffect(() => {
+    alert(JSON.stringify(data,null,2))
+    // localScormData && !editMode && saveData(localScormData)
+    localScormData && saveData(localScormData)
+  }, [saveData, localScormData])
 
 
-  const initialiseAPI = useCallback(() => {
+  useEffect(() => {
+    // ScormAgain && console.log('ScormAgain loaded');
     ScormAgain;
     const settings = {
       // lmsCommitUrl: '/d'
     }
 
-    if(!window.API && data) {
-      const API = apiRef.current = window.API = new window.Scorm12API(settings);
+    if(!window.API) {
+
+      const API = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
         // alert(JSON.stringify(CMIElement,null,2) + ' ' +  value)
@@ -110,16 +105,15 @@ export const PackageIFrame = React.forwardRef(({
 
         if(CMIElement === 'cmi.core.exit' && value==='suspend') {
           // document.querySelector('#debug_panel').innerHTML = '<pre>SCORM package sent exit status</pre>'
-          // alert('EXIT!!!')
-          // apiRef.current = window.API =null
+          window.API = null
           // setReload(true)
         } else {
           // alert(CMIElement)
           // alert(value)
-          document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
+          document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(data,null,2)+'</pre>'
         }
 
-        saveData(scormData)
+        setLocalScormData(scormData)
   
       });
   
@@ -132,41 +126,46 @@ export const PackageIFrame = React.forwardRef(({
           }
         }
       };
+      
+      // dataFromLms = storedScormData || dataFromLms
+      const dataFromLms = initialData
   
-      API.loadFromJSON(data?.latestScoAttempt?.data, '');
+      API.loadFromJSON(dataFromLms, '');
   
+      const unloadHandler = () => {
+  
+        // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
+  
+        // if (!unloaded && !API.isTerminated()) {
+        //   API.LMSSetValue('cmi.core.exit', 'suspend'); //Set exit to whatever is needed
+        //   API.LMSCommit(''); //save all data that has already been set
+        //   API.LMSTerminate(''); //close the SCORM API connection properly
+        //   setUnloaded(true);
+        // }
+      }
+
       window.addEventListener('beforeunload', unloadHandler)
       window.addEventListener('unload', unloadHandler)
-    }
-  },[attempt, saveData, data])
-
-
-  useEffect(() => {
-    initialiseAPI()
-    return () => {
-      window.API = apiRef.current = null
-      unloadHandler()
-      window.removeEventListener('beforeunload', unloadHandler)
-      window.removeEventListener('unload', unloadHandler)
-    }
-  },[initialiseAPI])
-
   
-  useEffect(() => {
-    if(data) {
-      // alert(`Attempté: ${attempt}. Setting attempté to ${data?.latestScoAttempt?.attempt ?? 1}`)
-      setAttempt(data?.latestScoAttempt?.attempt ?? 1)    
-      apiRef.current.loadFromJSON(data.latestScoAttempt?.data)
-      // alert(data.latestScoAttempt?.data ? 'existing dataset' : 'fresh dataset')
+      return () => {
+        unloadHandler()
+        window.removeEventListener('beforeunload', unloadHandler)
+        window.removeEventListener('unload', unloadHandler)
+      }
     }
-  },[data])
 
+  },[])
+
+  const reload = () => {
+    // alert('reload')
+    // ref.location.reload()
+  }
   return (
     <>
       {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
-    <iframe key={attempt} ref={ref} src={block.properties.url}></iframe>
+    <iframe ref={ref} src={block.properties.url}></iframe>
     
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>

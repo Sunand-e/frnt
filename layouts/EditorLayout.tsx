@@ -39,8 +39,12 @@ export default function EditorLayout( {page, navState} ) {
     page,
     navState,
     ...(course && {
-      sidebarComponent: <CourseStructureEditor {...courseStructureEditorProps} course={course} />
-    }) 
+      sidebarComponent: (
+        <div className="px-3 py-3">
+          <CourseStructureEditor {...courseStructureEditorProps} course={course} />
+        </div>
+      )
+    })
   }
 
   return (

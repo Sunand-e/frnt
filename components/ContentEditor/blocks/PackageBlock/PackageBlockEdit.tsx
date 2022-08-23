@@ -16,13 +16,13 @@ const DynamicPackageIFrame = dynamic(
   { ssr: false }
 )
 
-export const PackageBlockEdit: FunctionComponent = ({block}) => {
+export const PackageBlockEdit = ({
+  block
+}) => {
 
   const { handleModal, closeModal } = useContext(ModalContext)
-  
-  const  defaultWidth = '100%';
- 
-  const iframeRef = useRef();
+  const  defaultWidth = '100%'
+  const iframeRef = useRef()
   
   const {
     isEnabled: isFullscreenEnabled,

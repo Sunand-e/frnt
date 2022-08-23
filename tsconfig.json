@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/common/dividers/LineDividertsx"  ],
   "exclude": [
     "node_modules"
   ]
