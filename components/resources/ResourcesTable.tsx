@@ -112,7 +112,7 @@ const ResourcesTable = () => {
       {
         Header: "Description",
         Cell: ({ cell }) => {
-          return cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "");
+          return cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
         },
       },
       {
