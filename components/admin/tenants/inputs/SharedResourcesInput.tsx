@@ -1,3 +1,4 @@
+import useGetCourses from "../../../../hooks/courses/useGetCourses";
 import useGetResources from "../../../../hooks/resources/useGetResources";
 import DualListBoxInput from "../../../common/inputs/DualListBoxInput"
 
@@ -5,8 +6,8 @@ const SharedResourcesInput = ({control}) => {
 
   const { resources } = useGetResources();
   
-  const resourcesOptions = resources?.edges?.map(({node: libraryItem}) => {
-    return { value: libraryItem.id, label: libraryItem.title }
+  const resourcesOptions = resources?.edges?.map(({node: resource}) => {
+    return { value: resource.id, label: resource.title }
   })
 
   return (

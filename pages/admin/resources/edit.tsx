@@ -1,14 +1,15 @@
 import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
-import useResource from '../../../hooks/resources/useResource'
+import useUpdateResource from '../../../hooks/resources/useUpdateResource'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import ResourceForm from '../../../components/resources/ResourceForm'
 import { ArrowBack } from '@styled-icons/boxicons-regular/ArrowBack'
+import { JsonInput } from '@mantine/core'
 
 const BackButton = () => (
   <>
     <span className='hidden lg:block'>Back to resource library</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
+    <span className='block lg:hidden'><ArrowBack width="20" /></span>
   </>
 )
 
@@ -18,7 +19,7 @@ const AdminResourcesEdit = () => {
     
   const { id } = router.query
   
-  const { resource, updateResource } = useResource(id)
+  const { resource, updateResource } = useUpdateResource(id)
 
   useHeaderButtons([
     [<BackButton />, '/admin/resources']
@@ -30,9 +31,13 @@ const AdminResourcesEdit = () => {
     onEdit: title => updateResource({title})
   })
 
+  const handleSubmit = (values) => {
+    updateResource(values)
+  }
+
   return (
     <>
-      <ResourceForm resource={resource} onSubmit={handleSubmit} />
+      { resource && <ResourceForm resource={resource} onSubmit={handleSubmit} /> }
     </>
   )
 }

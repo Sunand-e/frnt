@@ -10,7 +10,6 @@ const ResourcReselect = ({control}) => {
   });
 
   const { handleTypeSelect } = useResourceSelect(control)
-
   return (
     <Button onClick={() => handleTypeSelect(typeField.value)}>
       {typeField.value.chooseLabel}

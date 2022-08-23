@@ -13,7 +13,7 @@ const ResourcesTable = () => {
   const { loading, error, resources } = useGetResources()
   
   const { deleteResource } = useDeleteResource()
-  const editUrl = '/admin/library/edit'
+  const editUrl = '/admin/resources/edit'
 
   const handleDeleteClick = (id) => {
     deleteResource(id)
@@ -110,9 +110,9 @@ const ResourcesTable = () => {
         }
       },
       {
-        Header: "Type",
+        Header: "Description",
         Cell: ({ cell }) => {
-          return resourceTypes[cell.row.original.contentType].label
+          return cell.row.original.content?.description.replace(/<\/?[^>]+(>|$)/g, "");
         },
       },
       {

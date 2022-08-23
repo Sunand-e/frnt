@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache"
 
 
-function useResource(id=null) {
+function useUpdateResource(id=null) {
 
   const { loading, error, data: {libraryItem: resource} = {} } = useQuery(
     GET_LIBRARY_ITEM,
@@ -23,14 +23,8 @@ function useResource(id=null) {
     UPDATE_LIBRARY_ITEM
   );
 
-  const updateResource = (id) => (values) => {
+  const updateResource = (values, cb = null) => {
 
-    const cachedResource = cache.readFragment<LibraryItemFragmentType>({
-      id:`ContentItem:${id}`,
-      fragment: LibraryItemFragment,
-      fragmentName: 'LibraryItemFragment',
-    })
-    
     updateLibraryItemMutation({
       variables: {
         id,
@@ -40,31 +34,24 @@ function useResource(id=null) {
         updateLibraryItem: {
           __typename: 'UpdateLibraryItemPayload',
           libraryItem: {
-            ...cachedResource,
+            ...resource,
             ...values
           },
         }
-      }
+      },
+      onCompleted: cb
+
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
   }
   
-  const updateResourceContentBlocks = (contentBlocks) => {
-    updateResource({
-      content: {
-        blocks: contentBlocks 
-      }
-    })
-  }
-
   return {
     resource,
     loading,
     error,
-    updateResource,
-    updateResourceContentBlocks
+    updateResource
   }
 }
 
-export default useResource
+export default useUpdateResource

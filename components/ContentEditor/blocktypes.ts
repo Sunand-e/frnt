@@ -19,6 +19,8 @@ import DocumentBlock from './blocks/DocumentBlock/DocumentBlock'
 import PackageBlock from './blocks/PackageBlock/PackageBlock'
 import ColumnsBlock from './blocks/ColumnsBlock/ColumnsBlock'
 import PlaceholderBlock from './blocks/ColumnsBlock/PlaceholderBlock'
+import AccordionBlock from './blocks/AccordionBlock/AccordionBlock'
+import LineDividerBlock from './blocks/LineDividerBlock/LineDividerBlock'
 
 import TextBlockEdit from './blocks/TextBlock/TextBlockEdit'
 import HeaderBlockEdit from './blocks/HeaderBlock/HeaderBlock'
@@ -30,6 +32,8 @@ import DocumentBlockEdit from './blocks/DocumentBlock/DocumentBlockEdit'
 import PackageBlockEdit from './blocks/PackageBlock/PackageBlockEdit'
 import ColumnsBlockEdit from './blocks/ColumnsBlock/ColumnsBlockEdit'
 import PlaceholderBlockEdit from './blocks/ColumnsBlock/PlaceholderBlockEdit'
+import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
+import LineDividerBlockEdit from './blocks/LineDividerBlock/LineDividerBlockEdit'
 
 import TextSettings from './blocks/TextBlock/TextSettings'
 import HeaderSettings from './blocks/HeaderBlock/HeaderSettings'
@@ -41,12 +45,11 @@ import DocumentSettings from './blocks/DocumentBlock/DocumentSettings'
 import PackageSettings from './blocks/PackageBlock/PackageSettings'
 import ColumnsSettings from './blocks/ColumnsBlock/ColumnsSettings'
 import PlaceholderSettings from './blocks/ColumnsBlock/PlaceholderSettings'
+import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
+import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
-import AccordionBlock from './blocks/AccordionBlock/AccordionBlock'
-import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
-import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
 
 const blocktypes = {
   header: {
@@ -127,6 +130,13 @@ const blocktypes = {
     component: AccordionBlock,
     editComponent: AccordionBlockEdit,
     settingsComponent: AccordionSettings,
+    icon: Expand
+  },
+  linedivider: {
+    text: 'LineDivider',
+    component: LineDividerBlock,
+    editComponent: LineDividerBlockEdit,
+    settingsComponent: LineDividerSettings,
     icon: Expand
   }
 }

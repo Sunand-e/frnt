@@ -30,6 +30,14 @@ export interface GetUser_user_courses_edges_node_icon {
   id: string;
 }
 
+export interface GetUser_user_courses_edges_node_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface GetUser_user_courses_edges_node_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -57,6 +65,7 @@ export interface GetUser_user_courses_edges_node {
   id: string;
   icon: GetUser_user_courses_edges_node_icon | null;
   itemType: string;
+  mediaItem: GetUser_user_courses_edges_node_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

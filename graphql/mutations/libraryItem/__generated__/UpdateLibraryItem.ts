@@ -23,6 +23,14 @@ export interface UpdateLibraryItem_updateLibraryItem_libraryItem_icon {
   id: string;
 }
 
+export interface UpdateLibraryItem_updateLibraryItem_libraryItem_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdateLibraryItem_updateLibraryItem_libraryItem_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface UpdateLibraryItem_updateLibraryItem_libraryItem {
   id: string;
   icon: UpdateLibraryItem_updateLibraryItem_libraryItem_icon | null;
   itemType: string;
+  mediaItem: UpdateLibraryItem_updateLibraryItem_libraryItem_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -73,4 +82,5 @@ export interface UpdateLibraryItemVariables {
   content?: any | null;
   settings?: any | null;
   imageId?: string | null;
+  mediaItemId?: string | null;
 }

@@ -23,6 +23,14 @@ export interface GetCourseUsers_course_icon {
   id: string;
 }
 
+export interface GetCourseUsers_course_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface GetCourseUsers_course_users_edges_node_roles {
   __typename: "Role";
   id: string;
@@ -98,6 +106,14 @@ export interface GetCourseUsers_course_sections_icon {
   id: string;
 }
 
+export interface GetCourseUsers_course_sections_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface GetCourseUsers_course_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -131,6 +147,14 @@ export interface GetCourseUsers_course_sections_children_icon {
   id: string;
 }
 
+export interface GetCourseUsers_course_sections_children_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface GetCourseUsers_course_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -158,6 +182,7 @@ export interface GetCourseUsers_course_sections_children {
   id: string;
   icon: GetCourseUsers_course_sections_children_icon | null;
   itemType: string;
+  mediaItem: GetCourseUsers_course_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -176,6 +201,7 @@ export interface GetCourseUsers_course_sections {
   id: string;
   icon: GetCourseUsers_course_sections_icon | null;
   itemType: string;
+  mediaItem: GetCourseUsers_course_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -195,6 +221,7 @@ export interface GetCourseUsers_course {
   id: string;
   icon: GetCourseUsers_course_icon | null;
   itemType: string;
+  mediaItem: GetCourseUsers_course_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

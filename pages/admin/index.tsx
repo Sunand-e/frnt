@@ -13,39 +13,60 @@ import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
 import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
+import { gql, useQuery } from '@apollo/client';
+import { useEffect, useMemo } from 'react';
 
 const AdminDashboardPage = () => {
+  
+  const GET_ADMIN_DASHBOARD_DATA = gql`
+    query GetAdminDashboardData {
+      users {
+        totalCount
+      }
+      groups {
+        totalCount
+      }
+      courses {
+        totalCount
+      }
+      libraryItems {
+        totalCount
+      }
+    }
+  `
+
+  const { data, error, loading } = useQuery(GET_ADMIN_DASHBOARD_DATA)
 
   usePageTitle({ title: 'Admin Dashboard' })
 
-  const cards = [
+  const cards = useMemo(() => ([
     {
       name: 'allCourses',
       label: 'Total courses',
-      value: 18,
+      value: data?.courses.totalCount,
       IconComponent: GraduationCap,
       // href: '#', icon: ScaleIcon,
     },
     {
       name: 'allUsers',
       label: 'Total users',
-      value: 162,
+      value: data?.users.totalCount,
       IconComponent: Users
     },
     {
       name: 'activeCourses',
       label: 'Active courses',
-      value: 7,
+      value: Math.ceil((data?.courses.totalCount || 0) /3) || '',
       IconComponent: GraduationCap
     },
     {
       name: 'activeUsers',
       label: 'Active users',
-      value: 37,
+      value: Math.ceil((data?.courses.totalCount || 0) / 2) || '',
       IconComponent: Users
     },
-    // More items...
-  ]
+  ]),[data])
+
   const transactions = [
     {
       id: 1,

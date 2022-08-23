@@ -23,6 +23,14 @@ export interface UpdateLesson_updateLesson_lesson_icon {
   id: string;
 }
 
+export interface UpdateLesson_updateLesson_lesson_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdateLesson_updateLesson_lesson_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -50,6 +58,7 @@ export interface UpdateLesson_updateLesson_lesson {
   id: string;
   icon: UpdateLesson_updateLesson_lesson_icon | null;
   itemType: string;
+  mediaItem: UpdateLesson_updateLesson_lesson_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;

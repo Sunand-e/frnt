@@ -25,6 +25,14 @@ export interface UpdatePathway_updatePathway_pathway_icon {
   id: string;
 }
 
+export interface UpdatePathway_updatePathway_pathway_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdatePathway_updatePathway_pathway_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -57,6 +65,14 @@ export interface UpdatePathway_updatePathway_pathway_courses_icon {
   provider: string | null;
   properties: any | null;
   id: string;
+}
+
+export interface UpdatePathway_updatePathway_pathway_courses_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
 }
 
 export interface UpdatePathway_updatePathway_pathway_courses_users {
@@ -93,6 +109,14 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections_icon {
   id: string;
 }
 
+export interface UpdatePathway_updatePathway_pathway_courses_sections_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdatePathway_updatePathway_pathway_courses_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -126,6 +150,14 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections_children_i
   id: string;
 }
 
+export interface UpdatePathway_updatePathway_pathway_courses_sections_children_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  mediaType: string | null;
+  location: string | null;
+  fileName: string | null;
+}
+
 export interface UpdatePathway_updatePathway_pathway_courses_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
@@ -153,6 +185,7 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections_children {
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_sections_children_icon | null;
   itemType: string;
+  mediaItem: UpdatePathway_updatePathway_pathway_courses_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -171,6 +204,7 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections {
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_sections_icon | null;
   itemType: string;
+  mediaItem: UpdatePathway_updatePathway_pathway_courses_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -190,6 +224,7 @@ export interface UpdatePathway_updatePathway_pathway_courses {
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_icon | null;
   itemType: string;
+  mediaItem: UpdatePathway_updatePathway_pathway_courses_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
@@ -209,6 +244,7 @@ export interface UpdatePathway_updatePathway_pathway {
   id: string;
   icon: UpdatePathway_updatePathway_pathway_icon | null;
   itemType: string;
+  mediaItem: UpdatePathway_updatePathway_pathway_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
