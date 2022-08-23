@@ -37,10 +37,8 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       content: <DeleteCourseModal courseId={id} />
     })
   }
-console.log('courses')
-console.log('courses')
-console.log('courses')
-console.log(courses)
+  console.log('courses')
+  console.log(courses)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
@@ -51,7 +49,7 @@ console.log(courses)
       
       if(categoryId) {
         data = data?.filter(item => {
-          return item.tags.some(tag => tag.id === categoryId)
+          return item?.tags.some(tag => tag.id === categoryId)
         })
       }
       return data || []
@@ -67,7 +65,7 @@ console.log(courses)
           const cellProps = {
             image: cell.row.original.image?.location,
             title: cell.value,
-            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
+            secondary: cell.row.original?.tags?.map?.(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }

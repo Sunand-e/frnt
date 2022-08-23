@@ -15,7 +15,6 @@ declare global {
   }
 }
 
-
 const USER_ID_FOR_SCORM = gql`
 query GetUserDataForScorm {
   user {
