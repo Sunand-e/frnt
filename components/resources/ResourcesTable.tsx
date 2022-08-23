@@ -99,7 +99,7 @@ const ResourcesTable = () => {
 
           const cellProps = {
             image: cell.row.original.image?.location,
-            icon: <IconComponent />,
+            icon: IconComponent ? <IconComponent /> : null,
             title: cell.value,
             secondary: cell.row.original.contentType,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
