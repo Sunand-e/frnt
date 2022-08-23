@@ -95,7 +95,7 @@ const ResourcesTable = () => {
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
 
-          const IconComponent = resourceTypes[cell.row.original.contentType].icon
+          const IconComponent = resourceTypes[cell.row.original.contentType]?.icon
 
           const cellProps = {
             image: cell.row.original.image?.location,
