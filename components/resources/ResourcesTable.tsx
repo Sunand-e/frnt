@@ -61,7 +61,7 @@ const ResourcesTable = () => {
       const isSelectedCategory = tag => {
         return tag.tagType === 'category' && tag.label === category
       }
-      return item.tags && item.tags.some(isSelectedCategory);   
+      return item?.tags && item.tags.some(isSelectedCategory);   
     });
   }
   console.log('filteredItems2')
@@ -112,7 +112,7 @@ const ResourcesTable = () => {
       {
         Header: "Description",
         Cell: ({ cell }) => {
-          return cell.row.original.content?.description.replace(/<\/?[^>]+(>|$)/g, "");
+          return cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "");
         },
       },
       {

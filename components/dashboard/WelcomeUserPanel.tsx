@@ -10,6 +10,9 @@ const USER_FIRST_NAME = gql`
     user {
       fullName
     }
+    tenant {
+      name
+    }
   }
 `
 
@@ -57,12 +60,12 @@ const WelcomeUserPanel = () => {
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                   <dt className="sr-only">Company</dt>
-                  <dd className="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
+                  <dd className="flex items-center text-sm text-gray-500 font-medium sm:mr-6">
                     <OfficeBuildingIcon
                         className="shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                     />
-                    Duke street studio
+                    { data?.tenant.name }
                   </dd>
                   <dt className="sr-only">Account status</dt>
                   {/*<dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">*/}

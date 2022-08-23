@@ -1,22 +1,12 @@
 import { useQuery } from '@apollo/client';
-import NoticeBox from '../../components/NoticeBox';
-import TopicsList from '../../components/TopicsList';
-import DashboardContentTabs from '../../components/dashboard/DashboardContentTabs';
-import { headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../../graphql/cache';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import { libraryVar } from '../../graphql/cache';
 import { GET_DASHBOARD } from '../../graphql/queries/GET_DASHBOARD';
 import { useRouter } from 'next/router'
-import ItemGrid from '../../components/common/items/ItemGrid';
-import Button from '../../components/Button';
 import CourseTabs from './CourseTabs';
-import useGetCourses from '../../hooks/courses/useGetCourses';
-import ImportElpCourses from './ImportElpCourses';
 import ResumeRecentActivity from './ResumeRecentActivity';
-import WelcomeUserPanel from './WelcomeUserPanel';
 import EventListBlock from './EventsList';
 import LatestNewsBlock from "./LatestNewsList";
 import CalendarDay from "../Calendar/CalendarDay";
-import LinkPreview from '../common/LinkPreview';
 
 const Dashboard = () => {
 

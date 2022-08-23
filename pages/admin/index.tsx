@@ -1,5 +1,4 @@
 import usePageTitle from '../../hooks/usePageTitle';
-import Graph from '../../components/admin/dashboard/Graph';
 import { GraduationCap } from 'styled-icons/entypo';
 import { Users } from 'styled-icons/fa-solid';
 import CalendarDay from '../../components/Calendar/CalendarDay';
