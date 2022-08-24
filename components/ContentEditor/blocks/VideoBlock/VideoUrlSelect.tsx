@@ -8,7 +8,7 @@ import Button from '../../../Button';
 import { ModalContext } from '../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 
-export const NewVideoBlock = ({handleAddVideo}) => {
+export const VideoUrlSelect = ({onVideoSelect}) => {
 
   const { closeModal } = useContext(ModalContext)
 
@@ -26,6 +26,8 @@ export const NewVideoBlock = ({handleAddVideo}) => {
     setEmbedUrl(newEmbedUrl)
   },[videoUrl])
   
+
+
   return (
     <>
       <InputWithLabel 
@@ -55,10 +57,10 @@ export const NewVideoBlock = ({handleAddVideo}) => {
       )}
       <div className="flex justify-end">
       <Button onClick={() => closeModal()}>Cancel</Button>
-      { embedUrl && <Button className="ml-2" onClick={handleAddVideo}>Add Video</Button> }
+      { embedUrl && <Button className="ml-2" onClick={(e) => onVideoSelect(embedUrl)}>Add Video</Button> }
       </div>
     </>
   );
 }
 
-export default NewVideoBlock
+export default VideoUrlSelect

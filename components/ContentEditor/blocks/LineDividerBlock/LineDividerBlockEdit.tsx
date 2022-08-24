@@ -6,9 +6,6 @@ const LineDividerBlockEdit = ({block}) => {
 
   return (
     <>
-      <pre>
-        { JSON.stringify(block,null,2) }
-      </pre>
       <LineDivider properties={properties} />
     </>
   )
