@@ -78,7 +78,7 @@ export default function SearchResults({items}) {
         return (
           <>
           <span className="flex items-center space-x-3">
-            <span className="flex items-center justify-center bg-main text-white w-8 h-8 rounded-full overflow-hidden">
+            <span className="flex items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
               <IconComponent className=" w-5" />
             </span>
             <span>

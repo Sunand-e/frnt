@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import Button from '../../Button';
 import ImageSelectInput from '../../common/inputs/ImageSelectInput';
 import SelectInput from '../../common/inputs/SelectInput';
@@ -31,32 +31,18 @@ const UserForm = ({user=null, onSubmit}) => {
     // anotherattr: 123,
     role_ids: user?.roles.map(role => role.id),
   }
-  const endpoint = "/api/v1/user/update"
-  const method = "PUT"
-
-  const { uploadFileAndNotify } = useUploadAndNotify({
-    additionalParams: { user_id: user?.id },
-    endpoint,
-    method,
-  })
-
+  
   const { register, handleSubmit: rhfHandleSubmit, control, formState: { errors }, watch } = useForm<UserFormValues>({
     defaultValues
   });
   const formValues = watch();
 
-  const handleSubmit = async (data) => {
-    await Promise.all([
-      data.profileImage instanceof File && await uploadFileAndNotify(data.logo, 'profileImage')
-    ]).then(res => {
-        onSubmit(data)
-      }
-    )
+
+
+  const handleSubmit = (data) => {
+    onSubmit(data)
   }
 
-  const { closeModal } = useContext(ModalContext)
-  console.log("errors", errors);
-  
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
@@ -113,11 +99,11 @@ const UserForm = ({user=null, onSubmit}) => {
       {/*  // inputAttrs={register("image", { required: true })}*/}
       {/*/>*/}
       <ImageDropzoneInput
-        buttonText="Choose tenant logo"
-        label="Company logo"
+        buttonText="Choose profile image"
+        label="Profile image"
         control={control}
-        name="logo"
-        initialValue={user?.profileImage}
+        name="profile_image"
+        initialValue={user?.profileImageUrl}
       />
       {/* <SelectInput
         label="User role"
@@ -128,15 +114,13 @@ const UserForm = ({user=null, onSubmit}) => {
         control={control}
         roleType='tenant_role'
       />
-      <CheckboxInput
-        label="Send user an invitation upon creation"
-        inputAttrs={register("invite")}
-      />
+      { !user && (
+        <CheckboxInput
+          label="Send user an invitation upon creation"
+          inputAttrs={register("invite")}
+        />
+      )}
       <Button type="submit">Submit</Button>
-
-      <pre>
-        {JSON.stringify(formValues, null, 2)}
-      </pre>
     </form>
   );
 }

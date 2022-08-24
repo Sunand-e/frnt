@@ -10,6 +10,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
 import classNames from '../../utils/classNames';
+import {User} from '@styled-icons/fa-solid/User'
 
 function NextLink(props) {
   const { href, children, ...rest } = props;
@@ -48,6 +49,7 @@ const Profile = () => {
     query GetUserProfile {
       user {
         fullName
+        profileImageUrl
         roles {
           name
         }
@@ -74,11 +76,15 @@ const Profile = () => {
         <div>
           <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
             <div className='h-8 w-8'>
-              <img
-                className="rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
+            { data?.user?.profileImageUrl ? (
+                <img
+                  className="hidden rounded-full sm:block"
+                  src={data.user.profileImageUrl}
+                  alt=""
+                />
+              ): (
+                <User className="hidden w-auto h-full rounded-full bg-grey-500 text-main-secondary text-opacity-50" />
+              )}
             </div>
             <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:flex flex-col items-start">
               <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-gray-900 whitespace-nowrap ">{data?.user?.fullName || error?.message}</span>

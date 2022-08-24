@@ -1,4 +1,5 @@
 import BoxContainer from "../../../common/containers/BoxContainer";
+import {Library} from "@styled-icons/ionicons-solid/Library"
 
 const UserResources = () => {
   
@@ -9,9 +10,9 @@ const UserResources = () => {
   }
 
   return (
-    <BoxContainer title="Library Items" button={button}>
+    <BoxContainer title="Resources" icon={Library} button={button}>
       <div className="bg-red-100">
-        <p>Library items list</p>
+        <p>Resources list</p>
       </div>
     </BoxContainer>
   );

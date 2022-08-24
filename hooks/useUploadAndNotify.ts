@@ -7,21 +7,19 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
-  endpoint: string,
   method?: Method,
   refetchQuery?;
 }
 
 const useUploadAndNotify = ({
   additionalParams={},
-  endpoint,
   method="POST",
   refetchQuery=null
 } : UseUploadAndNotifyProps) => {
   
   const token = localStorage.getItem('token');
 
-  const uploadFileAndNotify = useCallback(async (file, fileParameterName) => {
+  const uploadFileAndNotify = useCallback(async (file, fileParameterName, endpoint) => {
     const toastId = uuidv4()
 
     const data = new FormData()
@@ -90,7 +88,7 @@ const useUploadAndNotify = ({
         include: [refetchQuery]
       })
     })
-  },[])
+  },[method])
 
   return {
     uploadFileAndNotify

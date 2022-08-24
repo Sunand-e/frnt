@@ -12,11 +12,13 @@ export const UserFragment = gql`
     status
     updatedAt
     userType
+    profileImageUrl
     roles {
       id
       name
       roleType
     }
+
   }
 `
 

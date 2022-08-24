@@ -44,41 +44,32 @@ const AdminDashboardPage = () => {
       label: 'Total courses',
       value: data?.courses.totalCount,
       IconComponent: GraduationCap,
+      href: "admin/courses"
       // href: '#', icon: ScaleIcon,
     },
     {
       name: 'allUsers',
       label: 'Total users',
       value: data?.users.totalCount,
-      IconComponent: Users
+      IconComponent: Users,
+      href: "admin/users"
     },
     {
-      name: 'activeCourses',
-      label: 'Active courses',
-      value: Math.ceil((data?.courses.totalCount || 0) /3) || '',
-      IconComponent: GraduationCap
+      name: 'allGroups',
+      label: 'Total groups',
+      value: data?.groups.totalCount,
+      IconComponent: GraduationCap,
+      href: "admin/users/groups"
     },
     {
-      name: 'activeUsers',
-      label: 'Active users',
-      value: Math.ceil((data?.courses.totalCount || 0) / 2) || '',
-      IconComponent: Users
+      name: 'allResources',
+      label: 'Total resources',
+      value: data?.libraryItems.totalCount,
+      IconComponent: Users,
+      href: "admin/resources"
     },
   ]),[data])
 
-  const transactions = [
-    {
-      id: 1,
-      name: 'Payment to Molly Sanders',
-      href: '#',
-      amount: '$20,000',
-      currency: 'USD',
-      status: 'success',
-      date: 'July 11, 2020',
-      datetime: '2020-07-11',
-    },
-    // More transactions...
-  ]
   const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -146,26 +137,26 @@ const AdminDashboardPage = () => {
             {/* Activity list (smallest breakpoint only) */}
             <div className="shadow sm:hidden col-span-12 lg:col-span-8">
               <ul role="list" className="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
-                {transactions.map((transaction) => (
-                    <li key={transaction.id}>
-                      <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
-                          <span className="flex items-center space-x-4">
-                            <span className="flex-1 flex space-x-2 truncate">
-                              <CashIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
-                              <span className="flex flex-col text-gray-500 text-sm truncate">
-                                <span className="truncate">{transaction.name}</span>
-                                <span>
-                                  <span className="text-gray-900 font-medium">{transaction.amount}</span>{' '}
-                                  {transaction.currency}
-                                </span>
-                                <time dateTime={transaction.datetime}>{transaction.date}</time>
+                {/* {transactions?.map((transaction) => (
+                  <li key={transaction.id}>
+                    <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
+                        <span className="flex items-center space-x-4">
+                          <span className="flex-1 flex space-x-2 truncate">
+                            <CashIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <span className="flex flex-col text-gray-500 text-sm truncate">
+                              <span className="truncate">{transaction.name}</span>
+                              <span>
+                                <span className="text-gray-900 font-medium">{transaction.amount}</span>{' '}
+                                {transaction.currency}
                               </span>
+                              <time dateTime={transaction.datetime}>{transaction.date}</time>
                             </span>
-                            <ChevronRightIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                           </span>
-                      </a>
-                    </li>
-                ))}
+                          <ChevronRightIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </span>
+                    </a>
+                  </li>
+                ))} */}
               </ul>
 
               <nav
@@ -201,14 +192,9 @@ const AdminDashboardPage = () => {
                           className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           scope="col"
                         >
-                          Transaction
+                          Activity
                         </th>
-                        <th
-                            className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            scope="col"
-                        >
-                          Amount
-                        </th>
+
                         <th
                             className="hidden px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider md:block"
                             scope="col"
@@ -224,7 +210,7 @@ const AdminDashboardPage = () => {
                       </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                      {transactions.map((transaction) => (
+                      {/* {transactions.map((transaction) => (
                           <tr key={transaction.id} className="bg-white">
                             <td className="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               <div className="flex">
@@ -257,7 +243,7 @@ const AdminDashboardPage = () => {
                               <time dateTime={transaction.datetime}>{transaction.date}</time>
                             </td>
                           </tr>
-                      ))}
+                      ))} */}
                       </tbody>
                     </table>
                     {/* Pagination */}
@@ -267,8 +253,8 @@ const AdminDashboardPage = () => {
                     >
                       <div className="hidden sm:block">
                         <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{' '}
-                          <span className="font-medium">20</span> results
+                          {/* Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{' '} */}
+                          Showing <span className="font-medium">0</span> results
                         </p>
                       </div>
                       <div className="flex-1 flex justify-between sm:justify-end">

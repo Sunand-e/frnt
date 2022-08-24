@@ -9,6 +9,7 @@ import Button from '../../Button';
 import { ModalContext } from '../../../context/modalContext';
 import DeleteUserModal from './DeleteUserModal';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import {User} from '@styled-icons/fa-solid/User'
 
 const UsersTable = () => {
 
@@ -37,10 +38,14 @@ const UsersTable = () => {
           const cellProps = {
             title: cell.row.original.fullName,
             secondary: cell.row.original.email,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
+            image: cell.row.original.profileImageUrl,
+            icon: <User className="hidden w-auto h-full rounded-full bg-grey-500 text-main-secondary text-opacity-50" />,
+            placeholder: "/images/user-generic.png" 
           }
           return (
-            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImageTableCell 
+            { ...cellProps } />
           )
         }
       },

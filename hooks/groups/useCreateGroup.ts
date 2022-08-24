@@ -12,13 +12,18 @@ function useCreateGroup() {
     CREATE_GROUP,
     {
       update(cache, { data: { createGroup } } ) {
-        const data = cache.readQuery<GetGroups>({
+        const cachedData = cache.readQuery<GetGroups>({
           query: GET_GROUPS
         })
+
         cache.writeQuery({
           query: GET_GROUPS,
-          data: { 
-            groups: [createGroup.group, ...data.groups]
+          data: {
+            ...cachedData,
+            groups: {
+              ...cachedData.groups,
+              edges: [{node: createGroup.group}, ...cachedData.groups.edges]
+            }            
           }
         })
       }
