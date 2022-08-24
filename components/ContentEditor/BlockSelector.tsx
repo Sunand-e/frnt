@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import cache, { currentContentItemVar } from '../../graphql/cache';
 import { ContentFragment } from '../../graphql/queries/allQueries';
 import useBlockEditor from './useBlockEditor';
-import NewVideoBlock from './blocks/VideoBlock/NewVideoBlock';
+import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 
 const BlockSelector = ({
   block=null, 
@@ -19,7 +19,25 @@ const BlockSelector = ({
 }) => {
 
   const { blocks, insertBlock, updateBlock, getIndexAndParent, addBlock } = useBlockEditor(block)
-  const { handleModal } = useContext(ModalContext);
+  const { handleModal, closeModal } = useContext(ModalContext);
+
+
+  const handleAddVideo = (embedUrl) => {
+    const newBlock = {
+      type: 'video',
+      id: uuidv4(),
+      properties: {
+        // this needs to change to insert the url package location!
+        // url: '/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html',
+        // url: `${prefix}/scorms/${module.id}//${module.launchUrl}`,
+        url: embedUrl
+      }
+    }
+    addBlock(newBlock)
+    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
+    closeModal()
+  }
+
 
   const handleSelectBlock = (newBlock) => {
     onSelect?.()
@@ -35,10 +53,20 @@ const BlockSelector = ({
       case 'video': {
         handleModal({
           title: `Add video`,
-          content: <NewVideoBlock block={block} />,
-          size: 'md'
+          size: 'md',
+          content: (
+            <VideoUrlSelect onVideoSelect={(url) => {
+              const videoBlock = {
+                ...newBlock,
+                properties: {
+                  ...newBlock.properties,
+                  url
+                }
+              }
+              addBlock(videoBlock, replace)
+            }} />
+          )
         })
-        break;
       }
       case 'text': {
         addBlock(newBlock, replace)

@@ -13,7 +13,12 @@ export const lessonTypes = {
   video: {
     label: "Video",
     icon: Video,
-    content: { blocks: [{id: uuidv4(), type:'video'}]}
+    content: { blocks: [{
+      id: uuidv4(), type:'video',
+      properties: {
+        url: ''
+      }
+    }]}
   },
   image: {
     label: "Image",
