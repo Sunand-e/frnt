@@ -37,10 +37,13 @@ const UsersTable = () => {
           const cellProps = {
             title: cell.row.original.fullName,
             secondary: cell.row.original.email,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
+            image: cell.row.original.profileImageUrl,
+            placeholder: "/images/user-generic.png" 
           }
           return (
-            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImageTableCell 
+            { ...cellProps } />
           )
         }
       },

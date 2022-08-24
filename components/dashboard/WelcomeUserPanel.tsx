@@ -4,11 +4,13 @@ import {
 } from '@heroicons/react/solid'
 import {gql, useQuery} from "@apollo/client";
 import dayjs from 'dayjs';
+import {User} from '@styled-icons/fa-solid/User'
 
-const USER_FIRST_NAME = gql`
+const USER_WELCOME_DATA = gql`
   query GetUserWelcome {
     user {
       fullName
+      profileImageUrl
     }
     tenant {
       name
@@ -32,7 +34,7 @@ if (am_pm === 'AM') {
 
 const WelcomeUserPanel = () => {
 
-  const { loading, error, data } = useQuery(USER_FIRST_NAME);
+  const { loading, error, data } = useQuery(USER_WELCOME_DATA);
 
   return (
     <div className="bg-white shadow hidden md:block">
@@ -41,11 +43,15 @@ const WelcomeUserPanel = () => {
           <div className="flex-1 min-w-0">
             {/* Profile */}
             <div className="flex items-center">
-              <img
+              { data?.user?.profileImageUrl ? (
+                <img
                   className="hidden h-16 w-16 rounded-full sm:block"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                  src={data.user.profileImageUrl}
                   alt=""
-              />
+                />
+              ): (
+                <User className="hidden h-16 w-16 rounded-full bg-grey-500 text-main-secondary text-opacity-50" />
+              )}
               <div>
                 <div className="flex items-center">
                   <img

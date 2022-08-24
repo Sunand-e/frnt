@@ -1,11 +1,12 @@
 import Link from "next/link"
+import {User} from '@styled-icons/fa-solid/User'
 
 const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
 
   let roundedClass
   switch(rounded) {
     case 'none':
-      roundedClass = ''
+      roundedClass = 'rounded-none'
       break
     case 'md':
       roundedClass = 'rounded-md'
@@ -20,13 +21,13 @@ const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, second
     <Link href={href ?? '#'}>
     <a className="text-main-secondary">
       <div className="flex items-center max-w-xs">
-        <div className={`h-10 w-10 shrink-0  ${roundedClass}`}>
+        <div className={`h-10 w-10 shrink-0 overflow-hidden ${roundedClass}`}>
           { image ? (
             <img className={`h-full w-auto`} src={image} alt="" />
           ) : (
             <>
               {icon ?? (
-                <img className={`h-full w-auto`} src={placeholder ?? '/images/placeholder-image.png'} alt="" />
+                <User className="hidden w-auto h-full rounded-full bg-grey-500 text-main-secondary text-opacity-50" />
               )}
             </>
           )}
