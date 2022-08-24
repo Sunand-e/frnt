@@ -26,6 +26,7 @@ const router = useRouter()
     resourceValue: (isUrl ? resource?.content?.url : resource?.mediaItem) || null,
     type: resource && {name: resource.contentType, ...resourceTypes[resource.contentType]},
     title: resource?.title,
+    // description: resource?.content?.description
     description: resource?.content?.description
   }
 
@@ -108,7 +109,7 @@ const router = useRouter()
         })}
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
-      <RTEInput label="Description" name="description" control={control}/>
+      <RTEInput initialValue={resource?.content?.description} label="Description" name="description" control={control}/>
       { resourceValue ? (
         <>
           <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
