@@ -5,7 +5,7 @@ const ImageItem = ({image, onRemove=null}) => {
 
   const handleRemove = (e) => {
     e.preventDefault()
-    onRemove(e)
+    onRemove && onRemove(e)
   }
 
   return (

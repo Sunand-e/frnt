@@ -34,7 +34,7 @@ const QuickActions = () => {
             />
           <QuickActionLink
             text={'Add a new group'} 
-            href='/admin/groups/new'
+            href='/admin/users/groups/add'
             icon={Group2}
           />
         </div>

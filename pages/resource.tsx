@@ -2,9 +2,9 @@ import { useRouter } from '../utils/router'
 import { headerButtonsVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import Button from '../components/Button'
-import LibraryItemView from '../components/ContentLibrary/LibraryItemView'
+import ResourceView from '../components/ContentLibrary/ResourceView'
 
-const LibraryItemPage = () => {
+const ResourcePage = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
@@ -31,13 +31,13 @@ const LibraryItemPage = () => {
   },[showEdit])
   return (
     <>
-    <LibraryItemView id={id} />
+    <ResourceView id={id} />
     </>
   )
 }
 
-LibraryItemPage.navState = {
+ResourcePage.navState = {
   topLevel: 'library',
   secondary: 'overview'
 }
-export default LibraryItemPage
+export default ResourcePage

@@ -281,7 +281,7 @@ const AdminDashboardPage = () => {
               <div className="w-full lg:w-full lg:ml-0 md:mr-4">
                 <QuickActions key="d" />
               </div>
-              <DashboardItem className="mt-5 w-full lg:mt-5 lg:w-full md:mr-4 md:mt-0" title="Most active users">
+              {/* <DashboardItem className="mt-5 w-full lg:mt-5 lg:w-full md:mr-4 md:mt-0" title="Most active users">
                 <div className="bg-white shadow mt-5 rounded-md p-4">
                   <div className="flow-root mt-6">
                     <ul role="list" className="-my-5 divide-y divide-gray-200">
@@ -317,7 +317,7 @@ const AdminDashboardPage = () => {
                     </a>
                   </div>
                 </div>
-              </DashboardItem>
+              </DashboardItem> */}
               <div className="mt-5 bg-white shadow rounded-md  p-4 w-full lg:w-full lg:ml-0">
                 <CalendarDay key="b" />
               </div>

@@ -8,7 +8,7 @@ import {List} from '@styled-icons/fluentui-system-filled/List'
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Expand} from '@styled-icons/material-twotone/Expand'
-
+import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
 import TextBlock from './blocks/TextBlock/TextBlock'
 import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
@@ -137,7 +137,7 @@ const blocktypes = {
     component: LineDividerBlock,
     editComponent: LineDividerBlockEdit,
     settingsComponent: LineDividerSettings,
-    icon: Expand
+    icon: SplitHorizontal
   }
 }
 
