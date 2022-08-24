@@ -40,7 +40,7 @@ const UsersTable = () => {
             secondary: cell.row.original.email,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
             image: cell.row.original.profileImageUrl,
-            icon: <User className="hidden w-auto h-full rounded-full bg-grey-500 text-main-secondary text-opacity-50" />,
+            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
             placeholder: "/images/user-generic.png" 
           }
           return (

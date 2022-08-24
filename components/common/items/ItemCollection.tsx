@@ -7,8 +7,8 @@ interface ItemCollectionProps {
   viewAll?: MouseEventHandler<HTMLButtonElement>
   items: Array<any>
   options: any
-  gridClasses: string
-  noItemsText: string
+  gridClasses?: string
+  noItemsText?: string
 }
 
 export default function ItemCollection({items, options, viewAll, gridClasses, noItemsText}: ItemCollectionProps) {

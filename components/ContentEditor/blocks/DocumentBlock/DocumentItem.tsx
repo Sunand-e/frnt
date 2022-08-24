@@ -4,7 +4,7 @@ import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import PdfViewer from '../../../PdfViewer'
 
-const DocumentItem = ({file, onRemove, pdfPreview=false}) => {
+const DocumentItem = ({file, onRemove=(e)=>null, pdfPreview=false}) => {
 
   let IconComponent;
 

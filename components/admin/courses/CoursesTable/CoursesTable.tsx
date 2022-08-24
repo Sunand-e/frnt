@@ -49,7 +49,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       
       if(categoryId) {
         data = data?.filter(item => {
-          return item?.tags.some(tag => tag.id === categoryId)
+          return item?.tags?.some(tag => tag.id === categoryId)
         })
       }
       return data || []

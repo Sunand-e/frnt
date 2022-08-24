@@ -1,7 +1,7 @@
 import ReactPlayer from "react-player";
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline'
 
-const AudioPlayer = ({url, onClose}) => {
+const AudioPlayer = ({url, onClose=null}) => {
 
   return (
     <div className="flex">

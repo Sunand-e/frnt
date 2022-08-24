@@ -68,6 +68,7 @@ export default function SearchResults({items}) {
     heading: resultCountString,
     itemOptions: {
       // showType: true,
+      getHref: (item) => `resource?id=${item.id}`,
       getReadMoreLabel: (item) => {
         console.log('item')
         console.log(item)
@@ -77,8 +78,8 @@ export default function SearchResults({items}) {
         const IconComponent = resourceTypes[item.contentType]?.icon
         return (
           <>
-          <span className="flex items-center space-x-3">
-            <span className="flex items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
+          <span className="flex items-start space-x-3">
+            <span className="flex flex-shrink-0 items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
               <IconComponent className=" w-5" />
             </span>
             <span>

@@ -128,7 +128,7 @@ export const PackageIFrame = React.forwardRef(({
     if(data) {
       // alert(`Attempté: ${attempt}. Setting attempté to ${data?.latestScoAttempt?.attempt ?? 1}`)
       setAttempt(data?.latestScoAttempt?.attempt ?? 1)    
-      apiRef.current.loadFromJSON(data.latestScoAttempt?.data)
+      data.latestScoAttempt?.data && apiRef.current.loadFromJSON(data.latestScoAttempt?.data?.cmi)
       // alert(data.latestScoAttempt?.data ? 'existing dataset' : 'fresh dataset')
     }
   },[data])

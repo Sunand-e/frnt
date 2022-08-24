@@ -25,7 +25,8 @@ const router = useRouter()
     ...(resource?.id && { id: resource.id }),
     resourceValue: (isUrl ? resource?.content?.url : resource?.mediaItem) || null,
     type: resource && {name: resource.contentType, ...resourceTypes[resource.contentType]},
-    title: resource?.title
+    title: resource?.title,
+    description: resource?.content?.description
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
