@@ -1,5 +1,6 @@
 import FileDropzone from './FileDropzone';
 import useUploadAndNotify from '../hooks/useUploadAndNotify';
+import { useCallback } from 'react';
 
 const FileUploader = ({
   accept,
@@ -15,15 +16,14 @@ const FileUploader = ({
 
   const { uploadFileAndNotify } = useUploadAndNotify({
     additionalParams,
-    endpoint,
     refetchQuery
   })
 
-  const handleDrop = (acceptedFiles) => {
-    const uploadPromises = acceptedFiles.map(file => uploadFileAndNotify(file,fileParameterName))
+  const handleDrop = useCallback((acceptedFiles) => {
+    const uploadPromises = acceptedFiles.map(file => uploadFileAndNotify(file,fileParameterName,endpoint))
     Promise.all(uploadPromises).then(onAllUploadsComplete)
     onDrop(acceptedFiles)
-  }
+  },[endpoint])
 
   return (
     <FileDropzone

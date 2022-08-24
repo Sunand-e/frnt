@@ -1,4 +1,4 @@
-const BoxContainer = ({title, button, children}) => {
+const BoxContainer = ({title, button, icon: IconComponent=null, children}) => {
 
   const HeaderButton = () => {
     return (
@@ -14,8 +14,11 @@ const BoxContainer = ({title, button, children}) => {
 
   return (
     <div className="bg-white shadow-xl rounded-md containerClassname">
-      <div className="bg-main/20 rounded-t-md flex justify-between items-center px-4 py-2">
-        <h3 className="text-main-secondary">{title}</h3>
+      <div className="bg-main/20 rounded-t-md flex justify-between items-center px-3 py-2">
+        <div className="flex text-main-secondary">
+          { IconComponent && <IconComponent className="w-7 mr-2" /> }
+          <h3>{title}</h3>
+        </div>
         {button && <HeaderButton />}
       </div>
       {children}

@@ -63,7 +63,7 @@ const GroupsTable = () => {
           const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
 
           return (          
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
               <Button 
                 onClick={() => handleDeleteClick(cell.row.values.id)}

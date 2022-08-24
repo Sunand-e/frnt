@@ -33,8 +33,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
 
   const { uploadFileAndNotify } = useUploadAndNotify({
     additionalParams: { tenant_id: tenant?.id },
-    endpoint,
-    method,
+    method
   })
 
   const { watch, register, handleSubmit: rhfHandleSubmit, formState: { errors }, control } = useForm<TenantFormValues>({
@@ -46,10 +45,10 @@ const TenantForm = ({tenant=null, onSubmit}) => {
   const handleSubmit = async (data) => {
 
     await Promise.all([
-      data.logo instanceof File && await uploadFileAndNotify(data.logo, 'logo_image'),
-      data.whiteLogo instanceof File && await uploadFileAndNotify(data.whiteLogo, 'logo_white_image'),
-      data.squareLogo instanceof File && await uploadFileAndNotify(data.squareLogo, 'logo_square_image'),
-      data.squareWhiteLogo instanceof File && await uploadFileAndNotify(data.squareWhiteLogo, 'logo_square_white_image'),
+      data.logo instanceof File && await uploadFileAndNotify(data.logo, 'logo_image', endpoint),
+      data.whiteLogo instanceof File && await uploadFileAndNotify(data.whiteLogo, 'logo_white_image', endpoint),
+      data.squareLogo instanceof File && await uploadFileAndNotify(data.squareLogo, 'logo_square_image', endpoint),
+      data.squareWhiteLogo instanceof File && await uploadFileAndNotify(data.squareWhiteLogo, 'logo_square_white_image', endpoint)
     ]).then(res => {
       console.log('resresresresresresresresresres')
       console.log(res)

@@ -29,7 +29,8 @@ export const IFrameWithRef = ({ iframeRef, ...props }) => {
 
 export const PackageIFrame = React.forwardRef(({
   block,
-  setAttempt,
+  isEditing=false,
+  setAttempt = () => null,
   attempt
 }, ref) => {
 
@@ -63,9 +64,6 @@ export const PackageIFrame = React.forwardRef(({
         data,
       }
     }).then(res => {
-      console.log('res')
-      console.log(res)
-      console.log(`attempt: ${attempt}`)
     })
   },[attempt])
 
@@ -103,7 +101,7 @@ export const PackageIFrame = React.forwardRef(({
           document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
         }
 
-        saveData(scormData)
+        !isEditing && saveData(scormData)
   
       });
 

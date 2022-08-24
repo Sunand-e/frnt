@@ -6,6 +6,7 @@ import useGetUsers from '../../../hooks/users/useGetUsers';
 import axios from 'axios';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 
 
 const BackButton = () => (
@@ -28,8 +29,13 @@ const AdminUsersNew = () => {
   const { refetchUsers } = useGetUsers()
   
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
-  
-  const handleSubmit = values => {
+
+  const { uploadFileAndNotify } = useUploadAndNotify({
+    method: "PUT"
+  })
+
+
+  const handleSubmit = ({profile_image, ...values}) => {
     
     const token = localStorage.getItem('token');
     
@@ -46,15 +52,20 @@ const AdminUsersNew = () => {
         'Authorization': `Bearer ${token}`,
       },
       data
-    }).then (data => {
-      
+    }).then (response => {      
       // Roles are already applied in the REST API call, no need to trigger mutation 
       // updateUserTenantRoles({
       //   userId: data.data.id,
       //   roleIds: values.roles
       // })
-
       refetchUsers()
+      
+      if(response.data.user?.id) {
+        if(profile_image) {
+          const imageEndpoint = `/api/v1/users/${response.data.user?.id}/update_profile_image`
+          profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
+        }
+      }
       router.push('/admin/users')
     })
   }
