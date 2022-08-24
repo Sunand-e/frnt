@@ -1,5 +1,4 @@
 import Link from "next/link"
-import {User} from '@styled-icons/fa-solid/User'
 
 const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
 
@@ -27,7 +26,7 @@ const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, second
           ) : (
             <>
               {icon ?? (
-                <User className="hidden w-auto h-full rounded-full bg-grey-500 text-main-secondary text-opacity-50" />
+                <img className={`h-full w-auto`} src={placeholder ?? '/images/placeholder-image.png'} alt="" />
               )}
             </>
           )}

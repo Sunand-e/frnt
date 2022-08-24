@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 const AdminDashCard = ({card}) => (
   (
     <div key={card.label} className="bg-white overflow-hidden shadow rounded-lg">
@@ -18,9 +20,11 @@ const AdminDashCard = ({card}) => (
       </div>
       <div className="bg-gray-50 px-5 py-3 pt-1">
         <div className="text-sm">
-          <a href={card.href} className="font-medium text-cyan-700 hover:text-cyan-900">
-            View all
-          </a>
+          <Link href={card.href}>
+            <a className="font-medium text-cyan-700 hover:text-cyan-900">
+              View all
+            </a>
+          </Link>
         </div>
       </div>
     </div>
