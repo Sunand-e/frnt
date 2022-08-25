@@ -19,7 +19,7 @@ const CataloguePage = () => {
 
 CataloguePage.navState = {
   topLevel: 'courses',
-  secondary: 'catalogue'
+  secondary: 'categories'
 }
 
 export default CataloguePage
