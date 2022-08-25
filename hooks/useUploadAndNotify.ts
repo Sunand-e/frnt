@@ -27,7 +27,7 @@ const useUploadAndNotify = ({
     for(const param in additionalParams) {
       data.append(param, additionalParams[param])
     }
-    // data.append('title', file.name)
+    
     data.append(fileParameterName, file, file.name)
 
     await axios.request({

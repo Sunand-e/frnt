@@ -16,9 +16,9 @@ import EasyEdit, {Types} from 'react-easy-edit';
 import useUpdateSection from '../../../hooks/sections/useUpdateSection';
 
 export interface Props {
+  id?: string;
   children: React.ReactNode;
   columns?: number;
-  label?: string;
   style?: React.CSSProperties;
   editing?: boolean;
   horizontal?: boolean;
@@ -35,6 +35,7 @@ export interface Props {
 export const SidebarSection = forwardRef<HTMLDivElement, Props>(
   (
     {
+      id,
       children,
       editing = false,
       columns = 1,
@@ -43,7 +44,6 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
       hover,
       onClick,
       onRemove,
-      label,
       placeholder,
       style,
       scrollable,
@@ -54,10 +54,10 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
     ref
   ) => {
 
-    const { updateSection } = useUpdateSection()
+    const { updateSection } = useUpdateSection(id)
 
     const section = cache.readFragment<ContentFragmentType>({
-      id:`ContentItem:${label}`,
+      id:`ContentItem:${id}`,
       fragment: ContentFragment,
       optimistic: true
     })
@@ -92,7 +92,7 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
-        {label ? (
+        {id ? (
           <div className={ classNames(
             `flex justify-between px-4`,
             styles.Header
@@ -107,9 +107,9 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
                   cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
                   placeHolder="Section title..."
                   attributes={{ name: "awesome-input", id: 1}}
-                  value= { section ? section.title : label }
+                  value= { section?.title }
                 />
-              ) : section ? section.title : label }
+              ) : section?.title }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }
