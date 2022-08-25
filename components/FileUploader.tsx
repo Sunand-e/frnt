@@ -15,8 +15,8 @@ const FileUploader = ({
 }) => {
 
   const { uploadFileAndNotify } = useUploadAndNotify({
-    additionalParams,
-    refetchQuery
+    refetchQuery,
+    additionalParams
   })
 
   const handleDrop = useCallback((acceptedFiles) => {

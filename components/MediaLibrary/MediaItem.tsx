@@ -38,8 +38,10 @@ const MediaItem = ({item, onItemSelect}) => {
 
   return (
     <li className="relative">
+      <span className="p-2 break-all">
+        { JSON.stringify(item.id,null,2) }
+      </span>
       <div onClick={() => onItemSelect(item)} className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-main overflow-hidden shadow">
-
         { item.mediaType === 'image'
           ? <MediaImageThumb item={item} />
           : <Link href={item.location}><a className="aspect-w-10 aspect-h-7"><IconComponent className="text-main p-8  group-hover:opacity-75" /></a></Link>

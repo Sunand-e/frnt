@@ -37,11 +37,9 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
     <>
     <MediaUploader />
       <ul role="list" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-6 xl:gap-x-8">
+      {/* <ul role="list" className=""> */}
         { mediaItems.map((item, idx) => (
-          <Fragment key={idx} >
-            <MediaItem onItemSelect={onItemSelect} item={item} />
-            {/* <button onClick={handleItemDelete}>delete</button> */}
-          </Fragment>
+          <MediaItem key={item.id} onItemSelect={onItemSelect} item={item} />
         ))}
       </ul>
     </>

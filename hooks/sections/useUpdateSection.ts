@@ -19,7 +19,6 @@ function  useUpdateSection(id = null) {
   );
 
   const updateSection = (values, cb = null) => {
-  // const updateSection = ({name=null, contentBlocks=null}) => {
 
     const variables = {
       ...values

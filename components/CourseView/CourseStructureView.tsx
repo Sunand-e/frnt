@@ -64,7 +64,7 @@ const CourseStructureView = () => {
           </div>
           <ul className="p-4">
             { course.sections.filter(section => section.children.length).map((section, index) => (
-              <SidebarSection key={index} label={section.id}>
+              <SidebarSection key={index} id={section.id}>
                 { section.children.map((item, index) => (
                   <SidebarItem key={index} id={item.id} onSelect={handleItemSelect} />
                 ))}
