@@ -16,7 +16,8 @@ import {
   contentTagsVar,
   allContentVar,
   isLoggedInVar,
-  headerButtonsVar
+  headerButtonsVar,
+  navStateVar
 } from '../graphql/cache'
 
 import { addIconsToLibrary } from "../fontawesome";
@@ -58,8 +59,10 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   const router = useRouter();
   const {asPath,route,pathname } = router
 
-  // Clear header buttons on route change
+  
+  // Clear header buttons and set nav state reactive variable on route change
   useEffect(() => {
+    navStateVar(PageComponent.navState)
     headerButtonsVar(null)
   },[route])
 

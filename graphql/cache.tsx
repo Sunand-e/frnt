@@ -23,7 +23,12 @@ const typePolicies = {
   }
 }
 */
-export const viewVar = makeVar({})
+
+export const navStateVar = makeVar({
+  topLevel: '',
+  secondary: ''
+})
+export const viewVar = makeVar({isAdmin:false})
 export const pageTitleVar = makeVar({
   title: null,
   subtitle: null,
