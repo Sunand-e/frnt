@@ -15,6 +15,7 @@ export interface GetUserProfile_user_roles {
 export interface GetUserProfile_user {
   __typename: "User";
   fullName: string | null;
+  profileImageUrl: string | null;
   roles: GetUserProfile_user_roles[] | null;
 }
 

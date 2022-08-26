@@ -5,6 +5,7 @@ import usePageTitle from '../../hooks/usePageTitle';
 import { Upload } from '@styled-icons/boxicons-regular/Upload'
 import useHeaderButtons from "../../hooks/useHeaderButtons";
 import MediaUploader from '../../components/MediaLibrary/MediaUploader';
+import MediaPreview from '../../components/MediaLibrary/MediaPreview';
 
 const UploadButton = () => (
   <>
@@ -25,15 +26,16 @@ const MediaLibraryPage = () => {
       content: <MediaUploader />
     })
   }
-
-  // useEffect(() => {
-  //   headerButtonsVar(
-  //     <>
-  //       {/* <Button onClick={() => router.push('/admin/courses')}>Cancel</Button> */}
-  //       <Button onClick={handleUploadModal}>Upload files</Button>
-  //     </>
-  //   )
-  // },[])
+  
+  const handlePreviewModal = (item) => {
+    if(item.mediaType === 'image') {
+      handleModal({
+        size: 'lg',
+        title: `${item.fileName}`,
+        content: <MediaPreview item={item} />
+      })  
+    }
+  }
 
   useHeaderButtons([
     [<UploadButton />, () => handleUploadModal() ]
@@ -42,7 +44,7 @@ const MediaLibraryPage = () => {
   return (
     <>
       <div className="">
-        <MediaLibrary onItemSelect={console.log}/>
+        <MediaLibrary onItemSelect={handlePreviewModal}/>
       </div>
     </>
   )

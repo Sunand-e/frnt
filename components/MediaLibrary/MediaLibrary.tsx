@@ -1,12 +1,12 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
 import { Fragment, useEffect } from "react";
 import { mediaItemsVar } from "../../graphql/cache"
-import { GET_MEDIA_ITEMS } from "../../graphql/queries/allQueries";
 import { GetMediaItems } from "../../graphql/queries/__generated__/GetMediaItems";
 import useModal from "../../hooks/useModal";
 import Modal from "../Modal";
 import MediaUploader from "./MediaUploader"
-import MediaItem from "./MediaItem"
+import MediaLibraryItem from "./MediaLibraryItem"
+import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
 
 interface MediaLibraryProps {
   onItemSelect?: any
@@ -26,10 +26,6 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
     }
   })
 
-  const handleItemDelete = () => {
-    // handleModal({title: 'Delete media item', content: 'Delete media item?'})
-  }
-
   if (loading) return <>Loading...</>
   if (error) return <>`Error! ${error}`</>
 
@@ -39,7 +35,9 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
       <ul role="list" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-6 xl:gap-x-8">
       {/* <ul role="list" className=""> */}
         { mediaItems.map((item, idx) => (
-          <MediaItem key={item.id} onItemSelect={onItemSelect} item={item} />
+          <li key={item.id} className="relative">
+            <MediaLibraryItem onItemSelect={onItemSelect} item={item} />
+          </li>
         ))}
       </ul>
     </>

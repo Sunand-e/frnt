@@ -25,5 +25,6 @@ export interface UserFragment {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: UserFragment_roles[] | null;
 }

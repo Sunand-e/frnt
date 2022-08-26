@@ -41,7 +41,7 @@ import '../styles/toastify-overrides.css';
 
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
-import { ModalProvider } from '../context/modalContext'
+import { ModalContext, ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { QueriesContextProvider } from '../context/QueriesContext';
 import { applyTheme, createTheme } from '../themes/utils';
@@ -50,21 +50,21 @@ import { TenantContextProvider } from '../context/TenantContext';
 addIconsToLibrary()
 
 interface PagePropertiesType {
-  Component: Page,
+  Component: Page & {
+    navState
+  },
 }
 type AppPropsExtended = AppProps & PagePropertiesType 
 
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
-  const router = useRouter();
-  const {asPath,route,pathname } = router
-
+  const router = useRouter()
   
   // Clear header buttons and set nav state reactive variable on route change
   useEffect(() => {
     navStateVar(PageComponent.navState)
     headerButtonsVar(null)
-  },[route])
+  },[router.route])
 
   const [title, setTitle] = useState(PageComponent.title)
 
@@ -166,11 +166,12 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     checkIfAdminPage()
     
     router.events.on('routeChangeStart', checkIfAdminPage); // add listener
-
+    
     return () => {
       router.events.off('routeChangeStart', checkIfAdminPage); // remove listener
     }
   }, []);
+
 
   return (
     <>

@@ -55,6 +55,7 @@ export interface GetUsersCourses_users_edges_node {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: GetUsersCourses_users_edges_node_roles[] | null;
   courses: GetUsersCourses_users_edges_node_courses | null;
 }

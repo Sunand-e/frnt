@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetMediaItems
+// GraphQL query operation: GetMediaItem
 // ====================================================
 
-export interface GetMediaItems_mediaItems {
+export interface GetMediaItem_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -19,13 +19,13 @@ export interface GetMediaItems_mediaItems {
   deletedAt: any | null;
 }
 
-export interface GetMediaItems {
+export interface GetMediaItem {
   /**
-   * Get List of Media Items present in current Tenant based on the media_types(image/document/video/audio)
+   * Get a Media Item present in current Tenant based on the id
    */
-  mediaItems: GetMediaItems_mediaItems[];
+  mediaItem: GetMediaItem_mediaItem;
 }
 
-export interface GetMediaItemsVariables {
-  where?: any | null;
+export interface GetMediaItemVariables {
+  id?: string | null;
 }

@@ -25,6 +25,7 @@ export interface GetUsers_users_edges_node {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: GetUsers_users_edges_node_roles[] | null;
 }
 

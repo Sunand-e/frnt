@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { ModalContext } from '../context/modalContext'
@@ -15,6 +15,19 @@ const sizeMap = new Map<any,any>([
 export default function Modal() {
   const { modalActive, clearModal, modalTitle, closeModal, handleModal, modalButtons, modalSize, modalContent } = useContext(ModalContext)
 
+  useEffect(() => {
+    const close = (e) => {
+      if(e.key === 'Escape'){
+        closeModal()
+      }
+    }
+    window.addEventListener('keydown', close)
+
+    return () => {
+      window.removeEventListener('keydown', close)
+    }
+  
+  },[])
   return (
     <Transition.Root show={modalActive} as={Fragment}>
       {/* <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={handleModal}> */}

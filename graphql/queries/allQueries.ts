@@ -282,23 +282,6 @@ export const GET_QUIZZES = gql`
   }
 `
 
-export const GET_MEDIA_ITEMS = gql`
-  query GetMediaItems(
-    $where: JSON,
-  ) {  
-    mediaItems(where: $where) {
-      altText
-      createdAt
-      deletedAt
-      fileName
-      mediaType
-      location
-      properties
-      id
-    }
-  }
-` 
-
 export const GET_SCORM_MODULES = gql`
   query GetScormModules(
     $where: JSON,

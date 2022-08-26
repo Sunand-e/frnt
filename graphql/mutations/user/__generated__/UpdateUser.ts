@@ -25,6 +25,7 @@ export interface UpdateUser_updateUser_user {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: UpdateUser_updateUser_user_roles[] | null;
 }
 
