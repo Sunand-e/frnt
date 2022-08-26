@@ -4,13 +4,13 @@ import { useRouter } from '../../utils/router';
 import SearchResults from './SearchResults';
 import LoadingSpinner from '../LoadingSpinner';
 import useGetTags from '../../hooks/tags/useGetTags';
-import CatalogueFilters from './CatalogueFilters';
-import CatalogueCategories from './CatalogueCategories';
+import CategoryFilters from './CategoryFilters';
+import CategoriesCollection from './CategoriesCollection';
 import { client } from '../../graphql/client';
 import { GET_COURSES } from '../../graphql/queries/allQueries';
 import useGetCourses from '../../hooks/courses/useGetCourses';
 
-const CatalogueLibrary = () => {
+const Categories = () => {
   
   const router = useRouter()
   const { search, category } = router.query
@@ -20,7 +20,7 @@ const CatalogueLibrary = () => {
   const { courses } = useGetCourses()
 
   // const {loading, error, data: { courses: courses} = {} } = useQuery(gql`
-  //   query GetCatalogue {
+  //   query GetCategories {
   //     courses {
   //       title
   //     }
@@ -41,7 +41,7 @@ const CatalogueLibrary = () => {
 
   return (
     <div className="flex flex-col items-stretch grow">
-      { tags && <CatalogueFilters /> }
+      { tags && <CategoryFilters /> }
       { !courses && <LoadingSpinner text="Loading courses..."/> }
 
       {
@@ -52,7 +52,7 @@ const CatalogueLibrary = () => {
               items={courses}
             />
           ) : (
-            <CatalogueCategories />            
+            <CategoriesCollection />            
           )
         )
       }
@@ -60,4 +60,4 @@ const CatalogueLibrary = () => {
   )
 }
 
-export default CatalogueLibrary
+export default Categories

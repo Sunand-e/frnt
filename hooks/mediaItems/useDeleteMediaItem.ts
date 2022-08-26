@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_MEDIA_ITEM } from "../../graphql/mutations/mediaItem/DELETE_MEDIA_ITEM";
 import { DeleteMediaItem, DeleteMediaItemVariables } from "../../graphql/mutations/mediaItem/__generated__/DeleteMediaItem";
-import { GET_MEDIA_ITEMS, MediaItemFragment } from "../../graphql/queries/mediaItems";
+import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
 
 function useDeleteMediaItem() {
 

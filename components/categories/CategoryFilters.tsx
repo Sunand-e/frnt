@@ -3,7 +3,7 @@ import Select, { components } from 'react-select'
 import useGetTags from '../../hooks/tags/useGetTags';
 import { useRouter } from '../../utils/router';
 
-export default function CatalogueFilters({hasSearch=true, hasCategories=true, hasType=true}) {
+export default function CategoryFilters({hasSearch=true, hasCategories=true, hasType=true}) {
   
   const router = useRouter()
   const { search, category } = router.query

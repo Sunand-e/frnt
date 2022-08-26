@@ -12,28 +12,12 @@ import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
 import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
-import { gql, useQuery } from '@apollo/client';
-import { useEffect, useMemo } from 'react';
+import { useQuery } from '@apollo/client';
+import { useMemo } from 'react';
+import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
 
 const AdminDashboardPage = () => {
   
-  const GET_ADMIN_DASHBOARD_DATA = gql`
-    query GetAdminDashboardData {
-      users {
-        totalCount
-      }
-      groups {
-        totalCount
-      }
-      courses {
-        totalCount
-      }
-      libraryItems {
-        totalCount
-      }
-    }
-  `
-
   const { data, error, loading } = useQuery(GET_ADMIN_DASHBOARD_DATA)
 
   usePageTitle({ title: 'Admin Dashboard' })
@@ -318,9 +302,9 @@ const AdminDashboardPage = () => {
                   </div>
                 </div>
               </DashboardItem> */}
-              <div className="mt-5 bg-white shadow rounded-md  p-4 w-full lg:w-full lg:ml-0">
+              {/* <div className="mt-5 bg-white shadow rounded-md  p-4 w-full lg:w-full lg:ml-0">
                 <CalendarDay key="b" />
-              </div>
+              </div> */}
             </div>
             </div>
         </div>
