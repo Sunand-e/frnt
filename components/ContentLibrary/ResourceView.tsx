@@ -21,6 +21,9 @@ import LinkPreview from "../common/LinkPreview";
 import ButtonLink from "../ButtonLink";
 import Button from "../Button";
 import { useRouter } from "next/router";
+import { Download } from '@styled-icons/boxicons-regular/Download'
+import { ExternalLinkOutline } from '@styled-icons/evaicons-outline/ExternalLinkOutline'
+
 const ResourceView = ({id}) => {
 
   const {
@@ -62,6 +65,36 @@ const ResourceView = ({id}) => {
         return <></>
       }
   },[resource])
+  
+  let resourceActionButton = useMemo(() => {
+    switch(resource?.contentType) {
+      case 'document':
+        case 'audio':
+        return (
+          <Button className="mt-3 mb-8" onClick={() => router.push('/resources')}>
+            <span className="flex space-x-4">
+              <Download  width="20" />
+              <span>
+                Download {resource?.contentType} file
+              </span>
+            </span>
+          </Button>
+        )
+      case 'link':
+        return (
+          <ButtonLink className="mt-3 mb-8" href={resource.content?.url}>
+            <span className="flex space-x-4">
+              <ExternalLinkOutline  width="20" />
+              <span>
+                Visit link
+              </span>
+            </span>
+          </ButtonLink>
+        )
+      default:
+        return <></>
+      }
+  },[resource])
 
 
   console.log('resource?.type')
@@ -77,7 +110,12 @@ const ResourceView = ({id}) => {
           <div className="mt-3 mb-8" dangerouslySetInnerHTML={createDescriptionMarkup()} />
           
           { resourceComponent }
-          <Button className="mt-3 mb-8 self-center" onClick={() => router.push('/resources')}>Back to Resource Library</Button>
+          <div className="flex flex-col md:flex-row space-x-4 self-center">
+          { resourceActionButton }
+            <Button className="mt-3 mb-8" onClick={() => router.push('/resources')}>
+              Back to Resource Library
+            </Button>
+          </div>
         </div>
       )}
     </div>
