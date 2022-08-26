@@ -72,18 +72,22 @@ const ResourceView = ({id}) => {
         case 'audio':
         return (
           <Button className="mt-3 mb-8" onClick={() => router.push('/resources')}>
-            <span className="flex space-x-2">
+            <span className="flex space-x-4">
               <Download  width="20" />
-              Download {resource?.contentType} file
+              <span>
+                Download {resource?.contentType} file
+              </span>
             </span>
           </Button>
         )
       case 'link':
         return (
           <ButtonLink className="mt-3 mb-8" href={resource.content?.url}>
-            <span className="flex space-x-2">
+            <span className="flex space-x-4">
               <ExternalLinkOutline  width="20" />
-              Visit link
+              <span>
+                Visit link
+              </span>
             </span>
           </ButtonLink>
         )
@@ -107,7 +111,7 @@ const ResourceView = ({id}) => {
           
           { resourceComponent }
           <div className="flex flex-col md:flex-row space-x-4 self-center">
-            
+          { resourceActionButton }
             <Button className="mt-3 mb-8" onClick={() => router.push('/resources')}>
               Back to Resource Library
             </Button>
