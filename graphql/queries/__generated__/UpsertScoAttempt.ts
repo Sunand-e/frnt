@@ -18,8 +18,8 @@ export interface UpsertScoAttempt {
 }
 
 export interface UpsertScoAttemptVariables {
-  attempt?: number | null;
   data: any;
+  attempt: number;
   contentItemId: string;
   scormModuleId: string;
 }

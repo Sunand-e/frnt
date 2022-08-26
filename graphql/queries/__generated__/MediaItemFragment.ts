@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetMediaItems
+// GraphQL fragment: MediaItemFragment
 // ====================================================
 
-export interface GetMediaItems_mediaItems {
+export interface MediaItemFragment {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -17,15 +17,4 @@ export interface GetMediaItems_mediaItems {
   altText: string | null;
   createdAt: any;
   deletedAt: any | null;
-}
-
-export interface GetMediaItems {
-  /**
-   * Get List of Media Items present in current Tenant based on the media_types(image/document/video/audio)
-   */
-  mediaItems: GetMediaItems_mediaItems[];
-}
-
-export interface GetMediaItemsVariables {
-  where?: any | null;
 }

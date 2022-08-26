@@ -115,6 +115,7 @@ export interface GetUserContent_user {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: GetUserContent_user_roles[] | null;
   courses: GetUserContent_user_courses | null;
   sections: GetUserContent_user_sections | null;

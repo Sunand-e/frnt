@@ -144,6 +144,7 @@ export interface GetUser_user {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: GetUser_user_roles[] | null;
   courses: GetUser_user_courses | null;
   groups: GetUser_user_groups | null;

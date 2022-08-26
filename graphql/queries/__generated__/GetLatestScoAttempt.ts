@@ -17,7 +17,7 @@ export interface GetLatestScoAttempt {
   /**
    * Get a user SCO attempt based on module_id, content_item_id and user_id
    */
-  latestScoAttempt: GetLatestScoAttempt_latestScoAttempt;
+  latestScoAttempt: GetLatestScoAttempt_latestScoAttempt | null;
 }
 
 export interface GetLatestScoAttemptVariables {

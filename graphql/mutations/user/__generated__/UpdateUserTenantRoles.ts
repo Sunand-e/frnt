@@ -25,6 +25,7 @@ export interface UpdateUserTenantRoles_updateUserTenantRoles_user {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: UpdateUserTenantRoles_updateUserTenantRoles_user_roles[] | null;
 }
 

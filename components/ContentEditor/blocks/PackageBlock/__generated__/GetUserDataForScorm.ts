@@ -4,24 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetUserWelcome
+// GraphQL query operation: GetUserDataForScorm
 // ====================================================
 
-export interface GetUserWelcome_user {
+export interface GetUserDataForScorm_user {
   __typename: "User";
   fullName: string | null;
-  profileImageUrl: string | null;
+  id: string;
 }
 
-export interface GetUserWelcome_tenant {
-  __typename: "Tenant";
-  name: string;
-}
-
-export interface GetUserWelcome {
+export interface GetUserDataForScorm {
   /**
    * Get an user based on id
    */
-  user: GetUserWelcome_user;
-  tenant: GetUserWelcome_tenant;
+  user: GetUserDataForScorm_user;
 }

@@ -25,6 +25,7 @@ export interface ContentUserEdgeFragment_edges_node {
   status: string;
   updatedAt: any;
   userType: string | null;
+  profileImageUrl: string | null;
   roles: ContentUserEdgeFragment_edges_node_roles[] | null;
 }
 

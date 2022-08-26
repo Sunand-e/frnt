@@ -6,7 +6,7 @@ import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import Link from "next/link";
 import MediaImageThumb from "./MediaImageThumb";
 
-const MediaItem = ({item, onItemSelect}) => {
+const MediaLibraryItem = ({item, onItemSelect=(e)=>null}) => {
 
   let IconComponent;
 
@@ -28,19 +28,9 @@ const MediaItem = ({item, onItemSelect}) => {
       break
     }
   }
-  // var reader = new FileReader();
-  // var url = reader.readAsDataURL(file);
-
-  // reader.onloadend = function (e) {
-  //   console.log(reader.result)
-  //   setImgSrc(reader.result);
-  // }
 
   return (
-    <li className="relative">
-      <span className="p-2 break-all">
-        { JSON.stringify(item.id,null,2) }
-      </span>
+    <>
       <div onClick={() => onItemSelect(item)} className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-main overflow-hidden shadow">
         { item.mediaType === 'image'
           ? <MediaImageThumb item={item} />
@@ -51,9 +41,8 @@ const MediaItem = ({item, onItemSelect}) => {
         </button>
       </div>
       <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">{item.fileName}</p>
-      {/* <p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.size}</p> */}
-    </li>
+    </>
   )
 }
 
-export default MediaItem
+export default MediaLibraryItem

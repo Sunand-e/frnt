@@ -17,8 +17,8 @@ const MediaImageThumb = ({item}) => {
   },[inView])
 
   useEffect(() => {
-    item?.location && (imgRef.current.src = item?.location)
-  },[item])
+    loaded && item?.location && (imgRef.current.src = item?.location)
+  },[item,loaded])
 
   return (
     <div ref={callbackRef}>
