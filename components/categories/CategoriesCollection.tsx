@@ -1,7 +1,7 @@
 import useGetTags from "../../hooks/tags/useGetTags"
 import ItemCollection from "../common/items/ItemCollection"
 
-export default function CatalogueCategories() {
+export default function CategoriesCollection() {
 
   const { tags, loading, error } = useGetTags()
 
@@ -17,7 +17,7 @@ export default function CatalogueCategories() {
             options={{
               maxItems: 120,
               itemOptions: {
-                getHref: item => `/catalogue?category=${encodeURIComponent(item.label)}`
+                getHref: item => `/categories?category=${encodeURIComponent(item.label)}`
               }
             }}
           />

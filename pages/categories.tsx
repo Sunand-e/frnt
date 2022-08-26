@@ -3,23 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from "../hooks/usePageTitle";
 import useGetCourses from "../hooks/courses/useGetCourses"
 import CourseTabs from '../components/dashboard/CourseTabs';
-import Catalogue from '../components/catalogue/Catalogue';
+import Categories from '../components/categories/Categories';
 import { useRouter } from '../utils/router';
 
-const CataloguePage = () => {
+const CategoriesPage = () => {
 
-  usePageTitle({ title: 'Catalogue' })
+  usePageTitle({ title: 'Categories' })
   
   return (
     <>
-      <Catalogue />
+      <Categories />
     </>
   )
 }
 
-CataloguePage.navState = {
+CategoriesPage.navState = {
   topLevel: 'courses',
   secondary: 'categories'
 }
 
-export default CataloguePage
+export default CategoriesPage

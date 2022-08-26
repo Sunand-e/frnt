@@ -4,6 +4,7 @@ export const MediaItemFragment = gql`
   fragment MediaItemFragment on MediaItem {
     id
     mediaType
+    fileSize
     fileName
     location
     properties

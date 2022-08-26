@@ -15,6 +15,9 @@ function useUpdateUserContentStatus() {
         variables: {
           ...values
         },
+      }).then(res => {
+        console.log('resresresresresresresresresresresresresres')
+        console.log(res)        
       }).catch(res => {
         // TODO: do something if there is an error!!
       })
@@ -23,8 +26,6 @@ function useUpdateUserContentStatus() {
   
   
     useEffect(() => {
-      // console.log('updateUserContentStatusResponse')
-      // console.log(updateUserContentStatusResponse)
     }, [updateUserContentStatusResponse])
   
     return {

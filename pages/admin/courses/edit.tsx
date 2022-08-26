@@ -63,8 +63,8 @@ const AdminCoursesEdit = () => {
   // const { updateCourseTitle } = useCourse(id)
 
   usePageTitle({ 
-    title: "Course: ", 
-    editable:  course?.title, 
+    title: `Course${course?.title && ': '}`, 
+    editable:  course?.title || '', 
     onEdit: title => updateCourse({title}),
     after: (
       <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>

@@ -1,15 +1,14 @@
 import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
-import { useQuery, useReactiveVar } from '@apollo/client'
-import { GET_COURSE } from "../graphql/queries/allQueries"
+import { useReactiveVar } from '@apollo/client'
 import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
-import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
 import useGetCourse from '../hooks/courses/useGetCourse'
 import useGetUser from '../hooks/users/useGetUser'
 import Button from '../components/Button'
+
 const CoursePage = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
@@ -76,7 +75,8 @@ const CoursePage = () => {
     }
   },[id, course?.id])
 
-  usePageTitle({ title: `Course: ${course?.title}` })
+  usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
+
   useEffect(() => {
     user && console.log('user',user)
     headerButtonsVar(

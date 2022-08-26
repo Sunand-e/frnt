@@ -1,4 +1,4 @@
-import { GET_MEDIA_ITEMS } from "../../graphql/queries/allQueries"
+import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
 import DropzoneIconAndText from "../common/inputs/DropzoneIconAndText"
 import FileUploader from "../FileUploader"
 

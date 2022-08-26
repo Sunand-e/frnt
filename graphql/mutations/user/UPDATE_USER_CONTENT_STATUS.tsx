@@ -23,6 +23,7 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
     }) {
       userContent {
         id
+        contentItemId
         status
         lastVisited
         firstVisited
@@ -34,6 +35,7 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       }
       ancestorUserContents {
         id
+        contentItemId
         status
         lastVisited
         firstVisited

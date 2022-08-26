@@ -13,7 +13,6 @@ const PrevNextButtons = ({id}) => {
   const { id: courseId } = router.query
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
-  
 
   /* Getting and setting the prev/next button lesson ids */
   const { loading, error, course } = useGetCourse(courseId)

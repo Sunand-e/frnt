@@ -31,7 +31,7 @@ const MediaLibraryPage = () => {
     if(item.mediaType === 'image') {
       handleModal({
         size: 'lg',
-        title: `${item.fileName}`,
+        title: `Media preview`,
         content: <MediaPreview item={item} />
       })  
     }

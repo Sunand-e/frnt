@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
-import useGetCourse from '../../hooks/courses/useGetCourse'
 import useGetLesson from "../../hooks/lessons/useGetLesson";
 import { Block } from "../ContentEditor/Block";
 import Button from "../Button";
-import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../utils/router";
 import PrevNextButtons from "./PrevNextButtons";
 import usePageTitle from "../../hooks/usePageTitle";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 const LessonView = ({id}) => {
 
+  const { updateUserContentStatus } = useUpdateUserContentStatus()
   const router = useRouter()
 
   const { id: courseId } = router.query
@@ -21,15 +20,13 @@ const LessonView = ({id}) => {
     loading,
     error,
   } = useGetLesson(id)
-  
-  const { updateUserContentStatus } = useUpdateUserContentStatus()
 
-  // useEffect(() => {
-  //   updateUserContentStatus({
-  //     contentItemId: id,
-  //     status: 'in_progress'
-  //   })
-  // },[id])
+  useEffect(() => {
+    updateUserContentStatus({
+      contentItemId: id,
+      status: 'in_progress'
+    })
+  },[id])
 
 usePageTitle({title: lesson.title})
   return (
