@@ -45,6 +45,7 @@ const DashboardPage = () => {
       ...view,
       isAdmin: !view.isAdmin
     })
+    router.push('admin')
     e.target.blur()
   }
 
