@@ -1,7 +1,5 @@
 import CreateGroupForm from '../../../../components/admin/groups/CreateGroupForm';
 import usePageTitle from '../../../../hooks/usePageTitle';
-
-import { headerButtonsVar } from '../../../../graphql/cache';
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 

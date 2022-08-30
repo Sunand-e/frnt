@@ -7,6 +7,7 @@ export const UPDATE_GROUP = gql`
     $id: ID!
     $name: String,
     $parentId: ID,
+    $imageId: ID,
     $assignedCourseIds: [ID!],
     $enrolledCourseIds: [ID!],
     $userIds: [ID!]
@@ -15,6 +16,7 @@ export const UPDATE_GROUP = gql`
       input: {
         name: $name,
         id: $id,
+        imageId: $imageId,
         parentId: $parentId,
         assignedCourseIds: $assignedCourseIds,
         enrolledCourseIds: $enrolledCourseIds,

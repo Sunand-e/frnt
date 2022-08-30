@@ -20,18 +20,16 @@ interface UpdateGroupFormValues {
 const GroupForm = ({group}) => {
 
   const users = group.users.edges.map(edge => edge.node)
-  const { register, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
+  const { register, watch, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
     {
       defaultValues: {
+        ...group,
         userIds: users.map(user => user.id),
         enrolledCourseIds: group.enrolledCourses.edges.map(edge => edge.node.id) || [],
         assignedCourseIds: group.assignedCourses.map(course => course.id) || [],
-        ...group
       }
     }
   );
-
-  const [ values, setValues ] = useState({})
 
   useEffect(() => {
     setFocus('name')
@@ -43,17 +41,20 @@ const GroupForm = ({group}) => {
 
   const onSubmit = useCallback(values => {
     group && updateGroup(values)
-    setValues(values)
     router.push('/admin/users/groups')
   },[group])
 
   const buttonText = group ? 'Save changes' : 'Create group'
   
+  const vals = watch()
   return (
     <form
-      className='h-full w-full max-w-sm flex flex-col space-y-4'
+      className='h-full w-full max-w-md flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
+      <pre>
+      { JSON.stringify(vals,null,2) }
+      </pre>
       <TextInput
         label="Group name"
         placeholder="Group name"
@@ -61,10 +62,12 @@ const GroupForm = ({group}) => {
       />
       <ImageSelectInput
         label="Group image"
-        placeholder={'https://picsum.photos/640/360'}
+        // placeholder={'https://picsum.photos/640/360'}
+        isButtonAlwaysVisible={false}
         buttonText="Choose group image"
         control={control}
-        name="groupImage"
+        origImage={group?.image}
+        name="imageId"
         // inputAttrs={register("image", { required: true })}
       />
 

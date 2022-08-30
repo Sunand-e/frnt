@@ -31,7 +31,7 @@ const CreateGroupForm = () => {
 
   return (
     <form
-      className='h-full w-full max-w-lg flex flex-col space-y-4'
+      className='h-full w-full max-w-md flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput
@@ -45,10 +45,11 @@ const CreateGroupForm = () => {
 
       <ImageSelectInput
         label="Group image"
-        placeholder={'https://picsum.photos/640/360'}
+        // placeholder={'https://picsum.photos/640/360'}
+        isButtonAlwaysVisible={false}
         buttonText="Choose group image"
         control={control}
-        name="groupImage"
+        name="imageId"
         // inputAttrs={register("image", { required: true })}
       />
 
