@@ -19,14 +19,15 @@ interface UpdateGroupFormValues {
 
 const GroupForm = ({group}) => {
 
-  const users = group.users.edges.map(edge => edge.node)
+  const users = group?.users.edges.map(edge => edge.node) || []
+  
   const { register, watch, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
     {
       defaultValues: {
         ...group,
         userIds: users.map(user => user.id),
-        enrolledCourseIds: group.enrolledCourses.edges.map(edge => edge.node.id) || [],
-        assignedCourseIds: group.assignedCourses.map(course => course.id) || [],
+        enrolledCourseIds: group?.enrolledCourses.edges.map(edge => edge.node.id) || [],
+        assignedCourseIds: group?.assignedCourses.map(course => course.id) || [],
       }
     }
   );
@@ -52,9 +53,6 @@ const GroupForm = ({group}) => {
       className='h-full w-full max-w-md flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <pre>
-      { JSON.stringify(vals,null,2) }
-      </pre>
       <TextInput
         label="Group name"
         placeholder="Group name"
