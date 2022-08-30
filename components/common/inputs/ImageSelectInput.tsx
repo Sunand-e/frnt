@@ -12,6 +12,7 @@ type ImageSelectInputProps = {
   label?: string;
   placeholder?: string;
   buttonText?: string;
+  isButtonAlwaysVisible?: boolean;
   name?: string;
 }
 
@@ -22,6 +23,7 @@ const ImageSelectInput = ({
   name,
   origImage,
   onSelect,
+  isButtonAlwaysVisible=true
 }: ImageSelectInputProps) => {
 
   const { field } = useController({
@@ -46,7 +48,7 @@ const ImageSelectInput = ({
         src={image?.location}
         buttonText={buttonText}
         onSelect={handleSelect}
-        isButtonAlwaysVisible={true}
+        isButtonAlwaysVisible={isButtonAlwaysVisible}
       />
     </>
   )
