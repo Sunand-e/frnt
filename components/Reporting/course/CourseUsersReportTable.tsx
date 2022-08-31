@@ -22,6 +22,8 @@ const CourseUsersReportTable = () => {
 
   const { loading, error, users, course } = useGetCourseUsers(id)
 
+  const noDataDash = <span>&mdash;</span>
+
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => users || [], [users]);
@@ -77,7 +79,7 @@ const CourseUsersReportTable = () => {
         Header: "First access",
         accessor: "createdAt",
         Cell: ({ cell }) => {
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
         }
       },
 
@@ -85,16 +87,15 @@ const CourseUsersReportTable = () => {
         Header: "Last visited",
         accessor: "updatedAt",
         Cell: ({ cell }) => {
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
         }
       },
       {
         id: "completedAt",
         Header: "Completed at",
-        accessor: "updatedAt",
+        accessor: "completedAt",
         Cell: ({ cell }) => {
-          return <span>&mdash;</span>
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
         }
       },
 

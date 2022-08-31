@@ -1,10 +1,17 @@
 import { useContext, useMemo } from "react";
 import useAddUsersToGroups from "../../../../hooks/groups/useAddUsersToGroups";
 import useGetGroups from "../../../../hooks/groups/useGetGroups";
+import ItemWithImageTableCell from "../../../common/cells/ItemWithImageTableCell";
 
 const AssignToGroupsModal = ({userId}) => {
 
   const { groups } = useGetGroups()
+
+  const groupNodes = useMemo(() => {
+    return groups?.edges?.map(edge => edge.node).filter(node => {
+      return !node._deleted
+    })
+  } ,[groups])
 
   const { addUsersToGroups } = useAddUsersToGroups()
 
@@ -12,8 +19,15 @@ const AssignToGroupsModal = ({userId}) => {
     addUsersToGroups({userIds:[userId], groupIds:[groupId]})
   }
 
-  const groupItems = groups?.map(group => (
-    <li onClick={() => addUserToGroup(group.id)}>{group.name}</li>
+  const groupItems = groupNodes?.map(group => (
+    <li
+      onClick={() => addUserToGroup(group.id)}
+      className="flex space-x-2"
+    >
+      <ItemWithImageTableCell
+        title={group.name}
+      />
+    </li>
   ))
   return (
     <ul>

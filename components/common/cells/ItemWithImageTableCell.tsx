@@ -22,7 +22,7 @@ const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, second
       <div className="flex items-center max-w-xs">
         <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${roundedClass}`}>
           { image ? (
-            <img className={`h-full w-auto`} src={image} alt="" />
+            <img className={`h-auto w-auto`} src={image} alt="" />
           ) : (
             <>
               {icon ?? (

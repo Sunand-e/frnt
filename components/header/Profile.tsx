@@ -60,8 +60,8 @@ const Profile = () => {
   const { loading, error, data, refetch } = useQuery<GetUser>(USER_PROFILE);
 
   const menuItems = [
-    { title: 'Profile', href:'' },
-    { title: 'Settings', href:'' },
+    { title: 'Profile', href:'profile' },
+    // { title: 'Settings', href:'settings' },
     { 
       title: `${view.isAdmin ? 'User' : 'Admin'} View`, 
       href: view.isAdmin ? '/' : '/admin', 
@@ -78,7 +78,7 @@ const Profile = () => {
             <div className='h-8 w-8'>
             { data?.user?.profileImageUrl ? (
                 <img
-                  className="hidden rounded-full sm:block"
+                  className="h-8 w-8 hidden object-cover rounded-full sm:block"
                   src={data.user.profileImageUrl}
                   alt=""
                 />
@@ -88,7 +88,11 @@ const Profile = () => {
             </div>
             <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:flex flex-col items-start">
               <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-gray-900 whitespace-nowrap ">{data?.user?.fullName || error?.message}</span>
-              <span className="flex-1 text-xs font-medium text-gray-500 group-hover:text-gray-700 whitespace-nowrap">View profile</span>
+              <Link href="profile">
+                <a>
+                  <span className="flex-1 text-xs font-medium text-gray-500 group-hover:text-gray-700 whitespace-nowrap">View profile</span>
+                </a>
+              </Link>
             </span>
             <ChevronDownIcon
               className="shrink-0 ml-1 h-5 w-5 text-gray-400 block"
@@ -112,50 +116,6 @@ const Profile = () => {
           </Menu.Items>
         </Transition>
       </Menu>
-
-
-      <ul className="flex flex-col shadow-2 space-y-3">
-
-          </ul>
-
-
-      {/* <Tippy
-        className="bg-white text-main p-3 w-60"
-        interactive={true}
-        hideOnClick={false}
-        placement='top' // placement='right-start'
-        theme="memberhub-white"
-        content={
-          <ul className="flex flex-col shadow-2 space-y-3">
-            <li className="hover:text-main-secondary cursor-pointer" onClick={handleLogoutClick}>Log out</li>
-            <li className="hover:text-main-secondary cursor-pointer" onClick={toggleIsAdmin}>
-              <Link href={view.isAdmin ? '/' : '/admin'}>
-                <a>
-                  {`${view.isAdmin ? 'User' : 'Admin'} View`}
-                </a>
-              </Link>
-            </li>
-          </ul>
-        }
-      >
-        <a href="#" className="shrink-0 group block">
-
-          <div className="flex items-center">
-            <div>
-              <img
-                className="inline-block h-9 w-9 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-            </div>
-            <div className="ml-3 flex flex-col align-center">
-              <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-gray-900">{data?.user?.fullName || error?.message}</span>
-              <span className="flex-1 text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</span>
-              <span className="flex-1 text-xs font-medium text-gray-500 group-hover:text-gray-700">{ data?.user?.roles.map(role => role.name) }</span>
-            </div>
-          </div>
-        </a>
-      </Tippy> */}
     </>
   )
 }

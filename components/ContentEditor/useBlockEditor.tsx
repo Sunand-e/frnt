@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { arrayMove } from "@dnd-kit/sortable";
 import cache, { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
 import { ContentFragment } from "../../graphql/queries/allQueries";
@@ -17,10 +17,6 @@ const useBlockEditor = (block=null) => {
   const { id, type, updateFunction } = currentContentItem
   // end testing
   // const { id, type, updateFunction } = currentContentItemVar()
-  
-  const updateBlockContent = (blocks) => {
-    updateFunction({content: { blocks }})
-  }
 
   const GET_LESSON_CONTENT = gql`
     query GetLessonContent($id: ID!) {
@@ -57,8 +53,20 @@ const useBlockEditor = (block=null) => {
       onCompleted: () => {}
     }
   )
+
+  const [blocks, setBlocks] = useState([])
   
-  const blocks = data[type]?.content?.blocks || [];
+  useEffect(() => {
+    if(data) {
+      setBlocks(data[type]?.content?.blocks || []);      
+    }
+  }, [data])
+
+  
+  const updateBlockContent = (blocks) => {
+    // setBlocks(blocks)
+    updateFunction({content: { blocks }})
+  }
 
   const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
     
@@ -100,15 +108,12 @@ const useBlockEditor = (block=null) => {
 
   const getIndexAndParent = useCallback((id) => {
     let parent = null
-
     let index = blocks.findIndex(b => b.id === id)
-
     if(index < 0) {
       let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
       parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
       index = parent?.children.findIndex(b => b.id === id)
     }
-
     return { index, parent }
   }, [blocks])
 
