@@ -7,6 +7,7 @@ import ItemWithImageTableCell from "../../../common/cells/ItemWithImageTableCell
 import useGetRoles from "../../../../hooks/roles/useGetRoles";
 import Select from "react-select";
 import UserRoleSelectCell from "../groups/UserRoleSelectCell";
+import useEnrolUsersInContent from "../../../../hooks/contentItems/useAddUsersToGroups";
 
 const UserCoursesTable = () => {
   
@@ -16,6 +17,7 @@ const UserCoursesTable = () => {
   const { loading, error, user } = useGetUser(id)
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
 
+  const {enrolUsersInContent} = useEnrolUsersInContent()
   const handleChangeRole = useCallback((content, role) => {
     if(!user?.id) {
       return false

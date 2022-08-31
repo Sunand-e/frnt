@@ -18,8 +18,8 @@ const PageTitle : FC = () => {
   const pageTitle = useReactiveVar(pageTitleVar)
 
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
-  const topLevelItem = navStructure?.find(topLevelItem => topLevelItem.name === navState.topLevel)
-  const secondaryLevelItem = topLevelItem?.subPages?.find(item => item.name === navState.secondary)
+  const topLevelItem = navStructure?.find(topLevelItem => topLevelItem.name === navState?.topLevel)
+  const secondaryLevelItem = topLevelItem?.subPages?.find(item => item.name === navState?.secondary)
   const currentItem = secondaryLevelItem ?? topLevelItem
   
   let iconComponent

@@ -26,7 +26,10 @@ const UserGroups = () => {
 
   const button = {
     text: "Assign to groups",
-    onClick: openAssignToGroupsModal
+    // onClick: openAssignToGroupsModal
+    onClick: () => {
+      router.push('/admin/users/groups')
+    }
   }
 
   return (

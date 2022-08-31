@@ -1,4 +1,4 @@
-const BoxContainer = ({title, button, icon: IconComponent=null, children}) => {
+const BoxContainer = ({title, button=null, icon: IconComponent=null, children}) => {
 
   const HeaderButton = () => {
     return (

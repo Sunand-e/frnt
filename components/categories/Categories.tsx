@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
 import SearchResults from './SearchResults';
@@ -29,7 +29,12 @@ const Categories = () => {
   //   onCompleted: () => {
   //   }
   // })
-  
+  const courseNodes = useMemo(() => {
+    return courses?.edges?.map(edge => edge.node).filter(node => {
+      return !node._deleted
+    })
+  } ,[courses])
+
   const [ searching, setSearching ] = useState(false)
 
   useEffect(() => {
@@ -46,10 +51,10 @@ const Categories = () => {
 
       {
       // If user is searching, only show search results
-        courses && (
+       courseNodes && (
           searching ? (
             <SearchResults 
-              items={courses}
+              items={courseNodes}
             />
           ) : (
             <CategoriesCollection />            
