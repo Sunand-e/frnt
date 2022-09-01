@@ -16,12 +16,13 @@ import useBlockEditor from './useBlockEditor';
 import { ModalContext } from '../../context/modalContext';
 import BlockSettings from './blocks/common/BlockSettings';
 import blocktypes from './blocktypes';
+import { shiftPosition } from './useBlockStore';
 
 const BlockMenu = ({ block, className }) => {
   
   const { type } = block
 
-  const { blocks, addColumn, shiftPosition, handleDeleteBlock } = useBlockEditor()
+  const { blocks, addColumn, handleDeleteBlock } = useBlockEditor()
   
   const isChild = !blocks.some(b => b.id === block.id)
 
@@ -82,9 +83,9 @@ const BlockMenu = ({ block, className }) => {
       onClick: () => {
         addColumn(block)
       },
-      isDisabled: () => {
+      isDisabled: () => (
         block.children?.length > 3 || block.name === "package"
-      },
+      ),
       hideOnChild: true
     },
     {

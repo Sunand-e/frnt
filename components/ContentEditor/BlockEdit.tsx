@@ -1,9 +1,8 @@
 import blocktypes from './blocktypes';
-import useBlockEditor from './useBlockEditor';
+import { getBlock } from './useBlockStore';
 
 export const BlockEdit = ({ id, dragOverlay = false }) => {
 
-  const { getBlock } = useBlockEditor()
 
   const block = getBlock(id)
 
