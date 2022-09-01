@@ -1,13 +1,29 @@
+import create from 'zustand'
 import { useCallback, useContext, useEffect, useState } from "react"
-import { arrayMove } from "@dnd-kit/sortable";
 import cache, { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
 import { ContentFragment } from "../../graphql/queries/allQueries";
 import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
+import { gql, useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
+import {useBlockStore, getIndexAndParent, shiftPosition} from './useBlockStore';
 // import "./styles.css";
+const GET_LESSON_CONTENT = gql`
+query GetLessonContent($id: ID!) {
+  lesson(id: $id) {
+    content
+  }
+}
+`
+
+const GET_LIBRARY_ITEM_CONTENT = gql`
+query GetLibraryItemContent($id: ID!) {
+  libraryItem(id: $id) {
+    content
+  }
+}
+`
 
 const useBlockEditor = (block=null) => {
 
@@ -18,21 +34,7 @@ const useBlockEditor = (block=null) => {
   // end testing
   // const { id, type, updateFunction } = currentContentItemVar()
 
-  const GET_LESSON_CONTENT = gql`
-    query GetLessonContent($id: ID!) {
-      lesson(id: $id) {
-        content
-      }
-    }
-  `
-
-  const GET_LIBRARY_ITEM_CONTENT = gql`
-    query GetLibraryItemContent($id: ID!) {
-      libraryItem(id: $id) {
-        content
-      }
-    }
-  `
+const { blocks, setBlocks, insertBlock } = useBlockStore()
   
   let contentQuery;
   
@@ -46,94 +48,27 @@ const useBlockEditor = (block=null) => {
       break
   }
 
-  const { loading, error, data = {} } = useQuery(
+  const [getContent, { loading, error, data = {} }] = useLazyQuery(
     contentQuery,
     {
       variables: { id },
       onCompleted: () => {}
     }
   )
-
-  const [blocks, setBlocks] = useState([])
   
   useEffect(() => {
     if(data) {
-      setBlocks(data[type]?.content?.blocks || []);      
+      // alert('everytime??')
+      // setBlocks(data[type]?.content?.blocks || []);
     }
   }, [data])
 
   
-  const updateBlockContent = (blocks) => {
+  // const setBlocks = (blocks) => {
     // setBlocks(blocks)
-    updateFunction({content: { blocks }})
-  }
+    // updateFunction({content: { blocks }})
+  // }
 
-  const insertBlock = useCallback((newBlock, index=null, parent=null, replace = false) => {
-    
-    let overwrite = replace ? 1 : 0
-    
-    let newTopLevelBlock;
-    let topLevelIndex;
-
-    if(parent) {
-      topLevelIndex = blocks.findIndex(block => block.id === parent.id)
-
-      const childBlocks = [
-        ...parent.children.slice(0, index),
-        newBlock,
-        ...parent.children.slice(index + overwrite)
-      ]
-
-      newTopLevelBlock = {
-        ...parent,
-        children: childBlocks
-      }
-      
-      overwrite = 1
-
-    } else {
-      topLevelIndex = index
-      newTopLevelBlock = newBlock
-    }
-
-    const newBlocks = [
-      ...blocks.slice(0, topLevelIndex),
-      newTopLevelBlock,
-      ...blocks.slice(topLevelIndex + overwrite)
-    ]
-    
-    updateBlockContent(newBlocks);
-  },[blocks])
-  
-
-  const getIndexAndParent = useCallback((id) => {
-    let parent = null
-    let index = blocks.findIndex(b => b.id === id)
-    if(index < 0) {
-      let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
-      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
-      index = parent?.children.findIndex(b => b.id === id)
-    }
-    return { index, parent }
-  }, [blocks])
-
-  const getBlock = (id) => {
-    let parent = null
-
-    let index = blocks.findIndex(b => b.id === id)
-
-    let block
-
-    if(index < 0) {
-      let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
-      parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
-      index = parent.children.findIndex(b => b.id === id)
-      block = parent.children[index]
-    } else {
-      block = blocks[index]
-    }
-    return block
-  }
 
 
   const updateBlock = (block, newBlock=null) => {
@@ -201,18 +136,15 @@ const useBlockEditor = (block=null) => {
           },
           ...blocks.slice(topLevelIndex + 1)
         ]
-        updateBlockContent(newBlocks)
+        setBlocks(newBlocks)
       }
 
     // if the block is NOT contained in a column, remove the block
     } else {
       newBlocks = blocks.filter(b => b.id !== block.id)
-      updateBlockContent(newBlocks)
+      setBlocks(newBlocks)
     }
   }
-
-  
-  const blockIds = blocks.map(block => block.id);
   
   const { handleModal, closeModal } = useContext(ModalContext);
 
@@ -226,30 +158,6 @@ const useBlockEditor = (block=null) => {
         title: `Delete block`,
         content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
       })    
-  }
-
-  const shiftPosition = (block, direction='down') => {
-
-    const { index, parent } = getIndexAndParent(block.id)
-    const modifier = direction === 'down' ? 1 : -1
-    let newBlocks
-
-    if(parent) {
-      const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
-      
-      newBlocks = [
-        ...blocks.slice(0, topLevelIndex),
-        {
-          ...blocks[topLevelIndex],
-          children: arrayMove(blocks[topLevelIndex].children, index, index+modifier )
-        },
-        ...blocks.slice(topLevelIndex + 1)
-      ]
-    } else {
-      newBlocks = arrayMove(blocks, index, index+modifier )
-    }
-
-    updateBlockContent(newBlocks);
   }
 
   const createPlaceholderBlock = () => {
@@ -299,12 +207,10 @@ const useBlockEditor = (block=null) => {
 
   return {
     blocks,
-    blockIds,
     addColumn,
     shiftPosition,
     insertBlock,
     addBlock,
-    getBlock,
     updateBlock,
     updateBlockProperties,
     getIndexAndParent,

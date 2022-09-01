@@ -40,6 +40,7 @@ export function DroppableContainer({
   return (
     <SidebarSection
       editing={true}
+      id={id}
       ref={disabled ? undefined : setNodeRef}
       style={{
         ...style,

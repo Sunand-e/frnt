@@ -1,11 +1,10 @@
 
 import { motion, AnimatePresence, useMotionValue, useDragControls } from "framer-motion";
-import { memo, useState } from "react"
 import { Reorder } from "framer-motion";
 import BlockContainer from "./BlockContainer";
 import BlockSelector from "./BlockSelector";
-import useBlockEditor from "./useBlockEditor";
 import { useRaisedShadow } from "../../hooks/useRaisedShadow";
+import { useBlockStore } from "./useBlockStore";
 
 const ReorderableBlock = ({id}) => {
   const y = useMotionValue(0);
@@ -20,14 +19,17 @@ const ReorderableBlock = ({id}) => {
 
 const BlockEditor = () => {
 
-  const { blocks, blockIds } = useBlockEditor()
-  const [items, setItems] = useState(blocks);
+  const setBlocks = useBlockStore(state => state.setBlocks)
+  const blocks = useBlockStore(state => state.blocks)
+  const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
 
   return (
     <>
       <div className="list">
-        <Reorder.Group axis="y" onReorder={setItems} values={items}>
-          {blockIds.map((id, idx) => <ReorderableBlock key={id} id={id} />)}
+        <Reorder.Group axis="y" onReorder={setBlocks} values={blocks}>
+          {blockIds.map(id => {
+            return <ReorderableBlock key={id} id={id} />
+          })}
         </Reorder.Group>
       </div>
       <div className={`w-full flex flex-col items-center mt-4`}>

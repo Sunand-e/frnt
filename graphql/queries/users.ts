@@ -94,6 +94,7 @@ export const UserContentEdgeFragment = gql`
     edges {
       node {
         id
+        title
       }
       status
       lastVisited
@@ -106,6 +107,17 @@ export const UserContentEdgeFragment = gql`
     }
     totalCount
   }
+`
+
+export const GET_USER_COURSES = gql`
+  query GetUserCourses($id: ID) {
+    user(id: $id) {
+      courses {
+        ...UserContentEdgeFragment
+      }
+    }
+  }
+  ${UserContentEdgeFragment}
 `
 
 export const GET_USERS_COURSES = gql`

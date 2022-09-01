@@ -7,14 +7,9 @@ import CourseTabs from '../../components/dashboard/CourseTabs';
 const Courses = () => {
 
   usePageTitle({ title: 'My Courses' })
-  
-  const {courses, loading, error } = useGetCourses();
 
   return (
-    <>
-    { (!loading && !error) && 
-    <CourseTabs /> }
-    </>
+    <CourseTabs />
   )
 }
 

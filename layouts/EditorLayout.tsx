@@ -10,6 +10,7 @@ import { GET_COURSE } from '../graphql/queries/allQueries';
 import CourseStructureEditor from '../components/CourseStructureEditor/CourseStructureEditor';
 import SidebarEditableItem from '../components/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
+import { motion } from 'framer-motion';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -54,11 +55,14 @@ export default function EditorLayout( {page, navState} ) {
         <div className="lg:flex">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
-            <div className="w-full flex justify-center px-16 h-[calc(100vh-120px)] overflow-auto">
+            <motion.div
+              className="w-full flex justify-center px-16 h-[calc(100vh-120px)] overflow-auto"
+              layoutScroll
+            >
               <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
                 {page}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

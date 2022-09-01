@@ -21,6 +21,8 @@ import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE";
 import router from "next/router";
 import useUpdateSection from "../../hooks/sections/useUpdateSection";
+import { UPDATE_SECTION } from "../../graphql/mutations/section/UPDATE_SECTION";
+import { UpdateSection, UpdateSectionVariables } from "../../graphql/mutations/section/__generated__/UpdateSection";
 
 
 type Items = Record<string, string[]>;
@@ -74,30 +76,31 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
       },
     }
   )
-const { updateSection } = useUpdateSection()
+  
+  const [updateSection, updateSectionResponse] = useMutation<UpdateSection, UpdateSectionVariables>(
+    UPDATE_SECTION
+  );
+
   const handleReorderSectionChildren = (newItems) => {
 
     console.log('REORDERING SECTION CHILDREN')
     console.log(newItems)
 
-    for(const section in newItems) {
-
-      const oldChildrenIds = itemsBeforeDrag[section];
-      const newChildrenIds = newItems[section];
+    for(const sectionId in newItems) {
+      const oldChildrenIds = itemsBeforeDrag[sectionId];
+      const newChildrenIds = newItems[sectionId];
       if(
-        // section !== 'newContainerId' &&
+        // sectionId !== 'newContainerId' &&
         oldChildrenIds.length === newChildrenIds.length &&
         oldChildrenIds.every((v, i) => v === newChildrenIds[i])
       ) {
-        console.log(`Section children order matches`, section);
+        // console.log(`Section children order matches`, sectionId);
       } else {
-
         const cachedSection = cache.readFragment<SectionFragmentType>({
-          id:`ContentItem:${section}`,
+          id:`ContentItem:${sectionId}`,
           fragment: SectionFragment,
           fragmentName: 'SectionFragment',
         })
-
         const newChildrenData = newChildrenIds.map(id => {
           return cache.readFragment<ContentFragmentType>({
             id:`ContentItem:${id}`,
@@ -107,7 +110,7 @@ const { updateSection } = useUpdateSection()
 
         updateSection({
           variables: {
-            id: section,
+            id: sectionId,
             childrenIds: newChildrenIds
           },
           optimisticResponse: {
@@ -119,8 +122,6 @@ const { updateSection } = useUpdateSection()
               },
             }
           }
-        }).catch(res => {
-          // TODO: do something if there is an error!!
         })
       }
     }

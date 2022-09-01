@@ -5,6 +5,7 @@ import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
+import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
 
 const BlockContainer = ({
   id,
@@ -15,7 +16,9 @@ const BlockContainer = ({
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
-  const { blockIds, blocks, getIndexAndParent, getBlock } = useBlockEditor()
+  const blocks = useBlockStore(state => state.blocks)
+  const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
+
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
   const isActive = useReactiveVar(activeContentBlockVar) === id
