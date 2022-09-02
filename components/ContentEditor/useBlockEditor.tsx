@@ -34,7 +34,7 @@ const useBlockEditor = (block=null) => {
   // end testing
   // const { id, type, updateFunction } = currentContentItemVar()
 
-const { blocks, setBlocks, insertBlock } = useBlockStore()
+  const { blocks, setBlocks, insertBlock } = useBlockStore()
   
   let contentQuery;
   
@@ -48,7 +48,7 @@ const { blocks, setBlocks, insertBlock } = useBlockStore()
       break
   }
 
-  const [getContent, { loading, error, data = {} }] = useLazyQuery(
+  const [getContent, { loading, error, data }] = useLazyQuery(
     contentQuery,
     {
       variables: { id },
@@ -56,14 +56,7 @@ const { blocks, setBlocks, insertBlock } = useBlockStore()
     }
   )
   
-  useEffect(() => {
-    if(data) {
-      // alert('everytime??')
-      // setBlocks(data[type]?.content?.blocks || []);
-    }
-  }, [data])
-
-  
+  const content = data?.[type]?.content
   // const setBlocks = (blocks) => {
     // setBlocks(blocks)
     // updateFunction({content: { blocks }})
@@ -146,18 +139,14 @@ const { blocks, setBlocks, insertBlock } = useBlockStore()
     }
   }
   
-  const { handleModal, closeModal } = useContext(ModalContext);
+  const { handleModal } = useContext(ModalContext);
 
-  const deleteColumnsBlock = (block, preserveChildren = true) => {
-    closeModal()
-  }
-  
   
   const handleDeleteBlock = (block) => {
-      handleModal({
-        title: `Delete block`,
-        content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
-      })    
+    handleModal({
+      title: `Delete block`,
+      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
+    })
   }
 
   const createPlaceholderBlock = () => {
@@ -206,6 +195,8 @@ const { blocks, setBlocks, insertBlock } = useBlockStore()
   }
 
   return {
+    getContent,
+    content,
     blocks,
     addColumn,
     shiftPosition,
