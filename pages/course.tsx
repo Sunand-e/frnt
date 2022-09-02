@@ -38,7 +38,6 @@ const CoursePage = () => {
     }
   },[])
 
-
   const editCourse = () => {
     router.push({
       pathname: `/admin/courses/edit`,
@@ -48,32 +47,6 @@ const CoursePage = () => {
       }
     })
   }
-  
-  useEffect(() => {
-    currentContentItemVar({
-      ...currentContentItem,
-      type: 'lesson',
-      id: contentId
-    })
-    
-  },[id, contentId])
-  
-  useEffect(() => {
-    // If there is a course but no item provided, show the first item
-    if(course && !currentContentItem.id) {
-      const firstItemInCourse = course?.sections.find(
-        (section) => section.children?.length
-        )?.children[0]
-        
-        if(firstItemInCourse) {
-          currentContentItemVar({
-          type: 'lesson',
-          ...currentContentItem,
-          id: firstItemInCourse.id
-        })
-      }
-    }
-  },[id, course?.id])
 
   usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
@@ -85,12 +58,9 @@ const CoursePage = () => {
       </>
     )
   },[showEdit])
+  
   return (
-    <>
-      { currentContentItem.id && (
-        <CourseItemView id={currentContentItem.id} />
-      )}
-    </>
+    <CourseItemView />
   )
 }
 
