@@ -5,6 +5,11 @@ import BlockContainer from "./BlockContainer";
 import BlockSelector from "./BlockSelector";
 import { useRaisedShadow } from "../../hooks/useRaisedShadow";
 import { useBlockStore } from "./useBlockStore";
+import { useEffect } from "react";
+import useBlockEditor from "./useBlockEditor";
+import { useDebouncedCallback } from 'use-debounce';
+import { currentContentItemVar } from "../../graphql/cache";
+import { useReactiveVar } from "@apollo/client";
 
 const ReorderableBlock = ({id}) => {
   const y = useMotionValue(0);
@@ -23,9 +28,34 @@ const BlockEditor = () => {
   const blocks = useBlockStore(state => state.blocks)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
 
+  const {getContent, content} = useBlockEditor()
+
+  const currentContentItem = useReactiveVar(currentContentItemVar)
+  const { updateFunction } = currentContentItem
+
+  const debouncedUpdate = useDebouncedCallback(updateFunction, 600)
+
+  useEffect(() => {
+    getContent()
+  },[])
+  
+  useEffect(() => {
+    if(content) {
+      setBlocks(content?.blocks || []);
+    }
+  }, [content])
+
+
+  useEffect(() => {
+    if(content) {
+      debouncedUpdate({content: { blocks }})
+    }
+  },[content, blocks])
+
   return (
     <>
       <div className="list">
+        {/* <Button onClick={handleClick}>Click</Button> */}
         <Reorder.Group axis="y" onReorder={setBlocks} values={blocks}>
           {blockIds.map(id => {
             return <ReorderableBlock key={id} id={id} />

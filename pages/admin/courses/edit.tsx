@@ -63,7 +63,7 @@ const AdminCoursesEdit = () => {
   // const { updateCourseTitle } = useCourse(id)
 
   usePageTitle({ 
-    title: `Course${course?.title && ': '}`, 
+    title: `Course${course?.title ? ': ' : ''}`, 
     editable:  course?.title || '', 
     onEdit: title => updateCourse({title}),
     after: (
