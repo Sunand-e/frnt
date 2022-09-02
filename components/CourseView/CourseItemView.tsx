@@ -1,10 +1,26 @@
 import { useRouter } from '../../utils/router'
 import useGetLesson from "../../hooks/lessons/useGetLesson"
 import LessonView from "./LessonView"
+import useBlockEditor from '../ContentEditor/useBlockEditor'
+import { useEffect } from 'react'
+import { useBlockStore } from '../ContentEditor/useBlockStore'
 
-const CourseItemView = ({id}) => {
+const CourseItemView = () => {
 
-  const { lesson, loading, error } = useGetLesson(id)
+  const setBlocks = useBlockStore(state => state.setBlocks)
+
+  const {getContent, content} = useBlockEditor()
+
+  useEffect(() => {
+    getContent()
+  },[])
+  
+  useEffect(() => {
+    if(content) {
+      setBlocks(content?.blocks || []);
+    }
+  }, [content])
+
   // useEffect(() => {
   //   headerButtonsVar(
   //     <>
@@ -17,9 +33,9 @@ const CourseItemView = ({id}) => {
 
   return (
     <>
-      { lesson && (
+      { content && (
         <>
-          <LessonView id={id} />
+          <LessonView />
         </>
       )}
     </>

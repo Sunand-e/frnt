@@ -13,6 +13,7 @@ import { TenantContext } from '../../context/TenantContext';
 const GET_CURRENT_USER_TYPE = gql`
 query GetCurrentUserType {
   user {
+    id
     userType
   }
 }

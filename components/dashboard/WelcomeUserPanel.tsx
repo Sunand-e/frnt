@@ -9,10 +9,12 @@ import {User} from '@styled-icons/fa-solid/User'
 const USER_WELCOME_DATA = gql`
   query GetUserWelcome {
     user {
+      id
       fullName
       profileImageUrl
     }
     tenant {
+      id
       name
     }
   }
