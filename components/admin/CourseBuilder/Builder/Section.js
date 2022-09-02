@@ -12,9 +12,9 @@ const Section = ({section, items, index, className, active, setActive}) => {
   const handleNewLessonClick = () => {
     
   }
-const handleBoxToggle = () => {
-  alert('aa')
-}
+  const handleBoxToggle = () => {
+    alert('aa')
+  }
 
   return (
     <Draggable

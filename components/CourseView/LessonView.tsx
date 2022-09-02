@@ -8,18 +8,19 @@ import usePageTitle from "../../hooks/usePageTitle";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
-const LessonView = ({id}) => {
+import { useBlockStore } from "../ContentEditor/useBlockStore";
+import { currentContentItemVar } from "../../graphql/cache";
+import { useReactiveVar } from "@apollo/client";
+const LessonView = () => {
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
-  const router = useRouter()
+  const blocks = useBlockStore(state => state.blocks)
 
-  const { id: courseId } = router.query
+  const { id } = useReactiveVar(currentContentItemVar)  
 
-  const {
-    lesson,
-    loading,
-    error,
-  } = useGetLesson(id)
+  const { lesson, loading, error } = useGetLesson(id)
+
+  usePageTitle({title: lesson?.title})
 
   useEffect(() => {
     updateUserContentStatus({
@@ -28,11 +29,10 @@ const LessonView = ({id}) => {
     })
   },[id])
 
-usePageTitle({title: lesson.title})
   return (
     <div className="w-full flex flex-col">
-      {lesson?.content?.blocks && 
-        lesson.content.blocks.map((block, index) => (
+      {blocks && 
+        blocks.map((block, index) => (
           <Block block={block} key={index} />
         ))
       }
