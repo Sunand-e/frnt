@@ -65,7 +65,7 @@ const Profile = () => {
     { 
       title: `${view.isAdmin ? 'User' : 'Admin'} View`, 
       href: view.isAdmin ? '/' : '/admin', 
-      onClick: toggleIsAdmin
+      // onClick: toggleIsAdmin
     },
     { title: 'Log out', onClick: handleLogoutClick }
   ]

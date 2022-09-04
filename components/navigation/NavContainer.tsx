@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +15,10 @@ import {MenuAlt1Icon, XIcon} from "@heroicons/react/outline";
 export default function NavContainer({navState, sidebarComponent}) {
 
   const view = useReactiveVar(viewVar)
+  useEffect(() => {
+    console.log('viewChanged')
+    console.log(view)
+  },[view])
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
 
   // If the 'topLevel' property of navState is empty, create the default navstate.

@@ -13,10 +13,6 @@ const SettingsMenuAndButton = () => {
   const view = useReactiveVar(viewVar)
 
   const handleAdminButtonClick = (e) => {
-    viewVar({
-      ...view,
-      isAdmin: !view.isAdmin
-    })
     e.target.blur()
   }
 

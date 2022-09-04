@@ -1,7 +1,7 @@
 :root {
   --toastify-color-progress-light: linear-gradient(
     to right,
-    theme('colors.main.dark'),
+    theme('colors.main.secondary'),
     theme('colors.main.DEFAULT')
   );
 }
