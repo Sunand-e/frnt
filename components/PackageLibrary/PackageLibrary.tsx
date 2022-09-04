@@ -1,8 +1,6 @@
 import { useQuery } from "@apollo/client"
-import { Fragment } from "react";
 import { GET_SCORM_MODULES } from "../../graphql/queries/allQueries";
 import { GetScormModules } from "../../graphql/queries/__generated__/GetScormModules";
-import useModal from "../../hooks/useModal";
 import PackageUploader from "./PackageUploader"
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
@@ -68,7 +66,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                   { scormModules.map((module) => (
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
                       <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
-                      <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('MMMM Do, YYYY [at] h:mm A')}</td>
+                      <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>
                     </tr>
                   ))}
                 </tbody>

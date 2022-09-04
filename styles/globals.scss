@@ -152,3 +152,7 @@ a {
 .main-right-block,#secondaryNav{
   overflow: auto;
 }
+
+.multilevel-select.react-dropdown-tree-select .dropdown .dropdown-content {
+  position: relative;
+}

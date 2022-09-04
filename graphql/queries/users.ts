@@ -95,6 +95,11 @@ export const UserContentEdgeFragment = gql`
       node {
         id
         title
+        tags {
+          id
+          label
+          tagType
+        }
       }
       status
       lastVisited

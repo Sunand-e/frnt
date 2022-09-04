@@ -1,6 +1,4 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
-import { Fragment, useEffect } from "react";
-import { mediaItemsVar } from "../../graphql/cache"
 import { GetMediaItems } from "../../graphql/queries/__generated__/GetMediaItems";
 import useModal from "../../hooks/useModal";
 import Modal from "../Modal";
