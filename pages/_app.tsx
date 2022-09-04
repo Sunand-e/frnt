@@ -152,25 +152,24 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       loginLayout
     )
   },[isLoggedIn, PageComponent])
-    
+
   // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
   useEffect(() => {
     const checkIfAdminPage = () => {
       console.log('router.pathname')
-      console.log(router.pathname.startsWith('/admin'))
       viewVar({
+        ...viewVar(),
         isAdmin: router.pathname.startsWith('/admin'),
-        ...viewVar()
       })
     }
     checkIfAdminPage()
-    
-    router.events.on('routeChangeStart', checkIfAdminPage); // add listener
+    // alert('s')
+    router.events.on('routeChangeComplete', checkIfAdminPage); // add listener
     
     return () => {
-      router.events.off('routeChangeStart', checkIfAdminPage); // remove listener
+      router.events.off('routeChangeComplete', checkIfAdminPage); // remove listener
     }
-  }, []);
+  }, [router.events, router.pathname]);
 
 
   return (

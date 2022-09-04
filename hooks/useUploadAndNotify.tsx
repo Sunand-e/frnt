@@ -1,9 +1,11 @@
-import {CSSProperties, useCallback, useMemo} from 'react';
+import {CSSProperties, useCallback, useMemo, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import axios, { Method } from 'axios';
 import { client } from '../graphql/client';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+import ThreeDotsTextNode from '../components/common/misc/ThreeDotsTextNode';
+import { Dot } from '../components/common/misc/Dot';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
@@ -18,6 +20,7 @@ const useUploadAndNotify = ({
 } : UseUploadAndNotifyProps) => {
   
   const token = localStorage.getItem('token');
+  const [dismissed, setDismissed] = useState(false);
 
   const uploadFileAndNotify = useCallback(async (file, fileParameterName, endpoint) => {
     const toastId = uuidv4()
@@ -42,28 +45,15 @@ const useUploadAndNotify = ({
         console.log('progress...' + progress)
         // check if we already displayed a toast
         if(progress === 1) {
-
-          const text = `Uploaded ${file.name}.`
-
-          if(!toast.isActive(toastId)) {
-            toast(text, {
-              toastId,
-              autoClose: 3000
-            })
-          } else {
-            // toast.update(toastId, {
-            //   progress,
-            //   hideProgressBar: true,
-            // })
-            toast.update(toastId, {
-              progress,
-              hideProgressBar: false,
-              // autoClose: 1000
-            })
-          }
-
         } else {
-          const text = `Uploading ${file.name}`
+          const text = <>
+            Uploading 
+            <span className='font-bold'> {file.name}
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+            </span>
+          </>
 
           if(!toast.isActive(toastId)) {
             toast(text, {
@@ -79,10 +69,26 @@ const useUploadAndNotify = ({
 
       }
     }).then(data => {
-      // alert('now')
+      
+      const text = (
+        <>`Uploaded <span className='font-bold'>{file.name}</span>.</>
+      )
+      
+      if(toast.isActive(toastId)) {
+        toast.update(toastId, {
+          progress: 1,
+          hideProgressBar: false,
+          // autoClose: 1000
+        })
+      }
+
       setTimeout(() => {
-        // toast.done(toastId)
-      }, 2000)
+        toast(text, {
+          toastId: toastId+'done',
+          hideProgressBar: true,
+          autoClose: 2500
+        })
+      }, 1000)
       /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
       client.refetchQueries({
         include: [refetchQuery]
