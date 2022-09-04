@@ -7,7 +7,8 @@ import ItemWithImageTableCell from "../../../common/cells/ItemWithImageTableCell
 import useGetRoles from "../../../../hooks/roles/useGetRoles";
 import Select from "react-select";
 import UserRoleSelectCell from "../groups/UserRoleSelectCell";
-import useEnrolUsersInContent from "../../../../hooks/contentItems/useAddUsersToGroups";
+import useEnrolUsersInContent from "../../../../hooks/contentItems/useEnrolUsersInContent";
+import useUnenrolUserFromContent from "../../../../hooks/contentItems/useUnenrolUserFromContent";
 
 const UserCoursesTable = () => {
   
@@ -18,14 +19,26 @@ const UserCoursesTable = () => {
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
 
   const {enrolUsersInContent} = useEnrolUsersInContent()
+  const {unenrolUserFromContent} = useUnenrolUserFromContent()
+
   const handleChangeRole = useCallback((content, role) => {
     if(!user?.id) {
       return false
     }
     enrolUsersInContent({
       userIds: [user.id],
-      groupIds: [content.node.id],
+      contentItemIds: [content.node.id],
       roleId: role.id
+    })
+  }, [user])
+
+  const handleUnenrol = useCallback((content, role) => {
+    if(!user?.id) {
+      return false
+    }
+    unenrolUserFromContent({
+      userId: user.id,
+      contentItemId: content.node.id,
     })
   }, [user])
 
@@ -73,7 +86,7 @@ const UserCoursesTable = () => {
         Cell: ({ cell }) => {
           const content = cell.row.original;
           return <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
-            handleChangeRole(
+            handleUnenrol(
               content,
               null,
             )

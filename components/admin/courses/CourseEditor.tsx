@@ -31,6 +31,7 @@ const CourseEditor = () => {
         currentContentItemVar({
           id: firstItemInCourse.id,
           type:'lesson',
+          title: firstItemInCourse.title,
           updateFunction: updateLesson(firstItemInCourse.id)
         })
       }

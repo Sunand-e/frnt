@@ -11,7 +11,11 @@ function useGetUserCourses(id=null) {
     }
   );
 
-  return { user, loading, error }
+  return { 
+    courses: user?.courses,
+    loading,
+    error
+  }
 }
 
 export default useGetUserCourses

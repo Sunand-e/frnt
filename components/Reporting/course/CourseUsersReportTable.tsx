@@ -79,7 +79,7 @@ const CourseUsersReportTable = () => {
         Header: "First access",
         accessor: "createdAt",
         Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
+          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
         }
       },
 
@@ -87,7 +87,7 @@ const CourseUsersReportTable = () => {
         Header: "Last visited",
         accessor: "updatedAt",
         Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
+          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
         }
       },
       {
@@ -95,7 +95,7 @@ const CourseUsersReportTable = () => {
         Header: "Completed at",
         accessor: "completedAt",
         Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A') : noDataDash
+          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
         }
       },
 

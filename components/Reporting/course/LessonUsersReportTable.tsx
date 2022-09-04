@@ -7,6 +7,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useRouter } from '../../../utils/router';
 import dayjs from 'dayjs';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
+dayjs.extend(advancedFormat)
 
 const LessonUsersReportTable = () => {
 
@@ -98,7 +99,7 @@ const LessonUsersReportTable = () => {
         Header: "First access",
         accessor: "createdAt",
         Cell: ({ cell }) => {
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
 
@@ -106,7 +107,7 @@ const LessonUsersReportTable = () => {
         Header: "Last visited",
         accessor: "updatedAt",
         Cell: ({ cell }) => {
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
       {
@@ -115,7 +116,7 @@ const LessonUsersReportTable = () => {
         accessor: "updatedAt",
         Cell: ({ cell }) => {
           return <span>&mdash;</span>
-          return dayjs(cell.value).format('MMMM Do, YYYY [at] h:mm A')
+          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
 

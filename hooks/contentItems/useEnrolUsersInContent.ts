@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client"
 import { EnrolUsersInContent, EnrolUsersInContentVariables } from "../../graphql/mutations/contentItem/__generated__/EnrolUsersInContent";
 import { ENROL_USERS_IN_CONTENT } from "../../graphql/mutations/contentItem/ENROL_USERS_IN_CONTENT";
+import { GET_USER } from "../../graphql/queries/users";
 
 function useEnrolUsersInContent() {
 
@@ -16,6 +17,7 @@ function useEnrolUsersInContent() {
         variables: {
           ...values
         },
+        refetchQueries: ['GetUser'],
         onCompleted: cb
       }).catch(res => {
         // TODO: do something if there is an error!!

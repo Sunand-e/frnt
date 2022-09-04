@@ -1,20 +1,14 @@
-import React, { useCallback, useContext, useState } from 'react';
 import Button from '../../Button';
-import ImageSelectInput from '../../common/inputs/ImageSelectInput';
-import SelectInput from '../../common/inputs/SelectInput';
 import TextInput from '../../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import CheckboxInput from '../../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
-import Link from 'next/link';
-import { ModalContext } from '../../../context/modalContext';
 import ImageDropzoneInput from "../../common/inputs/ImageDropzoneInput";
-import useUploadAndNotify from "../../../hooks/useUploadAndNotify";
 
 interface UserFormValues {
   id?: string
-  first_name: string
-  last_name: string
+  firstName: string
+  lastName: string
   email: string
   profileImage: string
   roleIds: [string]
@@ -26,8 +20,8 @@ const UserForm = ({user=null, onSubmit}) => {
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,
-    first_name: user?.firstName,
-    last_name: user?.lastName,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
     // anotherattr: 123,
     role_ids: user?.roles.map(role => role.id),
   }
@@ -35,9 +29,6 @@ const UserForm = ({user=null, onSubmit}) => {
   const { register, handleSubmit: rhfHandleSubmit, control, formState: { errors }, watch } = useForm<UserFormValues>({
     defaultValues
   });
-  const formValues = watch();
-
-
 
   const handleSubmit = (data) => {
     onSubmit(data)
@@ -51,7 +42,7 @@ const UserForm = ({user=null, onSubmit}) => {
       <TextInput
         label="First name"
         placeholder="First name"
-        inputAttrs={register("first_name", {
+        inputAttrs={register("firstName", {
           required:"First name is required",
           maxLength: {
             value: 20,
@@ -59,11 +50,11 @@ const UserForm = ({user=null, onSubmit}) => {
           }
         })}
       />
-      {errors.first_name && (<small className="text-danger text-red-500">{errors.first_name.message}</small>)}
+      {errors.firstName && (<small className="text-danger text-red-500">{errors.firstName.message}</small>)}
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("last_name",
+        inputAttrs={register("lastName",
   {
           required:"Last is required",
           maxLength: {
@@ -73,7 +64,7 @@ const UserForm = ({user=null, onSubmit}) => {
         }
         )}
       />
-      {errors.last_name && (<small className="text-danger text-red-500">{errors.last_name.message}</small>)}
+      {errors.lastName && (<small className="text-danger text-red-500">{errors.lastName.message}</small>)}
       <TextInput
         label="Email"
         placeholder="email"

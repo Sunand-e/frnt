@@ -11,15 +11,16 @@ import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentSt
 import { useBlockStore } from "../ContentEditor/useBlockStore";
 import { currentContentItemVar } from "../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
+
 const LessonView = () => {
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
   const blocks = useBlockStore(state => state.blocks)
 
-  const { id } = useReactiveVar(currentContentItemVar)  
+  const { id } = useReactiveVar(currentContentItemVar)
 
   const { lesson, loading, error } = useGetLesson(id)
-
+  
   usePageTitle({title: lesson?.title})
 
   useEffect(() => {
