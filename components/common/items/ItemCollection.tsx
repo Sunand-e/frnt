@@ -27,7 +27,7 @@ export default function ItemCollection({items, options, viewAll, gridClasses, no
         
         <div className="collectionHeaderLeft">
           { options?.heading && 
-            <h3 className="text-xl text-main-secondary text-semibold">
+            <h3 className="text-lg text-main-secondary text-semibold mb-2">
               {options.heading}
             </h3>
           }

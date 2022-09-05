@@ -35,7 +35,7 @@ const ProfileMenuItem = ({title = '', href='#', onClick=null }) => {
   )
 }
 
-const Profile = () => {
+const ProfileWidget = () => {
   const { logout } = useLogout()
 
   const handleLogoutClick = (e) => {
@@ -120,4 +120,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfileWidget
