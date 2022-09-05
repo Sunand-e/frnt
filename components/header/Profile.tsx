@@ -60,7 +60,7 @@ const Profile = () => {
   const { loading, error, data, refetch } = useQuery<GetUser>(USER_PROFILE);
 
   const menuItems = [
-    { title: 'Profile', href:'profile' },
+    { title: 'Profile', href: '/profile' },
     // { title: 'Settings', href:'settings' },
     { 
       title: `${view.isAdmin ? 'User' : 'Admin'} View`, 
