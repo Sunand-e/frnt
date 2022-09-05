@@ -85,7 +85,7 @@ export default function Item({ item, options }) {
             {item.status}
           </h2>
         )} */}
-        { item?.score && (
+        { item?.score !== null && item?.score !== undefined && (
           <span className="mb-2">
             <ProgressBar value={item.score} />
           </span>

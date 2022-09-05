@@ -37,7 +37,7 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
 
           <input 
             onChange={(e) => onFilterChange('search', e.target.value)}
-            value={search || null}
+            value={search || ''}
             type="search"
             name="q"
             className="
@@ -64,7 +64,7 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
             }}
             // defaultValue={category}
             defaultValue={{value: category, label: category}}
-            value={category && {value: category, label: category}}
+            value={category ? {value: category, label: category} : ''}
             onChange={(option) => onFilterChange('category', option?.label)}
             placeholder={'Select category...'}
             options={tagOptions}

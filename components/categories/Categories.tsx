@@ -39,9 +39,11 @@ const Categories = () => {
 
   useEffect(() => {
     setSearching(!!(search || category))
-    router.push({
-      query: {search, category}
-    })
+    if(search || category) {
+      router.push({
+        query: {search, category}
+      })
+    }
   },[search, category])
 
   return (

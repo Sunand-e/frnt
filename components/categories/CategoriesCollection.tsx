@@ -11,7 +11,6 @@ export default function CategoriesCollection() {
     <>
       { categories?.length && (
         <>
-        <h2 className="inline-block border-grey-dark mb-2">Categories</h2>
           <ItemCollection
             items={categories || []}
             options={{

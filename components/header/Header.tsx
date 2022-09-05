@@ -4,7 +4,7 @@ import { isLoggedInVar, viewVar } from "../../graphql/cache";
 import Button from "../Button";
 import HeaderButtons from "../header/HeaderButtons";
 import PageTitle from "./PageTitle";
-import Profile from "./Profile";
+import ProfileWidget from "./ProfileWidget";
 
 export default function Header() {
 
@@ -20,7 +20,7 @@ export default function Header() {
           </div>
           <div className="flex items-center justify-between pl-4 sm:pl-6 lg:px-0">
               <HeaderButtons />
-              <Profile />
+              <ProfileWidget />
           </div>
         </div>
       </div>
