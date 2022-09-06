@@ -60,7 +60,9 @@ const CourseStructureView = () => {
               </div>
             </div>
 
-            { progress && <ProgressBar value={progress} className={`-mb-0.5`} /> }
+            { progress !== null && progress !== undefined && (
+              <ProgressBar value={progress} className={`-mb-0.5`} />
+            )}
           </div>
           <ul className="p-4">
             { course.sections.filter(section => section.children.length).map((section, index) => (

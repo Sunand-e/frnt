@@ -25,7 +25,7 @@ const CourseEditor = () => {
     if(course && !currentContentItem.id) {
       const firstItemInCourse = course?.sections.find(
         (section) => section.children?.length
-        )?.children[0]
+      )?.children[0]
       
       if(firstItemInCourse) {
         currentContentItemVar({

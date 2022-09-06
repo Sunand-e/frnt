@@ -28,6 +28,7 @@ const LessonEditor = () => {
   useEffect(() => {
     if(router.query.cid) {
       currentContentItemVar({
+        title: null,
         id: router.query.cid,
         type: 'lesson',
         updateFunction: updateLesson(router.query.cid)
@@ -35,6 +36,7 @@ const LessonEditor = () => {
     }
     return () => {
       currentContentItemVar({
+        title: null,
         id: null,
         updateFunction:null,
         type:null

@@ -32,8 +32,11 @@ const BlockEditor = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   const { updateFunction } = currentContentItem
-
-  const debouncedUpdate = useDebouncedCallback(updateFunction, 600)
+  const afunc = (val) => {
+    console.log('aabbccdd')
+    updateFunction(val)
+  }
+  const debouncedUpdate = useDebouncedCallback(afunc, 600)
 
   useEffect(() => {
     getContent()
@@ -47,6 +50,10 @@ const BlockEditor = () => {
 
 
   useEffect(() => {
+    console.log('content')
+    console.log(content)
+    console.log('blocks')
+    console.log(blocks)
     if(content) {
       debouncedUpdate({content: { blocks }})
     }
