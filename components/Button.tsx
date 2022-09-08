@@ -7,11 +7,13 @@ interface ButtonProps {
   size?: "sm" | "md" | "lg"
   children: JSX.Element | string,
   className?: string
+  disabled?: boolean
 }
 
-const Button = ({onClick, type="button", size, className, children}: ButtonProps) => (
+const Button = ({onClick, disabled=false, type="button", size, className, children}: ButtonProps) => (
   <button 
-    type={type} 
+    type={type}
+    disabled={disabled}
     className={`
       ${className}
       ${styles.button}
@@ -22,7 +24,7 @@ const Button = ({onClick, type="button", size, className, children}: ButtonProps
       whitespace-nowrap nowrap
       border border-transparent rounded-md
       text-sm
-      bg-main text-white
+      disabled bg-main text-white
       focus:bg-opacity-50 focus:outline-none 
       active:bg-opacity-50 
     `}

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 const navigation = [
   { name: 'Edit Profile', icon: User, href: '/profile', current: true },
-  { name: 'Change Password', icon: Lock, href: '/profile/reset-password', current: false },
+  { name: 'Change Password', icon: Lock, href: '/profile/change-password', current: false },
 ]
 
 function classNames(...classes) {

@@ -22,7 +22,7 @@ const CourseEditor = () => {
   
   useEffect(() => {
     // If there is a course but no item provided, show the first item
-    if(course && !currentContentItem.id) {
+    if(course && !contentId) {
       const firstItemInCourse = course?.sections.find(
         (section) => section.children?.length
       )?.children[0]
@@ -35,8 +35,15 @@ const CourseEditor = () => {
           updateFunction: updateLesson(firstItemInCourse.id)
         })
       }
+    } else {
+      currentContentItemVar({
+        id: contentId,
+        type:'lesson',
+        title: '',
+        updateFunction: updateLesson(contentId)
+      })
     }
-  },[course?.id])
+  },[id, contentId])
 
   
   // useEffect(() => {

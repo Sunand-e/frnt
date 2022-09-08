@@ -3,9 +3,9 @@ import ReactSelectInput from "../../../common/inputs/ReactSelectInput"
 const RoleTypeSelect = ({control}) => {
 
   const options = [
-    { value: 'tenant_role', label: 'Global Role'},
+    { value: 'tenant_role', label: 'Global'},
     // { value: 'content_item_role', label: 'Item Role'},
-    { value: 'group_role', label: 'Group Role'},
+    { value: 'group_role', label: 'Group'},
   ]
   return (
     <ReactSelectInput

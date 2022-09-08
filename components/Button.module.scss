@@ -10,6 +10,14 @@
 	display: inline-block;
 }
 
+.button:disabled {
+	cursor: not-allowed;
+	opacity:0.3;
+}
+.button_bestia:disabled:hover .button__bg {
+	transform: none;
+}
+
 .button::before,
 .button::after {
 	position: absolute;

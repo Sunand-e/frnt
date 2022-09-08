@@ -18,9 +18,6 @@ const AcceptInvitationForm = () => {
       ...data,
       invitation_token: token
     }
-    console.log('fetch........')
-    console.log('formData')
-    console.log(formData)
     await fetch(ACCEPT_INVITE_ENDPOINT, {
       method: 'PUT', // or 'PUT'
       headers: {
@@ -39,7 +36,6 @@ const AcceptInvitationForm = () => {
       }
     )
   }
-
 
   const onSubmit = async data => {
     await login(data);

@@ -16,7 +16,7 @@ const BackButton = () => (
   </>
 )
 
-const AdminUsersNew = () => {
+const AdminCreateUser = () => {
   
   usePageTitle({ title: 'Add new user' })
   
@@ -35,13 +35,15 @@ const AdminUsersNew = () => {
   })
 
 
-  const handleSubmit = ({profile_image, ...values}) => {
-    
+  const handleSubmit = ({profile_image, firstName, lastName, ...values}) => {
+    console.log(values)
     const token = localStorage.getItem('token');
     
     const data = {
       user: {
         ...values,
+        first_name: firstName, 
+        last_name: lastName, 
       // invite: true
     }}
 
@@ -77,9 +79,9 @@ const AdminUsersNew = () => {
   )
 }
 
-AdminUsersNew.navState = {
+AdminCreateUser.navState = {
   topLevel: 'users',
   secondary: 'overview'
 }
 
-export default AdminUsersNew
+export default AdminCreateUser

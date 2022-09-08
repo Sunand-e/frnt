@@ -10,6 +10,7 @@ import useBlockEditor from "./useBlockEditor";
 import { useDebouncedCallback } from 'use-debounce';
 import { currentContentItemVar } from "../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const ReorderableBlock = ({id}) => {
   const y = useMotionValue(0);
@@ -38,9 +39,11 @@ const BlockEditor = () => {
   }
   const debouncedUpdate = useDebouncedCallback(afunc, 600)
 
+  const router = useRouter()
+  
   useEffect(() => {
     getContent()
-  },[])
+  },[router.query?.cid])
   
   useEffect(() => {
     if(content) {

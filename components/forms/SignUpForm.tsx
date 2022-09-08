@@ -43,7 +43,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
+    <form 
+    onSubmit={handleSubmit(onSubmit)} 
+    className={`h-full w-full max-w-sm flex flex-col space-y-4`}
+    >
       <label htmlFor="password">password</label>
       <TextInput
         label="First name"

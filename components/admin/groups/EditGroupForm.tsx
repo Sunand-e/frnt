@@ -70,7 +70,7 @@ const GroupForm = ({group}) => {
       />
 
       <GroupUsersInput control={control} />
-      <AssignedCoursesInput control={control} />
+      {/* <AssignedCoursesInput control={control} /> */}
       <EnrolledCoursesInput control={control} />
 
       <Button type="submit">{buttonText}</Button>

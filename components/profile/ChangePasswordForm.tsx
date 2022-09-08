@@ -51,8 +51,9 @@ const ChangePasswordForm = () => {
         })}
       />
       <TextInput
+        type="password"
         label="New password"
-        placeholder="New password"
+        placeholder=""
         inputAttrs={register("password", {
           required:"New password is required",
           maxLength: {
@@ -62,14 +63,20 @@ const ChangePasswordForm = () => {
         })}
       />
       <TextInput
+        type="password"
         label="Confirm new password"
-        placeholder="Confirm new password"
+        placeholder=""
         inputAttrs={register("password_confirm", {
           required:"Confirm new password is required",
           maxLength: {
             value: 200,
             message:"Max length of the name is 200"
-          }
+          },
+          validate: (val: string) => {
+            if (watch('password') != val) {
+              return "Your passwords do no match";
+            }
+          },
         })}
       />
       {errors.password_confirm && (<small className="text-danger text-red-500">{errors.password_confirm.message}</small>)}

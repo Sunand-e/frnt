@@ -24,7 +24,7 @@ const AdminUsers = () => {
   usePageTitle({ title: 'Users' })
   
   useHeaderButtons([
-    [<AddButton />, '/admin/users/new'],
+    [<AddButton />, '/admin/users/create'],
     [<ImportUserButton />, '/admin/users/import']
   ])
 

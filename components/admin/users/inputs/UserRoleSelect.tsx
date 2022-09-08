@@ -5,7 +5,11 @@ const UserRoleSelect = ({control, roleType}) => {
 
   const { roles, loading, error } = useGetRoles()
 
-  const options = roles && roles.filter(role => role.roleType === roleType).map(role => {
+  const options = roles && roles.filter(
+    role => role.roleType === roleType
+    ).filter(
+    role => role.name !== 'User'
+  ).map(role => {
     return {
       value: role.id,
       label: role.name
