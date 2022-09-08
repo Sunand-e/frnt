@@ -37,6 +37,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       content: <DeleteCourseModal courseId={id} />
     })
   }
+
   console.log('courses')
   console.log(courses)
   // Table data is memo-ised due to this:
@@ -106,12 +107,20 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button 
-                onClick={() => handleDeleteClick(cell.row.original.id)}
-              >
-                Delete
-              </Button>
+              { cell.row.original.shared ? (
+                <Button disabled={true}>
+                  Settings
+                </Button>
+              ) : (
+                <>
+                  <ButtonLink href={href}>Edit</ButtonLink>
+                  <Button 
+                    onClick={() => handleDeleteClick(cell.row.original.id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
             </div>
           )
         }

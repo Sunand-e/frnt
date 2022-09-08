@@ -62,8 +62,6 @@ export default function SearchResults({items}) {
   }
   return (
     <>
-    <pre>
-    </pre>
     <ItemCollection items={filteredItems} options={options}></ItemCollection>
     </>
   )

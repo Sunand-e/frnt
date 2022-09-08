@@ -4,6 +4,7 @@ import { isLoggedInVar } from '../graphql/cache';
 import React, { useContext, useState } from "react";
 import { useForm } from 'react-hook-form';
 import TextInput from "./common/inputs/TextInput";
+import Link from 'next/link';
 
 const ENDPOINT_SIGNIN = '/api/v1/users/sign_in'
 
@@ -119,9 +120,11 @@ const LoginForm = () => {
       </button>
 
       <div className="text-sm">
-          <a href="#" className="font-medium text-main hover:opacity-70">
+          <Link href="/lost-password">
+          <a className="font-medium text-main hover:opacity-70">
             Forgot your password?
           </a>
+          </Link>
         </div>
     </form>
   )

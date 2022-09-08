@@ -40,6 +40,7 @@ function useCreateCourse(cb) {
             id: Math.floor(Math.random() * 10000) + '',
             title: values.title,
             tags: [],
+            mediaItem: null,
             createdAt: '',
             updatedAt: '',
             _deleted: false,

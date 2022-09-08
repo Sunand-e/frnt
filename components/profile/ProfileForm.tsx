@@ -1,26 +1,43 @@
-import React, { useCallback, useContext, useState } from 'react';
-import Button from '../Button';
-import ImageSelectInput from '../common/inputs/ImageSelectInput';
-import SelectInput from '../common/inputs/SelectInput';
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import CheckboxInput from '../common/inputs/CheckboxInput';
-import Link from 'next/link';
-import { ModalContext } from '../../context/modalContext';
-import ImageDropzoneInput from "../common/inputs/ImageDropzoneInput";
-import useUploadAndNotify from "../../hooks/useUploadAndNotify";
+import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
+import Button from '../Button';
+import { useRouter } from 'next/router';
+import useGetUser from '../../hooks/users/useGetUser';
+import useUpdateUser from '../../hooks/users/useUpdateUser';
+import useUpdateUserTenantRoles from '../../hooks/users/useUpdateUserTenantRoles';
+import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 
 interface ProfileFormValues {
   id?: string
   first_name: string
   last_name: string
   email: string
-  profileImage: string
+  profile_image: string
   roleIds: [string]
   invite: boolean
 }
 
-const ProfileForm = ({user=null, onSubmit}) => {
+
+const ProfileForm = () => {
+
+  const router = useRouter()
+  const { user, loading, error } = useGetUser()
+
+  const { updateUser } = useUpdateUser()
+  const { uploadFileAndNotify } = useUploadAndNotify({
+    method: "PUT"
+  })
+
+  const onSubmit = ({profile_image, ...values}) => {
+    updateUser(values)
+    if(profile_image) {
+      const imageEndpoint = `/api/v1/users/${user.id}/update_profile_image`
+      profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
+    }
+    router.push('/')
+  }
+  
 
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
@@ -31,21 +48,14 @@ const ProfileForm = ({user=null, onSubmit}) => {
     role_ids: user?.roles.map(role => role.id),
   }
   
-  const { register, handleSubmit: rhfHandleSubmit, control, formState: { errors }, watch } = useForm<ProfileFormValues>({
+  const { register, handleSubmit, control, formState: { errors }, watch } = useForm<ProfileFormValues>({
     defaultValues
   });
-  const formValues = watch();
-
-
-
-  const handleSubmit = (data) => {
-    onSubmit(data)
-  }
 
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={rhfHandleSubmit(handleSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput
         label="First name"
