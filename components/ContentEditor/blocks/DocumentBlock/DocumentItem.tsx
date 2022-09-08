@@ -2,9 +2,10 @@ import { FilePdf, FileEarmarkFill } from '@styled-icons/bootstrap'
 import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
 import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import {Download} from '@styled-icons/heroicons-outline/Download'
 import PdfViewer from '../../../PdfViewer'
 
-const DocumentItem = ({file, onRemove=(e)=>null, pdfPreview=false}) => {
+const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
 
   let IconComponent;
 
@@ -34,7 +35,7 @@ const DocumentItem = ({file, onRemove=(e)=>null, pdfPreview=false}) => {
 
   return (
     <>
-      <a href={file.location} className="block hover:bg-gray-50 group">
+      <a href={file.location} className="block hover:bg-gray-50 group" target="_blank">
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center space-x-4">
             <div className="shrink-0">
@@ -42,15 +43,16 @@ const DocumentItem = ({file, onRemove=(e)=>null, pdfPreview=false}) => {
             </div>
             <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
           </div>
-          { handleRemove && (
-            <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
-              <Trash className={`w-4 cursor-pointer`} onClick={handleRemove}/>
+            <div className="ml-auto h-7 flex space-x-4 hidden group-hover:block text-main">
+            <Download className={`w-6 cursor-pointer hover:w-8`} />
+            { onRemove && (
+              <Trash className={`w-6 cursor-pointer hover:w-8 text-red-800`} onClick={handleRemove} />
+            )}
             </div>
-          )}
         </div>
       </a>
       { pdfPreview && file.location.endsWith('pdf') && (
-        <PdfViewer url={file.location} />
+        <PdfViewer url={file.location} className='w-full h-[600px]' />
       )}
     </>
   )

@@ -59,10 +59,7 @@ const CourseItemView = () => {
   return (
     <>
       { content && (
-        <>
-        content
           <LessonView />
-        </>
       )}
     </>
   )

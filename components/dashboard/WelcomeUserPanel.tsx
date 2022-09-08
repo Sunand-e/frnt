@@ -2,9 +2,11 @@ import {
   CheckCircleIcon,
   OfficeBuildingIcon
 } from '@heroicons/react/solid'
+import {User} from '@styled-icons/fa-solid/User'
+import { useContext } from 'react';
+import { TenantContext } from '../../context/TenantContext';
 import {gql, useQuery} from "@apollo/client";
 import dayjs from 'dayjs';
-import {User} from '@styled-icons/fa-solid/User'
 
 const USER_WELCOME_DATA = gql`
   query GetUserWelcome {
@@ -12,10 +14,6 @@ const USER_WELCOME_DATA = gql`
       id
       fullName
       profileImageUrl
-    }
-    tenant {
-      id
-      name
     }
   }
 `
@@ -37,7 +35,8 @@ if (am_pm === 'AM') {
 const WelcomeUserPanel = () => {
 
   const { loading, error, data } = useQuery(USER_WELCOME_DATA);
-
+  const tenant = useContext(TenantContext)
+tenant
   return (
     <div className="bg-white shadow hidden md:block">
       <div className="px-4 sm:px-6 lg:max-w-screen-2xl lg:mx-auto lg:px-8">
@@ -73,7 +72,7 @@ const WelcomeUserPanel = () => {
                         className="shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                     />
-                    { data?.tenant?.name }
+                    { tenant?.name }
                   </dd>
                   <dt className="sr-only">Account status</dt>
                   {/*<dd className="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">*/}

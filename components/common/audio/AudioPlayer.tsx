@@ -4,7 +4,7 @@ import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline'
 const AudioPlayer = ({url, onClose=null}) => {
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <ReactPlayer
         url={url}
         controls 

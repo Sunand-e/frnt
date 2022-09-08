@@ -24,11 +24,11 @@ const ResourcePreview = ({control, onRemove}) => {
       return <DocumentItem pdfPreview={true} file={field.value} onRemove={onRemove} />
     case 'video':
       return <VideoItem url={field.value} onRemove={onRemove} />
-      case 'image':
+    case 'image':
       return <ImageItem image={field.value} onRemove={onRemove} />
-      case 'audio':
+    case 'audio':
       return <AudioPlayer url={field.value?.location} onClose={onRemove} />
-      case 'link':
+    case 'link':
       return <LinkPreview url={field.value} onRemove={onRemove} />
     default:
       return <>Something went wrong. Please go back and try again.</>

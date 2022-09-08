@@ -19,7 +19,7 @@ const DeleteCourseModal = ({courseId}) => {
     <>
       <p>Are you sure you want to delete this course?</p>
       <p className="font-bold mb-2">This action cannot be undone.</p>
-      <Button onClick={handleDeleteCourse}>Delete course</Button>
+      <Button className="bg-red-600" onClick={handleDeleteCourse}>Delete course</Button>
     </>
   );
 }
