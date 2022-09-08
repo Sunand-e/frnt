@@ -162,32 +162,32 @@ const navStructureAdmin = [
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
   },
-  {
-    name: 'events',
-    title: 'Events',
-    urlPath: '/admin/events',
-    icon: 'calendar-alt',
-    subPages: [
-      {
-        name: 'events',
-        title: 'All Events',
-        urlPath: '/admin/events',
-        icon: CalendarAlt
-      },
-      {
-        name: 'virtual',
-        title: 'Virtual Event',
-        urlPath: '/admin/events?type=virtual',
-        icon: CalendarAlt
-      },
-      {
-        name: 'physical',
-        title: 'Physical Event',
-        urlPath: '/admin/events?type=physical',
-        icon: CalendarAlt
-      },
-    ],
-  },
+  // {
+  //   name: 'events',
+  //   title: 'Events',
+  //   urlPath: '/admin/events',
+  //   icon: 'calendar-alt',
+  //   subPages: [
+  //     {
+  //       name: 'events',
+  //       title: 'All Events',
+  //       urlPath: '/admin/events',
+  //       icon: CalendarAlt
+  //     },
+  //     {
+  //       name: 'virtual',
+  //       title: 'Virtual Event',
+  //       urlPath: '/admin/events?type=virtual',
+  //       icon: CalendarAlt
+  //     },
+  //     {
+  //       name: 'physical',
+  //       title: 'Physical Event',
+  //       urlPath: '/admin/events?type=physical',
+  //       icon: CalendarAlt
+  //     },
+  //   ],
+  // },
   {
     name: 'reports',
     title: 'Reporting',

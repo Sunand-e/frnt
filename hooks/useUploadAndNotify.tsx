@@ -71,7 +71,7 @@ const useUploadAndNotify = ({
     }).then(data => {
       
       const text = (
-        <>`Uploaded <span className='font-bold'>{file.name}</span>.</>
+        <>Uploaded <span className='font-bold'>{file.name}</span>.</>
       )
       
       if(toast.isActive(toastId)) {

@@ -13,9 +13,6 @@ interface MediaLibraryProps {
 
 const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect, typeFilter = ["image", "document", "video", "audio"]}) => {
 
-  
-  const { handleModal } = useModal()
-
   const { loading, error, data: { mediaItems } = {} } = useQuery<GetMediaItems>(GET_MEDIA_ITEMS, {
     variables: { 
       where: {

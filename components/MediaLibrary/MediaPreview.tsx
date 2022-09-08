@@ -4,45 +4,89 @@ import { ModalContext } from '../../context/modalContext'
 import useDeleteMediaItem from '../../hooks/mediaItems/useDeleteMediaItem'
 import dayjs from 'dayjs'
 import filesize from 'filesize'
+import ResourcePreview from '../resources/ResourcePreview'
+import DocumentItem from '../ContentEditor/blocks/DocumentBlock/DocumentItem'
+import PdfViewer from '../../components/PdfViewer'
+import DeleteMediaItemModal from './DeleteMediaModal'
+import { resourceTypes } from '../resources/resourceTypes'
+import AudioPlayer from '../common/audio/AudioPlayer'
 
 interface MediaPreviewProps {
   item?: {[key: string]: any}
 }
 
 const MediaPreview = ({item}: MediaPreviewProps) => {
-
-  const { deleteMediaItem } = useDeleteMediaItem()
   
   const { handleModal, closeModal } = useContext(ModalContext)
-
-  const handlePreviewModal = (item) => {
-    if(item.mediaType === 'image') {
-      handleModal({
-        size: 'lg',
-        title: `Media preview`,
-        content: <MediaPreview item={item} />
-      })  
-    }
+  
+  const handleCancelDelete = (item) => {
+    console.log('item')
+    console.log(item)
+    handleModal({
+      size: 'lg',
+      title: `Media preview`,
+      content: <MediaPreview item={item} />
+    })
   }
+
   const handleDelete = useCallback((e) => {
-    deleteMediaItem(item.id)
-    closeModal()
+    handleModal({
+      size: 'lg',
+      title: `Media preview`,
+      content: (
+        <DeleteMediaItemModal
+          onDelete={() => closeModal()}
+          onCancel={() => handleCancelDelete(item)}
+          item={item}
+        />
+      )
+    })  
   },[item])
 
   const uploadedDate = dayjs(item?.createdAt).format('MMMM D, YYYY [at] h:mm A')
 
+  const IconDisplay = ({typeName}) => {
+    const type = resourceTypes[typeName]
+    return <type.icon className="max-w-[20em] w-full text-main" />
+    }
+    const getMediaTypePreviewComponent = () => {
+    switch(item.mediaType) {
+      case 'image': {
+        return <img src={item.location} alt="" className="max-h-full max-w-full" />
+      }
+      case 'audio': {
+        return <AudioPlayer url={item.location} />
+      }
+      case 'video': {
+        return <IconDisplay typeName="video"/>
+      }
+      case 'document': {
+        if(item.location.endsWith('pdf')) {
+          return (
+            <PdfViewer url={item.location} className='w-full h-full hidden md:block' />
+          )
+        } else {
+          return <IconDisplay typeName="document"/>
+        }
+      }
+      default: {
+        return item.mediaType
+      }
+    }  
+  }
+
   return (
     
-    <div className="h-[60vh] flex">
-      <div className="w-full md:w-4/6 flex items-center justify-center">
-        <img src={item.location} alt="" className="max-h-full max-w-full" />
+    <div className="h-[60vh] flex space-x-6">
+      <div className="w-full md:w-4/6 flex items-center justify-center mb-2">
+        { getMediaTypePreviewComponent() }
       </div>
-      <div className="w-2/6 flex flex-col justify-between h-full">
+      <div className="w-full md:w-2/6 flex flex-col justify-between h-full">
         <div className="mediaDetails">
-          <h3 className='font-bold mb-2'>{item.fileName}</h3>
+          <h3 className='font-bold mb-2 break-words'>{item.fileName}</h3>
           <p>
             <span className='font-medium'>Media type: </span>
-            <span className='capitalize'> capitalize{item.mediaType}</span>
+            <span className='capitalize'>{item.mediaType}</span>
           </p>
           <p><span className='font-medium'>File size: </span>{ filesize(item.fileSize)}</p>
           <p><span className='font-medium'>Uploaded: </span>{ uploadedDate }</p>

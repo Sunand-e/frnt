@@ -35,12 +35,12 @@ const navStructureUser = [
         urlPath: '/categories',
         icon: Category
       },
-      {
-        name: 'pathways',
-        title: 'Pathways',
-        urlPath: '/pathways',
-        icon: Flow
-      },
+      // {
+      //   name: 'pathways',
+      //   title: 'Pathways',
+      //   urlPath: '/pathways',
+      //   icon: Flow
+      // },
       
     ],
   },
@@ -101,12 +101,12 @@ const navStructureUser = [
       // }
     ]
   },
-  {
-    name: 'events',
-    title: 'Events',
-    urlPath: '/events',
-    icon: 'calendar-alt',
-  },
+  // {
+  //   name: 'events',
+  //   title: 'Events',
+  //   urlPath: '/events',
+  //   icon: 'calendar-alt',
+  // },
   // {
   //   name: 'messaging',
   //   title: 'Messaging',

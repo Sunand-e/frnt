@@ -28,13 +28,11 @@ const MediaLibraryPage = () => {
   }
   
   const handlePreviewModal = (item) => {
-    if(item.mediaType === 'image') {
-      handleModal({
-        size: 'lg',
-        title: `Media preview`,
-        content: <MediaPreview item={item} />
-      })  
-    }
+    handleModal({
+      size: 'lg',
+      title: `Media preview`,
+      content: <MediaPreview item={item} />
+    })
   }
 
   useHeaderButtons([

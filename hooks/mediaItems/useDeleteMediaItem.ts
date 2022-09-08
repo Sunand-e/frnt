@@ -12,28 +12,22 @@ function useDeleteMediaItem() {
     }
   )
 
-  const deleteMediaItem = (id) => {
-    deleteMediaItemMutation({
+  const deleteMediaItem = async (id) => {
+    const response = await deleteMediaItemMutation({
       variables: { 
         id
       },
-      optimisticResponse: {
-        deleteMediaItem: {
-          __typename: 'DeleteMediaItemPayload',
-          mediaItem: {
-            __typename: 'MediaItem',
-            id,
-            // _deleted: true,
-          },
-          message: ''
-        },
-      },
     })
+    if (!response.data) {
+      throw new Error(`HTTP error: ${response.errors}`);
+    }
+    return response.data;
   }
 
       
   return {
     deleteMediaItem,
+    deleteMediaItemResponse
   }
 }
 

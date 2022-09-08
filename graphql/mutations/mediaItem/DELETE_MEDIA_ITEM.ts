@@ -10,6 +10,9 @@ export const DELETE_MEDIA_ITEM = gql`
       mediaItem {
         id
       }
+      usage
+      usageReport
+      success
       message
     }
   }
