@@ -22,6 +22,7 @@ export const GroupFragment = gql`
       title
     }
     enrolledCourses {
+      totalCount
       edges {
         node {
           id

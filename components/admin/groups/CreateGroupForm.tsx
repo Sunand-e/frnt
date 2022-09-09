@@ -43,7 +43,7 @@ const CreateGroupForm = () => {
       />
       {errors.name && (<small className="text-danger text-red-500">{errors.name.message}</small>)}
 
-      <ImageSelectInput
+      {/* <ImageSelectInput
         label="Group image"
         // placeholder={'https://picsum.photos/640/360'}
         isButtonAlwaysVisible={false}
@@ -51,7 +51,7 @@ const CreateGroupForm = () => {
         control={control}
         name="imageId"
         // inputAttrs={register("image", { required: true })}
-      />
+      /> */}
 
       <GroupUsersInput control={control} />
       <AssignedCoursesInput control={control} />

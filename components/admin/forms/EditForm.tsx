@@ -9,7 +9,7 @@ const EditForm = ({formik, children, backLink, entityName}) => (
     { children }
     <div className="flex space-x-4">
       <Link href={backLink} passHref>
-        <ButtonLink style="cancel">Cancel</ButtonLink>
+        <ButtonLink displayType="cancel">Cancel</ButtonLink>
       </Link>
 
       <Button type="submit">{`Update ${entityName}`}</Button>

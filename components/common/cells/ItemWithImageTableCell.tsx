@@ -1,32 +1,33 @@
 import Link from "next/link"
 
-const ItemWithImageTableCell = ({rounded='full', title, placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
+const roundedMap = new Map([
+  ['none', 'rounded-none'],
+  ['md', 'rounded-md'],
+  ['full', 'rounded-full'],
+]);
 
-  let roundedClass
-  switch(rounded) {
-    case 'none':
-      roundedClass = 'rounded-none'
-      break
-    case 'md':
-      roundedClass = 'rounded-md'
-      break
-    case 'full':
-    default:
-      roundedClass = 'rounded-full'
-      break
+const objectFitMap = new Map([
+  ['fill', 'object-fit'],
+  ['cover', 'object-cover'],
+]);
 
-  }
+const ItemWithImageTableCell = ({rounded='full', title, objectFit='cover', placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
+
   return (
     <Link href={href ?? '#'}>
     <a className="text-main-secondary">
       <div className="flex items-center max-w-xs">
-        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${roundedClass}`}>
+        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${roundedMap.get(rounded)}`}>
           { image ? (
-            <img className={`h-auto w-auto`} src={image} alt="" />
+            <img className={`h-10 w-10 ${objectFitMap.get(objectFit)}`} src={image} alt="" />
           ) : (
             <>
               {icon ?? (
-                <img className={`h-auto w-auto`} src={placeholder ?? '/images/placeholder-image.png'} alt="" />
+                <img 
+                  className={`h-10 w-10 ${objectFitMap.get(objectFit)}`} 
+                  src={placeholder ?? '/images/placeholder-image.png'} 
+                  alt=""
+                 />
               )}
             </>
           )}
