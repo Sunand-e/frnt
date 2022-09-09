@@ -47,7 +47,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
       onSubmit={handleSubmit(onSubmit)}
       className={'flex flex-col items-center space-y-4'}
     >
-      <div className='flex space-x-6'>
+      <div className='flex space-x-6 max-w-screen-xl'>
         <div className='w-1/2 flex flex-col space-y-4'>
           <TextInput
             label="Course name"
@@ -58,7 +58,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
           />
           {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
           <ImageSelectInput
-            placeholder={'https://picsum.photos/640/360'}
+            // placeholder={'https://picsum.photos/640/360'}
             buttonText="Choose course image"
             origImage={defaultValues?.image}
             control={control}

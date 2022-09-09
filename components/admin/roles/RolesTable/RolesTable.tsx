@@ -22,8 +22,9 @@ const RolesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return roles?.filter(item => {
-        return !item._deleted && item.roleType !== 'content_item_role'
+      return roles?.filter(role => {
+        return !role._deleted && role.roleType !== 'content_item_role'
+          && role.name !== 'User'
       }) || []
     }, [roles]
   );

@@ -7,6 +7,7 @@ export const ContentFragment = gql`
     contentType
     createdAt
     settings
+    shared
     image {
       location
       id

@@ -8,7 +8,7 @@ const UserRoleSelectCell = ({cell, roleType, onChange}) => {
   {
     const currentRoles = cell.row.original.roles;
     const selectProps = {
-      options: roles && roles.filter(role => role.roleType === roleType),
+      options: roles && roles.filter(role => role.roleType === roleType && role.name !== 'User'),
       getOptionLabel: role => role.name,
       getOptionValue: role => role.name,
       defaultValue: currentRoles[0],

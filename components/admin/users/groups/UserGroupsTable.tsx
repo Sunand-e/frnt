@@ -39,6 +39,12 @@ const UserGroupsTable = () => {
     })
   }, [user])
 
+  const handleRemoveFromGroup = (groupId) => {
+    removeUserFromGroup({
+      userId: user.id,
+      groupId,
+    })
+  }
   const { handleModal } = useContext(ModalContext);
   
   const tableData = useMemo(
@@ -80,16 +86,17 @@ const UserGroupsTable = () => {
       },
       {
         width: 300,
-        Header: "Actions",
+        id: "Actions",
 
         Cell: ({ cell }) => {
-          const group = cell.row.original;
-          return <a className="text-red-600 hover:text-red-800 self-center" href="#" onClick={() => {
-            removeUserFromGroup({
-              userId: user.id,
-              groupId: group.node.id,
-            })
-          }}>Remove from group</a>
+          const group = cell.row.original;          
+          return (
+            <div className="text-right">
+              <a className="text-red-600 hover:text-red-800 self-center" href="#" onClick={
+                () => handleRemoveFromGroup(cell.row.original.node.id)
+              }>Remove from group</a>
+            </div>
+          )
         }
       }
     ]

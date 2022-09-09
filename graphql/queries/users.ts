@@ -34,6 +34,14 @@ export const UserCoursesFragment = gql`
           name
           roleType
         }
+        groups {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
         lastVisited
         completed
         score

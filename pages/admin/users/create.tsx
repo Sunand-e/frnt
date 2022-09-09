@@ -7,6 +7,8 @@ import axios from 'axios';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import { GET_USERS } from '../../../graphql/queries/users';
+import cache from '../../../graphql/cache';
 
 
 const BackButton = () => (
@@ -27,11 +29,20 @@ const AdminCreateUser = () => {
   const router = useRouter()
   const endpoint = "/api/v1/users/"
   const { refetchUsers } = useGetUsers()
-  
-  const { updateUserTenantRoles } = useUpdateUserTenantRoles()
 
   const { uploadFileAndNotify } = useUploadAndNotify({
-    method: "PUT"
+    method: "PUT",
+    refetchQuery: GET_USERS,
+    onComplete: (response) => {
+      cache.modify({
+        id: cache.identify(response.data.user),
+        fields: {
+          profileImageUrl(cachedData) {
+            return response.data.user.profile_image_url;
+          },
+        },
+      });
+    }
   })
 
 

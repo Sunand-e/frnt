@@ -4,7 +4,6 @@ import Table from "../../../Table";
 import { useRouter } from '../../../../utils/router';
 import Button from "../../../Button";
 import ItemWithImageTableCell from "../../../common/cells/ItemWithImageTableCell";
-import useGetRoles from "../../../../hooks/roles/useGetRoles";
 import Select from "react-select";
 import UserRoleSelectCell from "../groups/UserRoleSelectCell";
 import useEnrolUsersInContent from "../../../../hooks/contentItems/useEnrolUsersInContent";
@@ -16,7 +15,6 @@ const UserCoursesTable = () => {
   const { id } = router.query
 
   const { loading, error, user } = useGetUser(id)
-  const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
 
   const {enrolUsersInContent} = useEnrolUsersInContent()
   const {unenrolUserFromContent} = useUnenrolUserFromContent()
@@ -69,28 +67,40 @@ const UserCoursesTable = () => {
           )
         }
       },
-      {
-        Header: "Role",
-        Cell: ({ cell }) => {
-          const content = cell.row.original;
-          const handleChange = role => handleChangeRole(content, role);
-          return (
-            <UserRoleSelectCell onChange={handleChange} cell={cell} roleType={'content_item_role'} />
-          )
-        }
-      },
+      // {
+      //   Header: "Role",
+      //   Cell: ({ cell }) => {
+      //     const content = cell.row.original;
+      //     const handleChange = role => handleChangeRole(content, role);
+      //     return (
+      //       <UserRoleSelectCell onChange={handleChange} cell={cell} roleType={'content_item_role'} />
+      //     )
+      //   }
+      // },
       {
         width: 300,
-        Header: "Actions",
+        id: "Actions",
 
         Cell: ({ cell }) => {
-          const content = cell.row.original;
-          return <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
-            handleUnenrol(
-              content,
-              null,
-            )
-          }}>Unenrol from course</a>
+          const values = cell.row.original;
+          return (
+            <div className="text-right">
+              { cell.row.original.groups.edges.length ? (
+                <>
+                  Enrolled via group:
+                  <strong> {cell.row.original.groups.edges.map(edge => edge.node.name).join(', ')}
+                  </strong>
+                </>
+              ) : (
+                <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
+                  handleUnenrol(
+                    values,
+                    null,
+                  )
+                }}>Unenrol from course</a>
+              ) }
+            </div>
+          )
         }
       }
     ]
