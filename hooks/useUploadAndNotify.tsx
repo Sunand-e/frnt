@@ -11,12 +11,14 @@ interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
   method?: Method,
   refetchQuery?;
+  onComplete?;
 }
 
 const useUploadAndNotify = ({
   additionalParams={},
   method="POST",
-  refetchQuery=null
+  refetchQuery=null,
+  onComplete=null,
 } : UseUploadAndNotifyProps) => {
   
   const token = localStorage.getItem('token');
@@ -68,7 +70,7 @@ const useUploadAndNotify = ({
         }
 
       }
-    }).then(data => {
+    }).then(response => {
       
       const text = (
         <>Uploaded <span className='font-bold'>{file.name}</span>.</>
@@ -90,6 +92,7 @@ const useUploadAndNotify = ({
         })
       }, 1000)
       /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
+      onComplete && onComplete(response)
       client.refetchQueries({
         include: [refetchQuery]
       })

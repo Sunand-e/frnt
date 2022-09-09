@@ -7,7 +7,7 @@ const roundedMap = new Map([
 ]);
 
 const objectFitMap = new Map([
-  ['fill', 'object-fit'],
+  ['fill', 'object-fill'],
   ['cover', 'object-cover'],
 ]);
 

@@ -107,7 +107,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
           return (
             <div className="flex space-x-4 justify-center">
-              { cell.row.original.shared ? (
+              { cell.row.original.shared !== false ? (
                 <Button disabled={true}>
                   Settings
                 </Button>
@@ -119,6 +119,9 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
                   >
                     Delete
                   </Button>
+                  <pre>
+                  { JSON.stringify(cell.row.original,null,2) }
+                  </pre>
                 </>
               )}
             </div>

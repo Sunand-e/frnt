@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from "react"
-import useGetRoles from "../../../hooks/roles/useGetRoles"
 import useGetUser from "../../../hooks/users/useGetUser"
 import { useRouter } from "../../../utils/router"
 import ButtonLink from "../../ButtonLink"
