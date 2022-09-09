@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ButtonLink from "../../ButtonLink";
+import { resourceTypes } from "../../resources/resourceTypes";
 import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
 
@@ -22,25 +23,39 @@ export default function Item({ item, options }) {
   }
 
   const itemTitle = options?.getItemTitle?.(item) || title
-  
+  let itemImage;
+  let linkPaddingBottom = '';
+  if(item.itemType === 'library_item' && item.contentType !== 'image') {
+    const IconComponent = resourceTypes[item.contentType].icon
+    itemImage = (
+      <div className="w-full justify-center text-center">
+        <IconComponent className = "w-1/2 text-main" />
+      </div>
+    )
+  } else {
+    linkPaddingBottom = 'pb-1/2'
+    itemImage = (
+      <img
+        src={imageSrc}
+        className={'bg-main/20'}
+        style={{
+          // backgroundImage: `url(${imageSrc})`,
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          // backgroundColor: 'rgba(0,0,0,0.1)',
+          objectFit: 'cover'
+        }}
+      />
+    )    
+  }
   return (
     <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
       <Link href={href}>
         <a
-          className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}
+          className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}
         >
-          <img
-            src={imageSrc}
-            className={'bg-main/20'}
-            style={{
-              // backgroundImage: `url(${imageSrc})`,
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              // backgroundColor: 'rgba(0,0,0,0.1)',
-              objectFit: 'cover'
-            }}
-          />
+          {itemImage}
           {/* <div className={styles.cardImg}>
             <a
               className="bg-cover bg-center pb-1/2"

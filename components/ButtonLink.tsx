@@ -7,30 +7,33 @@ interface ButtonLinkProps {
   href?
   style?: "primary" | "cancel"
   className?
+  displayType?: string
   children: JSX.Element | string
 }
 
-const ButtonLink = ({href, children, style, className, onClick}: ButtonLinkProps) => {
+const ButtonLink = ({href, displayType="normal", children, className, onClick}: ButtonLinkProps) => {
 
   let bgColor = ''
-  let textColor = ''
+  let textColor = 'white'
   let hoverEffectStyles = ''
 
-  switch(style)  {
+  let bgColorClass
+  switch(displayType) {
     case 'cancel': {
-      // bgColor = 'gray-300'
-      bgColor = 'gray-200'
+      bgColorClass = 'bg-gray-200 group-hover:bg-gray-700 transition-colors duration-1000'
       textColor = 'gray-800'
-      // textColor = 'gray-100'
       hoverEffectStyles = styles.button_grey
-      break
+      break;
+    }
+    case 'alert': {
+      bgColorClass = 'bg-red-800 group-hover:bg-red-700 transition-colors duration-1000'
+      break;
     }
     default: {
-      bgColor = 'main'
-      textColor = 'white'
+      bgColorClass = 'bg-main group-hover:bg-opacity-80 transition-colors duration-1000'
       hoverEffectStyles = styles.button
+      break;
     }
-
   }
 
   return (
@@ -50,7 +53,7 @@ const ButtonLink = ({href, children, style, className, onClick}: ButtonLinkProps
         active:bg-opacity-50 
       `}
       >
-        <div className={styles.button__bg}></div>
+      <div className={`${styles.button__bg} ${bgColorClass}`}></div>
         <span className={styles.button__span}>{children}</span>
       </a>
     </Link>

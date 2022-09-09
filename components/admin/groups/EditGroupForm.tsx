@@ -58,6 +58,7 @@ const GroupForm = ({group}) => {
         placeholder="Group name"
         inputAttrs={register("name", { maxLength: 20 })}
       />
+{/*       
       <ImageSelectInput
         label="Group image"
         // placeholder={'https://picsum.photos/640/360'}
@@ -67,7 +68,7 @@ const GroupForm = ({group}) => {
         origImage={group?.image}
         name="imageId"
         // inputAttrs={register("image", { required: true })}
-      />
+      /> */}
 
       <GroupUsersInput control={control} />
       {/* <AssignedCoursesInput control={control} /> */}

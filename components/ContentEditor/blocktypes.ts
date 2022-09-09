@@ -125,13 +125,13 @@ const blocktypes = {
     icon: AddColumn,
     hideFromSelector: true,
   },
-  accordion: {
-    text: 'Accordion',
-    component: AccordionBlock,
-    editComponent: AccordionBlockEdit,
-    settingsComponent: AccordionSettings,
-    icon: Expand
-  },
+  // accordion: {
+  //   text: 'Accordion',
+  //   component: AccordionBlock,
+  //   editComponent: AccordionBlockEdit,
+  //   settingsComponent: AccordionSettings,
+  //   icon: Expand
+  // },
   linedivider: {
     text: 'LineDivider',
     component: LineDividerBlock,

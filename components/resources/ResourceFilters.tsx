@@ -4,6 +4,6 @@ import { resourceTypes } from './resourceTypes';
 export default function ResourceFilters() {
   
   return (
-    <Filters types={resourceTypes} />
+    <Filters types={resourceTypes} hasCategories={false} />
   )
 }

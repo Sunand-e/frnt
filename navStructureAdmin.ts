@@ -24,6 +24,32 @@ const navStructureAdmin = [
     subPages: [],
   },
   {
+    name: 'courses',
+    title: 'Courses',
+    urlPath: '/admin/courses',
+    icon: 'graduation-cap',
+    subPages: [
+      {
+        name: 'courses',
+        title: 'All Courses',
+        urlPath: '/admin/courses',
+        icon: GraduationCap
+      },
+      {
+        name: 'categories',
+        title: 'Categories',
+        urlPath: '/admin/tags',
+        icon: Category
+      },
+      {
+        name: 'pathways',
+        title: 'Pathways',
+        urlPath: '/admin/pathways',
+        icon: Flow
+      },
+    ],
+  },
+  {
     name: 'resources',
     title: 'Resource Library',
     urlPath: '/admin/resources',
@@ -82,32 +108,6 @@ const navStructureAdmin = [
       //   title: 'Add New',
       //   urlPath: '/admin/resources/add',
       // },
-    ],
-  },
-  {
-    name: 'courses',
-    title: 'Courses',
-    urlPath: '/admin/courses',
-    icon: 'graduation-cap',
-    subPages: [
-      {
-        name: 'courses',
-        title: 'All Courses',
-        urlPath: '/admin/courses',
-        icon: GraduationCap
-      },
-      {
-        name: 'categories',
-        title: 'Categories',
-        urlPath: '/admin/tags',
-        icon: Category
-      },
-      {
-        name: 'pathways',
-        title: 'Pathways',
-        urlPath: '/admin/pathways',
-        icon: Flow
-      },
     ],
   },
   {

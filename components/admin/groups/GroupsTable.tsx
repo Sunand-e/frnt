@@ -5,7 +5,7 @@ import { GET_GROUPS, GroupFragment } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import Button from '../../Button';
 import ButtonLink from '../../ButtonLink';
-import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
+import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
 import DeleteGroupModal from './DeleteGroupModal';
 import { ModalContext } from '../../../context/modalContext';
@@ -46,6 +46,7 @@ const GroupsTable = () => {
           const cellProps = {
             image: cell.row.original.image?.location,
             title: cell.value,
+            icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
             secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
@@ -60,6 +61,10 @@ const GroupsTable = () => {
         Cell: ({ cell }) => {
           return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
+      },
+      {
+        Header: "Enrolled Courses",
+        accessor: "enrolledCourses.totalCount",
       },
       {
         width: 300,

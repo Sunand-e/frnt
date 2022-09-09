@@ -69,7 +69,7 @@ const AdminCourseSetup = () => {
 
   const onSubmit = (values) => {
     
-    const { title, imageId, tags, ...settings } = values
+    const { title, imageId, content, tags, ...settings } = values
     // setSubmitted(values);
 
     createCourse({
@@ -78,6 +78,9 @@ const AdminCourseSetup = () => {
         imageId,
         settings,
         tags,
+        content: {
+          description: content
+        },
         sections: [{
           title: "Section 1"
         }]

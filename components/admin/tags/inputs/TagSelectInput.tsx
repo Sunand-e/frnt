@@ -14,7 +14,7 @@ const TagSelectInput = ({control, tagType, label}) => {
   const selectProps = {
     isMulti: true,
     options: tags && tags.filter(tag => tag.tagType === tagType),
-    value: field.value,
+    value: field.value?.map(({__typename, image, ...value}) => value),
     getOptionValue: option => option.value ?? option.id,
     onChange: val => {
       field.onChange(val.map(({__typename, image, ...value}) => value))
@@ -25,9 +25,11 @@ const TagSelectInput = ({control, tagType, label}) => {
 
   return (
     <>
-      { tags && (label
-        ? <label>{label}<Select {...selectProps} /></label>
-        : <Select {...selectProps} />
+      { tags && (
+        <label className={`block`}>
+        { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
+        <Select {...selectProps} />
+      </label>
       )}
     </>
   )

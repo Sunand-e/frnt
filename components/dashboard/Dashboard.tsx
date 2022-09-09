@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 py-8 lg:px-6 xl:px-8">
-      <ResumeRecentActivity />
+      {/* <ResumeRecentActivity /> */}
       <div className="grid grid-cols-12 gap-4">
         {/* <div className="col-span-12 xl:col-span-8"> */}
         <div className="col-span-12 xl:col-span-12">

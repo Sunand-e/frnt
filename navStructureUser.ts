@@ -78,7 +78,7 @@ const navStructureUser = [
       {
         name: 'images',
         title: 'Images',
-        urlPath: '/resources?type=audio',
+        urlPath: '/resources?type=image',
         icon: Image,
       },
       {
