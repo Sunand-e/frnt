@@ -7,6 +7,7 @@ import SelectInput from '../../common/inputs/SelectInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
 import CheckboxInput from '../../common/inputs/CheckboxInput';
 import { ModalContext } from '../../../context/modalContext';
+import RTEInput from '../../common/inputs/RTEInput';
 
 interface CourseFormValues {
   title: string
@@ -22,7 +23,8 @@ interface CourseFormValues {
 const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Submit"}) => {
 
   const defaultValues = {
-    ...course
+    ...course,
+    tags: course?.tags?.map(({__typename, image, ...value}) => value) || []
   }
   const { handleModal } = useContext(ModalContext)
 
@@ -42,49 +44,61 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
 
   return (
     <form
-      className='h-full w-full max-w-sm flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
+      className={'flex flex-col items-center space-y-4'}
     >
-      <TextInput
-        label="Course name"
-        placeholder="Untitled course"
-        inputAttrs={register("title", {
-          required:"Course name is required"
-        })}
-      />
-      {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
-      <ImageSelectInput
-        placeholder={'https://picsum.photos/640/360'}
-        buttonText="Choose course image"
-        origImage={defaultValues?.image}
-        control={control}
-        name="imageId"
-        onSelect={isModal ? reopenFormInModal : null}
-        // inputAttrs={register("image", { required: true })}
-      />
-      <TagSelectInput
-        control={control}
-        tagType="category"
-        label="Categories"
-      />
-      <SelectInput
-        label="Course access type"
-        options={["Open access", "Assignable", "Paid access"]}
-        inputAttrs={register("accessType")}
-      />
-      <TextInput
-        label="Course price"
-        placeholder="Untitled course"
-        inputAttrs={register("coursePrice")}
-      />
-      <CheckboxInput
-        label="Enable prerequisites"
-        inputAttrs={register("enablePrerequisites")}
-      />
-      {/* <CheckboxInput
-        label="Disable lesson progression"
-        inputAttrs={register("disableProgression")}
-      /> */}
+      <div className='flex space-x-6'>
+        <div className='w-1/2 flex flex-col space-y-4'>
+          <TextInput
+            label="Course name"
+            placeholder="Untitled course"
+            inputAttrs={register("title", {
+              required:"Course name is required"
+            })}
+          />
+          {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
+          <ImageSelectInput
+            placeholder={'https://picsum.photos/640/360'}
+            buttonText="Choose course image"
+            origImage={defaultValues?.image}
+            control={control}
+            name="imageId"
+            onSelect={isModal ? reopenFormInModal : null}
+            // inputAttrs={register("image", { required: true })}
+          />
+          <TagSelectInput
+            control={control}
+            tagType="category"
+            label="Categories"
+            />
+          {/* <SelectInput
+            label="Course access type"
+            options={["Open access", "Assignable", "Paid access"]}
+            inputAttrs={register("accessType")}
+            />
+          <TextInput
+            label="Course price"
+            placeholder="Untitled course"
+            inputAttrs={register("coursePrice")}
+          />
+          <CheckboxInput
+            label="Enable prerequisites"
+            inputAttrs={register("enablePrerequisites")}
+            /> */}
+          {/* <CheckboxInput
+            label="Disable lesson progression"
+            inputAttrs={register("disableProgression")}
+          /> */}
+        </div>
+        <div className="w-1/2 flex flex-col">
+          <RTEInput
+            initialValue={course?.content?.description}
+            label="Description"
+            name="content"
+            control={control}
+          />
+        </div>
+      </div>
       <Button type="submit">{submitButtonText}</Button>
       {/* <p className='text-lg font-bold mt-4'>Create your first course item:</p>
       <AddItemToCourseForm sectionId={123} /> */}

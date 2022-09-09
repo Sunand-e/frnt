@@ -47,8 +47,11 @@ const AdminCoursesEdit = () => {
   
   const { handleModal, closeModal } = useContext(ModalContext)
 
-  const onSettingsSubmit = (values) => {
-    updateCourse(values)
+  const onSettingsSubmit = ({content, ...values}) => {
+    updateCourse({
+      content: { description: content }, 
+      ...values
+    })
     closeModal()
   }
 

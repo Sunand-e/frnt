@@ -29,7 +29,7 @@ const QuickActions = () => {
           />
           <QuickActionLink
             text={'Add a new user'} 
-            href='/admin/users/new'
+            href='/admin/users/create'
             icon={UserAdd}
             />
           <QuickActionLink

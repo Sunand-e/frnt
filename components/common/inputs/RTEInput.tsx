@@ -37,14 +37,14 @@ const RTEInput = ({
   }
 
   return (
-    <div>
+    <>
       <label className="block">
         <span className="text-sm font-medium text-gray-700">
           {label}
         </span>
       </label>
-      <RichTextEditor value={value} onChange={handleChange} />
-    </div>
+      <RichTextEditor value={value} onChange={handleChange} className="flex-grow" />
+    </>
   )
 }
 
