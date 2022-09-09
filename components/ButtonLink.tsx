@@ -11,16 +11,18 @@ interface ButtonLinkProps {
   children: JSX.Element | string
 }
 
-const ButtonLink = ({href, displayType="normal", children, style, className, onClick}: ButtonLinkProps) => {
+const ButtonLink = ({href, displayType="normal", children, className, onClick}: ButtonLinkProps) => {
 
   let bgColor = ''
-  let textColor = ''
+  let textColor = 'white'
   let hoverEffectStyles = ''
 
   let bgColorClass
   switch(displayType) {
     case 'cancel': {
-      bgColorClass = 'bg-gray-800 group-hover:bg-gray-700 transition-colors duration-1000'
+      bgColorClass = 'bg-gray-200 group-hover:bg-gray-700 transition-colors duration-1000'
+      textColor = 'gray-800'
+      hoverEffectStyles = styles.button_grey
       break;
     }
     case 'alert': {
@@ -29,22 +31,9 @@ const ButtonLink = ({href, displayType="normal", children, style, className, onC
     }
     default: {
       bgColorClass = 'bg-main group-hover:bg-opacity-80 transition-colors duration-1000'
-      textColor = 'white'
       hoverEffectStyles = styles.button
       break;
     }
-  }
-  switch(style)  {
-    case 'cancel': {
-      // bgColor = 'gray-300'
-      bgColor = 'gray-200'
-      textColor = 'gray-800'
-      // textColor = 'gray-100'
-      hoverEffectStyles = styles.button_grey
-      break
-    }
-
-
   }
 
   return (
