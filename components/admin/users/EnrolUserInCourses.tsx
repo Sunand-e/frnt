@@ -7,6 +7,7 @@ import useGetUserCourses from "../../../hooks/users/useGetUserCourses"
 import Button from "../../Button"
 import CourseMultiLevelSelect from "../../courses/inputs/CourseMultiLevelSelect"
 import CourseSelectCategorised from "../../courses/inputs/CourseSelectCategorised"
+import LoadingSpinner from "../../LoadingSpinner"
 
 const EnrolUserInCourses = ({user}) => {
 
@@ -84,24 +85,33 @@ const EnrolUserInCourses = ({user}) => {
       closeModal()
     })
   }
-
+  console.log('enrolUserInCourses')
+  console.log(courses)
+  console.log('availableCourses')
+  console.log(availableCourses)
+  console.log('availableCoursesData')
+  console.log(availableCoursesData)
   return (
     <>
-      { user && ( availableCourses?.length ? (
-        <div>
-          <CourseSelectCategorised data={availableCoursesData} onChange={handleChange} />
-          {/* <CourseMultiLevelSelect data={availableCoursesData} onChange={handleChange} /> */}
-          { !!selectedCourseIds.length && !!defaultRole?.id && (
-            <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedCourseIds.length} courses`}</Button>
-          )}
-        </div>
+      { !user ? (
+        <LoadingSpinner />
       ) : (
-        <div className="flex flex-col items-center">
-          No courses available for enrolment
-          <Button onClick={closeModal}>OK</Button>
-        </div>
-      ))}
-    </>    
+        availableCourses?.length ? (
+          <div>
+            <CourseSelectCategorised data={availableCoursesData} onChange={handleChange} />
+            {/* <CourseMultiLevelSelect data={availableCoursesData} onChange={handleChange} /> */}
+            { !!selectedCourseIds.length && !!defaultRole?.id && (
+              <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedCourseIds.length} courses`}</Button>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center">
+            No courses available for enrolment
+            <Button onClick={closeModal}>OK</Button>
+          </div>
+        )
+      )}
+    </>
   )
 }
 
