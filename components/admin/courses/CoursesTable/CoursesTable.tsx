@@ -119,9 +119,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
                   >
                     Delete
                   </Button>
-                  <pre>
-                  { JSON.stringify(cell.row.original,null,2) }
-                  </pre>
                 </>
               )}
             </div>
