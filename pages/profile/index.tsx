@@ -7,7 +7,7 @@ import ProfileMenu from '../../components/profile/ProfileMenu';
 
 const BackButton = () => (
   <>
-    <span className='hidden lg:block'>Back to dashboard</span>
+    <span className='hidden lg:block'>Back to Dashboard</span>
     <span className='block lg:hidden'><ArrowBack  width="20" /></span>
   </>
 )
