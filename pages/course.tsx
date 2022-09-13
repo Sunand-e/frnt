@@ -8,6 +8,7 @@ import CourseItemView from '../components/CourseView/CourseItemView'
 import useGetCourse from '../hooks/courses/useGetCourse'
 import useGetUser from '../hooks/users/useGetUser'
 import Button from '../components/Button'
+import PrevNextButtons from '../components/CourseView/PrevNextButtons'
 
 const CoursePage = () => {
   /*
@@ -48,13 +49,14 @@ const CoursePage = () => {
     })
   }
 
-  usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
+  // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useEffect(() => {
     user && console.log('user',user)
     headerButtonsVar(
       <>
         {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
+        <PrevNextButtons />
       </>
     )
   },[showEdit])

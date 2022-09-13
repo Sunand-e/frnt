@@ -1,16 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
+import {Tick} from '@styled-icons/typicons/Tick'
 import {ArrowSmLeft} from '@styled-icons/heroicons-solid/ArrowSmLeft'
 import {ExitToApp} from '@styled-icons/material/ExitToApp'
 import useGetCourse from "../../hooks/courses/useGetCourse";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../utils/router";
 import Button from "../Button";
+import { useReactiveVar } from "@apollo/client";
+import { currentContentItemVar } from "../../graphql/cache";
 
-const PrevNextButtons = ({id}) => {
+const PrevNextButtons = () => {
 
   const router = useRouter()
   const { id: courseId } = router.query
+  const { id } = useReactiveVar(currentContentItemVar)
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
@@ -51,9 +55,19 @@ const PrevNextButtons = ({id}) => {
     goToLesson(prevNextIds[1])
   }, [prevNextIds])
   
+  const finishCourse = useCallback(() => {
+    updateUserContentStatus({
+      contentItemId: id,
+      score: 100,
+      status: 'completed'
+    })
+    router.push('/courses')
+  }, [prevNextIds])
+  
 
   return (
-    <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
+    // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
+    <>
     {/* { prevNextIds[0] && (
       <Button onClick={() => goToLesson(prevNextIds[0])}>
         <span className='flex items-center space-x-2'>
@@ -65,23 +79,19 @@ const PrevNextButtons = ({id}) => {
     { prevNextIds[1] ? (
       <Button onClick={nextLesson}>
         <span className='flex items-center space-x-2'>
-          <span>Next lesson</span>
-          <ArrowSmRight className='h-8'/>
+          <span>Mark Complete</span>
+          <Tick className='h-8'/>
         </span>
       </Button>
     ) : (
-      <Button onClick={() => {
-        router.push({
-          pathname: `/courses`,
-        })
-      }}>
+      <Button onClick={finishCourse}>
         <span className='flex items-center space-x-2'>
           <span>Finish and exit</span>
-          <ExitToApp className='h-8'/>
+          <Tick className='h-8'/>
         </span>
       </Button>
     ) }
-  </div>
+  </>
   )
 }
 

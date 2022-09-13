@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client"
 import { UpdateUserContentStatus, UpdateUserContentStatusVariables } from "../../graphql/mutations/user/__generated__/UpdateUserContentStatus";
 import { UPDATE_USER_CONTENT_STATUS } from "../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
 import { useEffect } from "react";
+import { GET_USER_CONTENT } from "../../graphql/queries/users";
 
 function useUpdateUserContentStatus() {
 
@@ -15,6 +16,12 @@ function useUpdateUserContentStatus() {
         variables: {
           ...values
         },
+        refetchQueries: [
+          {
+            query: GET_USER_CONTENT,
+            variables: { id: values.userId }
+          }
+        ]
       }).then(res => {
         console.log('resresresresresresresresresresresresresres')
         console.log(res)        
