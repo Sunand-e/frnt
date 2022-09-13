@@ -26,7 +26,6 @@ export const UserCoursesFragment = gql`
   fragment UserCoursesFragment on User {
     courses {
       edges {
-        id
         node {
           ...ContentFragment
         }
