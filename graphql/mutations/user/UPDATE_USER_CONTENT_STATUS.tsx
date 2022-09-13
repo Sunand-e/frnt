@@ -21,29 +21,29 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       userId: $userId,
       visits: $visits
     }) {
-      userContent {
+      # userContent {
+      #   id
+      #   # contentItemId
+      #   status
+      #   lastVisited
+      #   firstVisited
+      #   createdAt
+      #   updatedAt
+      #   score
+      #   visits
+      #   completed
+      # }
+      user {
         id
-        contentItemId
-        status
-        lastVisited
-        firstVisited
-        createdAt
-        updatedAt
-        score
-        visits
-        completed
-      }
-      ancestorUserContents {
-        id
-        contentItemId
-        status
-        lastVisited
-        firstVisited
-        createdAt
-        updatedAt
-        score
-        visits
-        completed
+        # # contentItemId
+        # status
+        # lastVisited
+        # firstVisited
+        # createdAt
+        # updatedAt
+        # score
+        # visits
+        # completed
       }
     }
   }

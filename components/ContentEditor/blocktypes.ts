@@ -133,7 +133,7 @@ const blocktypes = {
   //   icon: Expand
   // },
   linedivider: {
-    text: 'LineDivider',
+    text: 'Line Divider',
     component: LineDividerBlock,
     editComponent: LineDividerBlockEdit,
     settingsComponent: LineDividerSettings,

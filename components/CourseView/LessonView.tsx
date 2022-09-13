@@ -21,7 +21,9 @@ const LessonView = () => {
 
   const { lesson, loading, error } = useGetLesson(id)
   
-  usePageTitle({title: lesson?.title})
+  usePageTitle({
+    title: lesson ? (lesson?.title || 'Untitled Lesson') : ''
+  })
 
   useEffect(() => {
     updateUserContentStatus({
@@ -37,7 +39,7 @@ const LessonView = () => {
           <Block block={block} key={index} />
         ))
       }
-      <PrevNextButtons id={id} />
+      {/* <PrevNextButtons /> */}
     </div>
   )
 }
