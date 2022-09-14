@@ -139,6 +139,7 @@ export interface UpdateCourse_updateCourse_course_sections_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateCourse_updateCourse_course_sections_children_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_children_icon | null;
@@ -158,6 +159,7 @@ export interface UpdateCourse_updateCourse_course_sections {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateCourse_updateCourse_course_sections_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_sections_icon | null;
@@ -178,6 +180,7 @@ export interface UpdateCourse_updateCourse_course {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateCourse_updateCourse_course_image | null;
   id: string;
   icon: UpdateCourse_updateCourse_course_icon | null;

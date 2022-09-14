@@ -54,6 +54,7 @@ export interface ContentFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: ContentFragment_image | null;
   id: string;
   icon: ContentFragment_icon | null;

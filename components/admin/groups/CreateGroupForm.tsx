@@ -54,7 +54,7 @@ const CreateGroupForm = () => {
       /> */}
 
       <GroupUsersInput control={control} />
-      <AssignedCoursesInput control={control} />
+      {/* <AssignedCoursesInput control={control} /> */}
       <EnrolledCoursesInput control={control} />
 
       <Button type="submit">Create group</Button>

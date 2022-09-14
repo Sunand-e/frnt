@@ -95,6 +95,7 @@ export interface CreateSection_createSection_section_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CreateSection_createSection_section_children_image | null;
   id: string;
   icon: CreateSection_createSection_section_children_icon | null;
@@ -114,6 +115,7 @@ export interface CreateSection_createSection_section {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CreateSection_createSection_section_image | null;
   id: string;
   icon: CreateSection_createSection_section_icon | null;

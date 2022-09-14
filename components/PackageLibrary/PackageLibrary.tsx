@@ -1,22 +1,51 @@
 import { useQuery } from "@apollo/client"
-import { GET_SCORM_MODULES } from "../../graphql/queries/allQueries";
 import { GetScormModules } from "../../graphql/queries/__generated__/GetScormModules";
 import PackageUploader from "./PackageUploader"
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import { useContext, useMemo } from "react";
+import { ModalContext } from "../../context/modalContext";
+import useGetMediaItems from "../../hooks/mediaItems/useGetMediaItems";
+import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
+import DeletePackageModal from "./DeletePackageModal";
 
 dayjs.extend(advancedFormat)
 
 interface PackageLibraryProps {
-  onItemSelect?: any
+  onItemSelect?: (any) => void
 }
 
 const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSelect}) => {
 
   const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
 
-  const handleItemDelete = () => {
-    // handleModal({title: 'Delete media item', content: 'Delete media item?'})
+  const { handleModal, closeModal } = useContext(ModalContext)
+
+  const filteredScormModules = useMemo(() => {
+    return scormModules?.filter(module => {
+      return !module._deleted
+    })
+  },[scormModules]) ?? []
+
+  const reopenPackageLibrary = () => {
+    handleModal({
+      title: `Choose package`,
+      content: <PackageLibrary onItemSelect={onItemSelect} />,
+      size: 'lg'
+    })
+  }
+
+  const openDeleteModal = module => {
+    handleModal({
+      title: 'Delete SCORM package', 
+      content: (
+        <DeletePackageModal 
+          module={module} 
+          onDelete={reopenPackageLibrary}
+          onCancel={reopenPackageLibrary}
+        />
+      )
+    })
   }
 
   if (loading) return <>Loading...</>
@@ -59,14 +88,31 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                         Uploaded
                       </div>
                     </th>
+                    <th
+                      scope="col"
+                      className="
+                      sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+                      border-b border-slate-200 dark:border-slate-400/20"
+                    >
+                      <div className="py-3 px-6 border-b border-slate-200 dark:border-slate-400/20">
+                        &nbsp;
+                      </div>
+                    </th>
+
                   </tr>
                 </thead>
                   {/* <tbody className="bg-white divide-y divide-gray-200"> */}
                   <tbody className="">
-                  { scormModules.map((module) => (
+                  { filteredScormModules.map((module) => (
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
                       <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>
+                      <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
+                        <button onClick={(e) => {
+                          e.stopPropagation()
+                          openDeleteModal(module)
+                        }}>Delete SCORM package</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

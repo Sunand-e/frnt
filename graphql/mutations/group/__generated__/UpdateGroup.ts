@@ -53,6 +53,7 @@ export interface UpdateGroup_updateGroup_group_enrolledCourses_edges {
 
 export interface UpdateGroup_updateGroup_group_enrolledCourses {
   __typename: "GroupEnrolledContentConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */
@@ -90,6 +91,7 @@ export interface UpdateGroupVariables {
   id: string;
   name?: string | null;
   parentId?: string | null;
+  imageId?: string | null;
   assignedCourseIds?: string[] | null;
   enrolledCourseIds?: string[] | null;
   userIds?: string[] | null;

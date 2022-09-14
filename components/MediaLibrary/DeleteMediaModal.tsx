@@ -12,7 +12,6 @@ const DeleteMediaItemModal = ({item, onDelete=null, onCancel}) => {
 
   const handleDelete = async () => {
     const response = await deleteMediaItem(item.id)
-    console.log(response)
     if(response.deleteMediaItem?.success === false) {
       if(response.deleteMediaItem?.usage === true) {
         handleModal({
@@ -21,8 +20,9 @@ const DeleteMediaItemModal = ({item, onDelete=null, onCancel}) => {
           content: <MediaInUse item={item} usageReport={response.deleteMediaItem?.usageReport} />
         })
       }
+    } else {
+      onDelete && onDelete(item)
     }
-    onDelete && onDelete(item)
   }
 
   return (

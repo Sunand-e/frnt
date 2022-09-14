@@ -181,6 +181,7 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdatePathway_updatePathway_pathway_courses_sections_children_image | null;
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_sections_children_icon | null;
@@ -200,6 +201,7 @@ export interface UpdatePathway_updatePathway_pathway_courses_sections {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdatePathway_updatePathway_pathway_courses_sections_image | null;
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_sections_icon | null;
@@ -220,6 +222,7 @@ export interface UpdatePathway_updatePathway_pathway_courses {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdatePathway_updatePathway_pathway_courses_image | null;
   id: string;
   icon: UpdatePathway_updatePathway_pathway_courses_icon | null;
@@ -240,6 +243,7 @@ export interface UpdatePathway_updatePathway_pathway {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdatePathway_updatePathway_pathway_image | null;
   id: string;
   icon: UpdatePathway_updatePathway_pathway_icon | null;

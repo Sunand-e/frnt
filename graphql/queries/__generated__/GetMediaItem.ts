@@ -11,6 +11,7 @@ export interface GetMediaItem_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
+  fileSize: number | null;
   fileName: string | null;
   location: string | null;
   properties: any | null;

@@ -15,13 +15,13 @@ function useUpdateUserContentStatus() {
       updateUserContentStatusMutation({
         variables: {
           ...values
-        },
-        refetchQueries: [
-          {
-            query: GET_USER_CONTENT,
-            variables: { id: values.userId }
-          }
-        ]
+        }
+        // refetchQueries: [
+        //   {
+        //     query: GET_USER_CONTENT,
+        //     variables: { id: values.userId }
+        //   }
+        // ]
       }).then(res => {
         console.log('resresresresresresresresresresresresresres')
         console.log(res)        

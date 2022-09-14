@@ -179,6 +179,7 @@ export interface PathwayFragment_courses_sections_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: PathwayFragment_courses_sections_children_image | null;
   id: string;
   icon: PathwayFragment_courses_sections_children_icon | null;
@@ -198,6 +199,7 @@ export interface PathwayFragment_courses_sections {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: PathwayFragment_courses_sections_image | null;
   id: string;
   icon: PathwayFragment_courses_sections_icon | null;
@@ -218,6 +220,7 @@ export interface PathwayFragment_courses {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: PathwayFragment_courses_image | null;
   id: string;
   icon: PathwayFragment_courses_icon | null;
@@ -238,6 +241,7 @@ export interface PathwayFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: PathwayFragment_image | null;
   id: string;
   icon: PathwayFragment_icon | null;

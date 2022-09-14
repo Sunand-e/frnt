@@ -54,6 +54,7 @@ export interface UpdateLibraryItem_updateLibraryItem_libraryItem {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateLibraryItem_updateLibraryItem_libraryItem_image | null;
   id: string;
   icon: UpdateLibraryItem_updateLibraryItem_libraryItem_icon | null;

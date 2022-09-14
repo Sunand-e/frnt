@@ -282,20 +282,3 @@ export const GET_QUIZZES = gql`
     }
   }
 `
-
-export const GET_SCORM_MODULES = gql`
-  query GetScormModules(
-    $where: JSON,
-  ) { 
-    scormModules(where: $where) {
-      id
-      createdAt
-      launchUrl
-      manifestData
-      title
-      updatedAt
-      deletedAt
-      contentType
-    }
-  }
-` 

@@ -54,6 +54,7 @@ export interface GetLibraryItems_libraryItems_edges_node {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetLibraryItems_libraryItems_edges_node_image | null;
   id: string;
   icon: GetLibraryItems_libraryItems_edges_node_icon | null;

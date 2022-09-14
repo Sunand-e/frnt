@@ -53,6 +53,7 @@ export interface GetGroup_group_enrolledCourses_edges {
 
 export interface GetGroup_group_enrolledCourses {
   __typename: "GroupEnrolledContentConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */

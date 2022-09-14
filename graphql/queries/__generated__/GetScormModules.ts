@@ -17,6 +17,7 @@ export interface GetScormModules_scormModules {
   updatedAt: any;
   deletedAt: any | null;
   contentType: string | null;
+  _deleted: boolean;
 }
 
 export interface GetScormModules {

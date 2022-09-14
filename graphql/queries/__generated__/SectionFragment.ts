@@ -95,6 +95,7 @@ export interface SectionFragment_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: SectionFragment_children_image | null;
   id: string;
   icon: SectionFragment_children_icon | null;
@@ -114,6 +115,7 @@ export interface SectionFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: SectionFragment_image | null;
   id: string;
   icon: SectionFragment_icon | null;

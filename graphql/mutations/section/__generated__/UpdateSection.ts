@@ -95,6 +95,7 @@ export interface UpdateSection_updateSection_section_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateSection_updateSection_section_children_image | null;
   id: string;
   icon: UpdateSection_updateSection_section_children_icon | null;
@@ -114,6 +115,7 @@ export interface UpdateSection_updateSection_section {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: UpdateSection_updateSection_section_image | null;
   id: string;
   icon: UpdateSection_updateSection_section_icon | null;

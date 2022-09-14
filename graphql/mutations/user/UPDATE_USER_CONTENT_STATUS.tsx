@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { UserContentEdgeFragment } from '../../queries/users';
 
 export const UPDATE_USER_CONTENT_STATUS = gql`
   mutation UpdateUserContentStatus(
@@ -35,6 +36,15 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       # }
       user {
         id
+        courses {
+        ...UserContentEdgeFragment
+        }
+        sections {
+          ...UserContentEdgeFragment
+        }
+        lessons {
+          ...UserContentEdgeFragment
+        }
         # # contentItemId
         # status
         # lastVisited
@@ -47,4 +57,5 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       }
     }
   }
+  ${UserContentEdgeFragment}
 `
