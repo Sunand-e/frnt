@@ -109,7 +109,6 @@ export const UserContentEdgeFragment = gql`
           tagType
         }
       }
-      id
       status
       lastVisited
       firstVisited

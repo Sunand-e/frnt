@@ -79,18 +79,7 @@ const AdminCoursesEdit = () => {
   useEffect(() => {
     headerButtonsVar(
       <>
-        <Button onClick={() => router.push('/admin/courses')}>Back</Button>
-        <Button onClick={() => router.push({
-          pathname: `/course`,
-          query: {
-            id,
-            cid,
-            showEdit: true
-          }
-        })}>
-          Preview
-        </Button>
-        <Button>Publish</Button>
+        <Button onClick={() => router.push('/admin/courses')}>Finish Editing</Button>
       </>
     )
   },[id, cid])

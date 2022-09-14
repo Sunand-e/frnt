@@ -1,11 +1,8 @@
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import { useCallback, useContext } from 'react'
 import { ModalContext } from '../../context/modalContext'
-import useDeleteMediaItem from '../../hooks/mediaItems/useDeleteMediaItem'
 import dayjs from 'dayjs'
 import filesize from 'filesize'
-import ResourcePreview from '../resources/ResourcePreview'
-import DocumentItem from '../ContentEditor/blocks/DocumentBlock/DocumentItem'
 import PdfViewer from '../../components/PdfViewer'
 import DeleteMediaItemModal from './DeleteMediaModal'
 import { resourceTypes } from '../resources/resourceTypes'
@@ -20,8 +17,6 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
   const { handleModal, closeModal } = useContext(ModalContext)
   
   const handleCancelDelete = (item) => {
-    console.log('item')
-    console.log(item)
     handleModal({
       size: 'lg',
       title: `Media preview`,
@@ -35,7 +30,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
       title: `Media preview`,
       content: (
         <DeleteMediaItemModal
-          onDelete={() => closeModal()}
+          onDelete={closeModal}
           onCancel={() => handleCancelDelete(item)}
           item={item}
         />

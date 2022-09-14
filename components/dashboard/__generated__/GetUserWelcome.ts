@@ -9,13 +9,9 @@
 
 export interface GetUserWelcome_user {
   __typename: "User";
+  id: string;
   fullName: string | null;
   profileImageUrl: string | null;
-}
-
-export interface GetUserWelcome_tenant {
-  __typename: "Tenant";
-  name: string;
 }
 
 export interface GetUserWelcome {
@@ -23,5 +19,4 @@ export interface GetUserWelcome {
    * Get an user based on id
    */
   user: GetUserWelcome_user;
-  tenant: GetUserWelcome_tenant;
 }

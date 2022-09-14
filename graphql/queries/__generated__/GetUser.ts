@@ -61,6 +61,7 @@ export interface GetUser_user_courses_edges_node {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetUser_user_courses_edges_node_image | null;
   id: string;
   icon: GetUser_user_courses_edges_node_icon | null;
@@ -81,6 +82,28 @@ export interface GetUser_user_courses_edges_roles {
   roleType: string;
 }
 
+export interface GetUser_user_courses_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUser_user_courses_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUser_user_courses_edges_groups_edges_node | null;
+}
+
+export interface GetUser_user_courses_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUser_user_courses_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUser_user_courses_edges {
   __typename: "UserContentEdge";
   /**
@@ -88,6 +111,7 @@ export interface GetUser_user_courses_edges {
    */
   node: GetUser_user_courses_edges_node | null;
   roles: GetUser_user_courses_edges_roles[] | null;
+  groups: GetUser_user_courses_edges_groups | null;
   lastVisited: any | null;
   completed: boolean | null;
   score: number | null;

@@ -54,6 +54,7 @@ export interface GetLesson_lesson {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetLesson_lesson_image | null;
   id: string;
   icon: GetLesson_lesson_icon | null;

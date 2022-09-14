@@ -54,6 +54,7 @@ export interface LibraryItemFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: LibraryItemFragment_image | null;
   id: string;
   icon: LibraryItemFragment_icon | null;

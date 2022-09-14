@@ -54,6 +54,7 @@ export interface LessonFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: LessonFragment_image | null;
   id: string;
   icon: LessonFragment_icon | null;

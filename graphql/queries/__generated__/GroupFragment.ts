@@ -53,6 +53,7 @@ export interface GroupFragment_enrolledCourses_edges {
 
 export interface GroupFragment_enrolledCourses {
   __typename: "GroupEnrolledContentConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */

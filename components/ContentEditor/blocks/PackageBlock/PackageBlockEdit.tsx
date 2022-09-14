@@ -47,7 +47,11 @@ export const PackageBlockEdit = ({
   const selectPackageModal = () => {
     handleModal({
       title: `Choose package`,
-      content: <PackageLibrary onItemSelect={handlePackageSelect} />,
+      content: (
+        <PackageLibrary 
+          onItemSelect={handlePackageSelect}
+        />
+      ),
       size: 'lg'
     })
   }

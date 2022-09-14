@@ -14,9 +14,18 @@ export interface GetUserContent_user_roles {
   roleType: string;
 }
 
+export interface GetUserContent_user_courses_edges_node_tags {
+  __typename: "Tag";
+  id: string;
+  label: string;
+  tagType: string;
+}
+
 export interface GetUserContent_user_courses_edges_node {
   __typename: "ContentItem";
   id: string;
+  title: string | null;
+  tags: GetUserContent_user_courses_edges_node_tags[] | null;
 }
 
 export interface GetUserContent_user_courses_edges {
@@ -44,9 +53,18 @@ export interface GetUserContent_user_courses {
   totalCount: number;
 }
 
+export interface GetUserContent_user_sections_edges_node_tags {
+  __typename: "Tag";
+  id: string;
+  label: string;
+  tagType: string;
+}
+
 export interface GetUserContent_user_sections_edges_node {
   __typename: "ContentItem";
   id: string;
+  title: string | null;
+  tags: GetUserContent_user_sections_edges_node_tags[] | null;
 }
 
 export interface GetUserContent_user_sections_edges {
@@ -74,9 +92,18 @@ export interface GetUserContent_user_sections {
   totalCount: number;
 }
 
+export interface GetUserContent_user_lessons_edges_node_tags {
+  __typename: "Tag";
+  id: string;
+  label: string;
+  tagType: string;
+}
+
 export interface GetUserContent_user_lessons_edges_node {
   __typename: "ContentItem";
   id: string;
+  title: string | null;
+  tags: GetUserContent_user_lessons_edges_node_tags[] | null;
 }
 
 export interface GetUserContent_user_lessons_edges {

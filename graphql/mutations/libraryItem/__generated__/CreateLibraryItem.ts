@@ -54,6 +54,7 @@ export interface CreateLibraryItem_createLibraryItem_libraryItem {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CreateLibraryItem_createLibraryItem_libraryItem_image | null;
   id: string;
   icon: CreateLibraryItem_createLibraryItem_libraryItem_icon | null;

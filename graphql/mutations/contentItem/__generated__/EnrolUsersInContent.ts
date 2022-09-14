@@ -19,4 +19,5 @@ export interface EnrolUsersInContent {
 export interface EnrolUsersInContentVariables {
   userIds: string[];
   contentItemIds: string[];
+  roleId: string;
 }

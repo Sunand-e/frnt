@@ -53,6 +53,7 @@ export interface CreateGroup_createGroup_group_enrolledCourses_edges {
 
 export interface CreateGroup_createGroup_group_enrolledCourses {
   __typename: "GroupEnrolledContentConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */
@@ -91,5 +92,6 @@ export interface CreateGroupVariables {
   parentId?: string | null;
   assignedCourseIds?: string[] | null;
   enrolledCourseIds?: string[] | null;
+  imageId?: string | null;
   userIds?: string[] | null;
 }

@@ -54,6 +54,7 @@ export interface GetLibraryItem_libraryItem {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetLibraryItem_libraryItem_image | null;
   id: string;
   icon: GetLibraryItem_libraryItem_icon | null;

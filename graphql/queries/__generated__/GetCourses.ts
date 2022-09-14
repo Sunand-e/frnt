@@ -137,6 +137,7 @@ export interface GetCourses_courses_edges_node_sections_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetCourses_courses_edges_node_sections_children_image | null;
   id: string;
   icon: GetCourses_courses_edges_node_sections_children_icon | null;
@@ -156,6 +157,7 @@ export interface GetCourses_courses_edges_node_sections {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetCourses_courses_edges_node_sections_image | null;
   id: string;
   icon: GetCourses_courses_edges_node_sections_icon | null;
@@ -176,6 +178,7 @@ export interface GetCourses_courses_edges_node {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetCourses_courses_edges_node_image | null;
   id: string;
   icon: GetCourses_courses_edges_node_icon | null;

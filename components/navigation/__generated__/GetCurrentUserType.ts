@@ -9,6 +9,7 @@
 
 export interface GetCurrentUserType_user {
   __typename: "User";
+  id: string;
   userType: string | null;
 }
 

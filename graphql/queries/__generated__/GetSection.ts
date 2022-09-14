@@ -95,6 +95,7 @@ export interface GetSection_section_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetSection_section_children_image | null;
   id: string;
   icon: GetSection_section_children_icon | null;
@@ -114,6 +115,7 @@ export interface GetSection_section {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: GetSection_section_image | null;
   id: string;
   icon: GetSection_section_icon | null;

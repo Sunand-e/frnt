@@ -14,9 +14,18 @@ export interface GetUsersCourses_users_edges_node_roles {
   roleType: string;
 }
 
+export interface GetUsersCourses_users_edges_node_courses_edges_node_tags {
+  __typename: "Tag";
+  id: string;
+  label: string;
+  tagType: string;
+}
+
 export interface GetUsersCourses_users_edges_node_courses_edges_node {
   __typename: "ContentItem";
   id: string;
+  title: string | null;
+  tags: GetUsersCourses_users_edges_node_courses_edges_node_tags[] | null;
 }
 
 export interface GetUsersCourses_users_edges_node_courses_edges {

@@ -137,6 +137,7 @@ export interface CourseFragment_sections_children {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CourseFragment_sections_children_image | null;
   id: string;
   icon: CourseFragment_sections_children_icon | null;
@@ -156,6 +157,7 @@ export interface CourseFragment_sections {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CourseFragment_sections_image | null;
   id: string;
   icon: CourseFragment_sections_icon | null;
@@ -176,6 +178,7 @@ export interface CourseFragment {
   contentType: string | null;
   createdAt: any;
   settings: any | null;
+  shared: boolean;
   image: CourseFragment_image | null;
   id: string;
   icon: CourseFragment_icon | null;
