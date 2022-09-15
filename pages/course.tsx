@@ -9,6 +9,7 @@ import useGetCourse from '../hooks/courses/useGetCourse'
 import useGetUser from '../hooks/users/useGetUser'
 import Button from '../components/Button'
 import PrevNextButtons from '../components/CourseView/PrevNextButtons'
+import CourseCompleted from '../components/CourseView/CourseCompleted'
 
 const CoursePage = () => {
   /*
@@ -16,12 +17,12 @@ const CoursePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId, showEdit=false } = router.query
+  const { id, cid: contentId, showEdit=false, completed=false } = router.query
 
   const { course } = useGetCourse(id);
   const { user } = useGetUser();
   
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
+  const currentContentItem = useReactiveVar(currentContentItemVar)
 
   useEffect(() => {
     const view = {
@@ -49,6 +50,20 @@ const CoursePage = () => {
     })
   }
 
+  useEffect(() => {
+    if(user) {
+      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
+      if(userContent?.score === 100) {
+        router.push({
+          query: {
+            id,
+            completed: true
+          }
+        })
+      }
+    }
+  },[user, id])
+
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useEffect(() => {
@@ -62,7 +77,13 @@ const CoursePage = () => {
   },[showEdit])
   
   return (
-    <CourseItemView />
+    <>
+      {completed ? (
+        <CourseCompleted />
+      ) : (
+        <CourseItemView />        
+      )}
+    </>
   )
 }
 
