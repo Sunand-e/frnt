@@ -11,6 +11,8 @@ import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentSt
 import { useBlockStore } from "../ContentEditor/useBlockStore";
 import { currentContentItemVar } from "../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
+import useGetUserCourseLessons from "../../hooks/courses/useGetUserCourseLessons";
+import useGetUserContent from "../../hooks/users/useGetUserContent";
 
 const LessonView = () => {
 
@@ -20,17 +22,26 @@ const LessonView = () => {
   const { id } = useReactiveVar(currentContentItemVar)
 
   const { lesson, loading, error } = useGetLesson(id)
+
+  const { user } = useGetUserContent()
   
   usePageTitle({
     title: lesson ? (lesson?.title || 'Untitled Lesson') : ''
   })
 
   useEffect(() => {
-    updateUserContentStatus({
-      contentItemId: id,
-      status: 'in_progress'
-    })
-  },[id])
+    if(user) {
+      const currentStatus = user.lessons.edges.find(edge => (
+        edge.node.id === id
+      )).status
+      if(currentStatus !== 'completed') {
+        updateUserContentStatus({
+          contentItemId: id,
+          status: 'in_progress'
+        })
+      }
+    }
+  },[user, id])
 
   return (
     <div className="w-full flex flex-col">

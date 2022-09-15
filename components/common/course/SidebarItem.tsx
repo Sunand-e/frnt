@@ -115,7 +115,7 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
                   pathLength="0"
                   className="stroke-main"
                   style={{ ...circleStyle, rotate: '-90deg' }}
-                  transition={{ duration: 1.2 }}
+                  transition={{ duration: 0.8 }}
                   animate={{
                     pathLength: progress
                   }}
