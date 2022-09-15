@@ -8,12 +8,14 @@ type ReactSelectInputProps = {
   isMulti?: boolean
   options?
   className?
+  onChange?
 }
 
 const ReactSelectInput = ({
   control,
   name,
   label,
+  onChange,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -31,7 +33,9 @@ const ReactSelectInput = ({
     // placeholder={<span className="text-main-secondary">{placeholder}</span>}
     value,
     onChange: val => {
-      field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
+      onChange
+        ? onChange(val)
+        : field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
     },
     className: `${props?.className} w-full`,
     isSearchable: false

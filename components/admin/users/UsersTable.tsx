@@ -53,9 +53,9 @@ const UsersTable = () => {
         Header: "Roles",
         accessor: "roles[0].name", // accessor is the "key" in the data
         Cell: ({ cell }) => {
-          return cell.row.original.roles.map(role => {
-            return role.name
-          }).join(', ')
+          return cell.row.original.roles.filter(
+            role => role.name !== 'User'
+          ).map(role => role.name).join(', ') || '-'
         }
       },
       {
