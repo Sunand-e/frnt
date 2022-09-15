@@ -78,9 +78,9 @@ const DashboardPage = () => {
   if (error) {
     return (
       <>
-        <p>Error:</p>
+        <p>Error!</p>
         <pre>
-          {JSON.stringify(error, undefined, 2)}
+          {/* {JSON.stringify(error, undefined, 2)} */}
         </pre>
       </>
     )

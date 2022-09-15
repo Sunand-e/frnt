@@ -1,4 +1,4 @@
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { Form, Formik } from 'formik';
 import { isLoggedInVar } from '../graphql/cache';
 import React, { useContext, useState } from "react";
@@ -17,7 +17,7 @@ interface UserLoginFormValues{
 const LoginForm = () => {
 
   // const [error, setError] = useState(null)
-
+const router = useRouter()
   // const isLoggedIn = useReactiveVar(isLoggedInVar);
     const { setError, register, handleSubmit, control, formState: { errors } } = useForm<UserLoginFormValues>({      });
    // const onSubmit=(data) => console.log(data);
@@ -43,7 +43,7 @@ const LoginForm = () => {
         if(result.token) {
           localStorage.setItem('token', result.token as string);
           isLoggedInVar(true);
-          Router.push('/');
+          router.push('/');
         } else if(result.error) {
           console.log('result')
           console.log(result)

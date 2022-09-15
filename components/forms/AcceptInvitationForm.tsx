@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { isLoggedInVar } from "../../graphql/cache";
 import { useRouter } from "../../utils/router";
 import Button from "../Button";
 import TextInput from "../common/inputs/TextInput";
@@ -30,8 +31,10 @@ const AcceptInvitationForm = () => {
     })
     .then(
       (result) => {
-        if(result.status === 'Invitation Accepted!') {
-          router.push('/')
+        if(result.status === 'Invitation accepted!') {
+          localStorage.setItem('token', result.token as string);
+          isLoggedInVar(true);
+          router.push('/');
         }
       }
     )
