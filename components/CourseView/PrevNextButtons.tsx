@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import {Tick} from '@styled-icons/typicons/Tick'
+import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import {ArrowSmLeft} from '@styled-icons/heroicons-solid/ArrowSmLeft'
 import {ExitToApp} from '@styled-icons/material/ExitToApp'
 import useGetCourse from "../../hooks/courses/useGetCourse";
@@ -46,51 +46,42 @@ const PrevNextButtons = () => {
     })
   }
 
-  const nextLesson = useCallback(() => {
+  const markComplete = useCallback(() => {
     updateUserContentStatus({
       contentItemId: id,
       score: 100,
       status: 'completed'
     })
-    goToLesson(prevNextIds[1])
+    !!prevNextIds[1] && goToLesson(prevNextIds[1])
   }, [prevNextIds])
   
-  const finishCourse = useCallback(() => {
-    updateUserContentStatus({
-      contentItemId: id,
-      score: 100,
-      status: 'completed'
-    })
-    router.push('/courses')
-  }, [prevNextIds])
   
 
   return (
     // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
     <>
-    {/* { prevNextIds[0] && (
+    { prevNextIds[0] && (
       <Button onClick={() => goToLesson(prevNextIds[0])}>
         <span className='flex items-center space-x-2'>
+          <span>Previous</span>
           <ArrowSmLeft className='h-8'/>
-          <span>Previous lesson</span>
         </span>
       </Button>
-    )} */}
-    { prevNextIds[1] ? (
-      <Button onClick={nextLesson}>
+    )}
+    { prevNextIds[1] && (
+      <Button onClick={() => goToLesson(prevNextIds[1])}>
         <span className='flex items-center space-x-2'>
-          <span>Mark Complete</span>
-          <Tick className='h-8'/>
+          <span>Next</span>
+          <ArrowSmRight className='h-8'/>
         </span>
       </Button>
-    ) : (
-      <Button onClick={finishCourse}>
-        <span className='flex items-center space-x-2'>
-          <span>Finish and exit</span>
-          <Tick className='h-8'/>
-        </span>
-      </Button>
-    ) }
+    )}
+    <Button onClick={markComplete}>
+      <span className='flex items-center space-x-2'>
+        <span>Mark Complete</span>
+        <Tick className='h-8'/>
+      </span>
+    </Button>
   </>
   )
 }

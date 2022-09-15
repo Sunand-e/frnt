@@ -37,7 +37,8 @@ const Dashboard = () => {
       <div className="grid grid-cols-12 gap-4">
         {/* <div className="col-span-12 xl:col-span-8"> */}
         <div className="col-span-12 xl:col-span-12">
-          <CourseTabs gridClasses={'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3'} />
+          <CourseTabs />
+          {/* <CourseTabs gridClasses={'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3'} /> */}
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* <EventListBlock />

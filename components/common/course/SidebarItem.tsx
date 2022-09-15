@@ -4,9 +4,12 @@ import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
-import { forwardRef } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { lessonTypes } from "../../admin/courses/lessonTypes"
 import { useReactiveVar } from '@apollo/client'
+import { motion } from 'framer-motion'
+import useGetUser from '../../../hooks/users/useGetUser'
+import useGetUserContent from '../../../hooks/users/useGetUserContent'
 
 const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
   editing=false,
@@ -25,12 +28,41 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
     fragment: ContentFragment,
   })
 
+  const { user } = useGetUserContent();
+  
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    if(user) {
+      let userContent = user.lessons.edges.find(userContentEdge => userContentEdge.node.id === id)
+      // alert(userContent?.status)
+      switch(userContent?.status) {
+        case 'in_progress': {
+          setProgress(0.5)
+          break
+        }
+        case 'completed': {
+          setProgress(1)
+          break
+        }
+        default: {
+          setProgress(0)
+          break
+        }
+        }
+    }
+  },[user, id])
+
   const currentContentItem = useReactiveVar(currentContentItemVar)
   
   const IconComponent = lessonTypes[item.contentType]?.icon
 
   const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
 
+  const circleStyle = {
+    strokeDashoffset: 0,
+    strokeWidth: '15%',
+    fill: 'none'
+  }
   return (
     <li
       className={classNames(
@@ -61,9 +93,34 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
               </span>
             </a>
           {/* </Link> */}
-          {editing && (
+          {editing ? (
             <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
               <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/>
+            </div>
+          ) : (
+            <div className="ml-auto h-7 flex space-x-2 ">
+              <svg id="progress" width="100%" height="auto" viewBox="0 0 100 100">
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="30" 
+                  pathLength="1"
+                  className='stroke-main/10'
+                  style={circleStyle}
+                />
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r="30"
+                  pathLength="0"
+                  className="stroke-main"
+                  style={{ ...circleStyle, rotate: '-90deg' }}
+                  transition={{ duration: 1.2 }}
+                  animate={{
+                    pathLength: progress
+                  }}
+                />
+              </svg>
             </div>
           )}
         </div>

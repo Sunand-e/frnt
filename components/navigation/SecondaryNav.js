@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) {
 
   return (
-    <div id="secondaryNav" className={`bg-main bg-opacity-20 transition-width ${showSecondary ? 'w-56' : 'w-0'}`}>
+    <div id="secondaryNav" className={`z-10 bg-main bg-opacity-20 transition-width ${showSecondary ? 'w-56' : 'w-0'}`}>
       <div className={`sticky z-20 top-0 flex flex-col relative`}>
         { showSecondary && (
           <h3 className="h-18 px-4 bg-main bg-opacity-70 text-white flex items-center text-white">

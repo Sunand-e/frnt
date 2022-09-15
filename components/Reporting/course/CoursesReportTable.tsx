@@ -1,32 +1,46 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
 import Table from '../../Table';
 import ButtonLink from '../../ButtonLink';
-import useGetCourses from '../../../hooks/courses/useGetCourses';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
-import { ModalContext } from '../../../context/modalContext';
-import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import TagSelect from '../../admin/tags/inputs/TagSelect';
 
+const COURSES_REPORT_QUERY = gql`
+  query CoursesReportQuery {
+    courses {
+      edges {
+        node {
+          id
+          title
+          _deleted @client
+          image {
+            id
+            location
+          }
+          tags {
+            id
+            label
+          }
+          users {
+            totalCount
+            edges {
+              score
+              status
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
 const CoursesReportTable = () => {
 
-  const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
-  const { courses: coursesFull } = useGetCourses()
-
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    if(coursesFull) {
-      setCourses(coursesFull)
-    } else if(coursesBasic) {
-      setCourses(coursesBasic)
-    }
-  }, [coursesFull,coursesBasic])
+  const { loading, error, data: { courses: courses} = {} } = useQuery(COURSES_REPORT_QUERY)
 
   const [ categoryId, setCategoryId ] = useState(null)
-  
-  const editUrl = '/admin/courses/edit'
-
-  const { handleModal } = useContext(ModalContext)
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -78,26 +92,34 @@ const CoursesReportTable = () => {
       },
       {
         Header: "Not started",
-        accessor: "users.totalCosnt",
         Cell: ({ cell }) => {
+          const count = cell.row.original.users.edges.filter(contentUserEdge => (
+            contentUserEdge.status === "completed"
+          )).length
           return (
-            <span>-</span>
+            <span>{count}</span>
           )
         }
       },
       {
         Header: "In progress",
         Cell: ({ cell }) => {
+          const count = cell.row.original.users.edges.filter(contentUserEdge => (
+            contentUserEdge.status === "completed"
+          )).length
           return (
-            <span>-</span>
+            <span>{count}</span>
           )
         }
       },
       {
         Header: "Completed",
         Cell: ({ cell }) => {
+          const count = cell.row.original.users.edges.filter(contentUserEdge => (
+            contentUserEdge.status === "completed"
+          )).length
           return (
-            <span>-</span>
+            <span>{count}</span>
           )
         }
       },
@@ -112,8 +134,15 @@ const CoursesReportTable = () => {
       {
         Header: "% Complete",
         Cell: ({ cell }) => {
+          const totalCount = cell.row.original.users.edges.length
+          const completedCount = cell.row.original.users.edges.filter(contentUserEdge => (
+            contentUserEdge.status === "completed"
+          )).length
+          const ratio = totalCount ? completedCount/totalCount : 0
+          const percentage = `${Math.round(ratio*100)}%`
+
           return (
-            <span>0%</span>
+            <span>{percentage}</span>
           )
         }
       },

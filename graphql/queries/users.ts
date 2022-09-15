@@ -18,7 +18,6 @@ export const UserFragment = gql`
       name
       roleType
     }
-
   }
 `
 

@@ -5,8 +5,6 @@ import ItemCollection from "../common/items/ItemCollection"
 
 export default function CourseTabs({gridClasses=''}) {
 
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
-
   const defaultOptions = { 
     // subHeading: 'Courses and workshops that were recently released',
     maxItems: 4,
@@ -27,19 +25,22 @@ export default function CourseTabs({gridClasses=''}) {
   
   const coursePanels = [
     {
-      name: 'In progress',
+      name: 'in_progress',
+      title: 'In progress',
       courses: courses?.filter(course => course.status === 'in_progress'),
       readMoreLabel: 'Continue course',
       noItemsText: 'No courses are currently in progress'
     },
     {
-      name: 'Not started',
+      name: 'not_started',
+      title: 'Not started',
       courses: courses?.filter(course => !course.status || course.status === 'not_started'),
       readMoreLabel: 'Start course',
       noItemsText: 'No courses found'
     },
     {
-      name: 'Completed',
+      name: 'completed',
+      title: 'Completed',
       href: '#',
       courses: courses?.filter(course => course.status === 'completed'),
       readMoreLabel: 'View course',
@@ -47,12 +48,18 @@ export default function CourseTabs({gridClasses=''}) {
     },
   ]
 
-  const currentPanel = coursePanels[activeTabIndex]
+  const [activeTab, setActiveTab] = useState('')
+
+  const visibleCoursePanels = coursePanels.filter(({name, courses}) => {
+    return !(name === 'in_progress' && !courses?.length)
+  })
+  
+  const currentPanel = visibleCoursePanels.find(tab => tab.name === activeTab) || visibleCoursePanels[0]
   const { courses: filteredCourses, readMoreLabel } = currentPanel
 
-  const tabs = coursePanels.map(({name, courses}) => {
+  const tabs = visibleCoursePanels.map(({courses, ...panel}) => {
     return {
-      name,
+      ...panel,
       count: courses?.length || 0,
       href: '#'
     }
@@ -60,7 +67,7 @@ export default function CourseTabs({gridClasses=''}) {
 // alert(JSON.stringify(currentPanel));
   return (
     <>
-      <Tabs tabs={tabs} activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} className="mb-2" />
+      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
       { !!courses?.length && (
         <>
           <ItemCollection
