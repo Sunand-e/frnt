@@ -39,8 +39,8 @@ const ChangePasswordForm = () => {
             //   message: 'Username or password is incorrect',
             // });
           } else {
-            console.log('result')
-            console.log(result)
+            // console.log('result')
+            // console.log(result)
             router.push('/profile')
             // setError(result.error)
           }
@@ -77,9 +77,6 @@ const ChangePasswordForm = () => {
       className='h-full w-full max-w-sm flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
       >
-        <pre>
-        { JSON.stringify(watch(),null,2) }
-        </pre>
       <TextInput
         type="password"
         label="Old password"

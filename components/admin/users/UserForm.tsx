@@ -11,7 +11,7 @@ interface UserFormValues {
   lastName: string
   email: string
   profileImage: string
-  roleIds: [string]
+  role_ids: [string]
   invite: boolean
 }
 
