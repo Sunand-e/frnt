@@ -1,33 +1,71 @@
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import Button from '../Button';
 import { useRouter } from 'next/router';
 import useGetUser from '../../hooks/users/useGetUser';
-import useUpdateUser from '../../hooks/users/useUpdateUser';
-import useUpdateUserTenantRoles from '../../hooks/users/useUpdateUserTenantRoles';
-import useUploadAndNotify from '../../hooks/useUploadAndNotify';
+import { useCallback } from 'react';
 
 interface ChangePasswordFormValues {
   old_password: string
   password: string
-  password_confirm: string
+  password_confirmation: string
 }
 
 const ChangePasswordForm = () => {
 
   const router = useRouter()
 
-  const onSubmit = (values) => {
-    if(true) {
+  const { user } = useGetUser()
+  const id = user?.id
+  const onSubmit = useCallback((values) => {
+    if(id) {
+      const data = {
+        ...values
+      }
+      
+      fetch(`/api/v1/user/${id}/reset_password`, {
+        method: 'PUT', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if(result.error) {
+            // setError('password', {
+            //   type: "server",
+            //   message: 'Username or password is incorrect',
+            // });
+          } else {
+            console.log('result')
+            console.log(result)
+            router.push('/profile')
+            // setError(result.error)
+          }
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log('ERROR:')
+          console.log(error)
+          // this.setState({
+          //   isLoaded: true,
+          //   error
+          // });
+        }
+      )
     }
-    router.push('/profile')
-  }
-  
+    // console.log(data);
+    // console.log("log:" + " " + JSON.stringify(data))
+  },[user])
+    
   const defaultValues = {
     old_password: '',
     password: '',
-    password_confirm: ''
+    password_confirmation: ''
   }
   
   const { register, handleSubmit, control, formState: { errors }, watch } = useForm<ChangePasswordFormValues>({
@@ -38,10 +76,13 @@ const ChangePasswordForm = () => {
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
-    >
+      >
+        <pre>
+        { JSON.stringify(watch(),null,2) }
+        </pre>
       <TextInput
+        type="password"
         label="Old password"
-        placeholder="Old password"
         inputAttrs={register("old_password", {
           required:"Old password is required",
           maxLength: {
@@ -66,7 +107,7 @@ const ChangePasswordForm = () => {
         type="password"
         label="Confirm new password"
         placeholder=""
-        inputAttrs={register("password_confirm", {
+        inputAttrs={register("password_confirmation", {
           required:"Confirm new password is required",
           maxLength: {
             value: 200,
@@ -79,7 +120,7 @@ const ChangePasswordForm = () => {
           },
         })}
       />
-      {errors.password_confirm && (<small className="text-danger text-red-500">{errors.password_confirm.message}</small>)}
+      {errors.password_confirmation && (<small className="text-danger text-red-500">{errors.password_confirmation.message}</small>)}
 
       <Button type="submit">Submit</Button>
     </form>
