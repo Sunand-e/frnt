@@ -1,11 +1,9 @@
-import { useRef, useEffect } from "react";
 import { UpdateCourse, UpdateCourseVariables } from "../../graphql/mutations/course/__generated__/UpdateCourse";
 import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE"
-import { CourseFragment, GET_COURSE } from "../../graphql/queries/allQueries"
-// import { ContentFragment as ContentFragmentType } from '../graphql/queries/__generated__/ContentFragment';
+import { CourseFragment } from "../../graphql/queries/allQueries"
 import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
+import { useMutation } from "@apollo/client"
+import cache from "../../graphql/cache"
 import useGetCourse from "./useGetCourse";
 
 

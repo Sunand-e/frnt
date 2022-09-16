@@ -2,7 +2,7 @@ import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
 import { useReactiveVar } from '@apollo/client'
 import CourseLayout from '../layouts/CourseLayout'
-import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
+import { headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
 import useGetCourse from '../hooks/courses/useGetCourse'
@@ -19,10 +19,7 @@ const CoursePage = () => {
   const router = useRouter()
   const { id, cid: contentId, showEdit=false, completed=false } = router.query
 
-  const { course } = useGetCourse(id);
   const { user } = useGetUser();
-  
-  const currentContentItem = useReactiveVar(currentContentItemVar)
 
   useEffect(() => {
     const view = {

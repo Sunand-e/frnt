@@ -2,22 +2,13 @@ import usePageTitle from '../../../hooks/usePageTitle'
 import CourseEditor from '../../../components/admin/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
+import { viewVar } from '../../../graphql/cache'
 import { useContext, useEffect } from 'react'
-import Button from '../../../components/Button'
 import {Cog} from '@styled-icons/fa-solid/Cog'
 import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/admin/courses/CourseForm'
-import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
-
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import { useSaveContentButton } from '../../../components/ContentEditor/useSaveContentButton'
 
 const AdminCoursesEdit = () => {
   /*
@@ -63,8 +54,6 @@ const AdminCoursesEdit = () => {
     })
   }
 
-  // const { updateCourseTitle } = useCourse(id)
-
   usePageTitle({ 
     title: `Course${course?.title ? ': ' : ''}`, 
     editable:  course?.title || '', 
@@ -76,14 +65,8 @@ const AdminCoursesEdit = () => {
     )
   })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button onClick={() => router.push('/admin/courses')}>Finish Editing</Button>
-      </>
-    )
-  },[id, cid])
-
+  useSaveContentButton()
+  
   return (
     <>
       { course && 

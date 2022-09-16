@@ -25,19 +25,13 @@ const ReorderableBlock = ({id}) => {
 
 const BlockEditor = () => {
 
+  const editBlocks = useBlockStore(state => state.editBlocks)
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
+  const isDirty = useBlockStore(state => state.isDirty)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
 
   const {getContent, content} = useBlockEditor()
-
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-  const { updateFunction } = currentContentItem
-  const afunc = (val) => {
-    console.log('aabbccdd')
-    updateFunction(val)
-  }
-  const debouncedUpdate = useDebouncedCallback(afunc, 600)
 
   const router = useRouter()
   
@@ -51,22 +45,11 @@ const BlockEditor = () => {
     }
   }, [content])
 
-
-  useEffect(() => {
-    console.log('content')
-    console.log(content)
-    console.log('blocks')
-    console.log(blocks)
-    if(content) {
-      debouncedUpdate({content: { blocks }})
-    }
-  },[content, blocks])
-
   return (
     <>
       <div className="list">
         {/* <Button onClick={handleClick}>Click</Button> */}
-        <Reorder.Group axis="y" onReorder={setBlocks} values={blocks}>
+        <Reorder.Group axis="y" onReorder={editBlocks} values={blocks}>
           {blockIds.map(id => {
             return <ReorderableBlock key={id} id={id} />
           })}

@@ -1,14 +1,15 @@
-import create from 'zustand'
-import { useCallback, useContext, useEffect, useState } from "react"
-import cache, { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
-import { ContentFragment } from "../../graphql/queries/allQueries";
+import {  useContext } from "react"
+import { activeContentBlockVar, currentContentItemVar } from "../../graphql/cache";
 import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { gql, useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
-import {useBlockStore, getIndexAndParent, shiftPosition} from './useBlockStore';
+import { gql, useLazyQuery, useReactiveVar } from "@apollo/client";
+import {useBlockStore, getIndexAndParent, shiftPosition, getBlock} from './useBlockStore';
+import isEqual from 'lodash/isEqual';
+
 // import "./styles.css";
+
 const GET_LESSON_CONTENT = gql`
 query GetLessonContent($id: ID!) {
   lesson(id: $id) {
@@ -30,9 +31,7 @@ const useBlockEditor = (block=null) => {
   // testing::::
   const currentContentItem = useReactiveVar(currentContentItemVar)
     
-  const { id, type, updateFunction } = currentContentItem
-  // end testing
-  // const { id, type, updateFunction } = currentContentItemVar()
+  const { id, type } = currentContentItem
 
   const { blocks, setBlocks, insertBlock } = useBlockStore()
   
@@ -57,18 +56,19 @@ const useBlockEditor = (block=null) => {
   )
   
   const content = data?.[type]?.content
-  // const setBlocks = (blocks) => {
-    // setBlocks(blocks)
-    // updateFunction({content: { blocks }})
-  // }
-
 
 
   const updateBlock = (block, newBlock=null) => {
     const { index, parent } = getIndexAndParent(block.id)
-    
-    insertBlock(newBlock ?? block, index, parent, 1)
-    
+    if(!isEqual(block, getBlock(block.id))) {
+      
+      console.log('block')
+      console.log(block)
+      console.log('getBlock(block.id)')
+      console.log(getBlock(block.id))
+
+      insertBlock(newBlock ?? block, index, parent, 1)
+    }
   }
 
   const updateBlockProperties = (block, properties={}) => {

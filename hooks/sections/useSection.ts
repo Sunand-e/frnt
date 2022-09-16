@@ -4,7 +4,7 @@ import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
 import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
+import cache from "../../graphql/cache"
 
 
 function useLesson(id) {

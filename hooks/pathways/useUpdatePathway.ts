@@ -1,11 +1,9 @@
-import { useRef, useEffect } from "react";
 import { UpdatePathway, UpdatePathwayVariables } from "../../graphql/mutations/pathway/__generated__/UpdatePathway";
 import { UPDATE_PATHWAY } from "../../graphql/mutations/pathway/UPDATE_PATHWAY"
 import { PathwayFragment, GET_PATHWAY } from "../../graphql/queries/allQueries"
-// import { ContentFragment as ContentFragmentType } from '../graphql/queries/__generated__/ContentFragment';
 import { PathwayFragment as PathwayFragmentType } from '../../graphql/queries/__generated__/PathwayFragment';
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
+import { useMutation, useQuery } from "@apollo/client"
+import cache from "../../graphql/cache"
 
 
 function useUpdatePathway(id) {
