@@ -47,6 +47,8 @@ import { QueriesContextProvider } from '../context/QueriesContext';
 import { applyTheme, createTheme } from '../themes/utils';
 import baseTheme from "../themes/base";
 import { TenantContextProvider } from '../context/TenantContext';
+import useRouteChange from '../hooks/useRouteChange';
+import useBeforeUnload from '../hooks/useBeforeUnload';
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -80,6 +82,11 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
       )
     }
   }
+
+  
+  // useRouteChange()
+  useBeforeUnload()
+
   
   const [ getLibrary, { 
     loading: loadingLibrary, 

@@ -4,7 +4,7 @@ import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
 import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
+import cache from "../../graphql/cache"
 
 function useUpdateLesson(id = null) {
 
@@ -12,7 +12,7 @@ function useUpdateLesson(id = null) {
     UPDATE_LESSON
   );
 
-  const updateLesson = id => values => {
+  const updateLesson = id => async values => {
   // const updateLesson = ({title=null, contentBlocks=null}) => {
 
     const cachedLesson = cache.readFragment<ContentFragmentType>({
@@ -27,7 +27,7 @@ function useUpdateLesson(id = null) {
     const scormBlock = values.content?.blocks?.find(block => block.type === 'package')
     const scormId = scormBlock?.properties?.moduleId
 
-    updateLessonMutation({
+    await updateLessonMutation({
       variables: {
         id,
         ...values,

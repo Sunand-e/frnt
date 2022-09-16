@@ -12,9 +12,7 @@ import useGetUserContent from '../../hooks/users/useGetUserContent'
 
 const CourseItemView = () => {
 
-  const setBlocks = useBlockStore(state => state.setBlocks)
-
-  const {getContent, content} = useBlockEditor()
+  const {content} = useBlockEditor()
 
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 
@@ -39,16 +37,6 @@ const CourseItemView = () => {
   },[id, course?.id])
 
   useEffect(() => {
-    getContent()
-  },[id])
-  
-  useEffect(() => {
-    if(content) {
-      setBlocks(content?.blocks || []);
-    }
-  }, [content])
-
-  useEffect(() => {
     currentContentItemVar({
       ...currentContentItem,
       type: 'lesson',
@@ -57,11 +45,7 @@ const CourseItemView = () => {
   },[id, contentId])
   
   return (
-    <>
-      { content && (
-        <LessonView />
-      )}
-    </>
+    <LessonView />
   )
 }
 export default CourseItemView

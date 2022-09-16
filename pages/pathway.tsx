@@ -101,7 +101,7 @@ const CoursePage = () => {
   return (
     <>
       { currentContentItem.id && (
-        <CourseItemView id={currentContentItem.id} />
+        <CourseItemView />
       )}
     </>
   )
