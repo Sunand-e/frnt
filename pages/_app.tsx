@@ -84,7 +84,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   }
 
   
-  useRouteChange()
+  // useRouteChange()
   useBeforeUnload()
 
   

@@ -4,7 +4,7 @@ import { currentContentItemVar } from "../../../graphql/cache";
 import useCreateLesson from "../../../hooks/lessons/useCreateLesson";
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import IconOption from "../../common/inputs/react-select/IconOption";
-import { lessonTypes } from "./lessonTypes";
+import { lessonTypes } from "../courses/lessonTypes";
 
 const lessonTypesArray = Object.keys(lessonTypes).map(key => {
   return {

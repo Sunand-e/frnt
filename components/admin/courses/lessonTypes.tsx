@@ -8,52 +8,68 @@ export const lessonTypes = {
   text: {
     label: "Text", 
     icon: TextLeft,
-    content: { blocks: [{id: uuidv4(), type:'text'}]}
+    getDefaultContent: () => (
+      { blocks: [{id: uuidv4(), type:'text'}]}
+    )
   },
   video: {
     label: "Video",
     icon: Video,
-    content: { blocks: [{
-      id: uuidv4(), type:'video',
-      properties: {
-        url: ''
-      }
-    }]}
+    getDefaultContent: () => (
+      { blocks: [{
+        id: uuidv4(), type:'video',
+        properties: {
+          url: ''
+        }
+      }]}
+    )
   },
   image: {
     label: "Image",
     icon: Image,
-    content: { blocks: [{id: uuidv4(), type:'image'}]}
+    getDefaultContent: () => (
+      { blocks: [{id: uuidv4(), type:'image'}]}
+    )
   },
   document: {
     label: "Document",
     icon: Document,
-    content: { blocks: [{id: uuidv4(), type:'document'}]}
+    getDefaultContent: () => (
+      { blocks: [{id: uuidv4(), type:'document'}]}
+    )
   },
   audio: {
     label: "Audio",
     icon: Speaker2,
-    content: { blocks: [{id: uuidv4(), type:'audio'}]}
+    getDefaultContent: () => (
+      { blocks: [{id: uuidv4(), type:'audio'}]}
+    )
   },
   scorm: {
     label: "SCORM",
     icon: Box,
-    content: { blocks: [{
-      id: uuidv4(), type:'package',
-      properties: {
-        url: ''
-      }
-    }]}
+    getDefaultContent: () => (
+      { blocks: [{
+        id: uuidv4(), type:'package',
+        properties: {
+          url: ''
+        }
+      }]}
+    )
   },
   freeform: {
     label: "Freeform",
     icon: Bricks,
-    content: { blocks: []}
+    getDefaultContent: () => (
+      { blocks: []}
+    )
   },
   quiz: {
     label: "Quiz",
     icon: Quiz,
-    content: { blocks: [{id: uuidv4(), type:'text'}]}
+    getDefaultContent: () => (
+      { blocks: [{id: uuidv4(), type:'text'}]}
+    )
   },
 }
 

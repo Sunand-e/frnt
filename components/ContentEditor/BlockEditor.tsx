@@ -11,6 +11,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import { currentContentItemVar } from "../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
+import useRouteChange from "../../hooks/useRouteChange";
+import useWarningOnExit from "../../hooks/useWarningOnExit";
 
 const ReorderableBlock = ({id}) => {
   const y = useMotionValue(0);
@@ -44,6 +46,8 @@ const BlockEditor = () => {
       setBlocks(content?.blocks || []);
     }
   }, [content])
+
+  useWarningOnExit(isDirty)
 
   return (
     <>

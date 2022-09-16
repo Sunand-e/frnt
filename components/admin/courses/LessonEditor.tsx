@@ -5,6 +5,7 @@ import BlockEditor from "../../ContentEditor/BlockEditor";
 import { ContentTitle } from "../../ContentEditor/ContentTitle";
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import { useRouter } from "next/router";
+import useGetLesson from "../../../hooks/lessons/useGetLesson";
 const LessonEditor = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
@@ -13,9 +14,12 @@ const LessonEditor = () => {
   const router = useRouter()
   
   const {
-    lesson,
     updateLesson
   } = useUpdateLesson(id)  
+  const {
+    lesson
+  } = useGetLesson(id)  
+
 
   /* REFACTOR NEEDED */
   useEffect(() => {

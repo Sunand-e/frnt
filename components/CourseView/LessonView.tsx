@@ -13,6 +13,7 @@ import { currentContentItemVar } from "../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
 import useGetUserCourseLessons from "../../hooks/courses/useGetUserCourseLessons";
 import useGetUserContent from "../../hooks/users/useGetUserContent";
+import useBlockEditor from "../ContentEditor/useBlockEditor";
 
 const LessonView = () => {
 
@@ -42,6 +43,21 @@ const LessonView = () => {
       }
     }
   },[user, id])
+
+  const setBlocks = useBlockStore(state => state.setBlocks)
+
+  const {getContent, content} = useBlockEditor()
+
+  useEffect(() => {
+    alert('getcontent')
+    getContent()
+  },[id])
+  
+  useEffect(() => {
+    if(content) {
+      setBlocks(content?.blocks || []);
+    }
+  }, [content])
 
   return (
     <div className="w-full flex flex-col">

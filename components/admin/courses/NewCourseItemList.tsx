@@ -15,7 +15,7 @@ const NewCourseItemList = ({
 
   const handleItemClick = (lessonType) => {
     createLesson({
-      content: lessonTypes[lessonType].content, 
+      content: lessonTypes[lessonType].getDefaultContent(), 
       contentType: lessonType
     })
     onSelect()

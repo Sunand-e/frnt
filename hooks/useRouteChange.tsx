@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { useBlockStore } from '../components/ContentEditor/useBlockStore'
+import { ModalContext } from '../context/modalContext'
 
 // Scroll position management
 export default function useRouteChange() {
@@ -9,12 +10,16 @@ export default function useRouteChange() {
 
   const isDirty = useBlockStore(state => state.isDirty)
 
+  const { handleModal, closeModal } = useContext(ModalContext)
+
+  const handleRouteChangeStart = useCallback((url: string) => {
+    handleModal({
+      content: 'da'
+    })
+  },[isDirty])
+
   useEffect(() => {
     // Save the scroll position of current page before leaving but you can do what you want
-    const handleRouteChangeStart = (url: string) => {
-      retainedComponents.current[router.asPath] = window.scrollY
-      // alert(isDirty ? 'Dirt' : 'cln')
-    }
 
   
     // Scroll to the saved position but you can do what you want
@@ -31,5 +36,5 @@ export default function useRouteChange() {
       router.events.off('routeChangeStart', handleRouteChangeStart)
       router.events.off("routeChangeComplete", onRouteChangeComplete)
     }
-  }, [router.asPath])
+  }, [router.asPath, handleRouteChangeStart])
 }
