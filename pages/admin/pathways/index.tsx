@@ -30,7 +30,7 @@ const AdminPathways = () => {
   const { handleModal, closeModal } = useContext(ModalContext);
 
   // const handleAddClick = (e) => {
-  //   router.push('/admin/pathways/setup')
+  //   router.push('/admin/pathways/create')
   //   // handleModal({
   //   //   title: `Add new pathway`,
   //   //   // content: <BasicTextInput label="Pathway name" placeholder='Untitled pathway' />,
@@ -48,7 +48,7 @@ const AdminPathways = () => {
   // },[])
 
   useHeaderButtons([
-    [<AddButton />, '/admin/pathways/setup']
+    [<AddButton />, '/admin/pathways/create']
   ])
 
   return (

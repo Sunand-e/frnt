@@ -7,6 +7,7 @@ import useLogout from '../../hooks/useLogout';
 import { applyTheme } from '../../themes/utils';
 import baseTheme from '../../themes/base';
 import darkTheme from '../../themes/dark';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 const SettingsMenuAndButton = () => {
 
@@ -18,6 +19,7 @@ const SettingsMenuAndButton = () => {
 
   const { logout } = useLogout()
 
+  const { userHasCapability } = useUserHasCapability()
   const handleLogoutClick = (e) => {
     logout()
     e.target.blur()
@@ -33,16 +35,23 @@ const SettingsMenuAndButton = () => {
         theme="memberhub-white"
         content={
           <ul className="flex flex-col shadow-2 space-y-3">
-            <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(baseTheme)}>Base theme</li>
-            <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(darkTheme)}>Dark theme</li>
+            {/* <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(baseTheme)}>Base theme</li>
+            <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(darkTheme)}>Dark theme</li> */}
             <li className="hover:text-main-secondary cursor-pointer" onClick={handleLogoutClick}>Log out</li>
-            <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>
-              <Link href={view.isAdmin ? '/' : '/admin'}>
-                <a>
-                  {`${view.isAdmin ? 'User' : 'Admin'} View`}
-                </a>
-              </Link>
-            </li>
+            { userHasCapability([
+              'UpdateUser',
+              'UpdateCourse',
+              'UpdateLibraryItem',
+              'GetUsers',
+            ]) && (
+              <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>
+                <Link href={view.isAdmin ? '/' : '/admin'}>
+                  <a>
+                    {`${view.isAdmin ? 'User' : 'Admin'} View`}
+                  </a>
+                </Link>
+              </li>
+            ) }
           </ul>
         }
     >

@@ -137,7 +137,7 @@ const AdminCourseSetup = () => {
   }
 
   return (
-    // <div className='h-full w-full max-w-lg mx-auto'>
+    // <div className='h-full w-full max-w-screen-lg mx-auto'>
     <>
       <CourseForm submitButtonText='Course Builder' onSubmit={onSubmit}/>
     </>

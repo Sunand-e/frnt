@@ -27,7 +27,7 @@ const EventForm = ({event=null, type, onSubmit}) => {
 
   const { watch, register, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<EventFormValues>({
     defaultValues
-  });
+  }); 
 
   useEffect(() => {
     setFocus('title')
@@ -49,7 +49,7 @@ const EventForm = ({event=null, type, onSubmit}) => {
   const formVals = watch()
   return (
     <form
-      className='h-full w-full max-w-lg flex flex-col space-y-4'
+      className='h-full w-full max-w-screen-lg flex flex-col space-y-4'
       onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput

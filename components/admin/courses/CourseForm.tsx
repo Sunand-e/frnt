@@ -57,15 +57,17 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             })}
           />
           {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
-          <ImageSelectInput
-            // placeholder={'https://picsum.photos/640/360'}
-            buttonText="Choose course image"
-            origImage={defaultValues?.image}
-            control={control}
-            name="imageId"
-            onSelect={isModal ? reopenFormInModal : null}
-            // inputAttrs={register("image", { required: true })}
-          />
+          <div className='max-w-5xl shadow bg-main/10'>
+            <ImageSelectInput
+              // placeholder={'https://picsum.photos/640/360'}
+              buttonText="Choose course image"
+              origImage={defaultValues?.image}
+              control={control}
+              name="imageId"
+              onSelect={isModal ? reopenFormInModal : null}
+              // inputAttrs={register("image", { required: true })}
+            />
+          </div>
           <TagSelectInput
             control={control}
             tagType="category"

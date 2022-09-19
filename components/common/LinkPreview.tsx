@@ -67,7 +67,7 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
         </div>
       )}
     { link && !error ? (
-      <div className="w-full mx-auto overflow-hidden mb-8 bg-white shadow rounded-md sm:max-w-lg ">
+      <div className="w-full mx-auto overflow-hidden mb-8 bg-white shadow rounded-md sm:max-w-screen-lg ">
         {/* <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0 bg-white h-56 items-start md:items-stretch"> */}
         <div className="flex flex-row space-y-0 bg-white h-56 items-stretch">
           <a href={link.root_url} target="_blank" className="w-1/2 p-6 flex items-center">

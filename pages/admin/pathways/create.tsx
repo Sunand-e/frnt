@@ -83,7 +83,7 @@ const AdminPathwaySetup = () => {
   const { register, handleSubmit, control, formState: { errors } } = useForm<PathwaySetupFormValues>();
 
   return (
-    // <div className='h-full w-full max-w-lg mx-auto'>
+    // <div className='h-full w-full max-w-screen-lg mx-auto'>
     <>
       <form
         className='h-full w-full max-w-sm flex flex-col space-y-4'

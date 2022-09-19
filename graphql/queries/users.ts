@@ -83,6 +83,43 @@ export const GET_USER = gql`
   ${UserGroupsFragment}
 `
 
+
+export const GET_USER_CAPABILITIES = gql`
+  query GetUserCapabilities {
+    user {
+      id
+      userType
+      roles {
+        capabilities {
+          id
+          name
+        }
+      }
+      courses {
+        edges {
+          roles {
+            id
+            capabilities {
+              id
+              name
+            }
+          }
+        }
+      }
+      groups {
+        edges {
+          roles {
+            capabilities {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export const GET_USERS = gql`
   query GetUsers {
     users(where: { status: "active" }) {

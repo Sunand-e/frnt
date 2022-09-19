@@ -31,7 +31,7 @@ const RoleForm = ({role=null, onSubmit}) => {
   
   return (
     <form
-      className='h-full w-full max-w-lg flex flex-col space-y-4'
+      className='h-full w-full max-w-screen-lg flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput

@@ -11,6 +11,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
 import classNames from '../../utils/classNames';
 import {User} from '@styled-icons/fa-solid/User'
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 function NextLink(props) {
   const { href, children, ...rest } = props;
@@ -58,15 +59,21 @@ const ProfileWidget = () => {
   `
   // const { loading, error, data, refetch } = useQuery<GetUser>(GET_USER);
   const { loading, error, data, refetch } = useQuery<GetUser>(USER_PROFILE);
+  const { userHasCapability } = useUserHasCapability()
 
   const menuItems = [
     { title: 'Profile', href: '/profile' },
     // { title: 'Settings', href:'settings' },
-    { 
+    ...(userHasCapability([
+      'UpdateUser',
+      'UpdateCourse',
+      'UpdateLibraryItem',
+      'GetUsers',
+    ]) ? [{ 
       title: `${view.isAdmin ? 'User' : 'Admin'} View`, 
       href: view.isAdmin ? '/' : '/admin', 
       // onClick: toggleIsAdmin
-    },
+    }] : []),
     { title: 'Log out', onClick: handleLogoutClick }
   ]
   return (

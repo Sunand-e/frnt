@@ -7,6 +7,7 @@ import useGetUser from '../../hooks/users/useGetUser';
 import useUpdateUser from '../../hooks/users/useUpdateUser';
 import useUpdateUserTenantRoles from '../../hooks/users/useUpdateUserTenantRoles';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
+import { useEffect } from 'react';
 
 interface ProfileFormValues {
   id?: string
@@ -48,9 +49,13 @@ const ProfileForm = () => {
     role_ids: user?.roles.map(role => role.id),
   }
   
-  const { register, handleSubmit, control, formState: { errors }, watch } = useForm<ProfileFormValues>({
+  const { register, handleSubmit, control, formState: { errors }, reset } = useForm<ProfileFormValues>({
     defaultValues
   });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [user]);
 
   return (
     <form
