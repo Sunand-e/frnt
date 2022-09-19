@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useController } from "react-hook-form";
 import useGetRoles from "../../../../hooks/roles/useGetRoles"
 import Button from "../../../Button";
@@ -14,7 +15,7 @@ const UserRoleSelect = ({control, roleType}) => {
 
   const options = roles && roles.filter(
     role => role.roleType === roleType
-    ).filter(
+  ).filter(
     role => role.name !== 'User'
   ).map(role => {
     return {
@@ -23,7 +24,14 @@ const UserRoleSelect = ({control, roleType}) => {
     }
   })
 
-  
+  useEffect(() => {
+    if(options) {
+      const newSelected = [
+        options.find(o => o.label === 'Learner')
+      ]
+      field.onChange(newSelected.map(r => r.value))
+    }
+  },[roles])
 
   return (
     <>

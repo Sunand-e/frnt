@@ -30,7 +30,7 @@ const AdminCourses = () => {
   const { handleModal, closeModal } = useContext(ModalContext);
 
   useHeaderButtons([
-    [<AddButton />, '/admin/courses/setup']
+    [<AddButton />, '/admin/courses/create']
   ])
 
 

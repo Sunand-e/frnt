@@ -22,7 +22,7 @@ const ResourceTypeSelector = ({control}) => {
     // <div className="flex flex-col items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     <div className="flex flex-col items-center">
       <p className="mb-3">Choose a resource type:</p>
-      <div className="bg-main bg-opacity-10 p-4 max-w-lg w-full border-2 border-gray-300 border-dashed rounded-md">
+      <div className="bg-main bg-opacity-10 p-4 max-w-screen-lg w-full border-2 border-gray-300 border-dashed rounded-md">
         <div className="flex justify-between">{typeBoxes}</div>
       </div>
     </div>

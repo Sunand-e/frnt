@@ -48,7 +48,6 @@ module.exports = {
         '1/2': '50%',
         '3/4': '75%',
         '8xl' : '90rem',
-        'lg': '1024px'
       },
       borderWidth: {
         '3': '3px',

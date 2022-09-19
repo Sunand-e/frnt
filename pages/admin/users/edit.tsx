@@ -52,7 +52,7 @@ const AdminUsersEdit = () => {
   return (
     <>
       { user &&
-        <div className='flex space-x-0 flex-col w-full max-w-lg md:flex-row md:space-x-11'>
+        <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
           {/* <pre>
           { JSON.stringify(id,null,2) }
           { JSON.stringify(user,null,2) }

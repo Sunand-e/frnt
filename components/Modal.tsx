@@ -8,7 +8,7 @@ import XCircleIcon from '@heroicons/react/solid/XCircleIcon'
 const sizeMap = new Map<any,any>([
   ['sm', 'sm:max-w-sm'],
   ['md', 'sm:max-w-md'],
-  ['lg', 'sm:max-w-lg'],
+  ['lg', 'sm:max-w-screen-lg'],
   ['xl', 'sm:max-w-xl'],
 ])
 
