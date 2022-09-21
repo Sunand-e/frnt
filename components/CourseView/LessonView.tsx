@@ -49,7 +49,6 @@ const LessonView = () => {
   const {getContent, content} = useBlockEditor()
 
   useEffect(() => {
-    alert('getcontent')
     getContent()
   },[id])
   
