@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import navStructureUser from '../../navStructureUser'
 import navStructureAdmin from '../../navStructureAdmin'
-import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import { viewVar } from '../../graphql/cache';
 import { gql, useQuery, useReactiveVar } from '@apollo/client';
@@ -9,6 +9,7 @@ import { PrimaryNavItem } from './PrimaryNavItem';
 import { useWindowSize } from 'rooks';
 import NavFooter from "./NavFooter";
 import { TenantContext } from '../../context/TenantContext';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 const GET_CURRENT_USER_TYPE = gql`
 query GetCurrentUserType {
@@ -51,6 +52,8 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const view = useReactiveVar(viewVar);
 
+  const { userHasCapability } = useUserHasCapability()
+
   const [ isSuperAdmin, setIsSuperAdmin ] = useState(false)
 
   const tenant = useContext(TenantContext)
@@ -65,8 +68,11 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
   
-  const navItems = isSuperAdmin ? navStructure : navStructure.filter(item => {
-    return !(item.superAdminOnly) || item.superAdminOnly === false
+  const navItems = useMemo(() => {
+    return isSuperAdmin ? navStructure : navStructure.filter(item => {
+      return !item.superAdminOnly
+      // return !item.superAdminOnly && (userHasCapability(item.capabilities)
+    })
   })
 
   let logoImage;
