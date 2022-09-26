@@ -51,6 +51,9 @@ const BlockEditor = () => {
 
   return (
     <>
+    {/* <pre>
+    { JSON.stringify(blocks,null,2) }
+    </pre> */}
       <div className="list">
         {/* <Button onClick={handleClick}>Click</Button> */}
         <Reorder.Group axis="y" onReorder={editBlocks} values={blocks}>

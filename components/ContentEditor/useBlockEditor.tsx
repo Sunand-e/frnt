@@ -6,10 +6,10 @@ import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
 import { gql, useLazyQuery, useReactiveVar } from "@apollo/client";
 import {useBlockStore, getIndexAndParent, shiftPosition, getBlock} from './useBlockStore';
-import isEqual from 'lodash/isEqual';
+// import isEqual from 'lodash/isEqual';
 
 // import "./styles.css";
-
+// 
 const GET_LESSON_CONTENT = gql`
 query GetLessonContent($id: ID!) {
   lesson(id: $id) {
@@ -60,15 +60,14 @@ const useBlockEditor = (block=null) => {
 
   const updateBlock = (block, newBlock=null) => {
     const { index, parent } = getIndexAndParent(block.id)
-    if(!isEqual(block, getBlock(block.id))) {
-      
-      console.log('block')
-      console.log(block)
-      console.log('getBlock(block.id)')
-      console.log(getBlock(block.id))
-
+    // if(!isEqual(block, getBlock(block.id))) {
+      // if newblock is provided, replace the top level 
+      console.log('blocks')
+      console.log(blocks) 
       insertBlock(newBlock ?? block, index, parent, 1)
-    }
+      console.log('blocks2')
+      console.log(blocks) 
+    // }
   }
 
   const updateBlockProperties = (block, properties={}) => {
@@ -111,12 +110,18 @@ const useBlockEditor = (block=null) => {
     // if the block is contained in a column:
     if(parent) {
       
-      // if we're only leaving one block, replace columns with that block
+      // if we're only leaving one block, replace columns with that block.
+      // This causes issues when we have stateful components, eg. RTEs. 
+      // See: https://www.reddit.com/r/reactjs/comments/gp7yld/reparenting_is_now_possible_with_react/
+      // if(parent.children.length === 2) {
+      //   const newBlock = parent.children.find(b => b.id !== block.id)
+      //   updateBlock(parent, newBlock)
+
+
+      // If there are only two cols, replce the block with a placeholder.
       if(parent.children.length === 2) {
-
-        const newBlock = parent.children.find(b => b.id !== block.id)
-        updateBlock(parent, newBlock)
-
+        const newBlock = createPlaceholderBlock()
+        updateBlock(block, newBlock)
       // otherwise, remove the block from the column
       } else {
         const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
@@ -190,9 +195,37 @@ const useBlockEditor = (block=null) => {
         ]
       }
     }
-    // alert(JSON.stringify(newTopLevelBlock,null,2))
     updateBlock(block, newTopLevelBlock)
   }
+
+  // const addColumn = block => {
+  //   let newTopLevelBlock
+  //   if(block.type === 'columns') {
+  //     let currentColumnCount = block.children.length
+  //     let newColWidth = 12 / (currentColumnCount + 1)
+  //     const widths = Array(currentColumnCount + 1).fill(newColWidth)
+
+  //     newTopLevelBlock = {
+  //       ...block,
+  //       widths,
+  //       children: [
+  //         ...block.children,
+  //         createPlaceholderBlock()
+  //       ]
+  //     }
+  //   } else {
+  //     newTopLevelBlock = {
+  //       ...createColumnsBlock(),
+  //       widths: [6,6],
+  //       children: [
+  //         block,
+  //         createPlaceholderBlock()
+  //       ]
+  //     }
+  //   }
+  //   // alert(JSON.stringify(newTopLevelBlock,null,2))
+  //   updateBlock(block, newTopLevelBlock)
+  // }
 
   return {
     getContent,

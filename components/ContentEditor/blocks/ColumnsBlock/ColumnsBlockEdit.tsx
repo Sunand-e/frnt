@@ -16,7 +16,7 @@ export const ColumnsBlockEdit = ({id, block}) => {
   const containerRef = useRef<any>()
   
   const columns = block.children?.map((childBlock, index, blocks) => (
-    <React.Fragment key={index}>
+    <React.Fragment key={childBlock.id}>
       <Section style={{ overflow: 'visible' }} 
       // defaultSize={widths[index]}
       // size={index*100}

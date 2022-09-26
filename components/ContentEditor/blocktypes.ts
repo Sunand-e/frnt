@@ -110,13 +110,13 @@ const blocktypes = {
     settingsComponent: PackageSettings,
     icon: Box,
   }, 
-  columns: {
-    text: 'Columns',
-    component: ColumnsBlock,
-    editComponent: ColumnsBlockEdit,
-    settingsComponent: ColumnsSettings,
-    icon: Columns,
-  },
+  // columns: {
+  //   text: 'Columns',
+  //   component: ColumnsBlock,
+  //   editComponent: ColumnsBlockEdit,
+  //   settingsComponent: ColumnsSettings,
+  //   icon: Columns,
+  // },
   placeholder: {
     text: 'Placeholder',
     component: PlaceholderBlock,

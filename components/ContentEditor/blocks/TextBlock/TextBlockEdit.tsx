@@ -96,6 +96,7 @@ export const TextBlockEdit: FunctionComponent = ({block}: PlateRenderElementProp
 
   return (
     <>
+      {/* <TipTap /> */}
       <Plate
         id={block.id}
         plugins={plugins}
