@@ -1,5 +1,8 @@
+import { useContext } from "react";
+import { ModalContext } from "../../context/modalContext";
 import useDeleteScormModule from "../../hooks/scormModules/useDeleteScormModule";
 import Button from '../Button';
+import PackageInUse from "./PackageInUse";
 
 interface DeletePackageModalProps {
   module
@@ -10,11 +13,30 @@ interface DeletePackageModalProps {
 const DeletePackageModal = ({module, onDelete, onCancel}: DeletePackageModalProps) => {
 
   const { deleteScormModule } = useDeleteScormModule()
+  
+  const { handleModal } = useContext(ModalContext)
 
   const handleDelete = async () => {
     const response = await deleteScormModule(module.id)
-    onDelete && onDelete(module)
+    if(response.deleteScormModule?.success === false) {
+      if(response.deleteScormModule?.usage.length) {
+        console.log('usageReport')
+        console.log(response.deleteScormModule?.usage)
+        handleModal({
+          size: 'lg',
+          title: `SCORM module in use`,
+          content: <PackageInUse 
+            item={module} 
+            buttonAction={onCancel}
+            usage={response.deleteScormModule?.usage}
+          />
+        })
+      }
+    } else {
+      onDelete && onDelete(module)
+    }
   }
+
 
   return (
     <>

@@ -51,7 +51,10 @@ const BlockContainer = ({
           paddingLeft: block?.properties?.paddingLeft,
           paddingRight: block?.properties?.paddingRight,
         }}
-        onClick={() => activeContentBlockVar(id)}
+        onClick={() => {
+          // alert(id)
+          activeContentBlockVar(id)
+        }}
       >
         <span className={`absolute z-10 right-2 top-2`}>
         {/* <span className={`absolute -right-14`}> */}

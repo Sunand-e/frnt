@@ -40,7 +40,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
       title: 'Delete SCORM package', 
       content: (
         <DeletePackageModal 
-          module={module} 
+          module={module}
           onDelete={reopenPackageLibrary}
           onCancel={reopenPackageLibrary}
         />

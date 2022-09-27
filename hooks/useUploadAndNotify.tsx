@@ -4,7 +4,6 @@ import axios, { Method } from 'axios';
 import { client } from '../graphql/client';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import ThreeDotsTextNode from '../components/common/misc/ThreeDotsTextNode';
 import { Dot } from '../components/common/misc/Dot';
 
 interface UseUploadAndNotifyProps {
@@ -91,7 +90,7 @@ const useUploadAndNotify = ({
           autoClose: 2500
         })
       }, 1000)
-      /* REFETCH MEDIA ITEM QUERY TO UPDATE UI */ 
+      /* REFETCH QUERY TO UPDATE UI */ 
       onComplete && onComplete(response)
       client.refetchQueries({
         include: [refetchQuery]

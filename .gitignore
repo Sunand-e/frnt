@@ -25,6 +25,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+/docker/logs/*
+!/log/.keep
+!/tmp/.keep
+!/docker/logs/.keep
+
+# Ignore env file
+.env
+.env.production
+
 # local env files
 .env.local
 .env.development.local
