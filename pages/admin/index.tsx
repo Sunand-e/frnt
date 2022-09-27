@@ -110,7 +110,7 @@ const AdminDashboardPage = () => {
           <DashboardItem title="Overview">
             <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {/* Card */}
-              {cards.map(card => <AdminDashCard card={card} />)}
+              {cards.map((card, index) => <AdminDashCard card={card} key={index} />)}
             </div>
           </DashboardItem>
 

@@ -8,6 +8,7 @@ import TagSelect from '../../tags/inputs/TagSelect';
 import DeleteCourseModal from '../DeleteCourseModal';
 import { ModalContext } from '../../../../context/modalContext';
 import useGetCoursesBasic from '../../../../hooks/courses/useGetCoursesBasic';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
@@ -141,19 +142,19 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
   return (
     <>
-    <div className='flex items-center flex-col mb-2 sm:justify-between sm:flex-row'>
-      <div className='flex items-center flex-col sm:flex-row'>
-        <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-        <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+      <div className='flex items-center flex-col mb-2 sm:justify-between sm:flex-row'>
+        <div className='flex items-center flex-col sm:flex-row'>
+          <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
+          <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+        </div>
+        <p>Showing {tableData.length} courses</p>
       </div>
-      <p>Showing {tableData.length} courses</p>
-    </div>
 
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch courses.</p>
       )}
       { (!loading && !error) && (
         <Table {...tableProps} />

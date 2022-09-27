@@ -5,6 +5,7 @@ import ButtonLink from '../../../ButtonLink';
 import useGetPathways from '../../../../hooks/pathways/useGetPathway';
 import PathwayTitleCell from './PathwayTitleCell';
 import useDeletePathway from '../../../../hooks/pathways/useDeletePathway';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 const PathwaysTable = () => {
 
@@ -79,10 +80,10 @@ const PathwaysTable = () => {
   return (
     <>
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch pathways.</p>
       )}
       { (!loading && !error) && (
         <Table tableData={tableData} tableCols={tableCols} />

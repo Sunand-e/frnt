@@ -56,6 +56,7 @@ function useCreateResource() {
             createdAt: '',
             updatedAt: '',
             content: {},
+            shared: false,
             contentType: null,
             itemType: 'libraryItem',
             mediaItem: null,

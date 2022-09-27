@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client"
-import { GetTenants } from "../../graphql/queries/__generated__/GetTenants";
-import { CreateTenant, CreateTenantVariables } from "../../graphql/mutations/tenant/__generated__/CreateTenant";
-import { useEffect, useState } from "react";
-import { CREATE_TENANT } from "../../graphql/mutations/tenant/CREATE_TENANT";
-import { GET_TENANTS } from "../../graphql/queries/tenants";
-
+import { GetTenants } from "../../graphql/queries/__generated__/GetTenants"
+import { CreateTenant, CreateTenantVariables } from "../../graphql/mutations/tenant/__generated__/CreateTenant"
+import { useEffect, useState } from "react"
+import { CREATE_TENANT } from "../../graphql/mutations/tenant/CREATE_TENANT"
+import { GET_TENANTS } from "../../graphql/queries/tenants"
+import {v4 as uuidv4} from 'uuid'
 
 function useCreateTenant() {
 
@@ -39,12 +39,13 @@ function useCreateTenant() {
           __typename: 'CreateTenantPayload',
           tenant: {
             __typename: 'Tenant',
-            id: `tmp-${Math.floor(Math.random() * 10000)}`,
             _deleted: false,
             createdAt: 0,
+            logos: [],
             updatedAt: 0,
             settings: {},
-            ...values
+            ...values,
+            id: `tmp-${Math.floor(Math.random() * 10000)}`
           },
         }
       },

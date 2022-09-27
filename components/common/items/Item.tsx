@@ -1,9 +1,12 @@
 import Link from "next/link";
 import ButtonLink from "../../ButtonLink";
+import LoadingSpinner from "../../LoadingSpinner";
 import { resourceTypes } from "../../resources/resourceTypes";
 import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
 
+import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
+import Tippy from "@tippyjs/react";
 export default function Item({ item, options }) {
 
   const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
@@ -23,6 +26,9 @@ export default function Item({ item, options }) {
   }
 
   const itemTitle = options?.getItemTitle?.(item) || title
+
+  const itemInfoContent = options?.getInfoContent?.(item)
+
   let itemImage;
   let linkPaddingBottom = '';
   if(item.itemType === 'library_item' && item.contentType !== 'image') {
@@ -69,7 +75,23 @@ export default function Item({ item, options }) {
       <div className="p-4 pt-4 grow flex flex-col">
         {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
-          <h2 className="text-xl text-main-secondary font-semibold mb-2">{itemTitle}</h2>
+          <h2 className="text-xl text-main-secondary font-semibold mb-2 flex justify-between w-full">
+            {itemTitle}
+            {itemInfoContent && (
+              <Tippy
+                interactive={true}
+                className={`text-white px-4 py-2 z-50`}
+                theme="memberhub-white"
+                arrow={true}
+                trigger="click"
+                content={(
+                  <div dangerouslySetInnerHTML={{__html: itemInfoContent}} />
+                )}
+              >
+                <InformationCircle className="text-secondary w-8" />
+              </Tippy>
+            )}
+          </h2>
           { item.tags?.[0] && <img src={item.tags[0].image?.location} className="mt-1 h-12 rounded-full" /> }
         </div>
         { options?.showType && (

@@ -7,11 +7,12 @@ interface ButtonLinkProps {
   href?
   style?: "primary" | "cancel"
   className?
+  target?: string
   displayType?: string
   children: JSX.Element | string
 }
 
-const ButtonLink = ({href, displayType="normal", children, className, onClick}: ButtonLinkProps) => {
+const ButtonLink = ({target, href, displayType="normal", children, className, onClick}: ButtonLinkProps) => {
 
   let bgColor = ''
   let textColor = 'white'
@@ -40,6 +41,7 @@ const ButtonLink = ({href, displayType="normal", children, className, onClick}: 
     <Link href={href}>
       <a 
         onClick={onClick} 
+        target={target}
         className={`
         ${className}
         ${styles.button}

@@ -11,13 +11,13 @@ const objectFitMap = new Map([
   ['cover', 'object-cover'],
 ]);
 
-const ItemWithImageTableCell = ({rounded='full', title, objectFit='cover', placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
+const ItemWithImageTableCell = ({rounded='full', imgDivClass='', title, objectFit='cover', placeholder=null, secondary=null, image=null, icon=null, href=null}) => {
 
   return (
     <Link href={href ?? '#'}>
     <a className="text-main-secondary">
       <div className="flex items-center max-w-xs">
-        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${roundedMap.get(rounded)}`}>
+        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${imgDivClass} ${roundedMap.get(rounded)}`}>
           { image ? (
             <img className={`h-10 w-10 ${objectFitMap.get(objectFit)}`} src={image} alt="" />
           ) : (

@@ -8,6 +8,9 @@ import Button from '../../../Button';
 import useGetTagsFull from '../../../../hooks/tags/useGetTagsFull';
 import ItemWithImageTableCell from '../../../common/cells/ItemWithImageTableCell';
 
+import {Category} from '@styled-icons/material-rounded/Category'
+import LoadingSpinner from '../../../LoadingSpinner';
+
 const TagsTable = () => {
 
   const { tags: tagsBasic, loading, error } = useGetTags()
@@ -46,11 +49,15 @@ const TagsTable = () => {
         accessor: "label", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const cellProps = {
-            image: cell.row.original.image?.location,
+            ...(cell.row.original.image?.location ?
+              { image: cell.row.original.image?.location } :
+              { icon: <Category /> } 
+            ),
             title: cell.value,
             secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
+            imgDivClass: 'bg-main text-white p-2'
           }
           return (
             <ItemWithImageTableCell { ...cellProps } />
@@ -90,10 +97,10 @@ const TagsTable = () => {
   return (
     <>
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch tags.</p>
       )}
       { (!loading && !error) && (
         <Table tableData={tableData} tableCols={tableCols} />

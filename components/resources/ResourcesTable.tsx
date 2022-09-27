@@ -7,6 +7,8 @@ import useGetResources from '../../hooks/resources/useGetResources';
 import ItemWithImageTableCell from '../common/cells/ItemWithImageTableCell';
 import { useRouter } from '../../utils/router';
 import { resourceTypes } from '../resources/resourceTypes';
+import LoadingSpinner from '../LoadingSpinner';
+import { startCase } from 'lodash';
 
 const ResourcesTable = () => {
 
@@ -101,7 +103,7 @@ const ResourcesTable = () => {
             image: cell.row.original.image?.location,
             icon: IconComponent ? <IconComponent /> : null,
             title: cell.value,
-            secondary: cell.row.original.contentType,
+            secondary: startCase(cell.row.original.contentType),
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
@@ -141,10 +143,10 @@ const ResourcesTable = () => {
   return (
     <>
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch resourses.</p>
       )}
       { (!loading && !error) && (
         <Table tableData={tableData} tableCols={tableCols} />
