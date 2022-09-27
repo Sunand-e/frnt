@@ -4,6 +4,7 @@ import Table from '../../Table';
 import ButtonLink from '../../ButtonLink';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
 import TagSelect from '../../admin/tags/inputs/TagSelect';
+import LoadingSpinner from '../../LoadingSpinner';
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -198,10 +199,10 @@ const CoursesReportTable = () => {
     </div>
 
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch course report.</p>
       )}
       { (!loading && !error) && (
         <Table {...tableProps} />

@@ -24,7 +24,7 @@ const AdminTags = () => {
   
   const handleNewTagButton = (tagType='category') => {
     handleModal({
-      title: `Add a new tag`,
+      title: `Create a new ${tagType}`,
       size: 'lg',
       content: <AddTagModal type={tagType} />
     })

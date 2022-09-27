@@ -101,6 +101,8 @@ const AdminCourseSetup = () => {
             icon: null,
             prerequisites: null,
             tags: [],
+            shared: false,
+            mediaItem: null,
             sections: [{
               __typename: 'ContentItem',
               itemType: 'section',
@@ -111,6 +113,8 @@ const AdminCourseSetup = () => {
               content: {},
               contentType: null,
               image: null,
+              shared: false,
+              mediaItem: null,
               icon: null,
               prerequisites: null,
               _deleted: false,

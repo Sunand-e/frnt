@@ -21,7 +21,6 @@ export const UrlEntry = ({onAddLink}) => {
       { url && (
         <>
           <LinkPreview setValidUrl={setValidUrl} url={url} />
-          {validUrl}
           { validUrl && (
           <div className="flex justify-end">
             <Button className="ml-2" onClick={() => onAddLink(validUrl)}>Add Link</Button>

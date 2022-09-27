@@ -48,7 +48,7 @@ export const resourceTypes = {
     titleLabel: "Link title",
     chooseLabel: "Enter URL",
     label: 'Link',
-    readMoreLabel: 'Visit link',
+    readMoreLabel: 'More details',
     icon: Link,
     content: { blocks: [{type:'button'}]}
   },

@@ -5,6 +5,7 @@ import RoleNameCell from './RoleNameCell';
 import useGetRoles from '../../../../hooks/roles/useGetRoles';
 import useDeleteRole from '../../../../hooks/roles/useDeleteRole';
 import Button from '../../../Button';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 const RolesTable = () => {
 
@@ -73,10 +74,10 @@ const RolesTable = () => {
   return (
     <>
       { loading && (
-        <p>loading</p>
+        <LoadingSpinner />
       )}
       { error && (
-        <p>error</p>
+        <p>Unable to fetch roles.</p>
       )}
       { (!loading && !error) && (
         <Table tableData={tableData} tableCols={tableCols} />
