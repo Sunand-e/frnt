@@ -2,11 +2,13 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import ScormAgain from 'scorm-again'
 import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../graphql/queries/scoAttempts';
 import { useRouter } from '../../../../utils/router';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 declare global {
   interface Window {
@@ -34,6 +36,7 @@ export const PackageIFrame = React.forwardRef(({
   attempt
 }, ref) => {
 
+  const [loaded, setLoaded] = useState(false)
   
   const router = useRouter()
 
@@ -56,6 +59,12 @@ export const PackageIFrame = React.forwardRef(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((data) => {
+    // alert('WHENDOESTHISFIRE?')
+    // alert(attempt)
+    console.log('attempt')
+    console.log(attempt)
+    console.log('attempt%data')
+    console.log(data)
     upsertScoAttempt({
       variables: {
         attempt,
@@ -105,10 +114,12 @@ export const PackageIFrame = React.forwardRef(({
   
       });
 
-      API.loadFromJSON(data?.latestScoAttempt?.data, '');
+      API.loadFromJSON(data?.latestScoAttempt?.data, '')
   
       window.addEventListener('beforeunload', unloadHandler)
       window.addEventListener('unload', unloadHandler)
+
+      setLoaded(true)
     }
   },[attempt, saveData, data])
 
@@ -138,8 +149,13 @@ export const PackageIFrame = React.forwardRef(({
       {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
-    <iframe key={attempt} ref={ref} src={block.properties.url}></iframe>
-    
+    { loaded ? (
+      <iframe key={attempt} ref={ref} src={block.properties.url}></iframe>
+      ) : (
+      <div className='flex items-center justify-center'>
+        <LoadingSpinner />
+      </div>
+    )}
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )

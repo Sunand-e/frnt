@@ -1,4 +1,4 @@
-import { GET_SCORM_MODULES } from "../../graphql/queries/allQueries"
+import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
 import FileUploader from "../FileUploader"
 
 const PackageUploader = () => {

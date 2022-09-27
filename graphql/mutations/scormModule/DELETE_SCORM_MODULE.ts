@@ -11,6 +11,8 @@ export const DELETE_SCORM_MODULE = gql`
         id,
         _deleted @client
       }
+      usage
+      success
       message
     }
   }
