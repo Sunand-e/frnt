@@ -62,6 +62,14 @@ const apiPaths = {
     },
     router: customRouter,
     changeOrigin: true
+  },
+  '/uploaded_images': {
+    target: 'http://127.0.0.1',
+    pathRewrite: {
+      '^/uploaded_images': '/uploaded_images'
+    },
+    router: customRouter,
+    changeOrigin: true
   }
 }
 
@@ -74,6 +82,7 @@ app.prepare().then(() => {
     server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
     server.use('/graphiql', createProxyMiddleware(apiPaths['/graphiql']));
     server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
+    server.use('/uploaded_images', createProxyMiddleware(apiPaths['/uploaded_images']));
     server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));
     server.use('/scorm', createProxyMiddleware(apiPaths['/scorm']));
     server.use('/api/v1', createProxyMiddleware(apiPaths['/api/v1']));
