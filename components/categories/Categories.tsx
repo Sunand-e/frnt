@@ -9,6 +9,7 @@ import CategoriesCollection from './CategoriesCollection';
 import { client } from '../../graphql/client';
 import { GET_COURSES } from '../../graphql/queries/allQueries';
 import useGetCourses from '../../hooks/courses/useGetCourses';
+import { Dot } from '../common/misc/Dot';
 
 const Categories = () => {
   
@@ -49,8 +50,14 @@ const Categories = () => {
   return (
     <div className="flex flex-col items-stretch grow">
       { tags && <CategoryFilters /> }
-      { !courses && <LoadingSpinner text="Loading courses..."/> }
-
+      { !courses && <LoadingSpinner text={(
+        <>
+          Loading categories
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
       {
       // If user is searching, only show search results
        courseNodes && (
