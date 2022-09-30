@@ -1,7 +1,7 @@
 import styles from './LoadingSpinner.module.scss'
 
 interface LoadingSpinnerProps {
-  text?: string,
+  text?
   className?: string
 }
 

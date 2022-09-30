@@ -2,6 +2,7 @@ import { useState } from "react"
 import useGetUser from "../../hooks/users/useGetUser"
 import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
+import LoadingSpinner from "../LoadingSpinner"
 
 export default function CourseTabs({gridClasses=''}) {
 
@@ -68,6 +69,9 @@ export default function CourseTabs({gridClasses=''}) {
   return (
     <>
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
+      
+      { !courses && <LoadingSpinner text="Loading courses..."/> }
+
       { !!courses?.length && (
         <>
           <ItemCollection
