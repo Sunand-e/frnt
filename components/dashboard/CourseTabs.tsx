@@ -84,7 +84,7 @@ export default function CourseTabs({gridClasses=''}) {
               itemOptions: {
                 ...defaultOptions.itemOptions,
                 getReadMoreLabel: (item) => readMoreLabel,
-                getInfoContent: item => item.content?.description,
+                // getInfoContent: item => item.content?.description,
               },
               maxItems: 0,
             }}
