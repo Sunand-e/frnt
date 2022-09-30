@@ -10,18 +10,18 @@ import CalendarDay from "../Calendar/CalendarDay";
 
 const Dashboard = () => {
 
-  const { loading, error, data } = useQuery(GET_DASHBOARD);
+  // const { loading, error, data } = useQuery(GET_DASHBOARD);
 
-  if (error) {
-    return (
-      <>
-        <p>Error:</p>
-        <pre>
-          {JSON.stringify(error, undefined, 2)}
-        </pre>
-      </>
-    )
-  }
+  // if (error) {
+  //   return (
+  //     <>
+  //       <p>Error:</p>
+  //       <pre>
+  //         {JSON.stringify(error, undefined, 2)}
+  //       </pre>
+  //     </>
+  //   )
+  // }
 
   const router = useRouter()
 

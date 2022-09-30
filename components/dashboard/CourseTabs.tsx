@@ -74,11 +74,13 @@ export default function CourseTabs({gridClasses=''}) {
             items={filteredCourses || []}
             gridClasses={gridClasses}
             noItemsText={currentPanel.noItemsText}
+
             options={{
               ...defaultOptions,
               itemOptions: {
                 ...defaultOptions.itemOptions,
-                getReadMoreLabel: (item) => readMoreLabel
+                getReadMoreLabel: (item) => readMoreLabel,
+                getInfoContent: item => item.content?.description,
               },
               maxItems: 0,
             }}

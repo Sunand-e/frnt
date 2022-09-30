@@ -21,7 +21,7 @@ import useUserHasCapability from '../hooks/users/useUserHasCapability';
 
 const DashboardPage = () => {
   // console.log(GET_DASHBOARD)
-  const { loading, error, data } = useQuery(GET_DASHBOARD);
+  // const { loading, error, data } = useQuery(GET_DASHBOARD);
   // const library = useReactiveVar(libraryVar)
 
   usePageTitle({title: "Dashboard"})
@@ -75,25 +75,25 @@ const DashboardPage = () => {
     }
   },[userHasCapability])
   
-  useEffect(() => {
-    if(data) {
-      if(queries) {
-        queries.getAllContent()
-        queries.getLibrary()
-      }
-    }
-  },[data, queries])
+  // useEffect(() => {
+  //   if(data) {
+  //     if(queries) {
+  //       queries.getAllContent()
+  //       queries.getLibrary()
+  //     }
+  //   }
+  // },[data, queries])
   
-  if (error) {
-    return (
-      <>
-        <p>Error!</p>
-        <pre>
-          {/* {JSON.stringify(error, undefined, 2)} */}
-        </pre>
-      </>
-    )
-  }
+  // if (error) {
+  //   return (
+  //     <>
+  //       <p>Error!</p>
+  //       <pre>
+  //         {/* {JSON.stringify(error, undefined, 2)} */}
+  //       </pre>
+  //     </>
+  //   )
+  // }
   const router = useRouter()
   const handleTopicClick = tag => e => {
     e.preventDefault()

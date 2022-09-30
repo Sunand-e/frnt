@@ -40,7 +40,8 @@ const TenantsTable = () => {
             title: cell.row.original.name,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
             image: cell.row.original.logos.logo_square,
-            rounded: "none"
+            rounded: "none",
+            objectFit: 'fill'
           }
           return (
             <ItemWithImageTableCell { ...cellProps } />

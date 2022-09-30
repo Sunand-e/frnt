@@ -74,7 +74,6 @@ export default function SearchResults({items}) {
         console.log(item)
         return resourceTypes[item?.contentType]?.readMoreLabel ?? 'Read More'
       },
-      getInfoContent: item => item.content?.description,
       getItemTitle: item => {
         const IconComponent = resourceTypes[item.contentType]?.icon
         return (
