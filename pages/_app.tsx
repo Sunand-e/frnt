@@ -43,7 +43,7 @@ import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
 import { ModalContext, ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
-import { QueriesContextProvider } from '../context/QueriesContext';
+// import { QueriesContextProvider } from '../context/QueriesContext';
 import { applyTheme, createTheme } from '../themes/utils';
 import baseTheme from "../themes/base";
 import { TenantContextProvider } from '../context/TenantContext';
@@ -72,45 +72,33 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   
-  const updateContentTagsVar = () => {
-    if(libraryData) {
-      const serializedState = client.cache.extract()
-      contentTagsVar(
-        Object.values(serializedState).filter(
-          item => item.__typename === 'ContentTag'
-        )
-      )
-    }
-  }
-
-  
   // useRouteChange()
   useBeforeUnload()
 
   
-  const [ getLibrary, { 
-    loading: loadingLibrary, 
-    data: libraryData, 
-    error: libraryError 
-  } ] = useLazyQuery(GET_LIBRARY, {client})
+  // const [ getLibrary, { 
+  //   loading: loadingLibrary, 
+  //   data: libraryData, 
+  //   error: libraryError 
+  // } ] = useLazyQuery(GET_LIBRARY, {client})
 
-  const [ getAllContent, { 
-    loading: loadingAllContent, 
-    data: allContentData, 
-    error: allContentError
-  } ] = useLazyQuery(GET_ALL_CONTENT, {client})
+  // const [ getAllContent, { 
+  //   loading: loadingAllContent, 
+  //   data: allContentData, 
+  //   error: allContentError
+  // } ] = useLazyQuery(GET_ALL_CONTENT, {client})
 
-  const [ getDashboard, { 
-    loading: loadingDashboard, 
-    data: dashboardData, 
-    error: dashboardError
-  } ] = useLazyQuery(GET_DASHBOARD, {client})
+  // const [ getDashboard, { 
+  //   loading: loadingDashboard, 
+  //   data: dashboardData, 
+  //   error: dashboardError
+  // } ] = useLazyQuery(GET_DASHBOARD, {client})
 
-  const queries = {
-    getLibrary,
-    getAllContent,
-    getDashboard
-  }
+  // const queries = {
+  //   getLibrary,
+  //   getAllContent,
+  //   getDashboard
+  // }
 
   console.log('caused a rerender');
 
@@ -132,24 +120,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   })
 
   pageProps.setTitle = setTitle;
-  
-  
-  useEffect(() => {
-    if(allContentData) {
-      getLibrary()
-      getDashboard()
-      latestContentVar(allContentData.courses.slice(0, 4))
-      allContentVar(allContentData.courses)
-    }
-  },[allContentData])
-
-  // Make sure the content tags reactive variable is set when library has loaded
-  useEffect(() => {
-    if(libraryData) {
-      updateContentTagsVar()
-      libraryVar(libraryData.courses)
-    }
-  },[libraryData])
   
   // Show the login form if not logged in
   
@@ -183,13 +153,13 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     <>
     <ApolloProvider client={client}>
         <TenantContextProvider>
-          <QueriesContextProvider value={{queries}}>
+          {/* <QueriesContextProvider value={{queries}}> */}
             <ModalProvider>
               {
                 layout
               }
             </ModalProvider>
-          </QueriesContextProvider>
+          {/* </QueriesContextProvider> */}
         </TenantContextProvider>
       </ApolloProvider>
     </>

@@ -26,10 +26,6 @@ const DashboardPage = () => {
 
   usePageTitle({title: "Dashboard"})
 
-  const {queries} = useContext(QueriesContext)
-  
-  const items = useReactiveVar(latestContentVar)
-
   const recentlyViewedOptions = { 
     heading: 'Recently Viewed',
     // subHeading: 'Courses and workshops that were recently released',
@@ -57,7 +53,7 @@ const DashboardPage = () => {
     e.target.blur()
   }
 
-  const { userHasCapability } = useUserHasCapability()
+  const { userHasCapability, userCapabilityArray } = useUserHasCapability()
 
   useEffect(() => {
     if(userHasCapability([
@@ -75,31 +71,14 @@ const DashboardPage = () => {
     }
   },[userHasCapability])
   
-  // useEffect(() => {
-  //   if(data) {
-  //     if(queries) {
-  //       queries.getAllContent()
-  //       queries.getLibrary()
-  //     }
-  //   }
-  // },[data, queries])
-  
-  // if (error) {
-  //   return (
-  //     <>
-  //       <p>Error!</p>
-  //       <pre>
-  //         {/* {JSON.stringify(error, undefined, 2)} */}
-  //       </pre>
-  //     </>
-  //   )
-  // }
   const router = useRouter()
+
   const handleTopicClick = tag => e => {
     e.preventDefault()
     router.push(`/library?tag=${tag.label}`, undefined, { shallow: true })
     console.log( libraryVar() ) 
   }
+  
   return (
     <>
       <Head>

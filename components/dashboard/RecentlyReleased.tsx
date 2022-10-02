@@ -5,12 +5,9 @@ import {latestContentVar} from "../../graphql/cache";
 export default function RecentlyReleased() {
 
   // const library = useReactiveVar(libraryVar)
-  
-  const items = useReactiveVar(latestContentVar)
+  // const items = useReactiveVar(latestContentVar)
   // const items = library.slice(0,3);
-  // useEffect(() => {
-  //   console.log(items)
-  // }, [items]);
+  const items = []
  
   const options = { 
     heading: 'Recently Released',

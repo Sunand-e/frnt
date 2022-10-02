@@ -90,6 +90,9 @@ export const GET_USER_CAPABILITIES = gql`
       id
       userType
       roles {
+        id
+        name
+        roleType
         capabilities {
           id
           name
@@ -109,6 +112,7 @@ export const GET_USER_CAPABILITIES = gql`
       groups {
         edges {
           roles {
+            id
             capabilities {
               id
               name
@@ -192,6 +196,25 @@ export const GET_USER_CONTENT = gql`
     user(id: $id) {
       ...UserFragment
       courses {
+        ...UserContentEdgeFragment
+      }
+      sections {
+        ...UserContentEdgeFragment
+      }
+      lessons {
+        ...UserContentEdgeFragment
+      }
+    }
+  }
+  ${UserFragment}
+  ${UserContentEdgeFragment}
+`
+
+export const GET_USER_COURSE_STRUCTURE = gql`
+  query GetUserCourseStructure($id: ID) {
+    user {
+      ...UserFragment
+      course(id: $id) {
         ...UserContentEdgeFragment
       }
       sections {
