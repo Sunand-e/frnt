@@ -44,6 +44,7 @@ function useUserHasCapability() {
   },[data])
 
   return {
+    userType: data?.user.userType,
     userHasCapability,
     userCapabilityArray
   }

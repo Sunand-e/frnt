@@ -2,7 +2,7 @@ import { useRouter } from '../utils/router'
 import { headerButtonsVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import Button from '../components/Button'
-import ResourceView from '../components/ContentLibrary/ResourceView'
+import ResourceView from '../components/ResourceLibrary/ResourceView'
 
 const ResourcePage = () => {
   /*
