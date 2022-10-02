@@ -16,6 +16,8 @@ export interface DeleteScormModule_deleteScormModule_scormModule {
 export interface DeleteScormModule_deleteScormModule {
   __typename: "DeleteScormModulePayload";
   scormModule: DeleteScormModule_deleteScormModule_scormModule;
+  usage: any[];
+  success: boolean;
   message: string;
 }
 

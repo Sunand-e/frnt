@@ -69,7 +69,9 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
             title: cell.value,
             secondary: cell.row.original?.tags?.map?.(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
+            href: cell.row.original.shared === false && cell.row.original.id ?
+              `${editUrl}?id=${cell.row.original.id}` :
+              '#'
           }
           return (
             <ItemWithImageTableCell { ...cellProps } />

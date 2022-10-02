@@ -11,8 +11,6 @@ export const DELETE_MEDIA_ITEM = gql`
         id
       }
       usage
-      usageReport
-      success
       message
     }
   }

@@ -214,7 +214,7 @@ export const GET_USER_COURSE_STRUCTURE = gql`
   query GetUserCourseStructure($id: ID) {
     user {
       ...UserFragment
-      course(id: $id) {
+      courses(where:{id: $id }) {
         ...UserContentEdgeFragment
       }
       sections {
