@@ -8,7 +8,6 @@ import { useReactiveVar } from '@apollo/client'
 import { currentContentItemVar } from '../../graphql/cache'
 import useCourse from '../../hooks/courses/useCourse'
 import ProgressDebug from './ProgressDebug'
-import useGetUserContent from '../../hooks/users/useGetUserContent'
 
 const CourseItemView = () => {
 
