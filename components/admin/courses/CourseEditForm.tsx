@@ -49,7 +49,6 @@ const CourseEditForm = ({course}) => {
               }
             }
           }
-          // refetchQueries: [{ query: GET_COURSES }]
         }).catch(res => {
           // TODO: do something if there is an error!!
         })

@@ -11,7 +11,7 @@
     "codegen:generate": "npx apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.7",
+    "@apollo/client": "^3.7.0",
     "@atlaskit/tree": "^8.4.0",
     "@babel/core": "^7.16.7",
     "@babel/preset-react": "^7.16.7",

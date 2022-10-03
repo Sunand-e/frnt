@@ -9,17 +9,18 @@ import { useRouter } from "../../utils/router";
 import Button from "../Button";
 import { useReactiveVar } from "@apollo/client";
 import { currentContentItemVar } from "../../graphql/cache";
+import useGetUserContent from "../../hooks/users/useGetUserContent";
 
 const PrevNextButtons = () => {
 
   const router = useRouter()
   const { id: courseId } = router.query
   const { id } = useReactiveVar(currentContentItemVar)
-
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0]?.node
+  
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
-  /* Getting and setting the prev/next button lesson ids */
-  const { loading, error, course } = useGetCourse(courseId)
 
   const [prevNextIds, setPrevNextIds] = useState([]);
 

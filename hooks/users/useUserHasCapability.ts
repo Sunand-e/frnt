@@ -1,8 +1,7 @@
 
 import { useQuery } from "@apollo/client"
 import { useCallback, useMemo } from "react";
-import { GET_USER_CAPABILITIES } from "../../graphql/queries/users";
-import useGetUser from "./useGetUser";
+import useGetCurrentUser from "./useGetCurrentUser";
 
 
 const getCapsFromRoleArr = (roles) => {
@@ -13,27 +12,27 @@ const getCapsFromRoleArr = (roles) => {
 
 function useUserHasCapability() {
   
-  const { loading, error, data } = useQuery(GET_USER_CAPABILITIES)
+  const { loading, error, user } = useGetCurrentUser()
   
   const userCapabilityArray = useMemo(() => {
-    return data ? [
-      ...getCapsFromRoleArr(data.user.roles),
+    return user ? [
+      ...getCapsFromRoleArr(user.roles),
       
-      ...data.user.courses.edges.reduce((array, courseEdge) => {
+      ...user.courses.edges.reduce((array, courseEdge) => {
         return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
       }, []),
 
-      ...data.user.groups.edges.reduce((array, groupEdge) => {
+      ...user.groups.edges.reduce((array, groupEdge) => {
         return [...array, ...getCapsFromRoleArr(groupEdge.roles)]
       }, []),
     ] : []
-  },[data])
+  },[user])
 
   const userHasCapability = useCallback((capabilityValue) => {
     const capabilities = Array.isArray(capabilityValue) ? capabilityValue : [capabilityValue]
     if (
-      data && (
-        data.user.userType === 'SuperAdmin' ||
+      user && (
+        user.userType === 'SuperAdmin' ||
         capabilities.some(capability => userCapabilityArray.includes(capability))
       )
     ) {
@@ -41,9 +40,10 @@ function useUserHasCapability() {
     }
     return false
 
-  },[data])
+  },[user])
 
   return {
+    userType: user?.userType,
     userHasCapability,
     userCapabilityArray
   }

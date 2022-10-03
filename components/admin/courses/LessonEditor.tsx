@@ -1,4 +1,4 @@
-import { useReactiveVar } from "@apollo/client"
+import { gql, useFragment_experimental, useReactiveVar } from "@apollo/client"
 import { currentContentItemVar } from "../../../graphql/cache"
 import { useEffect } from "react";
 import BlockEditor from "../../ContentEditor/BlockEditor";
@@ -6,6 +6,13 @@ import { ContentTitle } from "../../ContentEditor/ContentTitle";
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import { useRouter } from "next/router";
 import useGetLesson from "../../../hooks/lessons/useGetLesson";
+import { useBlockStore } from "../../ContentEditor/useBlockStore";
+
+const LessonContentFragment = gql`
+  fragment LessonContentFragment on ContentItem {
+    content
+  }
+`
 const LessonEditor = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
@@ -13,13 +20,21 @@ const LessonEditor = () => {
 
   const router = useRouter()
   
-  const {
-    updateLesson
-  } = useUpdateLesson(id)  
-  const {
-    lesson
-  } = useGetLesson(id)  
+  const { updateLesson } = useUpdateLesson(id)
 
+  const setBlocks = useBlockStore(state => state.setBlocks)
+
+  const { complete, data } = useFragment_experimental({
+    fragment: LessonContentFragment,
+    from: {
+      __typename: "ContentItem",
+      id: id,
+    },
+  });
+
+  useEffect(() => {
+    data?.content && setBlocks(data.content.blocks || [])
+  },[data])
 
   /* REFACTOR NEEDED */
   useEffect(() => {
@@ -43,13 +58,8 @@ const LessonEditor = () => {
 
   return (
     <>
-      { lesson && (
-      <>
-        <ContentTitle />
-        <BlockEditor />
-       
-      </>
-      ) }
+      <ContentTitle />
+      <BlockEditor />
     </>
   )
 }

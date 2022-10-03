@@ -50,7 +50,6 @@ function useCreateCourse(cb) {
         }
       },
       onCompleted: cb
-      // refetchQueries: [{ query: GET_COURSE }]
     })
   }
 

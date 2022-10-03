@@ -1,11 +1,6 @@
-import React, {forwardRef, useEffect} from 'react';
-import classNames from 'classnames';
-
+import React, {forwardRef} from 'react';
 import {Handle, Remove} from '../Item';
-
 import styles from './Container.module.scss';
-import { GET_SECTION } from '../../../graphql/queries/allQueries';
-import { client } from '../../../graphql/client';
 import cache from "../../../graphql/cache"
 import { ContentFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';

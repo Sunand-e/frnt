@@ -11,15 +11,6 @@ import NavFooter from "./NavFooter";
 import { TenantContext } from '../../context/TenantContext';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
-const GET_CURRENT_USER_TYPE = gql`
-query GetCurrentUserType {
-  user {
-    id
-    userType
-  }
-}
-`
-
 const PrimaryNav = ({isSlim, pageNavState}) => {
 
   /*
@@ -52,19 +43,17 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const view = useReactiveVar(viewVar);
 
-  const { userHasCapability } = useUserHasCapability()
+  const { userType } = useUserHasCapability()
 
   const [ isSuperAdmin, setIsSuperAdmin ] = useState(false)
 
   const tenant = useContext(TenantContext)
 
-  const { loading, error, data } = useQuery(GET_CURRENT_USER_TYPE);
-
   useEffect(() => {
-    if(data) {
-      setIsSuperAdmin(data.user.userType === 'SuperAdmin')
+    if(userType) {
+      setIsSuperAdmin(userType === 'SuperAdmin')
     }
-  },[data])
+  },[userType])
 
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
   

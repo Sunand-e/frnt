@@ -7,25 +7,25 @@ import useCourse from "../../../hooks/courses/useCourse"
 import { useEffect } from "react"
 import { currentContentItemVar } from "../../../graphql/cache"
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson"
+import useGetUserContent from "../../../hooks/users/useGetUserContent"
 
 const CourseEditor = () => {
-  const router = useRouter()
 
+  const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { course } = useCourse(id)
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0]?.node
+
   const currentContentItem = useReactiveVar(currentContentItemVar)
   
-  const {
-    lesson,
-    updateLesson
-  } = useUpdateLesson(contentId)
+  const { updateLesson } = useUpdateLesson(contentId)
   
   useEffect(() => {
     // If there is a course but no item provided, show the first item
     if(course && !contentId) {
       const firstItemInCourse = course?.sections.find(
-        (section) => section.children?.length
-      )?.children[0]
+        (section) => section.lessons?.length
+      )?.lessons[0]
       
       if(firstItemInCourse) {
         currentContentItemVar({

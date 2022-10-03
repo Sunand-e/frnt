@@ -11,6 +11,7 @@ import CourseStructureEditor from '../components/CourseStructureEditor/CourseStr
 import SidebarEditableItem from '../components/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
 import { motion } from 'framer-motion';
+import useGetUserContent from '../hooks/users/useGetUserContent';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -18,24 +19,16 @@ export default function EditorLayout( {page, navState} ) {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
 
-  const router = useRouter()
-  
-  const { id: courseId } = router.query
+    const router = useRouter()
+    const { id } = router.query
+    const { user } = useGetUserContent(id)
+    const course = user?.courses.edges[0]?.node
 
-  const { loading, error, data: {course} = {} } = useQuery(
-    GET_COURSE,
-    {
-      variables: {
-        id: courseId
-      }
-    }
-  );
   
   const courseStructureEditorProps = {
     renderItem: SidebarEditableItem
   }
 
-  // { course && <CourseStructureEditor {...courseStructureEditorProps} course={course} /> }
   const layoutProps = {
     page,
     navState,

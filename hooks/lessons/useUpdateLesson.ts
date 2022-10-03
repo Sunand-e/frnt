@@ -46,21 +46,8 @@ function useUpdateLesson(id = null) {
       // TODO: do something if there is an error!!
     })
   }
-  
-  const { loading, error, data: {lesson} = {} } = useQuery(
-    GET_LESSON,
-    {
-      variables: {
-        id
-      },
-      skip: !id
-    }
-  );
 
   return {
-    lesson,
-    loading,
-    error,
     updateLesson,
   }
 }

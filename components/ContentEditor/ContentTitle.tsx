@@ -1,7 +1,6 @@
 import { createPlugins, Plate, createSingleLinePlugin } from "@udecode/plate-headless";
 import { getPlateEditorRef } from "@udecode/plate";
 import cache, { currentContentItemVar } from "../../graphql/cache";
-import { ContentFragment } from "../../graphql/queries/allQueries";
 
 import { useDebouncedCallback } from 'use-debounce';
 import { useEffect } from "react";

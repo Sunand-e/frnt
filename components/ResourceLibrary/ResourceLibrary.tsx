@@ -1,15 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
-import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
-import ItemCollection from '../common/items/ItemCollection';
 import SearchResults from './SearchResults';
 import LoadingSpinner from '../LoadingSpinner';
 import useGetTags from '../../hooks/tags/useGetTags';
-import useGetCourses from '../../hooks/courses/useGetCourses';
-import ContentLibraryFilters from './ContentLibraryFilters';
+import ResourceLibraryFilters from './ResourceLibraryFilters';
 import useGetResources from '../../hooks/resources/useGetResources';
 
-const ContentLibrary = () => {
+const ResourceLibrary = () => {
   
   const router = useRouter()
   const { search, category } = router.query
@@ -39,7 +36,7 @@ const ContentLibrary = () => {
 
   return (
     <div className="flex flex-col items-stretch grow">
-      { tags && <ContentLibraryFilters /> }
+      { tags && <ResourceLibraryFilters /> }
       { !resources && <LoadingSpinner text="Loading resources..."/> }
 
       {
@@ -53,4 +50,4 @@ const ContentLibrary = () => {
   )
 }
 
-export default ContentLibrary
+export default ResourceLibrary

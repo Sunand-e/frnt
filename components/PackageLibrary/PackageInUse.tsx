@@ -10,12 +10,14 @@ const PackageInUse: React.FunctionComponent<PackageInUseProps> = ({item, usage, 
 
   return (
     <>
-      <p className="mb-2">You cannot delete <span className="font-bold">{item.fileName}</span> as it is currently in use in the following content items:</p>
+      <p className="mb-2">You cannot delete <span className="font-bold">{item.title}</span> as it is currently in use in the following courses:</p>
       <ul role="list" className="list-disc list-inside mb-2">
       {/* <ul role="list" className=""> */}
-        { usage.map((courseTitle, idx) => (
+        { usage.map((usage, idx) => (
           <li key={idx} className="relative">
-            {courseTitle}
+            <pre>
+            { JSON.stringify(usage,null,2) }
+            </pre>
           </li>
         ))}
       </ul>

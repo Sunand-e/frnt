@@ -1,18 +1,11 @@
 import { UpdateSection, UpdateSectionVariables } from "../../graphql/mutations/section/__generated__/UpdateSection";
 import { UPDATE_SECTION } from "../../graphql/mutations/section/UPDATE_SECTION"
-import { GET_SECTION } from "../../graphql/queries/allQueries"
+import { GET_SECTION, SectionFragment } from "../../graphql/queries/allQueries"
 import { useMutation, useQuery } from "@apollo/client"
+import cache from "../../graphql/cache";
 
 function  useUpdateSection(id = null) {
 
-  const { loading, error, data: {section} = {} } = useQuery(
-    GET_SECTION,
-    {
-      variables: {
-        id
-      }
-    }
-  );
 
   const [updateSectionMutation, updateSectionResponse] = useMutation<UpdateSection, UpdateSectionVariables>(
     UPDATE_SECTION
@@ -20,6 +13,15 @@ function  useUpdateSection(id = null) {
 
   const updateSection = (values, cb = null) => {
 
+    const sectionId = values.id || id
+    
+    const section = cache.readFragment({
+      id: `ContentItem:${sectionId}`,
+      fragment: SectionFragment,
+      fragmentName: 'SectionFragment',
+      // optimistic: true,
+    });
+    
     const variables = {
       ...values
     }
@@ -45,9 +47,6 @@ function  useUpdateSection(id = null) {
   }
 
   return {
-    section,
-    loading,
-    error,
     updateSection
   }
 }

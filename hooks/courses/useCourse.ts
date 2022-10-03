@@ -48,12 +48,7 @@ function useCourse(id) {
     })
   }
 
-  const { course, loading, error } = useGetCourse(id)
-
   return {
-    course,
-    loading,
-    error,
     updateCourse,
     updateCourseContentBlocks,
   }

@@ -7,8 +7,9 @@ import { useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
 import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
 import useGetCourse from '../hooks/courses/useGetCourse'
-import useGetUser from '../hooks/users/useGetUser'
+import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/Button'
+import useGetPathway from '../hooks/pathways/useGetPathway'
 
 const CoursePage = () => {
   /*
@@ -18,8 +19,8 @@ const CoursePage = () => {
   const router = useRouter()
   const { id, cid: contentId, showEdit=false } = router.query
 
-  const { loading, error, course } = useGetCourse(id);
-  const { user } = useGetUser();
+  const { loading, error, pathway } = useGetPathway(id);
+  const { user } = useGetCurrentUser();
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
@@ -72,24 +73,8 @@ const CoursePage = () => {
       })
     }
   },[id, contentId])
-  
-  useEffect(() => {
-    // If there is a course but no item provided, show the first item
-    if(course && !currentContentItem.id) {
-      const firstItemInCourse = course?.sections.find(
-        (section) => section.children?.length
-      )?.children[0]
 
-      if(firstItemInCourse) {
-        currentContentItemVar({
-          ...currentContentItem,
-          id: firstItemInCourse.id
-        })
-      }
-    }
-  },[id, course?.id])
-
-  usePageTitle({ title: `Course: ${course?.title}` })
+  usePageTitle({ title: `Pathway: ${pathway?.title}` })
   useEffect(() => {
     user && console.log('user',user)
     headerButtonsVar(

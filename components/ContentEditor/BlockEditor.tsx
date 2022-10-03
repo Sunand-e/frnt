@@ -28,25 +28,12 @@ const ReorderableBlock = ({id}) => {
 const BlockEditor = () => {
 
   const editBlocks = useBlockStore(state => state.editBlocks)
-  const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
   const isDirty = useBlockStore(state => state.isDirty)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
 
-  const {getContent, content} = useBlockEditor()
-
   const router = useRouter()
   
-  useEffect(() => {
-    getContent()
-  },[router.query?.cid])
-  
-  useEffect(() => {
-    if(content) {
-      setBlocks(content?.blocks || []);
-    }
-  }, [content])
-
   useWarningOnExit(isDirty)
 
   return (

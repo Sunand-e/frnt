@@ -21,6 +21,26 @@ export const UserFragment = gql`
   }
 `
 
+export const CurrentUserFragment = gql`
+  fragment CurrentUserFragment on User {
+    createdAt
+    email
+    firstName
+    fullName
+    id
+    lastName
+    status
+    updatedAt
+    userType
+    profileImageUrl
+    roles {
+      id
+      name
+      roleType
+    }
+  }
+`
+
 export const UserCoursesFragment = gql`
   fragment UserCoursesFragment on User {
     courses {
@@ -52,6 +72,42 @@ export const UserCoursesFragment = gql`
   ${ContentFragment}
 `
 
+export const UserCapabilitiesFragment = gql`
+  fragment UserCapabilitiesFragment on User {
+    roles {
+      id
+      name
+      roleType
+      capabilities {
+        id
+        name
+      }
+    }
+    courses {
+      edges {
+        roles {
+          id
+          capabilities {
+            id
+            name
+          }
+        }
+      }
+    }
+    groups {
+      edges {
+        roles {
+          id
+          capabilities {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`
+
 export const UserGroupsFragment = gql`
   fragment UserGroupsFragment on User {
     groups {
@@ -81,6 +137,21 @@ export const GET_USER = gql`
   ${UserFragment}
   ${UserCoursesFragment}
   ${UserGroupsFragment}
+`
+
+export const GET_CURRENT_USER = gql`
+  query GetUser($id: ID) {
+    user(id: $id) {
+      ...CurrentUserFragment
+      ...UserCoursesFragment
+      ...UserGroupsFragment
+      ...UserCapabilitiesFragment
+    }
+  }
+  ${CurrentUserFragment}
+  ${UserCoursesFragment}
+  ${UserGroupsFragment}
+  ${UserCapabilitiesFragment}
 `
 
 
@@ -148,6 +219,9 @@ export const UserContentEdgeFragment = gql`
           label
           tagType
         }
+        content
+        contentType
+        itemType
       }
       status
       lastVisited
@@ -192,21 +266,34 @@ export const GET_USERS_COURSES = gql`
 
 
 export const GET_USER_CONTENT = gql`
-  query GetUserContent($id: ID) {
-    user(id: $id) {
-      ...UserFragment
-      courses {
+  query GetUserContent($where: JSON, $whereCourse: JSON) {
+    user {
+      id
+      courses(where: $where) {
         ...UserContentEdgeFragment
+        __typename
+        edges {
+          node {
+            sections {
+              id            
+              lessons {
+                id
+              }
+            }
+          }
+        }
       }
-      sections {
+      sections(where: $whereCourse) {
         ...UserContentEdgeFragment
+        __typename
       }
-      lessons {
+      lessons(where: $whereCourse) {
         ...UserContentEdgeFragment
+        __typename
       }
+      __typename
     }
   }
-  ${UserFragment}
   ${UserContentEdgeFragment}
 `
 
@@ -214,7 +301,7 @@ export const GET_USER_COURSE_STRUCTURE = gql`
   query GetUserCourseStructure($id: ID) {
     user {
       ...UserFragment
-      course(id: $id) {
+      courses(where:{id: $id }) {
         ...UserContentEdgeFragment
       }
       sections {

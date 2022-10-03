@@ -70,7 +70,6 @@ const DeleteSectionModal = ({sectionId}) => {
           message: ''
         }
       }
-      // refetchQueries: [{ query: GET_COURSE }]
     }).catch(res => {
       // TODO: do something if there is an error!!
     })

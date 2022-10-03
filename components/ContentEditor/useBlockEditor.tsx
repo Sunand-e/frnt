@@ -4,28 +4,12 @@ import { useDebouncedCallback } from 'use-debounce';
 import { ModalContext } from "../../context/modalContext";
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { gql, useLazyQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import {useBlockStore, getIndexAndParent, shiftPosition, getBlock} from './useBlockStore';
 // import isEqual from 'lodash/isEqual';
 
 // import "./styles.css";
 // 
-const GET_LESSON_CONTENT = gql`
-query GetLessonContent($id: ID!) {
-  lesson(id: $id) {
-    content
-  }
-}
-`
-
-const GET_LIBRARY_ITEM_CONTENT = gql`
-query GetLibraryItemContent($id: ID!) {
-  libraryItem(id: $id) {
-    content
-  }
-}
-`
-
 const useBlockEditor = (block=null) => {
 
   // testing::::
@@ -34,29 +18,6 @@ const useBlockEditor = (block=null) => {
   const { id, type } = currentContentItem
 
   const { blocks, setBlocks, insertBlock } = useBlockStore()
-  
-  let contentQuery;
-  
-  switch(type) {
-    case 'lesson':
-      contentQuery = GET_LESSON_CONTENT
-      break
-    case 'libraryItem':
-    default:
-      contentQuery = GET_LIBRARY_ITEM_CONTENT
-      break
-  }
-
-  const [getContent, { loading, error, data }] = useLazyQuery(
-    contentQuery,
-    {
-      variables: { id },
-      onCompleted: () => {}
-    }
-  )
-  
-  const content = data?.[type]?.content
-
 
   const updateBlock = (block, newBlock=null) => {
     const { index, parent } = getIndexAndParent(block.id)
@@ -228,8 +189,6 @@ const useBlockEditor = (block=null) => {
   // }
 
   return {
-    getContent,
-    content,
     blocks,
     addColumn,
     shiftPosition,

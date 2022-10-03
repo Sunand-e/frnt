@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import usePageTitle from '../../hooks/usePageTitle'
-import ContentLibrary from '../../components/ContentLibrary/ContentLibrary';
+import ResourceLibrary from '../../components/ResourceLibrary/ResourceLibrary';
 
 const Library = ({queries}) => {
 
@@ -12,7 +12,7 @@ const Library = ({queries}) => {
         <title>Membership Academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <ContentLibrary />
+        <ResourceLibrary />
     </>
   )
 }

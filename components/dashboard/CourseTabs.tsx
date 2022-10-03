@@ -1,4 +1,5 @@
 import { useState } from "react"
+import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import useGetUser from "../../hooks/users/useGetUser"
 import Tabs from "../common/containers/Tabs"
 import ItemCollection from "../common/items/ItemCollection"
@@ -14,7 +15,7 @@ export default function CourseTabs({gridClasses=''}) {
     }
   }
   
-  const { user: { courses: courseConnection } = {} } = useGetUser()
+  const { user: { courses: courseConnection } = {} } = useGetCurrentUser()
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;

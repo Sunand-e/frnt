@@ -18,10 +18,11 @@ const DeletePackageModal = ({module, onDelete, onCancel}: DeletePackageModalProp
 
   const handleDelete = async () => {
     const response = await deleteScormModule(module.id)
+    console.log()
     if(response.deleteScormModule?.success === false) {
       if(response.deleteScormModule?.usage.length) {
         console.log('usageReport')
-        console.log(response.deleteScormModule?.usage)
+        console.log(response.deleteScormModule.usage)
         handleModal({
           size: 'lg',
           title: `SCORM module in use`,
