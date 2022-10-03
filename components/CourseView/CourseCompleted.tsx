@@ -1,17 +1,18 @@
 import { useRouter } from '../../utils/router'
-import useCourse from '../../hooks/courses/useCourse'
 import Link from 'next/link'
 import ButtonLink from '../ButtonLink'
 import { useReward } from 'react-rewards';
 import Button from '../Button';
 import { useContext, useEffect } from 'react';
 import { TenantContext } from '../../context/TenantContext';
+import useGetUserContent from '../../hooks/users/useGetUserContent';
 
 const CourseCompleted = () => {
   
   const router = useRouter()
   const { id } = router.query
-  const { course } = useCourse(id)
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0].node
 
   
 const tenant = useContext(TenantContext)

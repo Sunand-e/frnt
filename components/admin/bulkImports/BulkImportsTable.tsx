@@ -19,7 +19,7 @@ const BulkImportsTable = () => {
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    return queryData?.bulkImports?.edges?.map(({node}) => node) || []
+    return queryData?.bulkImports || []
   }, [queryData]);
 
   const editUrl = '/admin/bulkImports/edit'
@@ -29,41 +29,24 @@ const BulkImportsTable = () => {
       {
         Header: "BulkImport",
         Cell: ({ cell }) => {
-          const cellProps = {
-            title: cell.row.original.name,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
-            image: cell.row.original.logos.logo_square,
-            rounded: "none",
-            objectFit: 'fill'
-          }
+          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <Link href={href ?? '#'}>
+            <a className="font-medium text-gray-900">
+              {cell.row.original.name}
+            </a>
+          </Link>
           )
         }
       },
       {
-        Header: "URL",
-        accessor: "url",
-        Cell: ({ cell }) => {
-          const domainUrl = `${location.protocol}//${cell.value}`
-          const port = location.port && `:${location.port}`
-          return (
-              <a href={domainUrl + port}>{cell.value}</a>
-          )
-        },
+        Header: "User count",
+        accessor: "users",
+        Cell: ({ cell }) => cell.value.length
       },
       {
-        Header: "Date Created",
+        Header: "Date Uploaded",
         accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return (
-              dayjs(cell.value).format('DD/MM')
-          )
-        }
-      },
-      {
-        Header: "Date Updated",
-        accessor: "updatedAt",
         Cell: ({ cell }) => {
           return (
               dayjs(cell.value).format('DD/MM')

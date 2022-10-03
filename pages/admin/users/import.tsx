@@ -2,6 +2,7 @@ import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import UserImportForm from '../../../components/admin/users/UserImportForm';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
+import BulkImportsTable from '../../../components/admin/bulkImports/BulkImportsTable';
 
 
 const BackButton = () => (
@@ -22,6 +23,8 @@ const AdminUsersImport = () => {
   return (
     <>
       <UserImportForm />
+      <h3 className='mt-8 mb-4'>Previous Imports</h3>
+      <BulkImportsTable />
     </>
   )
 }

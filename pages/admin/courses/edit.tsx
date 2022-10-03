@@ -9,6 +9,7 @@ import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/admin/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/ContentEditor/useSaveContentButton'
+import useGetUserContent from '../../../hooks/users/useGetUserContent'
 
 const AdminCoursesEdit = () => {
   /*
@@ -16,10 +17,17 @@ const AdminCoursesEdit = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-    
-  const { id, cid } = router.query
-  const { course, updateCourse } = useCourse(id)
+  const { id } = router.query
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0]?.node
+
+  useEffect(() => {
+    course && console.log(course)
+  },[course])
+
+  const { updateCourse } = useCourse(id)
   
+
   useEffect(() => {
     const view = {
       isSlimNav: true,

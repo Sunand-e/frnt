@@ -1,16 +1,6 @@
-import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
-import { UpdateLesson, UpdateLessonVariables } from "../../graphql/mutations/lesson/__generated__/UpdateLesson"
-import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__generated__/ContentFragment';
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
-import cache, { currentContentItemVar } from "../../graphql/cache"
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-// import { ContentContext } from "../../context/contentContext";
-import { useDebouncedCallback } from "use-debounce";
-import BlockEditor from "../ContentEditor/BlockEditor";
-import { ContentTitle } from "../ContentEditor/ContentTitle";
-import useGetLib from "../../hooks/lessons/useGetLesson";
-import { Block } from "../ContentEditor/Block";
+import { useReactiveVar } from "@apollo/client"
+import { currentContentItemVar } from "../../graphql/cache"
+import { useCallback, useEffect, useMemo } from "react";
 import useGetResource from "../../hooks/resources/useGetResource";
 import usePageTitle from "../../hooks/usePageTitle";
 import DocumentItem from "../ContentEditor/blocks/DocumentBlock/DocumentItem";

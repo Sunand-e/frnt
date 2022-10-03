@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import Button from '../Button';
 import { useRouter } from 'next/router';
-import useGetUser from '../../hooks/users/useGetUser';
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import useUpdateUser from '../../hooks/users/useUpdateUser';
 import useUpdateUserTenantRoles from '../../hooks/users/useUpdateUserTenantRoles';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
@@ -23,7 +23,7 @@ interface ProfileFormValues {
 const ProfileForm = () => {
 
   const router = useRouter()
-  const { user, loading, error } = useGetUser()
+  const { user, loading, error } = useGetCurrentUser()
 
   const { updateUser } = useUpdateUser()
   const { uploadFileAndNotify } = useUploadAndNotify({

@@ -7,7 +7,15 @@ function useGetUserContent(id=null) {
   const { loading, error, data: {user} = {} } = useQuery(
     GET_USER_CONTENT,
     {
-      variables: id ? { id } : null
+      variables: {
+        where: {
+          id
+        },
+        whereCourse: {
+          courseId: id
+        }
+      },
+      skip: !id
     }
   );
 

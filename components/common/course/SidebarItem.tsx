@@ -6,12 +6,13 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
 import { forwardRef, useEffect, useState } from "react"
 import { lessonTypes } from "../../admin/courses/lessonTypes"
-import { useReactiveVar } from '@apollo/client'
+import { useFragment_experimental, useReactiveVar } from '@apollo/client'
 import { motion } from 'framer-motion'
 import useGetUser from '../../../hooks/users/useGetUser'
 import useGetUserContent from '../../../hooks/users/useGetUserContent'
+import { useRouter } from '../../../utils/router'
 
-const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
+const SidebarItem = forwardRef<HTMLLIElement, any>(({
   editing=false,
   listeners,
   id,
@@ -23,12 +24,18 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
   onDelete
 }, ref) => {
 
-  const item = cache.readFragment<ContentFragmentType>({
-    id:`ContentItem:${id}`,
-    fragment: ContentFragment,
-  })
+  const router = useRouter()
+  const { id: courseId, cid: contentId } = router.query
 
-  const { user } = useGetUserContent();
+  const { user } = useGetUserContent(courseId);
+
+  const { complete, data } = useFragment_experimental({
+    fragment: ContentFragment,
+    from: {
+      __typename: "ContentItem",
+      id: id,
+    },
+  });
   
   const [progress, setProgress] = useState(0)
   useEffect(() => {
@@ -54,7 +61,7 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   
-  const IconComponent = lessonTypes[item.contentType]?.icon
+  const IconComponent = data ? lessonTypes[data?.contentType]?.icon : null
 
   const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
 
@@ -89,7 +96,7 @@ const SidebarItem = forwardRef<HTMLLIElement, SidebarItemProps>(({
             <a className={`flex py-1 space-x-2`}>
               { IconComponent && <IconComponent className="h-5 w-5 flex-0"/> }
               <span className="min-w-0 flex-1 text-sm font-medium break-words">
-                {item.title || 'Untitled lesson'}
+              {!!data && data.title || 'Untitled lesson'}
               </span>
             </a>
           {/* </Link> */}

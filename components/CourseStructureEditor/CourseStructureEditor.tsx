@@ -20,7 +20,6 @@ import DeleteSectionModal from "../admin/courses/DeleteSectionModal";
 import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../graphql/mutations/course/UPDATE_COURSE";
 import router from "next/router";
-import useUpdateSection from "../../hooks/sections/useUpdateSection";
 import { UPDATE_SECTION } from "../../graphql/mutations/section/UPDATE_SECTION";
 import { UpdateSection, UpdateSectionVariables } from "../../graphql/mutations/section/__generated__/UpdateSection";
 
@@ -31,7 +30,7 @@ const itemIdsBySectionId = (mainArray) => {
   const obj = {}
 
   for (const section of mainArray) {
-    const sectionItemIds = section.children?.map(child => child.id)
+    const sectionItemIds = section.lessons?.map(child => child.id)
     obj[section.id] = sectionItemIds;
   }
   return obj
@@ -39,16 +38,12 @@ const itemIdsBySectionId = (mainArray) => {
 
 
 const filterDeletedCourseItems = (course) => {
-  // console.log('FILTERING')
-
   return {
     ...course,
     sections: course.sections.filter(section => !section._deleted).map(section => {
-      // console.log('sectoiion.children')
-      // console.log(section.children)
       return {
         ...section,
-        children: section.children.filter(item => !item._deleted)
+        lessons: section.lessons.filter(item => !item._deleted)
       }
     })
   }

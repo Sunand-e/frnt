@@ -2,7 +2,7 @@ import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import Button from '../Button';
 import { useRouter } from 'next/router';
-import useGetUser from '../../hooks/users/useGetUser';
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useCallback } from 'react';
 
 interface ChangePasswordFormValues {
@@ -15,7 +15,7 @@ const ChangePasswordForm = () => {
 
   const router = useRouter()
 
-  const { user } = useGetUser()
+  const { user } = useGetCurrentUser()
   const id = user?.id
   const onSubmit = useCallback((values) => {
     if(id) {

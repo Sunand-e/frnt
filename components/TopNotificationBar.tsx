@@ -11,9 +11,9 @@ const TopNotificationBar = () => {
       <div className="relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex justify-center items-center">
           <div className="text-sm font-medium text-white">
-            MemberHub: Check out our brand new Content Editor!!
+          Welcome to your Academy
           </div>
-          <span aria-hidden="true" className="hidden sm:block mx-6 h-6 w-px bg-white bg-opacity-20"></span>
+          {/* <span aria-hidden="true" className="hidden sm:block mx-6 h-6 w-px bg-white bg-opacity-20"></span>
           <div className="ml-6 sm:ml-0">
             <Link href="/plate">
               <a
@@ -32,7 +32,7 @@ const TopNotificationBar = () => {
                 Learn more →
               </a>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

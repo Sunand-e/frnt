@@ -1,18 +1,23 @@
-import { GET_PATHWAYS } from "../../graphql/queries/allQueries"
+import { GET_PATHWAY } from "../../graphql/queries/allQueries"
 import { useQuery } from "@apollo/client"
-import { GetPathways } from "../../graphql/queries/__generated__/GetPathways";
+import { GetPathway } from "../../graphql/queries/__generated__/GetPathway";
 
-function useGetPathways() {
+function useGetPathway(id=null) {
 
-  const {loading, error, data: { pathways: pathways} = {} } = useQuery<GetPathways>(
-    GET_PATHWAYS
+  const { loading, error, data: { pathway: pathway} = {} } = useQuery<GetPathway>(
+    GET_PATHWAY,
+    {
+      variables: {
+        id
+      }
+    }
   );
 
   return {
-    pathways,
+    pathway,
     loading,
     error
   }
 }
 
-export default useGetPathways
+export default useGetPathway

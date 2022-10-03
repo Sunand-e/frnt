@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import useGetCourse from "../../hooks/courses/useGetCourse"
 import useGetUserContent from "../../hooks/users/useGetUserContent"
 import SidebarItem from "../common/course/SidebarItem"
 import { SidebarSection } from "../common/course/SidebarSection"
@@ -10,9 +9,8 @@ const CourseStructureView = () => {
 
   const router = useRouter()
   const { id } = router.query
-
-  const { loading, error, course } = useGetCourse(id)
-  const { user } = useGetUserContent()
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0].node
 
   const [ progress, setProgress ] = useState()
 
@@ -65,9 +63,9 @@ const CourseStructureView = () => {
             )}
           </div>
           <ul className="p-4">
-            { course.sections.filter(section => section.children.length).map((section, index) => (
+            { course.sections.filter(section => section.lessons.length).map((section, index) => (
               <SidebarSection key={index} id={section.id}>
-                { section.children.map((item, index) => (
+                { section.lessons.map((item, index) => (
                   <SidebarItem key={index} id={item.id} onSelect={handleItemSelect} />
                 ))}
                 </SidebarSection>

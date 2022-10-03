@@ -1,11 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
-import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
-import ItemCollection from '../common/items/ItemCollection';
 import SearchResults from './SearchResults';
 import LoadingSpinner from '../LoadingSpinner';
 import useGetTags from '../../hooks/tags/useGetTags';
-import useGetCourses from '../../hooks/courses/useGetCourses';
 import ResourceLibraryFilters from './ResourceLibraryFilters';
 import useGetResources from '../../hooks/resources/useGetResources';
 

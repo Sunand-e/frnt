@@ -1,12 +1,9 @@
-import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
-import { useReactiveVar } from '@apollo/client'
 import CourseLayout from '../layouts/CourseLayout'
 import { headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
-import useGetCourse from '../hooks/courses/useGetCourse'
-import useGetUser from '../hooks/users/useGetUser'
+import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/Button'
 import PrevNextButtons from '../components/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/CourseView/CourseCompleted'
@@ -19,7 +16,7 @@ const CoursePage = () => {
   const router = useRouter()
   const { id, cid: contentId, showEdit=false, completed=false } = router.query
 
-  const { user } = useGetUser();
+  const { user } = useGetCurrentUser();
 
   useEffect(() => {
     const view = {
