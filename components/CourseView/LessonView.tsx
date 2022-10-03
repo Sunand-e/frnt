@@ -32,7 +32,7 @@ const LessonView = () => {
 
   useEffect(() => {
     if(lesson) {
-      setBlocks(lesson.content.blocks)
+      setBlocks(lesson.node.content.blocks)
       const currentStatus = lesson.status
       if(currentStatus !== 'completed') {
         updateUserContentStatus({
