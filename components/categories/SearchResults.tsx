@@ -58,7 +58,10 @@ export default function SearchResults({items}) {
   }
   const resultCountString = `${filteredItems.length || 'No'} course${filteredItems.length !== 1 ? 's' : ''} found`
   const options = {
-    heading: resultCountString
+    heading: resultCountString,
+    itemOptions: {
+      getReadMoreLabel: () => 'Visit course'
+    }
   }
   return (
     <>
