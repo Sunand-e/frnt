@@ -31,7 +31,7 @@ const UserImportForm = () => {
     fileParameterName: 'csv_file',
     onAllUploadsComplete: handleAllUploadsComplete,
     additionalParams: {
-      invite: 'true'
+      // invite: 'true'
     } 
   }
 

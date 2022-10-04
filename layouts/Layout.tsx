@@ -2,6 +2,7 @@ import { useReactiveVar } from '@apollo/client'
 import Header from '../components/header/Header'
 import NavContainer from '../components/navigation/NavContainer'
 import TopNotificationBar from '../components/TopNotificationBar'
+import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 
 export default function Layout( {children, navState, sidebarComponent=null} ) {
   return (

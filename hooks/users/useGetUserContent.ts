@@ -7,6 +7,8 @@ function useGetUserContent(id=null) {
   const { loading, error, data: {user} = {} } = useQuery(
     GET_USER_CONTENT,
     {
+      fetchPolicy: "cache-and-network",
+      nextFetchPolicy: "cache-first",
       variables: {
         where: {
           id

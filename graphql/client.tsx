@@ -58,7 +58,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
       console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
       ),
     );
 
@@ -74,22 +74,17 @@ const link = ApolloLink.from([
   restLink,
   authLink.concat(httpLink),
 ])
-///////////This might be useful????////////
-// export const typeDefs = gql`
-//   extend type Query {
-//     isLoggedIn: Boolean!
-//   }
-// `;
+
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link,
   connectToDevTools: true,
   cache,
   // typeDefs
   resolvers: {
-    Group: { // You can tell ApolloClient how to resolve a property \o/ !
+    Group: {
       _deleted: group => Boolean(group._deleted),
     },
-    ContentItem: { // You can tell ApolloClient how to resolve a property \o/ !
+    ContentItem: {
       _deleted: course => Boolean(course._deleted),
     }
 

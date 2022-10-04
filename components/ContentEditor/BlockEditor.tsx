@@ -31,10 +31,16 @@ const BlockEditor = () => {
   const blocks = useBlockStore(state => state.blocks)
   const isDirty = useBlockStore(state => state.isDirty)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
+  const setBlocks = useBlockStore(state => state.setBlocks)
+  
 
   const router = useRouter()
   
   useWarningOnExit(isDirty)
+
+  useEffect(() => {
+    return () => setBlocks([])
+  })
 
   return (
     <>
