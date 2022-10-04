@@ -7,6 +7,9 @@ function useGetUser(id=null) {
   const { loading, error, data: {user} = {} } = useQuery(
     GET_USER,
     {
+      
+      fetchPolicy: "cache-and-network",
+      nextFetchPolicy: "cache-first",
       variables: id ? { id } : null
     }
   );

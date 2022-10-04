@@ -1,29 +1,21 @@
 import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 
-import {useState, useEffect, createContext, ReactNode, useContext} from 'react'
+import {useState, useEffect, ReactNode, useMemo} from 'react'
 import LoginLayout from '../layouts/LoginLayout'
 import { 
   ApolloProvider,
-  useLazyQuery,
   useReactiveVar,
 } from '@apollo/client';
 
 import {
   viewVar,
-  latestContentVar, 
-  libraryVar, 
-  contentTagsVar,
-  allContentVar,
   isLoggedInVar,
   headerButtonsVar,
   navStateVar
 } from '../graphql/cache'
 
 import { addIconsToLibrary } from "../fontawesome";
-import { GET_ALL_CONTENT } from '../graphql/queries/GET_ALL_CONTENT';
-import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
-import { GET_LIBRARY } from '../graphql/queries/GET_LIBRARY';
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css' // Import the CSS
@@ -41,14 +33,11 @@ import '../styles/toastify-overrides.css';
 
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
-import { ModalContext, ModalProvider } from '../context/modalContext'
+import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
-// import { QueriesContextProvider } from '../context/QueriesContext';
-import { applyTheme, createTheme } from '../themes/utils';
-import baseTheme from "../themes/base";
 import { TenantContextProvider } from '../context/TenantContext';
-import useRouteChange from '../hooks/useRouteChange';
 import useBeforeUnload from '../hooks/useBeforeUnload';
+import useGetCurrentUser from '../hooks/users/useGetCurrentUser';
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -74,31 +63,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   
   // useRouteChange()
   useBeforeUnload()
-
-  
-  // const [ getLibrary, { 
-  //   loading: loadingLibrary, 
-  //   data: libraryData, 
-  //   error: libraryError 
-  // } ] = useLazyQuery(GET_LIBRARY, {client})
-
-  // const [ getAllContent, { 
-  //   loading: loadingAllContent, 
-  //   data: allContentData, 
-  //   error: allContentError
-  // } ] = useLazyQuery(GET_ALL_CONTENT, {client})
-
-  // const [ getDashboard, { 
-  //   loading: loadingDashboard, 
-  //   data: dashboardData, 
-  //   error: dashboardError
-  // } ] = useLazyQuery(GET_DASHBOARD, {client})
-
-  // const queries = {
-  //   getLibrary,
-  //   getAllContent,
-  //   getDashboard
-  // }
 
   console.log('caused a rerender');
 
@@ -149,17 +113,16 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   }, [router.events, router.pathname]);
 
 
+  const memoedClient = useMemo(() => client, [])
   return (
     <>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={memoedClient}>
         <TenantContextProvider>
-          {/* <QueriesContextProvider value={{queries}}> */}
             <ModalProvider>
               {
                 layout
               }
             </ModalProvider>
-          {/* </QueriesContextProvider> */}
         </TenantContextProvider>
       </ApolloProvider>
     </>

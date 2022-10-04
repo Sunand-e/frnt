@@ -74,22 +74,17 @@ const link = ApolloLink.from([
   restLink,
   authLink.concat(httpLink),
 ])
-///////////This might be useful????////////
-// export const typeDefs = gql`
-//   extend type Query {
-//     isLoggedIn: Boolean!
-//   }
-// `;
+
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link,
   connectToDevTools: true,
   cache,
   // typeDefs
   resolvers: {
-    Group: { // You can tell ApolloClient how to resolve a property \o/ !
+    Group: {
       _deleted: group => Boolean(group._deleted),
     },
-    ContentItem: { // You can tell ApolloClient how to resolve a property \o/ !
+    ContentItem: {
       _deleted: course => Boolean(course._deleted),
     }
 
