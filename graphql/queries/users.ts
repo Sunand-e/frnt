@@ -140,7 +140,7 @@ export const GET_USER = gql`
 `
 
 export const GET_CURRENT_USER = gql`
-  query GetUser($id: ID) {
+  query GetCurrentUser($id: ID) {
     user(id: $id) {
       ...CurrentUserFragment
       ...UserCoursesFragment
@@ -214,11 +214,6 @@ export const UserContentEdgeFragment = gql`
       node {
         id
         title
-        tags {
-          id
-          label
-          tagType
-        }
         content
         contentType
         itemType
@@ -266,16 +261,15 @@ export const GET_USERS_COURSES = gql`
 
 
 export const GET_USER_CONTENT = gql`
-  query GetUserContent($where: JSON, $whereCourse: JSON) {
+  query GetUserContent($courseFilter: JSON, $lessonSectionFilter: JSON) {
     user {
       id
-      courses(where: $where) {
+      courses(where: $courseFilter) {
         ...UserContentEdgeFragment
-        __typename
         edges {
           node {
             sections {
-              id            
+              id
               lessons {
                 id
               }
@@ -283,35 +277,13 @@ export const GET_USER_CONTENT = gql`
           }
         }
       }
-      sections(where: $whereCourse) {
-        ...UserContentEdgeFragment
-        __typename
-      }
-      lessons(where: $whereCourse) {
-        ...UserContentEdgeFragment
-        __typename
-      }
-      __typename
-    }
-  }
-  ${UserContentEdgeFragment}
-`
-
-export const GET_USER_COURSE_STRUCTURE = gql`
-  query GetUserCourseStructure($id: ID) {
-    user {
-      ...UserFragment
-      courses(where:{id: $id }) {
+      sections(where: $lessonSectionFilter) {
         ...UserContentEdgeFragment
       }
-      sections {
-        ...UserContentEdgeFragment
-      }
-      lessons {
+      lessons(where: $lessonSectionFilter) {
         ...UserContentEdgeFragment
       }
     }
   }
-  ${UserFragment}
   ${UserContentEdgeFragment}
 `

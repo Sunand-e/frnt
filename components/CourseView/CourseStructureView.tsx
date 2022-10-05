@@ -8,7 +8,7 @@ import ProgressBar from "../common/ProgressBar"
 const CourseStructureView = () => {
 
   const router = useRouter()
-  const { id } = router.query
+  const { id, cid } = router.query
   const { user } = useGetUserContent(id)
   const course = user?.courses.edges[0].node
 
@@ -17,7 +17,10 @@ const CourseStructureView = () => {
 
   useEffect(() => {
     if(user) {
+      alert('setthatprogress')
       let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
+      console.log('userContentuserContentuserContentuserContentuserContent')
+      console.log(userContent)
       userContent && setProgress(userContent.score)
     }
   },[user, id])

@@ -4,13 +4,6 @@ import Tippy from '@tippyjs/react';
 
 export default function Item({item, index}) {
 
-  const editLesson = () => {
-    alert(`Edit lesson: ${item.databaseId}`)
-  }
-
-  const deleteLesson = () => {
-    alert(`Delete lesson: ${item.databaseId}`)
-  }
 
   return (
     

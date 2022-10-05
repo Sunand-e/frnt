@@ -1,6 +1,25 @@
 import { gql } from '@apollo/client';
 import { UserContentEdgeFragment } from '../../queries/users';
 
+const UserContentFragment = gql`
+  fragment UserContentFragment on UserContent {
+    status
+    score
+    updatedAt
+    completed
+    properties
+    lastVisited
+    firstVisited
+    contentItem {
+      id
+      itemType
+    }
+    user {
+      id
+    }
+  }
+`
+
 export const UPDATE_USER_CONTENT_STATUS = gql`
   mutation UpdateUserContentStatus(
     $userId: ID
@@ -11,7 +30,7 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
     $score: Int
     $visits: Int
     $completed: Boolean
-) {
+  ) {
     updateUserContentStatus(input: {
       contentItemId: $contentItemId, 
       completed: $completed,
@@ -22,40 +41,10 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       userId: $userId,
       visits: $visits
     }) {
-      # userContent {
-      #   id
-      #   # contentItemId
-      #   status
-      #   lastVisited
-      #   firstVisited
-      #   createdAt
-      #   updatedAt
-      #   score
-      #   visits
-      #   completed
-      # }
-      user {
-        id
-        courses {
-        ...UserContentEdgeFragment
-        }
-        sections {
-          ...UserContentEdgeFragment
-        }
-        lessons {
-          ...UserContentEdgeFragment
-        }
-        # # contentItemId
-        # status
-        # lastVisited
-        # firstVisited
-        # createdAt
-        # updatedAt
-        # score
-        # visits
-        # completed
+      userContents {
+        ...UserContentFragment
       }
     }
   }
-  ${UserContentEdgeFragment}
+  ${UserContentFragment}
 `

@@ -5,8 +5,6 @@ import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
-import useUpdateUserContentStatus from '../hooks/users/useUpdateUserContentStatus'
-import useGetCourse from '../hooks/courses/useGetCourse'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/Button'
 import useGetPathway from '../hooks/pathways/useGetPathway'
@@ -21,8 +19,6 @@ const CoursePage = () => {
 
   const { loading, error, pathway } = useGetPathway(id);
   const { user } = useGetCurrentUser();
-
-  const { updateUserContentStatus } = useUpdateUserContentStatus()
 
   useEffect(() => {
     const view = {
@@ -51,28 +47,6 @@ const CoursePage = () => {
       }
     })
   }
-  
-  useEffect(() => {
-    currentContentItemVar({
-      ...currentContentItem,
-      id: contentId
-    })
-
-    if(contentId) {
-      updateUserContentStatus({
-        contentItemId: contentId,
-        completed: true,
-        score: 20,
-        status: 'In progress'
-      })
-    } else {
-      updateUserContentStatus({
-        contentItemId: id,
-        score: 20,
-        status: 'In progress'
-      })
-    }
-  },[id, contentId])
 
   usePageTitle({ title: `Pathway: ${pathway?.title}` })
   useEffect(() => {

@@ -72,7 +72,7 @@ const ResourceView = ({id}) => {
         )
       case 'link':
         return (
-          <ButtonLink className="mb-8" href={resource.content?.url}>
+          <ButtonLink target="_blank" className="mb-8" href={resource.content?.url}>
             <span className="flex space-x-4">
               <ExternalLinkOutline  width="20" />
               <span>

@@ -16,7 +16,7 @@ const PrevNextButtons = () => {
   const router = useRouter()
   const { id: courseId } = router.query
   const { id } = useReactiveVar(currentContentItemVar)
-  const { user } = useGetUserContent(id)
+  const { user } = useGetUserContent(courseId)
   const course = user?.courses.edges[0]?.node
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
@@ -26,7 +26,7 @@ const PrevNextButtons = () => {
 
   useEffect(() => {
     const orderedLessonIds = course?.sections.reduce((arr, section) => {
-      return [...arr, ...section.children.map(lesson => lesson.id)]
+      return [...arr, ...section.lessons.map(lesson => lesson.id)]
     }, []);
 
     if(orderedLessonIds) {
@@ -52,9 +52,9 @@ const PrevNextButtons = () => {
       contentItemId: id,
       score: 100,
       status: 'completed'
-    })
+    }, courseId)
     !!prevNextIds[1] && goToLesson(prevNextIds[1])
-  }, [prevNextIds])
+  }, [prevNextIds, courseId])
   
   
 
@@ -63,16 +63,16 @@ const PrevNextButtons = () => {
     <>
     { prevNextIds[0] && (
       <Button onClick={() => goToLesson(prevNextIds[0])}>
-        <span className='flex items-center space-x-2'>
-          <span>Previous</span>
+        <span className='flex items-center xl:space-x-2'>
+          <span className="hidden xl:block">Previous</span>
           <ArrowSmLeft className='h-8'/>
         </span>
       </Button>
     )}
     { prevNextIds[1] && (
       <Button onClick={() => goToLesson(prevNextIds[1])}>
-        <span className='flex items-center space-x-2'>
-          <span>Next</span>
+        <span className='flex items-center xl:space-x-2'>
+        <span className="hidden xl:block">Next</span>
           <ArrowSmRight className='h-8'/>
         </span>
       </Button>

@@ -36,9 +36,9 @@ const LessonView = () => {
       const currentStatus = lesson.status
       if(currentStatus !== 'completed') {
         updateUserContentStatus({
-          contentItemId: id,
+          contentItemId: lessonId,
           status: 'in_progress'
-        })
+        }, id)
       }
     }
   },[lesson, id])

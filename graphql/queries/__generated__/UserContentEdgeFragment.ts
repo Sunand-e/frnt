@@ -7,18 +7,13 @@
 // GraphQL fragment: UserContentEdgeFragment
 // ====================================================
 
-export interface UserContentEdgeFragment_edges_node_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface UserContentEdgeFragment_edges_node {
   __typename: "ContentItem";
   id: string;
   title: string | null;
-  tags: UserContentEdgeFragment_edges_node_tags[] | null;
+  content: any | null;
+  contentType: string | null;
+  itemType: string;
 }
 
 export interface UserContentEdgeFragment_edges {

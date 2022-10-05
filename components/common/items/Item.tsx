@@ -56,7 +56,7 @@ export default function Item({ item, options }) {
     )    
   }
   return (
-    <div className="content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative mb-8">
+    <div className="h-full content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative">
       <Link href={href}>
         <a
           className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}
