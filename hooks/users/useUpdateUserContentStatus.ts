@@ -1,8 +1,9 @@
 import { useMutation } from "@apollo/client"
 import { UpdateUserContentStatus, UpdateUserContentStatusVariables } from "../../graphql/mutations/user/__generated__/UpdateUserContentStatus";
 import { UPDATE_USER_CONTENT_STATUS } from "../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
-import { GET_USER_CONTENT } from "../../graphql/queries/users";
+import { GET_CURRENT_USER, GET_USER_CONTENT } from "../../graphql/queries/users";
 import { GetUserContent } from "../../graphql/queries/__generated__/GetUserContent";
+import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 
 function useUpdateUserContentStatus() {
 
@@ -80,6 +81,27 @@ function useUpdateUserContentStatus() {
                 },
               }
             }));
+
+            cache.updateQuery<GetCurrentUser>(
+              { query: GET_CURRENT_USER },
+              (data) => ({
+                user: {
+                  ...data.user,
+                  courses: {
+                    ...data.user.courses,
+                    edges: data.user.courses.edges.map(edge => {
+                      const newEdgeData = userCourseEdges.find(({id}) => (
+                        edge.node.id === id
+                      ))?.edgeData
+                      return {
+                        ...edge,
+                        ...newEdgeData
+                      }
+                    })
+                  }
+                }
+              })
+            )
           } catch(error) {
             console.log('ERROR!')
             console.log(error)

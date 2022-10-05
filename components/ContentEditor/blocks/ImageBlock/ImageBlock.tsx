@@ -11,7 +11,7 @@ export const ImageBlock = ({block}) => {
     <>
     <Image
       style={{width}}
-      src={block.properties.url ?? '/images/image-block-placeholder.jpg'}
+      src={block.properties?.url ?? '/images/image-block-placeholder.jpg'}
     />
     </>
   );
