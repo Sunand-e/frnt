@@ -18,8 +18,6 @@ const CourseStructureView = () => {
   useEffect(() => {
     if(user) {
       let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      console.log('userContentuserContentuserContentuserContentuserContent')
-      console.log(userContent)
       userContent && setProgress(userContent.score)
     }
   },[user, id])

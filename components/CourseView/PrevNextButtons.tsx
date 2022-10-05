@@ -18,6 +18,9 @@ const PrevNextButtons = () => {
   const { id } = useReactiveVar(currentContentItemVar)
   const { user } = useGetUserContent(courseId)
   const course = user?.courses.edges[0]?.node
+  const lessonEdge = user?.lessons.edges.find(edge => (
+    edge.node.id === id
+  ))
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
@@ -77,12 +80,14 @@ const PrevNextButtons = () => {
         </span>
       </Button>
     )}
-    <Button onClick={markComplete}>
-      <span className='flex items-center space-x-2'>
-        <span>Mark Complete</span>
-        <Tick className='h-8'/>
-      </span>
-    </Button>
+    { (lessonEdge?.status !== 'completed') && (
+      <Button onClick={markComplete}>
+        <span className='flex items-center space-x-2'>
+          <span>Mark Complete</span>
+          <Tick className='h-8'/>
+        </span>
+      </Button>
+    )}
   </>
   )
 }
