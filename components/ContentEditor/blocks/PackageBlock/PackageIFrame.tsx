@@ -150,7 +150,7 @@ export const PackageIFrame = React.forwardRef(({
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
-      <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties.url}></iframe>
+      <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
       ) : (
       <div className='flex items-center justify-center'>
         <LoadingSpinner />

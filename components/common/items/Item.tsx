@@ -102,7 +102,7 @@ export default function Item({ item, options }) {
           </h2>
         )}
         { !!item?.tags?.length && (
-          <h2 className="text-lg text-main mb-2 top-5 font-normal text-sm">
+          <h2 className="text-main mb-2 top-5 font-normal text-sm">
             <span className="bg-main-superlight">
               { item.tags.map((tag, index) => {
                 return (
@@ -117,25 +117,18 @@ export default function Item({ item, options }) {
             </span>
           </h2>
         )}
-        {/* { item.status && (
-          <h2 className="text-lg text-main mb-2 top-5 font-bold">
-            {item.status}
-          </h2>
-        )} */}
-        { item?.score !== null && item?.score !== undefined && (
-          <span className="mb-2">
-            <ProgressBar value={item.score} />
-          </span>
-        )}
-        {/* <div dangerouslySetInnerHTML={{
-          __html: item.excerpt
-        }}></div> */}
-        <ButtonLink className="uppercase mt-auto" href={href}>
-          <span className="w-full text-center">
-            {buttonText}
-          </span>
-        </ButtonLink>
-
+        <div className="mt-auto w-full">
+          { item?.score !== null && item?.score !== undefined && (
+            <span className="mb-2 mt-2">
+              <ProgressBar value={item.score} />
+            </span>
+          )}
+          <ButtonLink className="uppercase w-full mt-2" href={href}>
+            <span className="w-full text-center">
+              {buttonText}
+            </span>
+          </ButtonLink>
+        </div>
       </div>
     </div>
   )
