@@ -1,12 +1,13 @@
 import { useRouter } from '../utils/router'
 import CourseLayout from '../layouts/CourseLayout'
 import { headerButtonsVar, viewVar } from '../graphql/cache'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import CourseItemView from '../components/CourseView/CourseItemView'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/Button'
 import PrevNextButtons from '../components/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/CourseView/CourseCompleted'
+import useGetUserContent from '../hooks/users/useGetUserContent'
 
 const CoursePage = () => {
   /*
@@ -14,9 +15,13 @@ const CoursePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId, showEdit=false, completed=false } = router.query
+  const { id, cid: contentId, showEdit=false } = router.query
 
   const { user } = useGetCurrentUser();
+  const { user: userContent } = useGetUserContent(id)
+  
+  const [courseScore, setCourseScore] = useState(null)
+  const [showCompletedPage, setShowCompletedPage] = useState(null)
 
   useEffect(() => {
     const view = {
@@ -46,15 +51,12 @@ const CoursePage = () => {
 
   useEffect(() => {
     if(user) {
+      setShowCompletedPage(false)
       let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      if(userContent?.score === 100) {
-        router.push({
-          query: {
-            id,
-            completed: true
-          }
-        })
+      if(courseScore && userContent?.score === 100) {
+        setShowCompletedPage(true)
       }
+      setCourseScore(userContent.score)
     }
   },[user, id])
 
@@ -72,7 +74,7 @@ const CoursePage = () => {
   
   return (
     <>
-      {completed ? (
+      {showCompletedPage ? (
         <CourseCompleted />
       ) : (
         <CourseItemView />        
