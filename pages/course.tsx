@@ -56,7 +56,7 @@ const CoursePage = () => {
       if(courseScore && userContent?.score === 100) {
         setShowCompletedPage(true)
       }
-      setCourseScore(userContent.score)
+      userContent?.score && setCourseScore(userContent.score)
     }
   },[user, id])
 
