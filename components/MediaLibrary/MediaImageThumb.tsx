@@ -21,7 +21,9 @@ const MediaImageThumb = ({item}) => {
   },[item,loaded])
 
   return (
-    <div ref={callbackRef}>
+    <div ref={callbackRef} style={{
+      backgroundColor: '#dddddd',
+    }}>
       <img ref={imgRef} src="/images/placeholder-image.png" data-src={`${item.location}`} alt="" className="object-cover pointer-events-none group-hover:opacity-75" />
     </div>
   )
