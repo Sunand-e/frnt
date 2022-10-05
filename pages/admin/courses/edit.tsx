@@ -10,6 +10,8 @@ import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/admin/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/ContentEditor/useSaveContentButton'
 import useGetUserContent from '../../../hooks/users/useGetUserContent'
+import LoadingSpinner from '../../../components/LoadingSpinner'
+import { Dot } from '../../../components/common/misc/Dot';
 
 const AdminCoursesEdit = () => {
   /*
@@ -77,8 +79,16 @@ const AdminCoursesEdit = () => {
   
   return (
     <>
-      { course && 
-        <CourseEditor />
+      { course ?
+        <CourseEditor /> :
+        <LoadingSpinner text={(
+          <>
+            Loading your course
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+          </>
+        )} />
       }
     </>
   )

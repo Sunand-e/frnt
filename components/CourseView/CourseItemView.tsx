@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import { currentContentItemVar } from '../../graphql/cache'
 import useGetUserContent from '../../hooks/users/useGetUserContent'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import { Dot } from '../common/misc/Dot';
 
 const CourseItemView = () => {
 
@@ -40,7 +42,18 @@ const CourseItemView = () => {
   },[id, contentId])
   
   return (
-    <LessonView />
+    course ? (
+      <LessonView />
+    ) : (
+      <LoadingSpinner text={(
+        <>
+          Loading your course
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} />
+    )
   )
 }
 export default CourseItemView

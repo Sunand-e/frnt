@@ -28,7 +28,7 @@ export const PackageBlock = ({block}) => {
         { isFullscreenEnabled && (
           <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
         )}
-        <Button onClick={() => setAttempt(attempt => attempt + 1)} className=''>Start new attempt</Button>
+        {/* <Button onClick={() => setAttempt(attempt => attempt + 1)} className=''>Start new attempt</Button> */}
       </div>
       <div className="aspect-w-16 aspect-h-9 px-1">
         <DynamicPackageIFrame

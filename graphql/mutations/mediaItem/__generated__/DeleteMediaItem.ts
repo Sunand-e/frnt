@@ -15,7 +15,7 @@ export interface DeleteMediaItem_deleteMediaItem_mediaItem {
 export interface DeleteMediaItem_deleteMediaItem {
   __typename: "DeleteMediaItemPayload";
   mediaItem: DeleteMediaItem_deleteMediaItem_mediaItem | null;
-  usage: any | null;
+  usage: any[] | null;
   message: string;
 }
 

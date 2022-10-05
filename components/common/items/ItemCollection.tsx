@@ -22,7 +22,7 @@ export default function ItemCollection({items, options, viewAll, gridClasses, no
   const gridItems = gridOptions.maxItems ? items.slice(0, gridOptions.maxItems) : items;
   // alert(JSON.stringify())
   return (
-    <div className="mb-8 bg-white shadow rounded-md px-6 pt-6">
+    <div className="mb-8 bg-white shadow rounded-md p-6">
       <div className="collectionHeader flex justify-between">
         
         <div className="collectionHeaderLeft">

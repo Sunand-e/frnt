@@ -13,7 +13,6 @@ const Section = ({section, items, index, className, active, setActive}) => {
     
   }
   const handleBoxToggle = () => {
-    alert('aa')
   }
 
   return (

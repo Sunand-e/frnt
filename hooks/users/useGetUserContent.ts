@@ -8,12 +8,12 @@ function useGetUserContent(id=null) {
     GET_USER_CONTENT,
     {
       fetchPolicy: "cache-and-network",
-      nextFetchPolicy: "cache-first",
+      nextFetchPolicy: "cache-only",
       variables: {
-        where: {
+        courseFilter: {
           id
         },
-        whereCourse: {
+        lessonSectionFilter: {
           courseId: id
         }
       },

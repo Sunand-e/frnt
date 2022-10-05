@@ -7,25 +7,25 @@
 // GraphQL query operation: GetUserContent
 // ====================================================
 
-export interface GetUserContent_user_roles {
-  __typename: "Role";
+export interface GetUserContent_user_courses_edges_node_sections_lessons {
+  __typename: "ContentItem";
   id: string;
-  name: string | null;
-  roleType: string;
 }
 
-export interface GetUserContent_user_courses_edges_node_tags {
-  __typename: "Tag";
+export interface GetUserContent_user_courses_edges_node_sections {
+  __typename: "ContentItem";
   id: string;
-  label: string;
-  tagType: string;
+  lessons: GetUserContent_user_courses_edges_node_sections_lessons[] | null;
 }
 
 export interface GetUserContent_user_courses_edges_node {
   __typename: "ContentItem";
   id: string;
   title: string | null;
-  tags: GetUserContent_user_courses_edges_node_tags[] | null;
+  content: any | null;
+  contentType: string | null;
+  itemType: string;
+  sections: GetUserContent_user_courses_edges_node_sections[] | null;
 }
 
 export interface GetUserContent_user_courses_edges {
@@ -53,18 +53,13 @@ export interface GetUserContent_user_courses {
   totalCount: number;
 }
 
-export interface GetUserContent_user_sections_edges_node_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface GetUserContent_user_sections_edges_node {
   __typename: "ContentItem";
   id: string;
   title: string | null;
-  tags: GetUserContent_user_sections_edges_node_tags[] | null;
+  content: any | null;
+  contentType: string | null;
+  itemType: string;
 }
 
 export interface GetUserContent_user_sections_edges {
@@ -92,18 +87,13 @@ export interface GetUserContent_user_sections {
   totalCount: number;
 }
 
-export interface GetUserContent_user_lessons_edges_node_tags {
-  __typename: "Tag";
-  id: string;
-  label: string;
-  tagType: string;
-}
-
 export interface GetUserContent_user_lessons_edges_node {
   __typename: "ContentItem";
   id: string;
   title: string | null;
-  tags: GetUserContent_user_lessons_edges_node_tags[] | null;
+  content: any | null;
+  contentType: string | null;
+  itemType: string;
 }
 
 export interface GetUserContent_user_lessons_edges {
@@ -133,17 +123,7 @@ export interface GetUserContent_user_lessons {
 
 export interface GetUserContent_user {
   __typename: "User";
-  createdAt: any;
-  email: string;
-  firstName: string | null;
-  fullName: string | null;
   id: string;
-  lastName: string | null;
-  status: string;
-  updatedAt: any;
-  userType: string | null;
-  profileImageUrl: string | null;
-  roles: GetUserContent_user_roles[] | null;
   courses: GetUserContent_user_courses | null;
   sections: GetUserContent_user_sections | null;
   lessons: GetUserContent_user_lessons | null;
@@ -157,5 +137,6 @@ export interface GetUserContent {
 }
 
 export interface GetUserContentVariables {
-  id?: string | null;
+  courseFilter?: any | null;
+  lessonSectionFilter?: any | null;
 }

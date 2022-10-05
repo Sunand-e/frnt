@@ -816,19 +816,3 @@ firstName: "",
     }
   }
 `
-
-export const UPDATE_USER_CONTENT_STATUS = gql`
-  mutation UpdateUserContentStatus(
-) {
-    updateUserContentStatus(
-input: {
-params: {
-userId: "",
- contentItemId: "",
- status: ""}}
-) {
-
-      status
-    }
-  }
-`
