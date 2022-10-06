@@ -9,6 +9,7 @@ import DeleteCourseModal from '../DeleteCourseModal';
 import { ModalContext } from '../../../../context/modalContext';
 import useGetCoursesBasic from '../../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../../LoadingSpinner';
+import { GraduationCap } from 'styled-icons/fa-solid';
 
 const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
@@ -65,7 +66,8 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const cellProps = {
-            image: cell.row.original.image?.location,
+            image: cell.row.original.image,
+            icon: <GraduationCap className='p-1'/>,
             title: cell.value,
             secondary: cell.row.original?.tags?.map?.(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,

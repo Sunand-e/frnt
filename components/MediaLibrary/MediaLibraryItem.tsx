@@ -33,7 +33,7 @@ const MediaLibraryItem = ({item, onItemSelect=(e)=>null}) => {
     <>
       <div onClick={() => onItemSelect(item)} className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-white focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-main overflow-hidden shadow">
         { item.mediaType === 'image'
-          ? <MediaImageThumb item={item} />
+          ? <MediaImageThumb image={item} />
           : <Link href={item.location}><a className="aspect-w-10 aspect-h-7"><IconComponent className="text-main p-8  group-hover:opacity-75" /></a></Link>
         }
         <button type="button" className="absolute inset-0 focus:outline-none">

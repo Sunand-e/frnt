@@ -30,7 +30,7 @@ const UserCoursesReportTable = () => {
           const course = cell.row.original.node;
           const cellProps = {
             title: course.title,
-            image: course.image?.location,
+            image: course.image,
             // secondary: JSON.stringify(cell.row.original),
             href: course.id && {
               query: {

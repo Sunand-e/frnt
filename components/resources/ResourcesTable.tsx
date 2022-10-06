@@ -100,7 +100,7 @@ const ResourcesTable = () => {
           const IconComponent = resourceTypes[cell.row.original.contentType]?.icon
 
           const cellProps = {
-            image: cell.row.original.image?.location,
+            image: cell.row.original.image,
             icon: IconComponent ? <IconComponent /> : null,
             title: cell.value,
             secondary: startCase(cell.row.original.contentType),

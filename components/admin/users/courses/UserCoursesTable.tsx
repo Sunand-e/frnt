@@ -56,14 +56,11 @@ const UserCoursesTable = () => {
         accessor: "node.title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const course = cell.row.original.node;
-          const cellProps = {
-            title: course.title,
-            image: course.image?.location
-            // secondary: JSON.stringify(cell.row.original),
-            // href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImageTableCell
+              title={course.title}
+              image={course.image}
+            />
           )
         }
       },

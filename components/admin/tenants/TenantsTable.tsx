@@ -10,6 +10,7 @@ import { ModalContext } from '../../../context/modalContext';
 import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
 import DeleteTenantModal from './DeleteTenantModal';
 import dayjs from 'dayjs'
+import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 
 const TenantsTable = () => {
 
@@ -35,18 +36,17 @@ const TenantsTable = () => {
     () => [
       {
         Header: "Tenant",
-        Cell: ({ cell }) => {
-          const cellProps = {
-            title: cell.row.original.name,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
-            image: cell.row.original.logos.logo_square,
-            rounded: "none",
-            objectFit: 'fill'
-          }
-          return (
-            <ItemWithImageTableCell { ...cellProps } />
-          )
-        }
+        Cell: ({ cell }) => (
+          <ItemWithImageTableCell
+            imageSrc={cell.row.original.logos.logo_square}
+            icon={<Buildings />}
+            title={cell.row.original.name}
+            href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
+            // imgDivClass={'bg-main text-white p-2'}
+            rounded="none"
+            objectFit="contain"
+          />
+        )
       },
       {
         Header: "URL",

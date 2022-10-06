@@ -66,7 +66,7 @@ const CoursesReportTable = () => {
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const cellProps = {
-            image: cell.row.original.image?.location,
+            image: cell.row.original.image,
             title: cell.value,
             secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
             // secondary: cell.row.original.title,

@@ -44,7 +44,7 @@ const GroupsTable = () => {
         Cell: ({ cell }) => {
           const userCount = cell.row.original.users.totalCount
           const cellProps = {
-            image: cell.row.original.image?.location,
+            image: cell.row.original.image,
             title: cell.value,
             icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
             secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
