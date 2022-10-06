@@ -47,22 +47,16 @@ const TagsTable = () => {
       {
         Header: "Category Name",
         accessor: "label", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
-          const cellProps = {
-            ...(cell.row.original.image?.location ?
-              { image: cell.row.original.image?.location } :
-              { icon: <Category /> } 
-            ),
-            title: cell.value,
-            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
-            // secondary: cell.row.original.title,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
-            imgDivClass: 'bg-main text-white p-2'
-          }
-          return (
-            <ItemWithImageTableCell { ...cellProps } />
-          )
-        }
+        Cell: ({ cell }) => (
+          <ItemWithImageTableCell
+            image={cell.row.original.image}
+            icon={<Category />}
+            title={cell.value}
+            secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
+            href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
+            imgDivClass={'bg-main text-white p-2'}
+          />
+        )
       },
       {
         Header: "Item count",

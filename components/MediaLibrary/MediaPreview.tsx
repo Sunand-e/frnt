@@ -47,7 +47,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
     const getMediaTypePreviewComponent = () => {
     switch(item.mediaType) {
       case 'image': {
-        return <img src={item.location} alt="" className="max-h-full max-w-full" />
+        return <img src={`/uploaded_images/${item?.id}?w=800`} alt="" className="max-h-full max-w-full" />
       }
       case 'audio': {
         return <AudioPlayer url={item.location} />

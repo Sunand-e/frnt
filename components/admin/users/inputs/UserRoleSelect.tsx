@@ -23,9 +23,9 @@ const UserRoleSelect = ({control, roleType}) => {
       label: role.name
     }
   })
-
+  
   useEffect(() => {
-    if(options) {
+    if(options && !field.value) {
       const newSelected = [
         options.find(o => o.label === 'Learner')
       ]

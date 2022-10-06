@@ -34,20 +34,16 @@ const UsersTable = () => {
     () => [
       {
         Header: "Name",
-        Cell: ({ cell }) => {
-          const cellProps = {
-            title: cell.row.original.fullName,
-            secondary: cell.row.original.email,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
-            image: cell.row.original.profileImageUrl,
-            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-            placeholder: "/images/user-generic.png" 
-          }
-          return (
-            <ItemWithImageTableCell 
-            { ...cellProps } />
-          )
-        }
+        Cell: ({ cell }) => (
+          <ItemWithImageTableCell 
+            title={cell.row.original.fullName}
+            secondary={cell.row.original.email}
+            href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
+            imageSrc={cell.row.original.profileImageUrl}
+            icon={<User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />}
+            placeholder={"/images/user-generic.png"}
+          />
+        )
       },
       {
         Header: "Roles",

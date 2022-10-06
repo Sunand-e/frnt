@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useInViewRef } from "rooks"
 
 
-const MediaImageThumb = ({item}) => {
+const MediaImageThumb = ({image}) => {
 
   const imgRef = useRef(null)
   const [callbackRef, inView] = useInViewRef();
@@ -17,14 +17,20 @@ const MediaImageThumb = ({item}) => {
   },[inView])
 
   useEffect(() => {
-    loaded && item?.location && (imgRef.current.src = item?.location)
-  },[item,loaded])
+    loaded && image?.id && (imgRef.current.src = `/uploaded_images/${image?.id}?w=300`)
+  },[image,loaded])
 
   return (
     <div ref={callbackRef} style={{
       backgroundColor: '#dddddd',
     }}>
-      <img ref={imgRef} src="/images/placeholder-image.png" data-src={`${item.location}`} alt="" className="object-cover pointer-events-none group-hover:opacity-75" />
+      <img 
+        ref={imgRef} 
+        src="/images/placeholder-image.png" 
+        data-src={`/uploaded_images/${image?.id}?w=300`} 
+        className="object-cover object-center w-full h-full pointer-events-none group-hover:opacity-75" 
+        alt="" 
+      />
     </div>
   )
 }

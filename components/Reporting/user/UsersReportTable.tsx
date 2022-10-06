@@ -24,7 +24,7 @@ const UsersReportTable = () => {
       Header: "Name",
       Cell: ({ cell }) => {
         const cellProps = {
-          image: cell.row.original.image?.location,
+          image: cell.row.original.image,
           title: cell.row.original.fullName,
           secondary: cell.row.original.email,
           href: cell.row.original.id && {
