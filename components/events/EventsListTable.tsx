@@ -1,13 +1,12 @@
 
 import React, { useMemo } from 'react';
-import Table from '../Table';
+import Table from '../common/Table';
 import { GET_COURSES, CourseFragment } from '../../graphql/queries/allQueries';
-import Button from '../Button';
-import ButtonLink from '../ButtonLink';
-import EventTitleCell from './EventTitleCell';
+import Button from '../common/Button';
+import ButtonLink from '../common/ButtonLink';
 import dayjs from 'dayjs';
 import providers from './providers';
-import ItemWithImageTableCell from "../common/cells/ItemWithImageTableCell";
+import ItemWithImage from "../common/cells/ItemWithImage";
 import { GetEvents } from '../../graphql/queries/__generated__/GetEvents';
 import { GET_EVENTS } from '../../graphql/queries/events';
 import { useQuery } from '@apollo/client';
@@ -40,7 +39,7 @@ const EventsListTable = () => {
             secondary: cell.row.original.provider
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },
@@ -92,7 +91,7 @@ const EventsListTable = () => {
     //                     href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
     //                 }
     //                 return (
-    //                     <ItemWithImageTableCell { ...cellProps } />
+    //                     <ItemWithImage { ...cellProps } />
     //                 )
     //             }
     //         },

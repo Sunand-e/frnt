@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from "react"
 import useGetUser from "../../../hooks/users/useGetUser"
 import { useRouter } from "../../../utils/router"
-import ButtonLink from "../../ButtonLink"
-import ItemWithImageTableCell from "../../common/cells/ItemWithImageTableCell"
-import Table from "../../Table"
+import ButtonLink from "../../common/ButtonLink"
+import ItemWithImage from "../../common/cells/ItemWithImage"
+import Table from "../../common/Table"
 
 const UserCoursesReportTable = () => {
 
@@ -40,7 +40,7 @@ const UserCoursesReportTable = () => {
             }
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },

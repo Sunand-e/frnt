@@ -37,7 +37,6 @@ import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { TenantContextProvider } from '../context/TenantContext';
 import useBeforeUnload from '../hooks/useBeforeUnload';
-import useGetCurrentUser from '../hooks/users/useGetCurrentUser';
 addIconsToLibrary()
 
 interface PagePropertiesType {

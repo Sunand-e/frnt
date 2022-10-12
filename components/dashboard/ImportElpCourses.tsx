@@ -1,6 +1,6 @@
 import useCreateCourse from "../../hooks/courses/useCreateCourse";
 import useGetCourses from "../../hooks/courses/useGetCourses";
-import Button from "../Button";
+import Button from "../common/Button";
 import newCourses from "../../elp-courses";
 import useDeleteCourse from "../../hooks/courses/useDeleteCourse";
 

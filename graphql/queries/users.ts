@@ -72,6 +72,73 @@ export const UserCoursesFragment = gql`
   ${ContentFragment}
 `
 
+export const UserPathwaysFragment = gql`
+  fragment UserPathwaysFragment on User {
+    pathways {
+      edges {
+        node {
+          ...ContentFragment
+          children {
+            __typename
+            id
+            title
+          }
+        }
+        roles {
+          id
+          name
+          roleType
+        }
+        groups {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+        lastVisited
+        completed
+        score
+        status
+        visits
+      }
+    }
+  }
+  ${ContentFragment}
+`
+
+export const UserResourcesFragment = gql`
+  fragment UserResourcesFragment on User {
+    libraryItems {
+      edges {
+        node {
+          ...ContentFragment
+        }
+        roles {
+          id
+          name
+          roleType
+        }
+        groups {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+        lastVisited
+        completed
+        score
+        status
+        visits
+      }
+    }
+  }
+  ${ContentFragment}
+`
+
 export const UserCapabilitiesFragment = gql`
   fragment UserCapabilitiesFragment on User {
     roles {
@@ -143,12 +210,16 @@ export const GET_CURRENT_USER = gql`
   query GetCurrentUser($id: ID) {
     user(id: $id) {
       ...CurrentUserFragment
+      ...UserResourcesFragment
       ...UserCoursesFragment
+      ...UserPathwaysFragment
       ...UserGroupsFragment
       ...UserCapabilitiesFragment
     }
   }
   ${CurrentUserFragment}
+  ${UserResourcesFragment}
+  ${UserPathwaysFragment}
   ${UserCoursesFragment}
   ${UserGroupsFragment}
   ${UserCapabilitiesFragment}
@@ -171,6 +242,7 @@ export const GET_USER_CAPABILITIES = gql`
       }
       courses {
         edges {
+          id
           roles {
             id
             capabilities {
@@ -201,6 +273,19 @@ export const GET_USERS = gql`
       edges {
         node {
           ...UserFragment
+          groups {
+            totalCount
+            edges {
+              node {
+                id
+                name
+              }
+              roles {
+                id
+                name
+              }
+            }
+          }
         }
       }
     }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "../../utils/router";
-import Button from "../Button";
+import Button from "../common/Button";
 import TextInput from "../common/inputs/TextInput";
 
 const LostPasswordForm = () => {

@@ -39,29 +39,8 @@ function useUpdatePathway(id) {
     })
   }
   
-  const updatePathwayContentBlocks = (contentBlocks) => {
-    updatePathway({
-      content: {
-        blocks: contentBlocks 
-      }
-    })
-  }
-  
-  const { loading, error, data: {pathway} = {} } = useQuery(
-    GET_PATHWAY,
-    {
-      variables: {
-        id
-      }
-    }
-  );
-
   return {
-    pathway,
-    loading,
-    error,
-    updatePathway,
-    updatePathwayContentBlocks,
+    updatePathway
   }
 }
 

@@ -2,11 +2,11 @@ import { useRouter } from '../utils/router'
 import CourseLayout from '../layouts/CourseLayout'
 import { headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect, useState } from 'react'
-import CourseItemView from '../components/CourseView/CourseItemView'
+import CourseItemView from '../components/courses/CourseView/CourseItemView'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
-import Button from '../components/Button'
-import PrevNextButtons from '../components/CourseView/PrevNextButtons'
-import CourseCompleted from '../components/CourseView/CourseCompleted'
+import Button from '../components/common/Button'
+import PrevNextButtons from '../components/courses/CourseView/PrevNextButtons'
+import CourseCompleted from '../components/courses/CourseView/CourseCompleted'
 import useGetUserContent from '../hooks/users/useGetUserContent'
 
 const CoursePage = () => {
@@ -21,7 +21,7 @@ const CoursePage = () => {
   const { user: userContent } = useGetUserContent(id)
   
   const [courseScore, setCourseScore] = useState(null)
-  const [showCompletedPage, setShowCompletedPage] = useState(null)
+  const [showCompletedPage, setShowCompletedPage] = useState(false)
 
   useEffect(() => {
     const view = {
@@ -50,20 +50,20 @@ const CoursePage = () => {
   }
 
   useEffect(() => {
-    if(user) {
-      setShowCompletedPage(false)
-      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      if(courseScore && userContent?.score === 100) {
+    setShowCompletedPage(false)
+    if(userContent) {
+      let userContentEdge = userContent.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
+      if(courseScore!==null && userContentEdge?.score === 100) {
         setShowCompletedPage(true)
+      } else {
       }
-      userContent?.score && setCourseScore(userContent.score)
+      userContentEdge?.score && setCourseScore(userContentEdge.score)
+      
     }
-  },[user, id])
-
+  },[userContent, id])
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useEffect(() => {
-    user && console.log('user',user)
     headerButtonsVar(
       <>
         {showEdit && <Button onClick={editCourse}>Edit Course</Button> }

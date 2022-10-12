@@ -1,5 +1,5 @@
 import ItemGrid from "./ItemGrid"
-import Button from "../../Button"
+import Button from "../Button"
 import { MouseEventHandler } from "react";
 
 interface ItemCollectionProps {

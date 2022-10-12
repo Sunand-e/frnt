@@ -1,5 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle';
-import UserForm from '../../../components/admin/users/UserForm'
+import UserForm from '../../../components/users/UserForm'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import { useRouter } from 'next/router';
 import useGetUsers from '../../../hooks/users/useGetUsers';

@@ -3,7 +3,7 @@ import { useController } from "react-hook-form";
 import { ModalContext } from "../../context/modalContext";
 import UrlEntry from "../common/inputs/UrlEntry";
 import VideoSelector from "../common/inputs/VideoSelector";
-import MediaLibrary from "../MediaLibrary/MediaLibrary";
+import MediaLibrary from "../media/MediaLibrary";
 
 const useResourceSelect = (control) => {
   

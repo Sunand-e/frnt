@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
-import Button from '../Button';
+import Button from '../common/Button';
 
 const Caps = () => {
 

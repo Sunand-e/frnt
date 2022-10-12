@@ -42,10 +42,10 @@ function useUpdateUserContentStatus() {
               }
             }}, (data) => ({
               user: {
-                ...data.user,
+                ...data?.user,
                 courses: {
-                  ...data.user.courses,
-                  edges: data.user.courses.edges.map(edge => {
+                  ...data?.user.courses,
+                  edges: data?.user.courses.edges.map(edge => {
                     const newEdgeData = userCourseEdges.find(({id}) => (
                       edge.node.id === id
                     ))?.edgeData
@@ -53,11 +53,11 @@ function useUpdateUserContentStatus() {
                       ...edge,
                       ...newEdgeData
                     }
-                  })
+                  }) || []
                 },
                 sections: {
-                  ...data.user.sections,
-                  edges: data.user.sections.edges.map(edge => {
+                  ...data?.user.sections,
+                  edges: data?.user.sections.edges.map(edge => {
                     const newEdgeData = userSectionEdges.find(({id}) => (
                       edge.node.id === id
                     ))?.edgeData
@@ -65,11 +65,11 @@ function useUpdateUserContentStatus() {
                       ...edge,
                       ...newEdgeData
                     }
-                  })
+                  }) || []
                 },
                 lessons: {
-                  ...data.user.lessons,
-                  edges: data.user.lessons.edges.map(edge => {
+                  ...data?.user.lessons,
+                  edges: data?.user.lessons.edges.map(edge => {
                     const newEdgeData = userLessonEdges.find(({id}) => (
                       edge.node.id === id
                     ))?.edgeData
@@ -77,19 +77,23 @@ function useUpdateUserContentStatus() {
                       ...edge,
                       ...newEdgeData
                     }
-                  })
+                  }) || []
                 },
               }
             }));
 
             cache.updateQuery<GetCurrentUser>(
               { query: GET_CURRENT_USER },
-              (data) => ({
+              (data) => {
+                
+                console.log('datadatadata')
+                console.log(data)
+              return ({
                 user: {
-                  ...data.user,
+                  ...data?.user,
                   courses: {
-                    ...data.user.courses,
-                    edges: data.user.courses.edges.map(edge => {
+                    ...data?.user.courses,
+                    edges: data?.user.courses.edges.map(edge => {
                       const newEdgeData = userCourseEdges.find(({id}) => (
                         edge.node.id === id
                       ))?.edgeData
@@ -97,11 +101,11 @@ function useUpdateUserContentStatus() {
                         ...edge,
                         ...newEdgeData
                       }
-                    })
+                    }) || []
                   }
                 }
               })
-            )
+            })
           } catch(error) {
             console.log('ERROR!')
             console.log(error)

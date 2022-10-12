@@ -1,4 +1,4 @@
-import Messaging from '../../components/Messaging/Messaging';
+import Messaging from '../../components/messaging/Messaging';
 import usePageTitle from '../../hooks/usePageTitle';
 import MessagingLayout from '../../layouts/MessagingLayout';
 

@@ -3,9 +3,11 @@ import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
-import Button from '../../../components/Button'
+import Button from '../../../components/common/Button'
 import useUpdatePathway from '../../../hooks/pathways/useUpdatePathway'
-import PathwayEditor from '../../../components/admin/pathways/PathwayEditor'
+import PathwayEditor from '../../../components/pathways/PathwayEditor'
+import useGetPathway from '../../../hooks/pathways/useGetPathway'
+import { useSavePathwayButton } from '../../../components/pathways/useSavePathwayButton'
 
 const AdminPathwaysEdit = () => {
   /*
@@ -14,8 +16,9 @@ const AdminPathwaysEdit = () => {
   */
   const router = useRouter()
     
-  const { id } = router.query
-  const { pathway, updatePathway } = useUpdatePathway(id)
+  const { pid } = router.query
+  const { pathway } = useGetPathway(pid)
+  const { updatePathway } = useUpdatePathway(pid)
 
   // const { updatePathwayTitle } = usePathway(id)
 
@@ -25,22 +28,7 @@ const AdminPathwaysEdit = () => {
     onEdit: title => updatePathway({title})
   })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button onClick={() => router.push('/admin/pathways')}>Cancel</Button>
-        <Button onClick={() => router.push({
-          pathname: `/pathway`,
-          query: {
-            id
-          }
-        })}>
-          Preview pathway
-        </Button>
-        <Button>Publish</Button>
-      </>
-    )
-  },[])
+  useSavePathwayButton()
 
   return (
     <>

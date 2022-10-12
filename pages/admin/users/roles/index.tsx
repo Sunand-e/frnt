@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useContext } from 'react'
 import usePageTitle from '../../../../hooks/usePageTitle';
-import Button from '../../../../components/Button';
 import useHeaderButtons from '../../../../hooks/useHeaderButtons';
 import { ModalContext } from '../../../../context/modalContext';
-import AddRoleModal from '../../../../components/admin/roles/AddRoleModal';
-import RolesTable from '../../../../components/admin/roles/RolesTable/RolesTable';
+import AddRoleModal from '../../../../components/roles/AddRoleModal';
+import RolesTable from '../../../../components/roles/RolesTable/RolesTable';
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 const AddButton = () => (

@@ -1,5 +1,5 @@
 import { useController } from "react-hook-form";
-import Button from "../Button";
+import Button from "../common/Button";
 import useResourceSelect from "./useResourceSelect";
 
 const ResourcReselect = ({control}) => {

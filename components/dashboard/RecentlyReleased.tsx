@@ -1,6 +1,4 @@
-import { useQuery, gql, useReactiveVar } from "@apollo/client";
 import ItemCollection from "../common/items/ItemCollection";
-import {latestContentVar} from "../../graphql/cache";
 
 export default function RecentlyReleased() {
 

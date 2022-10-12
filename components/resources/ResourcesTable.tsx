@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import Table from '../Table';
-import Button from '../Button';
-import ButtonLink from '../ButtonLink';
+import Table from '../common/Table';
+import Button from '../common/Button';
+import ButtonLink from '../common/ButtonLink';
 import useDeleteResource from '../../hooks/resources/useDeleteResource';
 import useGetResources from '../../hooks/resources/useGetResources';
-import ItemWithImageTableCell from '../common/cells/ItemWithImageTableCell';
+import ItemWithImage from '../common/cells/ItemWithImage';
 import { useRouter } from '../../utils/router';
 import { resourceTypes } from '../resources/resourceTypes';
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../common/LoadingSpinner';
 import { startCase } from 'lodash';
 
 const ResourcesTable = () => {
@@ -107,7 +107,7 @@ const ResourcesTable = () => {
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },

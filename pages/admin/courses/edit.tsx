@@ -1,5 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import CourseEditor from '../../../components/admin/courses/CourseEditor'
+import CourseEditor from '../../../components/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { viewVar } from '../../../graphql/cache'
@@ -7,10 +7,10 @@ import { useContext, useEffect } from 'react'
 import {Cog} from '@styled-icons/fa-solid/Cog'
 import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
-import CourseForm from '../../../components/admin/courses/CourseForm'
-import { useSaveContentButton } from '../../../components/ContentEditor/useSaveContentButton'
+import CourseForm from '../../../components/courses/CourseForm'
+import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
 import useGetUserContent from '../../../hooks/users/useGetUserContent'
-import LoadingSpinner from '../../../components/LoadingSpinner'
+import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 
 const AdminCoursesEdit = () => {

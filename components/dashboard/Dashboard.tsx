@@ -1,12 +1,11 @@
 import { useQuery } from '@apollo/client';
 import { libraryVar } from '../../graphql/cache';
-import { GET_DASHBOARD } from '../../graphql/queries/GET_DASHBOARD';
 import { useRouter } from 'next/router'
 import CourseTabs from './CourseTabs';
 import ResumeRecentActivity from './ResumeRecentActivity';
 import EventListBlock from './EventsList';
 import LatestNewsBlock from "./LatestNewsList";
-import CalendarDay from "../Calendar/CalendarDay";
+import CalendarDay from "../common/Calendar/CalendarDay";
 
 const Dashboard = () => {
 

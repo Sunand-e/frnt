@@ -3,8 +3,8 @@ import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetTenant from '../../../hooks/tenants/useGetTenant';
 import useUpdateTenant from '../../../hooks/tenants/useUpdateTenant';
-import TenantForm from '../../../components/admin/tenants/TenantForm';
-import TenantEditor from '../../../components/admin/tenants/TenantEditor';
+import TenantForm from '../../../components/tenants/TenantForm';
+import TenantEditor from '../../../components/tenants/TenantEditor';
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 
 

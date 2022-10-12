@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext, useMemo } from 'react'
-import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from '../../utils/router';
 import SearchResults from './SearchResults';
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../common/LoadingSpinner';
 import useGetTags from '../../hooks/tags/useGetTags';
 import CategoryFilters from './CategoryFilters';
 import CategoriesCollection from './CategoriesCollection';

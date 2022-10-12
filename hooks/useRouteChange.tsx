@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { useBlockStore } from '../components/ContentEditor/useBlockStore'
+import { useBlockStore } from '../components/common/ContentEditor/useBlockStore'
 import { ModalContext } from '../context/modalContext'
 
 // Scroll position management

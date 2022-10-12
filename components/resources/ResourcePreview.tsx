@@ -1,5 +1,5 @@
 import { useController } from "react-hook-form";
-import DocumentItem from "../ContentEditor/blocks/DocumentBlock/DocumentItem";
+import DocumentItem from "../common/ContentEditor/blocks/DocumentBlock/DocumentItem";
 import VideoItem from "./display/VideoItem";
 import ImageItem from "./display/ImageItem";
 import AudioPlayer from "../common/audio/AudioPlayer";

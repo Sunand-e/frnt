@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import MediaLibrary from '../../components/MediaLibrary/MediaLibrary';
+import MediaLibrary from '../../components/media/MediaLibrary';
 import { ModalContext } from '../../context/modalContext';
 import usePageTitle from '../../hooks/usePageTitle';
 import { Upload } from '@styled-icons/boxicons-regular/Upload'
 import useHeaderButtons from "../../hooks/useHeaderButtons";
-import MediaUploader from '../../components/MediaLibrary/MediaUploader';
-import MediaPreview from '../../components/MediaLibrary/MediaPreview';
+import MediaUploader from '../../components/media/MediaUploader';
+import MediaPreview from '../../components/media/MediaPreview';
 
 const UploadButton = () => (
   <>

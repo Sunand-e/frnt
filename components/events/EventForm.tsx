@@ -1,4 +1,4 @@
-import Button from '../Button';
+import Button from '../common/Button';
 import useCreateEvent from '../../hooks/events/useCreateEvent';
 import { useForm } from 'react-hook-form';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';

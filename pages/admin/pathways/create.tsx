@@ -2,7 +2,7 @@ import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import React, { useState, useEffect, useContext } from 'react'
-import Button from '../../../components/Button'
+import Button from '../../../components/common/Button'
 import { v4 as uuidv4 } from 'uuid';
 import { CreatePathway, CreatePathwayVariables } from '../../../graphql/mutations/pathway/__generated__/CreatePathway';
 import { GetPathways } from '../../../graphql/queries/__generated__/GetPathways';
@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import CheckboxInput from '../../../components/common/inputs/CheckboxInput'
 import SelectInput from '../../../components/common/inputs/SelectInput'
 import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
-import LoadingSpinner from '../../../components/LoadingSpinner'
+import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import useCreatePathway from '../../../hooks/pathways/useCreatePathway'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
@@ -60,7 +60,7 @@ const AdminPathwaySetup = () => {
         router.push({
           pathname: `/admin/pathways/edit`,
           query: {
-            id: pathway.id
+            pid: pathway.id
           }
         })
       }

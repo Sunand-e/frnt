@@ -1,15 +1,16 @@
 import Link from "next/link";
-import ButtonLink from "../../ButtonLink";
-import LoadingSpinner from "../../LoadingSpinner";
+import ButtonLink from "../../common/ButtonLink";
 import { resourceTypes } from "../../resources/resourceTypes";
 import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
 
 import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
 import Tippy from "@tippyjs/react";
+
 export default function Item({ item, options }) {
 
-  const imageSrc = item.image?.location || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
+  const imageSrc = (item?.image?.id && `/uploaded_images/${item.image.id}?w=300`) || 
+    ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
   const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
@@ -92,7 +93,16 @@ export default function Item({ item, options }) {
               </Tippy>
             )}
           </h2>
-          { item.tags?.[0] && <img src={item.tags[0].image?.location} className="mt-1 h-12 rounded-full" /> }
+          {/* <img src={item.tags[0].image?.location} className="mt-1 h-12 rounded-full" /> */}
+          { item.tags?.[0]?.image?.id && (
+            <div className={`h-12 w-12 flex justify-center items-center shrink-0 overflow-hidden rounded-full`}>
+              <img 
+                className={`h-12 w-12 object-cover`} 
+                src={`/uploaded_images/${item.tags[0].image?.id}?w=50`}
+                alt=""
+              />
+            </div>
+          )}
         </div>
         { options?.showType && (
           <h2 className="text-lg text-white mb-4 top-5 font-bold">

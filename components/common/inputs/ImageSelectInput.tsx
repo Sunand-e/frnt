@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Control, useController } from "react-hook-form";
 import { ModalContext } from "../../../context/modalContext";
-import ImageSelectFromLibrary from "../../ContentEditor/ImageSelectFromLibrary";
+import ImageSelectFromLibrary from "../ContentEditor/ImageSelectFromLibrary";
 
 type ImageSelectInputProps = { 
   control?: Control;

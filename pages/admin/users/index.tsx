@@ -1,5 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle';
-import UsersTable from '../../../components/admin/users/UsersTable'
+import UsersTable from '../../../components/users/UsersTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import {Add} from '@styled-icons/fluentui-system-filled/Add';
 import {AddCircle} from '@styled-icons/fluentui-system-regular/AddCircle';
