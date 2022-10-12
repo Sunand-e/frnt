@@ -3,7 +3,7 @@ import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function CourseTabs({gridClasses=''}) {
   
-  const { user: { courses: courseConnection } = {} } = useGetCurrentUser()
+  const { user: { courses: courseConnection } = {}, loading, error } = useGetCurrentUser()
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -14,6 +14,7 @@ export default function CourseTabs({gridClasses=''}) {
   })
   
   const options = {
+    typeName: 'course',
     tabs: {
       in_progress: {
         readMoreLabel: 'Continue course',
@@ -33,6 +34,11 @@ export default function CourseTabs({gridClasses=''}) {
     }
   }
   return (
-    <ContentStatusTabs gridClasses={gridClasses} options={options} content={courses} />
+    <ContentStatusTabs 
+      gridClasses={gridClasses} 
+      options={options} 
+      loading={loading} 
+      content={courses}
+    />
   )
 }
