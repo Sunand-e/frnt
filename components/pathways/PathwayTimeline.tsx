@@ -9,9 +9,10 @@ import { useRouter } from "../../utils/router"
 import CourseSelectCategorised from "../courses/inputs/CourseSelectCategorised"
 import PathwayTimelineItem from "./PathwayTimelineItem"
 import { usePathwayStore } from "./usePathwayStore"
-
 import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {FlagCheckered} from '@styled-icons/fa-solid/FlagCheckered'
+import LoadingSpinner from '../common/LoadingSpinner'
+import { Dot } from '../common/misc/Dot';
 
 const ConditionalReorderWrapper = ({ editMode, items, children, onReorder }) => (
   editMode ? (
@@ -39,33 +40,45 @@ const PathwayTimeline = ({editMode=false, onRemove=null}) => {
   return (
     <div className="container mb-8 bg-white shadow rounded-md p-6">
       <div className="flex flex-col mx-auto px-2">
-        <div className="flex relative mb-9">
-          <div
-            className="w-12 h-12 absolute flex p-1 top-1/4 -left-3 -mt-3 rounded-full bg-main text-white shadow"
-          >
-            <Flow />
+        { !pathway ? (
+          <LoadingSpinner text={(
+            <>
+              Loading pathway
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+            </>
+          )} />
+        ) : (
+          <>
+          <div className="flex relative mb-9">
+            <div
+              className="w-12 h-12 absolute flex p-1 top-1/4 -left-3 -mt-3 rounded-full bg-main text-white shadow"
+            >
+              <Flow />
+            </div>
           </div>
-        </div>
 
-        { items?.length && (
-          <ConditionalReorderWrapper 
-            editMode={editMode}
-            items={items}
-            onReorder={editItems}
-          >
-            {items?.map((item) => (
-              <PathwayTimelineItem editMode={editMode} key={item.id} item={item} onRemove={onRemove} />
-            ))}
-          </ConditionalReorderWrapper>
-        )}
-        <div className="flex relative mt-3 mb-6">
-          <div
-            className="w-12 h-12 absolute flex p-1 top-1/4 -left-3 -mt-3 rounded-full bg-main text-white shadow"
-          >
-            <FlagCheckered className="p-2"/>
+          { !!items?.length && (
+            <ConditionalReorderWrapper 
+              editMode={editMode}
+              items={items}
+              onReorder={editItems}
+            >
+              {items?.map((item) => (
+                <PathwayTimelineItem editMode={editMode} key={item.id} item={item} onRemove={onRemove} />
+              ))}
+            </ConditionalReorderWrapper>
+          )}
+          <div className="flex relative mt-3 mb-6">
+            <div
+              className="w-12 h-12 absolute flex p-1 top-1/4 -left-3 -mt-3 rounded-full bg-main text-white shadow"
+            >
+              <FlagCheckered className="p-2"/>
+            </div>
           </div>
-        </div>
-
+          </>
+          )}
       </div>
     </div>
   )

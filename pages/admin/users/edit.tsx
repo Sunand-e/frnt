@@ -10,6 +10,8 @@ import UserCourses from '../../../components/users/courses/UserCourses';
 import UserResources from '../../../components/users/resources/UserResources';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import LoadingSpinner from '../../../components/common/LoadingSpinner'
+import { Dot } from '../../../components/common/misc/Dot';
 
 const BackButton = () => (
   <>
@@ -51,7 +53,7 @@ const AdminUsersEdit = () => {
 
   return (
     <>
-      { user &&
+      { user ? (
         <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
           {/* <pre>
           { JSON.stringify(id,null,2) }
@@ -64,7 +66,16 @@ const AdminUsersEdit = () => {
             {/* <UserResources /> */}
           </div>
         </div>
-      }
+      ) : (
+        <LoadingSpinner text={(
+          <>
+            Loading user details
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+          </>
+        )} />
+      )}
     </>
   )
 }
