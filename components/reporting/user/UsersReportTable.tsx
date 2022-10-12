@@ -7,6 +7,9 @@ import ButtonLink from '../../common/ButtonLink';
 import Button from '../../common/Button';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import { Dot } from '../../common/misc/Dot';
+import {User} from '@styled-icons/fa-solid/User'
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -24,7 +27,8 @@ const UsersReportTable = () => {
       Header: "Name",
       Cell: ({ cell }) => {
         const cellProps = {
-          image: cell.row.original.image,
+          imageSrc: cell.row.original.profileImageUrl,
+          icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
           title: cell.row.original.fullName,
           secondary: cell.row.original.email,
           href: cell.row.original.id && {
@@ -93,7 +97,22 @@ const UsersReportTable = () => {
   ], []);
 
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <>
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading users
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
+      { error && (
+        <p>Unable to fetch users.</p>
+      )}
+      { (!loading && !error) && (
+        <Table tableData={tableData} tableCols={tableCols} />
+      )}
+    </>
   );
 }
 

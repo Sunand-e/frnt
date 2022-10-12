@@ -35,7 +35,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
       href: '#',
       contents: content?.filter(item => item.status === 'completed'),
       readMoreLabel: options?.tabs?.completed?.readMoreLabel || 'View item',
-      noItemsText: options?.tabs?.completed?.noItemsText || 'You have not completed any contents'
+      noItemsText: options?.tabs?.completed?.noItemsText || 'You have not completed any items'
     },
   ]
 

@@ -5,6 +5,9 @@ import ItemWithImage from '../../common/cells/ItemWithImage';
 import { ModalContext } from '../../../context/modalContext';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from '../../../utils/router';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import { Dot } from '../../common/misc/Dot';
+import { User } from 'styled-icons/fa-solid';
 import dayjs from 'dayjs';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
@@ -60,6 +63,8 @@ const LessonUsersReportTable = () => {
           const cellProps = {
             title: user.fullName,
             secondary: user.email,
+            imageSrc: cell.row.original.profileImageUrl,
+            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
             // href: {
             //   query: {
             //     lesson: lessonId,
@@ -68,7 +73,7 @@ const LessonUsersReportTable = () => {
             // }
           }
           return (
-            <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },
@@ -107,15 +112,6 @@ const LessonUsersReportTable = () => {
         Header: "Last visited",
         accessor: "updatedAt",
         Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
-        }
-      },
-      {
-        id: "completedAt",
-        Header: "Completed at",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
-          return <span>&mdash;</span>
           return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
@@ -158,7 +154,20 @@ const LessonUsersReportTable = () => {
 
   return (
     <>
-      <Table tableData={tableData} tableCols={tableCols} />
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading users
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
+      { error && (
+        <p>Unable to fetch users for this lesson.</p>
+      )}
+      { (!loading && !error) && (
+        <Table tableData={tableData} tableCols={tableCols} />
+      )}
     </>
   );
 }

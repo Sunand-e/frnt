@@ -4,7 +4,10 @@ import ButtonLink from '../../common/ButtonLink';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import useGetCourseUsers from '../../../hooks/courses/useGetCourseUsers';
 import { useRouter } from '../../../utils/router';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import { Dot } from '../../common/misc/Dot';
 import dayjs from 'dayjs';
+import { User } from 'styled-icons/fa-solid';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -32,6 +35,8 @@ const CourseUsersReportTable = () => {
         Header: "Name",
         Cell: ({ cell }) => {
           const cellProps = {
+            imageSrc: cell.row.original.profileImageUrl,
+            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
             title: cell.row.original.fullName,
             secondary: cell.row.original.email,
             href: cell.row.original.id && {
@@ -42,7 +47,7 @@ const CourseUsersReportTable = () => {
               }
           }
           return (
-            <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },
@@ -130,7 +135,20 @@ const CourseUsersReportTable = () => {
 
   return (
     <>
-      <Table tableData={tableData} tableCols={tableCols} />
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading course users
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
+      { error && (
+        <p>Unable to fetch course users.</p>
+      )}
+      { (!loading && !error) && (
+        <Table tableData={tableData} tableCols={tableCols} />
+      )}
     </>
   );
 }

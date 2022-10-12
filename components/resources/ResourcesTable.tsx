@@ -8,6 +8,7 @@ import ItemWithImage from '../common/cells/ItemWithImage';
 import { useRouter } from '../../utils/router';
 import { resourceTypes } from '../resources/resourceTypes';
 import LoadingSpinner from '../common/LoadingSpinner';
+import { Dot } from '../common/misc/Dot';
 import { startCase } from 'lodash';
 
 const ResourcesTable = () => {
@@ -142,9 +143,14 @@ const ResourcesTable = () => {
 
   return (
     <>
-      { loading && (
-        <LoadingSpinner />
-      )}
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading categories
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
       { error && (
         <p>Unable to fetch resourses.</p>
       )}
