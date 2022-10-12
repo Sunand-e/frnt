@@ -6,6 +6,12 @@ import { ModalContext } from '../../../context/modalContext';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import useGetCourseUsers from '../../../hooks/courses/useGetCourseUsers';
 import { useRouter } from '../../../utils/router';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import { Dot } from '../../common/misc/Dot';
+import { lessonTypes } from '../../courses/lessonTypes';
+import dayjs from 'dayjs';
+var advancedFormat = require('dayjs/plugin/advancedFormat')
+dayjs.extend(advancedFormat)
 
 const UserLessonsReportTable = () => {
 
@@ -21,6 +27,7 @@ const UserLessonsReportTable = () => {
             node {
               id
               title
+              contentType
             }
             status
             lastVisited
@@ -53,45 +60,30 @@ const UserLessonsReportTable = () => {
     () => [
       {
         Header: "Lesson",
-        Cell: ({ cell }) => {
+        Cell: ({ cell }) => {  
+          const IconComponent = lessonTypes[cell.row.original.node?.contentType]?.icon || null
           const cellProps = {
             title: cell.row.original.node.title,
-            // secondary: cell.row.original.email,
-            // href: cell.row.original.node.id && {
-            //   query: {
-            //     user: userId,
-            //     course: courseId,
-            //     lesson: cell.row.original.node.id
-            //   }
-            // }
+            icon: !!IconComponent && <IconComponent className="hidden w-6 h-full bg-grey-500 text-main-secondary" />
           }
           return (
-            <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },
-      // {
-      //   Header: "JSON",
-      //   Cell: ({ cell }) => (
-      //     <pre className='text-left'>
-      //       {JSON.stringify(cell.row.original,null,2)}
-      //     </pre>
-      //   ),
-      //   className: 'text-left'
-      // },
       {
         Header: "First access",
         accessor: "createdAt",
         Cell: ({ cell }) => {
-          return cell.value
+          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
 
       {
-        Header: "Last updated",
+        Header: "Last visited",
         accessor: "updatedAt",
         Cell: ({ cell }) => {
-          return cell.value
+          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
         }
       },
       {
@@ -147,7 +139,22 @@ const UserLessonsReportTable = () => {
   );
 
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <>
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading lessons
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
+      { error && (
+        <p>Unable to fetch user's lessons.</p>
+      )}
+      { (!loading && !error) && (
+        <Table tableData={tableData} tableCols={tableCols} />
+      )}
+    </>
   );
 }
 

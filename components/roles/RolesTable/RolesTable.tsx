@@ -58,11 +58,11 @@ const RolesTable = () => {
           return (
             <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>Edit</ButtonLink>
-              <Button
+              {/* <Button
                 onClick={() => handleDeleteClick(cell.row.original.id)}
               >
                 Delete
-              </Button>
+              </Button> */}
             </div>
           )
         }

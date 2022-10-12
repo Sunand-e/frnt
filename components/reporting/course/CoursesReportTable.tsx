@@ -5,6 +5,7 @@ import ButtonLink from '../../common/ButtonLink';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import TagSelect from '../../tags/inputs/TagSelect';
 import LoadingSpinner from '../../common/LoadingSpinner';
+import { Dot } from '../../common/misc/Dot';
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -198,9 +199,14 @@ const CoursesReportTable = () => {
       <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
     </div>
 
-      { loading && (
-        <LoadingSpinner />
-      )}
+      { loading && <LoadingSpinner text={(
+        <>
+          Loading courses
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} /> }
       { error && (
         <p>Unable to fetch course report.</p>
       )}
