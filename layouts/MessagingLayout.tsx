@@ -3,7 +3,7 @@ import NavContainer from '../components/app/navigation/NavContainer'
 import TopNotificationBar from '../components/common/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
-import MessagingSidebar from '../components/messaging_/MessagingSidebar';
+import MessagingSidebar from '../components/messaging/MessagingSidebar';
 import { useEffect } from 'react';
 import { viewVar } from '../graphql/cache';
 
