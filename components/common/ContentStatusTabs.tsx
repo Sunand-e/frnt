@@ -4,7 +4,7 @@ import Tabs from "./containers/Tabs"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
-export default function ContentStatusTabs({content=[], options=null, gridClasses=''}) {
+export default function ContentStatusTabs({content=[], options=null, gridClasses='', loading=false}) {
 
   const defaultOptions = { 
     // subHeading: 'Courses and workshops that were recently released',
@@ -61,7 +61,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     <>
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
       
-      { !content && <LoadingSpinner text="Loading contents..."/> }
+      { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s...`}/> }
 
       { !!content?.length && (
         <>

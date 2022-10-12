@@ -3,7 +3,7 @@ import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function PathwayTabs({gridClasses=''}) {
   
-  const { user: { pathways: pathwayConnection } = {} } = useGetCurrentUser()
+  const { user: { pathways: pathwayConnection } = {}, loading } = useGetCurrentUser()
 
   const pathways = pathwayConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -14,6 +14,7 @@ export default function PathwayTabs({gridClasses=''}) {
   })
   
   const options = {
+    typeName: 'pathway',
     tabs: {
       in_progress: {
         readMoreLabel: 'Continue pathway',
@@ -33,6 +34,11 @@ export default function PathwayTabs({gridClasses=''}) {
     }
   }
   return (
-    <ContentStatusTabs gridClasses={gridClasses} options={options} content={pathways} />
+    <ContentStatusTabs 
+      gridClasses={gridClasses} 
+      options={options} 
+      loading={loading}
+      content={pathways}
+    />
   )
 }
