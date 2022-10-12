@@ -36,9 +36,11 @@ export const ContentFragment = gql`
       totalCount
     }
     tags {
+      id
       tagType
       label
       image {
+        id
         location
       }
     }
@@ -87,7 +89,7 @@ export const CourseFragment = gql`
 export const PathwayFragment = gql`
   fragment PathwayFragment on ContentItem {
     ...ContentFragment
-    courses {
+    children {
       ...CourseFragment
     }
     tags {

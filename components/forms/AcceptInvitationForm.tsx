@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { isLoggedInVar } from "../../graphql/cache";
 import { useRouter } from "../../utils/router";
-import Button from "../Button";
+import Button from "../common/Button";
 import TextInput from "../common/inputs/TextInput";
 
 const AcceptInvitationForm = () => {

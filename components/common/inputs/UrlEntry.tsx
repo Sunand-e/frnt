@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import InputWithLabel from './InputWithLabel';
-import Button from '../../Button';
+import Button from '../Button';
 import LinkPreview from '../LinkPreview';
 
 export const UrlEntry = ({onAddLink}) => {

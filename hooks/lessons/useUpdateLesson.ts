@@ -1,4 +1,3 @@
-import { useRef, useEffect } from "react";
 import { UpdateLesson, UpdateLessonVariables } from "../../graphql/mutations/lesson/__generated__/UpdateLesson";
 import { UPDATE_LESSON } from "../../graphql/mutations/lesson/UPDATE_LESSON"
 import { ContentFragment, GET_LESSON } from "../../graphql/queries/allQueries"

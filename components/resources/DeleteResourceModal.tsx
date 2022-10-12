@@ -2,7 +2,7 @@ import { useField } from "formik"
 import { useContext } from 'react';
 import { ModalContext } from "../../context/modalContext";
 import useDeleteLesson from "../../hooks/lessons/useDeleteLesson";
-import Button from '../Button';
+import Button from '../common/Button';
 
 const DeleteResourceModal = ({lessonId}) => {
 

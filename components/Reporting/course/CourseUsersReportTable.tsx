@@ -1,13 +1,7 @@
-import { useQuery } from '@apollo/client';
-import React, { useContext, useEffect, useMemo } from 'react';
-import Table from '../../Table';
-import { GET_USERS } from '../../../graphql/queries/users';
-import { GetUsers } from '../../../graphql/queries/__generated__/GetUsers';
-import Link from 'next/link';
-import ButtonLink from '../../ButtonLink';
-import Button from '../../Button';
-import { ModalContext } from '../../../context/modalContext';
-import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import React, { useMemo } from 'react';
+import Table from '../../common/Table'
+import ButtonLink from '../../common/ButtonLink';
+import ItemWithImage from '../../common/cells/ItemWithImage';
 import useGetCourseUsers from '../../../hooks/courses/useGetCourseUsers';
 import { useRouter } from '../../../utils/router';
 import dayjs from 'dayjs';
@@ -48,7 +42,7 @@ const CourseUsersReportTable = () => {
               }
           }
           return (
-            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
           )
         }
       },
@@ -90,14 +84,14 @@ const CourseUsersReportTable = () => {
           return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
         }
       },
-      {
-        id: "completedAt",
-        Header: "Completed at",
-        accessor: "completedAt",
-        Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-        }
-      },
+      // {
+      //   id: "completedAt",
+      //   Header: "Completed at",
+      //   accessor: "completedAt",
+      //   Cell: ({ cell }) => {
+      //     return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
+      //   }
+      // },
 
       // "visits": null,
       // "completed": null

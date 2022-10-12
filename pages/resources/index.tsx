@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import usePageTitle from '../../hooks/usePageTitle'
-import ResourceLibrary from '../../components/ResourceLibrary/ResourceLibrary';
+import ResourceLibrary from '../../components/resources/ResourceLibrary/ResourceLibrary';
 
 const Library = ({queries}) => {
 

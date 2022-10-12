@@ -1,11 +1,10 @@
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
-import Button from '../Button';
+import Button from '../common/Button';
 import { useRouter } from 'next/router';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import useUpdateUser from '../../hooks/users/useUpdateUser';
-import useUpdateUserTenantRoles from '../../hooks/users/useUpdateUserTenantRoles';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 import { useEffect } from 'react';
 

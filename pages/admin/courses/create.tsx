@@ -2,7 +2,7 @@ import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import { useState, useEffect, useContext } from 'react'
-import Button from '../../../components/Button'
+import Button from '../../../components/common/Button'
 import { v4 as uuidv4 } from 'uuid';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
 import { GetCourses } from '../../../graphql/queries/__generated__/GetCourses';
@@ -10,8 +10,8 @@ import { ModalContext } from '../../../context/modalContext'
 import { useMutation } from '@apollo/client'
 import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
 import { GET_COURSES } from '../../../graphql/queries/allQueries'
-import LoadingSpinner from '../../../components/LoadingSpinner'
-import CourseForm from '../../../components/admin/courses/CourseForm'
+import LoadingSpinner from '../../../components/common/LoadingSpinner'
+import CourseForm from '../../../components/courses/CourseForm'
 
 const AdminCourseSetup = () => {
   /*

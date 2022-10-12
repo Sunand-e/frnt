@@ -1,8 +1,5 @@
-
-import { useQuery } from "@apollo/client"
 import { useCallback, useMemo } from "react";
 import useGetCurrentUser from "./useGetCurrentUser";
-
 
 const getCapsFromRoleArr = (roles) => {
   return roles.reduce((array, role) => {

@@ -1,8 +1,8 @@
 import { Control, useController } from "react-hook-form";
 import { useContext, useState } from "react";
 import { ModalContext } from "../../context/modalContext";
-import MediaLibrary from "../MediaLibrary/MediaLibrary";
-import Button from "../Button";
+import MediaLibrary from "../media/MediaLibrary";
+import Button from "../common/Button";
 
 type ResourceFileInputProps = { 
   control?: Control;

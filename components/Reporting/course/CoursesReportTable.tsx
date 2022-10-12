@@ -1,10 +1,10 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import Table from '../../Table';
-import ButtonLink from '../../ButtonLink';
-import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
-import TagSelect from '../../admin/tags/inputs/TagSelect';
-import LoadingSpinner from '../../LoadingSpinner';
+import Table from '../../common/Table'
+import ButtonLink from '../../common/ButtonLink';
+import ItemWithImage from '../../common/cells/ItemWithImage';
+import TagSelect from '../../tags/inputs/TagSelect';
+import LoadingSpinner from '../../common/LoadingSpinner';
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -77,7 +77,7 @@ const CoursesReportTable = () => {
             }
           }
           return (
-            <ItemWithImageTableCell { ...cellProps } />
+            <ItemWithImage { ...cellProps } />
           )
         }
       },

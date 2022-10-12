@@ -2,7 +2,7 @@ import usePageTitle from '../../../hooks/usePageTitle';
 import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetTag from '../../../hooks/tags/useGetTag';
-import TagForm from '../../../components/admin/tags/TagForm';
+import TagForm from '../../../components/tags/TagForm';
 import useUpdateTag from '../../../hooks/tags/useUpdateTag';
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 

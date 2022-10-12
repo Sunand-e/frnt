@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import Button from '../../../components/Button'
-import { Notices } from '../../../components/Notices'
+import Button from '../../../components/common/Button'
+import { Notices } from '../../../components/common/Notices'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import ResourcesTable from '../../../components/resources/ResourcesTable'
 import { useContext, useEffect } from 'react'

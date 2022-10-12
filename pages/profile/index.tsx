@@ -1,6 +1,5 @@
 import usePageTitle from '../../hooks/usePageTitle';
 import useHeaderButtons from '../../hooks/useHeaderButtons';
-import useGetUser from '../../hooks/users/useGetUser';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import ProfileForm from '../../components/profile/ProfileForm';
 import ProfileMenu from '../../components/profile/ProfileMenu';

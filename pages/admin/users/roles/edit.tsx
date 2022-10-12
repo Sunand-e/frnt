@@ -2,7 +2,7 @@ import usePageTitle from '../../../../hooks/usePageTitle';
 import { useRouter } from '../../../../utils/router';
 import useHeaderButtons from '../../../../hooks/useHeaderButtons';
 import useGetRole from '../../../../hooks/roles/useGetRole';
-import RoleForm from '../../../../components/admin/roles/RoleForm';
+import RoleForm from '../../../../components/roles/RoleForm';
 import useUpdateRole from '../../../../hooks/roles/useUpdateRole';
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 

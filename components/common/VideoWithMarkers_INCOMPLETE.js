@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import BlockWithTitle from '../BlockWithTitle';
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import VideoPlayer from '../VideoPlayer';
 import DownloadLinks from '../DownloadLinks';
 

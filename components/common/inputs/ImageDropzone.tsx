@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import ImageSelect from "../../ContentEditor/ImageSelect";
-import FileDropzone from "../../FileDropzone";
+import ImageSelect from "../ContentEditor/ImageSelect";
+import FileDropzone from "../FileDropzone";
 import DropzoneIconAndText from "./DropzoneIconAndText";
 
 const ImageDropzone = ({

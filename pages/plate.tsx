@@ -1,10 +1,9 @@
-import PageTitle from "../components/header/PageTitle"
+import PageTitle from "../components/app/header/PageTitle"
 import EditorLayout from "../layouts/EditorLayout"
 import { useContext } from "react"
-import { MarkBallonToolbar } from "../components/plate/Toolbar"
+import { MarkBallonToolbar } from "../components/common/plate/Toolbar"
 import { Plate } from "@udecode/plate-headless"
-import { CONFIG } from "../components/plate/config/config"
-import { PLUGINS } from "../components/plate/config/plugins"
+import { CONFIG } from "../components/common/plate/config/config"
 import usePageTitle from "../hooks/usePageTitle"
 
 const PlatePage = () => {
@@ -18,7 +17,7 @@ const PlatePage = () => {
 
   return (
     <>
-      <MarkBalloonToolbar />
+      <MarkBallonToolbar />
       <Plate
         id="balloon-toolbar"
         // plugins={}

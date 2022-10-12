@@ -3,11 +3,11 @@ import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetUser from '../../../hooks/users/useGetUser';
 import useUpdateUser from '../../../hooks/users/useUpdateUser';
-import UserForm from '../../../components/admin/users/UserForm';
+import UserForm from '../../../components/users/UserForm';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import UserGroups from '../../../components/admin/users/groups/UserGroups';
-import UserCourses from '../../../components/admin/users/courses/UserCourses';
-import UserResources from '../../../components/admin/users/resources/UserResources';
+import UserGroups from '../../../components/users/groups/UserGroups';
+import UserCourses from '../../../components/users/courses/UserCourses';
+import UserResources from '../../../components/users/resources/UserResources';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 

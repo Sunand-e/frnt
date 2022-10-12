@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
-import Table from '../../Table';
-import ButtonLink from '../../ButtonLink';
-import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import Table from '../../common/Table'
+import ButtonLink from '../../common/ButtonLink';
+import ItemWithImage from '../../common/cells/ItemWithImage';
 import { ModalContext } from '../../../context/modalContext';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from '../../../utils/router';
@@ -68,7 +68,7 @@ const LessonUsersReportTable = () => {
             // }
           }
           return (
-            <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+            <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
           )
         }
       },

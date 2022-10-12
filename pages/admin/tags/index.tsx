@@ -1,11 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle';
-import Button from '../../../components/Button';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import { ModalContext } from '../../../context/modalContext';
-import AddTagModal from '../../../components/admin/tags/AddTagModal';
-import TagsTable from '../../../components/admin/tags/TagsTable/TagsTable';
+import AddTagModal from '../../../components/tags/AddTagModal';
+import TagsTable from '../../../components/tags/TagsTable/TagsTable';
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
 

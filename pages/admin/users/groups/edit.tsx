@@ -1,4 +1,4 @@
-import EditGroupForm from '../../../../components/admin/groups/EditGroupForm'
+import EditGroupForm from '../../../../components/groups/EditGroupForm'
 import { useRouter } from '../../../../utils/router'
 import usePageTitle from '../../../../hooks/usePageTitle';
 import useGetGroup from '../../../../hooks/groups/useGetGroup';

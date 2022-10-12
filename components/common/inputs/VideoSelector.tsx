@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import urlParser from "js-video-url-parser";
 import InputWithLabel from './InputWithLabel';
-import Button from '../../Button';
+import Button from '../Button';
 import VideoItem from '../../resources/display/VideoItem';
 
 export const VideoSelector = ({onAddVideo}) => {

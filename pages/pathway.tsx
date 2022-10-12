@@ -4,26 +4,27 @@ import { useReactiveVar } from '@apollo/client'
 import CourseLayout from '../layouts/CourseLayout'
 import { currentContentItemVar, headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect } from 'react'
-import CourseItemView from '../components/CourseView/CourseItemView'
+import CourseItemView from '../components/courses/CourseView/CourseItemView'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
-import Button from '../components/Button'
+import Button from '../components/common/Button'
 import useGetPathway from '../hooks/pathways/useGetPathway'
+import PathwayTimeline from '../components/pathways/PathwayTimeline'
 
-const CoursePage = () => {
+const PathwayPage = () => {
   /*
     Our useRouter is a modified version of nextJS's useRouter, as router.query is only available in SSR applications.
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId, showEdit=false } = router.query
+  const { pid } = router.query
 
-  const { loading, error, pathway } = useGetPathway(id);
+  const { loading, error, pathway } = useGetPathway(pid);
   const { user } = useGetCurrentUser();
 
   useEffect(() => {
     const view = {
       isSlimNav: true,
-      showSecondary: false,
+      showSecondary: true,
       ...viewVar()
     }
     viewVar(view)
@@ -38,44 +39,18 @@ const CoursePage = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 
-  const editCourse = () => {
-    router.push({
-      pathname: `/admin/courses/edit`,
-      query: {
-        id,
-        ...(contentId && {cid: contentId})
-      }
-    })
-  }
-
   usePageTitle({ title: `Pathway: ${pathway?.title}` })
-  useEffect(() => {
-    user && console.log('user',user)
-    headerButtonsVar(
-      <>
-        {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
-      </>
-    )
-  },[showEdit])
+
   return (
     <>
-      { currentContentItem.id && (
-        <CourseItemView />
-      )}
+      <PathwayTimeline />
     </>
   )
 }
 
-CoursePage.navState = {
+PathwayPage.navState = {
   topLevel: 'courses',
-  secondary: 'courses'
+  secondary: 'pathways'
 }
 
-CoursePage.getLayout = page => (
-  <CourseLayout
-    navState={CoursePage.navState || {}}
-    page={page}
-  />
-)
-
-export default CoursePage
+export default PathwayPage

@@ -1,5 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle';
-import TenantForm from '../../../components/admin/tenants/TenantForm'
+import TenantForm from '../../../components/tenants/TenantForm'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import { useRouter } from 'next/router';
 import useGetTenants from '../../../hooks/tenants/useGetTenants';

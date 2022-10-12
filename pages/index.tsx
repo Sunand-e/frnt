@@ -1,13 +1,11 @@
-import {useContext, useEffect} from 'react'
+import {useEffect} from 'react'
 import Head from 'next/head'
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import usePageTitle from '../hooks/usePageTitle'
 import useLogout from '../hooks/useLogout'
-import { headerButtonsVar, latestContentVar, libraryVar, viewVar } from '../graphql/cache';
-import { GET_DASHBOARD } from '../graphql/queries/GET_DASHBOARD';
+import { headerButtonsVar, libraryVar, viewVar } from '../graphql/cache';
 import { useRouter } from 'next/router'
-import Button from '../components/Button';
-import { QueriesContext } from '../context/QueriesContext';
+import Button from '../components/common/Button';
 import Dashboard from '../components/dashboard/Dashboard';
 import WelcomeUserPanel from "../components/dashboard/WelcomeUserPanel";
 import DashboardLayout from '../layouts/DashboardLayout';

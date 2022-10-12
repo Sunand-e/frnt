@@ -6,7 +6,7 @@ import possibleTypes from './possibleTypes.json'
 
 // generate type policies for all content types
 /*
-const typePolicyKeyFields = contentTypes.reduce((typePoliciesObject, type) => {
+const typePolicyKeyFields = resourceTypes.reduce((typePoliciesObject, type) => {
   typePoliciesObject[type.name.replace(/\s/g, '')] = {
     keyFields: ["slug"]
   }
@@ -28,7 +28,9 @@ export const navStateVar = makeVar({
   topLevel: '',
   secondary: ''
 })
-export const viewVar = makeVar({isAdmin:false})
+export const viewVar = makeVar({
+  isAdmin:false
+})
 export const pageTitleVar = makeVar({
   title: null,
   subtitle: null,

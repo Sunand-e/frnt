@@ -1,6 +1,6 @@
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import Button from '../Button';
+import Button from '../common/Button';
 import { useRouter } from 'next/router';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useCallback } from 'react';

@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import Table from '../../Table';
+import Table from '../../common/Table'
 import { GET_USERS, GET_USERS_COURSES } from '../../../graphql/queries/users';
 import { GetUsers } from '../../../graphql/queries/__generated__/GetUsers';
-import ButtonLink from '../../ButtonLink';
-import Button from '../../Button';
-import ItemWithImageTableCell from '../../common/cells/ItemWithImageTableCell';
+import ButtonLink from '../../common/ButtonLink';
+import Button from '../../common/Button';
+import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
@@ -34,7 +34,7 @@ const UsersReportTable = () => {
           }
         }
         return (
-          <ItemWithImageTableCell placeholder="/images/user-generic.png" { ...cellProps } />
+          <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
         )
       }
     },

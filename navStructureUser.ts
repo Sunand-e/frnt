@@ -35,12 +35,12 @@ const navStructureUser = [
         urlPath: '/categories',
         icon: Category
       },
-      // {
-      //   name: 'pathways',
-      //   title: 'Pathways',
-      //   urlPath: '/pathways',
-      //   icon: Flow
-      // },
+      {
+        name: 'pathways',
+        title: 'Pathways',
+        urlPath: '/pathways',
+        icon: Flow
+      },
       
     ],
   },

@@ -1,9 +1,8 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import UserImportForm from '../../../components/admin/users/UserImportForm';
+import UserImportForm from '../../../components/users/UserImportForm';
 import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import BulkImportsTable from '../../../components/admin/bulkImports/BulkImportsTable';
-
+import BulkImportsTable from '../../../components/bulkImports/BulkImportsTable';
 
 const BackButton = () => (
   <>

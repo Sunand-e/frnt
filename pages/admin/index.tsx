@@ -1,7 +1,7 @@
 import usePageTitle from '../../hooks/usePageTitle';
 import { GraduationCap } from 'styled-icons/entypo';
 import { Users } from 'styled-icons/fa-solid';
-import CalendarDay from '../../components/Calendar/CalendarDay';
+import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 
 import {

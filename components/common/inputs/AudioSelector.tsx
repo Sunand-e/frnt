@@ -1,9 +1,7 @@
 import { useContext, useState } from "react";
-import ReactPlayer from "react-player";
 import { ModalContext } from "../../../context/modalContext";
-import Button from "../../Button";
-import MediaLibrary from "../../MediaLibrary/MediaLibrary";
-import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline'
+import Button from "../Button";
+import MediaLibrary from "../../media/MediaLibrary";
 import AudioPlayer from "../audio/AudioPlayer";
 const AudioSelector = ({url, onSelect, buttonContainerClass=''}) => {
 

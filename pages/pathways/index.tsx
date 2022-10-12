@@ -1,4 +1,4 @@
-import Head from "next/head";
+import PathwayTabs from "../../components/pathways/PathwayTabs";
 import usePageTitle from "../../hooks/usePageTitle";
 
 const PathwaysPage = () => {
@@ -7,11 +7,7 @@ const PathwaysPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Membership Academy</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      
+      <PathwayTabs />
     </>
   );
 }

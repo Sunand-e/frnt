@@ -4,8 +4,6 @@ import { CourseFragment } from "../../graphql/queries/allQueries"
 import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
 import { useMutation } from "@apollo/client"
 import cache from "../../graphql/cache"
-import useGetCourse from "./useGetCourse";
-
 
 function useCourse(id) {
 

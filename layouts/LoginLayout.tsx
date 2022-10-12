@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import TopNotificationBar from '../components/TopNotificationBar'
-import LoginPage from '../components/LoginPage'
+import TopNotificationBar from '../components/common/TopNotificationBar'
+import LoginPage from '../components/app/login/LoginPage'
 import { isLoggedInVar } from '../graphql/cache'
 import { useReactiveVar } from '@apollo/client'
 

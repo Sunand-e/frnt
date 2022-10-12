@@ -3,10 +3,10 @@ import { headerButtonsVar, viewVar } from "../../../graphql/cache"
 import { useQuery } from "@apollo/client"
 import { useRouter } from '../../../utils/router'
 import { GET_LESSON } from "../../../graphql/queries/allQueries"
-import Button from "../../../components/Button"
+import Button from "../../../components/common/Button"
 
 import EditorLayout from "../../../layouts/EditorLayout"
-import LessonEditor from "../../../components/admin/courses/LessonEditor"
+import LessonEditor from "../../../components/courses/LessonEditor"
 import usePageTitle from "../../../hooks/usePageTitle"
 
 const AdminLesson = () => {

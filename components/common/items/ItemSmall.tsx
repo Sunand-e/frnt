@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function ItemSmall({ item, options, className }) {
+export default function ItemSmall({ item, options=null, className='' }) {
 
   const imageSrc = item.featuredImage ? item.featuredImage.node.sourceUrl : process.env.NEXT_PUBLIC_BASE_PATH || '' + '/images/placeholder-image.png';
 

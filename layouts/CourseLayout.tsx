@@ -1,12 +1,14 @@
-import Header from '../components/header/Header'
-import NavContainer from '../components/navigation/NavContainer'
-import TopNotificationBar from '../components/TopNotificationBar'
+import Header from '../components/app/header/Header'
+import NavContainer from '../components/app/navigation/NavContainer'
+import TopNotificationBar from '../components/common/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from '../utils/router';
 import Layout from './Layout';
-import CourseStructureView from '../components/CourseView/CourseStructureView';
+import CourseStructureView from '../components/courses/CourseView/CourseStructureView';
+import ButtonLink from '../components/common/ButtonLink';
+import useGetUserContent from '../hooks/users/useGetUserContent';
 
 export default function CourseLayout( {page, navState} ) {
   /*
@@ -15,13 +17,24 @@ export default function CourseLayout( {page, navState} ) {
   */
 
   const router = useRouter()
-  
+  const { pid, id } = router.query
+  const { user } = useGetUserContent(id)
+  const course = user?.courses.edges[0]?.node
+
   return (
     <Layout 
       navState={navState}
       sidebarComponent={(
         <div className="sticky h-[100vh] w-[300px] bg-blue bg-opacity-10 flex flex-col">
           <CourseStructureView />
+          { pid && course && (
+            <ButtonLink className="mx-4" href={{
+              pathname: `/pathway`,
+              query: { pid }
+            }}>
+              Return to pathway
+            </ButtonLink>
+          )}
         </div>
       )}
     >
