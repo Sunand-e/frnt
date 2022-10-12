@@ -1,5 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle'
-import Reporting from '../../../components/Reporting/Reporting'
+import Reporting from '../../../components/reporting/Reporting'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 
 const AdminReports = () => {
