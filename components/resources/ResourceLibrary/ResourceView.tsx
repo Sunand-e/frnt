@@ -26,7 +26,7 @@ const ResourceView = ({id}) => {
   const { pid } = router.query;
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 
-  usePageTitle({ title: `Library: ${resource?.title}` })
+  usePageTitle({ title: resource?.title ? `Resource Library: ${resource.title}` : 'Resource Library' })
 
   useEffect(() => {
     currentContentItemVar({
