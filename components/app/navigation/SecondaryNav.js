@@ -14,7 +14,7 @@ export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) 
         )}
         { showSecondary && 
           <ul>
-            { topNavItem.subPages.map((item, index) => {
+            { topNavItem?.subPages?.map((item, index) => {
               let menuItemClasses
               if (pageNavState?.secondary === item.name) {
 

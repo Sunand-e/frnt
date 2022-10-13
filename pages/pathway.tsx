@@ -39,7 +39,7 @@ const PathwayPage = () => {
 
   const currentContentItem = useReactiveVar(currentContentItemVar) 
 
-  usePageTitle({ title: `Pathway: ${pathway?.title}` })
+  usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
 
   return (
     <>
