@@ -12,6 +12,7 @@ function useUpdateUserContentStatus() {
   );
 
   const updateUserContentStatus = (values, courseId=null) => {
+    alert(courseId)
     updateUserContentStatusMutation({
       variables: {
         ...values
@@ -20,19 +21,33 @@ function useUpdateUserContentStatus() {
         console.log('attempt to update the cache:')
         if(courseId) {
           console.log('attempt to update the cache with a course ID: ', courseId)
-          try {
-            const getIdsAndEdges = (itemType) => (
-              updateUserContentStatus.userContents.filter(userContent => (
-                userContent.contentItem.itemType === itemType
-              )).map(({contentItem, user, __typename, ...edgeData}) => ({
-                id: contentItem.id,
-                edgeData
-              }))
-            )
-            const userCourseEdges = getIdsAndEdges('course')
-            const userSectionEdges = getIdsAndEdges('section')
-            const userLessonEdges = getIdsAndEdges('lesson')
-            
+          const getIdsAndEdges = (itemType) => (
+            updateUserContentStatus.userContents.filter(userContent => (
+              userContent.contentItem.itemType === itemType
+            )).map(({contentItem, user, __typename, ...edgeData}) => ({
+              id: contentItem.id,
+              edgeData
+            }))
+          )
+          
+          const mergeConnectionWithCache = (connection, itemType) => {
+            console.log('connection, itemtype')
+            console.log(connection, itemType)
+            return {
+              ...connection,
+              edges: connection.edges.map(edge => {
+                const newEdgeData = getIdsAndEdges(itemType).find(({id}) => (
+                  edge.node.id === id
+                ))?.edgeData
+                return {
+                  ...edge,
+                  ...newEdgeData
+                }
+              }) || []
+            }
+          }
+
+          try {  
             cache.updateQuery<GetUserContent>({ query: GET_USER_CONTENT, variables: {
               courseFilter: {
                 id: courseId
@@ -40,81 +55,45 @@ function useUpdateUserContentStatus() {
               lessonSectionFilter: {
                 courseId
               }
-            }}, (data) => ({
-              user: {
-                ...data?.user,
-                courses: {
-                  ...data?.user.courses,
-                  edges: data?.user.courses.edges.map(edge => {
-                    const newEdgeData = userCourseEdges.find(({id}) => (
-                      edge.node.id === id
-                    ))?.edgeData
-                    return {
-                      ...edge,
-                      ...newEdgeData
-                    }
-                  }) || []
-                },
-                sections: {
-                  ...data?.user.sections,
-                  edges: data?.user.sections.edges.map(edge => {
-                    const newEdgeData = userSectionEdges.find(({id}) => (
-                      edge.node.id === id
-                    ))?.edgeData
-                    return {
-                      ...edge,
-                      ...newEdgeData
-                    }
-                  }) || []
-                },
-                lessons: {
-                  ...data?.user.lessons,
-                  edges: data?.user.lessons.edges.map(edge => {
-                    const newEdgeData = userLessonEdges.find(({id}) => (
-                      edge.node.id === id
-                    ))?.edgeData
-                    return {
-                      ...edge,
-                      ...newEdgeData
-                    }
-                  }) || []
-                },
+            }}, (data) => {
+              console.log('datadatadatadatadata')
+              console.log(data)
+              return {
+                user: {
+                  ...data?.user,
+                  courses: mergeConnectionWithCache(data?.user?.courses, 'course'),
+                  sections: mergeConnectionWithCache(data?.user?.sections, 'section'),
+                  lessons: mergeConnectionWithCache(data?.user?.lessons, 'lesson')
+                }
               }
-            }));
-
+            })          
+          } catch(error) {
+            console.log('ERRO111R!')
+            console.log(error)
+          }
+          try {
             cache.updateQuery<GetCurrentUser>(
               { query: GET_CURRENT_USER },
               (data) => {
                 
-                console.log('datadatadata')
+                console.log('ddddddata')
                 console.log(data)
               return ({
                 user: {
                   ...data?.user,
-                  courses: {
-                    ...data?.user.courses,
-                    edges: data?.user.courses.edges.map(edge => {
-                      const newEdgeData = userCourseEdges.find(({id}) => (
-                        edge.node.id === id
-                      ))?.edgeData
-                      return {
-                        ...edge,
-                        ...newEdgeData
-                      }
-                    }) || []
-                  }
+                  courses: mergeConnectionWithCache(data?.user?.courses, 'course'),
                 }
               })
             })
           } catch(error) {
-            console.log('ERROR!')
+            console.log('ERRO22222!')
             console.log(error)
           }
         }
       }
     }).then(res => {
       console.log('resresresresresresresresresresresresresres')
-      console.log(res)        
+      console.log(res)
     }).catch(res => {
       // TODO: do something if there is an error!!
     })

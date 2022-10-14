@@ -302,6 +302,10 @@ export const UserContentEdgeFragment = gql`
         content
         contentType
         itemType
+        mediaItem {
+          id
+          location
+        }
       }
       status
       lastVisited
@@ -353,6 +357,7 @@ export const GET_USER_CONTENT = gql`
         ...UserContentEdgeFragment
         edges {
           node {
+            id
             sections {
               id
               lessons {
@@ -362,10 +367,47 @@ export const GET_USER_CONTENT = gql`
           }
         }
       }
+      pathways {
+        ...UserContentEdgeFragment
+        edges {
+          node {
+            id
+            children {
+              id
+            }
+          }
+        }
+      }
       sections(where: $lessonSectionFilter) {
         ...UserContentEdgeFragment
       }
       lessons(where: $lessonSectionFilter) {
+        ...UserContentEdgeFragment
+      }
+    }
+  }
+  ${UserContentEdgeFragment}
+`
+
+export const GET_USER_PATHWAY = gql`
+  query GetUserPathway($courseResourceFilter: JSON, $pathwayFilter: JSON) {
+    user {
+      id
+      pathways(where: $pathwayFilter) {
+        ...UserContentEdgeFragment
+        edges {
+          node {
+            id
+            children {
+              id
+            }
+          }
+        }
+      }
+      courses(where: $courseResourceFilter) {
+        ...UserContentEdgeFragment
+      }
+      libraryItems(where: $courseResourceFilter) {
         ...UserContentEdgeFragment
       }
     }

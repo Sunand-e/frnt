@@ -44,7 +44,12 @@ const navStructureUser = [
       
     ],
   },
-  
+  {
+    name: 'pathways',
+    title: 'Pathways',
+    urlPath: '/pathways',
+    icon: Flow
+  },
   {
     name: 'library',
     title: 'Resource Library',
@@ -100,6 +105,12 @@ const navStructureUser = [
       //   icon: FlowChart,
       // }
     ]
+  },
+  {
+    name: 'categories',
+    title: 'Categories',
+    urlPath: '/categories',
+    icon: Category
   },
   // {
   //   name: 'events',

@@ -12,6 +12,7 @@ import { useRouter } from "../../utils/router";
 import ProgressBar from "../common/ProgressBar"
 import useGetUserContent from "../../hooks/users/useGetUserContent";
 import { useEffect, useState } from "react";
+import useGetUserPathway from "../../hooks/users/useGetUserPathway";
 
 const ConditionalReorderItemWrapper = ({ item, y, editMode, children }) => (
   editMode ? (
@@ -28,13 +29,25 @@ const PathwayTimelineItem = ({
   item, 
   onRemove
 }) => {
-    
-  const { user } = useGetUserContent(item.id);
 
+  const router = useRouter()
+  const { pid } = router.query
+  const { user } = useGetUserPathway(pid);
+  
   const [progress, setProgress] = useState(0)
   useEffect(() => {
     if(user) {
-      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+      let userContent
+      switch(item.itemType) {
+        case 'course': {
+          userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+          break
+        }
+        case 'library_item': {
+          userContent = user.libraryItems.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+          break
+        }
+      }
       // alert(userContent?.status)
       setProgress(userContent?.score)
     }
@@ -43,9 +56,6 @@ const PathwayTimelineItem = ({
   const y = useMotionValue(0);
   const boxShadow = useRaisedShadow(y);
   const dragControls = useDragControls()
-
-  const router = useRouter()
-  const { pid } = router.query
 
   let icon;
   let itemWithImage;

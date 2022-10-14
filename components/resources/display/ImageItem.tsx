@@ -16,7 +16,7 @@ const ImageItem = ({image, onRemove=null}) => {
         </div>
       )}
       <div className="aspect-w-16 aspect-h-9 px-1 mb-4 ">
-        <Image src={image.location} />
+        <Image src={image?.location} />
       </div>
     </>
   )
