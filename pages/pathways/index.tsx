@@ -13,8 +13,8 @@ const PathwaysPage = () => {
 }
 
 PathwaysPage.navState = {
-  topLevel: 'courses',
-  secondary: 'pathways'
+  topLevel: 'pathways',
+  // secondary: 'pathways'
 }
 
 export default PathwaysPage

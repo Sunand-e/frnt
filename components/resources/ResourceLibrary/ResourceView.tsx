@@ -18,6 +18,7 @@ import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserConten
 import { useRouter } from "../../../utils/router";
 import useGetUserPathway from "../../../hooks/users/useGetUserPathway";
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 
 const ResourceView = ({id}) => {
 
@@ -33,7 +34,7 @@ const ResourceView = ({id}) => {
   const { user } = useGetUserPathway(pid)
   const { user: userContents } = useGetCurrentUser()
   const resourceEdge = 
-    user?.libraryItems.edges[0] || 
+    // user?.libraryItems.edges[0] || 
     userContents?.libraryItems.edges.find(edge => edge.node.id === id)
 
   const resource = resourceEdge?.node
@@ -76,7 +77,7 @@ const ResourceView = ({id}) => {
         return (
           <Button className="mb-8" onClick={() => router.push('/resources')}>
             <span className="flex space-x-4">
-              <Download  width="20" />
+              <Download className="h-8 p-1" />
               <span>
                 Download {resource?.contentType} file
               </span>
@@ -86,8 +87,8 @@ const ResourceView = ({id}) => {
       case 'link':
         return (
           <ButtonLink target="_blank" className="mb-8" href={resource?.content?.url}>
-            <span className="flex space-x-4">
-              <ExternalLinkOutline  width="20" />
+            <span className="flex space-x-2 items-center">
+              <ExternalLinkOutline className="h-8 p-1" />
               <span>
                 Visit link
               </span>
@@ -108,6 +109,10 @@ const ResourceView = ({id}) => {
       score: 100,
       status: 'completed'
     }, resource.id)
+    router.push({
+      pathname: `/pathway`,
+      query: { pid }
+    })
   }, [resource])
   
   
@@ -128,25 +133,33 @@ const ResourceView = ({id}) => {
             { resourceActionButton }
             { pid ? (
               <>
-    { (resource?.status !== 'completed') && (
-      <Button onClick={markComplete}>
-        <span className='flex items-center space-x-2'>
-          <span>Mark Complete</span>
-          <Tick className='h-8'/>
-        </span>
-      </Button>
-    )}
                 <ButtonLink href={{
                   pathname: `/pathway`,
                   query: {
-                    ...router.query,
                     pid
                   }
-                }}>Back to pathway</ButtonLink>
+                }}>
+                  <span className='flex items-center space-x-2'>
+                    <span>Back to pathway</span>
+                    <ArrowBack className="h-8 p-1" />
+                  </span>
+                </ButtonLink>
+                { (resource?.status !== 'completed') && (
+                  <Button onClick={markComplete}>
+                    <span className='flex items-center space-x-2'>
+                      <span>Mark Complete</span>
+                      <Tick className="h-8" />
+                    </span>
+                  </Button>
+                )}
               </>
             ) : (
               <Button className="mb-8" onClick={() => router.push('/resources')}>
-                Back to Resource Library
+                <span className='flex items-center space-x-2'>
+                  <span>Back to Resource Library</span>
+                  <ArrowBack className='h-7'/>
+                </span>
+                
               </Button>
             )}
           </div>
