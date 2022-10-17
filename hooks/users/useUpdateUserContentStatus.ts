@@ -5,6 +5,16 @@ import { GET_CURRENT_USER, GET_USER_CONTENT } from "../../graphql/queries/users"
 import { GetUserContent } from "../../graphql/queries/__generated__/GetUserContent";
 import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 
+
+const getIdsAndEdges = (updatedUserContents, itemType) => (
+  updatedUserContents.filter(userContent => (
+    userContent.contentItem.itemType === itemType
+  )).map(({contentItem, user, __typename, ...edgeData}) => ({
+    id: contentItem.id,
+    edgeData
+  }))
+)
+
 function useUpdateUserContentStatus() {
 
   const [updateUserContentStatusMutation, updateUserContentStatusResponse] = useMutation<UpdateUserContentStatus, UpdateUserContentStatusVariables>(
@@ -12,33 +22,20 @@ function useUpdateUserContentStatus() {
   );
 
   const updateUserContentStatus = (values, courseId=null) => {
-    alert(courseId)
     updateUserContentStatusMutation({
       variables: {
         ...values
       },
       update: (cache, { data: { updateUserContentStatus } }) => {
-        console.log('attempt to update the cache:')
         if(courseId) {
-          console.log('attempt to update the cache with a course ID: ', courseId)
-          const getIdsAndEdges = (itemType) => (
-            updateUserContentStatus.userContents.filter(userContent => (
-              userContent.contentItem.itemType === itemType
-            )).map(({contentItem, user, __typename, ...edgeData}) => ({
-              id: contentItem.id,
-              edgeData
-            }))
-          )
-          
           const mergeConnectionWithCache = (connection, itemType) => {
-            console.log('connection, itemtype')
-            console.log(connection, itemType)
             return {
               ...connection,
               edges: connection.edges.map(edge => {
-                const newEdgeData = getIdsAndEdges(itemType).find(({id}) => (
-                  edge.node.id === id
-                ))?.edgeData
+                const newEdgeData = getIdsAndEdges(updateUserContentStatus.userContents, itemType)
+                  .find(({id}) => (
+                    edge.node.id === id
+                  ))?.edgeData;
                 return {
                   ...edge,
                   ...newEdgeData
@@ -46,8 +43,7 @@ function useUpdateUserContentStatus() {
               }) || []
             }
           }
-
-          try {  
+          try {
             cache.updateQuery<GetUserContent>({ query: GET_USER_CONTENT, variables: {
               courseFilter: {
                 id: courseId
@@ -56,8 +52,6 @@ function useUpdateUserContentStatus() {
                 courseId
               }
             }}, (data) => {
-              console.log('datadatadatadatadata')
-              console.log(data)
               return {
                 user: {
                   ...data?.user,
@@ -68,16 +62,14 @@ function useUpdateUserContentStatus() {
               }
             })          
           } catch(error) {
-            console.log('ERRO111R!')
+            console.log('ERROR!')
             console.log(error)
           }
+          
           try {
             cache.updateQuery<GetCurrentUser>(
               { query: GET_CURRENT_USER },
               (data) => {
-                
-                console.log('ddddddata')
-                console.log(data)
               return ({
                 user: {
                   ...data?.user,
@@ -86,13 +78,13 @@ function useUpdateUserContentStatus() {
               })
             })
           } catch(error) {
-            console.log('ERRO22222!')
+            console.log('ERROR!!')
             console.log(error)
           }
         }
       }
     }).then(res => {
-      console.log('resresresresresresresresresresresresresres')
+      console.log('response')
       console.log(res)
     }).catch(res => {
       // TODO: do something if there is an error!!

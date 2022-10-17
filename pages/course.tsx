@@ -67,17 +67,17 @@ const CoursePage = () => {
     headerButtonsVar(
       <>
         {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
-        <PrevNextButtons />
+        { user && <PrevNextButtons /> }
       </>
     )
-  },[showEdit])
+  },[showEdit, user])
   
   return (
     <>
       {showCompletedPage ? (
         <CourseCompleted />
       ) : (
-        <CourseItemView />        
+        user && <CourseItemView />
       )}
     </>
   )

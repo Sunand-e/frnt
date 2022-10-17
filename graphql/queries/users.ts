@@ -98,6 +98,9 @@ export const UserPathwaysFragment = gql`
           }
         }
         lastVisited
+        firstVisited
+        createdAt
+        updatedAt
         completed
         score
         status
@@ -129,6 +132,9 @@ export const UserResourcesFragment = gql`
           }
         }
         lastVisited
+        firstVisited
+        createdAt
+        updatedAt
         completed
         score
         status
@@ -295,6 +301,7 @@ export const GET_USERS = gql`
 
 export const UserContentEdgeFragment = gql`
   fragment UserContentEdgeFragment on UserContentConnection {
+    totalCount
     edges {
       node {
         id
@@ -306,6 +313,11 @@ export const UserContentEdgeFragment = gql`
           id
           location
         }
+      }
+      roles {
+        id
+        name
+        roleType
       }
       status
       lastVisited

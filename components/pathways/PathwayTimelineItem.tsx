@@ -10,7 +10,6 @@ import { resourceTypes } from "../resources/resourceTypes";
 import { startCase } from 'lodash';
 import { useRouter } from "../../utils/router";
 import ProgressBar from "../common/ProgressBar"
-import useGetUserContent from "../../hooks/users/useGetUserContent";
 import { useEffect, useState } from "react";
 import useGetUserPathway from "../../hooks/users/useGetUserPathway";
 
@@ -48,8 +47,7 @@ const PathwayTimelineItem = ({
           break
         }
       }
-      // alert(userContent?.status)
-      setProgress(userContent?.score)
+      setProgress(userContent?.score || 0)
     }
   },[user, item])
 

@@ -43,7 +43,7 @@ const PathwayPage = () => {
 
   return (
     <>
-      <PathwayTimeline />
+      { user &&  <PathwayTimeline /> }
     </>
   )
 }
