@@ -32,7 +32,7 @@ export default function Item({ item, options }) {
 
   let itemImage;
   let linkPaddingBottom = '';
-  if(item.itemType === 'library_item' && item.contentType !== 'image') {
+  if(item.itemType === 'resource' && item.contentType !== 'image') {
     const IconComponent = resourceTypes[item.contentType].icon
     itemImage = (
       <div className="w-full justify-center text-center">

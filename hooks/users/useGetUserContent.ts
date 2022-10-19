@@ -4,7 +4,7 @@ import { GET_USER_CONTENT } from "../../graphql/queries/users";
 
 function useGetUserContent(id=null) {
   
-  const { loading, error, data: {user} = {} } = useQuery(
+  const { loading, error, data } = useQuery(
     GET_USER_CONTENT,
     {
       fetchPolicy: "cache-and-network",
@@ -21,7 +21,18 @@ function useGetUserContent(id=null) {
     }
   );
 
-  return { user, loading, error }
+  return { 
+    user: data?.user, 
+    pathways: data?.pathways, 
+    courses: data?.courses,
+    courseEdge: data?.courses?.edges[0],
+    lessons: data?.lessons, 
+    sections: data?.sections, 
+    contentItems: data?.contentItems, 
+    resources: data?.resources,
+    loading,
+    error
+  }
 }
 
 export default useGetUserContent

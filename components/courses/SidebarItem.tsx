@@ -25,7 +25,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   const router = useRouter()
   const { id: courseId, cid: contentId } = router.query
 
-  const { user } = useGetUserContent(courseId);
+  const { lessons } = useGetUserContent(courseId);
 
   const { complete, data } = useFragment_experimental({
     fragment: ContentFragment,
@@ -37,8 +37,8 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   
   const [progress, setProgress] = useState(0)
   useEffect(() => {
-    if(user) {
-      let userContent = user.lessons.edges.find(userContentEdge => userContentEdge.node.id === id)
+    if(lessons) {
+      let userContent = lessons?.edges.find(userContentEdge => userContentEdge.node.id === id)
       // alert(userContent?.status)
       switch(userContent?.status) {
         case 'in_progress': {
@@ -55,7 +55,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
         }
         }
     }
-  },[user, id])
+  },[lessons, id])
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   

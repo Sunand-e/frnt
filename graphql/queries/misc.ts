@@ -11,7 +11,7 @@ export const GET_ADMIN_DASHBOARD_DATA = gql`
       courses {
         totalCount
       }
-      libraryItems {
+      resources {
         totalCount
       }
     }

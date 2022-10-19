@@ -90,7 +90,7 @@ const router = useRouter()
       <TextInput
         label="Password"
         placeholder="Password"
-        type="password"
+        type="text"
         className="mt-4"
         inputAttrs={register("password", {
             required:"Password is required"

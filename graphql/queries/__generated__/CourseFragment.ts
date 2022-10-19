@@ -38,15 +38,16 @@ export interface CourseFragment_users {
 
 export interface CourseFragment_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CourseFragment_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CourseFragment_tags_image | null;
-  id: string;
 }
 
 export interface CourseFragment_sections_image {
@@ -80,11 +81,13 @@ export interface CourseFragment_sections_users {
 
 export interface CourseFragment_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CourseFragment_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CourseFragment_sections_tags_image | null;
@@ -121,11 +124,13 @@ export interface CourseFragment_sections_children_users {
 
 export interface CourseFragment_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CourseFragment_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CourseFragment_sections_children_tags_image | null;

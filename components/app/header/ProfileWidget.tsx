@@ -52,7 +52,7 @@ const ProfileWidget = () => {
     ...(userHasCapability([
       'UpdateUser',
       'UpdateCourse',
-      'UpdateLibraryItem',
+      'UpdateResource',
       'GetUsers',
     ]) ? [{ 
       title: `${view.isAdmin ? 'User' : 'Admin'} View`, 

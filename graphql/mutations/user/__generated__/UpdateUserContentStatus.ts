@@ -7,33 +7,38 @@
 // GraphQL mutation operation: UpdateUserContentStatus
 // ====================================================
 
-export interface UpdateUserContentStatus_updateUserContentStatus_userContents_contentItem {
+export interface UpdateUserContentStatus_updateUserContentStatus_userContents_edges_node {
   __typename: "ContentItem";
   id: string;
   itemType: string;
 }
 
-export interface UpdateUserContentStatus_updateUserContentStatus_userContents_user {
-  __typename: "User";
-  id: string;
-}
-
-export interface UpdateUserContentStatus_updateUserContentStatus_userContents {
-  __typename: "UserContent";
+export interface UpdateUserContentStatus_updateUserContentStatus_userContents_edges {
+  __typename: "UserContentEdge";
   status: string | null;
   score: number | null;
-  updatedAt: any;
+  updatedAt: any | null;
   completed: boolean | null;
   properties: any | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  contentItem: UpdateUserContentStatus_updateUserContentStatus_userContents_contentItem;
-  user: UpdateUserContentStatus_updateUserContentStatus_userContents_user;
+  /**
+   * The item at the end of the edge.
+   */
+  node: UpdateUserContentStatus_updateUserContentStatus_userContents_edges_node | null;
+}
+
+export interface UpdateUserContentStatus_updateUserContentStatus_userContents {
+  __typename: "UserContentConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (UpdateUserContentStatus_updateUserContentStatus_userContents_edges | null)[] | null;
 }
 
 export interface UpdateUserContentStatus_updateUserContentStatus {
   __typename: "UserContentStatusUpdatePayload";
-  userContents: UpdateUserContentStatus_updateUserContentStatus_userContents[] | null;
+  userContents: UpdateUserContentStatus_updateUserContentStatus_userContents | null;
 }
 
 export interface UpdateUserContentStatus {

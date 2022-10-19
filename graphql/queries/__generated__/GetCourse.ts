@@ -38,15 +38,16 @@ export interface GetCourse_course_users {
 
 export interface GetCourse_course_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourse_course_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourse_course_tags_image | null;
-  id: string;
 }
 
 export interface GetCourse_course_sections_image {
@@ -80,11 +81,13 @@ export interface GetCourse_course_sections_users {
 
 export interface GetCourse_course_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourse_course_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourse_course_sections_tags_image | null;
@@ -121,11 +124,13 @@ export interface GetCourse_course_sections_children_users {
 
 export interface GetCourse_course_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourse_course_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourse_course_sections_children_tags_image | null;

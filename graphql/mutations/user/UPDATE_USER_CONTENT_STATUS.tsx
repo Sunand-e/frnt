@@ -1,21 +1,19 @@
 import { gql } from '@apollo/client';
-import { UserContentEdgeFragment } from '../../queries/users';
 
 const UserContentFragment = gql`
-  fragment UserContentFragment on UserContent {
-    status
-    score
-    updatedAt
-    completed
-    properties
-    lastVisited
-    firstVisited
-    contentItem {
-      id
-      itemType
-    }
-    user {
-      id
+  fragment UserContentFragment on UserContentConnection {
+    edges {
+      status
+      score
+      updatedAt
+      completed
+      properties
+      lastVisited
+      firstVisited
+      node {
+        id
+        itemType
+      }
     }
   }
 `

@@ -18,8 +18,7 @@ const CoursePage = () => {
   const { id, cid: contentId, showEdit=false } = router.query
 
   const { user } = useGetCurrentUser();
-  const { user: userContent } = useGetUserContent(id)
-  
+  const { courseEdge } = useGetUserContent(id)
   const [courseScore, setCourseScore] = useState(null)
   const [showCompletedPage, setShowCompletedPage] = useState(false)
 
@@ -51,16 +50,13 @@ const CoursePage = () => {
 
   useEffect(() => {
     setShowCompletedPage(false)
-    if(userContent) {
-      let userContentEdge = userContent.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      if(courseScore!==null && userContentEdge?.score === 100) {
+    if(courseEdge) {
+      if(courseScore!==null && courseEdge?.score === 100) {
         setShowCompletedPage(true)
-      } else {
       }
-      userContentEdge?.score && setCourseScore(userContentEdge.score)
-      
+      courseEdge?.score && setCourseScore(courseEdge.score)
     }
-  },[userContent, id])
+  },[courseEdge, id])
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useEffect(() => {

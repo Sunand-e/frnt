@@ -14,8 +14,8 @@ const CourseItemView = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0].node
+  const { courses } = useGetUserContent(id)
+  const course = courses?.edges[0]?.node
 
   useEffect(() => {
     // If there is a course but no item provided, show the first item

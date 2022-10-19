@@ -25,7 +25,7 @@ const UserCoursesReportTable = () => {
 
   const tableData = useMemo(
     () => {
-      return user?.courses.edges.filter(edge => !edge.node._deleted) || []
+      return user?.courses?.edges.filter(edge => !edge.node._deleted) || []
     },
     [user]
   );

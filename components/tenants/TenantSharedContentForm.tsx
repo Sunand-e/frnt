@@ -30,7 +30,7 @@ const TenantSharedContentForm = () => {
   const defaultValues = {
     id,
     sharedCourseIds: sharedContentItems ? [...sharedContentItems?.courses.edges.map(edge => edge.node.id)]: [],
-    sharedResourceIds: sharedContentItems ? [...sharedContentItems?.libraryItems.edges.map(edge => edge.node.id)]: [],
+    sharedResourceIds: sharedContentItems ? [...sharedContentItems?.resources.edges.map(edge => edge.node.id)]: [],
     sharedPathwayIds: sharedContentItems ? [...sharedContentItems?.pathways.edges.map(edge => edge.node.id)]: [],
   }
 

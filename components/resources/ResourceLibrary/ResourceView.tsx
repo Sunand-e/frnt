@@ -13,7 +13,6 @@ import Button from "../../common/Button";
 import { Download } from '@styled-icons/boxicons-regular/Download'
 import {Tick} from '@styled-icons/typicons/Tick'
 import { ExternalLinkOutline } from '@styled-icons/evaicons-outline/ExternalLinkOutline'
-import useGetUserContent from "../../../hooks/users/useGetUserContent";
 import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../../utils/router";
 import useGetUserPathway from "../../../hooks/users/useGetUserPathway";
@@ -23,7 +22,7 @@ import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 const ResourceView = ({id}) => {
 
   // const {
-  //   libraryItem: resource,
+  //   resource: resource,
   //   loading,
   //   error,
   // } = useGetResource(id)
@@ -31,12 +30,9 @@ const ResourceView = ({id}) => {
   const router = useRouter()
   const { pid } = router.query;
 
-  const { user } = useGetUserPathway(pid)
-  const { user: userContents } = useGetCurrentUser()
-  const resourceEdge = 
-    // user?.libraryItems.edges[0] || 
-    userContents?.libraryItems.edges.find(edge => edge.node.id === id)
+  const { resources } = useGetCurrentUser()
 
+  const resourceEdge = resources.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node
 
   const currentContentItem = useReactiveVar(currentContentItemVar)

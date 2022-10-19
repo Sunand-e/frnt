@@ -20,9 +20,9 @@ const LessonView = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { user } = useGetUserContent(id)
+  const { lessons } = useGetUserContent(id)
   
-  const lesson = user?.lessons?.edges.find(edge => (
+  const lesson = lessons?.edges.find(edge => (
     edge.node.id === lessonId
   ))
 

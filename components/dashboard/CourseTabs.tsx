@@ -3,7 +3,7 @@ import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function CourseTabs({gridClasses=''}) {
   
-  const { user: { courses: courseConnection } = {}, loading, error } = useGetCurrentUser()
+  const { courses: courseConnection, loading, error } = useGetCurrentUser()
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -33,12 +33,16 @@ export default function CourseTabs({gridClasses=''}) {
       getHref: item => `/course?id=${item.id}`,
     }
   }
+
+
   return (
+    <>
     <ContentStatusTabs 
       gridClasses={gridClasses} 
       options={options} 
       loading={loading} 
       content={courses}
-    />
+      />
+      </>
   )
 }

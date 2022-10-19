@@ -38,11 +38,13 @@ export interface ContentFragment_users {
 
 export interface ContentFragment_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface ContentFragment_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: ContentFragment_tags_image | null;

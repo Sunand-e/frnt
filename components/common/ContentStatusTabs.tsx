@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react"
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import Tabs from "./containers/Tabs"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"

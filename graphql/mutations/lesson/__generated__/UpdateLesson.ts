@@ -38,11 +38,13 @@ export interface UpdateLesson_updateLesson_lesson_users {
 
 export interface UpdateLesson_updateLesson_lesson_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface UpdateLesson_updateLesson_lesson_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: UpdateLesson_updateLesson_lesson_tags_image | null;

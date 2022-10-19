@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
-import { LibraryItemFragment } from '../../queries/allQueries';
+import { ResourceFragment } from '../../queries/allQueries';
 
 
-export const CREATE_LIBRARY_ITEM = gql`
-  mutation CreateLibraryItem(
+export const CREATE_RESOURCE = gql`
+  mutation CreateResource(
     $title: String,
     $contentType: String 
     $content: JSON,
@@ -13,7 +13,7 @@ export const CREATE_LIBRARY_ITEM = gql`
     $iconId: ID
   ) {
 
-    createLibraryItem(
+    createResource(
       input: {
         title: $title,
         contentType: $contentType,
@@ -24,11 +24,11 @@ export const CREATE_LIBRARY_ITEM = gql`
         iconId: $iconId
       }
     ) {
-      libraryItem {
-        ...LibraryItemFragment
+      resource {
+        ...ResourceFragment
       }
       message
     }
   }
-  ${LibraryItemFragment}
+  ${ResourceFragment}
 `;

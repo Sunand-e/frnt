@@ -6,19 +6,47 @@ import { GetUserContent } from "../../graphql/queries/__generated__/GetUserConte
 import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 
 
-const getIdsAndEdges = (updatedUserContents, itemType) => (
-  updatedUserContents.filter(userContent => (
-    userContent.contentItem.itemType === itemType
-  )).map(({contentItem, user, __typename, ...edgeData}) => ({
-    id: contentItem.id,
+const getIdsAndEdges = (updatedUserContents, itemType) => {
+  console.log('updatedUserContents')
+  console.log(updatedUserContents)
+
+  return (
+  updatedUserContents.edges.filter(userContentEdge => (
+    userContentEdge.node.itemType === itemType
+  )).map(({node, user, __typename, ...edgeData}) => ({
+    id: node.id,
     edgeData
   }))
 )
-
+}
 function useUpdateUserContentStatus() {
 
   const [updateUserContentStatusMutation, updateUserContentStatusResponse] = useMutation<UpdateUserContentStatus, UpdateUserContentStatusVariables>(
-    UPDATE_USER_CONTENT_STATUS
+    UPDATE_USER_CONTENT_STATUS, {
+      optimisticResponse: { 
+        updateUserContentStatus:{
+          userContents:{
+            edges:[{
+              status: "in_progress",
+              score: 71,
+              updatedAt: "2022-10-18T21:38:36Z",
+              completed:null,
+              properties:{},
+              lastVisited:"2022-10-18T21:38:37Z",
+              firstVisited:"2022-10-17T22:41:54Z",
+              node:{
+                id:"75c84682-2638-4e26-816e-bdf8a341f43e",
+                itemType:"section",
+                __typename:"ContentItem"
+              },
+              __typename:"UserContentEdge"
+            }],
+            __typename:"UserContentConnection"
+          },
+          __typename:"UserContentStatusUpdatePayload"
+        }
+      }
+    }
   );
 
   const updateUserContentStatus = (values, courseId=null) => {
@@ -29,6 +57,8 @@ function useUpdateUserContentStatus() {
       update: (cache, { data: { updateUserContentStatus } }) => {
         if(courseId) {
           const mergeConnectionWithCache = (connection, itemType) => {
+            console.log('connection')
+            console.log(connection)
             return {
               ...connection,
               edges: connection.edges.map(edge => {
@@ -55,10 +85,10 @@ function useUpdateUserContentStatus() {
               return {
                 user: {
                   ...data?.user,
-                  courses: mergeConnectionWithCache(data?.user?.courses, 'course'),
-                  sections: mergeConnectionWithCache(data?.user?.sections, 'section'),
-                  lessons: mergeConnectionWithCache(data?.user?.lessons, 'lesson')
-                }
+                },
+                courses: mergeConnectionWithCache(data?.courses, 'course'),
+                sections: mergeConnectionWithCache(data?.sections, 'section'),
+                lessons: mergeConnectionWithCache(data?.lessons, 'lesson')
               }
             })          
           } catch(error) {
@@ -73,8 +103,8 @@ function useUpdateUserContentStatus() {
               return ({
                 user: {
                   ...data?.user,
-                  courses: mergeConnectionWithCache(data?.user?.courses, 'course'),
-                }
+                },
+                courses: mergeConnectionWithCache(data?.courses, 'course'),
               })
             })
           } catch(error) {

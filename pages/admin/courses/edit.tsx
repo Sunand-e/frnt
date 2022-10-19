@@ -20,8 +20,8 @@ const AdminCoursesEdit = () => {
   */
   const router = useRouter()
   const { id } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courseEdge } = useGetUserContent(id)
+  const course = courseEdge?.node
 
   useEffect(() => {
     course && console.log(course)

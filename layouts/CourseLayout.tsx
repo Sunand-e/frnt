@@ -18,8 +18,8 @@ export default function CourseLayout( {page, navState} ) {
 
   const router = useRouter()
   const { pid, id } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courses } = useGetUserContent(id)
+  const course = courses?.edges[0]?.node
 
   return (
     <Layout 

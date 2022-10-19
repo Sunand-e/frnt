@@ -9,22 +9,17 @@ const CourseStructureView = () => {
 
   const router = useRouter()
   const { id, cid } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courses } = useGetUserContent(id)
+  const course = courses?.edges[0]?.node
 
   const [ progress, setProgress ] = useState(0)
 
-
   useEffect(() => {
-    if(user) {
-      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
+    if(course) {
+      let userContent = courses.edges.find(userContentEdge => userContentEdge.node.id === id)
       userContent && setProgress(userContent.score)
-      console.log('userContent')
-      console.log(userContent)
     }
-    console.log('user.courses.edges')
-    console.log(user?.courses.edges)
-  },[user, id])
+  },[course, id])
 
   const handleItemSelect = id => {
     router.push({

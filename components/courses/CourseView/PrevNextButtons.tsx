@@ -16,9 +16,9 @@ const PrevNextButtons = () => {
   const router = useRouter()
   const { id: courseId } = router.query
   const { id } = useReactiveVar(currentContentItemVar)
-  const { user } = useGetUserContent(courseId)
-  const course = user?.courses.edges[0]?.node
-  const lessonEdge = user?.lessons.edges.find(edge => (
+  const { courses, lessons } = useGetUserContent(courseId)
+  const course = courses?.edges[0]?.node
+  const lessonEdge = lessons?.edges.find(edge => (
     edge.node.id === id
   ))
   

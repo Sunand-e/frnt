@@ -18,12 +18,12 @@ export interface GetAdminDashboardData_groups {
 }
 
 export interface GetAdminDashboardData_courses {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   totalCount: number;
 }
 
-export interface GetAdminDashboardData_libraryItems {
-  __typename: "ContentItemConnection";
+export interface GetAdminDashboardData_resources {
+  __typename: "UserContentConnection";
   totalCount: number;
 }
 
@@ -41,7 +41,7 @@ export interface GetAdminDashboardData {
    */
   courses: GetAdminDashboardData_courses;
   /**
-   * Get list of all library_items
+   * Get list of all resources
    */
-  libraryItems: GetAdminDashboardData_libraryItems;
+  resources: GetAdminDashboardData_resources;
 }

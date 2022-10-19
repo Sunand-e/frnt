@@ -35,6 +35,7 @@ export interface GetUserCapabilities_user_courses_edges_roles {
 
 export interface GetUserCapabilities_user_courses_edges {
   __typename: "UserContentEdge";
+  id: string | null;
   roles: GetUserCapabilities_user_courses_edges_roles[] | null;
 }
 

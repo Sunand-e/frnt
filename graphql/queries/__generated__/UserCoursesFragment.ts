@@ -38,11 +38,13 @@ export interface UserCoursesFragment_courses_edges_node_users {
 
 export interface UserCoursesFragment_courses_edges_node_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface UserCoursesFragment_courses_edges_node_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: UserCoursesFragment_courses_edges_node_tags_image | null;
@@ -121,6 +123,9 @@ export interface UserCoursesFragment_courses {
 }
 
 export interface UserCoursesFragment {
-  __typename: "User";
-  courses: UserCoursesFragment_courses | null;
+  __typename: "Query";
+  /**
+   * Get list of all courses
+   */
+  courses: UserCoursesFragment_courses;
 }

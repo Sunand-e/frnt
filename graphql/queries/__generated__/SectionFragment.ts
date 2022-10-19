@@ -38,11 +38,13 @@ export interface SectionFragment_users {
 
 export interface SectionFragment_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface SectionFragment_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: SectionFragment_tags_image | null;
@@ -79,11 +81,13 @@ export interface SectionFragment_children_users {
 
 export interface SectionFragment_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface SectionFragment_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: SectionFragment_children_tags_image | null;

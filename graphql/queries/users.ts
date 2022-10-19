@@ -42,7 +42,7 @@ export const CurrentUserFragment = gql`
 `
 
 export const UserCoursesFragment = gql`
-  fragment UserCoursesFragment on User {
+  fragment UserCoursesFragment on Query {
     courses {
       edges {
         node {
@@ -73,7 +73,7 @@ export const UserCoursesFragment = gql`
 `
 
 export const UserPathwaysFragment = gql`
-  fragment UserPathwaysFragment on User {
+  fragment UserPathwaysFragment on Query {
     pathways {
       edges {
         node {
@@ -112,8 +112,8 @@ export const UserPathwaysFragment = gql`
 `
 
 export const UserResourcesFragment = gql`
-  fragment UserResourcesFragment on User {
-    libraryItems {
+  fragment UserResourcesFragment on Query {
+    resources {
       edges {
         node {
           ...ContentFragment
@@ -216,12 +216,12 @@ export const GET_CURRENT_USER = gql`
   query GetCurrentUser($id: ID) {
     user(id: $id) {
       ...CurrentUserFragment
-      ...UserResourcesFragment
-      ...UserCoursesFragment
-      ...UserPathwaysFragment
       ...UserGroupsFragment
       ...UserCapabilitiesFragment
     }
+    ...UserPathwaysFragment
+    ...UserResourcesFragment
+    ...UserCoursesFragment
   }
   ${CurrentUserFragment}
   ${UserResourcesFragment}
@@ -365,7 +365,8 @@ export const GET_USER_CONTENT = gql`
   query GetUserContent($courseFilter: JSON, $lessonSectionFilter: JSON) {
     user {
       id
-      courses(where: $courseFilter) {
+    }
+    courses(where: $courseFilter) {
         ...UserContentEdgeFragment
         edges {
           node {
@@ -396,7 +397,6 @@ export const GET_USER_CONTENT = gql`
       lessons(where: $lessonSectionFilter) {
         ...UserContentEdgeFragment
       }
-    }
   }
   ${UserContentEdgeFragment}
 `
@@ -419,7 +419,7 @@ export const GET_USER_PATHWAY = gql`
       courses(where: $courseResourceFilter) {
         ...UserContentEdgeFragment
       }
-      libraryItems(where: $courseResourceFilter) {
+      resources(where: $courseResourceFilter) {
         ...UserContentEdgeFragment
       }
     }

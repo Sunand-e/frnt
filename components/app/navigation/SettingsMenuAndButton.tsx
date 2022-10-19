@@ -38,7 +38,7 @@ const SettingsMenuAndButton = () => {
             { userHasCapability([
               'UpdateUser',
               'UpdateCourse',
-              'UpdateLibraryItem',
+              'UpdateResource',
               'GetUsers',
             ]) && (
               <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>

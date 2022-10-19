@@ -3,7 +3,8 @@ import SelectContentTable from './SelectContentTable';
 
 const SelectCoursesTable = ({onRowSelect}) => {
 
-  const { user: { courses: courseConnection } = {}, loading, error } = useGetCurrentUser()
+  const { courses: courseConnection, loading, error } = useGetCurrentUser()
+
   const courses = courseConnection?.edges.map(edge => edge.node)
 
   return (

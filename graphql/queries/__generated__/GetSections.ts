@@ -38,11 +38,13 @@ export interface GetSections_sections_nodes_users {
 
 export interface GetSections_sections_nodes_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetSections_sections_nodes_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetSections_sections_nodes_tags_image | null;
@@ -79,11 +81,13 @@ export interface GetSections_sections_nodes_children_users {
 
 export interface GetSections_sections_nodes_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetSections_sections_nodes_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetSections_sections_nodes_children_tags_image | null;
@@ -131,7 +135,7 @@ export interface GetSections_sections_nodes {
 }
 
 export interface GetSections_sections {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of nodes.
    */

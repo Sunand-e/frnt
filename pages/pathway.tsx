@@ -18,8 +18,10 @@ const PathwayPage = () => {
   const router = useRouter()
   const { pid } = router.query
 
-  const { loading, error, pathway } = useGetPathway(pid);
   const { user } = useGetCurrentUser();
+  const { loading, error, pathway } = useGetPathway(pid);
+
+  usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
 
   useEffect(() => {
     const view = {
@@ -36,10 +38,6 @@ const PathwayPage = () => {
       viewVar(newView)
     }
   },[])
-
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
-
-  usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
 
   return (
     <>

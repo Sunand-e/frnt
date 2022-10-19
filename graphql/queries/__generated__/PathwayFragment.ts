@@ -38,18 +38,19 @@ export interface PathwayFragment_users {
 
 export interface PathwayFragment_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface PathwayFragment_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: PathwayFragment_tags_image | null;
-  id: string;
 }
 
-export interface PathwayFragment_courses_image {
+export interface PathwayFragment_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -58,14 +59,14 @@ export interface PathwayFragment_courses_image {
   title: string | null;
 }
 
-export interface PathwayFragment_courses_icon {
+export interface PathwayFragment_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface PathwayFragment_courses_mediaItem {
+export interface PathwayFragment_children_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -73,25 +74,26 @@ export interface PathwayFragment_courses_mediaItem {
   fileName: string | null;
 }
 
-export interface PathwayFragment_courses_users {
+export interface PathwayFragment_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface PathwayFragment_courses_tags_image {
+export interface PathwayFragment_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface PathwayFragment_courses_tags {
+export interface PathwayFragment_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: PathwayFragment_courses_tags_image | null;
-  id: string;
+  image: PathwayFragment_children_tags_image | null;
 }
 
-export interface PathwayFragment_courses_sections_image {
+export interface PathwayFragment_children_sections_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -100,14 +102,14 @@ export interface PathwayFragment_courses_sections_image {
   title: string | null;
 }
 
-export interface PathwayFragment_courses_sections_icon {
+export interface PathwayFragment_children_sections_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface PathwayFragment_courses_sections_mediaItem {
+export interface PathwayFragment_children_sections_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -115,24 +117,26 @@ export interface PathwayFragment_courses_sections_mediaItem {
   fileName: string | null;
 }
 
-export interface PathwayFragment_courses_sections_users {
+export interface PathwayFragment_children_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface PathwayFragment_courses_sections_tags_image {
+export interface PathwayFragment_children_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface PathwayFragment_courses_sections_tags {
+export interface PathwayFragment_children_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: PathwayFragment_courses_sections_tags_image | null;
+  image: PathwayFragment_children_sections_tags_image | null;
 }
 
-export interface PathwayFragment_courses_sections_children_image {
+export interface PathwayFragment_children_sections_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -141,14 +145,14 @@ export interface PathwayFragment_courses_sections_children_image {
   title: string | null;
 }
 
-export interface PathwayFragment_courses_sections_children_icon {
+export interface PathwayFragment_children_sections_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface PathwayFragment_courses_sections_children_mediaItem {
+export interface PathwayFragment_children_sections_children_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -156,83 +160,85 @@ export interface PathwayFragment_courses_sections_children_mediaItem {
   fileName: string | null;
 }
 
-export interface PathwayFragment_courses_sections_children_users {
+export interface PathwayFragment_children_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface PathwayFragment_courses_sections_children_tags_image {
+export interface PathwayFragment_children_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface PathwayFragment_courses_sections_children_tags {
+export interface PathwayFragment_children_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: PathwayFragment_courses_sections_children_tags_image | null;
+  image: PathwayFragment_children_sections_children_tags_image | null;
 }
 
-export interface PathwayFragment_courses_sections_children {
+export interface PathwayFragment_children_sections_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: PathwayFragment_courses_sections_children_image | null;
+  image: PathwayFragment_children_sections_children_image | null;
   id: string;
-  icon: PathwayFragment_courses_sections_children_icon | null;
+  icon: PathwayFragment_children_sections_children_icon | null;
   itemType: string;
-  mediaItem: PathwayFragment_courses_sections_children_mediaItem | null;
+  mediaItem: PathwayFragment_children_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: PathwayFragment_courses_sections_children_users | null;
-  tags: PathwayFragment_courses_sections_children_tags[] | null;
+  users: PathwayFragment_children_sections_children_users | null;
+  tags: PathwayFragment_children_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
-export interface PathwayFragment_courses_sections {
+export interface PathwayFragment_children_sections {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: PathwayFragment_courses_sections_image | null;
+  image: PathwayFragment_children_sections_image | null;
   id: string;
-  icon: PathwayFragment_courses_sections_icon | null;
+  icon: PathwayFragment_children_sections_icon | null;
   itemType: string;
-  mediaItem: PathwayFragment_courses_sections_mediaItem | null;
+  mediaItem: PathwayFragment_children_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: PathwayFragment_courses_sections_users | null;
-  tags: PathwayFragment_courses_sections_tags[] | null;
+  users: PathwayFragment_children_sections_users | null;
+  tags: PathwayFragment_children_sections_tags[] | null;
   _deleted: boolean;
-  children: PathwayFragment_courses_sections_children[] | null;
+  children: PathwayFragment_children_sections_children[] | null;
 }
 
-export interface PathwayFragment_courses {
+export interface PathwayFragment_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: PathwayFragment_courses_image | null;
+  image: PathwayFragment_children_image | null;
   id: string;
-  icon: PathwayFragment_courses_icon | null;
+  icon: PathwayFragment_children_icon | null;
   itemType: string;
-  mediaItem: PathwayFragment_courses_mediaItem | null;
+  mediaItem: PathwayFragment_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: PathwayFragment_courses_users | null;
-  tags: PathwayFragment_courses_tags[] | null;
+  users: PathwayFragment_children_users | null;
+  tags: PathwayFragment_children_tags[] | null;
   _deleted: boolean;
-  sections: PathwayFragment_courses_sections[] | null;
+  sections: PathwayFragment_children_sections[] | null;
 }
 
 export interface PathwayFragment {
@@ -253,5 +259,5 @@ export interface PathwayFragment {
   users: PathwayFragment_users | null;
   tags: PathwayFragment_tags[] | null;
   _deleted: boolean;
-  courses: PathwayFragment_courses[] | null;
+  children: PathwayFragment_children[] | null;
 }

@@ -48,7 +48,7 @@ const AdminDashboardPage = () => {
     {
       name: 'allResources',
       label: 'Total resources',
-      value: data?.libraryItems.totalCount,
+      value: data?.resources.totalCount,
       IconComponent: Users,
       href: "admin/resources"
     },

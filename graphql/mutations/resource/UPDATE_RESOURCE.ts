@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
-import { LibraryItemFragment } from '../../queries/allQueries';
+import { ResourceFragment } from '../../queries/allQueries';
 
 
-export const UPDATE_LIBRARY_ITEM = gql`
-  mutation UpdateLibraryItem(
+export const UPDATE_RESOURCE = gql`
+  mutation UpdateResource(
     $id: ID!
     $title: String,
     $content: JSON,
@@ -11,7 +11,7 @@ export const UPDATE_LIBRARY_ITEM = gql`
     $imageId: ID,
     $mediaItemId: ID,
   ) {
-    updateLibraryItem(
+    updateResource(
       input: {
         id: $id,
         title: $title,
@@ -21,10 +21,10 @@ export const UPDATE_LIBRARY_ITEM = gql`
         mediaItemId: $mediaItemId
       }
     ) {
-      libraryItem {
-        ...LibraryItemFragment
+      resource {
+        ...ResourceFragment
       }
     }
   }
-  ${LibraryItemFragment}
+  ${ResourceFragment}
 `;

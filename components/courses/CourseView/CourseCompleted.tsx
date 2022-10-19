@@ -11,8 +11,8 @@ const CourseCompleted = () => {
   
   const router = useRouter()
   const { id, pid } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0].node
+  const { courseEdge } = useGetUserContent(id)
+  const course = courseEdge?.node
   
 const tenant = useContext(TenantContext)
 

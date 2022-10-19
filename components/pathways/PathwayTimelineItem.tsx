@@ -42,8 +42,8 @@ const PathwayTimelineItem = ({
           userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === item.id)
           break
         }
-        case 'library_item': {
-          userContent = user.libraryItems.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+        case 'resource': {
+          userContent = user.resources.edges.find(userContentEdge => userContentEdge.node.id === item.id)
           break
         }
       }
@@ -76,7 +76,7 @@ const PathwayTimelineItem = ({
       />
       break;
     }
-    case 'library_item': {
+    case 'resource': {
       const IconComponent = resourceTypes[item.contentType]?.icon
       icon = IconComponent ? <IconComponent className="w-10" /> : null
       itemWithImage = <ItemWithImage

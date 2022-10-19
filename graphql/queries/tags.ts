@@ -39,7 +39,7 @@ export const GET_TAGS_FULL = gql`
       courses {
         id
       }
-      libraryItems {
+      resources {
         id
       }
     }

@@ -58,7 +58,7 @@ export const TENANT_SHARED_ITEMS = gql`
         }
       }
     }
-    libraryItems(where: $where) {
+    resources(where: $where) {
       edges {
         node {
           title

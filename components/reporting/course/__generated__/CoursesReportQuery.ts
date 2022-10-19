@@ -54,7 +54,7 @@ export interface CoursesReportQuery_courses_edges_node {
 }
 
 export interface CoursesReportQuery_courses_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -62,7 +62,7 @@ export interface CoursesReportQuery_courses_edges {
 }
 
 export interface CoursesReportQuery_courses {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */

@@ -57,7 +57,7 @@ const DashboardPage = () => {
     if(userHasCapability([
       'UpdateUser',
       'UpdateCourse',
-      'UpdateLibraryItem',
+      'UpdateResource',
       'GetUsers',
     ])) {
       headerButtonsVar(

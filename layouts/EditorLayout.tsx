@@ -21,8 +21,8 @@ export default function EditorLayout( {page, navState} ) {
 
     const router = useRouter()
     const { id } = router.query
-    const { user } = useGetUserContent(id)
-    const course = user?.courses.edges[0]?.node
+    const { courseEdge } = useGetUserContent(id)
+    const course = courseEdge?.node
 
   
   const courseStructureEditorProps = {
