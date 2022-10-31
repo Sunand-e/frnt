@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import useGetUserContent from "../../../hooks/users/useGetUserContent"
+import useGetUserCourse from "../../../hooks/users/useGetUserCourse"
 import SidebarItem from "../../courses/SidebarItem"
 import { SidebarSection } from "../../courses/SidebarSection"
 import ProgressBar from "../../common/ProgressBar"
@@ -9,7 +9,7 @@ const CourseStructureView = () => {
 
   const router = useRouter()
   const { id, cid } = router.query
-  const { courses } = useGetUserContent(id)
+  const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
 
   const [ progress, setProgress ] = useState(0)

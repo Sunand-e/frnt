@@ -37,13 +37,37 @@ export interface GetUsersCourses_users_edges_node_courses_edges_roles {
   roleType: string;
 }
 
+export interface GetUsersCourses_users_edges_node_courses_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUsersCourses_users_edges_node_courses_edges_groups_edges_node | null;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUsersCourses_users_edges_node_courses_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUsersCourses_users_edges_node_courses_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUsersCourses_users_edges_node_courses_edges_node | null;
   roles: GetUsersCourses_users_edges_node_courses_edges_roles[] | null;
+  groups: GetUsersCourses_users_edges_node_courses_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;

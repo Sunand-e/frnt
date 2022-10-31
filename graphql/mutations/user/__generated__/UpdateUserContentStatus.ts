@@ -15,6 +15,7 @@ export interface UpdateUserContentStatus_updateUserContentStatus_userContents_ed
 
 export interface UpdateUserContentStatus_updateUserContentStatus_userContents_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   status: string | null;
   score: number | null;
   updatedAt: any | null;

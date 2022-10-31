@@ -36,13 +36,37 @@ export interface GetUserPathway_user_pathways_edges_roles {
   roleType: string;
 }
 
+export interface GetUserPathway_user_pathways_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserPathway_user_pathways_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserPathway_user_pathways_edges_groups_edges_node | null;
+}
+
+export interface GetUserPathway_user_pathways_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserPathway_user_pathways_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserPathway_user_pathways_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserPathway_user_pathways_edges_node | null;
   roles: GetUserPathway_user_pathways_edges_roles[] | null;
+  groups: GetUserPathway_user_pathways_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -85,13 +109,37 @@ export interface GetUserPathway_user_courses_edges_roles {
   roleType: string;
 }
 
+export interface GetUserPathway_user_courses_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserPathway_user_courses_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserPathway_user_courses_edges_groups_edges_node | null;
+}
+
+export interface GetUserPathway_user_courses_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserPathway_user_courses_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserPathway_user_courses_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserPathway_user_courses_edges_node | null;
   roles: GetUserPathway_user_courses_edges_roles[] | null;
+  groups: GetUserPathway_user_courses_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -134,13 +182,37 @@ export interface GetUserPathway_user_resources_edges_roles {
   roleType: string;
 }
 
+export interface GetUserPathway_user_resources_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserPathway_user_resources_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserPathway_user_resources_edges_groups_edges_node | null;
+}
+
+export interface GetUserPathway_user_resources_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserPathway_user_resources_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserPathway_user_resources_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserPathway_user_resources_edges_node | null;
   roles: GetUserPathway_user_resources_edges_roles[] | null;
+  groups: GetUserPathway_user_resources_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;

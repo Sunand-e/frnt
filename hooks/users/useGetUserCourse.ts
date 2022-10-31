@@ -1,17 +1,17 @@
 
 import { useQuery } from "@apollo/client"
-import { GET_USER_CONTENT } from "../../graphql/queries/users";
+import { GET_USER_COURSE } from "../../graphql/queries/users";
 
-function useGetUserContent(id=null) {
+function useGetUserCourse(id=null) {
   
   const { loading, error, data } = useQuery(
-    GET_USER_CONTENT,
+    GET_USER_COURSE,
     {
       fetchPolicy: "cache-and-network",
       nextFetchPolicy: "cache-only",
       variables: {
         courseFilter: {
-          id
+          courseId: id
         },
         lessonSectionFilter: {
           courseId: id
@@ -20,7 +20,6 @@ function useGetUserContent(id=null) {
       skip: !id
     }
   );
-
   return { 
     user: data?.user, 
     pathways: data?.pathways, 
@@ -35,4 +34,4 @@ function useGetUserContent(id=null) {
   }
 }
 
-export default useGetUserContent
+export default useGetUserCourse

@@ -9,7 +9,7 @@ import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
-import useGetUserContent from '../../../hooks/users/useGetUserContent'
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 
@@ -20,7 +20,7 @@ const AdminCoursesEdit = () => {
   */
   const router = useRouter()
   const { id } = router.query
-  const { courseEdge } = useGetUserContent(id)
+  const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
   useEffect(() => {

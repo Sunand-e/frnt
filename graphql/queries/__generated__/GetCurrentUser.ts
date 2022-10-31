@@ -58,6 +58,11 @@ export interface GetCurrentUser_user_groups {
   edges: (GetCurrentUser_user_groups_edges | null)[] | null;
 }
 
+export interface GetCurrentUser_user_courses_edges_node {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface GetCurrentUser_user_courses_edges_roles_capabilities {
   __typename: "Capability";
   id: string;
@@ -72,6 +77,10 @@ export interface GetCurrentUser_user_courses_edges_roles {
 
 export interface GetCurrentUser_user_courses_edges {
   __typename: "UserContentEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetCurrentUser_user_courses_edges_node | null;
   roles: GetCurrentUser_user_courses_edges_roles[] | null;
 }
 

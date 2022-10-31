@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 const UserContentFragment = gql`
   fragment UserContentFragment on UserContentConnection {
     edges {
+      userId
       status
       score
       updatedAt

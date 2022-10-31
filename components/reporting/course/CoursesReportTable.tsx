@@ -11,6 +11,7 @@ const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
     courses {
       edges {
+        userId
         node {
           id
           title

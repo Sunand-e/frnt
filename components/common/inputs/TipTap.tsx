@@ -2,16 +2,19 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-const TipTap = () => {
+const TipTap = ({value='', containerClass='', onUpdate=null}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
     ],
     content: '<p>Hello World!</p>',
+    onUpdate
   })
 
   return (
-    <EditorContent editor={editor} value={""} className={`h-full`} />
+    <div className={containerClass}>
+      <EditorContent editor={editor} value={value} className={`h-full`} />
+    </div>
   )
 }
 

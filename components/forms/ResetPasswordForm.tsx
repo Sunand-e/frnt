@@ -54,7 +54,7 @@ const ResetPasswordForm = () => {
         className={`h-full w-full max-w-sm flex flex-col space-y-4`}
       >
       <TextInput
-        type="text"
+        type="password"
         label="New password"
         placeholder=""
         inputAttrs={register("password", {
@@ -66,7 +66,7 @@ const ResetPasswordForm = () => {
         })}
       />
       <TextInput
-        type="text"
+        type="password"
         label="Confirm new password"
         placeholder=""
         inputAttrs={register("password_confirmation", {

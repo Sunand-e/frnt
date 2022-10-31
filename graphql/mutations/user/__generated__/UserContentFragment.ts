@@ -15,6 +15,7 @@ export interface UserContentFragment_edges_node {
 
 export interface UserContentFragment_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   status: string | null;
   score: number | null;
   updatedAt: any | null;

@@ -29,9 +29,6 @@ const LostPasswordForm = () => {
       ...data,
       invitation_token: token
     }
-    console.log('fetch........')
-    console.log('formData')
-    console.log(formData)
     await fetch(REQUEST_PASSWORD_RESET_ENDPOINT, {
       method: 'PUT', // or 'PUT'
       headers: {
@@ -43,8 +40,6 @@ const LostPasswordForm = () => {
     .then(
       (result) => {
         setSubmitted(true)
-        console.log('result........')
-        console.log(result)
       }
     )
   }

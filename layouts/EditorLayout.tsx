@@ -11,7 +11,7 @@ import CourseStructureEditor from '../components/courses/CourseStructureEditor/C
 import SidebarEditableItem from '../components/courses/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
 import { motion } from 'framer-motion';
-import useGetUserContent from '../hooks/users/useGetUserContent';
+import useGetUserCourse from '../hooks/users/useGetUserCourse';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -21,7 +21,7 @@ export default function EditorLayout( {page, navState} ) {
 
     const router = useRouter()
     const { id } = router.query
-    const { courseEdge } = useGetUserContent(id)
+    const { courseEdge } = useGetUserCourse(id)
     const course = courseEdge?.node
 
   

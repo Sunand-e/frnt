@@ -47,13 +47,37 @@ export interface GetUserContent_courses_edges_roles {
   roleType: string;
 }
 
+export interface GetUserContent_courses_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserContent_courses_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserContent_courses_edges_groups_edges_node | null;
+}
+
+export interface GetUserContent_courses_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserContent_courses_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserContent_courses_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserContent_courses_edges_node | null;
   roles: GetUserContent_courses_edges_roles[] | null;
+  groups: GetUserContent_courses_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -102,13 +126,37 @@ export interface GetUserContent_pathways_edges_roles {
   roleType: string;
 }
 
+export interface GetUserContent_pathways_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserContent_pathways_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserContent_pathways_edges_groups_edges_node | null;
+}
+
+export interface GetUserContent_pathways_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserContent_pathways_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserContent_pathways_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserContent_pathways_edges_node | null;
   roles: GetUserContent_pathways_edges_roles[] | null;
+  groups: GetUserContent_pathways_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -151,13 +199,37 @@ export interface GetUserContent_sections_edges_roles {
   roleType: string;
 }
 
+export interface GetUserContent_sections_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserContent_sections_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserContent_sections_edges_groups_edges_node | null;
+}
+
+export interface GetUserContent_sections_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserContent_sections_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserContent_sections_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserContent_sections_edges_node | null;
   roles: GetUserContent_sections_edges_roles[] | null;
+  groups: GetUserContent_sections_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -200,13 +272,37 @@ export interface GetUserContent_lessons_edges_roles {
   roleType: string;
 }
 
+export interface GetUserContent_lessons_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUserContent_lessons_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUserContent_lessons_edges_groups_edges_node | null;
+}
+
+export interface GetUserContent_lessons_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUserContent_lessons_edges_groups_edges | null)[] | null;
+}
+
 export interface GetUserContent_lessons_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUserContent_lessons_edges_node | null;
   roles: GetUserContent_lessons_edges_roles[] | null;
+  groups: GetUserContent_lessons_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;

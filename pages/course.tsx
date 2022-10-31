@@ -7,7 +7,7 @@ import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/common/Button'
 import PrevNextButtons from '../components/courses/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/courses/CourseView/CourseCompleted'
-import useGetUserContent from '../hooks/users/useGetUserContent'
+import useGetUserCourse from '../hooks/users/useGetUserCourse'
 
 const CoursePage = () => {
   /*
@@ -18,10 +18,17 @@ const CoursePage = () => {
   const { id, cid: contentId, showEdit=false } = router.query
 
   const { user } = useGetCurrentUser();
-  const { courseEdge } = useGetUserContent(id)
+  const { courseEdge } = useGetUserCourse(id)
   const [courseScore, setCourseScore] = useState(null)
   const [showCompletedPage, setShowCompletedPage] = useState(false)
 
+
+
+  useEffect(() => {
+    console.log('courseEdge')
+    console.log(id, courseEdge)
+  },[id, courseEdge])
+  
   useEffect(() => {
     const view = {
       isSlimNav: true,
