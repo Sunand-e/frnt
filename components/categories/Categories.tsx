@@ -48,7 +48,7 @@ const Categories = () => {
 
   return (
     <div className="flex flex-col items-stretch grow">
-      { tags && <CategoryFilters /> }
+      { !!tags && <CategoryFilters /> }
       { !courses && <LoadingSpinner text={(
         <>
           Loading categories

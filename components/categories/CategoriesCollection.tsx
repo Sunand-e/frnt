@@ -9,7 +9,7 @@ export default function CategoriesCollection() {
 
   return (
     <>
-      { categories?.length && (
+      { categories?.length ? (
         <>
           <ItemCollection
             items={categories || []}
@@ -21,6 +21,8 @@ export default function CategoriesCollection() {
             }}
           />
         </>
+      ) : (
+        <p>There are no categories to display.</p>
       )}
     </>
   )
