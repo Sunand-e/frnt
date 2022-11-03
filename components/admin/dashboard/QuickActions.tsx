@@ -8,13 +8,13 @@ import DashboardItem from "./DashboardItem";
 const QuickActionLink = ({text,icon,href}) => {
   const IconComponent = icon
   return (
-    <Link href={href}>
-      <a className="text-sm font-medium text-gray-500 flex space-x-4">
-        <span className="w-6"><IconComponent /></span>
-        <span className="text-gray-900">{text}</span>
-      </a>
-    </Link>
-  )
+    (<Link href={href} className="text-sm font-medium text-gray-500 flex space-x-4">
+
+      <span className="w-6"><IconComponent /></span>
+      <span className="text-gray-900">{text}</span>
+
+    </Link>)
+  );
 }
 const QuickActions = () => {
   

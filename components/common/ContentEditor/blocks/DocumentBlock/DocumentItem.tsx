@@ -3,7 +3,15 @@ import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
 import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Download} from '@styled-icons/heroicons-outline/Download'
-import PdfViewer from '../../../../common/PdfViewer'
+import dynamic from 'next/dynamic';
+
+const DynamicPdfViewer = dynamic(
+  () => import('../../../../common/PdfViewer'),
+  {
+    ssr: false, 
+  }
+)
+
 
 const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
 
@@ -52,7 +60,8 @@ const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
         </div>
       </a>
       { pdfPreview && file.location.endsWith('pdf') && (
-        <PdfViewer url={file.location} className='w-full h-[600px]' />
+        // <p>Hi</p>
+        <DynamicPdfViewer url={file.location} className='w-full h-[600px]' />
       )}
     </>
   )

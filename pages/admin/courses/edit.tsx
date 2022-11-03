@@ -4,7 +4,7 @@ import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { viewVar } from '../../../graphql/cache'
 import { useContext, useEffect } from 'react'
-import {Cog} from '@styled-icons/fa-solid/Cog'
+import {Gear} from '@styled-icons/fa-solid/Gear'
 import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/courses/CourseForm'
@@ -70,7 +70,7 @@ const AdminCoursesEdit = () => {
     onEdit: title => updateCourse({title}),
     after: (
       <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>
-        <Cog size="18"  />
+        <Gear size="18"  />
       </div>
     )
   })

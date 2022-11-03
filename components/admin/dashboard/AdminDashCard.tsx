@@ -20,10 +20,10 @@ const AdminDashCard = ({card}) => (
       </div>
       <div className="bg-gray-50 px-5 py-3 pt-1">
         <div className="text-sm">
-          <Link href={card.href}>
-            <a className="font-medium text-main hover:text-main/80">
+          <Link href={card.href} className="font-medium text-main hover:text-main/80">
+            
               View all
-            </a>
+            
           </Link>
         </div>
       </div>

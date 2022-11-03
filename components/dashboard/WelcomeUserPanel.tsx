@@ -1,7 +1,7 @@
 import {
   CheckCircleIcon,
-  OfficeBuildingIcon
-} from '@heroicons/react/solid'
+  BuildingOfficeIcon
+} from '@heroicons/react/20/solid'
 import {User} from '@styled-icons/fa-solid/User'
 import { useContext } from 'react';
 import { TenantContext } from '../../context/TenantContext';
@@ -68,7 +68,7 @@ tenant
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                   <dt className="sr-only">Company</dt>
                   <dd className="flex items-center text-sm text-gray-500 font-medium sm:mr-6">
-                    <OfficeBuildingIcon
+                    <BuildingOfficeIcon
                         className="shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                     />

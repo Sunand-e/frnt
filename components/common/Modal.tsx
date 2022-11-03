@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useContext, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
+import { CheckIcon } from '@heroicons/react/24/outline'
 import { ModalContext } from '../../context/modalContext'
-import XCircleIcon from '@heroicons/react/solid/XCircleIcon'
+import { XCircleIcon } from '@heroicons/react/20/solid'
 
 const sizeMap = new Map<any,any>([
   ['sm', 'sm:max-w-sm'],

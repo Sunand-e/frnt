@@ -6,7 +6,7 @@ import SecondaryNav from './SecondaryNav'
 import { viewVar } from '../../../graphql/cache'
 import { useReactiveVar } from '@apollo/client'
 import {Dialog, Transition} from "@headlessui/react";
-import {MenuAlt1Icon, XIcon} from "@heroicons/react/outline";
+import {Bars3CenterLeftIcon, XMarkIcon} from "@heroicons/react/24/outline";
 
 export default function NavContainer({navState, sidebarComponent}) {
 
@@ -41,7 +41,7 @@ export default function NavContainer({navState, sidebarComponent}) {
       onClick={() => setSidebarOpen(true)}
   >
     <span className="sr-only">Open sidebar</span>
-    <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
+    <Bars3CenterLeftIcon className="h-6 w-6" aria-hidden="true" />
   </button>
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
@@ -84,7 +84,7 @@ export default function NavContainer({navState, sidebarComponent}) {
                         onClick={() => setSidebarOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                      <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>
@@ -92,7 +92,7 @@ export default function NavContainer({navState, sidebarComponent}) {
                     id="sidebar"
                     className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-full bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
                 >
-                  <PrimaryNav isSlim={isSlimNav} navStructure={navStructure} pageNavState={pageNavState}/>
+                  <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState}/>
                   <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
                   { sidebarComponent && (
                     <div className="sticky top-18 h-[calc(100vh)] w-[300px] bg-main bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">

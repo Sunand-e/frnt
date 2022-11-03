@@ -5,7 +5,7 @@ import { GraduationCap } from "styled-icons/fa-solid";
 import { useRaisedShadow } from "../../hooks/useRaisedShadow";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { DragIndicator } from "@styled-icons/material/DragIndicator";
-import { TrashIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { resourceTypes } from "../resources/resourceTypes";
 import { startCase } from 'lodash';
 import { useRouter } from "../../utils/router";

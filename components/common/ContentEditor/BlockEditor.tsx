@@ -31,7 +31,7 @@ const BlockEditor = () => {
 
   const router = useRouter()
   
-  useWarningOnExit(isDirty)
+  // useWarningOnExit(isDirty)
 
   useEffect(() => {
     return () => setBlocks([])

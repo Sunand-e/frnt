@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 
 import {MoreVert} from '@styled-icons/material/MoreVert'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import {Cog} from '@styled-icons/fa-solid/Cog'
+import {Gear} from '@styled-icons/fa-solid/Gear'
 import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
 import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
 import Tippy from '@tippyjs/react';
@@ -55,7 +55,7 @@ const BlockMenu = ({ block, className='' }) => {
     {
       name: 'settings',
       text: 'Settings',
-      iconComponent: Cog,
+      iconComponent: Gear,
       onClick: showSettings
     },
     {

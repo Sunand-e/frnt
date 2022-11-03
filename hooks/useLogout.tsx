@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { isLoggedInVar } from '../graphql/cache';
 import { client } from '../graphql/client';
 
@@ -10,7 +10,11 @@ const useLogout = () => {
 
   const endpoint = '/api/v1/user/sign_out'
 
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  },[])
 
   const logout = useCallback(async () => {
     await axios.request({
@@ -26,7 +30,7 @@ const useLogout = () => {
       client.clearStore()
       router.push('/')
     })
-  },[])
+  },[token])
 
   return { logout }
 }

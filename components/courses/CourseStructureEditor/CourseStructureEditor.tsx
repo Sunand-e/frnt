@@ -11,7 +11,7 @@ import { SectionFragment as SectionFragmentType } from '../../../graphql/queries
 import { UpdateCourse, UpdateCourseVariables } from '../../../graphql/mutations/course/__generated__/UpdateCourse';
 import Button from "../../common/Button"
 import DeleteLessonModal from "../DeleteLessonModal"
-import { BookOpenIcon } from "@heroicons/react/outline"
+import { BookOpenIcon } from "@heroicons/react/24/outline"
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 import dayjs from 'dayjs'

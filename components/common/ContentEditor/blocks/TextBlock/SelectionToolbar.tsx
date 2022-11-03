@@ -9,24 +9,25 @@ import {
   MARK_BOLD,
   MARK_ITALIC,
   MARK_UNDERLINE,
-  MarkToolbarButton,
   usePlateEditorRef,
-  ColorPickerToolbarDropdown,
   MARK_COLOR,
   MARK_BG_COLOR,
-  BlockToolbarButton,
   ELEMENT_H3,
   ELEMENT_H2,
   ELEMENT_H1,
+} from '@udecode/plate-headless';
+import {
+  MarkToolbarButton,
+  ColorPickerToolbarDropdown,
+  BlockToolbarButton,
   BalloonToolbar,
-} from '@udecode/plate';
+} from '@udecode/plate-ui';
 // import TextTypeDropdown from '../common/TextTypeDropdown';
 import FontSizeDropdown from '../common/FontSizeDropdown';
 import { H1, H2, H3 } from '@styled-icons/remix-editor';
 import { FormatColorText } from '@styled-icons/material-rounded/FormatColorText';
-import CheckIcon from '@heroicons/react/solid/CheckIcon';
+import CheckIcon from '@heroicons/react/24/solid/CheckIcon';
 import { FontDownload } from '@styled-icons/material-rounded/FontDownload';
-import { AlignToolbarButtons } from '../../../plate/Toolbar';
 
 export const SelectionToolbar = () => {
     // const editor = usePlateEditorState()!;
@@ -45,9 +46,6 @@ export const SelectionToolbar = () => {
   
   return (
     <BalloonToolbar
-      popperOptions={{
-        placement: 'top',
-      }}
       theme={theme}
       arrow={arrow}
     >
@@ -96,7 +94,6 @@ export const SelectionToolbar = () => {
           tooltip={{ content: 'Highlight color' }}
         />}
       />
-      <AlignToolbarButtons />
     </BalloonToolbar>
   );
 }

@@ -19,23 +19,23 @@ export default function Menu({items, className}) {
           menuItemClass = styles.current
         }
 
-        return (  
+        return (
           // <li className={current === item.title ? styles.current : ''} key={index}>
           <li className={menuItemClass} key={index}>
             {
               item.onClick ? 
                 ( <span onClick={item.onClick}>{item.title}</span>)
               : (
-                  <Link href={item.link} >
-                    <a onClick={() => setCurrent(item.link)}>{item.title}</a>
+                  <Link href={item.link} onClick={() => setCurrent(item.link)}>
+                    {item.title}
                   </Link>
               )
             }
           </li>
-        )
+        );
         
       })}
 
     </ul>
-  )
+  );
 }

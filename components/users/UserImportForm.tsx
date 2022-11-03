@@ -35,18 +35,16 @@ const UserImportForm = () => {
     } 
   }
 
-  return (
-    <>
-      <FileUploader {...fileUploaderProps} />
-      <p>
-        <Link href="/docs/import_user_example.csv">
-          <a>
-            Download an example CSV
-          </a>
-        </Link>
-      </p>
-    </>
-  );
+  return <>
+    <FileUploader {...fileUploaderProps} />
+    <p>
+      <Link href="/docs/import_user_example.csv">
+        
+          Download an example CSV
+        
+      </Link>
+    </p>
+  </>;
 }
 
 export default UserImportForm

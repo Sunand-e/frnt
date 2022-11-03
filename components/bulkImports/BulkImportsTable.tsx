@@ -31,12 +31,12 @@ const BulkImportsTable = () => {
         Cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
-            <Link href={href ?? '#'}>
-            <a className="font-medium text-gray-900">
+            (<Link href={href ?? '#'} className="font-medium text-gray-900">
+
               {cell.row.original.name}
-            </a>
-          </Link>
-          )
+
+            </Link>)
+          );
         }
       },
       {
