@@ -59,6 +59,18 @@ const TenantsTable = () => {
         },
       },
       {
+        Header: "Users",
+        accessor: "users.totalCount",
+      },
+      {
+        Header: "Courses",
+        accessor: "courses.totalCount",
+      },
+      {
+        Header: "Groups",
+        accessor: "groups.totalCount",
+      },
+      {
         Header: "Date Created",
         accessor: "createdAt",
         Cell: ({ cell }) => {

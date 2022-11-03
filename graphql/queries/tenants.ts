@@ -10,6 +10,15 @@ export const TenantFragment = gql`
     shortName
     settings
     logos
+    groups {
+      totalCount
+    }
+    users {
+      totalCount
+    }
+    courses {
+      totalCount
+    }
     # _deleted @client
   }
 `
