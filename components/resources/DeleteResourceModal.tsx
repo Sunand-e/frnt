@@ -17,8 +17,8 @@ const DeleteResourceModal = ({lessonId}) => {
 
   return (
     <>
-      <p>Are you sure you want to delete this library item?</p>
-      <Button onClick={handleDeleteLesson}>Delete library item</Button>
+      <p>Are you sure you want to delete this resource?</p>
+      <Button onClick={handleDeleteLesson}>Delete resource</Button>
     </>
   );
 }

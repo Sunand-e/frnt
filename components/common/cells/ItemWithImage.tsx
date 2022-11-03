@@ -13,7 +13,7 @@ const objectFitMap = new Map([
 ]);
 
 const ConditionalLinkWrapper = ({ href, children }) => (
-  href ? <Link href={href}><a>{children}</a></Link> : children
+  href ? <Link href={href}>{children}</Link> : children
 )
 
 

@@ -21,6 +21,11 @@ export interface UserCapabilitiesFragment_roles {
   capabilities: UserCapabilitiesFragment_roles_capabilities[] | null;
 }
 
+export interface UserCapabilitiesFragment_courses_edges_node {
+  __typename: "ContentItem";
+  id: string;
+}
+
 export interface UserCapabilitiesFragment_courses_edges_roles_capabilities {
   __typename: "Capability";
   id: string;
@@ -35,6 +40,10 @@ export interface UserCapabilitiesFragment_courses_edges_roles {
 
 export interface UserCapabilitiesFragment_courses_edges {
   __typename: "UserContentEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: UserCapabilitiesFragment_courses_edges_node | null;
   roles: UserCapabilitiesFragment_courses_edges_roles[] | null;
 }
 

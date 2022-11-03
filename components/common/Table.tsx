@@ -1,5 +1,4 @@
 import { useTable, useSortBy } from "react-table";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Table = ({
   tableData, 

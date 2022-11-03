@@ -21,34 +21,34 @@ export default function ProfileMenu() {
   const path = router.asPath
 
   return (
-      <div className="flex flex-grow flex-col max-w-xs rounded-md overflow-hidden shadow-md mr-8">
-        <nav className="flex-1 space-y-1 bg-white px-2 py-4" aria-label="Sidebar">
-          {navigation.map((item) => {
-            const isCurrent = path === item.href
-            return (
-              <Link href={item.href}>
-              <a
-                key={item.name}
+    <div className="flex flex-grow flex-col max-w-xs rounded-md overflow-hidden shadow-md mr-8">
+      <nav className="flex-1 space-y-1 bg-white px-2 py-4" aria-label="Sidebar">
+        {navigation.map((item) => {
+          const isCurrent = path === item.href
+          return (
+            (<Link
+              href={item.href}
+              key={item.name}
+              className={classNames(
+                isCurrent
+                  ? 'bg-main/10 border-main text-main'
+                  : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                'group flex items-center px-3 py-2 text-sm font-medium border-l-4 rounded-md '
+              )}>
+
+              <item.icon
                 className={classNames(
-                  isCurrent
-                    ? 'bg-main/10 border-main text-main'
-                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                  'group flex items-center px-3 py-2 text-sm font-medium border-l-4 rounded-md '
+                  isCurrent ? 'text-main' : 'text-gray-400 group-hover:text-gray-500',
+                  'mr-3 flex-shrink-0 h-6 w-6'
                 )}
-              >
-                <item.icon
-                  className={classNames(
-                    isCurrent ? 'text-main' : 'text-gray-400 group-hover:text-gray-500',
-                    'mr-3 flex-shrink-0 h-6 w-6'
-                  )}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </a>
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
-  )
+                aria-hidden="true"
+              />
+              {item.name}
+
+            </Link>)
+          );
+        })}
+      </nav>
+    </div>
+  );
 }

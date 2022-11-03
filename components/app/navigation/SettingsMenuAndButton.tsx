@@ -38,14 +38,14 @@ const SettingsMenuAndButton = () => {
             { userHasCapability([
               'UpdateUser',
               'UpdateCourse',
-              'UpdateLibraryItem',
+              'UpdateResource',
               'GetUsers',
             ]) && (
               <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>
                 <Link href={view.isAdmin ? '/' : '/admin'}>
-                  <a>
-                    {`${view.isAdmin ? 'User' : 'Admin'} View`}
-                  </a>
+
+                  {`${view.isAdmin ? 'User' : 'Admin'} View`}
+
                 </Link>
               </li>
             ) }
@@ -64,6 +64,6 @@ const SettingsMenuAndButton = () => {
         </span>
       </div>
     </Tippy>
-  )
+  );
 }
 export default SettingsMenuAndButton

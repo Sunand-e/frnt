@@ -7,7 +7,7 @@ import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserConten
 import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
 import { currentContentItemVar } from "../../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
-import useGetUserContent from "../../../hooks/users/useGetUserContent";
+import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import useBlockEditor from "../../common/ContentEditor/useBlockEditor";
 
 const LessonView = () => {
@@ -20,9 +20,9 @@ const LessonView = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { user } = useGetUserContent(id)
+  const { lessons } = useGetUserCourse(id)
   
-  const lesson = user?.lessons?.edges.find(edge => (
+  const lesson = lessons?.edges.find(edge => (
     edge.node.id === lessonId
   ))
 
@@ -31,6 +31,8 @@ const LessonView = () => {
   })
 
   useEffect(() => {
+    console.log('id, lesson')
+    console.log(id, lesson)
     if(lesson) {
       setBlocks(lesson.node.content.blocks)
       const currentStatus = lesson.status
@@ -41,7 +43,7 @@ const LessonView = () => {
         }, id)
       }
     }
-  },[lesson, id])
+  },[lessonId])
 
 
   return (

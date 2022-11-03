@@ -119,14 +119,14 @@ const router = useRouter()
       </button>
 
       <div className="text-sm">
-          <Link href="/lost-password">
-          <a className="font-medium text-main hover:opacity-70">
+          <Link href="/lost-password" className="font-medium text-main hover:opacity-70">
+          
             Forgot your password?
-          </a>
+          
           </Link>
         </div>
     </form>
-  )
+  );
 }
 
 export default LoginForm

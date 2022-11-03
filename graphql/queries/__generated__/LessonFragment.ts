@@ -38,11 +38,13 @@ export interface LessonFragment_users {
 
 export interface LessonFragment_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface LessonFragment_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: LessonFragment_tags_image | null;

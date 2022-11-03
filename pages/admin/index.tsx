@@ -7,7 +7,7 @@ import QuickActions from '../../components/admin/dashboard/QuickActions';
 import {
   CashIcon,
   ChevronRightIcon
-} from '@heroicons/react/solid'
+} from '@heroicons/react/20/solid'
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
@@ -48,7 +48,7 @@ const AdminDashboardPage = () => {
     {
       name: 'allResources',
       label: 'Total resources',
-      value: data?.libraryItems.totalCount,
+      value: data?.resources.totalCount,
       IconComponent: Users,
       href: "admin/resources"
     },

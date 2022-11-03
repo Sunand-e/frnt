@@ -4,7 +4,7 @@ import SelectContentTable from './SelectContentTable';
 
 const SelectResourcesTable = ({onRowSelect}) => {
 
-  const { user: { libraryItems: resourceConnection } = {}, loading, error } = useGetCurrentUser()
+  const { resources: resourceConnection, loading, error } = useGetCurrentUser()
   const resources = resourceConnection?.edges.map(edge => edge.node)
 
   return (

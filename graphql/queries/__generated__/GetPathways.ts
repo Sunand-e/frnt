@@ -38,18 +38,19 @@ export interface GetPathways_pathways_edges_node_users {
 
 export interface GetPathways_pathways_edges_node_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetPathways_pathways_edges_node_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetPathways_pathways_edges_node_tags_image | null;
-  id: string;
 }
 
-export interface GetPathways_pathways_edges_node_courses_image {
+export interface GetPathways_pathways_edges_node_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -58,14 +59,14 @@ export interface GetPathways_pathways_edges_node_courses_image {
   title: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_icon {
+export interface GetPathways_pathways_edges_node_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathways_pathways_edges_node_courses_mediaItem {
+export interface GetPathways_pathways_edges_node_children_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -73,25 +74,26 @@ export interface GetPathways_pathways_edges_node_courses_mediaItem {
   fileName: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_users {
+export interface GetPathways_pathways_edges_node_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface GetPathways_pathways_edges_node_courses_tags_image {
+export interface GetPathways_pathways_edges_node_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_tags {
+export interface GetPathways_pathways_edges_node_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: GetPathways_pathways_edges_node_courses_tags_image | null;
-  id: string;
+  image: GetPathways_pathways_edges_node_children_tags_image | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_image {
+export interface GetPathways_pathways_edges_node_children_sections_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -100,14 +102,14 @@ export interface GetPathways_pathways_edges_node_courses_sections_image {
   title: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_icon {
+export interface GetPathways_pathways_edges_node_children_sections_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_mediaItem {
+export interface GetPathways_pathways_edges_node_children_sections_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -115,24 +117,26 @@ export interface GetPathways_pathways_edges_node_courses_sections_mediaItem {
   fileName: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_users {
+export interface GetPathways_pathways_edges_node_children_sections_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_tags_image {
+export interface GetPathways_pathways_edges_node_children_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_tags {
+export interface GetPathways_pathways_edges_node_children_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: GetPathways_pathways_edges_node_courses_sections_tags_image | null;
+  image: GetPathways_pathways_edges_node_children_sections_tags_image | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_image {
+export interface GetPathways_pathways_edges_node_children_sections_children_image {
   __typename: "MediaItem";
   location: string | null;
   id: string;
@@ -141,14 +145,14 @@ export interface GetPathways_pathways_edges_node_courses_sections_children_image
   title: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_icon {
+export interface GetPathways_pathways_edges_node_children_sections_children_icon {
   __typename: "Icon";
   provider: string | null;
   properties: any | null;
   id: string;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_mediaItem {
+export interface GetPathways_pathways_edges_node_children_sections_children_mediaItem {
   __typename: "MediaItem";
   id: string;
   mediaType: string | null;
@@ -156,83 +160,85 @@ export interface GetPathways_pathways_edges_node_courses_sections_children_media
   fileName: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_users {
+export interface GetPathways_pathways_edges_node_children_sections_children_users {
   __typename: "ContentUserConnection";
   totalCount: number;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_tags_image {
+export interface GetPathways_pathways_edges_node_children_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children_tags {
+export interface GetPathways_pathways_edges_node_children_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
-  image: GetPathways_pathways_edges_node_courses_sections_children_tags_image | null;
+  image: GetPathways_pathways_edges_node_children_sections_children_tags_image | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections_children {
+export interface GetPathways_pathways_edges_node_children_sections_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: GetPathways_pathways_edges_node_courses_sections_children_image | null;
+  image: GetPathways_pathways_edges_node_children_sections_children_image | null;
   id: string;
-  icon: GetPathways_pathways_edges_node_courses_sections_children_icon | null;
+  icon: GetPathways_pathways_edges_node_children_sections_children_icon | null;
   itemType: string;
-  mediaItem: GetPathways_pathways_edges_node_courses_sections_children_mediaItem | null;
+  mediaItem: GetPathways_pathways_edges_node_children_sections_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: GetPathways_pathways_edges_node_courses_sections_children_users | null;
-  tags: GetPathways_pathways_edges_node_courses_sections_children_tags[] | null;
+  users: GetPathways_pathways_edges_node_children_sections_children_users | null;
+  tags: GetPathways_pathways_edges_node_children_sections_children_tags[] | null;
   _deleted: boolean;
 }
 
-export interface GetPathways_pathways_edges_node_courses_sections {
+export interface GetPathways_pathways_edges_node_children_sections {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: GetPathways_pathways_edges_node_courses_sections_image | null;
+  image: GetPathways_pathways_edges_node_children_sections_image | null;
   id: string;
-  icon: GetPathways_pathways_edges_node_courses_sections_icon | null;
+  icon: GetPathways_pathways_edges_node_children_sections_icon | null;
   itemType: string;
-  mediaItem: GetPathways_pathways_edges_node_courses_sections_mediaItem | null;
+  mediaItem: GetPathways_pathways_edges_node_children_sections_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: GetPathways_pathways_edges_node_courses_sections_users | null;
-  tags: GetPathways_pathways_edges_node_courses_sections_tags[] | null;
+  users: GetPathways_pathways_edges_node_children_sections_users | null;
+  tags: GetPathways_pathways_edges_node_children_sections_tags[] | null;
   _deleted: boolean;
-  children: GetPathways_pathways_edges_node_courses_sections_children[] | null;
+  children: GetPathways_pathways_edges_node_children_sections_children[] | null;
 }
 
-export interface GetPathways_pathways_edges_node_courses {
+export interface GetPathways_pathways_edges_node_children {
   __typename: "ContentItem";
   content: any | null;
   contentType: string | null;
   createdAt: any;
   settings: any | null;
   shared: boolean;
-  image: GetPathways_pathways_edges_node_courses_image | null;
+  image: GetPathways_pathways_edges_node_children_image | null;
   id: string;
-  icon: GetPathways_pathways_edges_node_courses_icon | null;
+  icon: GetPathways_pathways_edges_node_children_icon | null;
   itemType: string;
-  mediaItem: GetPathways_pathways_edges_node_courses_mediaItem | null;
+  mediaItem: GetPathways_pathways_edges_node_children_mediaItem | null;
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
-  users: GetPathways_pathways_edges_node_courses_users | null;
-  tags: GetPathways_pathways_edges_node_courses_tags[] | null;
+  users: GetPathways_pathways_edges_node_children_users | null;
+  tags: GetPathways_pathways_edges_node_children_tags[] | null;
   _deleted: boolean;
-  sections: GetPathways_pathways_edges_node_courses_sections[] | null;
+  sections: GetPathways_pathways_edges_node_children_sections[] | null;
 }
 
 export interface GetPathways_pathways_edges_node {
@@ -253,11 +259,11 @@ export interface GetPathways_pathways_edges_node {
   users: GetPathways_pathways_edges_node_users | null;
   tags: GetPathways_pathways_edges_node_tags[] | null;
   _deleted: boolean;
-  courses: GetPathways_pathways_edges_node_courses[] | null;
+  children: GetPathways_pathways_edges_node_children[] | null;
 }
 
 export interface GetPathways_pathways_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -265,7 +271,7 @@ export interface GetPathways_pathways_edges {
 }
 
 export interface GetPathways_pathways {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */

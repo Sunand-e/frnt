@@ -1,15 +1,15 @@
-import { GET_LIBRARY_ITEMS } from "../../graphql/queries/allQueries"
+import { GET_RESOURCES } from "../../graphql/queries/allQueries"
 import { useQuery } from "@apollo/client"
-import { GetLibraryItems } from "../../graphql/queries/__generated__/GetLibraryItems";
+import { GetResources } from "../../graphql/queries/__generated__/GetResources";
 
 function useGetResources() {
 
-  const {loading, error, data: { libraryItems: libraryItems} = {} } = useQuery<GetLibraryItems>(
-    GET_LIBRARY_ITEMS
+  const {loading, error, data: { resources: resources} = {} } = useQuery<GetResources>(
+    GET_RESOURCES
   );
 
   return {
-    resources: libraryItems,
+    resources: resources,
     loading,
     error
   }

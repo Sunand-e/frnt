@@ -10,6 +10,15 @@ export const TenantFragment = gql`
     shortName
     settings
     logos
+    groups {
+      totalCount
+    }
+    users {
+      totalCount
+    }
+    courses {
+      totalCount
+    }
     # _deleted @client
   }
 `
@@ -58,7 +67,7 @@ export const TENANT_SHARED_ITEMS = gql`
         }
       }
     }
-    libraryItems(where: $where) {
+    resources(where: $where) {
       edges {
         node {
           title

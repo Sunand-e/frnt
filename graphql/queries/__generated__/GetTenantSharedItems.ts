@@ -14,7 +14,7 @@ export interface GetTenantSharedItems_courses_edges_node {
 }
 
 export interface GetTenantSharedItems_courses_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -22,7 +22,7 @@ export interface GetTenantSharedItems_courses_edges {
 }
 
 export interface GetTenantSharedItems_courses {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
@@ -36,7 +36,7 @@ export interface GetTenantSharedItems_pathways_edges_node {
 }
 
 export interface GetTenantSharedItems_pathways_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -44,33 +44,33 @@ export interface GetTenantSharedItems_pathways_edges {
 }
 
 export interface GetTenantSharedItems_pathways {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
   edges: (GetTenantSharedItems_pathways_edges | null)[] | null;
 }
 
-export interface GetTenantSharedItems_libraryItems_edges_node {
+export interface GetTenantSharedItems_resources_edges_node {
   __typename: "ContentItem";
   title: string | null;
   id: string;
 }
 
-export interface GetTenantSharedItems_libraryItems_edges {
-  __typename: "ContentItemEdge";
+export interface GetTenantSharedItems_resources_edges {
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
-  node: GetTenantSharedItems_libraryItems_edges_node | null;
+  node: GetTenantSharedItems_resources_edges_node | null;
 }
 
-export interface GetTenantSharedItems_libraryItems {
-  __typename: "ContentItemConnection";
+export interface GetTenantSharedItems_resources {
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
-  edges: (GetTenantSharedItems_libraryItems_edges | null)[] | null;
+  edges: (GetTenantSharedItems_resources_edges | null)[] | null;
 }
 
 export interface GetTenantSharedItems {
@@ -83,9 +83,9 @@ export interface GetTenantSharedItems {
    */
   pathways: GetTenantSharedItems_pathways;
   /**
-   * Get list of all library_items
+   * Get list of all resources
    */
-  libraryItems: GetTenantSharedItems_libraryItems;
+  resources: GetTenantSharedItems_resources;
 }
 
 export interface GetTenantSharedItemsVariables {

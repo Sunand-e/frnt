@@ -5,13 +5,13 @@ import { GraduationCap } from "styled-icons/fa-solid";
 import { useRaisedShadow } from "../../hooks/useRaisedShadow";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { DragIndicator } from "@styled-icons/material/DragIndicator";
-import { TrashIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { resourceTypes } from "../resources/resourceTypes";
 import { startCase } from 'lodash';
 import { useRouter } from "../../utils/router";
 import ProgressBar from "../common/ProgressBar"
-import useGetUserContent from "../../hooks/users/useGetUserContent";
 import { useEffect, useState } from "react";
+import useGetUserPathway from "../../hooks/users/useGetUserPathway";
 
 const ConditionalReorderItemWrapper = ({ item, y, editMode, children }) => (
   editMode ? (
@@ -28,24 +28,32 @@ const PathwayTimelineItem = ({
   item, 
   onRemove
 }) => {
-    
-  const { user } = useGetUserContent(item.id);
 
+  const router = useRouter()
+  const { pid } = router.query
+  const { user } = useGetUserPathway(pid);
+  
   const [progress, setProgress] = useState(0)
   useEffect(() => {
     if(user) {
-      let userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === item.id)
-      // alert(userContent?.status)
-      setProgress(userContent?.score)
+      let userContent
+      switch(item.itemType) {
+        case 'course': {
+          userContent = user.courses.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+          break
+        }
+        case 'resource': {
+          userContent = user.resources.edges.find(userContentEdge => userContentEdge.node.id === item.id)
+          break
+        }
+      }
+      setProgress(userContent?.score || 0)
     }
   },[user, item])
 
   const y = useMotionValue(0);
   const boxShadow = useRaisedShadow(y);
   const dragControls = useDragControls()
-
-  const router = useRouter()
-  const { pid } = router.query
 
   let icon;
   let itemWithImage;
@@ -68,7 +76,7 @@ const PathwayTimelineItem = ({
       />
       break;
     }
-    case 'library_item': {
+    case 'resource': {
       const IconComponent = resourceTypes[item.contentType]?.icon
       icon = IconComponent ? <IconComponent className="w-10" /> : null
       itemWithImage = <ItemWithImage

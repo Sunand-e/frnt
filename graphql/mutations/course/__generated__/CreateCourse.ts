@@ -40,15 +40,16 @@ export interface CreateCourse_createCourse_course_users {
 
 export interface CreateCourse_createCourse_course_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CreateCourse_createCourse_course_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CreateCourse_createCourse_course_tags_image | null;
-  id: string;
 }
 
 export interface CreateCourse_createCourse_course_sections_image {
@@ -82,11 +83,13 @@ export interface CreateCourse_createCourse_course_sections_users {
 
 export interface CreateCourse_createCourse_course_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CreateCourse_createCourse_course_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CreateCourse_createCourse_course_sections_tags_image | null;
@@ -123,11 +126,13 @@ export interface CreateCourse_createCourse_course_sections_children_users {
 
 export interface CreateCourse_createCourse_course_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CreateCourse_createCourse_course_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CreateCourse_createCourse_course_sections_children_tags_image | null;

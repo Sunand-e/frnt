@@ -24,21 +24,23 @@ export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) 
                 menuItemClasses = 'text-main-secondary'
               }
               const IconComponent = item.icon
-              return (  
+              return (
                 // <li className={current === item.title ? styles.current : ''} key={index}>
                 <li className={`${menuItemClasses}`} key={index}>
-                  <Link href={item.urlPath}>
-                    <a className='h-10 flex items-center flex px-4 space-x-2 transition-colors duration-200 hover:bg-black hover:bg-opacity-5'>
-                      { IconComponent && <IconComponent width="24" /> }
-                      <span className={`text-main`}>{item.title}</span>
-                    </a>
+                  <Link
+                    href={item.urlPath}
+                    className='h-10 flex items-center flex px-4 space-x-2 transition-colors duration-200 hover:bg-black hover:bg-opacity-5'>
+
+                    { IconComponent && <IconComponent width="24" /> }
+                    <span className={`text-main`}>{item.title}</span>
+
                   </Link>
                 </li>
-              )
+              );
             })}
           </ul>
         }
       </div>
     </div>
-  )
+  );
 }

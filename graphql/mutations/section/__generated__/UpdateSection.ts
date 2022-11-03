@@ -38,11 +38,13 @@ export interface UpdateSection_updateSection_section_users {
 
 export interface UpdateSection_updateSection_section_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface UpdateSection_updateSection_section_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: UpdateSection_updateSection_section_tags_image | null;
@@ -79,11 +81,13 @@ export interface UpdateSection_updateSection_section_children_users {
 
 export interface UpdateSection_updateSection_section_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface UpdateSection_updateSection_section_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: UpdateSection_updateSection_section_children_tags_image | null;

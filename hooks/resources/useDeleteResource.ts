@@ -1,22 +1,22 @@
 import { useMutation } from "@apollo/client";
-import { DELETE_LIBRARY_ITEM } from "../../graphql/mutations/libraryItem/DELETE_LIBRARY_ITEM";
-import { DeleteLibraryItem } from "../../graphql/mutations/libraryItem/__generated__/DeleteLibraryItem";
-import { LibraryItemFragment } from "../../graphql/queries/allQueries";
+import { DELETE_RESOURCE } from "../../graphql/mutations/resource/DELETE_RESOURCE";
+import { DeleteResource } from "../../graphql/mutations/resource/__generated__/DeleteResource";
+import { ResourceFragment } from "../../graphql/queries/allQueries";
 
 
 const useDeleteResource = () => {
 
-  const [deleteLibraryItemMutation, { data: deletedData }] = useMutation<DeleteLibraryItem>(DELETE_LIBRARY_ITEM);
+  const [deleteResourceMutation, { data: deletedData }] = useMutation<DeleteResource>(DELETE_RESOURCE);
 
-  const deleteLibraryItem = (id) => {
+  const deleteResource = (id) => {
 
-    deleteLibraryItemMutation({
+    deleteResourceMutation({
       variables: { 
         id
       },
       optimisticResponse: {
         // __typename: 'Mutation',
-        deleteLibraryItem: {
+        deleteResource: {
           __typename: 'DeleteContentItemPayload',
           contentItem: {
             id,
@@ -27,21 +27,21 @@ const useDeleteResource = () => {
         },
       },
 
-      update(cache, { data: deleteLibraryItem }) {
+      update(cache, { data: deleteResource }) {
         // We get a single item.
-        const libraryItem = cache.readFragment({
+        const resource = cache.readFragment({
           id: `ContentItem:${id}`,
-          fragment: LibraryItemFragment,
-          fragmentName: 'LibraryItemFragment',
+          fragment: ResourceFragment,
+          fragmentName: 'ResourceFragment',
         });
         // Then, we update it.
-        if (libraryItem) {
+        if (resource) {
           cache.writeFragment({
             id: `ContentItem:${id}`,
-            fragment: LibraryItemFragment,
-            fragmentName: 'LibraryItemFragment',
+            fragment: ResourceFragment,
+            fragmentName: 'ResourceFragment',
             data: {
-              ...libraryItem,
+              ...resource,
               _deleted: true
             },
           });
@@ -51,7 +51,7 @@ const useDeleteResource = () => {
   }
 
   return {
-    deleteResource: deleteLibraryItem
+    deleteResource: deleteResource
   }
 }
 

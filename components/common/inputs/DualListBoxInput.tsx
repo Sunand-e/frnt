@@ -24,8 +24,6 @@ const DualListBoxInput = ({
     control,
     name,
   });
-  console.log(field.value)
-
   const handleChange = value => {
     field.onChange(value)
   }

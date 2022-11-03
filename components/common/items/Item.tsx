@@ -32,7 +32,7 @@ export default function Item({ item, options }) {
 
   let itemImage;
   let linkPaddingBottom = '';
-  if(item.itemType === 'library_item' && item.contentType !== 'image') {
+  if(item.itemType === 'resource' && item.contentType !== 'image') {
     const IconComponent = resourceTypes[item.contentType].icon
     itemImage = (
       <div className="w-full justify-center text-center">
@@ -58,20 +58,20 @@ export default function Item({ item, options }) {
   }
   return (
     <div className="h-full content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative">
-      <Link href={href}>
-        <a
-          className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}
-        >
-          {itemImage}
-          {/* <div className={styles.cardImg}>
-            <a
-              className="bg-cover bg-center pb-1/2"
-              style={{
-                backgroundImage: `url(${imageSrc})`
-              }}
-            />
-          </div> */}
-        </a>
+      <Link
+        href={href}
+        className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}>
+
+        {itemImage}
+        {/* <div className={styles.cardImg}>
+          <a
+            className="bg-cover bg-center pb-1/2"
+            style={{
+              backgroundImage: `url(${imageSrc})`
+            }}
+          />
+        </div> */}
+
       </Link>
       <div className="p-4 pt-4 grow flex flex-col">
         {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
@@ -141,6 +141,6 @@ export default function Item({ item, options }) {
         </div>
       </div>
     </div>
-  )
+  );
 
 }

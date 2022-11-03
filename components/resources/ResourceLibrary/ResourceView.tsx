@@ -10,22 +10,32 @@ import AudioPlayer from "../../common/audio/AudioPlayer";
 import LinkPreview from "../../common/LinkPreview";
 import ButtonLink from "../../common/ButtonLink";
 import Button from "../../common/Button";
-import { useRouter } from "next/router";
 import { Download } from '@styled-icons/boxicons-regular/Download'
+import {Tick} from '@styled-icons/typicons/Tick'
 import { ExternalLinkOutline } from '@styled-icons/evaicons-outline/ExternalLinkOutline'
+import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
+import { useRouter } from "../../../utils/router";
+import useGetUserPathway from "../../../hooks/users/useGetUserPathway";
+import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 
 const ResourceView = ({id}) => {
 
-  const {
-    libraryItem: resource,
-    loading,
-    error,
-  } = useGetResource(id)
+  // const {
+  //   resource: resource,
+  //   loading,
+  //   error,
+  // } = useGetResource(id)
 
   const router = useRouter()
   const { pid } = router.query;
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
 
+  const { resources } = useGetCurrentUser()
+
+  const resourceEdge = resources.edges.find(edge => edge.node.id === id)
+  const resource = resourceEdge?.node
+
+  const currentContentItem = useReactiveVar(currentContentItemVar)
   usePageTitle({ title: resource?.title ? `Resource Library: ${resource.title}` : 'Resource Library' })
 
   useEffect(() => {
@@ -36,7 +46,7 @@ const ResourceView = ({id}) => {
   },[id])
   
   const createDescriptionMarkup = useCallback(() => {
-    return {__html: resource.content?.description};
+    return {__html: resource?.content?.description};
   },[resource])
   
   let resourceComponent = useMemo(() => {
@@ -63,7 +73,7 @@ const ResourceView = ({id}) => {
         return (
           <Button className="mb-8" onClick={() => router.push('/resources')}>
             <span className="flex space-x-4">
-              <Download  width="20" />
+              <Download className="h-8 p-1" />
               <span>
                 Download {resource?.contentType} file
               </span>
@@ -72,9 +82,9 @@ const ResourceView = ({id}) => {
         )
       case 'link':
         return (
-          <ButtonLink target="_blank" className="mb-8" href={resource.content?.url}>
-            <span className="flex space-x-4">
-              <ExternalLinkOutline  width="20" />
+          <ButtonLink target="_blank" className="mb-8" href={resource?.content?.url}>
+            <span className="flex space-x-2 items-center">
+              <ExternalLinkOutline className="h-8 p-1" />
               <span>
                 Visit link
               </span>
@@ -86,7 +96,22 @@ const ResourceView = ({id}) => {
       }
   },[resource])
 
+  
+  const { updateUserContentStatus } = useUpdateUserContentStatus()
 
+  const markComplete = useCallback(() => {
+    updateUserContentStatus({
+      contentItemId: id,
+      score: 100,
+      status: 'completed'
+    }, resource.id)
+    router.push({
+      pathname: `/pathway`,
+      query: { pid }
+    })
+  }, [resource])
+  
+  
   console.log('resource?.type')
   console.log(resource?.contentType)
   return (
@@ -103,16 +128,34 @@ const ResourceView = ({id}) => {
           <div className="mt-10 flex flex-col md:flex-row space-x-4 self-center">
             { resourceActionButton }
             { pid ? (
-              <ButtonLink href={{
-                pathname: `/pathway`,
-                query: {
-                  ...router.query,
-                  pid
-                }
-              }}>Back to pathway</ButtonLink>
+              <>
+                <ButtonLink href={{
+                  pathname: `/pathway`,
+                  query: {
+                    pid
+                  }
+                }}>
+                  <span className='flex items-center space-x-2'>
+                    <span>Back to pathway</span>
+                    <ArrowBack className="h-8 p-1" />
+                  </span>
+                </ButtonLink>
+                { (resource?.status !== 'completed') && (
+                  <Button onClick={markComplete}>
+                    <span className='flex items-center space-x-2'>
+                      <span>Mark Complete</span>
+                      <Tick className="h-8" />
+                    </span>
+                  </Button>
+                )}
+              </>
             ) : (
               <Button className="mb-8" onClick={() => router.push('/resources')}>
-                Back to Resource Library
+                <span className='flex items-center space-x-2'>
+                  <span>Back to Resource Library</span>
+                  <ArrowBack className='h-7'/>
+                </span>
+                
               </Button>
             )}
           </div>

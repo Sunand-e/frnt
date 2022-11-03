@@ -4,25 +4,20 @@ import {
 } from '@apollo/client'
 import possibleTypes from './possibleTypes.json'
 
-// generate type policies for all content types
-/*
-const typePolicyKeyFields = resourceTypes.reduce((typePoliciesObject, type) => {
-  typePoliciesObject[type.name.replace(/\s/g, '')] = {
-    keyFields: ["slug"]
-  }
-  return typePoliciesObject
-}, {})
-
-
 const typePolicies = {
-  ...typePolicyKeyFields,
-  Query: {
-    fields: {
-      // libraryStatus
+  Group: {
+    merge: true,
+  },
+  UserContentConnection: {
+    merge: true,
+  },
+  UserContentEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      return `UserContentEdge:${object.userId}:${object.node.id}`
     }
-  }
+  },
 }
-*/
 
 export const navStateVar = makeVar({
   topLevel: '',
@@ -74,11 +69,7 @@ export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !
 
 const cache = new InMemoryCache({
   possibleTypes,
-  typePolicies: {
-    Group: {
-      merge: true,
-    },
-  },
+  typePolicies
 })
 
 export default cache

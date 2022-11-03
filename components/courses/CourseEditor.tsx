@@ -7,14 +7,14 @@ import useCourse from "../../hooks/courses/useCourse"
 import { useEffect } from "react"
 import { currentContentItemVar } from "../../graphql/cache"
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson"
-import useGetUserContent from "../../hooks/users/useGetUserContent"
+import useGetUserCourse from "../../hooks/users/useGetUserCourse"
 
 const CourseEditor = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courses } = useGetUserCourse(id)
+  const course = courses?.edges[0]?.node
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   

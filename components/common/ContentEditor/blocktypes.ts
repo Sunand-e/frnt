@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Text} from '@styled-icons/fluentui-system-filled/Text'
+import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
@@ -52,22 +52,22 @@ import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
 
 const blocktypes = {
-  header: {
-    text: 'Header',
-    component: HeaderBlock,
-    editComponent: HeaderBlockEdit,
-    settingsComponent: HeaderSettings,
-    icon: Text,
-    hideFromSelector: true,
-  },
-  text: {
-    name: 'text',
-    text: 'Text',
-    component: TextBlock,
-    editComponent: TextBlockEdit,
-    settingsComponent: TextSettings,
-    icon: Text,
-  },
+  // header: {
+  //   text: 'Header',
+  //   component: HeaderBlock,
+  //   editComponent: HeaderBlockEdit,
+  //   settingsComponent: HeaderSettings,
+  //   icon: Text,
+  //   hideFromSelector: true,
+  // },
+  // text: {
+  //   name: 'text',
+  //   text: 'Text',
+  //   component: TextBlock,
+  //   editComponent: TextBlockEdit,
+  //   settingsComponent: TextSettings,
+  //   icon: Text,
+  // },
   // list: {
   //   text: 'List',
   //   component: ListBlock,

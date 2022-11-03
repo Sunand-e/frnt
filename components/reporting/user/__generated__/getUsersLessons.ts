@@ -11,6 +11,7 @@ export interface getUsersLessons_user_lessons_edges_node {
   __typename: "ContentItem";
   id: string;
   title: string | null;
+  contentType: string | null;
 }
 
 export interface getUsersLessons_user_lessons_edges {

@@ -7,7 +7,7 @@ import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/common/Button'
 import PrevNextButtons from '../components/courses/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/courses/CourseView/CourseCompleted'
-import useGetUserContent from '../hooks/users/useGetUserContent'
+import useGetUserCourse from '../hooks/users/useGetUserCourse'
 
 const CoursePage = () => {
   /*
@@ -18,11 +18,17 @@ const CoursePage = () => {
   const { id, cid: contentId, showEdit=false } = router.query
 
   const { user } = useGetCurrentUser();
-  const { user: userContent } = useGetUserContent(id)
-  
+  const { courseEdge } = useGetUserCourse(id)
   const [courseScore, setCourseScore] = useState(null)
   const [showCompletedPage, setShowCompletedPage] = useState(false)
 
+
+
+  useEffect(() => {
+    console.log('courseEdge')
+    console.log(id, courseEdge)
+  },[id, courseEdge])
+  
   useEffect(() => {
     const view = {
       isSlimNav: true,
@@ -51,33 +57,30 @@ const CoursePage = () => {
 
   useEffect(() => {
     setShowCompletedPage(false)
-    if(userContent) {
-      let userContentEdge = userContent.courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      if(courseScore!==null && userContentEdge?.score === 100) {
+    if(courseEdge) {
+      if(courseScore!==null && courseEdge?.score === 100) {
         setShowCompletedPage(true)
-      } else {
       }
-      userContentEdge?.score && setCourseScore(userContentEdge.score)
-      
+      courseEdge?.score && setCourseScore(courseEdge.score)
     }
-  },[userContent, id])
+  },[courseEdge, id])
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useEffect(() => {
     headerButtonsVar(
       <>
         {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
-        <PrevNextButtons />
+        { user && <PrevNextButtons /> }
       </>
     )
-  },[showEdit])
+  },[showEdit, user])
   
   return (
     <>
       {showCompletedPage ? (
         <CourseCompleted />
       ) : (
-        <CourseItemView />        
+        user && <CourseItemView />
       )}
     </>
   )

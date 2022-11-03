@@ -5,9 +5,9 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
 import { forwardRef, useEffect, useState } from "react"
 import { lessonTypes } from "../courses/lessonTypes"
-import { useFragment_experimental, useReactiveVar } from '@apollo/client'
+import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
 import { motion } from 'framer-motion'
-import useGetUserContent from '../../hooks/users/useGetUserContent'
+import useGetUserCourse from '../../hooks/users/useGetUserCourse'
 import { useRouter } from '../../utils/router'
 
 const SidebarItem = forwardRef<HTMLLIElement, any>(({
@@ -25,22 +25,28 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   const router = useRouter()
   const { id: courseId, cid: contentId } = router.query
 
-  const { user } = useGetUserContent(courseId);
+  const { lessons } = useGetUserCourse(courseId);
+
+  const [lesson, setLesson] = useState(null)
 
   const { complete, data } = useFragment_experimental({
-    fragment: ContentFragment,
+    fragment: gql`
+      fragment ContentFragment on ContentItem {
+        title
+        contentType
+      }
+    `,
     from: {
       __typename: "ContentItem",
-      id: id,
+      id: contentId,
     },
   });
-  
   const [progress, setProgress] = useState(0)
   useEffect(() => {
-    if(user) {
-      let userContent = user.lessons.edges.find(userContentEdge => userContentEdge.node.id === id)
-      // alert(userContent?.status)
-      switch(userContent?.status) {
+    if(lessons) {
+      let lessonEdge = lessons?.edges.find(edge => edge.node.id === id)
+      // alert(lessonEdge?.status)
+      switch(lessonEdge?.status) {
         case 'in_progress': {
           setProgress(0.5)
           break
@@ -53,13 +59,14 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
           setProgress(0)
           break
         }
-        }
+      }
+      setLesson(lessonEdge?.node)
     }
-  },[user, id])
+  },[lessons, id])
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   
-  const IconComponent = data ? lessonTypes[data?.contentType]?.icon : null
+  const IconComponent = lesson ? lessonTypes[lesson.contentType]?.icon : null
 
   const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
 
@@ -94,7 +101,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
             <a className={`flex py-1 space-x-2`}>
               { IconComponent && <IconComponent className="h-5 w-5 flex-0"/> }
               <span className="min-w-0 flex-1 text-sm font-medium break-words">
-                {!!data && data.title || 'Untitled lesson'}
+                {!!lesson && lesson.title || 'Untitled lesson'}
               </span>
             </a>
           {/* </Link> */}

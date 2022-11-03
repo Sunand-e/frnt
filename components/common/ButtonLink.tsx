@@ -38,28 +38,28 @@ const ButtonLink = ({target, href, displayType="normal", children, className, on
   }
 
   return (
-    <Link href={href}>
-      <a 
-        onClick={onClick} 
-        target={target}
-        className={`
-        ${className}
-        ${styles.button}
-        ${styles.button_bestia}
-        min-w-16 py-2 px-8
-        whitespace-nowrap nowrap
-        border border-transparent rounded-md
-        text-sm
-        bg-main text-white
-        focus:bg-opacity-50 focus:outline-none 
-        active:bg-opacity-50 
-      `}
-      >
+    (<Link
+      href={href}
+      onClick={onClick}
+      target={target}
+      className={`
+      ${className}
+      ${styles.button}
+      ${styles.button_bestia}
+      min-w-16 py-2 px-8
+      whitespace-nowrap nowrap
+      border border-transparent rounded-md
+      text-sm
+      bg-main text-white
+      focus:bg-opacity-50 focus:outline-none 
+      active:bg-opacity-50 
+    `}>
+
       <div className={`${styles.button__bg} ${bgColorClass}`}></div>
-        <span className={styles.button__span}>{children}</span>
-      </a>
-    </Link>
-  )
+      <span className={styles.button__span}>{children}</span>
+
+    </Link>)
+  );
 }
 
 export default ButtonLink

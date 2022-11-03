@@ -2,7 +2,7 @@ import {
     CalendarIcon,
     DotsHorizontalIcon,
     LocationMarkerIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 import {Fragment} from "react";
 import UserDashTitles from "./UserDashTitles";

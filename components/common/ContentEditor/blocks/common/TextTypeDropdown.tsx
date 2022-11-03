@@ -10,7 +10,7 @@ import {
   PencilAltIcon,
   TrashIcon,
   UserAddIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/20/solid'
 import classNames from '../../../../../utils/classNames'
 
 export default function TextTypeDropdown() {

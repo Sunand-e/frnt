@@ -3,7 +3,7 @@ import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function PathwayTabs({gridClasses=''}) {
   
-  const { user: { pathways: pathwayConnection } = {}, loading } = useGetCurrentUser()
+  const { pathways: pathwayConnection, loading } = useGetCurrentUser()
 
   const pathways = pathwayConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;

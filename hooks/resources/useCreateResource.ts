@@ -1,29 +1,29 @@
-import { CREATE_LIBRARY_ITEM } from "../../graphql/mutations/libraryItem/CREATE_LIBRARY_ITEM"
-import { GET_LIBRARY_ITEMS } from "../../graphql/queries/allQueries"
+import { CREATE_RESOURCE } from "../../graphql/mutations/resource/CREATE_RESOURCE"
+import { GET_RESOURCES } from "../../graphql/queries/allQueries"
 import { useMutation } from "@apollo/client"
-import { GetLibraryItems } from "../../graphql/queries/__generated__/GetLibraryItems";
-import { CreateLibraryItem, CreateLibraryItemVariables } from "../../graphql/mutations/libraryItem/__generated__/CreateLibraryItem";
+import { GetResources } from "../../graphql/queries/__generated__/GetResources";
+import { CreateResource, CreateResourceVariables } from "../../graphql/mutations/resource/__generated__/CreateResource";
 import { useEffect, useState } from "react";
 
 
 function useCreateResource() {
 
-  const [createResourceMutation, createResourceResponse] = useMutation<CreateLibraryItem, CreateLibraryItemVariables>(
-    CREATE_LIBRARY_ITEM,
+  const [createResourceMutation, createResourceResponse] = useMutation<CreateResource, CreateResourceVariables>(
+    CREATE_RESOURCE,
     {
-      // the update function updates the list of libraryItems returned from the cached query.
+      // the update function updates the list of resources returned from the cached query.
       // This runs twice - once after the optimistic response, and again after the server response.
-      update(cache, { data: { createLibraryItem } } ) {
-        const cachedData = cache.readQuery<GetLibraryItems>({
-          query: GET_LIBRARY_ITEMS
+      update(cache, { data: { createResource } } ) {
+        const cachedData = cache.readQuery<GetResources>({
+          query: GET_RESOURCES
         })
         cache.writeQuery({
-          query: GET_LIBRARY_ITEMS,
+          query: GET_RESOURCES,
           data: {
             ...cachedData,
-            libraryItems: {
-              ...cachedData.libraryItems,
-              edges: [{node: createLibraryItem.libraryItem}, ...cachedData.libraryItems.edges]
+            resources: {
+              ...cachedData.resources,
+              edges: [{node: createResource.resource}, ...cachedData.resources.edges]
             }            
           }
         })
@@ -31,14 +31,14 @@ function useCreateResource() {
     }
   );
 
-  const [libraryItem, setLibraryItem] = useState(null)
+  const [resource, setResource] = useState(null)
   useEffect(() => {
     if(createResourceResponse.data) {
-      setLibraryItem(createResourceResponse.data.createLibraryItem.libraryItem)
+      setResource(createResourceResponse.data.createResource.resource)
     }
   }, [createResourceResponse.data])
 
-  const createLibraryItem = (values, cb = null) => {
+  const createResource = (values, cb = null) => {
     console.log('values')
     console.log(values)
     createResourceMutation({
@@ -46,9 +46,9 @@ function useCreateResource() {
         ...values
       },
       optimisticResponse: {
-        createLibraryItem: {
-          __typename: 'CreateLibraryItemPayload',
-          libraryItem: {
+        createResource: {
+          __typename: 'CreateResourcePayload',
+          resource: {
             __typename: 'ContentItem',
             id: `tmp-${Math.floor(Math.random() * 10000)}`,
             title: values.title || '',
@@ -58,7 +58,7 @@ function useCreateResource() {
             content: {},
             shared: false,
             contentType: null,
-            itemType: 'libraryItem',
+            itemType: 'resource',
             mediaItem: null,
             image: null,
             icon: null,
@@ -72,15 +72,15 @@ function useCreateResource() {
         }
       },
       onCompleted: cb
-      // refetchQueries: [{ query: GET_LIBRARY_ITEM }]
+      // refetchQueries: [{ query: GET_RESOURCE }]
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
   }
 
   return {
-    resource: libraryItem,
-    createResource: createLibraryItem
+    resource: resource,
+    createResource: createResource
   }
 }
 

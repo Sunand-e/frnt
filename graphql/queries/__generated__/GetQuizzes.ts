@@ -29,7 +29,7 @@ export interface GetQuizzes_quizzes_edges_node {
 }
 
 export interface GetQuizzes_quizzes_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -37,7 +37,7 @@ export interface GetQuizzes_quizzes_edges {
 }
 
 export interface GetQuizzes_quizzes {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */

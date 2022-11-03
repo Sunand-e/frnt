@@ -46,27 +46,30 @@ export default function InnerNav() {
         { items.map((item, index) => {
 
 
-          return (  
+          return (
             // <li className={current === item.title ? styles.current : ''} key={index}>
             <li className={`${(current === item.link) ? 'text-main': 'text-main-secondary'} ${current === item.link && styles.current}`} key={index}>
               {
                 item.onClick ? 
                   ( <span onClick={item.onClick}>{item.title}</span>)
                 : (
-                    <Link href={item.link} >
-                      <a className={`h-16 font-bold pb-2 rounded-2xl flex items-center space-x-2 transition-colors duration-200 text-lg`} onClick={() => setCurrent(item.link)}>
-                        <div className={`rounded-full w-6 h-6 flex items-center justify-center mr-2`}>
-                          <FontAwesomeIcon className="h-5" icon={{prefix: 'fas', iconName: 'file-pdf'}} />
-                        </div>
-                        {item.title}
-                      </a>
-                    </Link>
+                    (<Link
+                      href={item.link}
+                      className={`h-16 font-bold pb-2 rounded-2xl flex items-center space-x-2 transition-colors duration-200 text-lg`}
+                      onClick={() => setCurrent(item.link)}>
+
+                      <div className={`rounded-full w-6 h-6 flex items-center justify-center mr-2`}>
+                        <FontAwesomeIcon className="h-5" icon={{prefix: 'fas', iconName: 'file-pdf'}} />
+                      </div>
+                      {item.title}
+
+                    </Link>)
                 )
               }
             </li>
-          )
+          );
         })}
       </ul>
     </nav>
-  )
+  );
 } 

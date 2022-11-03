@@ -2,11 +2,16 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import { useCallback, useContext } from 'react'
 import { ModalContext } from '../../context/modalContext'
 import dayjs from 'dayjs'
-import filesize from 'filesize'
-import PdfViewer from '../common/PdfViewer'
+import {filesize} from 'filesize'
 import DeleteMediaItemModal from './DeleteMediaModal'
 import { resourceTypes } from '../resources/resourceTypes'
 import AudioPlayer from '../common/audio/AudioPlayer'
+import dynamic from 'next/dynamic';
+
+const DynamicPdfViewer = dynamic(
+  () => import('../common/PdfViewer'),
+  { ssr: false }
+)
 
 interface MediaPreviewProps {
   item?: {[key: string]: any}
@@ -58,7 +63,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
       case 'document': {
         if(item.location.endsWith('pdf')) {
           return (
-            <PdfViewer url={item.location} className='w-full h-full hidden md:block' />
+            <DynamicPdfViewer url={item.location} className='w-full h-full hidden md:block' />
           )
         } else {
           return <IconDisplay typeName="document"/>
@@ -83,7 +88,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
             <span className='font-medium'>Media type: </span>
             <span className='capitalize'>{item.mediaType}</span>
           </p>
-          <p><span className='font-medium'>File size: </span>{ filesize(item.fileSize)}</p>
+          <p><span className='font-medium'>File size: </span>{ filesize(item.fileSize) as String}</p>
           <p><span className='font-medium'>Uploaded: </span>{ uploadedDate }</p>
         </div>
         <div className="mediaActions flex items-end justify-end">

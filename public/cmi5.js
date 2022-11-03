@@ -2047,7 +2047,7 @@
 
       // suffix may only contain alnum characters (yup, I made this up.)
       s = filename.substring(pos+1);
-      res = (/^[a-z0-9%]+$/i).test(s) ? s : '';
+      res = ((/^[a-z0-9%]+$/i)).test(s) ? s : '';
       return v ? URI.decodePathSegment(res) : res;
     } else {
       if (v.charAt(0) === '.') {

@@ -1,16 +1,16 @@
 import { useRef, useEffect } from "react";
-import { UpdateLibraryItem, UpdateLibraryItemVariables } from "../../graphql/mutations/libraryItem/__generated__/UpdateLibraryItem";
-import { UPDATE_LIBRARY_ITEM } from "../../graphql/mutations/libraryItem/UPDATE_LIBRARY_ITEM"
-import { LibraryItemFragment, GET_LIBRARY_ITEM } from "../../graphql/queries/allQueries"
-import { LibraryItemFragment as LibraryItemFragmentType } from '../../graphql/queries/__generated__/LibraryItemFragment';
+import { UpdateResource, UpdateResourceVariables } from "../../graphql/mutations/resource/__generated__/UpdateResource";
+import { UPDATE_RESOURCE } from "../../graphql/mutations/resource/UPDATE_RESOURCE"
+import { ResourceFragment, GET_RESOURCE } from "../../graphql/queries/allQueries"
+import { ResourceFragment as ResourceFragmentType } from '../../graphql/queries/__generated__/ResourceFragment';
 import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache"
 
 
 function useUpdateResource(id=null) {
 
-  const { loading, error, data: {libraryItem: resource} = {} } = useQuery(
-    GET_LIBRARY_ITEM,
+  const { loading, error, data: {resource: resource} = {} } = useQuery(
+    GET_RESOURCE,
     {
       variables: {
         id
@@ -19,21 +19,21 @@ function useUpdateResource(id=null) {
     }
   );
 
-  const [updateLibraryItemMutation, updateLibraryItemResponse] = useMutation<UpdateLibraryItem, UpdateLibraryItemVariables>(
-    UPDATE_LIBRARY_ITEM
+  const [updateResourceMutation, updateResourceResponse] = useMutation<UpdateResource, UpdateResourceVariables>(
+    UPDATE_RESOURCE
   );
 
   const updateResource = (values, cb = null) => {
 
-    updateLibraryItemMutation({
+    updateResourceMutation({
       variables: {
         id,
         ...values
       },
       optimisticResponse: {
-        updateLibraryItem: {
-          __typename: 'UpdateLibraryItemPayload',
-          libraryItem: {
+        updateResource: {
+          __typename: 'UpdateResourcePayload',
+          resource: {
             ...resource,
             ...values
           },

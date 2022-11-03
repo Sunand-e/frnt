@@ -8,7 +8,7 @@ import { useRouter } from '../utils/router';
 import Layout from './Layout';
 import CourseStructureView from '../components/courses/CourseView/CourseStructureView';
 import ButtonLink from '../components/common/ButtonLink';
-import useGetUserContent from '../hooks/users/useGetUserContent';
+import useGetUserCourse from '../hooks/users/useGetUserCourse';
 
 export default function CourseLayout( {page, navState} ) {
   /*
@@ -18,8 +18,8 @@ export default function CourseLayout( {page, navState} ) {
 
   const router = useRouter()
   const { pid, id } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courses } = useGetUserCourse(id)
+  const course = courses?.edges[0]?.node
 
   return (
     <Layout 

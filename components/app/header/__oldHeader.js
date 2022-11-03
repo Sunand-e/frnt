@@ -8,14 +8,14 @@ export default function Header({children}) {
     <div className="w-full bg-white">
       <header className="mx-auto max-w-screen-xl p-1 items-center text-main-secondary flex">
         <Link href="/">
-          <a>
-            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/logo-main.png`} className="w-40"/>
-          </a>
+
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH}/images/logo-main.png`} className="w-40"/>
+
         </Link>
         <Menu1 />
         <SearchBar />
       {children}
       </header>
     </div>
-  )
+  );
 }

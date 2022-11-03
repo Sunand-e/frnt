@@ -9,13 +9,13 @@ const getCapsFromRoleArr = (roles) => {
 
 function useUserHasCapability() {
   
-  const { loading, error, user } = useGetCurrentUser()
+  const { loading, error, user, courses } = useGetCurrentUser()
   
   const userCapabilityArray = useMemo(() => {
     return user ? [
       ...getCapsFromRoleArr(user.roles),
       
-      ...user.courses.edges.reduce((array, courseEdge) => {
+      ...courses.edges.reduce((array, courseEdge) => {
         return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
       }, []),
 

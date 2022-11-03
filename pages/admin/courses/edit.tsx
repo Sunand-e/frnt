@@ -4,12 +4,12 @@ import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { viewVar } from '../../../graphql/cache'
 import { useContext, useEffect } from 'react'
-import {Cog} from '@styled-icons/fa-solid/Cog'
+import {Gear} from '@styled-icons/fa-solid/Gear'
 import useCourse from '../../../hooks/courses/useCourse'
 import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
-import useGetUserContent from '../../../hooks/users/useGetUserContent'
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 
@@ -20,8 +20,8 @@ const AdminCoursesEdit = () => {
   */
   const router = useRouter()
   const { id } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0]?.node
+  const { courseEdge } = useGetUserCourse(id)
+  const course = courseEdge?.node
 
   useEffect(() => {
     course && console.log(course)
@@ -70,7 +70,7 @@ const AdminCoursesEdit = () => {
     onEdit: title => updateCourse({title}),
     after: (
       <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>
-        <Cog size="18"  />
+        <Gear size="18"  />
       </div>
     )
   })

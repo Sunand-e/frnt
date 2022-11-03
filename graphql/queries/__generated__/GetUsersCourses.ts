@@ -14,6 +14,12 @@ export interface GetUsersCourses_users_edges_node_roles {
   roleType: string;
 }
 
+export interface GetUsersCourses_users_edges_node_courses_edges_node_mediaItem {
+  __typename: "MediaItem";
+  id: string;
+  location: string | null;
+}
+
 export interface GetUsersCourses_users_edges_node_courses_edges_node {
   __typename: "ContentItem";
   id: string;
@@ -21,14 +27,47 @@ export interface GetUsersCourses_users_edges_node_courses_edges_node {
   content: any | null;
   contentType: string | null;
   itemType: string;
+  mediaItem: GetUsersCourses_users_edges_node_courses_edges_node_mediaItem | null;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+  roleType: string;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUsersCourses_users_edges_node_courses_edges_groups_edges_node | null;
+}
+
+export interface GetUsersCourses_users_edges_node_courses_edges_groups {
+  __typename: "UserGroupConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (GetUsersCourses_users_edges_node_courses_edges_groups_edges | null)[] | null;
 }
 
 export interface GetUsersCourses_users_edges_node_courses_edges {
   __typename: "UserContentEdge";
+  userId: string | null;
   /**
    * The item at the end of the edge.
    */
   node: GetUsersCourses_users_edges_node_courses_edges_node | null;
+  roles: GetUsersCourses_users_edges_node_courses_edges_roles[] | null;
+  groups: GetUsersCourses_users_edges_node_courses_edges_groups | null;
   status: string | null;
   lastVisited: any | null;
   firstVisited: any | null;
@@ -41,11 +80,11 @@ export interface GetUsersCourses_users_edges_node_courses_edges {
 
 export interface GetUsersCourses_users_edges_node_courses {
   __typename: "UserContentConnection";
+  totalCount: number;
   /**
    * A list of edges.
    */
   edges: (GetUsersCourses_users_edges_node_courses_edges | null)[] | null;
-  totalCount: number;
 }
 
 export interface GetUsersCourses_users_edges_node {

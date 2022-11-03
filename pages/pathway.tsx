@@ -18,8 +18,10 @@ const PathwayPage = () => {
   const router = useRouter()
   const { pid } = router.query
 
-  const { loading, error, pathway } = useGetPathway(pid);
   const { user } = useGetCurrentUser();
+  const { loading, error, pathway } = useGetPathway(pid);
+
+  usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
 
   useEffect(() => {
     const view = {
@@ -37,20 +39,16 @@ const PathwayPage = () => {
     }
   },[])
 
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
-
-  usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
-
   return (
     <>
-      <PathwayTimeline />
+      { user &&  <PathwayTimeline /> }
     </>
   )
 }
 
 PathwayPage.navState = {
-  topLevel: 'courses',
-  secondary: 'pathways'
+  topLevel: 'pathways',
+  // secondary: 'pathways'
 }
 
 export default PathwayPage

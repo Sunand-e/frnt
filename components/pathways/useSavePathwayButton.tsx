@@ -5,7 +5,6 @@ import { usePathwayStore } from "./usePathwayStore";
 import Button from "../common/Button";
 import { toast } from "react-toastify";
 import { useRouter } from "../../utils/router";
-import useGetUserContent from "../../hooks/users/useGetUserContent";
 import useGetPathway from "../../hooks/pathways/useGetPathway";
 import useUpdatePathway from "../../hooks/pathways/useUpdatePathway";
 

@@ -5,14 +5,14 @@ import { useReward } from 'react-rewards';
 import Button from '../../common/Button';
 import { useContext, useEffect } from 'react';
 import { TenantContext } from '../../../context/TenantContext';
-import useGetUserContent from '../../../hooks/users/useGetUserContent';
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse';
 
 const CourseCompleted = () => {
   
   const router = useRouter()
   const { id, pid } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0].node
+  const { courseEdge } = useGetUserCourse(id)
+  const course = courseEdge?.node
   
 const tenant = useContext(TenantContext)
 

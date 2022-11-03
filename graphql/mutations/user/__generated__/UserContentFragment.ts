@@ -7,26 +7,32 @@
 // GraphQL fragment: UserContentFragment
 // ====================================================
 
-export interface UserContentFragment_contentItem {
+export interface UserContentFragment_edges_node {
   __typename: "ContentItem";
   id: string;
   itemType: string;
 }
 
-export interface UserContentFragment_user {
-  __typename: "User";
-  id: string;
-}
-
-export interface UserContentFragment {
-  __typename: "UserContent";
+export interface UserContentFragment_edges {
+  __typename: "UserContentEdge";
+  userId: string | null;
   status: string | null;
   score: number | null;
-  updatedAt: any;
+  updatedAt: any | null;
   completed: boolean | null;
   properties: any | null;
   lastVisited: any | null;
   firstVisited: any | null;
-  contentItem: UserContentFragment_contentItem;
-  user: UserContentFragment_user;
+  /**
+   * The item at the end of the edge.
+   */
+  node: UserContentFragment_edges_node | null;
+}
+
+export interface UserContentFragment {
+  __typename: "UserContentConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (UserContentFragment_edges | null)[] | null;
 }

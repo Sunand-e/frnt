@@ -4,6 +4,8 @@ export const CapabilityFragment = gql`
   fragment CapabilityFragment on Capability {
     id
     name
+    capabilityType
+    details
     # _deleted @client
   }
 `

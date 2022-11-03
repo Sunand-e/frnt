@@ -47,8 +47,8 @@ export const ContentFragment = gql`
     _deleted @client
   }
 `
-export const LibraryItemFragment = gql`
-  fragment LibraryItemFragment on ContentItem {
+export const ResourceFragment = gql`
+  fragment ResourceFragment on ContentItem {
     ...ContentFragment
   }
   ${ContentFragment}
@@ -194,26 +194,26 @@ export const GET_LESSON = gql`
   
 `
 
-export const GET_LIBRARY_ITEM = gql`
-  query GetLibraryItem($id: ID!) {
-    libraryItem(id: $id) {
-      ...LibraryItemFragment
+export const GET_RESOURCE = gql`
+  query GetResource($id: ID!) {
+    resource(id: $id) {
+      ...ResourceFragment
     }
   }
-  ${LibraryItemFragment}
+  ${ResourceFragment}
 `
 
-export const GET_LIBRARY_ITEMS = gql`
-  query GetLibraryItems {
-    libraryItems {
+export const GET_RESOURCES = gql`
+  query GetResources {
+    resources {
       edges {
         node {
-          ...LibraryItemFragment
+          ...ResourceFragment
         }
       }
     }
   }
-  ${LibraryItemFragment}
+  ${ResourceFragment}
 `
 
 export const GET_PATHWAY = gql`

@@ -24,26 +24,28 @@ export default function ContentNav({show, topNavItem, pageNavState}) {
                 menuItemClasses = 'text-main-secondary'
               }
 
-              return (  
+              return (
                 // <li className={current === item.title ? styles.current : ''} key={index}>
                 <li className={``} key={index}>
                   {
                     item.onClick ? 
                       ( <span onClick={item.onClick}>{item.title}</span>)
                     : (
-                      <Link href={item.urlPath}>
-                        <a className={`${menuItemClasses} h-10 flex items-center hover:bg-black hover:bg-opacity-5 space-x-4 px-4 transition-colors duration-200 text-base`}>
-                          {item.title}
-                        </a>
-                      </Link>
+                      (<Link
+                        href={item.urlPath}
+                        className={`${menuItemClasses} h-10 flex items-center hover:bg-black hover:bg-opacity-5 space-x-4 px-4 transition-colors duration-200 text-base`}>
+
+                        {item.title}
+
+                      </Link>)
                     )
                   }
                 </li>
-              )
+              );
             })}
           </ul>
         }
       </div>
     </div>
-  )
+  );
 }

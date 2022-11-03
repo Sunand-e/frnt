@@ -21,7 +21,7 @@ export interface GetTagsFull_tags_courses {
   id: string;
 }
 
-export interface GetTagsFull_tags_libraryItems {
+export interface GetTagsFull_tags_resources {
   __typename: "ContentItem";
   id: string;
 }
@@ -34,7 +34,7 @@ export interface GetTagsFull_tags {
   image: GetTagsFull_tags_image | null;
   _deleted: boolean;
   courses: GetTagsFull_tags_courses[] | null;
-  libraryItems: GetTagsFull_tags_libraryItems[] | null;
+  resources: GetTagsFull_tags_resources[] | null;
 }
 
 export interface GetTagsFull {

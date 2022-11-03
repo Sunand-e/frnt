@@ -29,7 +29,7 @@ const BlockContainer = ({
     } else {
       setShowFooter(false)
     }
-  },[blockIds])
+  },[blocks])
 
   return (
     <div 

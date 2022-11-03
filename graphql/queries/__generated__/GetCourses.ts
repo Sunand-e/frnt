@@ -38,15 +38,16 @@ export interface GetCourses_courses_edges_node_users {
 
 export interface GetCourses_courses_edges_node_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourses_courses_edges_node_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourses_courses_edges_node_tags_image | null;
-  id: string;
 }
 
 export interface GetCourses_courses_edges_node_sections_image {
@@ -80,11 +81,13 @@ export interface GetCourses_courses_edges_node_sections_users {
 
 export interface GetCourses_courses_edges_node_sections_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourses_courses_edges_node_sections_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourses_courses_edges_node_sections_tags_image | null;
@@ -121,11 +124,13 @@ export interface GetCourses_courses_edges_node_sections_children_users {
 
 export interface GetCourses_courses_edges_node_sections_children_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface GetCourses_courses_edges_node_sections_children_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: GetCourses_courses_edges_node_sections_children_tags_image | null;
@@ -194,7 +199,7 @@ export interface GetCourses_courses_edges_node {
 }
 
 export interface GetCourses_courses_edges {
-  __typename: "ContentItemEdge";
+  __typename: "UserContentEdge";
   /**
    * The item at the end of the edge.
    */
@@ -202,7 +207,7 @@ export interface GetCourses_courses_edges {
 }
 
 export interface GetCourses_courses {
-  __typename: "ContentItemConnection";
+  __typename: "UserContentConnection";
   /**
    * A list of edges.
    */

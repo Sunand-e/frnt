@@ -14,6 +14,36 @@ export interface GetUsers_users_edges_node_roles {
   roleType: string;
 }
 
+export interface GetUsers_users_edges_node_groups_edges_node {
+  __typename: "Group";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUsers_users_edges_node_groups_edges_roles {
+  __typename: "Role";
+  id: string;
+  name: string | null;
+}
+
+export interface GetUsers_users_edges_node_groups_edges {
+  __typename: "UserGroupEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetUsers_users_edges_node_groups_edges_node | null;
+  roles: GetUsers_users_edges_node_groups_edges_roles[] | null;
+}
+
+export interface GetUsers_users_edges_node_groups {
+  __typename: "UserGroupConnection";
+  totalCount: number;
+  /**
+   * A list of edges.
+   */
+  edges: (GetUsers_users_edges_node_groups_edges | null)[] | null;
+}
+
 export interface GetUsers_users_edges_node {
   __typename: "User";
   createdAt: any;
@@ -27,6 +57,7 @@ export interface GetUsers_users_edges_node {
   userType: string | null;
   profileImageUrl: string | null;
   roles: GetUsers_users_edges_node_roles[] | null;
+  groups: GetUsers_users_edges_node_groups | null;
 }
 
 export interface GetUsers_users_edges {

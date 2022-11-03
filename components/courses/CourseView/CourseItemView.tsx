@@ -4,7 +4,7 @@ import useBlockEditor from '../../common/ContentEditor/useBlockEditor'
 import { useEffect } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import { currentContentItemVar } from '../../../graphql/cache'
-import useGetUserContent from '../../../hooks/users/useGetUserContent'
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
 
@@ -14,8 +14,8 @@ const CourseItemView = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { user } = useGetUserContent(id)
-  const course = user?.courses.edges[0].node
+  const { courses } = useGetUserCourse(id)
+  const course = courses?.edges[0]?.node
 
   useEffect(() => {
     // If there is a course but no item provided, show the first item

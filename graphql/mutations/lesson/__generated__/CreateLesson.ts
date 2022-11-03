@@ -38,11 +38,13 @@ export interface CreateLesson_createLesson_lesson_users {
 
 export interface CreateLesson_createLesson_lesson_tags_image {
   __typename: "MediaItem";
+  id: string;
   location: string | null;
 }
 
 export interface CreateLesson_createLesson_lesson_tags {
   __typename: "Tag";
+  id: string;
   tagType: string;
   label: string;
   image: CreateLesson_createLesson_lesson_tags_image | null;
