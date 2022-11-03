@@ -32,7 +32,7 @@ jobs:
         run: node -v
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Export
         run: npm run build
@@ -73,7 +73,7 @@ jobs:
           # image: 111547225120.dkr.ecr.eu-west-2.amazonaws.com/elp/learning-platform-nginx
 
       - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ${{ secrets.AWS_ECS_SERVICE }}
