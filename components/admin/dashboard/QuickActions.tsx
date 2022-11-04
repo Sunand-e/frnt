@@ -21,11 +21,11 @@ const QuickActions = () => {
   return (
     <DashboardItem title="Quick actions">
         <div className="flex flex-col items-start px-4 py-6 space-y-4 bg-white shadow rounded-md ">
-          <QuickActionLink
+          {/* <QuickActionLink
             text={'Add a new course'} 
             href='/admin/courses/create'
             icon={GraduationCap}
-          />
+          /> */}
           <QuickActionLink
             text={'Add a new user'} 
             href='/admin/users/create'
