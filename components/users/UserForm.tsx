@@ -106,9 +106,14 @@ const UserForm = ({user=null, onSubmit}) => {
         control={control}
         roleType='tenant_role'
       />
-      { !user && (
+      { !user ? (
         <CheckboxInput
           label="Send user an invitation upon creation"
+          inputAttrs={register("invite")}
+        />
+      ) : (
+        <CheckboxInput
+          label="Send the user an invitation email"
           inputAttrs={register("invite")}
         />
       )}

@@ -19,20 +19,20 @@ export default function SecondaryNav({showSecondary, topNavItem, pageNavState}) 
               if (pageNavState?.secondary === item.name) {
 
               // if (current === item.urlPath) {
-                menuItemClasses = 'bg-main bg-opacity-20 text-main'
+                menuItemClasses = 'bg-main bg-opacity-20 font-bold'
               } else {
-                menuItemClasses = 'text-main-secondary'
+                menuItemClasses = ''
               }
               const IconComponent = item.icon
               return (
                 // <li className={current === item.title ? styles.current : ''} key={index}>
-                <li className={`${menuItemClasses}`} key={index}>
+                <li className={`text-main-secondary hover:text-main  ${menuItemClasses}`} key={index}>
                   <Link
                     href={item.urlPath}
                     className='h-10 flex items-center flex px-4 space-x-2 transition-colors duration-200 hover:bg-black hover:bg-opacity-5'>
 
                     { IconComponent && <IconComponent width="24" /> }
-                    <span className={`text-main`}>{item.title}</span>
+                    <span>{item.title}</span>
 
                   </Link>
                 </li>

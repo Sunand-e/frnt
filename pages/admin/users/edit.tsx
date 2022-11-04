@@ -12,6 +12,7 @@ import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
+import axios from 'axios';
 
 const BackButton = () => (
   <>
@@ -32,13 +33,32 @@ const AdminUsersEdit = () => {
     method: "PUT"
   })
 
-  const handleSubmit = ({profile_image, ...values}) => {
+  const handleSubmit = ({profile_image, invite, ...values}) => {
+
+    const token = localStorage.getItem('token');
 
     updateUser(values, () => updateUserTenantRoles({
       userId: id,
       roleIds: values.role_ids
     }))
 
+    if(invite) {
+      
+      axios.request({
+        method: "post", 
+        url: '/api/v1/users/send_invitation',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        data: { emails: [values.email] }
+      }).then (response => {      
+        // Roles are already applied in the REST API call, no need to trigger mutation 
+        // updateUserTenantRoles({
+        //   userId: data.data.id,
+        //   roleIds: values.roles
+        // })
+      })
+    }
     if(profile_image) {
       const imageEndpoint = `/api/v1/users/${id}/update_profile_image`
       profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
