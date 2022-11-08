@@ -116,7 +116,7 @@ const AdminCourseSetup = () => {
           __typename: 'CreateCoursePayload',
           course: {
             __typename: 'ContentItem',
-            id: `tsmp-${Math.floor(Math.random() * 10000)}`,
+            id: `tmp-${Math.floor(Math.random() * 10000)}`,
             title: values.title,
             createdAt: '',
             updatedAt: '',
