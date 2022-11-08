@@ -16,7 +16,7 @@ const ImageSelect = ({
   buttonText,
   onClick,
   onLoad,
-  className,
+  className='',
   isButtonAlwaysVisible
 }: ImageSelectProps) => {
   const showButton = !src || isButtonAlwaysVisible;

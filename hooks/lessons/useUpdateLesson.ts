@@ -20,7 +20,7 @@ function useUpdateLesson(id = null) {
     })
 
     /*
-     * If the leeson contains a package block, get the scormId
+     * If the lesson contains a package block, get the scormId
      * and pass it to the mutation as a variable 
      */
     const scormBlock = values.content?.blocks?.find(block => block.type === 'package')

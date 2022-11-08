@@ -11,10 +11,12 @@ import {Bars3CenterLeftIcon, XMarkIcon} from "@heroicons/react/24/outline";
 export default function NavContainer({navState, sidebarComponent}) {
 
   const view = useReactiveVar(viewVar)
-  useEffect(() => {
-    console.log('viewChanged')
-    console.log(view)
-  },[view])
+  
+  // useEffect(() => {
+  //   console.log('viewChanged')
+  //   console.log(view)
+  // },[view])
+
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
 
   // If the 'topLevel' property of navState is empty, create the default navstate.

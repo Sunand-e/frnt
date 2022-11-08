@@ -48,7 +48,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
       className={'flex flex-col items-center space-y-4'}
     >
       <div className='flex space-x-6 max-w-screen-xl'>
-        <div className='w-1/2 flex flex-col space-y-4'>
+        <div className={`${!isModal && 'w-1/2'} flex flex-col space-y-4`}>
           <TextInput
             label="Course name"
             placeholder="Untitled course"
@@ -61,10 +61,12 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             <ImageSelectInput
               // placeholder={'https://picsum.photos/640/360'}
               buttonText="Choose course image"
+              className={isModal ? 'max-w-sm' : ''}
               origImage={defaultValues?.image}
               control={control}
               name="imageId"
               onSelect={isModal ? reopenFormInModal : null}
+              class
               // inputAttrs={register("image", { required: true })}
             />
           </div>
@@ -92,14 +94,16 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             inputAttrs={register("disableProgression")}
           /> */}
         </div>
-        <div className="w-1/2 flex flex-col">
-          <RTEInput
-            initialValue={course?.content?.description}
-            label="Description"
-            name="content"
-            control={control}
-          />
-        </div>
+        { !isModal && (
+          <div className="w-1/2 flex flex-col">
+            <RTEInput
+              initialValue={course?.content?.description}
+              label="Description"
+              name="content"
+              control={control}
+            />
+          </div>
+        )}
       </div>
       <Button type="submit">{submitButtonText}</Button>
       {/* <p className='text-lg font-bold mt-4'>Create your first course item:</p>

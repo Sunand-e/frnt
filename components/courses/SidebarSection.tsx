@@ -50,8 +50,6 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) => {
-    console.log('styles')
-    console.log(styles)
     const { updateSection } = useUpdateSection(id)
 
     const { complete, data } = useFragment_experimental({

@@ -14,6 +14,7 @@ type ImageSelectInputProps = {
   buttonText?: string;
   isButtonAlwaysVisible?: boolean;
   name?: string;
+  className?: string;
 }
 
 const ImageSelectInput = ({
@@ -23,6 +24,7 @@ const ImageSelectInput = ({
   name,
   origImage,
   onSelect,
+  className='',
   isButtonAlwaysVisible=true
 }: ImageSelectInputProps) => {
 
@@ -44,6 +46,7 @@ const ImageSelectInput = ({
   return (
     <>
       <ImageSelectFromLibrary
+        className={className}
         placeholder={placeholder}
         src={image?.location}
         buttonText={buttonText}

@@ -12,16 +12,16 @@ function useUserHasCapability() {
   const { loading, error, user, courses } = useGetCurrentUser()
   
   const userCapabilityArray = useMemo(() => {
-    return user ? [
-      ...getCapsFromRoleArr(user.roles),
-      
-      ...courses.edges.reduce((array, courseEdge) => {
-        return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
-      }, []),
 
-      ...user.groups.edges.reduce((array, groupEdge) => {
+    return user ? [
+      ...(user?.roles && [getCapsFromRoleArr(user.roles)]),
+      
+      ...(courses?.edges && [courses.edges.reduce((array, courseEdge) => {
+        return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
+      }, [])]),
+      ...(user.groups?.edges && [user.groups.edges.reduce((array, groupEdge) => {
         return [...array, ...getCapsFromRoleArr(groupEdge.roles)]
-      }, []),
+      }, [])]),
     ] : []
   },[user])
 

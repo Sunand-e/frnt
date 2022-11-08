@@ -1,6 +1,6 @@
 import { Control, useController } from "react-hook-form";
-// import { RichTextEditor } from '@mantine/rte';
-import { useState } from "react";
+import { Editor } from '@mantine/rte';
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(
@@ -24,6 +24,16 @@ const RTEInput = ({
   initialValue=null,
 }: RTEInputProps) => {
 
+  
+  const editorRef = useRef<Editor>();
+  
+  useEffect(() => {
+    console.log('editorRef')
+    console.log(editorRef)
+    // editorRef.current.focus();
+  }, []);
+  
+
   const [value, setValue] = useState(initialValue)
 
   const { field } = useController({
@@ -43,7 +53,10 @@ const RTEInput = ({
           {label}
         </span>
       </label>
-      <RichTextEditor value={value} onChange={handleChange} className="flex-grow" />
+      <RichTextEditor ref={editorRef} id="rte" value={value} 
+      
+      controls={[[]]}
+      onChange={handleChange} className="flex-grow" />
     </>
   )
 }

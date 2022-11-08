@@ -61,12 +61,16 @@ export const UserContentConnectionFragment = gql`
         id
         name
         roleType
+        capabilities {
+          id
+          name
+        }
       }
       groups {
         edges {
           node {
             id
-            name
+            name      
           }
         }
       }
@@ -185,7 +189,11 @@ export const UserGroupsFragment = gql`
         roles {
           id
           name
-          roleType
+          roleType          
+          capabilities {
+            id
+            name
+          }      
         }
       }
     }
