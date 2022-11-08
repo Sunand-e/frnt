@@ -53,9 +53,7 @@ const RTEInput = ({
           {label}
         </span>
       </label>
-      <RichTextEditor ref={editorRef} id="rte" value={value} 
-      
-      controls={[[]]}
+      <RichTextEditor ref={editorRef} id="rte" value={value}
       onChange={handleChange} className="flex-grow" />
     </>
   )
