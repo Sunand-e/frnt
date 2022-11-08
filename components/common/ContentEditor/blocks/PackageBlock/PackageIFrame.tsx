@@ -9,6 +9,7 @@ import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../../graphql/queries/scoAttempts';
 import { useRouter } from '../../../../../utils/router';
 import LoadingSpinner from '../../../LoadingSpinner';
+import { markCompleteDisabledVar } from '../../../../../graphql/cache';
 
 declare global {
   interface Window {
@@ -61,10 +62,11 @@ export const PackageIFrame = React.forwardRef(({
   const saveData = useCallback((data) => {
     // alert('WHENDOESTHISFIRE?')
     // alert(attempt)
-    console.log('attempt')
-    console.log(attempt)
-    console.log('attempt%data')
+    console.log('data')
     console.log(data)
+    if(['completed', 'passed'].includes(data?.cmi.core.lesson_status)) {
+      markCompleteDisabledVar(false)
+    }
     upsertScoAttempt({
       variables: {
         attempt,

@@ -28,6 +28,7 @@ import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
 
 import '../styles/globals.scss'
+import '../styles/TipTap.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/toastify-overrides.css';
 
@@ -96,14 +97,12 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
   useEffect(() => {
     const checkIfAdminPage = () => {
-      console.log('router.pathname')
       viewVar({
         ...viewVar(),
         isAdmin: router.pathname.startsWith('/admin'),
       })
     }
     checkIfAdminPage()
-    // alert('s')
     router.events.on('routeChangeComplete', checkIfAdminPage); // add listener
     
     return () => {

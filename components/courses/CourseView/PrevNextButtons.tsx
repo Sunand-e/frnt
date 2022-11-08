@@ -10,6 +10,7 @@ import Button from "../../common/Button";
 import { useReactiveVar } from "@apollo/client";
 import { currentContentItemVar } from "../../../graphql/cache";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
+import useMarkComplete from "../../../hooks/courses/useMarkComplete";
 
 const PrevNextButtons = () => {
 
@@ -22,8 +23,7 @@ const PrevNextButtons = () => {
     edge.node.id === id
   ))
   
-  const { updateUserContentStatus } = useUpdateUserContentStatus()
-
+const { markComplete, disabled } = useMarkComplete(id, courseId)
 
   const [prevNextIds, setPrevNextIds] = useState([]);
 
@@ -50,16 +50,10 @@ const PrevNextButtons = () => {
     })
   }
 
-  const markComplete = useCallback(() => {
-    updateUserContentStatus({
-      contentItemId: id,
-      score: 100,
-      status: 'completed'
-    }, courseId)
+  const handleMarkComplete = useCallback(() => {
+    markComplete()
     !!prevNextIds[1] && goToLesson(prevNextIds[1])
-  }, [prevNextIds, courseId])
-  
-  
+  }, [markComplete, prevNextIds])
 
   return (
     // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
@@ -81,7 +75,7 @@ const PrevNextButtons = () => {
       </Button>
     )}
     { (lessonEdge?.status !== 'completed') && (
-      <Button onClick={markComplete}>
+      <Button disabled={disabled} onClick={handleMarkComplete}>
         <span className='flex items-center space-x-2'>
           <span>Mark Complete</span>
           <Tick className='h-8'/>

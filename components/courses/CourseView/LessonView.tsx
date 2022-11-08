@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { Block } from "../../common/ContentEditor/Block";
 import { useRouter } from "../../../utils/router";
 import usePageTitle from "../../../hooks/usePageTitle";
-
 import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
 import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
-import { currentContentItemVar } from "../../../graphql/cache";
+import { currentContentItemVar, markCompleteDisabledVar } from "../../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import useBlockEditor from "../../common/ContentEditor/useBlockEditor";
@@ -31,9 +30,12 @@ const LessonView = () => {
   })
 
   useEffect(() => {
-    console.log('id, lesson')
-    console.log(id, lesson)
     if(lesson) {
+
+      // Enable mark completion button
+      const scormBlock = lesson?.node.content?.blocks?.find(block => block.type === 'package')
+      markCompleteDisabledVar(!!scormBlock?.properties?.moduleId)      
+
       setBlocks(lesson.node.content.blocks)
       const currentStatus = lesson.status
       if(currentStatus !== 'completed') {

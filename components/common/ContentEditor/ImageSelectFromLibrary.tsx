@@ -9,6 +9,7 @@ type ImageSelectFromLibraryProps = {
   buttonText?: string;
   onSelect?: (image) => void;
   isButtonAlwaysVisible?: boolean;
+  className?: string;
 }
 
 const ImageSelectFromLibrary = ({
@@ -16,6 +17,7 @@ const ImageSelectFromLibrary = ({
   src,
   buttonText,
   isButtonAlwaysVisible,
+  className = '',
   onSelect
 }: ImageSelectFromLibraryProps) => {
 
@@ -36,6 +38,7 @@ const ImageSelectFromLibrary = ({
       buttonText={buttonText}
       isButtonAlwaysVisible={isButtonAlwaysVisible}
       onClick={handleClick}
+      className={className}
     />
   )
 }
