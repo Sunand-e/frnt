@@ -12,6 +12,9 @@ import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
 import { GET_COURSES } from '../../../graphql/queries/allQueries'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import CourseForm from '../../../components/courses/CourseForm'
+import { GET_CURRENT_USER } from '../../../graphql/queries/users'
+import { GetCurrentUser } from '../../../graphql/queries/__generated__/GetCurrentUser'
+import dayjs from 'dayjs'
 
 const AdminCourseSetup = () => {
   /*
@@ -38,22 +41,45 @@ const AdminCourseSetup = () => {
       // the update function updates the list of courses returned from the cached query.
       // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createCourse } } ) {
-
-        const cachedData = cache.readQuery<GetCourses>({
-          query: GET_COURSES
+        alert('putting it in')
+        const cachedData = cache.readQuery<GetCurrentUser>({
+          query: GET_CURRENT_USER
         })
+        console.log('cachedData')
+        console.log(cachedData)
 
         cache.writeQuery({
-          query: GET_COURSES,
+          query: GET_CURRENT_USER,
           data: {
             ...cachedData,
             courses: {
               ...cachedData?.courses,
-              edges: [{node: createCourse.course}, ...(cachedData?.courses.edges || [])]
+              edges: [
+                {
+                  userId: cachedData.user.id,
+                  groups: {
+                    edges: []
+                  },
+                  roles: [],
+                  node: createCourse.course,
+                  completed: null,
+                  visits: 0,
+                  score: 0,
+                  updatedAt: dayjs().toISOString,
+                  createdAt: dayjs().toISOString,
+                  lastVisited: null,
+                  firstVisited: null,
+                  status: 'not_started'
+
+                },
+                ...(cachedData?.courses.edges || [])
+              ]
             }
           }
         })
 
+
+        
         if(createCourse.course.id.indexOf('tmp-') !== 0) {          
           closeModal()
           router.push({
@@ -90,7 +116,7 @@ const AdminCourseSetup = () => {
           __typename: 'CreateCoursePayload',
           course: {
             __typename: 'ContentItem',
-            id: `tmp-${Math.floor(Math.random() * 10000)}`,
+            id: `tsmp-${Math.floor(Math.random() * 10000)}`,
             title: values.title,
             createdAt: '',
             updatedAt: '',
