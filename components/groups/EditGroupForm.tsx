@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
 import { useCallback, useEffect, useState } from 'react';
 import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
+import AssignedResourcesInput from './inputs/AssignedResourcesInput';
 
 interface UpdateGroupFormValues {
   name: string 
@@ -70,6 +71,7 @@ const GroupForm = ({group}) => {
       <GroupUsersInput control={control} />
       {/* <AssignedCoursesInput control={control} /> */}
       <EnrolledCoursesInput control={control} />
+      <AssignedResourcesInput control={control} />
 
       <Button type="submit">{buttonText}</Button>
     </form>

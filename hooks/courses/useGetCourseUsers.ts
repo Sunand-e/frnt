@@ -15,18 +15,12 @@ function useGetCourseUsers(id) {
     }
   );
 
-  const users = data?.course?.users.edges.map(userEdge => {
-    const { node, ...courseData } = userEdge;
-    return {
-      ...node,
-      ...courseData
-    }
-  })
+  const users = data?.course?.users
   const course = data?.course
   
   return {
     course,
-    users,
+    userConnection: users,
     loading,
     error
   }

@@ -1,11 +1,8 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import Table from '../../common/Table'
 import ButtonLink from '../../common/ButtonLink';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-import TagSelect from '../../tags/inputs/TagSelect';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
+import ReportTable from '../ReportTable';
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -43,38 +40,26 @@ const CoursesReportTable = () => {
 
   const { loading, error, data: { courses: courses} = {} } = useQuery(COURSES_REPORT_QUERY)
 
-  const [ categoryId, setCategoryId ] = useState(null)
-
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      let data = courses?.edges?.map(({node}) => node)?.filter(item => {
-        return !item._deleted
-      })
-      if(categoryId) {
-        data = data?.filter(item => {
-          return item.tags.some(tag => tag.id === categoryId)
-        })
-      }
-      return data || []
-    }, [courses, categoryId]
-  );
+  const tableData = courses?.edges
 
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course Name",
-        accessor: "title", // accessor is the "key" in the data
+        id: "title",
+        Header: "Course name",
+        accessor: "node.title", // accessor is the "key" in the data
+        Csv: ({ cell }) => 321,
         Cell: ({ cell }) => {
           const cellProps = {
-            image: cell.row.original.image,
+            image: cell.row.original.node.image,
             title: cell.value,
-            secondary: cell.row.original.tags?.map(tag => tag.label).join(', '),
-            // secondary: cell.row.original.title,
-            href: cell.row.original.id && {
+            secondary: cell.row.original.node.tags?.map(tag => tag.label).join(', '),
+            // secondary: cell.row.original.node.title,
+            href: cell.row.original.node.id && {
               query: {
-                course: cell.row.original.id
+                course: cell.row.original.node.id
               }
             }
           }
@@ -84,91 +69,72 @@ const CoursesReportTable = () => {
         }
       },
       {
+        id: 'enrolled',
         Header: "Enrolled users",
-        accessor: "users.totalCount",
-        Cell: ({ cell }) => {
-          let userCount = cell.row.original.users?.totalCount
-          return (
-            <span>{userCount}</span>
-          )
-        }
+        accessor: "node.users.totalCount",
+        Csv: ({ cell }) => 321,
+        Cell: ({ cell }) => cell.row.original.node.users?.totalCount
       },
       {
+        id: 'not_started',
         Header: "Not started",
-        Cell: ({ cell }) => {
-          const count = cell.row.original.users.edges.filter(contentUserEdge => (
-            contentUserEdge.status === "completed"
-          )).length
-          return (
-            <span>{count}</span>
-          )
-        }
+        accessor: (row) => row.node.users.edges.filter(contentUserEdge => (
+          !contentUserEdge?.status || contentUserEdge.status === "not_started"
+        )).length
       },
       {
+        id: 'in_progress',
         Header: "In progress",
-        Cell: ({ cell }) => {
-          const count = cell.row.original.users.edges.filter(contentUserEdge => (
-            contentUserEdge.status === "completed"
-          )).length
-          return (
-            <span>{count}</span>
-          )
-        }
+        accessor: (row) => row.node.users.edges.filter(contentUserEdge => (
+          contentUserEdge.status === "in_progress"
+        )).length
       },
       {
+        id: "completed",
         Header: "Completed",
-        Cell: ({ cell }) => {
-          const count = cell.row.original.users.edges.filter(contentUserEdge => (
-            contentUserEdge.status === "completed"
-          )).length
-          return (
-            <span>{count}</span>
-          )
-        }
+        accessor: row => row.node.users.edges.filter(contentUserEdge => (
+          contentUserEdge.status === "completed"
+        )).length
       },
+      // {
+      //   id: "avg_test_score",
+      //   Header: "Avg. Test Score",
+      // },
       {
-        Header: "Avg. Test Score",
-        Cell: ({ cell }) => {
-          return (
-            <span>-</span>
-          )
-        }
-      },
-      {
+        id: "percentage_complete",
         Header: "% Complete",
-        Cell: ({ cell }) => {
-          const totalCount = cell.row.original.users.edges.length
-          const completedCount = cell.row.original.users.edges.filter(contentUserEdge => (
+        accessor: row => {
+          const totalCount = row.node.users.edges.length
+          const completedCount = row.node.users.edges.filter(contentUserEdge => (
             contentUserEdge.status === "completed"
           )).length
           const ratio = totalCount ? completedCount/totalCount : 0
-          const percentage = `${Math.round(ratio*100)}%`
-
-          return (
-            <span>{percentage}</span>
-          )
-        }
+          
+          return Math.round(ratio*100) + '%'
+        },
       },
       // {
       //   Header: "Categories",
       //   accessor: "tags",
       //   Cell: ({ cell }) => {
-      //     const tagString = cell.row.original.tags?.map(tag => tag.label).join(', ')
+        //     const tagString = cell.row.original.node.tags?.map(tag => tag.label).join(', ')
       //     return (
       //       <span>{tagString}</span>
       //     )
       //   }
       // },
       {
+        id: "actions",
+        Header: '',
+        hideOnCsv: true,
         width: 300,
         style: {
           width:"300px"
         },
-        Header: "Actions",
         Cell: ({ cell }) => {
-          const href = cell.row.original.id && {
+          const href = cell.row.original.node.id && {
             query: {
-              course: cell.row.original.id
+              course: cell.row.original.node.id
             }
           }
 
@@ -183,38 +149,18 @@ const CoursesReportTable = () => {
     []
   );
 
-  const clearFilters = () => {
-    setCategoryId(null)
-  }
-
-  const tableProps = {
-    tableData,
-    tableCols,
-    selectable: true
-  }
-
   return (
-    <>
-    <div className='flex items-center flex-col mb-2 sm:flex-row'>
-      <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-      <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
-    </div>
-
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading courses
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch course report.</p>
-      )}
-      { (!loading && !error) && (
-        <Table {...tableProps} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="content"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading courses"
+      errorText="Unable to fetch course report."
+      loading={loading}
+      error={error}
+      groupFilter={true}
+      categoryFilter={true}
+    />
   );
 }
 

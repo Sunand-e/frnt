@@ -83,7 +83,7 @@ const AdminUsersEdit = () => {
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
             <UserGroups />
             <UserCourses />
-            {/* <UserResources /> */}
+            <UserResources />
           </div>
         </div>
       ) : (
