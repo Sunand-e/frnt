@@ -48,7 +48,7 @@ const GroupForm = ({group}) => {
   const vals = watch()
   return (
     <form
-      className='h-full w-full max-w-md flex flex-col space-y-4'
+      className='h-full w-full max-w-3xl flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
     >
       <TextInput

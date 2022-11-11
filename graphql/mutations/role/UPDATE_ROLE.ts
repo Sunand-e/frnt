@@ -5,14 +5,14 @@ import { RoleFragment } from '../../queries/roles';
 export const UPDATE_ROLE = gql`
   mutation UpdateRole(
     $id: ID!
-    $name: String,
+    # $name: String,
     $roleType: String,
     $capabilityIds: [ID!]
   ) {
     updateRole(
       input: {
         id: $id,
-        name: $name,
+        # name: $name,
         roleType: $roleType,
         capabilityIds: $capabilityIds
       }
