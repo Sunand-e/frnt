@@ -138,6 +138,21 @@ export const CurrentUserResourcesFragment = gql`
   ${UserContentConnectionFragment}
 `
 
+export const UserResourcesFragment = gql`
+  fragment UserResourcesFragment on User {
+    resources {
+      ...UserContentConnectionFragment
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
+    }
+  }
+  ${ContentFragment}
+  ${UserContentConnectionFragment}
+`
+
 export const UserCapabilitiesFragment = gql`
   fragment UserCapabilitiesFragment on User {
     roles {
@@ -205,11 +220,13 @@ export const GET_USER = gql`
     user(id: $id) {
       ...UserFragment
       ...UserCoursesFragment
+      ...UserResourcesFragment
       ...UserGroupsFragment
     }
   }
   ${UserFragment}
   ${UserCoursesFragment}
+  ${UserResourcesFragment}
   ${UserGroupsFragment}
 `
 
@@ -319,6 +336,13 @@ export const GET_USERS_COURSES = gql`
           ...UserFragment
           courses {
             ...UserContentConnectionFragment
+          }
+          groups {
+            edges {
+              node {
+                id
+              }
+            }
           }
         }
       }

@@ -1,17 +1,10 @@
 import { gql, useQuery } from '@apollo/client';
-import React, { useContext, useMemo } from 'react';
-import Table from '../../common/Table'
-import ButtonLink from '../../common/ButtonLink';
-import { ModalContext } from '../../../context/modalContext';
+import { useMemo } from 'react';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-import useGetCourseUsers from '../../../hooks/courses/useGetCourseUsers';
 import { useRouter } from '../../../utils/router';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
 import { lessonTypes } from '../../courses/lessonTypes';
-import dayjs from 'dayjs';
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import { commonTableCols } from '../../../utils/commonTableCols';
+import ReportTable from '../ReportTable';
 
 const UserLessonsReportTable = () => {
 
@@ -59,7 +52,9 @@ const UserLessonsReportTable = () => {
   const tableCols = useMemo(
     () => [
       {
+        id: "title",
         Header: "Lesson",
+        accessor: "node.title",
         Cell: ({ cell }) => {  
           const IconComponent = lessonTypes[cell.row.original.node?.contentType]?.icon || null
           const cellProps = {
@@ -72,34 +67,22 @@ const UserLessonsReportTable = () => {
         }
       },
       {
-        Header: "First access",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
-        }
-      },
-
-      {
-        Header: "Last visited",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
-        }
-      },
-      {
+        id: "status",
         Header: "Course status",
         accessor: "status",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
-
       {
+        id: "score",
         Header: "Score",
         accessor: "score",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
+      },
+      {
+        ...commonTableCols.createdAt,
+        Header: "First access",
+      },
+      {
+        ...commonTableCols.updatedAt,
+        Header: "Last visited",
       },
 
       // "visits": null,
@@ -115,8 +98,9 @@ const UserLessonsReportTable = () => {
       // },
       {
         id: "actions",
-        width: 300,
         Header: '',
+        hideOnCsv: true,
+        width: 300,
         Cell: ({ cell }) => {
           const lessonId = cell.row.original.node?.id
           const href = {
@@ -139,22 +123,15 @@ const UserLessonsReportTable = () => {
   );
 
   return (
-    <>
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading lessons
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch user's lessons.</p>
-      )}
-      { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="content"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading lessons"
+      errorText="Unable to fetch user's lessons."
+      loading={loading}
+      error={error}
+    />
   );
 }
 

@@ -1,13 +1,13 @@
 import { useContext, useState } from "react"
-import { ModalContext } from "../../context/modalContext"
-import useEnrolUsersInContent from "../../hooks/contentItems/useEnrolUsersInContent"
-import useGetCourses from "../../hooks/courses/useGetCourses"
-import useGetRoles from "../../hooks/roles/useGetRoles"
-import useGetUserCourses from "../../hooks/users/useGetUserCourses"
-import Button from "../common/Button"
-import CourseMultiLevelSelect from "../courses/inputs/CourseMultiLevelSelect"
-import CourseSelectCategorised from "../courses/inputs/CourseSelectCategorised"
-import LoadingSpinner from "../common/LoadingSpinner"
+import { ModalContext } from "../../../context/modalContext"
+import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
+import useGetCourses from "../../../hooks/courses/useGetCourses"
+import useGetRoles from "../../../hooks/roles/useGetRoles"
+import useGetUserCourses from "../../../hooks/users/useGetUserCourses"
+import Button from "../../common/Button"
+import CourseMultiLevelSelect from "../../courses/inputs/CourseMultiLevelSelect"
+import CourseSelectCategorised from "../../courses/inputs/CourseSelectCategorised"
+import LoadingSpinner from "../../common/LoadingSpinner"
 
 const EnrolUserInCourses = ({user}) => {
 

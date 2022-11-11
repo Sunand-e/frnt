@@ -8,6 +8,8 @@ import LoadingSpinner from '../../common/LoadingSpinner';
 import { Dot } from '../../common/misc/Dot';
 import dayjs from 'dayjs';
 import { User } from 'styled-icons/fa-solid';
+import ReportTable from '../ReportTable';
+import { commonTableCols } from '../../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -17,32 +19,32 @@ const CourseUsersReportTable = () => {
 
   const { course: id } = router.query
 
-  const { loading, error, users, course } = useGetCourseUsers(id)
+  const { loading, error, userConnection, course } = useGetCourseUsers(id)
 
   const noDataDash = <span>&mdash;</span>
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => users || [], [users]);
+  const tableData = useMemo(() => userConnection?.edges || [], [userConnection]);
 
   const editUrl = '/admin/users/edit'
-  console.log('tableData')
-  console.log(tableData)
 
   const tableCols = useMemo(
     () => [
       {
+        id: "name",
         Header: "Name",
+        accessor: 'node.fullName',
         Cell: ({ cell }) => {
           const cellProps = {
-            imageSrc: cell.row.original.profileImageUrl,
+            imageSrc: cell.row.original.node.profileImageUrl,
             icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-            title: cell.row.original.fullName,
-            secondary: cell.row.original.email,
-            href: cell.row.original.id && {
+            title: cell.row.original.node.fullName,
+            secondary: cell.row.original.node.email,
+            href: cell.row.original.node.id && {
               query: {
                 course: id,
-                user: cell.row.original.id
+                user: cell.row.original.node.id
               }
               }
           }
@@ -55,39 +57,28 @@ const CourseUsersReportTable = () => {
       //   Header: "JSON",
       //   Cell: ({ cell }) => (
       //     <pre className='text-left'>
-      //       {JSON.stringify(cell.row.original,null,2)}
+      //       {JSON.stringify(cell.row.original.node,null,2)}
       //     </pre>
       //   ),
       //   className: 'text-left'
       // },
       {
+        id: "status",
         Header: "Course status",
         accessor: "status",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        id: "score",
         Header: "Score",
         accessor: "score",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        ...commonTableCols.createdAt,
         Header: "First access",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-        }
       },
-
       {
+        ...commonTableCols.updatedAt,
         Header: "Last visited",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-        }
       },
       // {
       //   id: "completedAt",
@@ -104,17 +95,18 @@ const CourseUsersReportTable = () => {
       //   Header: "Roles",
       //   accessor: "roles[0].name", // accessor is the "key" in the data
       //   Cell: ({ cell }) => {
-      //     return cell.row.original.roles.map(role => {
+      //     return cell.row.original.node.roles.map(role => {
       //       return role.name
       //     }).join(', ')
       //   }
       // },
       {
         id: "actions",
-        width: 300,
         Header: '',
+        hideOnCsv: true,
+        width: 300,
         Cell: ({ cell }) => {
-          const userId = cell.row.original.id
+          const userId = cell.row.original.node.id
           const href = {
             query: {
               course: id,
@@ -134,22 +126,16 @@ const CourseUsersReportTable = () => {
   );
 
   return (
-    <>
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading course users
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch course users.</p>
-      )}
-      { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="contentUser"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading course users"
+      errorText="Unable to fetch course users."
+      loading={loading}
+      error={error}
+      // groupFilter={true}
+    />
   );
 }
 

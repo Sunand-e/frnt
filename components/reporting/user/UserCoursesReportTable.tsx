@@ -1,15 +1,10 @@
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import useGetUser from "../../../hooks/users/useGetUser"
 import { useRouter } from "../../../utils/router"
 import ButtonLink from "../../common/ButtonLink"
 import ItemWithImage from "../../common/cells/ItemWithImage"
-import Table from "../../common/Table"
-
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
-import dayjs from 'dayjs';
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import { commonTableCols } from "../../../utils/commonTableCols"
+import ReportTable from "../ReportTable"
 
 const UserCoursesReportTable = () => {
 
@@ -20,9 +15,6 @@ const UserCoursesReportTable = () => {
   
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  
-  const noDataDash = <span>&mdash;</span>
-
   const tableData = useMemo(
     () => {
       return user?.courses?.edges.filter(edge => !edge.node._deleted) || []
@@ -33,6 +25,7 @@ const UserCoursesReportTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
+        id: 'title',
         Header: "Course",
         accessor: "node.title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
@@ -53,49 +46,41 @@ const UserCoursesReportTable = () => {
           )
         }
       },
+      // {
+      //   id: 'role',
+      //   Header: "Role",
+      //   Cell: ({ cell }) => {
+      //     const content = cell.row.original.node.roles;
+      //     return (
+      //       <pre>
+      //       { JSON.stringify(content,null,2) }
+      //       </pre>
+      //     )
+      //   }
+      // },
       {
-        Header: "Role",
-        Cell: ({ cell }) => {
-          const content = cell.row.original.node.roles;
-          return (
-            <pre>
-            { JSON.stringify(content,null,2) }
-            </pre>
-          )
-        }
-      },
-      {
+        id: "status",
         Header: "Course status",
         accessor: "status",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        id: "score",
         Header: "Score",
         accessor: "score",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        ...commonTableCols.createdAt,
         Header: "First access",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-        }
       },
-
       {
+        ...commonTableCols.updatedAt,
         Header: "Last visited",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
-          return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-        }
       },
       {
+        id: "actions",
+        Header: '',
+        hideOnCsv: true,
         width: 300,
-        Header: "Actions",
         // className: 'text-center',
         Cell: ({ cell }) => {
           const course = cell.row.original.node;
@@ -116,22 +101,16 @@ const UserCoursesReportTable = () => {
   }, []);
 
   return (
-    <>
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading user's courses
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch user's courses.</p>
-      )}
-      { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="content"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading user's courses"
+      errorText="Unable to fetch user's courses."
+      loading={loading}
+      error={error}
+      // groupFilter={true}
+    />
   );
 }
 

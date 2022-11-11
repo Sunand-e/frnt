@@ -1,14 +1,11 @@
-import React, { useContext, useMemo, useState } from 'react';
-import Table from '../../common/Table'
-import ButtonLink from '../../common/ButtonLink';
+import { useMemo } from 'react';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-import { ModalContext } from '../../../context/modalContext';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from '../../../utils/router';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
 import { User } from 'styled-icons/fa-solid';
 import dayjs from 'dayjs';
+import { commonTableCols } from '../../../utils/commonTableCols';
+import ReportTable from '../ReportTable';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -57,6 +54,7 @@ const LessonUsersReportTable = () => {
   const tableCols = useMemo(
     () => [
       {
+        id: 'name',
         Header: "Name",
         Cell: ({ cell }) => {
           const user = cell.row.original.node
@@ -65,55 +63,29 @@ const LessonUsersReportTable = () => {
             secondary: user.email,
             imageSrc: cell.row.original.profileImageUrl,
             icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-            // href: {
-            //   query: {
-            //     lesson: lessonId,
-            //     ...(user.id && { user: user.id } )
-            //   }
-            // }
           }
           return (
             <ItemWithImage { ...cellProps } />
           )
         }
       },
-      // {
-      //   Header: "JSON",
-      //   Cell: ({ cell }) => (
-      //     <pre className='text-left'>
-      //       {JSON.stringify(cell.row.original,null,2)}
-      //     </pre>
-      //   ),
-      //   className: 'text-left'
-      // },
       {
-        Header: "lesson status",
+        id: "status",
+        Header: "Lesson status",
         accessor: "status",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        id: "score",
         Header: "Score",
         accessor: "score",
-        Cell: ({ cell }) => {
-          return cell.value
-        }
       },
       {
+        ...commonTableCols.createdAt,
         Header: "First access",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
-        }
       },
-
       {
+        ...commonTableCols.updatedAt,
         Header: "Last visited",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
-        }
       },
 
       // "visits": null,
@@ -129,8 +101,9 @@ const LessonUsersReportTable = () => {
       // },
       {
         id: "actions",
-        width: 300,
         Header: '',
+        hideOnCsv: true,
+        width: 300,
         Cell: ({ cell }) => {
           const userId = cell.row.original.node.id
           const href = {
@@ -153,22 +126,16 @@ const LessonUsersReportTable = () => {
   );
 
   return (
-    <>
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading users
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch users for this lesson.</p>
-      )}
-      { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="contentUser"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading users"
+      errorText="Unable to fetch users for this lesson."
+      loading={loading}
+      error={error}
+      // groupFilter={true}
+    />
   );
 }
 

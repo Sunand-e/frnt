@@ -3,7 +3,7 @@ import UserCoursesTable from "./UserCoursesTable";
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import { useContext } from "react";
 import { ModalContext } from "../../../context/modalContext";
-import EnrolUserInCourses from "../EnrolUserInCourses";
+import EnrolUserInCourses from "./EnrolUserInCourses";
 import { useRouter } from "../../../utils/router";
 import useGetUser from "../../../hooks/users/useGetUser";
 

@@ -1,39 +1,33 @@
 import { useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import Table from '../../common/Table'
-import { GET_USERS, GET_USERS_COURSES } from '../../../graphql/queries/users';
+import { GET_USERS_COURSES } from '../../../graphql/queries/users';
 import { GetUsers } from '../../../graphql/queries/__generated__/GetUsers';
 import ButtonLink from '../../common/ButtonLink';
-import Button from '../../common/Button';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-import dayjs from 'dayjs';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
 import {User} from '@styled-icons/fa-solid/User'
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import ReportTable from '../ReportTable';
 
 const UsersReportTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS_COURSES);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
-
-  const editUrl = '/admin/users/edit'
+  const tableData = useMemo(() => queryData?.users?.edges || [], [queryData]);
 
   const tableCols = useMemo(() => [
     {
+      id: 'name',
       Header: "Name",
+      accessor: 'node.fullName',
       Cell: ({ cell }) => {
         const cellProps = {
-          imageSrc: cell.row.original.profileImageUrl,
+          imageSrc: cell.row.original.node.profileImageUrl,
           icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-          title: cell.row.original.fullName,
-          secondary: cell.row.original.email,
-          href: cell.row.original.id && {
+          title: cell.row.original.node.fullName,
+          secondary: cell.row.original.node.email,
+          href: cell.row.original.node.id && {
             query: {
-              user: cell.row.original.id
+              user: cell.row.original.node.id
             }
           }
         }
@@ -46,45 +40,47 @@ const UsersReportTable = () => {
     //   Header: "JSON",
     //   Cell: ({ cell }) => (
     //     <pre className='text-left'>
-    //       {JSON.stringify(cell.row.original,null,2)}
+    //       {JSON.stringify(cell.row.original.node,null,2)}
     //     </pre>
     //   ),
     //   className: 'text-left'
     // },
     {
-      Header: "Courses Enrolled",
+      id: "enrolled",
       accessor: "courses.totalCount",
-    },
-    
-    {
-      id: "not_started",
-      Header: "Not Started",
-      Cell: ({ cell }) => {
-        return <span>&mdash;</span>
-      }
+      Header: "Courses Enrolled",
     },
     {
-      id: "in_progress",
-      Header: "In Progress",
-      Cell: ({ cell }) => {
-        return <span>&mdash;</span>
-      }
+      id: 'not_started',
+      Header: "Not started",
+      accessor: (row) => row.node.courses.edges.filter(userContentEdge => (
+        !userContentEdge?.status || userContentEdge.status === "not_started"
+      )).length
+    },
+    {
+      id: 'in_progress',
+      Header: "In progress",
+      accessor: (row) => row.node.courses.edges.filter(userContentEdge => (
+        userContentEdge.status === "in_progress"
+      )).length
     },
     {
       id: "completed",
       Header: "Completed",
-      Cell: ({ cell }) => {
-        return <span>&mdash;</span>
-      }
+      accessor: row => row.node.courses.edges.filter(userContentEdge => (
+        userContentEdge.status === "completed"
+      )).length
     },
     {
+      id: "actions",
+      Header: '',
+      hideOnCsv: true,
       width: 300,
-      Header: "Actions",
       // className: 'text-center',
       Cell: ({ cell }) => {
-        const href = cell.row.original.id && {
+        const href = cell.row.original.node.id && {
           query: {
-            user: cell.row.original.id
+            user: cell.row.original.node.id
           }
         }
         return (          
@@ -97,22 +93,16 @@ const UsersReportTable = () => {
   ], []);
 
   return (
-    <>
-      { loading && <LoadingSpinner text={(
-        <>
-          Loading users
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      { error && (
-        <p>Unable to fetch users.</p>
-      )}
-      { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
-      )}
-    </>
+    <ReportTable
+      reportItemType="user"
+      tableData={tableData}
+      tableCols={tableCols}
+      loadingText="Loading users"
+      errorText="Unable to fetch users."
+      loading={loading}
+      error={error}
+      groupFilter={true}
+    />
   );
 }
 
