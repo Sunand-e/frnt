@@ -10,48 +10,47 @@ const Reporting = () => {
 
   const router = useRouter()
 
-  const { user, group, course, lesson, category, view } = router.query
+  const { 
+    user: userId, 
+    group: groupId, 
+    course: courseId, 
+    lesson: lessonId, 
+    category: categoryId, 
+    view } = router.query
 
   let title = "Course reports";
   let TableComponent = CoursesReportTable;
   let tableProps = {};
   
   if(view === 'users') {
-    title = "User reports";
     TableComponent = UsersReportTable;
   }
   
-  if(user) {
-    if(lesson) {
+  if(userId) {
+    if(lessonId) {
       title = "Lesson report";
-      TableComponent = () => <p>User's lesson statistics for lesson with id: {lesson}</p>
-      tableProps = {userId: user, courseId:course};
-      // tableProps = {id:lesson};
-    } else if(course) {
-      title = "User's lessons";
+      TableComponent = () => <p>User's lesson statistics for lesson with id: {lessonId}</p>
+      tableProps = {userId, courseId};
+    } else if(courseId) {
       TableComponent = UserLessonsReportTable
-      tableProps = {userId: user, courseId:course};
+      tableProps = {userId, courseId};
     } else {
-      title = "User's courses";
       TableComponent = UserCoursesReportTable
-      tableProps = {id: user};
+      tableProps = {id: userId};
     }
   } else {
-    if(lesson) {
-      title = "Lesson users report";
+    if(lessonId) {
       TableComponent = LessonUsersReportTable
-      tableProps = {id: lesson};
-    } else if(course) {
-      title = "Course users report";
+      tableProps = {id: lessonId};
+    } else if(courseId) {
       TableComponent = CourseUsersReportTable
-      tableProps = {id: course}
+      tableProps = {id: courseId}
     }
   }
 
 
   return (
     <>
-      <h3 className="text-main-secondary font-semibold text-center mb-1 sm:text-left">{title}</h3>
       <TableComponent {...tableProps} />
     </>
   )

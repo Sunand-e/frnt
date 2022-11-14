@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Select from "react-select";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
@@ -9,12 +9,7 @@ const GroupSelect = ({onSelect, selected}) => {
   const { groups: groupConnection } = useGetGroups()
   const groups = groupConnection?.edges.map(groupEdge => groupEdge.node)
   
-  const onChange = (group) => {
-    onSelect(group)
-  }
-  console.log('groups')
-  console.log(groups)
-  const selectProps = {
+  const selectProps = useMemo(() => ({
     options: groups,
     getOptionLabel: group => group.name,
     getOptionValue: group => group.name,
@@ -23,7 +18,7 @@ const GroupSelect = ({onSelect, selected}) => {
     placeholder: `Select group`,
     menuPortalTarget: document.body,
     isSearchable: false,
-    onChange,
+    onChange: onSelect,
     styles: {
       menuPortal: base => ({ ...base, zIndex: 9999 }),
       control: (provided, state) => ({
@@ -31,7 +26,8 @@ const GroupSelect = ({onSelect, selected}) => {
         minWidth: "240px"
       }),
     },
-  }
+  }), [groups, onSelect])
+
   return (
     <div className="flex space-x-4">
       

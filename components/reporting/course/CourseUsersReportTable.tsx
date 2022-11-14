@@ -1,57 +1,61 @@
-import React, { useMemo } from 'react';
-import Table from '../../common/Table'
-import ButtonLink from '../../common/ButtonLink';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import useGetCourseUsers from '../../../hooks/courses/useGetCourseUsers';
-import { useRouter } from '../../../utils/router';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { Dot } from '../../common/misc/Dot';
-import dayjs from 'dayjs';
-import { User } from 'styled-icons/fa-solid';
-import ReportTable from '../ReportTable';
-import { commonTableCols } from '../../../utils/commonTableCols';
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import React, { useMemo } from "react";
+import Table from "../../common/Table";
+import ButtonLink from "../../common/ButtonLink";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import useGetCourseUsers from "../../../hooks/courses/useGetCourseUsers";
+import { useRouter } from "../../../utils/router";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import { Dot } from "../../common/misc/Dot";
+import dayjs from "dayjs";
+import { User } from "styled-icons/fa-solid";
+import ReportTable from "../ReportTable";
+import { commonTableCols } from "../../../utils/commonTableCols";
+import Button from "../../common/Button";
+import Link from "next/link";
+var advancedFormat = require("dayjs/plugin/advancedFormat");
+dayjs.extend(advancedFormat);
 
 const CourseUsersReportTable = () => {
+  const router = useRouter();
 
-  const router = useRouter()
+  const { course: id } = router.query;
 
-  const { course: id } = router.query
+  const { loading, error, userConnection, course } = useGetCourseUsers(id);
 
-  const { loading, error, userConnection, course } = useGetCourseUsers(id)
-
-  const noDataDash = <span>&mdash;</span>
+  const noDataDash = <span>&mdash;</span>;
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => userConnection?.edges || [], [userConnection]);
+  const tableData = useMemo(
+    () => userConnection?.edges || [],
+    [userConnection]
+  );
 
-  const editUrl = '/admin/users/edit'
+  const editUrl = "/admin/users/edit";
 
   const tableCols = useMemo(
     () => [
       {
         id: "name",
         Header: "Name",
-        accessor: 'node.fullName',
+        accessor: "node.fullName",
         Cell: ({ cell }) => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
-            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
+            icon: (
+              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+            ),
             title: cell.row.original.node.fullName,
             secondary: cell.row.original.node.email,
             href: cell.row.original.node.id && {
               query: {
                 course: id,
-                user: cell.row.original.node.id
-              }
-              }
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+                user: cell.row.original.node.id,
+              },
+            },
+          };
+          return <ItemWithImage {...cellProps} />;
+        },
       },
       // {
       //   Header: "JSON",
@@ -102,31 +106,48 @@ const CourseUsersReportTable = () => {
       // },
       {
         id: "actions",
-        Header: '',
+        Header: "",
         hideOnCsv: true,
         width: 300,
         Cell: ({ cell }) => {
-          const userId = cell.row.original.node.id
+          const userId = cell.row.original.node.id;
           const href = {
             query: {
               course: id,
-              ...(userId && {user: userId})
-            }
-          }
+              ...(userId && { user: userId }),
+            },
+          };
 
           return (
             <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>See details</ButtonLink>
             </div>
-          )
-        }
-      }
+          );
+        },
+      },
     ],
     []
   );
 
+  const backButton = {
+    onClick: (e) => {
+      router.push('/admin/reports')
+    },
+    text: 'Back to Courses'
+  }
+
+  const titleBreadcrumbs = [
+    {
+      text: 'Courses',
+      link: '/admin/reports'
+    }, 
+    ...(course ? [{text: course?.title},{text: 'Users'}] : [])
+  ]
+
   return (
     <ReportTable
+      titleBreadcrumbs={titleBreadcrumbs}
+      csvFilename={`Course ${course.title} users report`}
       reportItemType="contentUser"
       tableData={tableData}
       tableCols={tableCols}
@@ -137,6 +158,6 @@ const CourseUsersReportTable = () => {
       // groupFilter={true}
     />
   );
-}
+};
 
-export default CourseUsersReportTable
+export default CourseUsersReportTable;

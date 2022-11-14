@@ -56,6 +56,10 @@ export const UserContentConnectionFragment = gql`
           id
           location
         }
+        image {
+          id
+          location
+        }
       }
       roles {
         id

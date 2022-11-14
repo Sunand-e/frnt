@@ -1,31 +1,27 @@
-import { useMemo } from "react"
-import useGetUser from "../../../hooks/users/useGetUser"
-import { useRouter } from "../../../utils/router"
-import ButtonLink from "../../common/ButtonLink"
-import ItemWithImage from "../../common/cells/ItemWithImage"
-import { commonTableCols } from "../../../utils/commonTableCols"
-import ReportTable from "../ReportTable"
+import { useMemo } from "react";
+import useGetUser from "../../../hooks/users/useGetUser";
+import { useRouter } from "../../../utils/router";
+import ButtonLink from "../../common/ButtonLink";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import { commonTableCols } from "../../../utils/commonTableCols";
+import ReportTable from "../ReportTable";
 
 const UserCoursesReportTable = () => {
+  const router = useRouter();
+  const { user: userId } = router.query;
 
-  const router = useRouter()
-  const { user: userId } = router.query
+  const { loading, error, user } = useGetUser(userId);
 
-  const { loading, error, user } = useGetUser(userId)
-  
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      return user?.courses?.edges.filter(edge => !edge.node._deleted) || []
-    },
-    [user]
-  );
-  
+  const tableData = useMemo(() => {
+    return user?.courses?.edges.filter((edge) => !edge.node._deleted) || [];
+  }, [user]);
+
   const tableCols = useMemo(() => {
     return [
       {
-        id: 'title',
+        id: "title",
         Header: "Course",
         accessor: "node.title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
@@ -37,14 +33,12 @@ const UserCoursesReportTable = () => {
             href: course.id && {
               query: {
                 course: course.id,
-                user: userId
-              }
-            }
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+                user: userId,
+              },
+            },
+          };
+          return <ItemWithImage {...cellProps} />;
+        },
       },
       // {
       //   id: 'role',
@@ -78,7 +72,7 @@ const UserCoursesReportTable = () => {
       },
       {
         id: "actions",
-        Header: '',
+        Header: "",
         hideOnCsv: true,
         width: 300,
         // className: 'text-center',
@@ -86,22 +80,33 @@ const UserCoursesReportTable = () => {
           const course = cell.row.original.node;
           const href = {
             query: {
-              ...(course.id && {course: course.id}),
-              user: userId
-            }
-          }
-          return (          
+              ...(course.id && { course: course.id }),
+              user: userId,
+            },
+          };
+          return (
             <div className="space-x-4">
               <ButtonLink href={href}>See details</ButtonLink>
             </div>
-          )
-        }
-      }
-    ]
+          );
+        },
+      },
+    ];
   }, []);
 
+  const titleBreadcrumbs = [
+    {
+      text: "Users",
+      link: "/admin/reports?view=users",
+    },
+    ...(user ? [{text: user?.fullName, link: {query: {user: user?.id}}},{text: 'Courses'}] : [])
+  ];
+
+  filenameString = `User report ${user?.fullName}`
   return (
     <ReportTable
+      titleBreadcrumbs={titleBreadcrumbs}
+
       reportItemType="content"
       tableData={tableData}
       tableCols={tableCols}
@@ -112,7 +117,6 @@ const UserCoursesReportTable = () => {
       // groupFilter={true}
     />
   );
-}
+};
 
-
-export default UserCoursesReportTable
+export default UserCoursesReportTable;

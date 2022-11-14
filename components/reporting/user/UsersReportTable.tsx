@@ -1,99 +1,128 @@
-import { useQuery } from '@apollo/client';
-import React, { useMemo } from 'react';
-import { GET_USERS_COURSES } from '../../../graphql/queries/users';
-import { GetUsers } from '../../../graphql/queries/__generated__/GetUsers';
-import ButtonLink from '../../common/ButtonLink';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import {User} from '@styled-icons/fa-solid/User'
-import ReportTable from '../ReportTable';
+import { useQuery } from "@apollo/client";
+import React, { useMemo } from "react";
+import { GET_USERS_COURSES } from "../../../graphql/queries/users";
+import { GetUsers } from "../../../graphql/queries/__generated__/GetUsers";
+import ButtonLink from "../../common/ButtonLink";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import { User } from "@styled-icons/fa-solid/User";
+import ReportTable from "../ReportTable";
 
 const UsersReportTable = () => {
-
-  const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS_COURSES);
+  const {
+    loading,
+    error,
+    data: queryData,
+  } = useQuery<GetUsers>(GET_USERS_COURSES);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => queryData?.users?.edges || [], [queryData]);
 
-  const tableCols = useMemo(() => [
-    {
-      id: 'name',
-      Header: "Name",
-      accessor: 'node.fullName',
-      Cell: ({ cell }) => {
-        const cellProps = {
-          imageSrc: cell.row.original.node.profileImageUrl,
-          icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-          title: cell.row.original.node.fullName,
-          secondary: cell.row.original.node.email,
-          href: cell.row.original.node.id && {
+  const tableCols = useMemo(
+    () => [
+      {
+        id: "name",
+        Header: "Name",
+        accessor: "node.fullName",
+        Cell: ({ cell }) => {
+          const cellProps = {
+            imageSrc: cell.row.original.node.profileImageUrl,
+            icon: (
+              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+            ),
+            title: cell.row.original.node.fullName,
+            secondary: cell.row.original.node.email,
+            href: cell.row.original.node.id && {
+              query: {
+                user: cell.row.original.node.id,
+              },
+            },
+          };
+          return (
+            <ItemWithImage
+              placeholder="/images/user-generic.png"
+              {...cellProps}
+            />
+          );
+        },
+      },
+      // {
+      //   Header: "JSON",
+      //   Cell: ({ cell }) => (
+      //     <pre className='text-left'>
+      //       {JSON.stringify(cell.row.original.node,null,2)}
+      //     </pre>
+      //   ),
+      //   className: 'text-left'
+      // },
+      {
+        id: "enrolled",
+        accessor: "courses.totalCount",
+        Header: "Courses Enrolled",
+      },
+      {
+        id: "not_started",
+        Header: "Not started",
+        accessor: (row) =>
+          row.node.courses.edges.filter(
+            (userContentEdge) =>
+              !userContentEdge?.status ||
+              userContentEdge.status === "not_started"
+          ).length,
+      },
+      {
+        id: "in_progress",
+        Header: "In progress",
+        accessor: (row) =>
+          row.node.courses.edges.filter(
+            (userContentEdge) => userContentEdge.status === "in_progress"
+          ).length,
+      },
+      {
+        id: "completed",
+        Header: "Completed",
+        accessor: (row) =>
+          row.node.courses.edges.filter(
+            (userContentEdge) => userContentEdge.status === "completed"
+          ).length,
+      },
+      {
+        id: "actions",
+        Header: "",
+        hideOnCsv: true,
+        width: 300,
+        // className: 'text-center',
+        Cell: ({ cell }) => {
+          const href = cell.row.original.node.id && {
             query: {
-              user: cell.row.original.node.id
-            }
-          }
+              user: cell.row.original.node.id,
+            },
+          };
+          return (
+            <div className="space-x-4">
+              <ButtonLink href={href}>See details</ButtonLink>
+            </div>
+          );
+        },
+      },
+    ],
+    []
+  );
+
+  const titleBreadcrumbs = [
+    {
+      text: "Users",
+      link: {
+        path: "/admin/reports",
+        query: {
+          view: 'users'
         }
-        return (
-          <ItemWithImage placeholder="/images/user-generic.png" { ...cellProps } />
-        )
       }
     },
-    // {
-    //   Header: "JSON",
-    //   Cell: ({ cell }) => (
-    //     <pre className='text-left'>
-    //       {JSON.stringify(cell.row.original.node,null,2)}
-    //     </pre>
-    //   ),
-    //   className: 'text-left'
-    // },
-    {
-      id: "enrolled",
-      accessor: "courses.totalCount",
-      Header: "Courses Enrolled",
-    },
-    {
-      id: 'not_started',
-      Header: "Not started",
-      accessor: (row) => row.node.courses.edges.filter(userContentEdge => (
-        !userContentEdge?.status || userContentEdge.status === "not_started"
-      )).length
-    },
-    {
-      id: 'in_progress',
-      Header: "In progress",
-      accessor: (row) => row.node.courses.edges.filter(userContentEdge => (
-        userContentEdge.status === "in_progress"
-      )).length
-    },
-    {
-      id: "completed",
-      Header: "Completed",
-      accessor: row => row.node.courses.edges.filter(userContentEdge => (
-        userContentEdge.status === "completed"
-      )).length
-    },
-    {
-      id: "actions",
-      Header: '',
-      hideOnCsv: true,
-      width: 300,
-      // className: 'text-center',
-      Cell: ({ cell }) => {
-        const href = cell.row.original.node.id && {
-          query: {
-            user: cell.row.original.node.id
-          }
-        }
-        return (          
-          <div className="space-x-4">
-            <ButtonLink href={href}>See details</ButtonLink>
-          </div>
-        )
-      }
-    }
-  ], []);
+  ];
 
   return (
     <ReportTable
+      titleBreadcrumbs={titleBreadcrumbs}
       reportItemType="user"
       tableData={tableData}
       tableCols={tableCols}
@@ -104,6 +133,6 @@ const UsersReportTable = () => {
       groupFilter={true}
     />
   );
-}
+};
 
-export default UsersReportTable
+export default UsersReportTable;
