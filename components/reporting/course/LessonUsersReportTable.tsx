@@ -136,7 +136,6 @@ const LessonUsersReportTable = () => {
     ...(data ? [{ text: data?.lesson?.title }, { text: "Users" }] : []),
   ];
 
-  data?.lesson?.title;
   return (
     <ReportTable
       titleBreadcrumbs={titleBreadcrumbs}

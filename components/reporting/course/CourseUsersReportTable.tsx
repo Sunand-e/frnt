@@ -147,7 +147,7 @@ const CourseUsersReportTable = () => {
   return (
     <ReportTable
       titleBreadcrumbs={titleBreadcrumbs}
-      csvFilename={`Course ${course.title} users report`}
+      csvFilename={`Course ${course?.title} users report`}
       reportItemType="contentUser"
       tableData={tableData}
       tableCols={tableCols}
