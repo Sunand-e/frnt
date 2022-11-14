@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { useQuery, gql } from '@apollo/client';
-import ButtonLink from '../../common/ButtonLink';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import ReportTable from '../ReportTable';
+import React, { useMemo } from "react";
+import { useQuery, gql } from "@apollo/client";
+import ButtonLink from "../../common/ButtonLink";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import ReportTable from "../ReportTable";
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -35,14 +35,17 @@ const COURSES_REPORT_QUERY = gql`
       }
     }
   }
-`
+`;
 const CoursesReportTable = () => {
-
-  const { loading, error, data: { courses: courses} = {} } = useQuery(COURSES_REPORT_QUERY)
+  const {
+    loading,
+    error,
+    data: { courses: courses } = {},
+  } = useQuery(COURSES_REPORT_QUERY);
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = courses?.edges
+  const tableData = courses?.edges;
 
   const tableCols = useMemo(
     () => [
@@ -55,46 +58,51 @@ const CoursesReportTable = () => {
           const cellProps = {
             image: cell.row.original.node.image,
             title: cell.value,
-            secondary: cell.row.original.node.tags?.map(tag => tag.label).join(', '),
+            secondary: cell.row.original.node.tags
+              ?.map((tag) => tag.label)
+              .join(", "),
             // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
               query: {
-                course: cell.row.original.node.id
-              }
-            }
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+                course: cell.row.original.node.id,
+              },
+            },
+          };
+          return <ItemWithImage {...cellProps} />;
+        },
       },
       {
-        id: 'enrolled',
+        id: "enrolled",
         Header: "Enrolled users",
         accessor: "node.users.totalCount",
         Csv: ({ cell }) => 321,
-        Cell: ({ cell }) => cell.row.original.node.users?.totalCount
+        Cell: ({ cell }) => cell.row.original.node.users?.totalCount,
       },
       {
-        id: 'not_started',
+        id: "not_started",
         Header: "Not started",
-        accessor: (row) => row.node.users.edges.filter(contentUserEdge => (
-          !contentUserEdge?.status || contentUserEdge.status === "not_started"
-        )).length
+        accessor: (row) =>
+          row.node.users.edges.filter(
+            (contentUserEdge) =>
+              !contentUserEdge?.status ||
+              contentUserEdge.status === "not_started"
+          ).length,
       },
       {
-        id: 'in_progress',
+        id: "in_progress",
         Header: "In progress",
-        accessor: (row) => row.node.users.edges.filter(contentUserEdge => (
-          contentUserEdge.status === "in_progress"
-        )).length
+        accessor: (row) =>
+          row.node.users.edges.filter(
+            (contentUserEdge) => contentUserEdge.status === "in_progress"
+          ).length,
       },
       {
         id: "completed",
         Header: "Completed",
-        accessor: row => row.node.users.edges.filter(contentUserEdge => (
-          contentUserEdge.status === "completed"
-        )).length
+        accessor: (row) =>
+          row.node.users.edges.filter(
+            (contentUserEdge) => contentUserEdge.status === "completed"
+          ).length,
       },
       // {
       //   id: "avg_test_score",
@@ -103,21 +111,21 @@ const CoursesReportTable = () => {
       {
         id: "percentage_complete",
         Header: "% Complete",
-        accessor: row => {
-          const totalCount = row.node.users.edges.length
-          const completedCount = row.node.users.edges.filter(contentUserEdge => (
-            contentUserEdge.status === "completed"
-          )).length
-          const ratio = totalCount ? completedCount/totalCount : 0
-          
-          return Math.round(ratio*100) + '%'
+        accessor: (row) => {
+          const totalCount = row.node.users.edges.length;
+          const completedCount = row.node.users.edges.filter(
+            (contentUserEdge) => contentUserEdge.status === "completed"
+          ).length;
+          const ratio = totalCount ? completedCount / totalCount : 0;
+
+          return Math.round(ratio * 100) + "%";
         },
       },
       // {
       //   Header: "Categories",
       //   accessor: "tags",
       //   Cell: ({ cell }) => {
-        //     const tagString = cell.row.original.node.tags?.map(tag => tag.label).join(', ')
+      //     const tagString = cell.row.original.node.tags?.map(tag => tag.label).join(', ')
       //     return (
       //       <span>{tagString}</span>
       //     )
@@ -125,32 +133,39 @@ const CoursesReportTable = () => {
       // },
       {
         id: "actions",
-        Header: '',
+        Header: "",
         hideOnCsv: true,
         width: 300,
         style: {
-          width:"300px"
+          width: "300px",
         },
         Cell: ({ cell }) => {
           const href = cell.row.original.node.id && {
             query: {
-              course: cell.row.original.node.id
-            }
-          }
+              course: cell.row.original.node.id,
+            },
+          };
 
           return (
             <div className="flex space-x-4 justify-center">
               <ButtonLink href={href}>See reports</ButtonLink>
             </div>
-          )
-        }
-      }
+          );
+        },
+      },
     ],
     []
   );
 
   return (
     <ReportTable
+      titleBreadcrumbs={[
+        {
+          text: "Courses",
+          link: "/admin/reports",
+        },
+      ]}
+      csvFilename="Course report"
       reportItemType="content"
       tableData={tableData}
       tableCols={tableCols}
@@ -162,6 +177,6 @@ const CoursesReportTable = () => {
       categoryFilter={true}
     />
   );
-}
+};
 
-export default CoursesReportTable
+export default CoursesReportTable;

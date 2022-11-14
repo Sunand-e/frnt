@@ -1,52 +1,61 @@
-import { gql, useQuery } from '@apollo/client';
-import { useMemo } from 'react';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import { useRouter } from '../../../utils/router';
-import { lessonTypes } from '../../courses/lessonTypes';
-import { commonTableCols } from '../../../utils/commonTableCols';
-import ReportTable from '../ReportTable';
+import { gql, useQuery } from "@apollo/client";
+import { useMemo } from "react";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import { useRouter } from "../../../utils/router";
+import { lessonTypes } from "../../courses/lessonTypes";
+import { commonTableCols } from "../../../utils/commonTableCols";
+import ReportTable from "../ReportTable";
 
 const UserLessonsReportTable = () => {
+  const router = useRouter();
 
-  const router = useRouter()
+  const { user: userId, course: courseId } = router.query;
 
-  const { user: userId, course: courseId } = router.query
-
-  const { loading, error, data } = useQuery(gql`
-    query getUsersLessons($userId: ID! $where: JSON) {
-      user(id: $userId) {
-        lessons(where: $where) {
-          edges {
-            node {
+  const { loading, error, data } = useQuery(
+    gql`
+      query getUsersLessons($userId: ID!, $where: JSON) {
+        user(id: $userId) {
+          fullName
+          courses(where: $where) {
+            nodes {
               id
               title
-              contentType
             }
-            status
-            lastVisited
-            firstVisited
-            createdAt
-            updatedAt
-            score
-            visits
-            completed
           }
-          totalCount
+          lessons(where: $where) {
+            edges {
+              node {
+                id
+                title
+                contentType
+              }
+              status
+              lastVisited
+              firstVisited
+              createdAt
+              updatedAt
+              score
+              visits
+              completed
+            }
+            totalCount
+          }
         }
       }
+    `,
+    {
+      variables: {
+        userId,
+        where: { courseId },
+      },
     }
-  `, {
-    variables: {
-      userId,
-      where: { courseId }
-    }
-  })
+  );
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    const lessons = data?.user?.lessons.edges
-    return lessons || []
+    const lessons = data?.user?.lessons.edges;
+    return lessons || [];
   }, [data]);
 
   const tableCols = useMemo(
@@ -55,16 +64,17 @@ const UserLessonsReportTable = () => {
         id: "title",
         Header: "Lesson",
         accessor: "node.title",
-        Cell: ({ cell }) => {  
-          const IconComponent = lessonTypes[cell.row.original.node?.contentType]?.icon || null
+        Cell: ({ cell }) => {
+          const IconComponent =
+            lessonTypes[cell.row.original.node?.contentType]?.icon || null;
           const cellProps = {
             title: cell.row.original.node.title,
-            icon: !!IconComponent && <IconComponent className="hidden w-6 h-full bg-grey-500 text-main-secondary" />
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+            icon: !!IconComponent && (
+              <IconComponent className="hidden w-6 h-full bg-grey-500 text-main-secondary" />
+            ),
+          };
+          return <ItemWithImage {...cellProps} />;
+        },
       },
       {
         id: "status",
@@ -98,41 +108,63 @@ const UserLessonsReportTable = () => {
       // },
       {
         id: "actions",
-        Header: '',
+        Header: "",
         hideOnCsv: true,
         width: 300,
         Cell: ({ cell }) => {
-          const lessonId = cell.row.original.node?.id
+          const lessonId = cell.row.original.node?.id;
           const href = {
             query: {
               user: userId,
               course: courseId,
-              ...(lessonId && {lesson: lessonId})
-            }
-          }
+              ...(lessonId && { lesson: lessonId }),
+            },
+          };
 
           return (
             <div className="flex space-x-4 justify-center">
               {/* <ButtonLink href={href}>See details</ButtonLink> */}
             </div>
-          )
-        }
-      }
+          );
+        },
+      },
     ],
     []
   );
 
-  return (
-    <ReportTable
-      reportItemType="content"
-      tableData={tableData}
-      tableCols={tableCols}
-      loadingText="Loading lessons"
-      errorText="Unable to fetch user's lessons."
-      loading={loading}
-      error={error}
-    />
-  );
-}
+  const courseNode = data?.user?.courses?.nodes?.[0];
 
-export default UserLessonsReportTable
+  const titleBreadcrumbs = [
+    {
+      text: "Courses",
+      link: "/admin/reports",
+    },
+    ...(courseNode && data
+      ? [
+          {
+            text: courseNode?.title,
+            link: { query: { course: courseNode?.id } },
+          },
+          { text: data?.user?.fullName },
+        ]
+      : []),
+  ];
+
+  return (
+    <>
+      <ReportTable
+        titleBreadcrumbs={titleBreadcrumbs}
+        csvFilename={`Course ${courseNode.title} - ${data?.user?.fullName}`}
+        reportItemType="content"
+        tableData={tableData}
+        tableCols={tableCols}
+        loadingText="Loading lessons"
+        errorText="Unable to fetch user's lessons."
+        loading={loading}
+        error={error}
+      />
+    </>
+  );
+};
+
+export default UserLessonsReportTable;

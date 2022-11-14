@@ -1,73 +1,76 @@
-import { useMemo } from 'react';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import { gql, useQuery } from '@apollo/client';
-import { useRouter } from '../../../utils/router';
-import { User } from 'styled-icons/fa-solid';
-import dayjs from 'dayjs';
-import { commonTableCols } from '../../../utils/commonTableCols';
-import ReportTable from '../ReportTable';
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import { useMemo } from "react";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import { gql, useQuery } from "@apollo/client";
+import { useRouter } from "../../../utils/router";
+import { User } from "styled-icons/fa-solid";
+import dayjs from "dayjs";
+import { commonTableCols } from "../../../utils/commonTableCols";
+import ReportTable from "../ReportTable";
+var advancedFormat = require("dayjs/plugin/advancedFormat");
+dayjs.extend(advancedFormat);
 
 const LessonUsersReportTable = () => {
+  const router = useRouter();
 
-  const router = useRouter()
+  const { lesson: lessonId, course: courseId } = router.query;
 
-  const { lesson: lessonId, course: courseId } = router.query
-
-  const { loading, error, data } = useQuery(gql`
-    query getLessonsUsers($lessonId: ID!) {
-      lesson(id: $lessonId) {
-        users {
-          edges {
-            node {
-              id
-              fullName
-              email
+  const { loading, error, data } = useQuery(
+    gql`
+      query getLessonsUsers($lessonId: ID!) {
+        lesson(id: $lessonId) {
+          title
+          users {
+            edges {
+              node {
+                id
+                fullName
+                email
+              }
+              status
+              lastVisited
+              firstVisited
+              createdAt
+              updatedAt
+              score
+              visits
+              completed
             }
-            status
-            lastVisited
-            firstVisited
-            createdAt
-            updatedAt
-            score
-            visits
-            completed
+            totalCount
           }
-          totalCount
         }
       }
+    `,
+    {
+      variables: {
+        lessonId,
+      },
     }
-  `, {
-    variables: {
-      lessonId
-    }
-  })
+  );
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    const users = data?.lesson?.users.edges
-    return users || []
+    const users = data?.lesson?.users.edges;
+    return users || [];
   }, [data]);
 
   const tableCols = useMemo(
     () => [
       {
-        id: 'name',
+        id: "name",
         Header: "Name",
         Cell: ({ cell }) => {
-          const user = cell.row.original.node
+          const user = cell.row.original.node;
           const cellProps = {
             title: user.fullName,
             secondary: user.email,
             imageSrc: cell.row.original.profileImageUrl,
-            icon: <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />,
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+            icon: (
+              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+            ),
+          };
+          return <ItemWithImage {...cellProps} />;
+        },
       },
       {
         id: "status",
@@ -101,32 +104,42 @@ const LessonUsersReportTable = () => {
       // },
       {
         id: "actions",
-        Header: '',
+        Header: "",
         hideOnCsv: true,
         width: 300,
         Cell: ({ cell }) => {
-          const userId = cell.row.original.node.id
+          const userId = cell.row.original.node.id;
           const href = {
             query: {
               lesson: lessonId,
               course: courseId,
-              ...( userId && { user: userId } )
-            }
-          }
+              ...(userId && { user: userId }),
+            },
+          };
 
           return (
             <div className="flex space-x-4 justify-center">
               {/* <ButtonLink href={href}>See details</ButtonLink> */}
             </div>
-          )
-        }
-      }
+          );
+        },
+      },
     ],
     []
   );
 
+  const titleBreadcrumbs = [
+    {
+      text: "Courses",
+      link: "/admin/reports",
+    },
+    ...(data ? [{ text: data?.lesson?.title }, { text: "Users" }] : []),
+  ];
+
+  data?.lesson?.title;
   return (
     <ReportTable
+      titleBreadcrumbs={titleBreadcrumbs}
       reportItemType="contentUser"
       tableData={tableData}
       tableCols={tableCols}
@@ -137,6 +150,6 @@ const LessonUsersReportTable = () => {
       // groupFilter={true}
     />
   );
-}
+};
 
-export default LessonUsersReportTable
+export default LessonUsersReportTable;
