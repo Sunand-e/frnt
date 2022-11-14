@@ -68,7 +68,7 @@ const UserLessonsReportTable = () => {
           const IconComponent =
             lessonTypes[cell.row.original.node?.contentType]?.icon || null;
           const cellProps = {
-            title: cell.row.original.node.title,
+            title: cell.row.original.node?.title,
             icon: !!IconComponent && (
               <IconComponent className="hidden w-6 h-full bg-grey-500 text-main-secondary" />
             ),
@@ -154,7 +154,7 @@ const UserLessonsReportTable = () => {
     <>
       <ReportTable
         titleBreadcrumbs={titleBreadcrumbs}
-        csvFilename={`Course ${courseNode.title} - ${data?.user?.fullName}`}
+        csvFilename={`Course ${courseNode?.title} - ${data?.user?.fullName}`}
         reportItemType="content"
         tableData={tableData}
         tableCols={tableCols}
