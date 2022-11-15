@@ -14,12 +14,12 @@ function useUserHasCapability() {
   const userCapabilityArray = useMemo(() => {
 
     return user ? [
-      ...(user?.roles && [getCapsFromRoleArr(user.roles)]),
+      ...(user?.roles && [...getCapsFromRoleArr(user.roles)]),
       
-      ...(courses?.edges && [courses.edges.reduce((array, courseEdge) => {
+      ...(courses?.edges && [...courses.edges.reduce((array, courseEdge) => {
         return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
       }, [])]),
-      ...(user.groups?.edges && [user.groups.edges.reduce((array, groupEdge) => {
+      ...(user.groups?.edges && [...user.groups.edges.reduce((array, groupEdge) => {
         return [...array, ...getCapsFromRoleArr(groupEdge.roles)]
       }, [])]),
     ] : []
