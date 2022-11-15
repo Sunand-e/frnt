@@ -81,12 +81,6 @@ const navStructureUser = [
         icon: Video,
       },
       {
-        name: 'images',
-        title: 'Images',
-        urlPath: '/resources?type=image',
-        icon: Image,
-      },
-      {
         name: 'audio',
         title: 'Audio',
         urlPath: '/resources?type=audio',

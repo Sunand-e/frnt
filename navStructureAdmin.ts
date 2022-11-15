@@ -80,12 +80,6 @@ const navStructureAdmin = [
         icon: Video,
       },
       {
-        name: 'images',
-        title: 'Images',
-        urlPath: '/admin/resources?type=image',
-        icon: Image,
-      },
-      {
         name: 'audio',
         title: 'Audio',
         urlPath: '/admin/resources?type=audio',
