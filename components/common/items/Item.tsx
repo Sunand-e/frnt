@@ -6,11 +6,12 @@ import styles from './Item.module.scss'
 
 import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
 import Tippy from "@tippyjs/react";
+import useGetImageSrc from "./useGetImageSrc";
 
 export default function Item({ item, options }) {
 
-  const imageSrc = (item?.image?.id && `/uploaded_images/${item.image.id}?w=300`) || 
-    ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png';
+
+  const { imageSrc } = useGetImageSrc(item)
   const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
@@ -32,7 +33,8 @@ export default function Item({ item, options }) {
 
   let itemImage;
   let linkPaddingBottom = '';
-  if(item.itemType === 'resource' && item.contentType !== 'image') {
+  if(item.itemType === 'resource' && !imageSrc) {
+
     const IconComponent = resourceTypes[item.contentType].icon
     itemImage = (
       <div className="w-full justify-center text-center">
@@ -43,8 +45,8 @@ export default function Item({ item, options }) {
     linkPaddingBottom = 'pb-1/2'
     itemImage = (
       <img
-        src={imageSrc}
         className={'bg-main/20'}
+        src={imageSrc || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png'}
         style={{
           // backgroundImage: `url(${imageSrc})`,
           width: '100%',
@@ -63,15 +65,6 @@ export default function Item({ item, options }) {
         className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}>
 
         {itemImage}
-        {/* <div className={styles.cardImg}>
-          <a
-            className="bg-cover bg-center pb-1/2"
-            style={{
-              backgroundImage: `url(${imageSrc})`
-            }}
-          />
-        </div> */}
-
       </Link>
       <div className="p-4 pt-4 grow flex flex-col">
         {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}

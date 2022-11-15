@@ -28,14 +28,6 @@ export const resourceTypes = {
     icon: Video,
     content: { blocks: [{type:'video'}]}
   },
-  image: {
-    titleLabel: "Image title",
-    chooseLabel: "Choose an image",
-    label: "Image",
-    readMoreLabel: "View image",
-    icon: Image,
-    content: { blocks: [{type:'image'}]}
-  },
   audio: {
     titleLabel: "Audio title",
     chooseLabel: "Choose audio file",

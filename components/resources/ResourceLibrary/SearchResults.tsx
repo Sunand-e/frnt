@@ -70,8 +70,6 @@ export default function SearchResults({items}) {
       // showType: true,
       getHref: (item) => `resource?id=${item.id}`,
       getReadMoreLabel: (item) => {
-        console.log('item')
-        console.log(item)
         return resourceTypes[item?.contentType]?.readMoreLabel ?? 'Read More'
       },
       getItemTitle: item => {
