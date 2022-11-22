@@ -10,6 +10,8 @@ export const UPDATE_RESOURCE = gql`
     $settings: JSON,
     $imageId: ID,
     $mediaItemId: ID,
+    $tags: [TagInput!],
+    $iconId: ID
   ) {
     updateResource(
       input: {
@@ -19,6 +21,8 @@ export const UPDATE_RESOURCE = gql`
         settings: $settings,
         imageId: $imageId
         mediaItemId: $mediaItemId
+        tags: $tags,
+        iconId: $iconId
       }
     ) {
       resource {

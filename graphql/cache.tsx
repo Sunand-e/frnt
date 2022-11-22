@@ -8,6 +8,9 @@ const typePolicies = {
   Group: {
     merge: true,
   },
+  Tag: {
+    merge: true,
+  },
   UserContentConnection: {
     merge: true,
   },

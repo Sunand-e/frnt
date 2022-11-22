@@ -32,7 +32,7 @@ const ResourceView = ({id}) => {
 
   const { resources } = useGetCurrentUser()
 
-  const resourceEdge = resources.edges.find(edge => edge.node.id === id)
+  const resourceEdge = resources?.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node
 
   const currentContentItem = useReactiveVar(currentContentItemVar)

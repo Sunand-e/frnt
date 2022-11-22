@@ -30,18 +30,11 @@ const navStructureUser = [
         icon: GraduationCap
       },
       {
-        name: 'categories',
-        title: 'Categories',
-        urlPath: '/categories',
-        icon: Category
-      },
-      {
         name: 'pathways',
         title: 'Pathways',
         urlPath: '/pathways',
         icon: Flow
       },
-      
     ],
   },
   {

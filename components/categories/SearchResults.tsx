@@ -7,7 +7,7 @@ interface SearchFilters extends ParsedUrlQuery {
   search: string;
   category: string;
 }
-export default function SearchResults({items}) {
+export default function SearchResults({items, itemType='item'}) {
   
   const router = useRouter()
   const { search, category } = router.query
@@ -51,21 +51,21 @@ export default function SearchResults({items}) {
   if(category) {
     filteredItems = filteredItems.filter(item => {
       const isSelectedCategory = tag => {
+        console.log("tag.tagType === 'category' && tag.label === category")
+        console.log(tag.tagType === 'category' && tag.label === category)
         return tag.tagType === 'category' && tag.label === category
       }
       return item.tags && item.tags.some(isSelectedCategory);   
     });
   }
-  const resultCountString = `${filteredItems.length || 'No'} course${filteredItems.length !== 1 ? 's' : ''} found`
+  
+  const resultCountString = `${filteredItems.length || 'No'} ${itemType}${filteredItems.length !== 1 ? 's' : ''} found`
   const options = {
     heading: resultCountString,
-    itemOptions: {
-      getReadMoreLabel: () => 'Visit course'
-    }
   }
   return (
     <>
-    <ItemCollection items={filteredItems} options={options}></ItemCollection>
+    { !!filteredItems?.length && <ItemCollection items={filteredItems} options={options}></ItemCollection> }
     </>
   )
 }

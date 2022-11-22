@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { ContentFragment } from './allQueries';
+import { TagFragment } from './tags';
 
 export const UserFragment = gql`
   fragment UserFragment on User {
@@ -39,6 +40,7 @@ export const CurrentUserFragment = gql`
       roleType
     }
   }
+  ${TagFragment}
 `
 
 export const UserContentConnectionFragment = gql`
@@ -59,6 +61,9 @@ export const UserContentConnectionFragment = gql`
         image {
           id
           location
+        }
+        tags {
+          id          
         }
       }
       roles {
@@ -244,6 +249,9 @@ export const GET_CURRENT_USER = gql`
     ...CurrentUserPathwaysFragment
     ...CurrentUserResourcesFragment
     ...CurrentUserCoursesFragment
+    tags {
+      ...TagFragment
+    }
   }
   ${CurrentUserFragment}
   ${CurrentUserResourcesFragment}
@@ -251,6 +259,7 @@ export const GET_CURRENT_USER = gql`
   ${CurrentUserCoursesFragment}
   ${UserGroupsFragment}
   ${UserCapabilitiesFragment}
+  ${TagFragment}
 `
 
 

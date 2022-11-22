@@ -10,6 +10,7 @@ export const CREATE_RESOURCE = gql`
     $settings: JSON,
     $imageId: ID,
     $mediaItemId: ID,
+    $tags: [TagInput!],
     $iconId: ID
   ) {
 
@@ -21,6 +22,7 @@ export const CREATE_RESOURCE = gql`
         settings: $settings,
         imageId: $imageId,
         mediaItemId: $mediaItemId,
+        tags: $tags,
         iconId: $iconId
       }
     ) {

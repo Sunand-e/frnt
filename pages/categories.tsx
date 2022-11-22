@@ -11,8 +11,7 @@ const CategoriesPage = () => {
 }
 
 CategoriesPage.navState = {
-  topLevel: 'courses',
-  secondary: 'categories'
+  topLevel: 'categories'
 }
 
 export default CategoriesPage
