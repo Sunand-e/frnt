@@ -6,6 +6,7 @@ import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { User } from "@styled-icons/fa-solid/User";
 import ReportTable from "../ReportTable";
+import { useRouter } from "../../../utils/router";
 
 const UsersReportTable = () => {
   const {
@@ -13,6 +14,9 @@ const UsersReportTable = () => {
     error,
     data: queryData,
   } = useQuery<GetUsers>(GET_USERS_COURSES);
+
+  
+  const router = useRouter()
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => queryData?.users?.edges || [], [queryData]);
@@ -56,7 +60,7 @@ const UsersReportTable = () => {
       // },
       {
         id: "enrolled",
-        accessor: "courses.totalCount",
+        accessor: "node.courses.totalCount",
         Header: "Courses Enrolled",
       },
       {
@@ -92,47 +96,49 @@ const UsersReportTable = () => {
         width: 300,
         // className: 'text-center',
         Cell: ({ cell }) => {
-          const href = cell.row.original.node.id && {
+          const coursesHref = cell.row.original.node.id && {
             query: {
+              ...router.query,
+              type: 'course',
               user: cell.row.original.node.id,
             },
           };
+
+          const groupsHref = cell.row.original.node.id && {
+            query: {
+              ...router.query,
+              type: 'group',
+              user: cell.row.original.node.id,
+            },
+          };
+
           return (
-            <div className="space-x-4">
-              <ButtonLink href={href}>See details</ButtonLink>
+            <div className="flex space-x-4 justify-center">
+              <ButtonLink href={coursesHref}>View courses</ButtonLink>
+              {/* <ButtonLink href={groupsHref}>View groups</ButtonLink> */}
             </div>
           );
         },
       },
     ],
     []
-  );
-
-  const titleBreadcrumbs = [
-    {
-      text: "Users",
-      link: {
-        path: "/admin/reports",
-        query: {
-          view: 'users'
-        }
-      }
-    },
-  ];
-
+  )
+    
   return (
     <ReportTable
-      titleBreadcrumbs={titleBreadcrumbs}
-      reportItemType="user"
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading users"
       errorText="Unable to fetch users."
       loading={loading}
       error={error}
-      groupFilter={true}
+      // filters={['group','course']}
+      filters={['group']}
+      simpleHeader={true}
+      title={<>Users</>}
     />
   );
+
 };
 
 export default UsersReportTable;

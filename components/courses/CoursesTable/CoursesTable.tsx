@@ -62,7 +62,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course Name",
+        Header: "Course",
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => (
           <ItemWithImage

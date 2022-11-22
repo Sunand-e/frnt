@@ -21,6 +21,14 @@ export const ADD_USERS_TO_GROUPS = gql`
           }
         }
       }
+      users {
+        id
+        groups {
+          nodes {
+            id
+          }
+        }
+      }
     }
   }
 `;

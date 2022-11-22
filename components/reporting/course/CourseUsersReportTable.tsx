@@ -21,17 +21,13 @@ const CourseUsersReportTable = () => {
   const { course: id } = router.query;
 
   const { loading, error, userConnection, course } = useGetCourseUsers(id);
-
-  const noDataDash = <span>&mdash;</span>;
-
+  
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => userConnection?.edges || [],
     [userConnection]
   );
-
-  const editUrl = "/admin/users/edit";
 
   const tableCols = useMemo(
     () => [
@@ -136,25 +132,26 @@ const CourseUsersReportTable = () => {
     text: 'Back to Courses'
   }
 
-  const titleBreadcrumbs = [
-    {
-      text: 'Courses',
-      link: '/admin/reports'
-    }, 
-    ...(course ? [{text: course?.title},{text: 'Users'}] : [])
-  ]
-
   return (
     <ReportTable
-      titleBreadcrumbs={titleBreadcrumbs}
-      csvFilename={`Course ${course?.title} users report`}
-      reportItemType="contentUser"
+      title={(
+        <>
+          <span className="font-semibold">User report </span>
+          <span className="font-normal">for course: </span>
+          <span className="font-semibold">
+            {course?.title}
+          </span>
+        </>
+      )}
+      simpleHeader={true}
+      csvFilename={`Course users for ${course?.title}`}
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading course users"
       errorText="Unable to fetch course users."
       loading={loading}
       error={error}
+      // filters={['group']}
       // groupFilter={true}
     />
   );

@@ -128,18 +128,8 @@ const LessonUsersReportTable = () => {
     []
   );
 
-  const titleBreadcrumbs = [
-    {
-      text: "Courses",
-      link: "/admin/reports",
-    },
-    ...(data ? [{ text: data?.lesson?.title }, { text: "Users" }] : []),
-  ];
-
   return (
     <ReportTable
-      titleBreadcrumbs={titleBreadcrumbs}
-      reportItemType="contentUser"
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading users"

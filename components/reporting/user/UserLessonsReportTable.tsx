@@ -55,7 +55,7 @@ const UserLessonsReportTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     const lessons = data?.user?.lessons.edges;
-    return lessons || [];
+    return lessons;
   }, [data]);
 
   const tableCols = useMemo(
@@ -134,28 +134,37 @@ const UserLessonsReportTable = () => {
 
   const courseNode = data?.user?.courses?.nodes?.[0];
 
-  const titleBreadcrumbs = [
-    {
-      text: "Courses",
-      link: "/admin/reports",
-    },
-    ...(courseNode && data
-      ? [
-          {
-            text: courseNode?.title,
-            link: { query: { course: courseNode?.id } },
-          },
-          { text: data?.user?.fullName },
-        ]
-      : []),
-  ];
+  // const titleBreadcrumbs = [
+  //   {
+  //     text: "Courses",
+  //     link: "/admin/reports",
+  //   },
+  //   ...(courseNode && data
+  //     ? [
+  //         {
+  //           text: courseNode?.title,
+  //           link: { query: { course: courseNode?.id } },
+  //         },
+  //         { text: data?.user?.fullName },
+  //       ]
+  //     : []),
+  // ];
 
   return (
     <>
       <ReportTable
-        titleBreadcrumbs={titleBreadcrumbs}
-        csvFilename={`Course ${courseNode?.title} - ${data?.user?.fullName}`}
-        reportItemType="content"
+      simpleHeader={true}
+      title={(
+        <>
+          <span className="font-semibold">Lesson report </span>
+          <span className="font-normal">for user: </span>
+          <span className="font-semibold">{data?.user?.fullName} </span>
+          <span className="font-normal">in course: </span>
+          <span className="font-semibold">
+            {courseNode?.title}
+          </span>
+        </>
+      )}
         tableData={tableData}
         tableCols={tableCols}
         loadingText="Loading lessons"

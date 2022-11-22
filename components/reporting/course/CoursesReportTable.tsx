@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import ReportTable from "../ReportTable";
+import { useRouter } from "../../../utils/router";
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -43,17 +44,17 @@ const CoursesReportTable = () => {
     data: { courses: courses } = {},
   } = useQuery(COURSES_REPORT_QUERY);
 
+  const router = useRouter()
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = courses?.edges;
+  const tableData = useMemo(() => courses?.edges, [courses])
 
   const tableCols = useMemo(
     () => [
       {
         id: "title",
-        Header: "Course name",
-        accessor: "node.title", // accessor is the "key" in the data
-        Csv: ({ cell }) => 321,
+        Header: "Course",
+        accessor: "node.title",
         Cell: ({ cell }) => {
           const cellProps = {
             image: cell.row.original.node.image,
@@ -65,6 +66,7 @@ const CoursesReportTable = () => {
             href: cell.row.original.node.id && {
               query: {
                 course: cell.row.original.node.id,
+                type: 'user',
               },
             },
           };
@@ -75,7 +77,6 @@ const CoursesReportTable = () => {
         id: "enrolled",
         Header: "Enrolled users",
         accessor: "node.users.totalCount",
-        Csv: ({ cell }) => 321,
         Cell: ({ cell }) => cell.row.original.node.users?.totalCount,
       },
       {
@@ -140,15 +141,26 @@ const CoursesReportTable = () => {
           width: "300px",
         },
         Cell: ({ cell }) => {
-          const href = cell.row.original.node.id && {
+          const usersHref = cell.row.original.node.id && {
             query: {
+              ...router.query,
+              type: 'user',
+              course: cell.row.original.node.id,
+            },
+          };
+
+          const lessonsHref = cell.row.original.node.id && {
+            query: {
+              ...router.query,
+              type: 'lesson',
               course: cell.row.original.node.id,
             },
           };
 
           return (
             <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>See reports</ButtonLink>
+              <ButtonLink href={usersHref}>View users</ButtonLink>
+              {/* <ButtonLink href={lessonsHref}>View lessons</ButtonLink> */}
             </div>
           );
         },
@@ -159,22 +171,16 @@ const CoursesReportTable = () => {
 
   return (
     <ReportTable
-      titleBreadcrumbs={[
-        {
-          text: "Courses",
-          link: "/admin/reports",
-        },
-      ]}
       csvFilename="Course report"
-      reportItemType="content"
+      simpleHeader={true}
+      title={<>Courses</>}
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading courses"
       errorText="Unable to fetch course report."
       loading={loading}
       error={error}
-      groupFilter={true}
-      categoryFilter={true}
+      filters={['group']}
     />
   );
 };

@@ -18,7 +18,7 @@ function useAddUsersToGroups() {
         variables: {
           ...values
         },
-        onCompleted: cb
+        onCompleted: cb,
       }).catch(res => {
         // TODO: do something if there is an error!!
       })
