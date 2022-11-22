@@ -2,22 +2,17 @@ import { useState, useEffect, useContext, useMemo } from 'react'
 import { useRouter } from '../../utils/router';
 import SearchResults from './SearchResults';
 import LoadingSpinner from '../common/LoadingSpinner';
-import useGetTags from '../../hooks/tags/useGetTags';
 import CategoryFilters from './CategoryFilters';
 import CategoriesCollection from './CategoriesCollection';
-import { client } from '../../graphql/client';
-import { GET_COURSES } from '../../graphql/queries/allQueries';
-import useGetCourses from '../../hooks/courses/useGetCourses';
 import { Dot } from '../common/misc/Dot';
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 
 const Categories = () => {
   
   const router = useRouter()
   const { search, category } = router.query
-
-  const { tags } = useGetTags()
   
-  const { courses } = useGetCourses()
+  const { tags, courses, resources } = useGetCurrentUser()
 
   // const {loading, error, data: { courses: courses} = {} } = useQuery(gql`
   //   query GetCategories {
@@ -35,6 +30,12 @@ const Categories = () => {
     })
   } ,[courses])
 
+  const resourceNodes = useMemo(() => {
+    return resources?.edges?.map(edge => edge.node).filter(node => {
+      return !node._deleted
+    })
+  } ,[resources])
+
   const [ searching, setSearching ] = useState(false)
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const Categories = () => {
       })
     }
   },[search, category])
-
+  
   return (
     <div className="flex flex-col items-stretch grow">
       { !!tags && <CategoryFilters /> }
@@ -59,14 +60,18 @@ const Categories = () => {
       )} /> }
       {
       // If user is searching, only show search results
-       courseNodes && (
-          searching ? (
-            <SearchResults 
-              items={courseNodes}
-            />
+       
+        searching ? (
+          resourceNodes?.length || courseNodes?.length ? (
+            <>
+              { courseNodes?.length && <SearchResults items={courseNodes} itemType='course' /> }
+              { resourceNodes?.length && <SearchResults items={resourceNodes} itemType='resource' /> }
+            </>
           ) : (
-            <CategoriesCollection />            
+            <h3>Sorry, no items found.</h3>
           )
+        ) : (
+          <CategoriesCollection />            
         )
       }
     </div>

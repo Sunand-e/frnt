@@ -54,7 +54,7 @@ const RTEInput = ({
         </span>
       </label>
       <RichTextEditor ref={editorRef} id="rte" value={value}
-      onChange={handleChange} className="flex-grow" />
+      onChange={handleChange} className="flex-grow z-0" />
     </>
   )
 }

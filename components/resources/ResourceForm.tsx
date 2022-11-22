@@ -8,10 +8,12 @@ import ResourceReselect from './ResourceReselect';
 import ResourceTypeSelector from './ResourceTypeSelector';
 import { useRouter } from 'next/router';
 import { resourceTypes } from './resourceTypes';
+import TagSelectInput from '../tags/inputs/TagSelectInput';
 
 interface ResourceFormValues {
   title: string
   resourceValue
+  tags: [any]
   type: null | {[key: string]: any}
 }
   
@@ -27,7 +29,8 @@ const router = useRouter()
     type: resource && {name: resource.contentType, ...resourceTypes[resource.contentType]},
     title: resource?.title,
     // description: resource?.content?.description
-    description: resource?.content?.description
+    description: resource?.content?.description,
+    tags: resource?.tags?.map(({__typename, image, ...value}) => value) || []
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
@@ -105,10 +108,19 @@ const router = useRouter()
         placeholder="Resource name"
         inputAttrs={register("title", {
           required: "Resource name is required",
-          maxLength: 50
+          maxLength: {
+            value: 120,
+            message: "The resource name must have no more than 120 characters"
+          }
         })}
       />
       {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
+      
+      <TagSelectInput
+        control={control}
+        tagType="category"
+        label="Categories"
+      />
       <RTEInput initialValue={resource?.content?.description} label="Description" name="description" control={control}/>
       { resourceValue ? (
         <>

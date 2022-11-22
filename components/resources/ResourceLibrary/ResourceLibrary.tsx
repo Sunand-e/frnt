@@ -5,14 +5,17 @@ import LoadingSpinner from '../../common/LoadingSpinner';
 import useGetTags from '../../../hooks/tags/useGetTags';
 import ResourceLibraryFilters from './ResourceLibraryFilters';
 import useGetResources from '../../../hooks/resources/useGetResources';
+import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 
 const ResourceLibrary = () => {
   
   const router = useRouter()
   const { search, category } = router.query
 
-  const { tags } = useGetTags()
-  const { resources } = useGetResources()
+  // const { tags } = useGetTags()
+  const { tags, resources } = useGetCurrentUser()
+
+  // const { resources } = useGetResources()
   const resourceNodes = resources?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
   
   const [ searching, setSearching ] = useState(false)

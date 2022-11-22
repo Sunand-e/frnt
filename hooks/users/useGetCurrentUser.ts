@@ -1,5 +1,6 @@
 
 import { useQuery } from "@apollo/client"
+import { TagFragment } from "../../graphql/queries/tags";
 import { GET_CURRENT_USER } from "../../graphql/queries/users";
 
 function useGetCurrentUser(id=null) {
@@ -14,6 +15,7 @@ function useGetCurrentUser(id=null) {
     sections: data?.sections, 
     contentItems: data?.contentItems, 
     resources: data?.resources, 
+    tags: data?.tags,
     loading, 
     error
   }

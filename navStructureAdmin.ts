@@ -61,6 +61,12 @@ const navStructureAdmin = [
         urlPath: '/admin/resources',
         icon: Library
       },
+      {
+        name: 'categories',
+        title: 'Categories',
+        urlPath: '/admin/tags',
+        icon: Category
+      },
       // {
       //   name: 'guides',
       //   title: 'Guides',
