@@ -1,49 +1,69 @@
 import React, { useMemo, useState } from "react";
-import TagSelect from "../tags/inputs/TagSelect";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
 import exportToCsv from "../../utils/exportToCsv";
 import { useTable, useSortBy } from "react-table";
 import TableStructure from "../common/TableStructure";
-import { C } from "styled-icons/fa-solid";
-import GroupSelect from "../groups/inputs/GroupSelect";
+import { useRouter } from "../../utils/router";
 import { client } from "../../graphql/client";
 import { gql } from "@apollo/client";
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
-import Link from "next/link";
+import ReportFilters from "./ReportFilters";
+import ReportHeader from "./ReportHeader";
+import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 
 const ReportTable = ({
-  tableData = [],
-  titleBreadcrumbs,
-  reportItemType,
+  tableData,
   tableCols,
   loadingText = "Loading...",
   errorText = "Unable to fetch report.",
+  simpleHeader=false,
   loading = null,
   error = null,
   csvFilename = "report",
-  categoryFilter = false,
-  groupFilter = false,
+  title = <>Reports</>,
+  filters = [],
 }) => {
-  const [categoryId, setCategoryId] = useState(null);
-  const [groupId, setGroupId] = useState(null);
+  // const [categoryId, setCategoryId] = useState(null);
+  // const [groupId, setGroupId] = useState(null);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
+
+  const router = useRouter()
+
+  const { 
+    user: userId, 
+    group: groupId, 
+    course: courseId, 
+    lesson: lessonId, 
+    category: categoryId,
+    type: type
+  } = router.query
+
+  const reportType = ['course','user','group'].includes(type as string) ? type : 'course'
+
+  const filterActive = (filterVal) => {
+    return filterVal && filterVal !== 'all'
+  }
+
+  // alert(reportType)
   const filteredData = useMemo(() => {
     let data;
-    if (reportItemType === "user") {
+    if(!tableData) {
+      return [];
+    }
+    if (reportType === "user") {
       data = tableData.filter((item) => !item.node._deleted);
-      if (groupId) {
+      if (filterActive(groupId)) {
         data = data?.filter((item) => {
           return item.node.groups.edges.some(
             (groupEdge) => groupEdge.node.id === groupId
           );
         });
       }
-    } else if (reportItemType === "contentUser") {
+    } else if (reportType === "course") {
       data = tableData.filter((item) => !item.node._deleted);
-      if (groupId) {
+      if (filterActive(groupId)) {
         data = data?.filter((item) => {
           const fragment = client.readFragment({
             id: `UserContentEdge:${item.userId}:${item.node.id}`,
@@ -63,49 +83,30 @@ const ReportTable = ({
           return groupIds.some((id) => id === groupId);
         });
       }
-    } else if (reportItemType === "content") {
-      data = tableData.filter((item) => !item.node._deleted);
-      if (categoryId) {
+      if (filterActive(categoryId)) {
         data = data?.filter((item) => {
           return item.node.tags.some((tag) => tag.id === categoryId);
         });
       }
-      if (groupId) {
-        data = data?.filter((item) => {
-          const fragment = client.readFragment({
-            id: `UserContentEdge:${item.userId}:${item.node.id}`,
-            fragment: gql`
-              fragment GroupFragment on UserContentEdge {
-                groups {
-                  edges {
-                    node {
-                      id
-                    }
-                  }
-                }
-              }
-            `,
-          });
-          const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
-          return groupIds.some((id) => id === groupId);
-        });
-      }
     }
+
     return data || [];
-  }, [tableData, categoryId, groupId]);
+    // return tableData || [];
 
-  const clearFilters = () => {
-    setCategoryId(null);
-    setGroupId(null);
-  };
+  }, [tableData, groupId]);
 
+  const columns = useMemo(() => tableCols,[tableCols])
+  const data = useMemo(() => filteredData,[filteredData])
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: tableCols, data: filteredData }, useSortBy);
+    useTable({ 
+      columns, 
+      data: data,
+    }, useSortBy);
 
   const filename = csvFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 
   const downloadCSV = () => {
-    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
+    const csvCols = columns.filter((col) => col.hideOnCsv !== true);
     const headerRow = csvCols.map((col) => col.Header);
     const dataRows = rows.map((row) =>
       csvCols.map((col) => row.values[col.id])
@@ -113,54 +114,16 @@ const ReportTable = ({
     exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
 
-  const TitleBreadcrumb = ({ text, link = null }) => {
-    const linkWrapped = (
-      <Link
-        href={link}
-        className="border-b-4 border-main pb-0.5 hover:border-none"
-      >
-        {text}
-      </Link>
-    );
-
-    return link ? linkWrapped : text;
-  };
-
-  const title = titleBreadcrumbs
-    .map(({ text, link }, index) => <TitleBreadcrumb text={text} link={link} />)
-    .reduce((prev, curr) => [prev, <span> &mdash; </span>, curr]);
-
   return (
     <>
-      <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
-        <h3 className="text-main-secondary font-semibold text-center mb-1 sm:text-left">
-          {title}
-        </h3>
-        <div className="flex items-center flex-col sm:flex-row space-x-2">
-          {!!categoryFilter && (
-            <TagSelect
-              selected={categoryId}
-              tagType={`category`}
-              onSelect={(tag) => setCategoryId(tag.id)}
-            />
-          )}
-          {!!groupFilter && (
-            <GroupSelect
-              selected={groupId}
-              onSelect={(group) => setGroupId(group.id)}
-            />
-          )}
-          {(groupFilter || categoryFilter) && (
-            <span
-              className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`}
-              onClick={clearFilters}
-            >
-              clear filters
-            </span>
-          )}
+      <ReportHeader
+        simple={simpleHeader}
+        title={title}
+      />
 
-          <Button onClick={() => downloadCSV()}>Export to CSV</Button>
-        </div>
+      <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
+        <ReportFilters filters={filters} />
+        <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
       </div>
 
       {loading && (

@@ -20,7 +20,7 @@ const CapabilitiesTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course Name",
+        Header: "Capability Name",
         accessor: "name", // accessor is the "key" in the data
         style: {
           width:"300px"

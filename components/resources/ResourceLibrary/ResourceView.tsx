@@ -55,11 +55,11 @@ const ResourceView = ({id}) => {
         return <DocumentItem pdfPreview={true} file={resource.mediaItem} />
       case 'video':
         return <VideoItem url={resource.content?.url} />
-        case 'image':
-        return <ImageItem image={resource.mediaItem}  />
-        case 'audio':
+      case 'image':
+        return <ImageItem image={resource.image}  />
+      case 'audio':
         return <AudioPlayer url={resource.mediaItem.location} />
-        case 'link':
+      case 'link':
         return <LinkPreview url={resource.content?.url} />
       default:
         return <></>

@@ -27,7 +27,7 @@ const useHeaderButtons = (buttons) => {
 
   useEffect(() => {
     headerButtonsVar(
-      <div className="space-x-2">
+      <div className="space-x-2 flex items-center">
         { buttons.map((button, idx) => (
           <Button key={idx} onClick={() => {
             if(typeof button[1] === 'function') {

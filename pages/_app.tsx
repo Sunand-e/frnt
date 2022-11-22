@@ -1,3 +1,4 @@
+import '../utils/wdyr'
 import type { AppProps } from 'next/app'
 import type { Page } from '../types/page'
 

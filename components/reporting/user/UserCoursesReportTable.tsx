@@ -94,20 +94,10 @@ const UserCoursesReportTable = () => {
     ];
   }, []);
 
-  const titleBreadcrumbs = [
-    {
-      text: "Users",
-      link: "/admin/reports?view=users",
-    },
-    ...(user ? [{text: user?.fullName, link: {query: {user: user?.id}}},{text: 'Courses'}] : [])
-  ];
-
-  filenameString = `User report ${user?.fullName}`
   return (
     <ReportTable
-      titleBreadcrumbs={titleBreadcrumbs}
-
-      reportItemType="content"
+      title={`${user?.fullName}'s courses`}
+      csvFilename={`User courses for ${user?.fullName}`}
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading user's courses"
