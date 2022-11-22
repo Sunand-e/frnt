@@ -60,19 +60,19 @@ const GroupsReportTable = () => {
         Header: "Actions",
         accessor: "wa",
         Cell: ({ cell }) => {
-          const usersHref = cell.row.original.node.id && {
+          const usersHref = cell.row.original.id && {
             query: {
               ...router.query,
               type: 'user',
-              course: cell.row.original.node.id,
+              group: cell.row.original.id,
             },
           };
 
-          const coursesHref = cell.row.original.node.id && {
+          const coursesHref = cell.row.original.id && {
             query: {
               ...router.query,
-              type: 'lesson',
-              course: cell.row.original.node.id,
+              type: 'course',
+              group: cell.row.original.id,
             },
           };
 

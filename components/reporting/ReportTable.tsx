@@ -8,9 +8,9 @@ import TableStructure from "../common/TableStructure";
 import { useRouter } from "../../utils/router";
 import { client } from "../../graphql/client";
 import { gql } from "@apollo/client";
-import ReportFilters from "./ReportFilters";
 import ReportHeader from "./ReportHeader";
 import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
+import ReportFilters from "./ReportFilters";
 
 const ReportTable = ({
   tableData,
