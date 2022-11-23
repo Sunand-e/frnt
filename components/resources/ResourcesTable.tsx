@@ -10,6 +10,7 @@ import { resourceTypes } from '../resources/resourceTypes';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { Dot } from '../common/misc/Dot';
 import { startCase } from 'lodash';
+import Categories from '../categories/Categories';
 
 const ResourcesTable = () => {
 
@@ -116,6 +117,15 @@ const ResourcesTable = () => {
         Header: "Description",
         Cell: ({ cell }) => {
           return cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
+        },
+      },
+      {
+        id: 'category',
+        Header: "Category",
+        accessor: (row) => {
+          return row.tags?.filter(tag => (
+            tag.tagType === 'category'
+          )).map(tag => tag.label).join(', ') || <span>&mdash;</span>
         },
       },
       {
