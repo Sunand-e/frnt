@@ -41,7 +41,6 @@ const AdminCourseSetup = () => {
       // the update function updates the list of courses returned from the cached query.
       // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createCourse } } ) {
-        alert('putting it in')
         const cachedData = cache.readQuery<GetCurrentUser>({
           query: GET_CURRENT_USER
         })

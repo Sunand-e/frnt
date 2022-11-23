@@ -89,16 +89,15 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
           )
         }
       },
-      // {
-      //   Header: "Categories",
-      //   accessor: "tags",
-      //   Cell: ({ cell }) => {
-      //     const tagString = cell.row.original.tags?.map(tag => tag.label).join(', ')
-      //     return (
-      //       <span>{tagString}</span>
-      //     )
-      //   }
-      // },
+      {
+        id: 'category',
+        Header: "Category",
+        accessor: (row) => {
+          return row.tags?.filter(tag => (
+            tag.tagType === 'category'
+          )).map(tag => tag.label).join(', ') || <span>&mdash;</span>
+        },
+      },
       {
         width: 300,
         style: {

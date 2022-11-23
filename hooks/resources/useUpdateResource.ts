@@ -24,7 +24,6 @@ function useUpdateResource(id=null) {
   );
 
   const updateResource = (values, cb = null) => {
-    alert(JSON.stringify(values,null,2))
     updateResourceMutation({
       variables: {
         id,
