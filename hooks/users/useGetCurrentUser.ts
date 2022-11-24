@@ -16,6 +16,7 @@ function useGetCurrentUser(id=null) {
     contentItems: data?.contentItems, 
     resources: data?.resources, 
     tags: data?.tags,
+    groups: data?.user?.groups,
     loading, 
     error
   }
