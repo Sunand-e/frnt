@@ -10,10 +10,6 @@ const TableStructure = ({
   selectable=false, 
   onSelectionChange=null
 }) => {
-
-  console.log('rows')
-  console.log(rows)
-  // const [parent] = useAutoAnimate()
   
   return (
     <div className="flex flex-col">

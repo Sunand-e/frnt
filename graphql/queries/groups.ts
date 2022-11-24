@@ -30,7 +30,12 @@ export const GroupFragment = gql`
       }
     }
     assignedCourses {
-      id
+      totalCount
+      edges {
+        node {
+          id
+        }
+      }
     }
     _deleted @client
   }

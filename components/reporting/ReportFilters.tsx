@@ -4,10 +4,12 @@ import GroupSelect from "../groups/inputs/GroupSelect";
 import TagSelect from "../tags/inputs/TagSelect";
 import CourseSelect from "../courses/inputs/CourseSelect";
 import UserSelect from "../users/inputs/UserSelect";
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 
 const ReportFilters = ({filters=[]}) => {
 
   const router = useRouter()
+  const { tags, courses, pathways, lessons, resources, groups } = useGetCurrentUser();
 
   const { 
     user: userId, 
@@ -40,7 +42,7 @@ const ReportFilters = ({filters=[]}) => {
           }}
         />
       </div> */}
-      {filters.includes('group') && (
+      {groups && filters.includes('group') && (
         <div className="flex flex-col">
           <label className="text-left text-xs font-medium text-gray-500 uppercase">in group</label>
           <GroupSelect
@@ -83,8 +85,8 @@ const ReportFilters = ({filters=[]}) => {
       )}
       {filters.includes('category') && (
         <div className="flex flex-col">
-          <label className="text-left text-xs font-medium text-gray-500 uppercase">in category</label>
           <TagSelect
+            label="in category"
             selected={categoryId}
             tagType={`category`}
             onSelect={tag => {
@@ -111,7 +113,5 @@ const ReportFilters = ({filters=[]}) => {
     </div>
   )
 }
-
-ReportFilters.whyDidYouRender = true
 
 export default ReportFilters

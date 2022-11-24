@@ -68,7 +68,7 @@ const ReportTable = ({
           const fragment = client.readFragment({
             id: `UserContentEdge:${item.userId}:${item.node.id}`,
             fragment: gql`
-              fragment GroupFragment on UserContentEdge {
+              fragment UserContentGroupFragment on UserContentEdge {
                 groups {
                   edges {
                     node {
@@ -79,8 +79,9 @@ const ReportTable = ({
               }
             `,
           });
+
           const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
-          return groupIds.some((id) => id === groupId);
+          return groupIds?.some((id) => id === groupId);
         });
       }
       if (filterActive(categoryId)) {

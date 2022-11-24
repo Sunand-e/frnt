@@ -54,7 +54,7 @@ export const UserContentConnectionFragment = gql`
         content
         contentType
         itemType
-        mediaItem {
+        document {
           id
           location
         }
@@ -63,7 +63,9 @@ export const UserContentConnectionFragment = gql`
           location
         }
         tags {
-          id          
+          id
+          label
+          tagType
         }
       }
       roles {

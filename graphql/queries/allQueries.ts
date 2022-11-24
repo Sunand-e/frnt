@@ -14,6 +14,7 @@ export const ContentFragment = gql`
       altText
       properties
       title
+      fileName
     }
     id
     icon {
@@ -22,11 +23,10 @@ export const ContentFragment = gql`
       id
     }
     itemType
-    mediaItem {
+    document {
       id
       mediaType
       location
-      fileName
     }
     prerequisites
     settings
