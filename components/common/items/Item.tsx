@@ -6,12 +6,12 @@ import styles from './Item.module.scss'
 
 import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
 import Tippy from "@tippyjs/react";
-import useGetImageSrc from "./useGetImageSrc";
+import useGetThumbnail from "./useGetThumbnail";
 
 export default function Item({ item, options }) {
 
 
-  const { imageSrc } = useGetImageSrc(item)
+  const { src } = useGetThumbnail(item)
   const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
@@ -33,11 +33,11 @@ export default function Item({ item, options }) {
 
   let itemImage;
   let linkPaddingBottom = '';
-  if(item.itemType === 'resource' && !imageSrc) {
+  if(item.itemType === 'resource' && !src) {
 
     const IconComponent = resourceTypes[item.contentType].icon
     itemImage = (
-      <div className="w-full justify-center text-center">
+      <div className="w-full justify-center text-center p-6">
         <IconComponent className = "w-1/2 text-main" />
       </div>
     )
@@ -46,7 +46,7 @@ export default function Item({ item, options }) {
     itemImage = (
       <img
         className={'bg-main/20'}
-        src={imageSrc || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png'}
+        src={src || ( process.env.NEXT_PUBLIC_BASE_PATH || '' ) + '/images/placeholder-image.png'}
         style={{
           // backgroundImage: `url(${imageSrc})`,
           width: '100%',

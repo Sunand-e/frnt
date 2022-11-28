@@ -23,7 +23,7 @@ export default function ItemGrid({className, items, options, gridClasses = ''}: 
       { items.map((item, index) => {
         return (
           <motion.div
-            key={index}
+            key={item.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
