@@ -33,7 +33,7 @@ const useUploadAndNotify = ({
     
     data.append(fileParameterName, file, file.name)
 
-    await axios.request({
+    return await axios.request({
       method,
       url: endpoint,
       headers: {
@@ -94,6 +94,7 @@ const useUploadAndNotify = ({
       client.refetchQueries({
         include: [refetchQuery]
       })
+      return response.data
     })
   },[method])
 

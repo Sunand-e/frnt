@@ -22,8 +22,8 @@ const AdminUsersImport = () => {
   return (
     <>
       <UserImportForm />
-      <h3 className='mt-8 mb-4'>Previous Imports</h3>
-      <BulkImportsTable />
+      {/* <h3 className='mt-8 mb-4'>Previous Imports</h3>
+      <BulkImportsTable /> */}
     </>
   )
 }
