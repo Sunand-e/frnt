@@ -38,6 +38,7 @@ const ImageSelectFromLibrary = ({
       buttonText={buttonText}
       isButtonAlwaysVisible={isButtonAlwaysVisible}
       onClick={handleClick}
+      onClear={() => onSelect(null)}
       className={className}
     />
   )

@@ -38,7 +38,7 @@ const ImageSelectInput = ({
   const [image, setImage] = useState(origImage);
 
   const handleSelect = image => {
-    field.onChange(image.id)
+    field.onChange(image?.id)
     setImage(image)
     onSelect ? onSelect(image) : closeModal()
   }

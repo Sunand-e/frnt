@@ -60,13 +60,15 @@ function useCreateResource() {
             contentType: null,
             itemType: 'resource',
             mediaItem: null,
-            image: null,
             icon: null,
             prerequisites: null,
             _deleted: false,
             users: { totalCount: 0 },
+            audio: null,
+            document: null,
+            ...values,
             tags: [],
-            ...values
+            image: null,
           },
           message: ''
         }

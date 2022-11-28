@@ -11,6 +11,7 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import { Dot } from '../common/misc/Dot';
 import { startCase } from 'lodash';
 import Categories from '../categories/Categories';
+import useGetThumbnail from '../common/items/useGetThumbnail';
 
 const ResourcesTable = () => {
 
@@ -98,11 +99,12 @@ const ResourcesTable = () => {
         Header: "Resource",
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
-
+          const { src } = useGetThumbnail(cell.row.original, 50)
           const IconComponent = resourceTypes[cell.row.original.contentType]?.icon
 
           const cellProps = {
             image: cell.row.original.image,
+            imageSrc: src,
             icon: IconComponent ? <IconComponent /> : null,
             title: cell.value,
             secondary: startCase(cell.row.original.contentType),

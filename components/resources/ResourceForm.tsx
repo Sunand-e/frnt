@@ -9,12 +9,14 @@ import ResourceTypeSelector from './ResourceTypeSelector';
 import { useRouter } from 'next/router';
 import { resourceTypes } from './resourceTypes';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
+import ImageSelectInput from '../common/inputs/ImageSelectInput';
 
 interface ResourceFormValues {
   title: string
   resourceValue
   tags: [any]
   type: null | {[key: string]: any}
+  image: any
 }
   
 const ResourceForm = ({resource=null, onSubmit}) => {
@@ -37,7 +39,8 @@ const router = useRouter()
     title: resource?.title,
     // description: resource?.content?.description
     description: resource?.content?.description,
-    tags: resource?.tags?.map(({__typename, image, ...value}) => value) || []
+    tags: resource?.tags?.map(({__typename, image, ...value}) => value) || [],
+    image: resource?.image
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
@@ -51,18 +54,12 @@ const router = useRouter()
   const handleSubmit = formValues => {
     // 'values' in this case will be just 'title', and 'id' too if editing (19/08/2022)
     const {resourceValue, type, description, ...values} = formValues
-    let resourceValues
-    switch(type.name) {
-      case 'document':
-      // case 'image':
-      case 'audio':
-        resourceValues = { mediaItemId: resourceValue?.id}
-        break;
-      case 'video':
-      case 'link':
-        resourceValues = { content: { url: resourceValue }}
-        break;
-    }
+    
+    const resourceValues = ['link','video'].includes(type.name) ? ({
+      content: { url: resourceValue }
+    }) : ({
+      mediaItemId: resourceValue?.id
+    })
 
     const queryValues = {
       ...values,
@@ -121,8 +118,8 @@ const router = useRouter()
           }
         })}
       />
-      {errors.title && (<small className="text-danger text-rose-800">{errors.title.message}</small>)}
-      
+      {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
+
       <TagSelectInput
         control={control}
         tagType="category"
@@ -130,13 +127,25 @@ const router = useRouter()
       />
       <RTEInput initialValue={resource?.content?.description} label="Description" name="description" control={control}/>
       { resourceValue ? (
-        <>
-          <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
-          <Button type="submit">{submitButtonText}</Button>
-        </>
+        <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
       ) : (
         <ResourceReselect control={control} />
       )}
+
+      { ['link','document','audio'].includes(type.name) && (
+        <div className='max-w-lg shadow bg-main/10'>
+          <ImageSelectInput
+          buttonText="Thumbnail image (optional)"
+          origImage={defaultValues?.image}
+          control={control}
+          name="imageId"
+          class
+          // inputAttrs={register("image", { required: true })}
+          />
+        </div>
+      )}
+
+      { resourceValue && <Button type="submit">{submitButtonText}</Button> }
       {/* <pre>
       { JSON.stringify(formVals,null,2) }
       </pre> */}
