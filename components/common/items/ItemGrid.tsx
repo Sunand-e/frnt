@@ -13,7 +13,7 @@ interface ItemGridProps {
 export default function ItemGrid({className, items, options, gridClasses = ''}: ItemGridProps) {
   
   const [display, setDisplay] = useState(options?.display ?? 'grid');
-  const defaultGridClasses = 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5';
+  const defaultGridClasses = 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5';
   const gridClassName = (gridClasses === '') ? defaultGridClasses : gridClasses;
   const flexOrGridClasses = (display === 'grid') ? gridClassName : 'flex flex-col gap-6';
   const ItemComponent = (display === 'grid') ? Item : ItemSmall

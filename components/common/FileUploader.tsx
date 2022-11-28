@@ -9,7 +9,7 @@ const FileUploader = ({
   refetchQuery=null,
   fileParameterName,
   onDrop = acceptedFiles => null,
-  onAllUploadsComplete = () => null,
+  onAllUploadsComplete = (data) => null,
   multiple=true,
   additionalParams={},
 }) => {
@@ -21,7 +21,10 @@ const FileUploader = ({
 
   const handleDrop = useCallback((acceptedFiles) => {
     const uploadPromises = acceptedFiles.map(file => uploadFileAndNotify(file,fileParameterName,endpoint))
-    Promise.all(uploadPromises).then(onAllUploadsComplete)
+
+    Promise.all(uploadPromises).then((data) => {
+      onAllUploadsComplete(data)
+    })
     onDrop(acceptedFiles)
   },[endpoint])
 

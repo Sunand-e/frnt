@@ -51,14 +51,15 @@ const ResourceView = ({id}) => {
   
   let resourceComponent = useMemo(() => {
     switch(resource?.contentType) {
-      case 'document':
-        return <DocumentItem pdfPreview={true} file={resource.mediaItem} />
+      case 'document': {
+        return <DocumentItem pdfPreview={true} file={resource.document} />
+      }
       case 'video':
         return <VideoItem url={resource.content?.url} />
       case 'image':
         return <ImageItem image={resource.image}  />
       case 'audio':
-        return <AudioPlayer url={resource.mediaItem.location} />
+        return <AudioPlayer url={resource.audio.location} />
       case 'link':
         return <LinkPreview url={resource.content?.url} />
       default:

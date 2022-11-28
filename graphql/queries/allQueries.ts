@@ -27,6 +27,13 @@ export const ContentFragment = gql`
       id
       mediaType
       location
+      fileName
+    }
+    audio {
+      id
+      mediaType
+      location
+      fileName
     }
     prerequisites
     settings

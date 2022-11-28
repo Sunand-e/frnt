@@ -3,15 +3,26 @@ import { useRouter } from 'next/router';
 import FileUploader from '../common/FileUploader';
 import { GET_USERS } from '../../graphql/queries/users';
 import useGetUsers from '../../hooks/users/useGetUsers';
+import { useContext } from 'react';
+import { ModalContext } from '../../context/modalContext';
+import UserImportAccordion from './UserImportAccordion';
 
 const UserImportForm = () => {
 
-  const router = useRouter()
+  const users = useGetUsers();
 
-  // const users = useGetUsers();
+  const { handleModal } = useContext(ModalContext)
   
-  const handleAllUploadsComplete = () => {
-    router.push('/admin/users')
+  const handleAllUploadsComplete = (data) => {
+    handleModal({
+      title: 'CSV upload successful',
+      content: (
+        <>
+          <UserImportAccordion data={data?.[0]?.data} />
+        </>
+      )
+    })
+    // router.push('/admin/users')
   }
 
   const fileUploaderProps = {
@@ -27,7 +38,7 @@ const UserImportForm = () => {
     ],
     dropZoneContent: 'Upload a CSV',
     endpoint: "/api/v1/users/bulk_import",
-    refetchQuery: GET_USERS,
+    refetchQuery: 'GetUsers',
     fileParameterName: 'csv_file',
     onAllUploadsComplete: handleAllUploadsComplete,
     additionalParams: {

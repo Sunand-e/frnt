@@ -87,7 +87,7 @@ export default function Item({ item, options }) {
             )}
           </h2>
           {/* <img src={item.tags[0].image?.location} className="mt-1 h-12 rounded-full" /> */}
-          { item.tags?.[0]?.image?.id && (
+          {/* { item.tags?.[0]?.image?.id && (
             <div className={`h-12 w-12 flex justify-center items-center shrink-0 overflow-hidden rounded-full`}>
               <img 
                 className={`h-12 w-12 object-cover`} 
@@ -95,7 +95,7 @@ export default function Item({ item, options }) {
                 alt=""
               />
             </div>
-          )}
+          )} */}
         </div>
         { options?.showType && (
           <h2 className="text-lg text-white mb-4 top-5 font-bold">

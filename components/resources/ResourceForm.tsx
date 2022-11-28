@@ -23,9 +23,16 @@ const router = useRouter()
   
   const isUrl = ['link','video'].includes(resource?.contentType)
   
+  let defaultResourceValue
+  if(isUrl) {
+    defaultResourceValue = resource?.content?.url
+  } else {
+    defaultResourceValue = resource?.[resource.contentType]
+  }
+
   const defaultValues = {
     ...(resource?.id && { id: resource.id }),
-    resourceValue: (isUrl ? resource?.content?.url : resource?.mediaItem) || null,
+    resourceValue: defaultResourceValue,
     type: resource && {name: resource.contentType, ...resourceTypes[resource.contentType]},
     title: resource?.title,
     // description: resource?.content?.description
@@ -47,7 +54,7 @@ const router = useRouter()
     let resourceValues
     switch(type.name) {
       case 'document':
-      case 'image':
+      // case 'image':
       case 'audio':
         resourceValues = { mediaItemId: resourceValue?.id}
         break;
