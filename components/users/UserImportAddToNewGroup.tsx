@@ -42,7 +42,6 @@ const UserImportAddToNewGroup = ({userIds}) => {
   return (
     <>
     <div className="flex flex-col space-y-2 w-full">
-      {userIds.join(', ')}
     <form
       className='h-full w-full max-w-3xl flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
