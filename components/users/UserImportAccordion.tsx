@@ -3,6 +3,8 @@ import { useRouter } from "next/router"
 import { useContext } from "react"
 import { ModalContext } from "../../context/modalContext"
 import Button from "../common/Button"
+import NewUsersGroupForm from "./NewUsersGroupForm"
+import UserImportAddToNewGroup from "./UserImportAddToNewGroup"
 
 const UserImportAccordion = ({data}) => {
   const { rows } = data
@@ -12,7 +14,7 @@ const UserImportAccordion = ({data}) => {
   const invalidRows = rows.filter(row => !['exists','new'].includes(row.status))
   const userIds = rows.filter(row => ['exists','new'].includes(row.status)).map(user => user.id)
 
-  const { closeModal } = useContext(ModalContext)
+  const { closeModal, handleModal } = useContext(ModalContext)
 
   const router = useRouter()
 
@@ -22,7 +24,10 @@ const UserImportAccordion = ({data}) => {
   }
 
   const createGroup = () => {
-    
+    handleModal({
+      title: 'Create new group',
+      content: <UserImportAddToNewGroup userIds={userIds} />
+    })
   }
 
   return (
@@ -72,7 +77,6 @@ const UserImportAccordion = ({data}) => {
         </Accordion.Item>
       )}
     </Accordion>
-    "{userIds.join('", "')}"
     <div className="flex flex-col space-y-2 w-full">
       
       <Button onClick={createGroup}>Create a group for these users</Button>

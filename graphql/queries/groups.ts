@@ -29,6 +29,14 @@ export const GroupFragment = gql`
         }
       }
     }
+    assignedResources {
+      totalCount
+      edges {
+        node {
+          id
+        }
+      }
+    }
     assignedCourses {
       totalCount
       edges {
