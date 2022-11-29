@@ -15,7 +15,7 @@ const EnrolledCoursesInput = ({control}) => {
         <DualListBoxInput
           label="Enrolled courses"
           control={control}
-          name="enrolledCourseIds"
+          name="assignedCourseIds"
           options={coursesOptions}
           lang={{
             availableHeader: 'Available courses',

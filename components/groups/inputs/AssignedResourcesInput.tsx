@@ -15,7 +15,7 @@ const AssignedResourcesInput = ({control}) => {
         <DualListBoxInput
           label="Assigned resources"
           control={control}
-          name="enrolledCourseIds"
+          name="assignedResourceIds"
           options={resourcesOptions}
           lang={{
             availableHeader: 'Available resources',

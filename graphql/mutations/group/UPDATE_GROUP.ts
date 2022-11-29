@@ -8,8 +8,8 @@ export const UPDATE_GROUP = gql`
     $name: String,
     $parentId: ID,
     $imageId: ID,
-    $assignedCourseIds: [ID!],
-    $enrolledCourseIds: [ID!],
+    $assignedContentIds: [ID!],
+    $enrolledContentIds: [ID!],
     $userIds: [ID!]
   ) {
     updateGroup(
@@ -18,8 +18,8 @@ export const UPDATE_GROUP = gql`
         id: $id,
         imageId: $imageId,
         parentId: $parentId,
-        assignedCourseIds: $assignedCourseIds,
-        enrolledCourseIds: $enrolledCourseIds,
+        assignedContentIds: $assignedContentIds,
+        enrolledContentIds: $enrolledContentIds,
         userIds: $userIds
       }
     ) {

@@ -24,12 +24,12 @@ const GroupForm = ({group}) => {
       defaultValues: {
         ...group,
         userIds: users.map(user => user.id),
-        enrolledCourseIds: group?.enrolledCourses.edges.map(edge => edge.node.id) || [],
-        assignedCourseIds: group?.assignedCourses.map(course => course.id) || [],
+        assignedCourseIds: group?.assignedCourses.edges.map(edge => edge.node.id) || [],
+        assignedResourceIds: group?.assignedResources.edges.map(edge => edge.node.id) || [],
       }
     }
   );
-
+  
   useEffect(() => {
     setFocus('name')
   },[])
@@ -39,7 +39,11 @@ const GroupForm = ({group}) => {
   const { updateGroup } = useUpdateGroup(group.id);
 
   const onSubmit = useCallback(values => {
-    group && updateGroup(values)
+    const input = {
+      ...values,
+      enrolledContentIds: [...values.assignedCourseIds, ...values.assignedResourceIds]
+    }
+    group && updateGroup(input)
     router.push('/admin/users/groups')
   },[group])
 
@@ -69,6 +73,7 @@ const GroupForm = ({group}) => {
       /> */}
 
       <GroupUsersInput control={control} />
+      <p><a className='text-main cursor-pointer' onClick={() => console.log('inviteUsers')}>Send invitation to all users</a></p>
       {/* <AssignedCoursesInput control={control} /> */}
       <EnrolledCoursesInput control={control} />
       <AssignedResourcesInput control={control} />

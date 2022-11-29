@@ -67,6 +67,10 @@ const GroupsTable = () => {
         accessor: "enrolledCourses.totalCount",
       },
       {
+        Header: "Assigned Resources",
+        accessor: "assignedResources.totalCount",
+      },
+      {
         width: 300,
         Header: "Actions",
         accessor: "wa",
