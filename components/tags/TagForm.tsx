@@ -26,7 +26,7 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
     setFocus('label')
   },[])
 
-  const buttonText = tag ? 'Save changes' : 'Create tag'
+  const buttonText = tag ? 'Save changes' : 'Create category'
   
   const reopenFormInModal = (image) => {
     handleModal({

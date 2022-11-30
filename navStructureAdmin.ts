@@ -36,12 +36,6 @@ const navStructureAdmin = [
         icon: GraduationCap
       },
       {
-        name: 'categories',
-        title: 'Categories',
-        urlPath: '/admin/tags',
-        icon: Category
-      },
-      {
         name: 'pathways',
         title: 'Pathways',
         urlPath: '/admin/pathways',
@@ -155,6 +149,12 @@ const navStructureAdmin = [
       //   urlPath: '/admin/users/survey',
       // },
     ],
+  },
+  {
+    name: 'categories',
+    title: 'Categories',
+    urlPath: '/admin/tags',
+    icon: Category
   },
   {
     name: 'medialibrary',
