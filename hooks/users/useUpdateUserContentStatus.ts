@@ -24,7 +24,7 @@ function useUpdateUserContentStatus() {
         updateUserContentStatus:{
           userContents:{
             edges:[{
-              userId: user.id,
+              userId: user?.id,
               status: "in_progress",
               score: 71,
               updatedAt: "2022-10-18T21:38:36Z",
