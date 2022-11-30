@@ -118,7 +118,8 @@ const ResourcesTable = () => {
       {
         Header: "Description",
         Cell: ({ cell }) => {
-          return cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
+          const html = cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
+          return <span dangerouslySetInnerHTML={{ __html: html }}></span>
         },
       },
       {
@@ -157,14 +158,14 @@ const ResourcesTable = () => {
     <>
       { loading && <LoadingSpinner text={(
         <>
-          Loading categories
+          Loading resources
           <Dot>.</Dot>
           <Dot>.</Dot>
           <Dot>.</Dot>
         </>
       )} /> }
       { error && (
-        <p>Unable to fetch resourses.</p>
+        <p>Unable to fetch resources.</p>
       )}
       { (!loading && !error) && (
         <Table tableData={tableData} tableCols={tableCols} />

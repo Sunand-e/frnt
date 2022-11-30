@@ -18,6 +18,8 @@ import { useRouter } from "../../../utils/router";
 import useGetUserPathway from "../../../hooks/users/useGetUserPathway";
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import { Dot } from '../../common/misc/Dot';
 
 const ResourceView = ({id}) => {
 
@@ -30,7 +32,7 @@ const ResourceView = ({id}) => {
   const router = useRouter()
   const { pid } = router.query;
 
-  const { resources } = useGetCurrentUser()
+  const { loading, error, resources } = useGetCurrentUser()
 
   const resourceEdge = resources?.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node
@@ -117,7 +119,7 @@ const ResourceView = ({id}) => {
   console.log(resource?.contentType)
   return (
     <div className="w-full flex flex-col">
-      { resource && (
+      { resource ? (
         <div className="w-full max-w-screen-lg self-center flex flex-col">
           <h1 className="mt-3 mb-8">
             { resource.title }
@@ -161,6 +163,20 @@ const ResourceView = ({id}) => {
             )}
           </div>
         </div>
+      ) : (
+        <>
+          { loading && <LoadingSpinner text={(
+            <>
+              Loading resources
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+              <Dot>.</Dot>
+            </>
+          )} /> }
+          { error && (
+            <p>Unable to fetch resourses.</p>
+          )}
+        </>
       )}
     </div>
   )
