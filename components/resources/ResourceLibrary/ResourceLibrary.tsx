@@ -26,6 +26,7 @@ const ResourceLibrary = () => {
     // alert(JSON.stringify({search, type, category},null,2))
     router.push({
       query: {
+        ...router.query,
         ...(search && { search }),
         ...(category && { category }),
       }
