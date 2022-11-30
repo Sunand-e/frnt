@@ -9,7 +9,7 @@ import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 
 const BackButton = () => (
   <>
-    <span className='hidden lg:block'>Back to tags list</span>
+    <span className='hidden lg:block'>Back to categories list</span>
     <span className='block lg:hidden'><ArrowBack  width="20" /></span>
   </>
 )
@@ -42,7 +42,6 @@ const AdminUsersTagsEdit = () => {
 }
 
 AdminUsersTagsEdit.navState = {
-  topLevel: 'courses',
-  secondary: 'categories'
+  topLevel: 'categories'
 }
 export default AdminUsersTagsEdit

@@ -42,8 +42,7 @@ const AdminTags = () => {
 }
 
 AdminTags.navState = {
-  topLevel: 'courses',
-  secondary: 'categories'
+  topLevel: 'categories'
 }
 
 export default AdminTags

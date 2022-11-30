@@ -18,6 +18,12 @@ const navStructureUser = [
     icon: 'home'
   },
   {
+    name: 'categories',
+    title: 'Categories',
+    urlPath: '/categories',
+    icon: Category
+  },
+  {
     name: 'courses',
     title: 'Courses',
     urlPath: '/courses',
@@ -92,12 +98,6 @@ const navStructureUser = [
       //   icon: FlowChart,
       // }
     ]
-  },
-  {
-    name: 'categories',
-    title: 'Categories',
-    urlPath: '/categories',
-    icon: Category
   },
   // {
   //   name: 'events',
