@@ -75,19 +75,20 @@ const link = ApolloLink.from([
   authLink.concat(httpLink),
 ])
 
+const typesWithDeleted = ['ContentItem', 'ScormModule', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']
+
+const resolvers = typesWithDeleted.reduce((accumulator, value) => {
+  return {
+    ...accumulator, 
+    [value]: { _deleted: item => Boolean(item._deleted) }
+  }
+}, {})
+
+ 
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link,
   connectToDevTools: true,
   cache,
   // typeDefs
-  resolvers: {
-    Group: {
-      _deleted: group => Boolean(group._deleted),
-    },
-    ContentItem: {
-      _deleted: course => Boolean(course._deleted),
-    }
-
-  },
-
+  resolvers
 });
