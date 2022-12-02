@@ -12,6 +12,8 @@ import { Dot } from '../common/misc/Dot';
 import { startCase } from 'lodash';
 import Categories from '../categories/Categories';
 import useGetThumbnail from '../common/items/useGetThumbnail';
+import { getIcon } from 'react-toastify/dist/components';
+import { getIconFromFilename } from '../../utils/getIconFromFilename';
 
 const ResourcesTable = () => {
 
@@ -100,12 +102,19 @@ const ResourcesTable = () => {
         accessor: "title", // accessor is the "key" in the data
         Cell: ({ cell }) => {
           const { src } = useGetThumbnail(cell.row.original, 50)
-          const IconComponent = resourceTypes[cell.row.original.contentType]?.icon
+          const { contentType } = cell.row.original
+          const rounded = (!src && contentType === 'document') ? 'none' : 'full'
+          const IconComponent = (contentType === 'document') ? (
+            getIconFromFilename(cell.row.original.document?.fileName)
+          ) : (
+            resourceTypes[contentType]?.icon
+          )
 
           const cellProps = {
             image: cell.row.original.image,
             imageSrc: src,
             icon: IconComponent ? <IconComponent /> : null,
+            rounded,
             title: cell.value,
             secondary: startCase(cell.row.original.contentType),
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`

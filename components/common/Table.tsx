@@ -51,10 +51,11 @@ const Table = ({
                 ))}
               </thead>
               <tbody className="bg-white divide-y divide-gray-200" {...getTableBodyProps()}>
-                {rows.map((row) => {
-                  prepareRow(row);
+                {rows.map((row, index) => {
+                  const key = row.original?.id || index
+                  prepareRow(row)
                   return (
-                    <tr {...row.getRowProps(rowProps(row))}>
+                    <tr {...row.getRowProps(rowProps(row))} key={key}>
                       {row.cells.map((cell, index) => {
                         return (
                           <td

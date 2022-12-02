@@ -1,6 +1,6 @@
 
 import { useQuery } from "@apollo/client"
-import { GET_TAGS } from "../../graphql/queries/tags";
+import { GET_TAGS, GET_TAGS_FULL } from "../../graphql/queries/tags";
 
 function useGetTagsFull() {
 

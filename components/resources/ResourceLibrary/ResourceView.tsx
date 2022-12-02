@@ -75,8 +75,8 @@ const ResourceView = ({id}) => {
         case 'audio':
         return (
           <Button className="mb-8" onClick={() => router.push('/resources')}>
-            <span className="flex space-x-4">
-              <Download className="h-8 p-1" />
+            <span className="flex space-x-2 items-center">
+              <Download className="h-7" />
               <span>
                 Download {resource?.contentType} file
               </span>
@@ -87,7 +87,7 @@ const ResourceView = ({id}) => {
         return (
           <ButtonLink target="_blank" className="mb-8" href={resource?.content?.url}>
             <span className="flex space-x-2 items-center">
-              <ExternalLinkOutline className="h-8 p-1" />
+              <ExternalLinkOutline className="h-7" />
               <span>
                 Visit link
               </span>
@@ -113,10 +113,7 @@ const ResourceView = ({id}) => {
       query: { pid }
     })
   }, [resource])
-  
-  
-  console.log('resource?.type')
-  console.log(resource?.contentType)
+
   return (
     <div className="w-full flex flex-col">
       { resource ? (
@@ -157,8 +154,7 @@ const ResourceView = ({id}) => {
                 <span className='flex items-center space-x-2'>
                   <span>Back to Resource Library</span>
                   <ArrowBack className='h-7'/>
-                </span>
-                
+                </span>  
               </Button>
             )}
           </div>

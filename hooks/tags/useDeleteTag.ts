@@ -28,6 +28,25 @@ function useDeleteTag() {
           message: ''
         },
       },
+      
+      update(cache, { data: deleteTag }) {
+        // We get a single item.
+        const tag = cache.readFragment({
+          id: `Tag:${id}`,
+          fragment: TagFragment,
+        });
+        // Then, we update it.
+        if (tag) {
+          cache.writeFragment({
+            id: `Tag:${id}`,
+            fragment: TagFragment,
+            data: {
+              ...tag,
+              _deleted: true
+            },
+          });
+        }
+      }
       // update(cache, { data: deleteTag }) {
       //   // We get a single item.
       //   const tag = cache.readFragment({

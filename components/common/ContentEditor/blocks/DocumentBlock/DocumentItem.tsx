@@ -1,9 +1,7 @@
-import { FilePdf, FileEarmarkFill } from '@styled-icons/bootstrap'
-import { Microsoftexcel, Microsoftpowerpoint } from '@styled-icons/simple-icons'
-import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Download} from '@styled-icons/heroicons-outline/Download'
 import dynamic from 'next/dynamic';
+import { getIconFromFilename } from '../../../../../utils/getIconFromFilename';
 
 const DynamicPdfViewer = dynamic(
   () => import('../../../../common/PdfViewer'),
@@ -15,26 +13,7 @@ const DynamicPdfViewer = dynamic(
 
 const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
 
-  let IconComponent;
-
-  const extension = file.fileName.split('.').pop();
-
-  switch (true) {
-    case ["xls", "xlsx"].includes(extension) :
-      IconComponent = Microsoftexcel;
-      break;
-    case ["doc", "docx"].includes(extension) :
-      IconComponent = FileDoc;
-      break;
-    case ["pdf"].includes(extension) :
-      IconComponent = FilePdf;
-      break;
-    case ["ppt, pptx"].includes(extension) :
-      IconComponent = Microsoftpowerpoint;
-      break;
-    default:
-      IconComponent = FileEarmarkFill;
-  } 
+  const IconComponent = getIconFromFilename(file.fileName);
 
   const handleRemove = (e) => {
     e.preventDefault()
