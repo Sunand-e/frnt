@@ -9,22 +9,23 @@ import ItemWithImage from '../../common/cells/ItemWithImage';
 
 import {Category} from '@styled-icons/material-rounded/Category'
 import LoadingSpinner from '../../common/LoadingSpinner';
+import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 
 const TagsTable = () => {
 
-  const { tags: tagsBasic, loading, error } = useGetTags()
-  const { tags: tagsFull } = useGetTagsFull()
+  const { tags, loading, error, courses, resources, pathways } = useGetCurrentUser()
+  // const { tags: tagsFull } = useGetTagsFull()
   const { deleteTag } = useDeleteTag()
 
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
 
-  useEffect(() => {
-    if(tagsFull) {
-      setTags(tagsFull)
-    } else if(tagsBasic) {
-      setTags(tagsBasic)
-    }
-  }, [tagsFull,tagsBasic])
+  // useEffect(() => {
+  //   if(tagsFull) {
+  //     setTags(tagsFull)
+  //   } else if(tagsBasic) {
+  //     setTags(tagsBasic)
+  //   }
+  // }, [tagsFull,tagsBasic])
 
   
   const handleDeleteClick = (id) => {
@@ -60,9 +61,21 @@ const TagsTable = () => {
       {
         Header: "Item count",
         Cell: ({ cell }) => {
-          let contentCount = cell.row.original.courses?.length
+          const allItemEdges = [
+            ...courses?.edges,
+            ...resources?.edges,
+            ...pathways?.edges
+          ]
+          const catItemCount = allItemEdges.filter(
+            edge => edge.node.tags.map(
+              tag => tag.id
+            ).includes(cell.row.original.id)
+          ).length
+
+          console.log('catItemCount')
+          console.log(catItemCount)
           return (
-            <span>{`${contentCount || 0} item${contentCount !== 1 ? 's' : ''}`}</span>
+            <span>{`${catItemCount || 0} item${catItemCount !== 1 ? 's' : ''}`}</span>
           )
         }
       },
@@ -84,7 +97,7 @@ const TagsTable = () => {
         }
       }
     ],
-    []
+    [courses, resources, pathways]
   );
 
   return (

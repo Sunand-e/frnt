@@ -11,7 +11,23 @@ function useCreateTag() {
   const [createTagMutation, createTagResponse] = useMutation<CreateTag, CreateTagVariables>(
     CREATE_TAG,
     {
-      refetchQueries: [GET_TAGS],
+      // refetchQueries: [GET_TAGS],
+      update(cache, { data: { createTag } } ) {
+        const cachedData = cache.readQuery<GetTags>({
+          query: GET_TAGS
+        })
+
+        cache.writeQuery({
+          query: GET_TAGS,
+          data: {
+            ...cachedData,
+            tags: [
+              createTag.tag,
+              ...cachedData.tags
+            ]
+          }
+        })
+      }
     }
   );
 
@@ -26,9 +42,9 @@ function useCreateTag() {
           tag: {
             __typename: 'Tag',
             id: `tmp-${Math.floor(Math.random() * 10000)}`,
+            image: null,
             ...values
           },
-          message: ''
         }
       },
       onCompleted: cb
