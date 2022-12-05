@@ -4,7 +4,7 @@ import { FileDoc } from '@styled-icons/boxicons-solid/FileDoc'
 
 export function getIconFromFilename(filename) {
 
-  const extension = filename.split('.').pop()
+  const extension = filename?.split('.').pop()
   
   const extensionToIconMap = new Map([
     [["xls", "xlsx"], Microsoftexcel],
