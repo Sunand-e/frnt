@@ -33,8 +33,8 @@ const UsersTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Name",
-        Cell: ({ cell }) => (
+        header: "Name",
+        cell: ({ cell }) => (
           <ItemWithImage 
             title={cell.row.original.fullName}
             secondary={cell.row.original.email}
@@ -46,16 +46,16 @@ const UsersTable = () => {
         )
       },
       {
-        Header: "Groups",
-        accessor: "groups[0].name", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
-          return cell.row.original.groups.edges.map(edge => edge.node.name).join(', ') || '-'
+        header: "Groups",
+        accessorFn: row => row.groups.edges.map(edge => edge.node.name).join(', '),
+        cell: ({ cell }) => {
+          return cell.getValue() || '-'
         }
       },
       {
-        Header: "Global Roles",
+        header: "Global Roles",
         id: 'roles',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           return cell.row.original.roles.filter(
             role => role.name !== 'User'
           ).map(role => role.name).join(', ') || '-'
@@ -63,9 +63,9 @@ const UsersTable = () => {
       },
       {
         width: 300,
-        Header: "Actions",
+        header: "Actions",
         // className: 'text-center',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (          
             <div className="space-x-4">

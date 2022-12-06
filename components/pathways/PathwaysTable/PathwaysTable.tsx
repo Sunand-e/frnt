@@ -37,13 +37,13 @@ const PathwaysTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "Pathway",
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => (
+        header: "Pathway",
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => (
           <ItemWithImage
             image={cell.row.original.image}
             icon={<GraduationCap className='p-1'/>}
-            title={cell.value}
+            title={cell.getValue()}
             secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
             // secondary={cell.row.original.title}
             href={
@@ -55,9 +55,9 @@ const PathwaysTable = () => {
         )
       },
       {
-        Header: "Active users",
-        accessor: "users.totalCount",
-        Cell: ({ cell }) => {
+        header: "Active users",
+        accessorFn: row => row.users.totalCount,
+        cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
             <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
@@ -65,10 +65,10 @@ const PathwaysTable = () => {
         }
       },
       {
-        Header: "Categories",
-        accessor: "tags",
-        Cell: ({ cell }) => {
-          const tagString = cell.value.map(tag => tag.label).join(', ')
+        header: "Categories",
+        accessorKey: "tags",
+        cell: ({ cell }) => {
+          const tagString = cell.getValue().map(tag => tag.label).join(', ')
           return (
             <span>{tagString}</span>
           )
@@ -76,9 +76,9 @@ const PathwaysTable = () => {
       },
       {
         width: 300,
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        accessorKey: "wa",
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?pid=${cell.row.original.id}`
 
           return (

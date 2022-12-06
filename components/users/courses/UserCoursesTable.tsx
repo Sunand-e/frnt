@@ -52,9 +52,9 @@ const UserCoursesTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        Header: "Course",
-        accessor: "node.title", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Course",
+        accessorFn: row => row.node.title, // accessor is the key in the data
+        cell: ({ cell }) => {
           const course = cell.row.original.node;
           return (
             <ItemWithImage
@@ -65,8 +65,8 @@ const UserCoursesTable = () => {
         }
       },
       // {
-      //   Header: "Role",
-      //   Cell: ({ cell }) => {
+      //   header: "Role",
+      //   cell: ({ cell }) => {
       //     const content = cell.row.original;
       //     const handleChange = role => handleChangeRole(content, role);
       //     return (
@@ -78,7 +78,7 @@ const UserCoursesTable = () => {
         width: 300,
         id: "Actions",
 
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const values = cell.row.original;
           return (
             <div className="text-right">

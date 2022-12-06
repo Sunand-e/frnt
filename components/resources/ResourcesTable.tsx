@@ -98,9 +98,9 @@ const ResourcesTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "Resource",
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Resource",
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => {
           const { src } = useGetThumbnail(cell.row.original, 50)
           const { contentType } = cell.row.original
           const rounded = (!src && contentType === 'document') ? 'none' : 'full'
@@ -115,7 +115,7 @@ const ResourcesTable = () => {
             imageSrc: src,
             icon: IconComponent ? <IconComponent /> : null,
             rounded,
-            title: cell.value,
+            title: cell.getValue(),
             secondary: startCase(cell.row.original.contentType),
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
@@ -125,16 +125,16 @@ const ResourcesTable = () => {
         }
       },
       {
-        Header: "Description",
-        Cell: ({ cell }) => {
+        header: "Description",
+        cell: ({ cell }) => {
           const html = cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
           return <span dangerouslySetInnerHTML={{ __html: html }}></span>
         },
       },
       {
         id: 'category',
-        Header: "Category",
-        accessor: (row) => {
+        header: "Category",
+        accessorFn: row => {
           return row.tags?.filter(tag => (
             tag.tagType === 'category'
           )).map(tag => tag.label).join(', ') || <span>&mdash;</span>
@@ -142,9 +142,9 @@ const ResourcesTable = () => {
       },
       {
         width: 300,
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        accessorKey: "wa",
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
 
           return (

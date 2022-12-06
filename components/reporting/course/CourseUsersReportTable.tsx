@@ -33,9 +33,9 @@ const CourseUsersReportTable = () => {
     () => [
       {
         id: "name",
-        Header: "Name",
-        accessor: "node.fullName",
-        Cell: ({ cell }) => {
+        header: "Name",
+        accessorFn: row => row.node.fullName,
+        cell: ({ cell }) => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
             icon: (
@@ -54,8 +54,8 @@ const CourseUsersReportTable = () => {
         },
       },
       // {
-      //   Header: "JSON",
-      //   Cell: ({ cell }) => (
+      //   header: "JSON",
+      //   cell: ({ cell }) => (
       //     <pre className='text-left'>
       //       {JSON.stringify(cell.row.original.node,null,2)}
       //     </pre>
@@ -64,37 +64,37 @@ const CourseUsersReportTable = () => {
       // },
       {
         id: "status",
-        Header: "Course status",
-        accessor: "status",
+        header: "Course status",
+        accessorKey: "status",
       },
       {
         id: "score",
-        Header: "Score",
-        accessor: "score",
+        header: "Score",
+        accessorKey: "score",
       },
       {
         ...commonTableCols.createdAt,
-        Header: "First access",
+        header: "First access",
       },
       {
         ...commonTableCols.updatedAt,
-        Header: "Last visited",
+        header: "Last visited",
       },
       // {
       //   id: "completedAt",
-      //   Header: "Completed at",
-      //   accessor: "completedAt",
-      //   Cell: ({ cell }) => {
-      //     return cell.value ? dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A') : noDataDash
+      //   header: "Completed at",
+      //   accessorKey: "completedAt",
+      //   cell: ({ cell }) => {
+      //     return cell.getValue() ? dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A') : noDataDash
       //   }
       // },
 
       // "visits": null,
       // "completed": null
       // {
-      //   Header: "Roles",
-      //   accessor: "roles[0].name", // accessor is the "key" in the data
-      //   Cell: ({ cell }) => {
+      //   header: "Roles",
+      //   accessorFn: row => row.roles[0].name, // accessor is the key in the data
+      //   cell: ({ cell }) => {
       //     return cell.row.original.node.roles.map(role => {
       //       return role.name
       //     }).join(', ')
@@ -102,10 +102,10 @@ const CourseUsersReportTable = () => {
       // },
       {
         id: "actions",
-        Header: "",
+        header: "",
         hideOnCsv: true,
         width: 300,
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const userId = cell.row.original.node.id;
           const href = {
             query: {

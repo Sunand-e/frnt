@@ -62,13 +62,13 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course",
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => (
+        header: "Course",
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => (
           <ItemWithImage
             image={cell.row.original.image}
             icon={<GraduationCap className='p-1'/>}
-            title={cell.value}
+            title={cell.getValue()}
             secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
             // secondary={cell.row.original.title}
             href={
@@ -80,9 +80,10 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         )
       },
       {
-        Header: "Active users",
-        accessor: "users.totalCount",
-        Cell: ({ cell }) => {
+        id: 'activeUsers',
+        header: "Active users",
+        accessorFn: row => row.users?.totalCount,
+        cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
             <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
@@ -91,11 +92,11 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       },
       {
         id: 'category',
-        Header: "Category",
-        accessor: (row) => {
+        header: "Category",
+        accessorFn: (row) => {
           return row.tags?.filter(tag => (
             tag.tagType === 'category'
-          )).map(tag => tag.label).join(', ') || <span>&mdash;</span>
+          )).map(tag => tag.label).join(', ') || '-'
         },
       },
       {
@@ -103,9 +104,8 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         style: {
           width:"300px"
         },
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
 
           return (

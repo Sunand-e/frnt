@@ -45,13 +45,13 @@ const TagsTable = () => {
    const tableCols = useMemo(
     () => [
       {
-        Header: "Category Name",
-        accessor: "label", // accessor is the "key" in the data
-        Cell: ({ cell }) => (
+        header: "Category Name",
+        accessorKey: "label", // accessor is the "key" in the data
+        cell: ({ cell }) => (
           <ItemWithImage
             image={cell.row.original.image}
             icon={<Category className='p-2' />}
-            title={cell.value}
+            title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
             imgDivClass={'bg-main text-white'}
@@ -59,8 +59,8 @@ const TagsTable = () => {
         )
       },
       {
-        Header: "Item count",
-        Cell: ({ cell }) => {
+        header: "Item count",
+        cell: ({ cell }) => {
           const allItemEdges = [
             ...courses?.edges,
             ...resources?.edges,
@@ -81,8 +81,8 @@ const TagsTable = () => {
       },
       {
         width: 300,
-        Header: "Actions",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
             <div className="flex space-x-4 justify-center">

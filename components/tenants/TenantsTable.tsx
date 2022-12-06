@@ -34,8 +34,8 @@ const TenantsTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Tenant",
-        Cell: ({ cell }) => (
+        header: "Tenant",
+        cell: ({ cell }) => (
           <ItemWithImage
             imageSrc={cell.row.original.logos.logo_square}
             icon={<Buildings />}
@@ -48,51 +48,51 @@ const TenantsTable = () => {
         )
       },
       {
-        Header: "URL",
-        accessor: "url",
-        Cell: ({ cell }) => {
-          const domainUrl = `${location.protocol}//${cell.value}`
+        header: "URL",
+        accessorKey: "url",
+        cell: ({ cell }) => {
+          const domainUrl = `${location.protocol}//${cell.getValue()}`
           const port = location.port && `:${location.port}`
           return (
-              <a href={domainUrl + port}>{cell.value}</a>
+              <a href={domainUrl + port}>{cell.getValue()}</a>
           )
         },
       },
       {
-        Header: "Users",
-        accessor: "users.totalCount",
+        header: "Users",
+        accessorFn: row => row.users.totalCount,
       },
       {
-        Header: "Courses",
-        accessor: "courses.totalCount",
+        header: "Courses",
+        accessorFn: row => row.courses.totalCount,
       },
       {
-        Header: "Groups",
-        accessor: "groups.totalCount",
+        header: "Groups",
+        accessorFn: row => row.groups.totalCount,
       },
       {
-        Header: "Date Created",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
+        header: "Date Created",
+        accessorKey: "createdAt",
+        cell: ({ cell }) => {
           return (
-              dayjs(cell.value).format('DD/MM')
+              dayjs(cell.getValue()).format('DD/MM')
           )
         }
       },
       {
-        Header: "Date Updated",
-        accessor: "updatedAt",
-        Cell: ({ cell }) => {
+        header: "Date Updated",
+        accessorKey: "updatedAt",
+        cell: ({ cell }) => {
           return (
-              dayjs(cell.value).format('DD/MM')
+              dayjs(cell.getValue()).format('DD/MM')
           )
         }
       },
       {
         width: 300,
-        Header: "Actions",
+        header: "Actions",
         // className: 'text-center',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (          
             <div className="space-x-4">

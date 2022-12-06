@@ -22,9 +22,9 @@ const UserCoursesReportTable = () => {
     return [
       {
         id: "title",
-        Header: "Course",
-        accessor: "node.title", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Course",
+        accessorFn: row => row.node.title, // accessor is the key in the data
+        cell: ({ cell }) => {
           const course = cell.row.original.node;
           const cellProps = {
             title: course?.title,
@@ -42,8 +42,8 @@ const UserCoursesReportTable = () => {
       },
       // {
       //   id: 'role',
-      //   Header: "Role",
-      //   Cell: ({ cell }) => {
+      //   header: "Role",
+      //   cell: ({ cell }) => {
       //     const content = cell.row.original.node.roles;
       //     return (
       //       <pre>
@@ -54,29 +54,29 @@ const UserCoursesReportTable = () => {
       // },
       {
         id: "status",
-        Header: "Course status",
-        accessor: "status",
+        header: "Course status",
+        accessorKey: "status",
       },
       {
         id: "score",
-        Header: "Score",
-        accessor: "score",
+        header: "Score",
+        accessorKey: "score",
       },
       {
         ...commonTableCols.createdAt,
-        Header: "First access",
+        header: "First access",
       },
       {
         ...commonTableCols.updatedAt,
-        Header: "Last visited",
+        header: "Last visited",
       },
       {
         id: "actions",
-        Header: "",
+        header: "",
         hideOnCsv: true,
         width: 300,
         // className: 'text-center',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const course = cell.row.original.node;
           const href = {
             query: {

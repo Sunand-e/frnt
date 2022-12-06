@@ -29,13 +29,13 @@ const GroupsReportTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        Header: "Group Name",
-        accessor: "name", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Group Name",
+        accessorKey: "name", // accessor is the "key" in the data
+        cell: ({ cell }) => {
           const userCount = cell.row.original.users.totalCount
           const cellProps = {
             image: cell.row.original.image,
-            title: cell.value,
+            title: cell.getValue(),
             icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
             secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
           }
@@ -45,21 +45,21 @@ const GroupsReportTable = () => {
         }
       },
       {
-        Header: "Date Created",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
+        header: "Date Created",
+        accessorKey: "createdAt",
+        cell: ({ cell }) => {
+          return dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
         }
       },
       {
-        Header: "Enrolled Courses",
-        accessor: "enrolledCourses.totalCount",
+        header: "Enrolled Courses",
+        accessorFn: row => row.enrolledCourses.totalCount,
       },
       {
         width: 300,
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        accessorKey: "wa",
+        cell: ({ cell }) => {
           const usersHref = cell.row.original.id && {
             query: {
               ...router.query,

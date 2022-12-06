@@ -61,12 +61,12 @@ const CoursesReportTable = () => {
     () => [
       {
         id: "title",
-        Header: "Course",
-        accessor: "node.title",
-        Cell: ({ cell }) => {
+        header: "Course",
+        accessorFn: row => row.node.title,
+        cell: ({ cell }) => {
           const cellProps = {
             image: cell.row.original.node.image,
-            title: cell.value,
+            title: cell.getValue(),
             secondary: cell.row.original.node.tags
               ?.map((tag) => tag.label)
               .join(", "),
@@ -83,14 +83,14 @@ const CoursesReportTable = () => {
       },
       {
         id: "enrolled",
-        Header: "Enrolled users",
-        accessor: "node.users.totalCount",
-        Cell: ({ cell }) => cell.row.original.node.users?.totalCount,
+        header: "Enrolled users",
+        accessorFn: row => row.node.users.totalCount,
+        cell: ({ cell }) => cell.row.original.node.users?.totalCount,
       },
       {
         id: "not_started",
-        Header: "Not started",
-        accessor: (row) =>
+        header: "Not started",
+        accessorFn: (row) =>
           row.node.users.edges.filter(
             (contentUserEdge) =>
               !contentUserEdge?.status ||
@@ -99,28 +99,28 @@ const CoursesReportTable = () => {
       },
       {
         id: "in_progress",
-        Header: "In progress",
-        accessor: (row) =>
+        header: "In progress",
+        accessorFn: row => 
           row.node.users.edges.filter(
             (contentUserEdge) => contentUserEdge.status === "in_progress"
           ).length,
       },
       {
         id: "completed",
-        Header: "Completed",
-        accessor: (row) =>
+        header: "Completed",
+        accessorFn: row =>
           row.node.users.edges.filter(
             (contentUserEdge) => contentUserEdge.status === "completed"
           ).length,
       },
       // {
       //   id: "avg_test_score",
-      //   Header: "Avg. Test Score",
+      //   header: "Avg. Test Score",
       // },
       {
         id: "percentage_complete",
-        Header: "% Complete",
-        accessor: (row) => {
+        header: "% Complete",
+        accessorFn: row => {
           const totalCount = row.node.users.edges.length;
           const completedCount = row.node.users.edges.filter(
             (contentUserEdge) => contentUserEdge.status === "completed"
@@ -131,9 +131,9 @@ const CoursesReportTable = () => {
         },
       },
       // {
-      //   Header: "Categories",
-      //   accessor: "tags",
-      //   Cell: ({ cell }) => {
+      //   header: "Categories",
+      //   accessorKey: "tags",
+      //   cell: ({ cell }) => {
       //     const tagString = cell.row.original.node.tags?.map(tag => tag.label).join(', ')
       //     return (
       //       <span>{tagString}</span>
@@ -142,13 +142,13 @@ const CoursesReportTable = () => {
       // },
       {
         id: "actions",
-        Header: "",
+        header: "",
         hideOnCsv: true,
         width: 300,
         style: {
           width: "300px",
         },
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const usersHref = cell.row.original.node.id && {
             query: {
               ...router.query,
