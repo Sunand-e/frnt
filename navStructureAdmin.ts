@@ -24,6 +24,12 @@ const navStructureAdmin = [
     subPages: [],
   },
   {
+    name: 'categories',
+    title: 'Categories',
+    urlPath: '/admin/tags',
+    icon: Category
+  },
+  {
     name: 'courses',
     title: 'Courses',
     urlPath: '/admin/courses',
@@ -45,22 +51,22 @@ const navStructureAdmin = [
   },
   {
     name: 'resources',
-    title: 'Resource Library',
+    title: 'Resources',
     urlPath: '/admin/resources',
     icon: 'school',
     subPages: [
       {
         name: 'overview',
-        title: 'All Library Items',
+        title: 'All Resources',
         urlPath: '/admin/resources',
         icon: Library
       },
-      {
-        name: 'categories',
-        title: 'Categories',
-        urlPath: '/admin/tags',
-        icon: Category
-      },
+      // {
+      //   name: 'categories',
+      //   title: 'Categories',
+      //   urlPath: '/admin/tags',
+      //   icon: Category
+      // },
       // {
       //   name: 'guides',
       //   title: 'Guides',
@@ -151,14 +157,8 @@ const navStructureAdmin = [
     ],
   },
   {
-    name: 'categories',
-    title: 'Categories',
-    urlPath: '/admin/tags',
-    icon: Category
-  },
-  {
     name: 'medialibrary',
-    title: 'Media Library',
+    title: 'Media',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
   },

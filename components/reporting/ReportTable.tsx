@@ -1,10 +1,16 @@
+import {
+  createColumnHelper,
+  getCoreRowModel,
+  useReactTable,
+  getSortedRowModel,
+  SortingState,
+} from '@tanstack/react-table'
 import React, { useMemo, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
 import exportToCsv from "../../utils/exportToCsv";
-import { useTable, useSortBy } from "react-table";
-import TableStructure from "../common/TableStructure";
+import TableStructure from "../common/tables/TableStructure";
 import { useRouter } from "../../utils/router";
 import { client } from "../../graphql/client";
 import { gql } from "@apollo/client";
@@ -96,25 +102,36 @@ const ReportTable = ({
 
   }, [tableData, groupId]);
 
-  const columns = useMemo(() => tableCols,[tableCols])
-  const data = useMemo(() => filteredData,[filteredData])
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ 
-      columns, 
-      data: data,
-    }, useSortBy);
+  
+
+  const [sorting, setSorting] = useState<SortingState>([])
+
+  const table = useReactTable({
+    state: {
+      sorting,
+    },
+    columns: tableCols, 
+    data: filteredData,
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: true,
+  });
 
   const filename = csvFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 
   const downloadCSV = () => {
-    const csvCols = columns.filter((col) => col.hideOnCsv !== true);
+    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
     const headerRow = csvCols.map((col) => col.Header);
-    const dataRows = rows.map((row) =>
-      csvCols.map((col) => row.values[col.id])
-    );
-    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
+    // const dataRows = rows.map((row) =>
+    //   csvCols.map((col) => row.values[col.id])
+    // );
+    // exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
-
+console.log('table')
+!!table && console.log('aa')
+console.log(table)
+console.log(table.getHeaderGroups())
   return (
     <>
       <ReportHeader
@@ -140,13 +157,9 @@ const ReportTable = ({
         />
       )}
       {error && <p>{errorText}</p>}
-      {!loading && !error && (
+      {!loading && !error && table && (
         <TableStructure
-          getTableProps={getTableProps}
-          getTableBodyProps={getTableBodyProps}
-          headerGroups={headerGroups}
-          rows={rows}
-          prepareRow={prepareRow}
+          table={table}
         />
       )}
     </>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../common/Table'
+import Table from '../common/tables/Table'
 import LoadingSpinner from '../common/LoadingSpinner';
 import { useQuery } from '@apollo/client';
 import { GET_CAPABILITIES } from '../../graphql/queries/capabilities';
@@ -20,15 +20,15 @@ const CapabilitiesTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Capability Name",
-        accessor: "name", // accessor is the "key" in the data
+        header: "Capability Name",
+        accessorKey: "name", // accessor is the "key" in the data
         style: {
           width:"300px"
         },
       },
       {
-        Header: "Details",
-        Cell: ({ cell }) => {
+        header: "Details",
+        cell: ({ cell }) => {
           return (
             <CapabilityDetails cap={cell.row.original} />
           )
@@ -39,9 +39,9 @@ const CapabilitiesTable = () => {
         style: {
           width:"300px"
         },
-        Header: "Actions",
+        header: "Actions",
         id: "actions",
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           return (
             <div className="flex space-x-4 justify-center">
               <Button>Save changes</Button>

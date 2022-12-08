@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React, { useContext, useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import { GET_BULK_IMPORTS } from '../../graphql/queries/bulkImports';
 import { GetBulkImports } from '../../graphql/queries/__generated__/GetBulkImports';
 import Link from 'next/link';
@@ -27,8 +27,8 @@ const BulkImportsTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "BulkImport",
-        Cell: ({ cell }) => {
+        header: "BulkImport",
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (
             (<Link href={href ?? '#'} className="font-medium text-gray-900">
@@ -40,24 +40,24 @@ const BulkImportsTable = () => {
         }
       },
       {
-        Header: "User count",
-        accessor: "users",
-        Cell: ({ cell }) => cell.value.length
+        header: "User count",
+        accessorKey: "users",
+        cell: ({ cell }) => cell.getValue().length
       },
       {
-        Header: "Date Uploaded",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
+        header: "Date Uploaded",
+        accessorKey: "createdAt",
+        cell: ({ cell }) => {
           return (
-              dayjs(cell.value).format('DD/MM')
+              dayjs(cell.getValue()).format('DD/MM')
           )
         }
       },
       {
         width: 300,
-        Header: "Actions",
+        header: "Actions",
         // className: 'text-center',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (          
             <div className="space-x-4">

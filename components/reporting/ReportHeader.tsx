@@ -4,7 +4,7 @@ import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
 import exportToCsv from "../../utils/exportToCsv";
 import { useTable, useSortBy } from "react-table";
-import TableStructure from "../common/TableStructure";
+import TableStructure from "../common/tables/TableStructure";
 import { useRouter } from "../../utils/router";
 import { client } from "../../graphql/client";
 import { gql } from "@apollo/client";

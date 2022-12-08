@@ -58,8 +58,8 @@ const LessonUsersReportTable = () => {
     () => [
       {
         id: "name",
-        Header: "Name",
-        Cell: ({ cell }) => {
+        header: "Name",
+        cell: ({ cell }) => {
           const user = cell.row.original.node;
           const cellProps = {
             title: user.fullName,
@@ -74,29 +74,29 @@ const LessonUsersReportTable = () => {
       },
       {
         id: "status",
-        Header: "Lesson status",
-        accessor: "status",
+        header: "Lesson status",
+        accessorKey: "status",
       },
       {
         id: "score",
-        Header: "Score",
-        accessor: "score",
+        header: "Score",
+        accessorKey: "score",
       },
       {
         ...commonTableCols.createdAt,
-        Header: "First access",
+        header: "First access",
       },
       {
         ...commonTableCols.updatedAt,
-        Header: "Last visited",
+        header: "Last visited",
       },
 
       // "visits": null,
       // "completed": null
       // {
-      //   Header: "Roles",
-      //   accessor: "roles[0].name", // accessor is the "key" in the data
-      //   Cell: ({ cell }) => {
+      //   header: "Roles",
+      //   accessorFn: row => row.roles[0].name, // accessor is the key in the data
+      //   cell: ({ cell }) => {
       //     return cell.row.original.roles.map(role => {
       //       return role.name
       //     }).join(', ')
@@ -104,10 +104,10 @@ const LessonUsersReportTable = () => {
       // },
       {
         id: "actions",
-        Header: "",
+        header: "",
         hideOnCsv: true,
         width: 300,
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const userId = cell.row.original.node.id;
           const href = {
             query: {

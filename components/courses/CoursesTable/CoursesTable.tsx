@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../../common/Table'
+import Table from '../../common/tables/Table'
 import Button from '../../common/Button';
 import ButtonLink from '../../common/ButtonLink';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
@@ -10,6 +10,7 @@ import { ModalContext } from '../../../context/modalContext';
 import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import { GraduationCap } from 'styled-icons/fa-solid';
+import CourseActionsMenu from './CourseActionsMenu';
 
 const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
@@ -32,16 +33,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const editUrl = '/admin/courses/edit'
 
   const { handleModal } = useContext(ModalContext)
-
-  const handleDeleteClick = (id) => {
-    handleModal({
-      title: `Delete course`,
-      content: <DeleteCourseModal courseId={id} />
-    })
-  }
-
-  console.log('courses')
-  console.log(courses)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
@@ -62,13 +53,13 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Course",
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => (
+        header: "Course",
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => (
           <ItemWithImage
             image={cell.row.original.image}
             icon={<GraduationCap className='p-1'/>}
-            title={cell.value}
+            title={cell.getValue()}
             secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
             // secondary={cell.row.original.title}
             href={
@@ -80,9 +71,10 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         )
       },
       {
-        Header: "Active users",
-        accessor: "users.totalCount",
-        Cell: ({ cell }) => {
+        id: 'activeUsers',
+        header: "Active users",
+        accessorFn: row => row.users?.totalCount,
+        cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
             <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
@@ -91,42 +83,18 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       },
       {
         id: 'category',
-        Header: "Category",
-        accessor: (row) => {
+        header: "Category",
+        accessorFn: (row) => {
           return row.tags?.filter(tag => (
             tag.tagType === 'category'
-          )).map(tag => tag.label).join(', ') || <span>&mdash;</span>
+          )).map(tag => tag.label).join(', ') || '-'
         },
       },
       {
         width: 300,
-        style: {
-          width:"300px"
-        },
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-
-          return (
-            <div className="flex space-x-4 justify-center">
-              { cell.row.original.shared !== false ? (
-                <Button disabled={true}>
-                  Settings
-                </Button>
-              ) : (
-                <>
-                  <ButtonLink href={href}>Edit</ButtonLink>
-                  <Button 
-                    onClick={() => handleDeleteClick(cell.row.original.id)}
-                  >
-                    Delete
-                  </Button>
-                </>
-              )}
-            </div>
-          )
-        }
+        header: "Actions",
+        accessorKey: "wa",
+        cell: ({ cell }) => <CourseActionsMenu course={cell.row.original} />
       }
     ],
     []

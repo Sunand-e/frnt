@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import Table from '../common/Table'
+import Table from '../common/tables/Table'
 import ItemWithImage from '../common/cells/ItemWithImage';
 import TagSelect from '../tags/inputs/TagSelect';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -41,13 +41,13 @@ const SelectContentTable = ({
   const tableCols = useMemo(
     () => [
       {
-        Header: `${typeName.charAt(0).toUpperCase() + typeName.slice(1)} Name`,
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => (
+        header: `${typeName.charAt(0).toUpperCase() + typeName.slice(1)} Name`,
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => (
           <ItemWithImage
             image={cell.row.original.image}
             icon={<GraduationCap className='p-1'/>}
-            title={cell.value}
+            title={cell.getValue()}
             secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
           />
         )

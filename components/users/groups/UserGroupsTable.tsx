@@ -5,7 +5,7 @@ import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
 import ItemWithImage from "../../common/cells/ItemWithImage";
-import Table from "../../common/Table";
+import Table from "../../common/tables/Table";
 import UserRoleSelect from "../inputs/UserRoleSelect";
 import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
 import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup";
@@ -56,9 +56,9 @@ const UserGroupsTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        Header: "Group",
-        accessor: "node.name",
-        Cell: ({ cell }) => {
+        header: "Group",
+        accessorFn: row => row.node.name,
+        cell: ({ cell }) => {
           const group = cell.row.original.node;
           const cellProps = {
             title: group.name,
@@ -74,9 +74,9 @@ const UserGroupsTable = () => {
         },
       },
       {
-        Header: ()=><span className="block w-full text-left">Role</span>,
-        accessor: 'roles',
-        Cell: ({ cell }) => {
+        header: ()=><span className="block w-full text-left">Role</span>,
+        accessorKey: 'roles',
+        cell: ({ cell }) => {
           const group = cell.row.original;
           const handleChange = role => handleChangeRole(group, role);
           return (
@@ -88,7 +88,7 @@ const UserGroupsTable = () => {
         width: 300,
         id: "Actions",
 
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const group = cell.row.original;          
           return (
             <div className="text-right">

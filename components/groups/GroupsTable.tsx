@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React, { useContext, useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import { GET_GROUPS } from '../../graphql/queries/groups';
 import { GetGroups } from '../../graphql/queries/__generated__/GetGroups';
 import Button from '../common/Button';
@@ -10,6 +10,7 @@ import ItemWithImage from '../common/cells/ItemWithImage';
 import DeleteGroupModal from './DeleteGroupModal';
 import { ModalContext } from '../../context/modalContext';
 import dayjs from 'dayjs'
+import GroupActionsMenu from './GroupActionsMenu';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -21,12 +22,7 @@ const GroupsTable = () => {
 
   const { handleModal } = useContext(ModalContext)
 
-  const handleDeleteClick = (id) => {
-    handleModal({
-      title: `Delete group`,
-      content: <DeleteGroupModal groupId={id} />
-    })
-  }
+
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -39,13 +35,13 @@ const GroupsTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        Header: "Group Name",
-        accessor: "name", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Group Name",
+        accessorKey: "name", // accessor is the "key" in the data
+        cell: ({ cell }) => {
           const userCount = cell.row.original.users.totalCount
           const cellProps = {
             image: cell.row.original.image,
-            title: cell.value,
+            title: cell.getValue(),
             icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
             secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
@@ -56,44 +52,35 @@ const GroupsTable = () => {
         }
       },
       {
-        Header: "Date Created",
-        accessor: "createdAt",
-        Cell: ({ cell }) => {
-          return dayjs(cell.value).format('Do MMMM YYYY [at] h:mm A')
+        header: "Date Created",
+        accessorKey: "createdAt",
+        cell: ({ cell }) => {
+          return dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
         }
       },
       {
-        Header: "Enrolled Courses",
-        accessor: "enrolledCourses.totalCount",
+        header: "Enrolled Courses",
+        accessorFn: row => row.enrolledCourses?.totalCount,
       },
       {
-        Header: "Assigned Resources",
-        accessor: "assignedResources.totalCount",
+        header: "Assigned Resources",
+        accessorFn: row => row.assignedResources?.totalCount,
       },
       {
         width: 300,
-        Header: "Actions",
-        accessor: "wa",
-        Cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-
-          return (          
-            <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button 
-                onClick={() => handleDeleteClick(cell.row.original.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )
-        }
+        header: "Actions",
+        accessorKey: "wa",
+        cell: ({ cell }) => <GroupActionsMenu group={cell.row.original} />
       }
     ]
   }, []);
 
+  const options = {
+    selectable: false
+  }
+  
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table {...{tableData, tableCols, options }} />
   );
 }
 

@@ -20,13 +20,15 @@ const TagSelectInput = ({control, tagType, label}) => {
       field.onChange(val.map(({__typename, image, _deleted, ...value}) => value))
     },
     className: `w-full`,
-    isSearchable: false
+    isSearchable: false,
+    styles:{ menuPortal: base => ({ ...base, zIndex: 9999 }) },
+    ...(typeof window !== 'undefined' ? { menuPortalTarget: document.body } : {})
   }
 
   return (
     <>
       { tags && (
-        <label className={`block`}>
+        <label className={`block z-50`}>
         { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
         <Select {...selectProps} />
       </label>

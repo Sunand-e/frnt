@@ -25,9 +25,9 @@ const UsersReportTable = () => {
     () => [
       {
         id: "name",
-        Header: "Name",
-        accessor: "node.fullName",
-        Cell: ({ cell }) => {
+        header: "Name",
+        accessorFn: row => row.node.fullName,
+        cell: ({ cell }) => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
             icon: (
@@ -50,8 +50,8 @@ const UsersReportTable = () => {
         },
       },
       // {
-      //   Header: "JSON",
-      //   Cell: ({ cell }) => (
+      //   header: "JSON",
+      //   cell: ({ cell }) => (
       //     <pre className='text-left'>
       //       {JSON.stringify(cell.row.original.node,null,2)}
       //     </pre>
@@ -60,13 +60,13 @@ const UsersReportTable = () => {
       // },
       {
         id: "enrolled",
-        accessor: "node.courses.totalCount",
-        Header: "Courses Enrolled",
+        accessorFn: row => row.node.courses.totalCount,
+        header: "Courses Enrolled",
       },
       {
         id: "not_started",
-        Header: "Not started",
-        accessor: (row) =>
+        header: "Not started",
+        accessorFn: row =>
           row.node.courses.edges.filter(
             (userContentEdge) =>
               !userContentEdge?.status ||
@@ -75,27 +75,27 @@ const UsersReportTable = () => {
       },
       {
         id: "in_progress",
-        Header: "In progress",
-        accessor: (row) =>
+        header: "In progress",
+        accessorFn: row =>
           row.node.courses.edges.filter(
             (userContentEdge) => userContentEdge.status === "in_progress"
           ).length,
       },
       {
         id: "completed",
-        Header: "Completed",
-        accessor: (row) =>
+        header: "Completed",
+        accessorFn: row =>
           row.node.courses.edges.filter(
             (userContentEdge) => userContentEdge.status === "completed"
           ).length,
       },
       {
         id: "actions",
-        Header: "",
+        header: "",
         hideOnCsv: true,
         width: 300,
         // className: 'text-center',
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const coursesHref = cell.row.original.node.id && {
             query: {
               ...router.query,

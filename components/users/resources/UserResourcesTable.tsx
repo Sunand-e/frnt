@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
-import Table from "../../common/Table";
+import Table from "../../common/tables/Table";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";
@@ -49,9 +49,9 @@ const UserResourcesTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        Header: "Resource",
-        accessor: "node.title", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Resource",
+        accessorFn: row => row.node.title, // accessor is the key in the data
+        cell: ({ cell }) => {
           const resource = cell.row.original.node;
           return (
             <ItemWithImage
@@ -62,8 +62,8 @@ const UserResourcesTable = () => {
         }
       },
       // {
-      //   Header: "Role",
-      //   Cell: ({ cell }) => {
+      //   header: "Role",
+      //   cell: ({ cell }) => {
       //     const content = cell.row.original;
       //     const handleChange = role => handleChangeRole(content, role);
       //     return (
@@ -75,7 +75,7 @@ const UserResourcesTable = () => {
         width: 300,
         id: "Actions",
 
-        Cell: ({ cell }) => {
+        cell: ({ cell }) => {
           const values = cell.row.original;
           return (
             <div className="text-right">

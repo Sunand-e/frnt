@@ -9,7 +9,7 @@ const PathwayTitleCell = ({ cell }) => {
     <Link
       href={href}
       className="mt-auto text-center p-2 text-main-secondary font-semibold">
-      {cell.value}
+      {cell.getValue()}
     </Link>
   </>;
 }

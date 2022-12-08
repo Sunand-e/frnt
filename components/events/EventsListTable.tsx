@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import { GET_COURSES, CourseFragment } from '../../graphql/queries/allQueries';
 import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
@@ -30,9 +30,9 @@ const EventsListTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        Header: "Event title",
-        accessor: "title", // accessor is the "key" in the data
-        Cell: ({ cell }) => {
+        header: "Event title",
+        accessorKey: "title", // accessor is the "key" in the data
+        cell: ({ cell }) => {
           const cellProps = {
             title: cell.row.original.title,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`,
@@ -44,25 +44,25 @@ const EventsListTable = () => {
         }
       },
       {
-        Header: "Provider",
-        accessor: "provider",
-        Cell: ({cell})=> {
-          return(<p>{cell.value}</p>)
+        header: "Provider",
+        accessorKey: "provider",
+        cell: ({cell})=> {
+          return(<p>{cell.getValue()}</p>)
         }
       }
       ,{
-        Header: "Location",
-        accessor: "location.title",
-        Cell: ({cell})=> {
+        header: "Location",
+        accessorFn: row => row.location?.title,
+        cell: ({cell})=> {
           return(
-            <p>{cell.value}</p>
+            <p>{cell.getValue()}</p>
           )
         }
       },
       {
         width: 300,
-        Header: "Actions",
-        Cell: ({ cell }) => {
+        header: "Actions",
+        cell: ({ cell }) => {
           const href = cell.row.values.id && `${editUrl}?id=${cell.row.values.id}`
 
           return (
@@ -84,8 +84,8 @@ const EventsListTable = () => {
     // const tableCols = useMemo(
     //     () => [
     //         {
-    //             Header: "Event title",
-    //             Cell: ({ cell }) => {
+    //             header: "Event title",
+    //             cell: ({ cell }) => {
     //                 const cellProps = {
     //                     title: cell.row.original.name,
     //                     href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
@@ -96,39 +96,39 @@ const EventsListTable = () => {
     //             }
     //         },
     //         {
-    //             Header: "URL",
-    //             accessor: "url",
-    //             Cell: ({ cell }) => {
-    //                 const domainUrl = `${location.protocol}//${cell.value}`
+    //             header: "URL",
+    //             accessorKey: "url",
+    //             cell: ({ cell }) => {
+    //                 const domainUrl = `${location.protocol}//${cell.getValue()}`
     //                 const port = location.port && `:${location.port}`
     //                 return (
-    //                     <a href={domainUrl + port}>{cell.value}</a>
+    //                     <a href={domainUrl + port}>{cell.getValue()}</a>
     //                 )
     //             },
     //         },
     //         {
-    //             Header: "Date Created",
-    //             accessor: "createdAt",
-    //             Cell: ({ cell }) => {
+    //             header: "Date Created",
+    //             accessorKey: "createdAt",
+    //             cell: ({ cell }) => {
     //                 return (
-    //                     dayjs(cell.value).format('DD/MM')
+    //                     dayjs(cell.getValue()).format('DD/MM')
     //                 )
     //             }
     //         },
     //         {
-    //             Header: "Date Updated",
-    //             accessor: "updatedAt",
-    //             Cell: ({ cell }) => {
+    //             header: "Date Updated",
+    //             accessorKey: "updatedAt",
+    //             cell: ({ cell }) => {
     //                 return (
-    //                     dayjs(cell.value).format('DD/MM')
+    //                     dayjs(cell.getValue()).format('DD/MM')
     //                 )
     //             }
     //         },
     //         {
     //             width: 300,
-    //             Header: "Actions",
+    //             header: "Actions",
     //             // className: 'text-center',
-    //             Cell: ({ cell }) => {
+    //             cell: ({ cell }) => {
     //                 const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
     //                 return (
     //                     <div className="space-x-4">
