@@ -5,7 +5,7 @@ import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
 import ItemWithImage from "../../common/cells/ItemWithImage";
-import Table from "../../common/Table";
+import Table from "../../common/tables/Table";
 import UserRoleSelect from "../inputs/UserRoleSelect";
 import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
 import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup";

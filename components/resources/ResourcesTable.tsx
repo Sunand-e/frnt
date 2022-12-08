@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
 import useDeleteResource from '../../hooks/resources/useDeleteResource';

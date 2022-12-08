@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../common/Table'
+import Table from '../common/tables/Table'
 import LoadingSpinner from '../common/LoadingSpinner';
 import { useQuery } from '@apollo/client';
 import { GET_CAPABILITIES } from '../../graphql/queries/capabilities';

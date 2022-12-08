@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../../common/Table'
+import Table from '../../common/tables/Table'
 import Button from '../../common/Button';
 import ButtonLink from '../../common/ButtonLink';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
@@ -10,6 +10,7 @@ import { ModalContext } from '../../../context/modalContext';
 import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import { GraduationCap } from 'styled-icons/fa-solid';
+import CourseActionsMenu from './CourseActionsMenu';
 
 const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
@@ -32,16 +33,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   const editUrl = '/admin/courses/edit'
 
   const { handleModal } = useContext(ModalContext)
-
-  const handleDeleteClick = (id) => {
-    handleModal({
-      title: `Delete course`,
-      content: <DeleteCourseModal courseId={id} />
-    })
-  }
-
-  console.log('courses')
-  console.log(courses)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
@@ -101,32 +92,9 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       },
       {
         width: 300,
-        style: {
-          width:"300px"
-        },
         header: "Actions",
-        cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-
-          return (
-            <div className="flex space-x-4 justify-center">
-              { cell.row.original.shared !== false ? (
-                <Button disabled={true}>
-                  Settings
-                </Button>
-              ) : (
-                <>
-                  <ButtonLink href={href}>Edit</ButtonLink>
-                  <Button 
-                    onClick={() => handleDeleteClick(cell.row.original.id)}
-                  >
-                    Delete
-                  </Button>
-                </>
-              )}
-            </div>
-          )
-        }
+        accessorKey: "wa",
+        cell: ({ cell }) => <CourseActionsMenu course={cell.row.original} />
       }
     ],
     []

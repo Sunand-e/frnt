@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import { GET_COURSES, CourseFragment } from '../../graphql/queries/allQueries';
 import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';

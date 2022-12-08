@@ -1,39 +1,27 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo } from 'react';
-import Table from '../common/Table';
+import React, { useContext, useMemo, useState } from 'react';
+import Table from '../common/tables/Table';
 import { GET_USERS } from '../../graphql/queries/users';
 import { GetUsers } from '../../graphql/queries/__generated__/GetUsers';
-import Link from 'next/link';
-import ButtonLink from '../common/ButtonLink';
-import Button from '../common/Button';
 import { ModalContext } from '../../context/modalContext';
 import DeleteUserModal from './DeleteUserModal';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
+import UserActionsMenu from './UserActionsMenu';
 
 const UsersTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
-
-  const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
 
   const editUrl = '/admin/users/edit'
-  console.log('tableData')
-  console.log(tableData)
-  const handleDelete = (value) => {
-    handleModal({
-      title: `Delete user`,
-      content: <DeleteUserModal userId={value} />
-    })
-  }
 
   const tableCols = useMemo(
     () => [
       {
-        header: "Name",
+        header: "User ",
         cell: ({ cell }) => (
           <ItemWithImage 
             title={cell.row.original.fullName}
@@ -64,27 +52,34 @@ const UsersTable = () => {
       {
         width: 300,
         header: "Actions",
-        // className: 'text-center',
-        cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          return (          
-            <div className="space-x-4">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button
-                onClick={() => handleDelete(cell.row.original.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )
-        }
+        accessorKey: "wa",
+        cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
       }
     ],
     []
   );
 
+  const bulkActions = [
+    {
+      label: 'Send invites to selected users',
+      onClick: console.log('test')
+    },
+    {
+      label: <span className="text-red-500">Delete users</span>,
+      onClick: console.log('test'),
+    },
+  ]
+
+  const [ rowSelection, setRowSelection] = useState({})
+
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table {...{
+      tableData, 
+      tableCols, 
+      bulkActions,
+      rowSelection,
+      onRowSelectionChange: setRowSelection
+     }} />
   );
 }
 

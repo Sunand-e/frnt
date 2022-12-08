@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import Table from '../common/Table'
+import Table from '../common/tables/Table'
 import ItemWithImage from '../common/cells/ItemWithImage';
 import TagSelect from '../tags/inputs/TagSelect';
 import LoadingSpinner from '../common/LoadingSpinner';

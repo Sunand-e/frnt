@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import Table from '../../common/Table';
+import Table from '../../common/tables/Table';
 import ButtonLink from '../../common/ButtonLink';
 import RoleNameCell from './RoleNameCell';
 import useGetRoles from '../../../hooks/roles/useGetRoles';

@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
-import Table from "../../common/Table";
+import Table from "../../common/tables/Table";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";

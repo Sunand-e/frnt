@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Table from "../../common/Table";
+import Table from "../../common/tables/Table";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useGetCourseUsers from "../../../hooks/courses/useGetCourseUsers";

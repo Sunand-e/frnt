@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import Table from '../../common/Table';
+import Table from '../../common/tables/Table';
 import { GET_GROUPS } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import Button from '../../common/Button';

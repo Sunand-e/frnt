@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Table from '../../common/Table'
+import Table from '../../common/tables/Table'
 import ButtonLink from '../../common/ButtonLink';
 import useGetTags from '../../../hooks/tags/useGetTags';
 import useDeleteTag from '../../../hooks/tags/useDeleteTag';

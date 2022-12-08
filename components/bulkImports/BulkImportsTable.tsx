@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React, { useContext, useMemo } from 'react';
-import Table from '../common/Table';
+import Table from '../common/tables/Table';
 import { GET_BULK_IMPORTS } from '../../graphql/queries/bulkImports';
 import { GetBulkImports } from '../../graphql/queries/__generated__/GetBulkImports';
 import Link from 'next/link';
