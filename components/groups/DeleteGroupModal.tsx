@@ -18,7 +18,7 @@ const DeleteGroupModal = ({groupId}) => {
     <>
       <p>Are you sure you want to delete this group?</p>
       <p className="font-bold mb-2">This action cannot be undone.</p>
-      <Button onClick={handleDeleteGroup}>Delete group</Button>
+      <Button onClick={handleDeleteGroup}>Send invitations</Button>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../common/tables/Table';
 import { GET_USERS } from '../../graphql/queries/users';
 import { GetUsers } from '../../graphql/queries/__generated__/GetUsers';
@@ -8,6 +8,7 @@ import DeleteUserModal from './DeleteUserModal';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
 import UserActionsMenu from './UserActionsMenu';
+import useSendInvite from '../../hooks/useSendInvite';
 
 const UsersTable = () => {
 
@@ -52,17 +53,25 @@ const UsersTable = () => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
+        accessorKey: "actions",
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
       }
     ],
     []
   );
 
+  const [ rowSelection, setRowSelection] = useState({})
+
+  const { sendInvite } = useSendInvite()
+
+  const sendInvitationEmails = useCallback(() => {
+    sendInvite(rowSelection)
+  },[rowSelection])
+
   const bulkActions = [
     {
       label: 'Send invites to selected users',
-      onClick: console.log('test')
+      onClick: sendInvitationEmails
     },
     {
       label: <span className="text-red-500">Delete users</span>,
@@ -70,15 +79,13 @@ const UsersTable = () => {
     },
   ]
 
-  const [ rowSelection, setRowSelection] = useState({})
 
   return (
     <Table {...{
       tableData, 
       tableCols, 
       bulkActions,
-      rowSelection,
-      onRowSelectionChange: setRowSelection
+      onRowSelect: setRowSelection
      }} />
   );
 }

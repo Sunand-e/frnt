@@ -61,7 +61,7 @@ const ReportFilters = ({filters=[]}) => {
           <UserSelect
             selected={userId}
             onSelect={user => {
-              alert(JSON.stringify(user,null,2))
+              // alert(JSON.stringify(user,null,2))
               router.push({
                 query: { ...router.query, user: user?.id }
               });
@@ -75,7 +75,7 @@ const ReportFilters = ({filters=[]}) => {
           <CourseSelect
             options={courseId}
             onSelect={course => {
-              alert(JSON.stringify(course,null,2))
+              // alert(JSON.stringify(course,null,2))
               router.push({
                 query: { ...router.query, course: course?.id }
               });
@@ -90,7 +90,7 @@ const ReportFilters = ({filters=[]}) => {
             selected={categoryId}
             tagType={`category`}
             onSelect={tag => {
-              alert(JSON.stringify(tag,null,2))
+              // alert(JSON.stringify(tag,null,2))
               router.push({
                 query: { ...router.query, tag: tag?.id }
               });
