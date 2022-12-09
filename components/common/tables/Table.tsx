@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   SortingState,
 } from '@tanstack/react-table'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BulkActionsMenu from './BulkActionsMenu';
 import GlobalFilter from './GlobalFilter';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
@@ -21,14 +21,23 @@ const Table = ({
   tableCols,
   options = {} as any,
   bulkActions = [],
-  rowSelection = {},
-  onRowSelectionChange = () => null,
+  // rowSelection = {},
+  onRowSelect = (selection) => null,
 }) => {
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [rowSelection, setRowSelection] = useState({})
 
   const selectable = !!bulkActions.length;
+
+  const handleRowSelectionChange = (selection) => {
+    setRowSelection(selection)
+  }
+
+  useEffect(() => {
+    onRowSelect(table.getSelectedRowModel().flatRows.map(row=>row.original.id))
+  },[rowSelection])
 
   const columns = [
     ...(selectable ? [{
@@ -67,7 +76,7 @@ const Table = ({
     columns, 
     data: tableData,
     onSortingChange: setSorting,
-    onRowSelectionChange,
+    onRowSelectionChange: handleRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

@@ -7,6 +7,7 @@ import useDeletePathway from '../../../hooks/pathways/useDeletePathway';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import { GraduationCap } from 'styled-icons/fa-solid';
+import PathwayActionsMenu from '../PathwayActionsMenu';
 
 const PathwaysTable = () => {
 
@@ -77,21 +78,8 @@ const PathwaysTable = () => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
-        cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?pid=${cell.row.original.id}`
-
-          return (
-            <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button 
-                onClick={() => handleDeleteClick(cell.row.original.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )
-        }
+        accessorKey: "actions",
+        cell: ({ cell }) => <PathwayActionsMenu pathway={cell.row.original} />
       }
     ],
     []

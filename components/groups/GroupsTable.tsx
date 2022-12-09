@@ -69,7 +69,7 @@ const GroupsTable = () => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
+        accessorKey: "actions",
         cell: ({ cell }) => <GroupActionsMenu group={cell.row.original} />
       }
     ]

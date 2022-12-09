@@ -1,24 +1,24 @@
 import { useField } from "formik"
 import { useContext } from 'react';
 import { ModalContext } from "../../context/modalContext";
-import useDeleteLesson from "../../hooks/lessons/useDeleteLesson";
+import useDeleteResource from "../../hooks/resources/useDeleteResource";
 import Button from '../common/Button';
 
-const DeleteResourceModal = ({lessonId}) => {
+const DeleteResourceModal = ({resourceId}) => {
 
-  const { deleteLesson } = useDeleteLesson(lessonId)
+  const { deleteResource } = useDeleteResource()
 
   const { closeModal } = useContext(ModalContext)
 
-  const handleDeleteLesson = () => {
-    deleteLesson()
+  const handleDelete = () => {
+    deleteResource(resourceId)
     closeModal()
   }
 
   return (
     <>
       <p>Are you sure you want to delete this resource?</p>
-      <Button onClick={handleDeleteLesson}>Delete resource</Button>
+      <Button onClick={handleDelete}>Delete resource</Button>
     </>
   );
 }

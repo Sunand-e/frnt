@@ -52,7 +52,7 @@ const RolesTable = () => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
+        accessorKey: "actions",
         cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (

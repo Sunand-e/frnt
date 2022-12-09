@@ -58,7 +58,7 @@ const GroupsReportTable = () => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
+        accessorKey: "actions",
         cell: ({ cell }) => {
           const usersHref = cell.row.original.id && {
             query: {

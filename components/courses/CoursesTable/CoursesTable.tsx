@@ -93,7 +93,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       {
         width: 300,
         header: "Actions",
-        accessorKey: "wa",
+        accessorKey: "actions",
         cell: ({ cell }) => <CourseActionsMenu course={cell.row.original} />
       }
     ],
