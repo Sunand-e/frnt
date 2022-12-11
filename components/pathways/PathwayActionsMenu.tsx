@@ -1,30 +1,35 @@
-import { useContext } from "react"
 import ActionsMenu from "../common/menus/ActionsMenu"
-import { ModalContext } from "../../context/modalContext"
-import DeletePathwayModal from "./DeletePathwayModal"
+import useDeletePathway from "../../hooks/pathways/useDeletePathway"
+import useConfirmDelete from "../../hooks/useConfirmDelete"
 
 const PathwayActionsMenu = ({pathway}) => {
-  const { handleModal } = useContext(ModalContext)
   const editUrl = '/admin/pathways/edit'
   const editHref = pathway?.id && `${editUrl}?id=${pathway.id}`
   
-  const handleDeleteClick = () => {
-    handleModal({
-      title: `Delete pathway`,
-      content: <DeletePathwayModal pathwayId={pathway?.id} />
-    })
-  }
+  const { deletePathway } = useDeletePathway()
+  const { confirmDelete } = useConfirmDelete({
+    type: 'pathway',
+    name: pathway.title,
+    onConfirm: () => deletePathway(pathway.id)
+  })
 
   const menuItems = [
-    { label: 'Edit pathway', href: editHref },
-    { label: <span className="text-red-500">Delete pathway</span>, onClick: handleDeleteClick },
+    { 
+      label: 'Edit pathway',
+      href: editHref,
+      capability: 'UpdatePathway'
+    },
+    {
+      label: <span className="text-red-500">Delete pathway</span>,
+      onClick: confirmDelete,
+      capability: 'DeletePathway'
+    },
     // { title: 'Settings', href:'settings' },
   ]
   return (
     <ActionsMenu
       menuItems={menuItems}
       buttonText={'Actions'}
-      editUrl={true}
     />
   )
 }

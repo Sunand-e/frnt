@@ -1,24 +1,31 @@
-import { useContext } from "react"
 import ActionsMenu from "../common/menus/ActionsMenu"
-import { ModalContext } from "../../context/modalContext"
-import DeleteUserModal from "./DeleteUserModal"
+import useDeleteUser from "../../hooks/users/useDeleteUser"
+import useConfirmDelete from "../../hooks/useConfirmDelete"
 
 const UserActionsMenu = ({user}) => {
-  const { handleModal } = useContext(ModalContext)
   const editUrl = '/admin/users/edit'
   const editHref = user?.id && `${editUrl}?id=${user.id}`
-  
-  const handleDeleteClick = () => {
-    handleModal({
-      title: `Delete user`,
-      content: <DeleteUserModal userId={user?.id} />
-    })
-  }
+ 
+  const { deleteUser } = useDeleteUser()
+  const { confirmDelete } = useConfirmDelete({
+    type: 'user',
+    name: user.fullName,
+    onConfirm: () => deleteUser(user.id)
+  })
+
   const menuItems = [
-    { label: 'Edit user', href: editHref },
-    { label: <span className="text-red-500">Delete user</span>, onClick: handleDeleteClick },
-    // { title: 'Settings', href:'settings' },
+    { 
+      label: 'Edit user', 
+      href: editHref,
+      capability: 'UpdateUser'
+    },
+    {
+      label: <span className="text-red-500">Delete user</span>, 
+      capability: 'DeleteUser',
+      onClick: confirmDelete
+    },
   ]
+
   return (
     <ActionsMenu
       menuItems={menuItems}

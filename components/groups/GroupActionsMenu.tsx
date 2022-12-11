@@ -1,22 +1,23 @@
 import { useContext } from "react"
 import { ModalContext } from "../../context/modalContext"
-import useSendInvite from "../../hooks/useSendInvite"
+import useDeleteGroup from "../../hooks/groups/useDeleteGroup"
+import useConfirmDelete from "../../hooks/useConfirmDelete"
 import ActionsMenu from "../common/menus/ActionsMenu"
-import DeleteGroupModal from "./DeleteGroupModal"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
 const GroupActionsMenu = ({group}) => {
-  const { handleModal } = useContext(ModalContext)
+
   const editUrl = '/admin/users/groups/edit'
   const editHref = group?.id && `${editUrl}?id=${group.id}`
   
-  const handleDeleteClick = () => {
-    handleModal({
-      title: `Delete group`,
-      content: <DeleteGroupModal groupId={group?.id} />
-    })
-  }
+  const { deleteGroup } = useDeleteGroup()
+  const { confirmDelete } = useConfirmDelete({
+    type: 'group',
+    name: group.title,
+    onConfirm: () => deleteGroup(group.id)
+  })
   
+  const { handleModal } = useContext(ModalContext)
   const handleSendInvitations = () => {
     handleModal({
       title: `Send invites to group`,
@@ -25,11 +26,22 @@ const GroupActionsMenu = ({group}) => {
   }
 
   const menuItems = [
-    { label: 'Edit group', href: editHref },
-    { label: 'Send user invites', onClick: handleSendInvitations },
-    { label: <span className="text-red-500">Delete group</span>, onClick: handleDeleteClick },
-    // { title: 'Settings', href:'settings' },
+    { 
+      label: 'Edit group', 
+      href: editHref,
+      capability: 'UpdateGroup'
+    },
+    {
+      label: 'Send user invites', 
+      onClick: handleSendInvitations,
+    },
+    { 
+      label: <span className="text-red-500">Delete group</span>,
+      onClick: confirmDelete,
+      capability: 'DeleteGroup'
+    },
   ]
+
   return (
     <ActionsMenu
       menuItems={menuItems}

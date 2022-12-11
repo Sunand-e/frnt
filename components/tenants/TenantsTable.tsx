@@ -10,6 +10,7 @@ import ItemWithImage from '../common/cells/ItemWithImage';
 import DeleteTenantModal from './DeleteTenantModal';
 import dayjs from 'dayjs'
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
+import TenantActionsMenu from './TenantActionsMenu';
 
 const TenantsTable = () => {
 
@@ -24,12 +25,8 @@ const TenantsTable = () => {
   }, [queryData]);
 
   const editUrl = '/admin/tenants/edit'
-  const handleDelete = (value) => {
-    handleModal({
-      title: `Delete tenant`,
-      content: <DeleteTenantModal tenantId={value} />
-    })
-  }
+
+  
 
   const tableCols = useMemo(
     () => [
@@ -91,20 +88,8 @@ const TenantsTable = () => {
       {
         width: 300,
         header: "Actions",
-        // className: 'text-center',
-        cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          return (          
-            <div className="space-x-4">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button
-                onClick={() => handleDelete(cell.row.original.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )
-        }
+        accessorKey: "actions",
+        cell: ({ cell }) => <TenantActionsMenu tenant={cell.row.original} />
       }
     ],
     []

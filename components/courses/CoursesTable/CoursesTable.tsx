@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../../common/tables/Table'
-import Button from '../../common/Button';
-import ButtonLink from '../../common/ButtonLink';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import TagSelect from '../../tags/inputs/TagSelect';
-import DeleteCourseModal from '../DeleteCourseModal';
 import { ModalContext } from '../../../context/modalContext';
 import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../common/LoadingSpinner';
@@ -32,7 +29,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   
   const editUrl = '/admin/courses/edit'
 
-  const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
