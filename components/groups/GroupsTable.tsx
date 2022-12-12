@@ -7,7 +7,6 @@ import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../common/cells/ItemWithImage';
-import DeleteGroupModal from './DeleteGroupModal';
 import { ModalContext } from '../../context/modalContext';
 import dayjs from 'dayjs'
 import GroupActionsMenu from './GroupActionsMenu';
@@ -19,10 +18,6 @@ const GroupsTable = () => {
   const { loading, error, data: queryData } = useQuery<GetGroups>(GET_GROUPS);
 
   const editUrl = '/admin/users/groups/edit'
-
-  const { handleModal } = useContext(ModalContext)
-
-
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994

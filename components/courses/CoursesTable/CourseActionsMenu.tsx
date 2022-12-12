@@ -1,22 +1,30 @@
-import { useContext } from "react"
 import ActionsMenu from "../../common/menus/ActionsMenu"
-import { ModalContext } from "../../../context/modalContext"
-import DeleteCourseModal from "../DeleteCourseModal"
+import useDeleteCourse from "../../../hooks/courses/useDeleteCourse"
+import useConfirmDelete from "../../../hooks/useConfirmDelete"
 
 const CourseActionsMenu = ({course}) => {
-  const { handleModal } = useContext(ModalContext)
+
   const editUrl = '/admin/courses/edit'
   const editHref = course?.id && `${editUrl}?id=${course.id}`
   
-  const handleDeleteClick = () => {
-    handleModal({
-      title: `Delete course`,
-      content: <DeleteCourseModal courseId={course?.id} />
-    })
-  }
+  const { deleteCourse } = useDeleteCourse()
+  const { confirmDelete } = useConfirmDelete({
+    type: 'course',
+    name: course.title,
+    onConfirm: () => deleteCourse(course.id)
+  })
+  
   const menuItems = [
-    { label: 'Edit course', href: editHref },
-    { label: <span className="text-red-500">Delete course</span>, onClick: handleDeleteClick },
+    { 
+      label: 'Edit course', 
+      href: editHref,
+      capability: 'UpdateCourse'
+    },
+    {
+      label: <span className="text-red-500">Delete course</span>,
+      onClick: confirmDelete,
+      capability: 'DeleteCourse'
+    },
     // { title: 'Settings', href:'settings' },
   ]
   return (

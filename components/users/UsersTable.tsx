@@ -4,7 +4,6 @@ import Table from '../common/tables/Table';
 import { GET_USERS } from '../../graphql/queries/users';
 import { GetUsers } from '../../graphql/queries/__generated__/GetUsers';
 import { ModalContext } from '../../context/modalContext';
-import DeleteUserModal from './DeleteUserModal';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
 import UserActionsMenu from './UserActionsMenu';
@@ -23,6 +22,7 @@ const UsersTable = () => {
     () => [
       {
         header: "User ",
+        accessorFn: row => row.fullName,
         cell: ({ cell }) => (
           <ItemWithImage 
             title={cell.row.original.fullName}
