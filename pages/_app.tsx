@@ -39,11 +39,13 @@ import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { TenantContextProvider } from '../context/TenantContext';
 import useBeforeUnload from '../hooks/useBeforeUnload';
+import CapabilityCheckWrapper from '../components/app/CapabilityCheckWrapper'
 addIconsToLibrary()
 
 interface PagePropertiesType {
   Component: Page & {
     navState
+    capabilities
   },
 }
 type AppPropsExtended = AppProps & PagePropertiesType 
@@ -118,9 +120,11 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     <ApolloProvider client={memoedClient}>
         <TenantContextProvider>
             <ModalProvider>
-              {
-                layout
-              }
+              <CapabilityCheckWrapper capabilities={PageComponent.capabilities}>
+                {
+                  layout
+                }
+              </CapabilityCheckWrapper>
             </ModalProvider>
         </TenantContextProvider>
       </ApolloProvider>

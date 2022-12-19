@@ -76,7 +76,7 @@ const UserForm = ({user=null, onSubmit}) => {
             message:"Max length of the name is 40"
           },
           pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
             message: "Please give valid email"
           }
         })}

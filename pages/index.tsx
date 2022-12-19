@@ -58,7 +58,6 @@ const DashboardPage = () => {
       'UpdateUser',
       'UpdateCourse',
       'UpdateResource',
-      'GetUsers',
     ])) {
       headerButtonsVar(
         <>
