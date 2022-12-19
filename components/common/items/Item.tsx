@@ -32,17 +32,24 @@ export default function Item({ item, options }) {
   const itemInfoContent = options?.getInfoContent?.(item)
 
   let itemImage;
-  let linkPaddingBottom = '';
   if(item.itemType === 'resource' && !src) {
 
     const IconComponent = resourceTypes[item.contentType].icon
     itemImage = (
-      <div className="w-full justify-center text-center p-6">
-        <IconComponent className = "w-1/2 text-main" />
+      <div 
+        className="w-full justify-center text-center"
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          // backgroundColor: 'rgba(0,0,0,0.1)',
+          objectFit: 'cover'
+        }}
+      >
+        <IconComponent className = "w-1/2 text-main  p-6" />
       </div>
     )
   } else {
-    linkPaddingBottom = 'pb-1/2'
     itemImage = (
       <img
         className={'bg-main/20'}
@@ -62,7 +69,7 @@ export default function Item({ item, options }) {
     <div className="h-full content-item rounded-2xl flex flex-col overflow-hidden shadow-lg bg-white relative">
       <Link
         href={href}
-        className={`bg-cover bg-center ${linkPaddingBottom} ${styles.cardImg}`}>
+        className={`bg-cover bg-center pb-1/2 ${styles.cardImg}`}>
 
         {itemImage}
       </Link>

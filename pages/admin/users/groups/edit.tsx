@@ -37,6 +37,7 @@ const AdminUsersGroupsEdit = () => {
   )
 }
 
+AdminUsersGroupsEdit.capabilities = ['UpdateGroup']
 AdminUsersGroupsEdit.navState = {
 topLevel: 'users',
 secondary: 'groups'

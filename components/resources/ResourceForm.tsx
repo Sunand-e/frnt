@@ -60,7 +60,8 @@ const router = useRouter()
     }) : ({
       mediaItemId: resourceValue?.id
     })
-
+    console.log('formValues')
+    console.log(formValues)
     const queryValues = {
       ...values,
       ...resourceValues,
@@ -139,7 +140,6 @@ const router = useRouter()
           origImage={defaultValues?.image}
           control={control}
           name="imageId"
-          class
           // inputAttrs={register("image", { required: true })}
           />
         </div>

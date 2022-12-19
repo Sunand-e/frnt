@@ -21,6 +21,21 @@ import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import { Dot } from '../../common/misc/Dot';
 
+
+const ResourceActionButton = ({text, icon, url}) => {
+  const IconComponent = icon;
+  return (
+    <ButtonLink target="_blank" className="mb-8" href={url}>
+      <span className="flex space-x-2 items-center">
+        <IconComponent className="h-7" />
+        <span>
+          { text }
+        </span>
+      </span>
+    </ButtonLink>
+  )
+}
+
 const ResourceView = ({id}) => {
 
   // const {
@@ -68,38 +83,28 @@ const ResourceView = ({id}) => {
         return <></>
       }
   },[resource])
-  
-  let resourceActionButton = useMemo(() => {
-    switch(resource?.contentType) {
-      case 'document':
-        case 'audio':
-        return (
-          <Button className="mb-8" onClick={() => router.push('/resources')}>
-            <span className="flex space-x-2 items-center">
-              <Download className="h-7" />
-              <span>
-                Download {resource?.contentType} file
-              </span>
-            </span>
-          </Button>
-        )
-      case 'link':
-        return (
-          <ButtonLink target="_blank" className="mb-8" href={resource?.content?.url}>
-            <span className="flex space-x-2 items-center">
-              <ExternalLinkOutline className="h-7" />
-              <span>
-                Visit link
-              </span>
-            </span>
-          </ButtonLink>
-        )
-      default:
-        return <></>
-      }
-  },[resource])
 
-  
+  let actionButtonText, actionButtonIcon, actionButtonUrl
+
+  switch(resource?.contentType) {
+    case 'document':
+    case 'audio': {
+      actionButtonText = `Download ${resource?.contentType} file`
+      actionButtonIcon = Download
+    }
+    case 'document':
+      actionButtonUrl = resource.document?.location
+      break
+    case 'audio':
+      actionButtonUrl = resource.audio?.location
+      break
+    case 'link':
+      actionButtonText = `Visit link`
+      actionButtonIcon = ExternalLinkOutline
+      actionButtonUrl = resource?.content?.url
+      break
+  }
+
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
   const markComplete = useCallback(() => {
@@ -126,7 +131,11 @@ const ResourceView = ({id}) => {
           
           { resourceComponent }
           <div className="mt-10 flex flex-col md:flex-row space-x-4 self-center">
-            { resourceActionButton }
+            <ResourceActionButton
+              text={actionButtonText}
+              url={actionButtonUrl}
+              icon={actionButtonIcon}
+            />
             { pid ? (
               <>
                 <ButtonLink href={{

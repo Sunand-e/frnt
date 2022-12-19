@@ -9,8 +9,6 @@ const ActionsMenu = ({menuItems, buttonText='Actions', align='right'}) => {
   const { userHasCapability } = useUserHasCapability()
   
   const filteredMenuItems = menuItems.filter(item => {
-    console.log('item.capability')
-    console.log(item.capability)
     return item.capability ? userHasCapability(item.capability) : true
   })
 

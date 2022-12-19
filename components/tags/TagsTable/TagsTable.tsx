@@ -10,6 +10,7 @@ import ItemWithImage from '../../common/cells/ItemWithImage';
 import {Category} from '@styled-icons/material-rounded/Category'
 import LoadingSpinner from '../../common/LoadingSpinner';
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
+import TagActionsMenu from '../TagActionsMenu';
 
 const TagsTable = () => {
 
@@ -82,19 +83,8 @@ const TagsTable = () => {
       {
         width: 300,
         header: "Actions",
-        cell: ({ cell }) => {
-          const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          return (
-            <div className="flex space-x-4 justify-center">
-              <ButtonLink href={href}>Edit</ButtonLink>
-              <Button
-                onClick={() => handleDeleteClick(cell.row.original.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )
-        }
+        accessorKey: "actions",
+        cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
       }
     ],
     [courses, resources, pathways]

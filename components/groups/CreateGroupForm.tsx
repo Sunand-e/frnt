@@ -6,6 +6,8 @@ import GroupUsersInput from './inputs/GroupUsersInput';
 import { useRouter } from 'next/router';
 import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
 import React from "react";
+import AssignedCoursesInput from './inputs/AssignedCoursesInput';
+import AssignedResourcesInput from './inputs/AssignedResourcesInput';
 
 interface CreateGroupFormValues {
   name: string 
@@ -52,9 +54,9 @@ const CreateGroupForm = () => {
       /> */}
 
       <GroupUsersInput control={control} />
-      {/* <AssignedCoursesInput control={control} /> */}
-      <EnrolledCoursesInput control={control} />
-
+      <AssignedCoursesInput control={control} />
+      <AssignedResourcesInput control={control} />
+      
       <Button type="submit">Create group</Button>
     </form>
   )

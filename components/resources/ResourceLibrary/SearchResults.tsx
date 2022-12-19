@@ -3,6 +3,7 @@ import ItemCollection from "../../common/items/ItemCollection";
 import { useRouter } from "../../../utils/router";
 import { ParsedUrlQuery } from 'querystring';
 import { resourceTypes } from "../resourceTypes";
+import { tippy } from "@tippyjs/react";
 
 interface SearchFilters extends ParsedUrlQuery {
   search: string;
@@ -64,6 +65,18 @@ export default function SearchResults({items}) {
 
   const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
 
+  const showFullTitleIfClamped = (event, title) => {
+    const el = event.target
+    el._tippy?.destroy()
+    if(el.scrollHeight > el.clientHeight) {
+      tippy(event.target, {
+        content: title,
+        theme: "memberhub-white",
+        placement: 'top-start'
+      })
+    }
+  }
+
   const options = {
     heading: resultCountString,
     itemOptions: {
@@ -80,7 +93,7 @@ export default function SearchResults({items}) {
             <span className="flex flex-shrink-0 items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
               <IconComponent className=" w-5" />
             </span>
-            <span>
+            <span className="line-clamp-3" onMouseOver={(e) => showFullTitleIfClamped(e, item.title)}>
               {item.title}
             </span>
           </span>
