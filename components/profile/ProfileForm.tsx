@@ -10,8 +10,8 @@ import { useEffect } from 'react';
 
 interface ProfileFormValues {
   id?: string
-  first_name: string
-  last_name: string
+  firstName: string
+  lastName: string
   email: string
   profile_image: string
   roleIds: [string]
@@ -30,6 +30,8 @@ const ProfileForm = () => {
   })
 
   const onSubmit = ({profile_image, ...values}) => {
+    console.log('values')
+    console.log(values)
     updateUser(values)
     if(profile_image) {
       const imageEndpoint = `/api/v1/users/${user.id}/update_profile_image`
@@ -42,8 +44,6 @@ const ProfileForm = () => {
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,
-    first_name: user?.firstName,
-    last_name: user?.lastName,
     // anotherattr: 123,
     role_ids: user?.roles.map(role => role.id),
   }
@@ -64,7 +64,7 @@ const ProfileForm = () => {
       <TextInput
         label="First name"
         placeholder="First name"
-        inputAttrs={register("first_name", {
+        inputAttrs={register("firstName", {
           required:"First name is required",
           maxLength: {
             value: 20,
@@ -72,11 +72,11 @@ const ProfileForm = () => {
           }
         })}
       />
-      {errors.first_name && (<small className="text-danger text-red-500">{errors.first_name.message}</small>)}
+      {errors.firstName && (<small className="text-danger text-red-500">{errors.firstName.message}</small>)}
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("last_name",
+        inputAttrs={register("lastName",
   {
           required:"Last is required",
           maxLength: {
@@ -86,7 +86,7 @@ const ProfileForm = () => {
         }
         )}
       />
-      {errors.last_name && (<small className="text-danger text-red-500">{errors.last_name.message}</small>)}
+      {errors.lastName && (<small className="text-danger text-red-500">{errors.lastName.message}</small>)}
       <TextInput
         label="Email"
         placeholder="email"

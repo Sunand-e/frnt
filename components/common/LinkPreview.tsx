@@ -7,18 +7,20 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
 
   const cancelTokenSource = useRef(null)
+  const abortController = useRef(null)
   const [error, setError] = useState(null)
   const [link, setLink] = useState(null)
 
+  
   const getUrlMetadata = useDebouncedCallback(async () => {
-
-    cancelTokenSource.current?.cancel()
-    cancelTokenSource.current = axios.CancelToken.source()
+    abortController.current?.abort()
+    // cancelTokenSource.current?.cancel()
+    abortController.current = new AbortController()
 
     await axios.request({
       method: 'GET',
       url: `/api/v1/generate_meta_data?url=${url}`,
-      cancelToken: cancelTokenSource.current.token
+      signal: abortController.current?.signal
       // headers: {
       //   'Authorization': `Bearer ${token}`,
       // },
@@ -36,7 +38,7 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
         console.log(data?.data)
         setError(null)
         setLink(data?.data)
-        setValidUrl && setValidUrl(url)
+        setValidUrl && setValidUrl(data?.data?.url)
       }
     })
   },600)
@@ -70,7 +72,7 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
       <div className="w-full mx-auto overflow-hidden mb-8 bg-white shadow rounded-md sm:max-w-screen-lg ">
         {/* <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0 bg-white h-56 items-start md:items-stretch"> */}
         <div className="flex flex-row space-y-0 bg-white h-56 items-stretch">
-          <a href={link.root_url} target="_blank" className="w-1/2 p-6 flex items-center">
+          <a href={link.url} target="_blank" className="w-1/2 p-6 flex items-center">
             <img
               className="object-cover w-full"
               src={imageUrl ?? "/images/placeholder-image.png"}
@@ -81,15 +83,10 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
           <div className="flex w-1/2 bg-main-superlight items-center">
             <div className="flex flex-col p-6 space-y-1 bg-main-superlight">
               <a
-                href={link.root_url} target="_blank"
+                href={link.url} target="_blank"
                 className="m-0 text-lg leading-tight text-gray-900 no-underline hover:no-underline hover:text-gray-900 sm:text-xl"
               >
                 { link.best_title }
-              </a>
-              <a
-                href={link.root_url} target="_blank"
-              >
-
               </a>
               <p className="text-gray-500">{ link.root_url }</p>
               <p className="text-sm">{link.best_description}</p>

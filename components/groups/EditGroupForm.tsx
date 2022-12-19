@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import TextInput from '../common/inputs/TextInput';
 import GroupUsersInput from './inputs/GroupUsersInput';
 import { useRouter } from 'next/router';
-import EnrolledCoursesInput from './inputs/EnrolledCoursesInput';
 import { useCallback, useEffect, useState } from 'react';
 import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
 import AssignedResourcesInput from './inputs/AssignedResourcesInput';
+import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 
 interface UpdateGroupFormValues {
   name: string 
@@ -41,7 +41,7 @@ const GroupForm = ({group}) => {
   const onSubmit = useCallback(values => {
     const input = {
       ...values,
-      enrolledContentIds: [...values.assignedCourseIds, ...values.assignedResourceIds]
+      assignedContentIds: [...values.assignedCourseIds, ...values.assignedResourceIds]
     }
     group && updateGroup(input)
     router.push('/admin/users/groups')
@@ -74,8 +74,7 @@ const GroupForm = ({group}) => {
 
       <GroupUsersInput control={control} />
       <p><a className='text-main cursor-pointer' onClick={() => console.log('inviteUsers')}>Send invitation to all users</a></p>
-      {/* <AssignedCoursesInput control={control} /> */}
-      <EnrolledCoursesInput control={control} />
+      <AssignedCoursesInput control={control} />
       <AssignedResourcesInput control={control} />
 
       <Button type="submit">{buttonText}</Button>
