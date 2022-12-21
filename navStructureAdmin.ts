@@ -132,7 +132,8 @@ const navStructureAdmin = [
         name: 'roles',
         title: 'Roles',
         urlPath: '/admin/users/roles',
-        icon: Identification
+        icon: Identification,
+        superAdminOnly: true
       },
       // {
       //   name: 'exports',

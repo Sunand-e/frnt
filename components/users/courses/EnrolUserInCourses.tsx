@@ -8,11 +8,12 @@ import Button from "../../common/Button"
 import CourseMultiLevelSelect from "../../courses/inputs/CourseMultiLevelSelect"
 import CourseSelectCategorised from "../../courses/inputs/CourseSelectCategorised"
 import LoadingSpinner from "../../common/LoadingSpinner"
+import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser"
 
 const EnrolUserInCourses = ({user}) => {
 
-  const { courses } = useGetCourses()
-  const { courses: userCourses } = useGetUserCourses(user.id)
+  const { courses } = useGetCurrentUser()
+  const { courses: userCourses, loading, error } = useGetUserCourses(user.id)
   
   const {enrolUsersInContent} = useEnrolUsersInContent()
   const { closeModal } = useContext(ModalContext)
@@ -93,7 +94,7 @@ const EnrolUserInCourses = ({user}) => {
   console.log(availableCoursesData)
   return (
     <>
-      { !user ? (
+      { !user || loading ? (
         <LoadingSpinner />
       ) : (
         availableCourses?.length ? (

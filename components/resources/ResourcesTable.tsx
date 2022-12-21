@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import useGetResources from '../../hooks/resources/useGetResources';
 import ItemWithImage from '../common/cells/ItemWithImage';
-import { useRouter } from '../../utils/router';
 import { resourceTypes } from '../resources/resourceTypes';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { Dot } from '../common/misc/Dot';
@@ -20,64 +19,14 @@ const ResourcesTable = () => {
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
 
-  const router = useRouter()
-  const { search, category, type } = router.query
-
-  let filteredItems = [];
-  if(search) {
-    const textResultsObject = resources?.edges?.map(edge => edge.node).reduce(
-      (filtered,node) => {
-        if(node.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-          return {
-            ...filtered,
-            title: filtered.title.concat([node])
-          }
-        } else {
-          return filtered
-        }
-      },
-      {
-        title: [],
-        excerpt: [],
-        content: []
-      }
-    ) || {
-      title: [],
-      excerpt: [],
-      content: []
-    }
-
-    filteredItems = textResultsObject.title.concat(textResultsObject.excerpt, textResultsObject.content)
-  } else {
-    filteredItems = resources?.edges?.map(edge => edge.node) ?? filteredItems;
-  }
-
-  if(category) {
-    filteredItems = filteredItems.filter(item => {
-      const isSelectedCategory = tag => {
-        return tag.tagType === 'category' && tag.label === category
-      }
-      return item?.tags && item.tags.some(isSelectedCategory);   
-    });
-  }
-
-  if(type) {
-    filteredItems = filteredItems.filter(item => item.contentType === type);
-  }
-
-  const resultCountString = `${filteredItems.length || 'No'} item${filteredItems.length !== 1 ? 's' : ''} found`
+  
+  let filteredItems = resources?.edges?.map(edge => edge.node)
 
   const tableData = useMemo(
     () => {
       return filteredItems?.filter(item => !item._deleted) || []
     }, [filteredItems]
   );
-
-  // useEffect(() => {
-  //   console.log('resources')
-  //   console.log(resources)
-  //   return resources?.resources.filter(item => !item._deleted) 
-  // }, [resources])
 
    const tableCols = useMemo(
     () => [
@@ -134,6 +83,16 @@ const ResourcesTable = () => {
     []
   );
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    selectable: true,
+    enableRowSelection: true,
+    typeName: 'resource',
+    filters: ['category', 'global', 'contentType'],
+    typeOptions: resourceTypes
+  }
+
   return (
     <>
       { loading && <LoadingSpinner text={(
@@ -148,7 +107,7 @@ const ResourcesTable = () => {
         <p>Unable to fetch resources.</p>
       )}
       { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
+        <Table {...tableProps} />
       )}
     </>
   );

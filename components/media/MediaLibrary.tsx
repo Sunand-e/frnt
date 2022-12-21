@@ -8,10 +8,11 @@ import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
 
 interface MediaLibraryProps {
   onItemSelect?: any
+  onUploadComplete?: any
   typeFilter?: string[]
 }
 
-const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect, typeFilter = ["image", "document", "video", "audio"]}) => {
+const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect, onUploadComplete, typeFilter = ["image", "document", "video", "audio"]}) => {
 
   const { loading, error, data: { mediaItems } = {} } = useQuery<GetMediaItems>(GET_MEDIA_ITEMS, {
     variables: { 
@@ -26,7 +27,7 @@ const MediaLibrary: React.FunctionComponent<MediaLibraryProps> = ({onItemSelect,
 
   return (
     <>
-    <MediaUploader />
+    <MediaUploader { ...{ onUploadComplete } } />
       <ul role="list" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-6 xl:gap-x-8">
       {/* <ul role="list" className=""> */}
         { mediaItems.map((item, idx) => (

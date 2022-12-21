@@ -94,9 +94,16 @@ const TenantsTable = () => {
     ],
     []
   );
+  
+  const tableProps = {
+    tableData,
+    tableCols,
+    filters: ['global'],
+    typeName: 'tenant'
+  }
 
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table { ...tableProps } />
   );
 }
 

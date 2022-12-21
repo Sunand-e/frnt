@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react';
 import Table from '../../common/tables/Table';
-import Button from '../../common/Button';
-import ButtonLink from '../../common/ButtonLink';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
 import useDeletePathway from '../../../hooks/pathways/useDeletePathway';
 import LoadingSpinner from '../../common/LoadingSpinner';
@@ -17,10 +15,6 @@ const PathwaysTable = () => {
 
   const editUrl = '/admin/pathways/edit'
 
-  const handleDeleteClick = (id) => {
-    deletePathway(id)
-  }
-
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
@@ -29,13 +23,7 @@ const PathwaysTable = () => {
     }, [pathways]
   );
 
-  // useEffect(() => {
-  //   console.log('queryData')
-  //   console.log(queryData)
-  //   return queryData?.courses.filter(item => !item._deleted) 
-  // }, [queryData])
-
-   const tableCols = useMemo(
+  const tableCols = useMemo(
     () => [
       {
         header: "Pathway",
@@ -85,6 +73,13 @@ const PathwaysTable = () => {
     []
   );
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    filters: ['global'],
+    typeName: 'pathway'
+  }
+
   return (
     <>
       { loading && (
@@ -94,7 +89,7 @@ const PathwaysTable = () => {
         <p>Unable to fetch pathways.</p>
       )}
       { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
+        <Table { ...tableProps } />
       )}
     </>
   );

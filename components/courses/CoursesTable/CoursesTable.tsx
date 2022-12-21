@@ -3,7 +3,6 @@ import Table from '../../common/tables/Table'
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import TagSelect from '../../tags/inputs/TagSelect';
-import { ModalContext } from '../../../context/modalContext';
 import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import { GraduationCap } from 'styled-icons/fa-solid';
@@ -24,8 +23,6 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
       setCourses(coursesBasic)
     }
   }, [coursesFull,coursesBasic])
-
-  const [ categoryId, setCategoryId ] = useState(null)
   
   const editUrl = '/admin/courses/edit'
 
@@ -33,17 +30,10 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      let data = courses?.edges?.map(edge => edge.node).filter(node => {
+      return courses?.edges?.map(edge => edge.node).filter(node => {
         return !node._deleted
-      })
-      
-      if(categoryId) {
-        data = data?.filter(item => {
-          return item?.tags?.some(tag => tag.id === categoryId)
-        })
-      }
-      return data || []
-    }, [courses, categoryId]
+      }) || []
+    }, [courses]
   );
 
   const tableCols = useMemo(
@@ -96,27 +86,17 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
     []
   );
 
-  const clearFilters = () => {
-    setCategoryId(null)
-  }
-
   const tableProps = {
     tableData,
     tableCols,
     selectable: true,
-    enableRowSelection: true
+    enableRowSelection: true,
+    typeName: 'course',
+    filters: ['category', 'global']
   }
 
   return (
     <>
-      <div className='flex items-center flex-col mb-2 sm:justify-between sm:flex-row'>
-        <div className='flex items-center flex-col sm:flex-row'>
-          <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-          <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
-        </div>
-        <p>Showing {tableData.length} courses</p>
-      </div>
-
       { loading && (
         <LoadingSpinner />
       )}

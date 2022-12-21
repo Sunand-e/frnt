@@ -30,7 +30,6 @@ const AdminResources = () => {
   return (
     <>
       <Notices />
-      <ResourceFilters />
       <ResourcesTable />
     </>
   )

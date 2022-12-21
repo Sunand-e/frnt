@@ -1,85 +1,22 @@
-import Button from '../common/Button';
-import { useForm } from 'react-hook-form';
-import TextInput from '../common/inputs/TextInput';
-import GroupUsersInput from './inputs/GroupUsersInput';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import useGetGroup from '../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
-import AssignedResourcesInput from './inputs/AssignedResourcesInput';
-import AssignedCoursesInput from './inputs/AssignedCoursesInput';
+import { useRouter } from '../../utils/router';
+import GroupForm from './GroupForm';
 
-interface UpdateGroupFormValues {
-  name: string 
-  email: string
-  groupImage: string
-  userRole: string
-}
-
-const GroupForm = ({group}) => {
-
-  const users = group?.users.edges.map(edge => edge.node) || []
-  
-  const { register, watch, handleSubmit, control, setFocus } = useForm<UpdateGroupFormValues>(
-    {
-      defaultValues: {
-        ...group,
-        userIds: users.map(user => user.id),
-        assignedCourseIds: group?.assignedCourses.edges.map(edge => edge.node.id) || [],
-        assignedResourceIds: group?.assignedResources.edges.map(edge => edge.node.id) || [],
-      }
-    }
-  );
-  
-  useEffect(() => {
-    setFocus('name')
-  },[])
+const EditGroupForm = () => {
 
   const router = useRouter()
+  const { id } = router.query
 
-  const { updateGroup } = useUpdateGroup(group.id);
+  const { group } = useGetGroup(id)
+  const { updateGroup } = useUpdateGroup(group?.id);
 
-  const onSubmit = useCallback(values => {
-    const input = {
-      ...values,
-      assignedContentIds: [...values.assignedCourseIds, ...values.assignedResourceIds]
-    }
-    group && updateGroup(input)
+  const onSubmit = (values) => {
+    updateGroup(values)
     router.push('/admin/users/groups')
-  },[group])
+  }
 
-  const buttonText = group ? 'Save changes' : 'Create group'
-  
-  const vals = watch()
-  return (
-    <form
-      className='h-full w-full max-w-3xl flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <TextInput
-        label="Group name"
-        placeholder="Group name"
-        inputAttrs={register("name", { maxLength: 20 })}
-      />
-{/*       
-      <ImageSelectInput
-        label="Group image"
-        // placeholder={'https://picsum.photos/640/360'}
-        isButtonAlwaysVisible={false}
-        buttonText="Choose group image"
-        control={control}
-        origImage={group?.image}
-        name="imageId"
-        // inputAttrs={register("image", { required: true })}
-      /> */}
-
-      <GroupUsersInput control={control} />
-      <p><a className='text-main cursor-pointer' onClick={() => console.log('inviteUsers')}>Send invitation to all users</a></p>
-      <AssignedCoursesInput control={control} />
-      <AssignedResourcesInput control={control} />
-
-      <Button type="submit">{buttonText}</Button>
-    </form>
-  )
+  return group && <GroupForm group={group} onSubmit={onSubmit} />
 }
 
-export default GroupForm
+export default EditGroupForm

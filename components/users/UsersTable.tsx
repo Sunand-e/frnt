@@ -79,14 +79,17 @@ const UsersTable = () => {
     },
   ]
 
+  const tableProps = {
+    tableData, 
+    tableCols, 
+    bulkActions,
+    typeName: 'user',
+    filters: ['global'],
+    onRowSelect: setRowSelection
+  }
 
   return (
-    <Table {...{
-      tableData, 
-      tableCols, 
-      bulkActions,
-      onRowSelect: setRowSelection
-     }} />
+    <Table { ...tableProps } />
   );
 }
 

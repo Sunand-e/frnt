@@ -10,6 +10,7 @@ import UserRoleSelect from "../inputs/UserRoleSelect";
 import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
 import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup";
 import UserRoleSelectCell from "./UserRoleSelectCell";
+import UserGroupActionsMenu from "./UserGroupActionsMenu";
 
 const UserGroupsTable = () => {
 
@@ -39,12 +40,6 @@ const UserGroupsTable = () => {
     })
   }, [user])
 
-  const handleRemoveFromGroup = (groupId) => {
-    removeUserFromGroup({
-      userId: user.id,
-      groupId,
-    })
-  }
   const { handleModal } = useContext(ModalContext);
   
   const tableData = useMemo(
@@ -85,25 +80,21 @@ const UserGroupsTable = () => {
         }
       },
       {
-        width: 300,
-        id: "Actions",
-
-        cell: ({ cell }) => {
-          const group = cell.row.original;          
-          return (
-            <div className="text-right">
-              <a className="text-red-600 hover:text-red-800 self-center" href="#" onClick={
-                () => handleRemoveFromGroup(cell.row.original.node.id)
-              }>Remove from group</a>
-            </div>
-          )
-        }
-      }
+        header: "Actions",
+        accessorKey: "actions",
+        cell: ({ cell }) => <UserGroupActionsMenu user={user} group={cell.row.original} />
+      },
     ]
   }, [roles]);
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    showTop: false
+  }
+    
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table { ...tableProps } />
   );
 }
 

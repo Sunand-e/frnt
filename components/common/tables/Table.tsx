@@ -9,11 +9,14 @@ import {
   ColumnDef,
   getSortedRowModel,
   SortingState,
+  FilterFn,
 } from '@tanstack/react-table'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from '../../../utils/router';
 import BulkActionsMenu from './BulkActionsMenu';
 import GlobalFilter from './GlobalFilter';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
+import TableActions from './TableActions';
 import TableStructure from './TableStructure';
 
 const Table = ({
@@ -21,6 +24,10 @@ const Table = ({
   tableCols,
   options = {} as any,
   bulkActions = [],
+  filters = [],
+  typeName ='item',
+  typeOptions={},
+  showTop=true,
   // rowSelection = {},
   onRowSelect = (selection) => null,
 }) => {
@@ -28,6 +35,16 @@ const Table = ({
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
   const [rowSelection, setRowSelection] = useState({})
+  const [ categoryId, setCategoryId ] = useState(null)
+  const [ contentType, setContentType ] = useState(null)
+
+  const router = useRouter()
+  const { type } = router.query
+
+  useEffect(() => {
+    setContentType(type)
+  },[type])
+
 
   const selectable = !!bulkActions.length;
 
@@ -68,48 +85,69 @@ const Table = ({
 
   ]
 
+  const data = useMemo(() => {
+    let data = tableData;
+    
+    if(!!contentType) {
+      data = data.filter(item => item.contentType === contentType);
+    }
+
+    if(categoryId) {
+      data = data?.filter(item => {
+        return item?.tags?.some(tag => tag.id === categoryId)
+      })
+    }
+    return data
+  },[tableData, categoryId, contentType])
+
+
+
+
+
+  // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
+  const globalFilterFn = (row, columnId, filterValue: string) => {
+    const search = filterValue.toLowerCase();
+  
+    let value = row.getValue(columnId) as string;
+    if (typeof value === 'number') value = String(value);
+  
+    return value?.toLowerCase().includes(search);
+  };
+  
   const table = useReactTable({
     state: {
       sorting,
-      rowSelection
+      rowSelection,
+      globalFilter
     },
+    globalFilterFn,
     columns, 
-    data: tableData,
+    data,
     onSortingChange: setSorting,
     onRowSelectionChange: handleRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     // getPaginationRowModel: getPaginationRowModel(),
-    // debugTable: true,
+    debugTable: true,
   });
 
   return (
     <>
-      {/* <GlobalFilter
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      /> */}
-      <div className='mb-2'>
-        { !!bulkActions.length && <BulkActionsMenu {...{bulkActions}} /> }
-      </div>
-      {/* <button
-        className="border rounded p-2 mb-2"
-        onClick={() => console.info('rowSelection', rowSelection)}
-      >
-        Log `rowSelection` state
-      </button>
-      <button
-        className="border rounded p-2 mb-2"
-        onClick={() =>
-          console.info(
-            'table.getSelectedFlatRows()',
-            table.getSelectedRowModel().flatRows
-          )
-        }
-      >
-        Log table.getSelectedFlatRows()
-      </button> */}
+      { showTop && <TableActions { ...{
+        table,
+        globalFilter,
+        setGlobalFilter,
+        bulkActions,
+        tableData,
+        categoryId,
+        setCategoryId,
+        contentType,
+        setContentType,
+        filters,
+        typeName,
+        typeOptions
+      }} /> }
 
       <TableStructure table={table} selectable={selectable} />
     </>

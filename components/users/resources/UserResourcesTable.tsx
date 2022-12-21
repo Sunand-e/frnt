@@ -41,7 +41,13 @@ const UserResourcesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return user?.resources.edges.filter(edge => !edge.node._deleted) || []
+      return user?.resources.edges.filter(edge => (
+        !edge.node._deleted
+        //  && (
+          // edge.groups.edges.some(edge => edge.roles.length) || 
+          // edge.roles.length
+        // )
+      )) || []
     },
     [user]
   );
@@ -100,8 +106,14 @@ const UserResourcesTable = () => {
     ]
   }, []);
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    showTop: false
+  }
+    
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table { ...tableProps } />
   );
 }
 

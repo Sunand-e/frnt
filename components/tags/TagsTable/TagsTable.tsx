@@ -90,6 +90,13 @@ const TagsTable = () => {
     [courses, resources, pathways]
   );
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    typeName: 'category'
+  }
+    
+
   return (
     <>
       { loading && (
@@ -99,7 +106,7 @@ const TagsTable = () => {
         <p>Unable to fetch tags.</p>
       )}
       { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
+        <Table { ...tableProps } />
       )}
     </>
   );

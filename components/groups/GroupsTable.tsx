@@ -70,12 +70,17 @@ const GroupsTable = () => {
     ]
   }, []);
 
-  const options = {
-    selectable: false
+  const tableProps = {
+    tableData,
+    tableCols,
+    options: {
+      selectable: false
+    },
+    filters: ['global']
   }
-  
+    
   return (
-    <Table {...{tableData, tableCols, options }} />
+    <Table { ...tableProps } />
   );
 }
 

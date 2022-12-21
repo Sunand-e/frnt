@@ -79,6 +79,9 @@ export const UserContentConnectionFragment = gql`
       }
       groups {
         edges {
+          roles {
+            id
+          }
           node {
             id
             name      

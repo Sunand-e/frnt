@@ -22,7 +22,7 @@ function useCreateTenant() {
             tenants: {
               ...cachedData.tenants,
               edges: [{node: createTenant.tenant}, ...cachedData.tenants.edges]
-            }            
+            }
           }
         })
       }
