@@ -15,9 +15,10 @@ const PackageInUse: React.FunctionComponent<PackageInUseProps> = ({item, usage, 
       {/* <ul role="list" className=""> */}
         { usage.map((usage, idx) => (
           <li key={idx} className="relative">
-            <pre>
+            { usage.title }
+            {/* <pre>
             { JSON.stringify(usage,null,2) }
-            </pre>
+            </pre> */}
           </li>
         ))}
       </ul>

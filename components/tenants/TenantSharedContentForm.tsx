@@ -56,13 +56,9 @@ const TenantSharedContentForm = () => {
     ]
 
     // revoke sharing content items which were shared, but are not now
-    initialIds
     let revokeIds = initialIds.filter(x => !contentItemIds.includes(x));
     let shareIds = contentItemIds.filter(x => !initialIds.includes(x));
-    console.log('revokeIds')
-    console.log(revokeIds)
-    console.log('shareIds')
-    console.log(shareIds)
+
     revokeShareContentItems({
       tenantId: id,
       contentItemIds: revokeIds

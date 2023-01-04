@@ -19,7 +19,15 @@ const EnrolUserInCourses = ({user}) => {
   const { closeModal } = useContext(ModalContext)
 
   const courseNodes = courses?.edges.map(edge => edge.node)
-  const userCourseNodes = userCourses?.edges.map(edge => edge.node)
+
+  const userCourseNodes = userCourses?.edges.filter(edge => (
+    !edge.node._deleted
+     && (
+      edge.groups.edges.some(edge => edge.roles.length) || 
+      edge.roles.length
+    )
+  )).map(edge => edge.node)
+
   const availableCourses = courseNodes?.filter(course => 
     !userCourseNodes?.some(userCourse=>userCourse.id === course.id)
   ) || []
@@ -86,12 +94,7 @@ const EnrolUserInCourses = ({user}) => {
       closeModal()
     })
   }
-  console.log('enrolUserInCourses')
-  console.log(courses)
-  console.log('availableCourses')
-  console.log(availableCourses)
-  console.log('availableCoursesData')
-  console.log(availableCoursesData)
+  
   return (
     <>
       { !user || loading ? (

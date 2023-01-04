@@ -24,7 +24,6 @@ const UserCoursesTable = () => {
       return user?.courses.edges.filter(edge => (
         !edge.node._deleted
          && (
-          true ||
           edge.groups.edges.some(edge => edge.roles.length) || 
           edge.roles.length
         )

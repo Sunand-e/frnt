@@ -4,13 +4,13 @@ import { ModalContext } from "../context/modalContext";
 import useDeleteResource from "./resources/useDeleteResource";
 import Button from '../components/common/Button';
 
-const useConfirmDelete = ({type, name, onConfirm}) => {
+const useConfirmDelete = ({type, name, onConfirm, onExit=null}) => {
 
   const { handleModal, closeModal } = useContext(ModalContext)
 
   const handleDelete = () => {
     onConfirm()
-    closeModal()
+    onExit ? onExit() : closeModal()
   }
 
   const displayName = name ? (

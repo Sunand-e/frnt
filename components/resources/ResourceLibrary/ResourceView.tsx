@@ -84,6 +84,7 @@ const ResourceView = ({id}) => {
       }
   },[resource])
 
+  let showActionButton = true;
   let actionButtonText, actionButtonIcon, actionButtonUrl
 
   switch(resource?.contentType) {
@@ -102,6 +103,9 @@ const ResourceView = ({id}) => {
       actionButtonText = `Visit link`
       actionButtonIcon = ExternalLinkOutline
       actionButtonUrl = resource?.content?.url
+      break
+    case 'video':
+      showActionButton = false
       break
   }
 
@@ -131,11 +135,13 @@ const ResourceView = ({id}) => {
           
           { resourceComponent }
           <div className="mt-10 flex flex-col md:flex-row space-x-4 self-center">
-            <ResourceActionButton
-              text={actionButtonText}
-              url={actionButtonUrl}
-              icon={actionButtonIcon}
-            />
+            { showActionButton && (
+              <ResourceActionButton
+                text={actionButtonText}
+                url={actionButtonUrl}
+                icon={actionButtonIcon}
+              />
+            )}
             { pid ? (
               <>
                 <ButtonLink href={{

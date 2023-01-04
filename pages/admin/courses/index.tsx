@@ -22,8 +22,8 @@ const AdminCourses = () => {
     title: 'Courses'
   })
 
-  const { userHasCapability, userCapabilityArray } = useUserHasCapability()
-  const ready = !!userCapabilityArray.length
+  const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const ready = !!userCapabilityArray.length || userType === 'SuperAdmin'
   const router = useRouter()
   
   useEffect(() => {

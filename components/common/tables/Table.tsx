@@ -129,7 +129,7 @@ const Table = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     // getPaginationRowModel: getPaginationRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
   return (

@@ -44,6 +44,7 @@ function useCreateGroup() {
             users: [],
             enrolledCourses: [],
             assignedCourses: [],
+            assignedResources: [],
             createdAt: 0,
             updatedAt: 0,
             ...values

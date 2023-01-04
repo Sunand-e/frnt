@@ -24,7 +24,7 @@ const DeletePackageModal = ({module, onDelete, onCancel}: DeletePackageModalProp
         console.log('usageReport')
         console.log(response.deleteScormModule.usage)
         handleModal({
-          size: 'lg',
+          size: 'md',
           title: `SCORM module in use`,
           content: <PackageInUse 
             item={module} 
