@@ -8,7 +8,7 @@ const UserActionsMenu = ({user}) => {
  
   const { deleteUser } = useDeleteUser()
   const { confirmDelete } = useConfirmDelete({
-    type: 'user',
+    itemType: 'user',
     name: user.fullName,
     onConfirm: () => deleteUser(user.id)
   })

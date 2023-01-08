@@ -2,11 +2,11 @@ import { useContext } from 'react';
 import { ModalContext } from "../context/modalContext";
 import Button from '../components/common/Button';
 
-const useConfirmDelete = ({itemType, name, onConfirm, autoClose=true, onExit=null}) => {
+const useConfirmModal = ({itemType, name, onConfirm, autoClose=true}) => {
 
   const { handleModal, closeModal } = useContext(ModalContext)
 
-  const handleDelete = () => {
+  const handleConfirm = () => {
     onConfirm()
     // onExit ? onExit() : closeModal()
     autoClose && closeModal()
@@ -20,24 +20,24 @@ const useConfirmDelete = ({itemType, name, onConfirm, autoClose=true, onExit=nul
     <>this {itemType}</>
   )
 
-  const confirmDelete = () => {
+  const confirmModal = () => {
     handleModal({
-      title: `Delete ${itemType}`,
+      title: `Modal ${itemType}`,
       content: (
         <>
           <p>
-            Are you sure you want to delete {displayName} ?
+            
           </p>
           <p className="font-bold mb-2">This action cannot be undone.</p>
-          <Button onClick={handleDelete}>{`Delete ${itemType}`}</Button>
+          <Button onClick={handleConfirm}>{`Modal ${itemType}`}</Button>
         </>
       )
     })
   }
 
   return {
-    confirmDelete
+    confirmModal
   }
 }
 
-export default useConfirmDelete
+export default useConfirmModal

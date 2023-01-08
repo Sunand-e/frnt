@@ -12,6 +12,7 @@ export const DELETE_MEDIA_ITEM = gql`
       }
       usage
       message
+      status
     }
   }
 `;

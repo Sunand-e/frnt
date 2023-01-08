@@ -6,10 +6,14 @@ import 'react-dropdown-tree-select/dist/styles.css'
 import IconOption from "../../common/inputs/react-select/IconOption";
 
 const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    padding: 8,
-  }),
+  option: (provided, state) => {
+    return ({
+      ...provided,
+      padding: 8,
+      height: 'auto',
+      lineHeight: 1.5
+    })
+  },
   menuPortal: (provided, state) => ({
     ...provided,
     zIndex: 3000,
@@ -41,6 +45,7 @@ const CourseSelectCategorised = ({data, onChange}) => {
       isSearchable={true} 
       closeMenuOnSelect={false}
       menuPortalTarget={document.body}
+      menuPlacement={'auto'}
     />
     </>
   )

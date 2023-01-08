@@ -13,7 +13,6 @@ const PackageActionsMenu = ({module, returnFn}) => {
 
   const handleDelete = async () => {
     const response = await deleteScormModule(module.id)
-    
     if(response.deleteScormModule?.success === false) {
       if(response.deleteScormModule?.usage.length) {
         handleModal({
@@ -32,10 +31,11 @@ const PackageActionsMenu = ({module, returnFn}) => {
   }
 
   const { confirmDelete } = useConfirmDelete({
-    type: 'SCORM package',
+    itemType: 'SCORM package',
     name: module.title,
     onConfirm: handleDelete,
-    onExit: returnFn
+    autoClose: false
+    // onExit: returnFn
   })
 
   const menuItems = [

@@ -9,7 +9,7 @@ const CourseActionsMenu = ({course}) => {
   
   const { deleteCourse } = useDeleteCourse()
   const { confirmDelete } = useConfirmDelete({
-    type: 'course',
+    itemType: 'course',
     name: course.title,
     onConfirm: () => deleteCourse(course.id)
   })

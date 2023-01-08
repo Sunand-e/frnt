@@ -69,6 +69,7 @@
     "material-design-icons": "^3.0.1",
     "next": "^13.0.0",
     "next-transpile-modules": "^9.1.0",
+    "pluralize": "^8.0.0",
     "re-resizable": "^6.9.9",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",

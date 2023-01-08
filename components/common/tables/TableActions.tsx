@@ -1,3 +1,4 @@
+import Pluralize from 'pluralize'
 import Select from 'react-select'
 import { useState } from "react"
 import TagSelect from "../../tags/inputs/TagSelect"
@@ -34,10 +35,11 @@ const TableActions = ({
     }
   });
 
+  const pluralTypeName = Pluralize( typeName, 2 )
   const visibleCount = table.getFilteredRowModel().rows.length
   const itemCountString = `Showing ${visibleCount}
     ${visibleCount !== tableData.length ? `of ${tableData.length}` : ''}
-    ${typeName}${tableData.length > 1 ? 's' : ''}
+    ${tableData.length === 1 ? typeName : pluralTypeName}
   `
 
   return (

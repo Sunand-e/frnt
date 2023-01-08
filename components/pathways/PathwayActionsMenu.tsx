@@ -8,7 +8,7 @@ const PathwayActionsMenu = ({pathway}) => {
   
   const { deletePathway } = useDeletePathway()
   const { confirmDelete } = useConfirmDelete({
-    type: 'pathway',
+    itemType: 'pathway',
     name: pathway.title,
     onConfirm: () => deletePathway(pathway.id)
   })

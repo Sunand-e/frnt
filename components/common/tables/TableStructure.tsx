@@ -1,5 +1,4 @@
 import { flexRender } from "@tanstack/react-table";
-import ColumnFilter from "./ColumnFilter";
 import {CaretUp} from "@styled-icons/fa-solid/CaretUp"
 
 interface TableStructureProps {
@@ -7,7 +6,7 @@ interface TableStructureProps {
   selectable?: boolean
 }
 
-const TableStructure = ({table, selectable}) => {
+const TableStructure = ({table, selectable}: TableStructureProps) => {
   
   return (
     <div className="flex flex-col">
@@ -73,7 +72,7 @@ const TableStructure = ({table, selectable}) => {
                   // .slice(0, 10)
                   .map(row => {
                     return (
-                      <tr key={row.id}>
+                      <tr key={row.original.id}>
                         {row.getVisibleCells().map((cell, index) => {
                           return (
                             <td key={cell.id}

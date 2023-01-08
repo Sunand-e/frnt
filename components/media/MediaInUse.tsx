@@ -1,42 +1,40 @@
-import { useQuery, useReactiveVar } from "@apollo/client"
-import { GetMediaItems } from "../../graphql/queries/__generated__/GetMediaItems";
-import useModal from "../../hooks/useModal";
-import Modal from "../common/Modal";
-import MediaUploader from "./MediaUploader"
-import MediaLibraryItem from "./MediaLibraryItem"
-import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
-import { ModalContext } from "../../context/modalContext";
-import { useContext } from "react";
-import MediaPreview from "./MediaPreview";
 import Button from "../common/Button";
 
 interface MediaInUseProps {
   item: any
-  usageReport: any[]
+  usage: any[],
+  buttonAction: any
 }
 
-const MediaInUse: React.FunctionComponent<MediaInUseProps> = ({item, usageReport}) => {
+const MediaInUse: React.FunctionComponent<MediaInUseProps> = ({item, usage, buttonAction}) => {
 
-  const { handleModal } = useContext(ModalContext)
-  const handlePreviewModal = () => {
-    handleModal({
-      size: 'lg',
-      title: `Media preview`,
-      content: <MediaPreview item={item} />
-    })
+  const usageReportData = usage.reduce((acc, val) => {
+    acc[val.type] = [...(acc?.[val.type] || []), val.title]
+    return acc
+  }, {})
+
+  let usageReport = []
+  
+  for (const type in usageReportData) {
+    usageReport.push(
+      <>
+        <span className="text-gray-500 uppercase">{type}s</span>
+        <ul role="list" className="list-disc list-inside mb-2">
+          { usageReportData[type].map((title, idx) => (
+            <li key={idx} className="relative">
+              { title }
+            </li>
+          ))}
+        </ul>
+      </>
+    )
   }
+
   return (
     <>
       <p className="mb-2">You cannot delete <span className="font-bold">{item.fileName}</span> as it is currently in use in the following content items:</p>
-      <ul role="list" className="list-disc list-inside mb-2">
-      {/* <ul role="list" className=""> */}
-        { usageReport[1].map((i, idx) => (
-          <li key={idx} className="relative">
-            {i.title}
-          </li>
-        ))}
-      </ul>
-      <Button onClick={handlePreviewModal}>Go back</Button>
+      { usageReport }
+      <Button onClick={buttonAction}>Go back</Button>
     </>
   )
 }

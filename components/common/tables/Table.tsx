@@ -1,20 +1,12 @@
 import {
-  createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
-  Column,
   getFilteredRowModel,
-  getPaginationRowModel,
-  ColumnDef,
   getSortedRowModel,
   SortingState,
-  FilterFn,
 } from '@tanstack/react-table'
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from '../../../utils/router';
-import BulkActionsMenu from './BulkActionsMenu';
-import GlobalFilter from './GlobalFilter';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import TableActions from './TableActions';
 import TableStructure from './TableStructure';
@@ -88,7 +80,7 @@ const Table = ({
   const data = useMemo(() => {
     let data = tableData;
     
-    if(!!contentType) {
+    if(!!contentType && !['group', 'user'].includes(contentType)) {
       data = data.filter(item => item.contentType === contentType);
     }
 

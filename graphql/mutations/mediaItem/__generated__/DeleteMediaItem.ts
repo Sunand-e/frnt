@@ -17,6 +17,7 @@ export interface DeleteMediaItem_deleteMediaItem {
   mediaItem: DeleteMediaItem_deleteMediaItem_mediaItem | null;
   usage: any[] | null;
   message: string;
+  status: boolean;
 }
 
 export interface DeleteMediaItem {

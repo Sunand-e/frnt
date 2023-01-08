@@ -1,48 +1,24 @@
 import { useReactiveVar } from "@apollo/client"
-import { currentContentItemVar } from "../../../graphql/cache"
+import { currentContentItemVar } from "../../graphql/cache"
 import { useCallback, useEffect, useMemo } from "react";
-import useGetResource from "../../../hooks/resources/useGetResource";
-import usePageTitle from "../../../hooks/usePageTitle";
-import DocumentItem from "../../common/ContentEditor/blocks/DocumentBlock/DocumentItem";
-import VideoItem from "../display/VideoItem";
-import ImageItem from "../display/ImageItem";
-import AudioPlayer from "../../common/audio/AudioPlayer";
-import LinkPreview from "../../common/LinkPreview";
-import ButtonLink from "../../common/ButtonLink";
-import Button from "../../common/Button";
-import { Download } from '@styled-icons/boxicons-regular/Download'
+import usePageTitle from "../../hooks/usePageTitle";
+import DocumentItem from "../common/ContentEditor/blocks/DocumentBlock/DocumentItem";
+import VideoItem from "./display/VideoItem";
+import ImageItem from "./display/ImageItem";
+import AudioPlayer from "../common/audio/AudioPlayer";
+import LinkPreview from "../common/LinkPreview";
+import ButtonLink from "../common/ButtonLink";
+import Button from "../common/Button";
 import {Tick} from '@styled-icons/typicons/Tick'
-import { ExternalLinkOutline } from '@styled-icons/evaicons-outline/ExternalLinkOutline'
-import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
-import { useRouter } from "../../../utils/router";
-import useGetUserPathway from "../../../hooks/users/useGetUserPathway";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
+import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
+import { useRouter } from "../../utils/router";
+import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
-import LoadingSpinner from "../../common/LoadingSpinner";
-import { Dot } from '../../common/misc/Dot';
-
-
-const ResourceActionButton = ({text, icon, url}) => {
-  const IconComponent = icon;
-  return (
-    <ButtonLink target="_blank" className="mb-8" href={url}>
-      <span className="flex space-x-2 items-center">
-        <IconComponent className="h-7" />
-        <span>
-          { text }
-        </span>
-      </span>
-    </ButtonLink>
-  )
-}
+import LoadingSpinner from "../common/LoadingSpinner";
+import { Dot } from '../common/misc/Dot';
+import ResourceActionButton from "./ResourceActionButton";
 
 const ResourceView = ({id}) => {
-
-  // const {
-  //   resource: resource,
-  //   loading,
-  //   error,
-  // } = useGetResource(id)
 
   const router = useRouter()
   const { pid } = router.query;
@@ -84,30 +60,7 @@ const ResourceView = ({id}) => {
       }
   },[resource])
 
-  let showActionButton = true;
-  let actionButtonText, actionButtonIcon, actionButtonUrl
-
-  switch(resource?.contentType) {
-    case 'document':
-    case 'audio': {
-      actionButtonText = `Download ${resource?.contentType} file`
-      actionButtonIcon = Download
-    }
-    case 'document':
-      actionButtonUrl = resource.document?.location
-      break
-    case 'audio':
-      actionButtonUrl = resource.audio?.location
-      break
-    case 'link':
-      actionButtonText = `Visit link`
-      actionButtonIcon = ExternalLinkOutline
-      actionButtonUrl = resource?.content?.url
-      break
-    case 'video':
-      showActionButton = false
-      break
-  }
+  const showActionButton = ['document', 'audio', 'link'].includes(resource?.contentType)
 
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
@@ -135,12 +88,8 @@ const ResourceView = ({id}) => {
           
           { resourceComponent }
           <div className="mt-10 flex flex-col md:flex-row space-x-4 self-center">
-            { showActionButton && (
-              <ResourceActionButton
-                text={actionButtonText}
-                url={actionButtonUrl}
-                icon={actionButtonIcon}
-              />
+            { !!resource && showActionButton && (
+              <ResourceActionButton resource={resource} />
             )}
             { pid ? (
               <>

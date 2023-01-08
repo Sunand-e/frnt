@@ -8,7 +8,7 @@ const ResourceActionsMenu = ({resource}) => {
   
   const { deleteResource } = useDeleteResource()
   const { confirmDelete } = useConfirmDelete({
-    type: 'resource',
+    itemType: 'resource',
     name: resource.title,
     onConfirm: () => deleteResource(resource.id)
   })

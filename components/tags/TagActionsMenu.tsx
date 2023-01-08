@@ -8,7 +8,7 @@ const TagActionsMenu = ({tag}) => {
   
   const { deleteTag } = useDeleteTag()
   const { confirmDelete } = useConfirmDelete({
-    type: 'category',
+    itemType: 'category',
     name: tag.label,
     onConfirm: () => deleteTag(tag.id)
   })

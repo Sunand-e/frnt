@@ -39,18 +39,23 @@ const EnrolUserInCourses = ({user}) => {
     ]
   }, [])
   
-  let uniqueCourses = []
 
+  console.log('availableCourses')
+  console.log(availableCourses)
+  console.log('tags')
+  console.log(tags)
+  let uniqueCourses = []
   const availableCoursesData = tags.map(tag => ({
     label: tag.label,
     options: availableCourses.filter(course => {
-      if(!uniqueCourses.some(c => c.id === course.id)) {
-        uniqueCourses.push(course)
-        return course.tags.some(t => t.id === tag.id)
+      if(
+        uniqueCourses.some(c => c.id === course.id)
+        || !course.tags.some(t => t.id === tag.id)
+      ) {
+        return false
       }
-      else {
-        return false;
-      }
+      uniqueCourses.push(course)
+      return true
     }).map(course => ({
       label: course.title,
       value: course.id,

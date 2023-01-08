@@ -9,7 +9,7 @@ const TenantActionsMenu = ({tenant}) => {
  
   const { deleteTenant } = useDeleteTenant()
   const { confirmDelete } = useConfirmDelete({
-    type: 'tenant',
+    itemType: 'tenant',
     name: tenant.name,
     onConfirm: () => deleteTenant(tenant.id)
   })
