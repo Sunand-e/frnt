@@ -40,10 +40,6 @@ const EnrolUserInCourses = ({user}) => {
   }, [])
   
 
-  console.log('availableCourses')
-  console.log(availableCourses)
-  console.log('tags')
-  console.log(tags)
   let uniqueCourses = []
   const availableCoursesData = tags.map(tag => ({
     label: tag.label,

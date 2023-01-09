@@ -4,12 +4,14 @@ import { CapabilityFragment } from '../../queries/capabilities';
 export const UPDATE_CAPABILITY = gql`
   mutation UpdateCapability(
     $id: ID!
-    $details: JSON
+    $displayName: String
+    $capabilityType: String
   ) {
     updateCapability(
       input: {
         id: $id,
-        details: $details
+        capabilityType: $capabilityType
+        displayName: $displayName
       }
     ) {
       capability {

@@ -41,7 +41,7 @@ const UserCourseActionsMenu = ({user, course}) => {
           null,
         )
       },
-      capability: 'EnrolUsersInCourses'
+      capability: 'EnrolUsersInContent'
     }]:[]),
     // { title: 'Settings', href:'settings' },
   ]

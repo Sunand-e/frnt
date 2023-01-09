@@ -31,7 +31,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
 
   const { complete, data } = useFragment_experimental({
     fragment: gql`
-      fragment ContentFragment on ContentItem {
+      fragment ContentFragment2 on ContentItem {
         title
         contentType
       }
