@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import TextInput from "../../common/inputs/TextInput";
 import Link from 'next/link';
 
-const ENDPOINT_SIGNIN = '/api/v1/users/sign_in'
+const ENDPOINT_SIGNIN = '/api/v1/user/sign_in'
 
 interface UserLoginFormValues{
     email: string;
@@ -22,11 +22,9 @@ const router = useRouter()
    // const onSubmit=(data) => console.log(data);
   const onSubmit = values => {
     const data = {
-      user: {
-        // remember_me: "1",
-        remember_me: "0",
-        ...values
-      }
+      // remember_me: "1",
+      remember_me: "0",
+      ...values
     }
 
     fetch(ENDPOINT_SIGNIN, {
