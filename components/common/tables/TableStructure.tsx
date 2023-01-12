@@ -1,13 +1,14 @@
-import { flexRender } from "@tanstack/react-table";
+import { flexRender, Row } from "@tanstack/react-table";
 import {CaretUp} from "@styled-icons/fa-solid/CaretUp"
 
 interface TableStructureProps {
   table,
   selectable?: boolean
+  onRowClick?
 }
 
-const TableStructure = ({table, selectable}: TableStructureProps) => {
-  
+const TableStructure = ({table, selectable, onRowClick}: TableStructureProps) => {
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-y-visible sm:-mx-6 lg:-mx-8">
@@ -72,7 +73,7 @@ const TableStructure = ({table, selectable}: TableStructureProps) => {
                   // .slice(0, 10)
                   .map(row => {
                     return (
-                      <tr key={row.original.id}>
+                      <tr key={row.original.id} onClick={onRowClick ? (event) => onRowClick(row.original, event) : undefined}>
                         {row.getVisibleCells().map((cell, index) => {
                           return (
                             <td key={cell.id}

@@ -5,8 +5,8 @@ const AssignedResourcesInput = ({control}) => {
 
   const { resources } = useGetResources();
   // Get array of {value: label:} objects from fetched resources object 
-  const resourcesOptions = resources?.edges?.map(({node: course}) => {
-    return { value: course.id, label: course.title }
+  const resourcesOptions = resources?.edges?.map(({node}) => {
+    return { value: node.id, label: node.title }
   })
 
   return (

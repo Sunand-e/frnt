@@ -16,9 +16,9 @@ const RemovePathwayItemModal = ({item}) => {
   return (
     <>
       <p>Are you sure you want to remove 
-        <span className='text-bold'>{item.name}</span>
+        <span className='text-bold'>{item.title}</span>
         ?</p>
-      <Button onClick={handleRemoveItem}>Delete lesson</Button>
+      <Button onClick={handleRemoveItem}>Remove item</Button>
     </>
   );
 }

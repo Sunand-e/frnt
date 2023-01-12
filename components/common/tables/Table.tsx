@@ -22,6 +22,7 @@ const Table = ({
   showTop=true,
   // rowSelection = {},
   onRowSelect = (selection) => null,
+  onRowClick = null
 }) => {
 
   const [sorting, setSorting] = useState<SortingState>([])
@@ -46,6 +47,7 @@ const Table = ({
 
   useEffect(() => {
     onRowSelect(table.getSelectedRowModel().flatRows.map(row=>row.original.id))
+ 
   },[rowSelection])
 
   const columns = [
@@ -117,6 +119,7 @@ const Table = ({
     data,
     onSortingChange: setSorting,
     onRowSelectionChange: handleRowSelectionChange,
+ 
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -141,7 +144,7 @@ const Table = ({
         typeOptions
       }} /> }
 
-      <TableStructure table={table} selectable={selectable} />
+      <TableStructure table={table} selectable={selectable} onRowClick={onRowClick} />
     </>
   );
 }

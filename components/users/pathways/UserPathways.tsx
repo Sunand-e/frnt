@@ -4,37 +4,36 @@ import { ModalContext } from "../../../context/modalContext";
 import { useContext } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
-import UserResourcesTable from "./UserResourcesTable";
+import UserPathwaysTable from "./UserPathwaysTable";
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
-import useGetUserResources from "../../../hooks/users/useGetUserResources";
+import useGetUserPathways from "../../../hooks/users/useGetUserPathways";
 import EnrolUserInContent from "../content/EnrolUserInContent";
 
-const UserResources = () => {
+const UserPathways = () => {
   
   const router = useRouter()
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
   const { handleModal } = useContext(ModalContext)
 
-  const { resources } = useGetCurrentUser()
-  const { resources: assignedResources } = useGetUserResources(user.id)
+  const { pathways } = useGetCurrentUser()
+  const { pathways: assignedPathways } = useGetUserPathways(user.id)
 
   const button = {
-    text: "Assign resources",
+    text: "Assign pathways",
     onClick: () => {
       handleModal({
-        title: 'Enrol user in resources',
-        content: <EnrolUserInContent user={user} content={resources} assignedContent={assignedResources} typeName='resource' />
+        title: 'Enrol user in pathways',
+        content: <EnrolUserInContent user={user} content={pathways} assignedContent={assignedPathways} typeName='pathway' />
       })
     }
   }
 
   return (
-    <BoxContainer title="Resources" icon={Library} button={button}>
-      <UserResourcesTable />
+    <BoxContainer title="Pathways" icon={Library} button={button}>
+      <UserPathwaysTable />
     </BoxContainer>
-    
   );
 }
 
-export default UserResources
+export default UserPathways

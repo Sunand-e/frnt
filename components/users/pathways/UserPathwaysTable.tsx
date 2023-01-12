@@ -5,9 +5,9 @@ import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";
 import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
-import UserResourceActionsMenu from "./UserResourceActionsMenu";
+import UserPathwayActionsMenu from "./UserPathwayActionsMenu";
 
-const UserResourcesTable = () => {
+const UserPathwaysTable = () => {
   
   const router = useRouter()
   const { id } = router.query
@@ -42,7 +42,7 @@ const UserResourcesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return user?.resources.edges.filter(edge => (
+      return user?.pathways.edges.filter(edge => (
         !edge.node._deleted
          && (
           edge.groups.edges.some(edge => edge.roles.length) || 
@@ -55,14 +55,14 @@ const UserResourcesTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Resource",
+        header: "Pathway",
         accessorFn: row => row.node.title, // accessor is the key in the data
         cell: ({ cell }) => {
-          const resource = cell.row.original.node;
+          const pathway = cell.row.original.node;
           return (
             <ItemWithImage
-              title={resource.title}
-              image={resource.image}
+              title={pathway.title}
+              image={pathway.image}
             />
           )
         }
@@ -100,7 +100,7 @@ const UserResourcesTable = () => {
       {
         header: "Actions",
         accessorKey: "actions",
-        cell: ({ cell }) => <UserResourceActionsMenu user={user} resource={cell.row.original} />
+        cell: ({ cell }) => <UserPathwayActionsMenu user={user} pathway={cell.row.original} />
       },
     ]
   }, []);
@@ -116,4 +116,4 @@ const UserResourcesTable = () => {
   );
 }
 
-export default UserResourcesTable
+export default UserPathwaysTable

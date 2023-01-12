@@ -63,7 +63,7 @@ const UserCoursesTable = () => {
         cell: ({ cell }) => {
           const values = cell.row.original;
           return (
-            <div className="text-right">
+            <div className="text-center">
               { !!cell.row.original.groups.edges.length && (
                 <>
                   Enrolled via group:

@@ -1,6 +1,4 @@
 import Select, { components } from 'react-select'
-import { useCallback, useState } from 'react'
-import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 
 import IconOption from "../../common/inputs/react-select/IconOption";
@@ -30,12 +28,12 @@ const Input = props => (
      inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const CourseSelectCategorised = ({data, onChange}) => {
+const ContentSelectCategorised = ({data, onChange, typeName}) => {
     
   return (
     <>
     <Select
-      placeholder={<span className="text-main-secondary">Choose courses...</span>}
+      placeholder={<span className="text-main-secondary">Choose {typeName}s...</span>}
       options={data}
       styles={customStyles}
       components={{ Option: IconOption, Input }}
@@ -51,4 +49,4 @@ const CourseSelectCategorised = ({data, onChange}) => {
   )
 }
 
-export default CourseSelectCategorised
+export default ContentSelectCategorised

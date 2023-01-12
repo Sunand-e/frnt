@@ -60,8 +60,7 @@ const router = useRouter()
     }) : ({
       mediaItemId: resourceValue?.id
     })
-    console.log('formValues')
-    console.log(formValues)
+
     const queryValues = {
       ...values,
       ...resourceValues,
@@ -91,10 +90,6 @@ const router = useRouter()
       case 'image':
       case 'audio':
         !title && setValue('title', resource.fileName.replace(/\.[^/.]+$/, ""))
-        break;
-      case 'video':
-        break;
-      case 'link':
         break;
     }
   }

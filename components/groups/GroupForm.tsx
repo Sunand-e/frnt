@@ -5,6 +5,7 @@ import GroupUsersInput from './inputs/GroupUsersInput';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import AssignedResourcesInput from './inputs/AssignedResourcesInput';
+import AssignedPathwaysInput from './inputs/AssignedPathwaysInput';
 import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 
 interface GroupFormValues {
@@ -71,6 +72,7 @@ const GroupForm = ({group=null, onSubmit}) => {
       <GroupUsersInput control={control} />
       <AssignedCoursesInput control={control} />
       <AssignedResourcesInput control={control} />
+      <AssignedPathwaysInput control={control} />
 
       <Button type="submit">{buttonText}</Button>
     </form>

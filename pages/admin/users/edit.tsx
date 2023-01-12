@@ -13,6 +13,7 @@ import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
+import UserPathways from '../../../components/users/pathways/UserPathways';
 
 const BackButton = () => (
   <>
@@ -84,6 +85,7 @@ const AdminUsersEdit = () => {
             <UserGroups />
             <UserCourses />
             <UserResources />
+            <UserPathways />
           </div>
         </div>
       ) : (

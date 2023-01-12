@@ -2,7 +2,7 @@
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import SelectContentTable from './SelectContentTable';
 
-const SelectResourcesTable = ({onRowSelect}) => {
+const SelectResourcesTable = ({onRowClick}) => {
 
   const { resources: resourceConnection, loading, error } = useGetCurrentUser()
   const resources = resourceConnection?.edges.map(edge => edge.node)
@@ -11,7 +11,7 @@ const SelectResourcesTable = ({onRowSelect}) => {
     <SelectContentTable 
       contentItems={resources} 
       typeName='resource' 
-      onRowSelect={onRowSelect}
+      onRowClick={onRowClick}
       loading={loading}
       error={error}
     />

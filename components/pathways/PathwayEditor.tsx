@@ -18,8 +18,8 @@ const PathwayEditor = () => {
 
   useWarningOnExit(isDirty)
   
-  const handleContentSelect = (course) => {
-    addItem(course)
+  const handleContentSelect = (content) => {
+    addItem(content)
     closeModal()
   }
   
@@ -27,21 +27,21 @@ const PathwayEditor = () => {
     handleModal({
       title: `Add course to pathway:`,
       size: 'lg',
-      content: <SelectCoursesTable onRowSelect={handleContentSelect} />
+      content: <SelectCoursesTable onRowClick={handleContentSelect} />
     })
   }
   const addResource = () => {
     handleModal({
       title: `Add resource to pathway:`,
       size: 'lg',
-      content: <SelectResourcesTable onRowSelect={handleContentSelect} />
+      content: <SelectResourcesTable onRowClick={handleContentSelect} />
     })
   }
 
 
   const handleRemoveItem = (item) => {
     handleModal({
-      title: `Delete lesson`,
+      title: `Remove item`,
       content: <RemovePathwayItemModal item={item} />
     })
   }

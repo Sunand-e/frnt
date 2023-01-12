@@ -118,6 +118,15 @@ export const CurrentUserCoursesFragment = gql`
   ${UserContentConnectionFragment}
 `
 
+export const UserPathwaysFragment = gql`
+  fragment UserPathwaysFragment on User {
+    pathways {
+      ...UserContentConnectionFragment
+    }
+  }
+  ${UserContentConnectionFragment}
+`
+
 export const CurrentUserPathwaysFragment = gql`
   fragment CurrentUserPathwaysFragment on Query {
     pathways {
@@ -137,8 +146,8 @@ export const CurrentUserPathwaysFragment = gql`
   ${UserContentConnectionFragment}
 `
 
-export const CurrentUserResourcesFragment = gql`
-  fragment CurrentUserResourcesFragment on Query {
+export const UserResourcesFragment = gql`
+  fragment UserResourcesFragment on User {
     resources {
       ...UserContentConnectionFragment
       edges {
@@ -152,8 +161,8 @@ export const CurrentUserResourcesFragment = gql`
   ${UserContentConnectionFragment}
 `
 
-export const UserResourcesFragment = gql`
-  fragment UserResourcesFragment on User {
+export const CurrentUserResourcesFragment = gql`
+  fragment CurrentUserResourcesFragment on Query {
     resources {
       ...UserContentConnectionFragment
       edges {
@@ -233,12 +242,14 @@ export const GET_USER = gql`
   query GetUser($id: ID) {
     user(id: $id) {
       ...UserFragment
+      ...UserPathwaysFragment
       ...UserCoursesFragment
       ...UserResourcesFragment
       ...UserGroupsFragment
     }
   }
   ${UserFragment}
+  ${UserPathwaysFragment}
   ${UserCoursesFragment}
   ${UserResourcesFragment}
   ${UserGroupsFragment}
@@ -339,6 +350,28 @@ export const GET_USER_COURSES = gql`
   query GetUserCourses($id: ID) {
     user(id: $id) {
       courses {
+        ...UserContentConnectionFragment
+      }
+    }
+  }
+  ${UserContentConnectionFragment}
+`
+
+export const GET_USER_PATHWAYS = gql`
+  query GetUserCourses($id: ID) {
+    user(id: $id) {
+      pathways {
+        ...UserContentConnectionFragment
+      }
+    }
+  }
+  ${UserContentConnectionFragment}
+`
+
+export const GET_USER_RESOURCES = gql`
+  query GetUserCourses($id: ID) {
+    user(id: $id) {
+      resources {
         ...UserContentConnectionFragment
       }
     }
