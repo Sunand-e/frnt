@@ -358,7 +358,7 @@ export const GET_USER_COURSES = gql`
 `
 
 export const GET_USER_PATHWAYS = gql`
-  query GetUserCourses($id: ID) {
+  query GetUserPathways($id: ID) {
     user(id: $id) {
       pathways {
         ...UserContentConnectionFragment
@@ -369,7 +369,7 @@ export const GET_USER_PATHWAYS = gql`
 `
 
 export const GET_USER_RESOURCES = gql`
-  query GetUserCourses($id: ID) {
+  query GetUserResources($id: ID) {
     user(id: $id) {
       resources {
         ...UserContentConnectionFragment

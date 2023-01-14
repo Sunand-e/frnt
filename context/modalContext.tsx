@@ -1,12 +1,23 @@
-import { createContext } from "react"
+import { createContext, PropsWithChildren } from "react"
 import Modal from "../components/common/Modal"
 import useModal from '../hooks/useModal'
 
-let ModalContext
+interface ModalContextInterface {
+  modalActive?: any,
+  modalTitle?: any,
+  handleModal?: any,
+  clearModal?: any,
+  closeModal?: any,
+  modalButtons?: any,
+  modalContent?: any,
+  modalSize?: any
+} 
 
-const { Provider } = (ModalContext = createContext(null))
+const ModalContext = createContext<ModalContextInterface | null>(null)
 
-const ModalProvider = ({children}) => {
+const { Provider } = ModalContext
+
+const ModalProvider = ({children}: PropsWithChildren<{}>) => {
 
   const { modalActive, modalTitle, handleModal, clearModal, closeModal, modalButtons, modalContent, modalSize } = useModal()
 

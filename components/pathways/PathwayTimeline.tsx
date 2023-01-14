@@ -29,7 +29,6 @@ const PathwayTimeline = ({editMode=false, onRemove=null}) => {
   const router = useRouter()
   const { pid } = router.query
   const { pathway } = useGetPathway(pid)
-  const { handleModal, closeModal } = useContext(ModalContext) 
   const items = usePathwayStore(state => state.items)
   const setItems = usePathwayStore(state => state.setItems)
   const editItems = usePathwayStore(state => state.editItems)

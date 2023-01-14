@@ -16,17 +16,18 @@ export const PackageBlock = ({block}) => {
   const iframeRef = useRef();
   
   const {
-    isEnabled: isFullscreenEnabled,
-    request,
-  } = useFullscreen()
+    isFullscreenEnabled,
+    isFullscreenAvailable,
+    toggleFullscreen
+  } = useFullscreen({target: iframeRef})
 
   const [attempt, setAttempt] = useState(null)
 
   return (
     <>
       <div className='flex justify-end space-x-2 my-4'>
-        { isFullscreenEnabled && (
-          <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
+        { isFullscreenAvailable && (
+          <Button onClick={toggleFullscreen} className=''>Go fullscreen</Button>
         )}
         {/* <Button onClick={() => setAttempt(attempt => attempt + 1)} className=''>Start new attempt</Button> */}
       </div>

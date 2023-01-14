@@ -3,7 +3,6 @@ import { useRouter } from "next/router"
 import { useContext } from "react"
 import { ModalContext } from "../../context/modalContext"
 import Button from "../common/Button"
-import NewUsersGroupForm from "./NewUsersGroupForm"
 import UserImportAddToNewGroup from "./UserImportAddToNewGroup"
 
 const UserImportAccordion = ({data}) => {

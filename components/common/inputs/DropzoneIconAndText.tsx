@@ -1,4 +1,4 @@
-const DropzoneIconAndText = ({icon=null, fileHintText, openMediaLibrary=null}) => {
+const DropzoneIconAndText = ({icon=null, fileHintText='', linkText='Upload a file', openMediaLibrary=null}) => {
 
   const handleClick = (e) => {
     e.stopPropagation()
@@ -12,7 +12,7 @@ const DropzoneIconAndText = ({icon=null, fileHintText, openMediaLibrary=null}) =
           htmlFor="file-upload"
           className="relative cursor-pointer rounded-md font-medium text-main focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-main"
         >
-          <span className="hover:opacity-70">Upload a file</span>
+          <span className="hover:opacity-70">{linkText}</span>
         </label>
           { openMediaLibrary && (
             <>

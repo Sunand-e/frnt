@@ -35,20 +35,20 @@ const navStructureUser = [
         urlPath: '/courses',
         icon: GraduationCap
       },
-      {
-        name: 'pathways',
-        title: 'Pathways',
-        urlPath: '/pathways',
-        icon: Flow
-      },
+      // {
+      //   name: 'pathways',
+      //   title: 'Pathways',
+      //   urlPath: '/pathways',
+      //   icon: Flow
+      // },
     ],
   },
-  {
-    name: 'pathways',
-    title: 'Pathways',
-    urlPath: '/pathways',
-    icon: Flow
-  },
+  // {
+  //   name: 'pathways',
+  //   title: 'Pathways',
+  //   urlPath: '/pathways',
+  //   icon: Flow
+  // },
   {
     name: 'library',
     title: 'Resource Library',

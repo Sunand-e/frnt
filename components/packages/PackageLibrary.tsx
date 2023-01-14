@@ -91,8 +91,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                   <tbody className="">
                   { filteredScormModules.map((module) => (
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
-                      {/* <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td> */}
-                      <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.id}</td>
+                      <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right" onClick={e=>e.stopPropagation()}>
                         <PackageActionsMenu module={module} returnFn={reopenPackageLibrary} />

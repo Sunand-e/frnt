@@ -7,10 +7,12 @@ import { usePathwayStore } from "./usePathwayStore"
 import SelectResourcesTable from "./SelectResourcesTable"
 import useWarningOnExit from "../../hooks/useWarningOnExit";
 import RemovePathwayItemModal from "./RemovePathwayItemModal"
+import { useModalStore } from "../../stores/modalStore"
 
 const PathwayEditor = () => {
 
-
+  // const handleModal = useModalStore(state => state.handleModal)
+  // const closeModal = useModalStore(state => state.closeModal)
   const { handleModal, closeModal } = useContext(ModalContext)
   const addItem = usePathwayStore(state => state.addItem)
   const isDirty = usePathwayStore(state => state.isDirty)
@@ -20,11 +22,11 @@ const PathwayEditor = () => {
   
   const handleContentSelect = (content) => {
     addItem(content)
-    closeModal()
+    closeModal?.()
   }
   
   const addCourse = () => {
-    handleModal({
+    handleModal?.({
       title: `Add course to pathway:`,
       size: 'lg',
       content: <SelectCoursesTable onRowClick={handleContentSelect} />

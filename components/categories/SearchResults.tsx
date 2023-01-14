@@ -51,8 +51,6 @@ export default function SearchResults({items, itemType='item'}) {
   if(category) {
     filteredItems = filteredItems.filter(item => {
       const isSelectedCategory = tag => {
-        console.log("tag.tagType === 'category' && tag.label === category")
-        console.log(tag.tagType === 'category' && tag.label === category)
         return tag.tagType === 'category' && tag.label === category
       }
       return item.tags && item.tags.some(isSelectedCategory);   
