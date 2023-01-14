@@ -3,8 +3,8 @@ import DeleteLessonModal from "../DeleteLessonModal"
 import SidebarItem from "../SidebarItem"
 import styles from '../SidebarItem.module.scss'
 import { useContext } from "react"
-import { ModalContext } from "../../../context/modalContext"
 import { useRouter } from 'next/router'
+import { handleModal } from '../../../stores/modalStore'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -21,8 +21,6 @@ const SidebarEditableItem = ({
 }) => {
 
   const router = useRouter()
-
-  const { handleModal } = useContext(ModalContext)
 
   const handleDelete = (e) => {
     e.stopPropagation()

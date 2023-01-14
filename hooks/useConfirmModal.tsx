@@ -1,10 +1,7 @@
-import { useContext } from 'react';
-import { ModalContext } from "../context/modalContext";
 import Button from '../components/common/Button';
+import { closeModal, handleModal } from '../stores/modalStore';
 
 const useConfirmModal = ({itemType, name, onConfirm, autoClose=true}) => {
-
-  const { handleModal, closeModal } = useContext(ModalContext)
 
   const handleConfirm = () => {
     onConfirm()

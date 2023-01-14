@@ -1,10 +1,10 @@
 import { useContext } from 'react'
 import usePageTitle from '../../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../../hooks/useHeaderButtons';
-import { ModalContext } from '../../../../context/modalContext';
 import AddRoleModal from '../../../../components/roles/AddRoleModal';
 import RolesTable from '../../../../components/roles/RolesTable/RolesTable';
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import { handleModal } from '../../../../stores/modalStore';
 
 const AddButton = () => (
   <>
@@ -16,8 +16,6 @@ const AddButton = () => (
 const AdminUsersRoles = () => {
   
   usePageTitle({ title: 'User Roles' })
-
-  const { handleModal } = useContext(ModalContext);
   
   const handleNewRoleButton = (roleType=null) => {
     handleModal({

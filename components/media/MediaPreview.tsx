@@ -1,6 +1,5 @@
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import { useCallback, useContext } from 'react'
-import { ModalContext } from '../../context/modalContext'
+import { useCallback } from 'react'
 import dayjs from 'dayjs'
 import {filesize} from 'filesize'
 import { resourceTypes } from '../resources/resourceTypes'
@@ -9,6 +8,7 @@ import dynamic from 'next/dynamic';
 import useConfirmDelete from '../../hooks/useConfirmDelete'
 import useDeleteMediaItem from '../../hooks/mediaItems/useDeleteMediaItem'
 import MediaInUse from './MediaInUse'
+import { closeModal, handleModal } from '../../stores/modalStore'
 
 const DynamicPdfViewer = dynamic(
   () => import('../common/PdfViewer'),
@@ -20,8 +20,6 @@ interface MediaPreviewProps {
 }
 
 const MediaPreview = ({item}: MediaPreviewProps) => {
-  
-  const { handleModal, closeModal } = useContext(ModalContext)
   
   const { deleteMediaItem, deleteMediaItemResponse } = useDeleteMediaItem()
 

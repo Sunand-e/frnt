@@ -3,7 +3,6 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import Table from '../common/tables/Table';
 import { GET_USERS } from '../../graphql/queries/users';
 import { GetUsers } from '../../graphql/queries/__generated__/GetUsers';
-import { ModalContext } from '../../context/modalContext';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
 import UserActionsMenu from './UserActionsMenu';

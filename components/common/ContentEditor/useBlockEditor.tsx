@@ -1,11 +1,11 @@
 import {  useContext } from "react"
 import { activeContentBlockVar, currentContentItemVar } from "../../../graphql/cache";
 import { useDebouncedCallback } from 'use-debounce';
-import { ModalContext } from "../../../context/modalContext";
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
 import { useReactiveVar } from "@apollo/client";
 import {useBlockStore, getIndexAndParent, shiftPosition, getBlock} from './useBlockStore';
+import { handleModal } from "../../../stores/modalStore";
 // import isEqual from 'lodash/isEqual';
 
 // import "./styles.css";
@@ -104,9 +104,6 @@ const useBlockEditor = (block=null) => {
       setBlocks(newBlocks)
     }
   }
-  
-  const { handleModal } = useContext(ModalContext);
-
   
   const handleDeleteBlock = (block) => {
     handleModal({

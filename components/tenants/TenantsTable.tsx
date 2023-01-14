@@ -5,19 +5,18 @@ import { GET_TENANTS } from '../../graphql/queries/tenants';
 import { GetTenants } from '../../graphql/queries/__generated__/GetTenants';
 import ButtonLink from '../common/ButtonLink';
 import Button from '../common/Button';
-import { ModalContext } from '../../context/modalContext';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import DeleteTenantModal from './DeleteTenantModal';
 import dayjs from 'dayjs'
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import TenantActionsMenu from './TenantActionsMenu';
+import { handleModal } from '../../stores/modalStore';
 
 const TenantsTable = () => {
 
   // const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
   const { loading, error, data: queryData } = useQuery<GetTenants>(GET_TENANTS);
 
-  const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {

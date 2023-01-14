@@ -1,7 +1,6 @@
 import { Notices } from '../../../components/common/Notices'
 import PathwaysTable from '../../../components/pathways/PathwaysTable/PathwaysTable'
 import { useContext, useEffect } from 'react'
-import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
@@ -22,8 +21,6 @@ const AdminPathways = () => {
 
   // const router = useRouter()
   
-  const { handleModal, closeModal } = useContext(ModalContext);
-
   // const handleAddClick = (e) => {
   //   router.push('/admin/pathways/create')
   //   // handleModal({

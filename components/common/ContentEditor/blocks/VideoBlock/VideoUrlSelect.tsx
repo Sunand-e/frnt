@@ -5,12 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import urlParser from "js-video-url-parser";
 import InputWithLabel from '../../../inputs/InputWithLabel';
 import Button from '../../../Button';
-import { ModalContext } from '../../../../../context/modalContext';
-import useBlockEditor from '../../useBlockEditor';
+import { closeModal } from '../../../../../stores/modalStore';
 
 export const VideoUrlSelect = ({onVideoSelect}) => {
-
-  const { closeModal } = useContext(ModalContext)
 
   const  defaultWidth = '50%';
   const [videoUrl, setVideoUrl] = useState('')

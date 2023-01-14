@@ -1,10 +1,8 @@
 import AddLessonModal from "./AddLessonModal";
 import { useContext } from "react";
-import { ModalContext } from "../../context/modalContext";
+import { handleModal } from "../../stores/modalStore";
 
 const AddItemToCourseForm = ({sectionId}) => {
-  
-  const { handleModal } = useContext(ModalContext);
   
   const handleNewLessonButton = () => {
     handleModal({

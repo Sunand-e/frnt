@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
-import { ModalContext } from "../../../context/modalContext";
 import Button from "../Button";
 import MediaLibrary from "../../media/MediaLibrary";
 import AudioPlayer from "../audio/AudioPlayer";
+import { handleModal } from "../../../stores/modalStore";
 const AudioSelector = ({url, onSelect, buttonContainerClass=''}) => {
-
-  const { handleModal } = useContext(ModalContext)
 
   const selectAudioModal = () => {
     handleModal({

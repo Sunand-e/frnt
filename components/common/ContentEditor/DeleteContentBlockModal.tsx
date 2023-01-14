@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
-import { ModalContext } from '../../../context/modalContext';
+import { closeModal } from '../../../stores/modalStore';
 import Button from '../Button';
 
 const DeleteContentBlockModal = ({block, onDelete: handleDeleteBlock}) => {
-
-  const { closeModal } = useContext(ModalContext);
 
   const deleteBlockAndCloseModal = (e) => {
     handleDeleteBlock()

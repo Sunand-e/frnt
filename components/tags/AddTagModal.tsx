@@ -1,13 +1,12 @@
 import { useCallback, useContext } from "react";
-import { ModalContext } from "../../context/modalContext";
 import useCreateTag from "../../hooks/tags/useCreateTag";
 import TagForm from "./TagForm";
 import { useRouter } from "../../utils/router";
+import { closeModal } from "../../stores/modalStore";
 
 const AddTagModal = ({type}) => {
 
   const router = useRouter()
-  const { closeModal } = useContext(ModalContext);
   const { createTag } = useCreateTag() 
 
   

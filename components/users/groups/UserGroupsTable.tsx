@@ -1,5 +1,4 @@
 import { useCallback, useContext, useMemo } from "react";
-import { ModalContext } from "../../../context/modalContext";
 import useGetRoles from "../../../hooks/roles/useGetRoles";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
@@ -11,6 +10,7 @@ import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
 import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup";
 import UserRoleSelectCell from "./UserRoleSelectCell";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
+import { handleModal } from "../../../stores/modalStore";
 
 const UserGroupsTable = () => {
 
@@ -39,8 +39,6 @@ const UserGroupsTable = () => {
       roleId: role.id
     })
   }, [user])
-
-  const { handleModal } = useContext(ModalContext);
   
   const tableData = useMemo(
     () => {

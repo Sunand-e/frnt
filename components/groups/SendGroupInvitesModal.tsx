@@ -1,14 +1,10 @@
-import { useContext } from 'react';
-import { ModalContext } from "../../context/modalContext";
-import useDeleteGroup from "../../hooks/groups/useDeleteGroup";
 import useSendInvite from '../../hooks/useSendInvite';
+import { closeModal } from '../../stores/modalStore';
 import Button from '../common/Button';
 
 const SendGroupInvitesModal = ({group}) => {
 
   const { sendInvite } = useSendInvite()
-
-  const { closeModal } = useContext(ModalContext)
 
   const sendGroupInvites = () => {
     const userIds = group.users.edges.map(edge => edge.node.id)

@@ -4,9 +4,9 @@ import PackageUploader from "./PackageUploader"
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { useContext, useMemo } from "react";
-import { ModalContext } from "../../context/modalContext";
 import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
 import PackageActionsMenu from "./PackageActionsMenu";
+import { handleModal } from "../../stores/modalStore";
 
 dayjs.extend(advancedFormat)
 
@@ -19,7 +19,6 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
   // const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
   const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
 
-  const { handleModal } = useContext(ModalContext)
   const filteredScormModules = useMemo(() => {
     return scormModules?.filter(module => {
       return !module._deleted

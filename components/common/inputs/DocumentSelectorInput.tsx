@@ -1,8 +1,7 @@
 import { Control, useController } from "react-hook-form";
-import { RichTextEditor } from '@mantine/rte';
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DocumentSelector from "./DocumentSelector";
-import { ModalContext } from "../../../context/modalContext";
+import { closeModal } from "../../../stores/modalStore";
 
 type DocumentSelectorInputProps = { 
   control?: Control;
@@ -17,8 +16,6 @@ const DocumentSelectorInput = ({
   label,
   initialValue=null,
 }: DocumentSelectorInputProps) => {
-
-  const { closeModal } = useContext(ModalContext)
 
   const [value, setValue] = useState(initialValue)
 

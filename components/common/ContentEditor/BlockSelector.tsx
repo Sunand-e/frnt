@@ -2,10 +2,10 @@ import blocktypes from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
 import PackageSelectModal from './blocks/PackageBlock/PackageSelectModal'
 import { CSSProperties, StyleHTMLAttributes, useContext } from 'react';
-import { ModalContext } from '../../../context/modalContext';
 import { v4 as uuidv4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
+import { closeModal, handleModal } from '../../../stores/modalStore';
 
 interface block {
   type: string,
@@ -33,7 +33,6 @@ const BlockSelector = ({
 }: BlockSelectorProps) => {
 
   const { blocks, addBlock } = useBlockEditor(block)
-  const { handleModal, closeModal } = useContext(ModalContext)
 
   const handleAddVideo = (newBlock) => {
     handleModal({

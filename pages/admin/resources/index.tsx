@@ -4,7 +4,6 @@ import { Notices } from '../../../components/common/Notices'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import ResourcesTable from '../../../components/resources/ResourcesTable'
 import { useContext, useEffect } from 'react'
-import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
 import ResourceFilters from '../../../components/resources/ResourceFilters'
 import {Add} from "@styled-icons/fluentui-system-filled/Add";

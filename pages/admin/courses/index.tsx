@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import { Notices } from '../../../components/common/Notices'
 import CoursesTable from '../../../components/courses/CoursesTable/CoursesTable'
 import { useContext, useEffect } from 'react'
-import { ModalContext } from '../../../context/modalContext'
 import usePageTitle from '../../../hooks/usePageTitle'
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";

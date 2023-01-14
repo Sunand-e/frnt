@@ -1,8 +1,8 @@
 import { Control, useController } from "react-hook-form";
 import { useContext, useState } from "react";
-import { ModalContext } from "../../context/modalContext";
 import MediaLibrary from "../media/MediaLibrary";
 import Button from "../common/Button";
+import { closeModal, handleModal } from "../../stores/modalStore";
 
 type ResourceFileInputProps = { 
   control?: Control;
@@ -16,8 +16,6 @@ const ResourceFileInput = ({
   label,
   setType,
 }: ResourceFileInputProps) => {
-  
-  const { handleModal, closeModal } = useContext(ModalContext)
   
   const handleChange = (newValue) => {
     field.onChange(newValue)

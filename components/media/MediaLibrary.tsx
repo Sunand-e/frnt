@@ -1,7 +1,5 @@
-import { useQuery, useReactiveVar } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import { GetMediaItems } from "../../graphql/queries/__generated__/GetMediaItems";
-import useModal from "../../hooks/useModal";
-import Modal from "../common/Modal";
 import MediaUploader from "./MediaUploader"
 import MediaLibraryItem from "./MediaLibraryItem"
 import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";

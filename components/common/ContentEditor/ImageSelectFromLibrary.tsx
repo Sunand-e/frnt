@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ModalContext } from "../../../context/modalContext"
+import { handleModal } from "../../../stores/modalStore";
 import MediaLibrary from "../../media/MediaLibrary";
 import ImageSelect from "./ImageSelect";
 
@@ -20,8 +20,6 @@ const ImageSelectFromLibrary = ({
   className = '',
   onSelect
 }: ImageSelectFromLibraryProps) => {
-
-  const { handleModal } = useContext(ModalContext)
 
   const handleClick = () => {
     handleModal({

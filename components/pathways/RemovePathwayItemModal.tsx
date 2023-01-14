@@ -1,14 +1,11 @@
-import { useCallback, useContext } from 'react';
-import { ModalContext } from "../../context/modalContext";
-import { useModalStore } from '../../stores/modalStore';
+import { useCallback } from 'react';
+import { closeModal } from '../../stores/modalStore';
 import Button from '../common/Button';
 import { usePathwayStore } from './usePathwayStore';
 
 const RemovePathwayItemModal = ({item}) => {
 
   const removeItem = usePathwayStore(state => state.removeItem)
-  const { closeModal } = useContext(ModalContext)
-  // const closeModal = useModalStore(state => state.closeModal)
 
   const handleRemoveItem = useCallback(() => {
     removeItem(item)

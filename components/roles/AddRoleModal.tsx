@@ -1,13 +1,12 @@
-import { useCallback, useContext } from "react";
-import { ModalContext } from "../../context/modalContext";
+import { useCallback } from "react";
 import useCreateRole from "../../hooks/roles/useCreateRole";
 import RoleForm from "./RoleForm";
 import { useRouter } from "../../utils/router";
+import { closeModal } from "../../stores/modalStore";
 
 const AddRoleModal = ({type}) => {
 
   const router = useRouter()
-  const { closeModal } = useContext(ModalContext);
   const { createRole } = useCreateRole() 
 
   

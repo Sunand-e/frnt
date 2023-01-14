@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/client';
 import styles from '../../common/dnd-kit/Item/Item.module.scss'
 import classNames from 'classnames'
 import { useContext, useEffect, useState } from "react"
-import { ModalContext } from "../../../context/modalContext"
 import cache from "../../../graphql/cache"
 import { ContentFragment, SectionFragment } from "../../../graphql/queries/allQueries"
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
@@ -22,6 +21,7 @@ import { UPDATE_COURSE } from "../../../graphql/mutations/course/UPDATE_COURSE";
 import router from "next/router";
 import { UPDATE_SECTION } from "../../../graphql/mutations/section/UPDATE_SECTION";
 import { UpdateSection, UpdateSectionVariables } from "../../../graphql/mutations/section/__generated__/UpdateSection";
+import { handleModal } from "../../../stores/modalStore";
 
 
 type Items = Record<string, string[]>;
@@ -197,9 +197,7 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
 
   // const [items, setItems] = useState<Items>(courseItems);
 
-  const { handleModal, closeModal } = useContext(ModalContext);
-
-  // useEffect(() => {
+    // useEffect(() => {
   //   setItems(itemIdsBySectionId(filterDeletedCourseItems(course).sections))
   // },[course])
 

@@ -7,11 +7,9 @@ import { GetSection, GetSection_section } from "../../../graphql/queries/__gener
 import { GET_COURSE, GET_SECTION, SectionFragment } from "../../../graphql/queries/allQueries";
 import AddLessonModal from "./AddLessonModal";
 import { useContext } from "react";
-import { ModalContext } from "../../../context/modalContext";
+import { handleModal } from "../../stores/modalStore";
 
 const AddItemToCourseForm = ({sectionId}) => {
-  
-  const { handleModal } = useContext(ModalContext);
   
   const handleNewLessonButton = () => {
     handleModal({

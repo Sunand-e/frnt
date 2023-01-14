@@ -1,7 +1,7 @@
-import { useRef, useEffect, useCallback, useContext } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useBlockStore } from '../components/common/ContentEditor/useBlockStore'
-import { ModalContext } from '../context/modalContext'
+import { handleModal } from '../stores/modalStore'
 
 // Scroll position management
 export default function useRouteChange() {
@@ -9,8 +9,6 @@ export default function useRouteChange() {
   const retainedComponents = useRef<{ [url: string]: number }>({})
 
   const isDirty = useBlockStore(state => state.isDirty)
-
-  const { handleModal, closeModal } = useContext(ModalContext)
 
   const handleRouteChangeStart = useCallback((url: string) => {
     handleModal({

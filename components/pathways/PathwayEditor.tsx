@@ -1,5 +1,4 @@
 import { useContext } from "react"
-import { ModalContext } from "../../context/modalContext"
 import Button from "../common/Button"
 import SelectCoursesTable from "./SelectCoursesTable"
 import PathwayTimeline from "./PathwayTimeline"
@@ -7,26 +6,22 @@ import { usePathwayStore } from "./usePathwayStore"
 import SelectResourcesTable from "./SelectResourcesTable"
 import useWarningOnExit from "../../hooks/useWarningOnExit";
 import RemovePathwayItemModal from "./RemovePathwayItemModal"
-import { useModalStore } from "../../stores/modalStore"
+import { closeModal, handleModal } from "../../stores/modalStore"
 
 const PathwayEditor = () => {
-
-  // const handleModal = useModalStore(state => state.handleModal)
-  // const closeModal = useModalStore(state => state.closeModal)
-  const { handleModal, closeModal } = useContext(ModalContext)
+  
   const addItem = usePathwayStore(state => state.addItem)
   const isDirty = usePathwayStore(state => state.isDirty)
-
 
   useWarningOnExit(isDirty)
   
   const handleContentSelect = (content) => {
     addItem(content)
-    closeModal?.()
+    closeModal()
   }
   
   const addCourse = () => {
-    handleModal?.({
+    handleModal({
       title: `Add course to pathway:`,
       size: 'lg',
       content: <SelectCoursesTable onRowClick={handleContentSelect} />

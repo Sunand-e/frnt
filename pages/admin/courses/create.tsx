@@ -5,16 +5,14 @@ import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/common/Button'
 import { v4 as uuidv4 } from 'uuid';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
-import { GetCourses } from '../../../graphql/queries/__generated__/GetCourses';
-import { ModalContext } from '../../../context/modalContext'
 import { useMutation } from '@apollo/client'
 import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
-import { GET_COURSES } from '../../../graphql/queries/allQueries'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import CourseForm from '../../../components/courses/CourseForm'
 import { GET_CURRENT_USER } from '../../../graphql/queries/users'
 import { GetCurrentUser } from '../../../graphql/queries/__generated__/GetCurrentUser'
 import dayjs from 'dayjs'
+import { closeModal, handleModal } from '../../../stores/modalStore'
 
 const AdminCourseSetup = () => {
   /*
@@ -22,8 +20,6 @@ const AdminCourseSetup = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-
-  const { handleModal, closeModal } = useContext(ModalContext);
 
   usePageTitle({ 
     title: "Set up a new course"

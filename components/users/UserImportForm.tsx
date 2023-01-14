@@ -4,16 +4,14 @@ import FileUploader from '../common/FileUploader';
 import { GET_USERS } from '../../graphql/queries/users';
 import useGetUsers from '../../hooks/users/useGetUsers';
 import { useContext } from 'react';
-import { ModalContext } from '../../context/modalContext';
 import UserImportAccordion from './UserImportAccordion';
 import ButtonLink from '../common/ButtonLink';
 import DropzoneIconAndText from '../common/inputs/DropzoneIconAndText';
+import { handleModal } from '../../stores/modalStore';
 
 const UserImportForm = () => {
 
-  const users = useGetUsers();
-
-  const { handleModal } = useContext(ModalContext)
+  const users = useGetUsers()
   
   const handleAllUploadsComplete = (data) => {
     handleModal({

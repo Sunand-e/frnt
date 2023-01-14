@@ -1,15 +1,11 @@
-import {
-  forwardRef,
-  FunctionComponent, useContext, useRef
-} from 'react';
+import { useRef } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
 import Button from '../../../Button';
-import { ModalContext } from '../../../../../context/modalContext';
 import useBlockEditor from '../../useBlockEditor';
 import PackageLibrary from '../../../../packages/PackageLibrary';
-import { v4 as uuidv4 } from 'uuid';
 import { useFullscreen } from 'rooks';
+import { closeModal, handleModal } from '../../../../../stores/modalStore';
 
 const DynamicPackageIFrame = dynamic(
   () => import('./PackageIFrame'),
@@ -19,8 +15,6 @@ const DynamicPackageIFrame = dynamic(
 export const PackageBlockEdit = ({
   block
 }) => {
-
-  const { handleModal, closeModal } = useContext(ModalContext)
   const  defaultWidth = '100%'
   const iframeRef = useRef()
   

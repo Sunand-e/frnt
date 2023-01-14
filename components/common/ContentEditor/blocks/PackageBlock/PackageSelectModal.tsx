@@ -1,12 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ModalContext } from "../../../../../context/modalContext";
-import { useContext } from "react";
 import useBlockEditor from "../../useBlockEditor";
 import PackageLibrary from "../../../../packages/PackageLibrary";
+import { closeModal } from '../../../../../stores/modalStore';
 
 const PackageSelectModal = ({block}) => {
-
-  const { closeModal } = useContext(ModalContext);
 
   const { blocks, addBlock } = useBlockEditor(block)
 

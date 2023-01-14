@@ -2,14 +2,12 @@ import ActionsMenu from "../common/menus/ActionsMenu"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import useDeleteScormModule from "../../hooks/scormModules/useDeleteScormModule"
 import { useContext } from "react"
-import { ModalContext } from "../../context/modalContext"
 import PackageInUse from "./PackageInUse"
+import { handleModal } from "../../stores/modalStore"
 
 const PackageActionsMenu = ({module, returnFn}) => {
   
   const { deleteScormModule } = useDeleteScormModule()
-  
-  const { handleModal } = useContext(ModalContext)
 
   const handleDelete = async () => {
     const response = await deleteScormModule(module.id)

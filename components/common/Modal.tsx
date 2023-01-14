@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
-import { ModalContext } from '../../context/modalContext'
 import { XCircleIcon } from '@heroicons/react/20/solid'
+import { clearModal, closeModal, useModalStore } from '../../stores/modalStore'
 
 const sizeMap = new Map<any,any>([
   ['sm', 'sm:max-w-sm'],
@@ -13,7 +13,7 @@ const sizeMap = new Map<any,any>([
 ])
 
 export default function Modal() {
-  const { modalActive, clearModal, modalTitle, closeModal, handleModal, modalButtons, modalSize, modalContent } = useContext(ModalContext)
+  const { modalActive, modalTitle, modalButtons, modalSize, modalContent } = useModalStore()
 
   useEffect(() => {
     const close = (e) => {
@@ -60,13 +60,15 @@ export default function Modal() {
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div className={`inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle ${sizeMap?.get(modalSize)} sm:w-full sm:p-6`}>
-              <div className="flex justify-between mb-4">
-                <h1 className={'text-main-secondary'}>{modalTitle}</h1><span onClick={closeModal}><XCircleIcon className="fill-current text-main-secondary w-8"/></span>
-              </div>
-              <div>
-                {modalContent}
-              </div>
-              {modalButtons}
+              <>
+                <div className="flex justify-between mb-4">
+                  <h1 className={'text-main-secondary'}>{modalTitle}</h1><span onClick={closeModal}><XCircleIcon className="fill-current text-main-secondary w-8"/></span>
+                </div>
+                <div>
+                  {modalContent}
+                </div>
+                {modalButtons}
+              </>
             </div>
           </Transition.Child>
         </div>

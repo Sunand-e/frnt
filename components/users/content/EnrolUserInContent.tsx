@@ -1,15 +1,13 @@
-import { useContext, useState } from "react"
-import { ModalContext } from "../../../context/modalContext"
+import { useState } from "react"
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
+import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
 import ContentSelectCategorised from "./ContentSelectCategorised"
 
 const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) => {
   
   const {enrolUsersInContent} = useEnrolUsersInContent()
-  
-  const { closeModal } = useContext(ModalContext)
 
   const courseNodes = content?.edges.map(edge => edge.node)
 
