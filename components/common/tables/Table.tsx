@@ -20,6 +20,7 @@ const Table = ({
   typeName ='item',
   typeOptions={},
   showTop=true,
+  draggableRows=false,
   // rowSelection = {},
   onRowSelect = (selection) => null,
   onRowClick = null
@@ -79,7 +80,7 @@ const Table = ({
 
   ]
 
-  const data = useMemo(() => {
+  const memoedData = useMemo(() => {
     let data = tableData;
     
     if(!!contentType && !['group', 'user'].includes(contentType)) {
@@ -95,7 +96,7 @@ const Table = ({
   },[tableData, categoryId, contentType])
 
 
-
+  const [data, setData] = useState(memoedData);
 
 
   // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
@@ -144,7 +145,7 @@ const Table = ({
         typeOptions
       }} /> }
 
-      <TableStructure table={table} selectable={selectable} onRowClick={onRowClick} />
+      <TableStructure setData={setData} table={table} selectable={selectable} draggableRows={draggableRows} onRowClick={onRowClick} />
     </>
   );
 }
