@@ -75,12 +75,12 @@ const router = useRouter()
         inputAttrs={register("email", {
           required:"Email is required",
           maxLength: {
-            value: 40,
-            message:"Max length of the name is 40"
+            value: 160,
+            message:"Max length of the email address is 160 characters"
           },
           pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            message: "Please enter a valid email address"
+            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
+            message: "Please give valid email"
           }
         })}
       />
