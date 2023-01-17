@@ -4,6 +4,8 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   SortingState,
+  ColumnResizeMode,
+  ColumnDef
 } from '@tanstack/react-table'
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from '../../../utils/router';
@@ -38,7 +40,6 @@ const Table = ({
   useEffect(() => {
     setContentType(type)
   },[type])
-
 
   const selectable = !!bulkActions.length;
 
@@ -99,6 +100,8 @@ const Table = ({
   const [data, setData] = useState(memoedData);
 
 
+  const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>("onChange");
+
   // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
   const globalFilterFn = (row, columnId, filterValue: string) => {
     const search = filterValue.toLowerCase();
@@ -127,7 +130,8 @@ const Table = ({
     // getPaginationRowModel: getPaginationRowModel(),
     // debugTable: true,
   });
-
+console.log('  table.getState().columnSizing')
+console.log(  table.getState().columnSizing)
   return (
     <>
       { showTop && <TableActions { ...{

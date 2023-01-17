@@ -59,6 +59,7 @@ const ResourcesTable = () => {
       },
       {
         header: "Description",
+        width: '100',
         cell: ({ cell }) => {
           const html = cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
           return <span className="text-left" dangerouslySetInnerHTML={{ __html: html }}></span>
@@ -67,6 +68,7 @@ const ResourcesTable = () => {
       {
         id: 'category',
         header: "Category",
+        width: 300,
         accessorFn: row => {
           return row.tags?.filter(tag => (
             tag.tagType === 'category'
@@ -74,7 +76,6 @@ const ResourcesTable = () => {
         },
       },
       {
-        width: 300,
         header: "Actions",
         accessorKey: "actions",
         cell: ({ cell }) => <ResourceActionsMenu resource={cell.row.original} />

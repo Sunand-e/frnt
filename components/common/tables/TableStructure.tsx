@@ -17,8 +17,28 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import DraggableTableRow from "./DraggableTableRow";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { StaticTableRow } from "./StaticTableRow";
+import { gql, useMutation } from "@apollo/client";
+
+export const REORDER_TAGS = gql`
+  mutation ReorderTags(
+    $id: ID!,
+    $order: Int!
+  ) {
+    reorderTags(
+      input: {
+        id: $id,
+        order: $order,
+      }
+    ) {
+      tag {
+        id
+        order
+      }
+    }
+  }
+`
 
 interface TableStructureProps {
   table: Table<any>
@@ -44,8 +64,21 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
 
   const rows = table.getRowModel().rows
 
+  const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
+    REORDER_TAGS
+  ) 
+
   const items = useMemo(() => rows?.map(({ original }) => original.id), [rows]);
   const [activeId, setActiveId] = useState();
+  const tableElementRef = useRef<HTMLTableElement>(null)
+  const [colWidths, setColWidths] = useState<number[]>()
+  const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
+
+  useEffect(() => {
+    if(!tableElementRef.current) return
+    const ths =  Array.from(tableElementRef.current.getElementsByTagName("th"));
+    setColWidths(ths.map(th => th.offsetWidth));
+  },[])
 
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -55,18 +88,28 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
 
   function handleDragStart(event) {
     setActiveId(event.active.id);
+    console.log('event')
+    console.log(event.active.rect.current.initial)
   }
 
   function handleDragEnd(event) {
     const { active, over } = event;
     if (active.id !== over.id) {
+      const oldIndex = items.indexOf(active.id);
+      const newIndex = items.indexOf(over.id);
+
       setData((data) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
         return arrayMove(data, oldIndex, newIndex);
       });
+      console.log('active.id')
+      console.log(active.id)
+      reorderTagsMutation({
+        variables: {
+          id: active.id,
+          order: newIndex
+        }
+      })
     }
-
     setActiveId(null);
   }
   function handleDragCancel() {
@@ -97,20 +140,22 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
               collisionDetection={closestCenter}
               modifiers={[restrictToVerticalAxis]}
             >
-            <table className="min-w-full divide-y divide-gray-200 bg-white">
+              <table ref={tableElementRef} className="min-w-full bg-white table-fixed border-separate">
                 <thead className="bg-gray-50">
                   {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header, index) => (
+                      {headerGroup.headers.map((header, index) => {
+                        return (
                         <th key={header.id} colSpan={header.colSpan}
-                          className={`px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider`}
-                          style={{
-                            textAlign: (index > (selectable ? 1 : 0)) ? 'center' : 'left',
-                            ...(header.column.columnDef?.id === 'select' ? { 
-                              paddingRight: 0,
-                              width: '16px'
-                            } : {}),
-                          }}
+                        className={`px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider border-b border-gray-200`}
+                        style={{
+                          textAlign: (index > (selectable ? 1 : 0)) ? 'center' : 'left',
+                          // width: header.getSize() !== 150 ? header.getSize() : 20,
+                          ...(header.column.columnDef?.id === 'select' ? { 
+                            paddingRight: '10000px',
+                            // width: '16px'
+                          } : {}),
+                        }}
                         > {header.isPlaceholder ? null : (
                             <div className="inline-block">
                               <div
@@ -145,14 +190,14 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
                             </div>
                           )}
                         </th>
-                      ))}
+                      )})}
                     </tr>
                   ))}
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white">
                   <SortableContext items={items} strategy={verticalListSortingStrategy}>
                     { rows.map((row) => (
-                      <DraggableTableRow row={row} key={row.original.id} onRowClick={onRowClick} selectable={selectable} />
+                      <DraggableTableRow row={row} key={row.original.id} onRowClick={onRowClick} selectable={selectable} draggingRowHeight={draggingRowHeight} />
                     ))}
                   </SortableContext>
                 </tbody>
@@ -161,7 +206,7 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
                 {activeId && (
                   <table style={{ width: "100%" }}>
                     <tbody>
-                      <StaticTableRow row={selectedRow} />
+                      <StaticTableRow setDraggingRowHeight={setDraggingRowHeight} row={selectedRow} selectable={selectable} colWidths={colWidths} />
                     </tbody>
                   </table>
                 )}

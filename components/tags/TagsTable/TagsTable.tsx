@@ -72,9 +72,6 @@ const TagsTable = () => {
               tag => tag.id
             ).includes(cell.row.original.id)
           ).length
-
-          console.log('catItemCount')
-          console.log(catItemCount)
           return (
             <span>{`${catItemCount || 0} item${catItemCount !== 1 ? 's' : ''}`}</span>
           )
