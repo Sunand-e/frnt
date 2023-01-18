@@ -96,7 +96,7 @@ const UserCoursesReportTable = () => {
 
   return (
     <ReportTable
-      title={`${user?.fullName}'s courses`}
+      title={user ? `${user.fullName}'s courses` : ``}
       csvFilename={`User courses for ${user?.fullName}`}
       tableData={tableData}
       tableCols={tableCols}

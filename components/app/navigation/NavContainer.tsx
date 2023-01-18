@@ -25,13 +25,13 @@ export default function NavContainer({navState, sidebarComponent}) {
     // secondary: 'dashboard'
   }
 
-  const topNavItem = navStructure.find(
+  const primaryNavItem = navStructure.find(
     item => item.name === pageNavState.topLevel
   )
 
   const showSecondary = view.hasOwnProperty('showSecondary') 
     ? view.showSecondary 
-    : topNavItem?.subPages?.length > 0
+    : primaryNavItem?.subPages?.length > 0
 
   const isSlimNav = view?.isSlimNav || showSecondary
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -95,7 +95,7 @@ export default function NavContainer({navState, sidebarComponent}) {
                     className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-full bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
                 >
                   <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState}/>
-                  <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
+                  <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
                   { sidebarComponent && (
                     <div className="sticky top-18 h-[calc(100vh)] w-[300px] bg-main bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
                       { sidebarComponent }
@@ -119,7 +119,7 @@ export default function NavContainer({navState, sidebarComponent}) {
       className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-18 bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
     >
       <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
-      <SecondaryNav showSecondary={showSecondary} topNavItem={topNavItem} pageNavState={pageNavState} />
+      <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
       { sidebarComponent && (
         <div className="sticky top-18 h-[calc(100vh-48px)] w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
           { sidebarComponent }

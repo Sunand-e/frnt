@@ -21,6 +21,13 @@ const COURSES_REPORT_QUERY = gql`
         node {
           id
           title
+          groupsEnrolled {
+            edges {
+              node {
+                id
+              }
+            }
+          }
           _deleted @client
           image {
             id

@@ -17,6 +17,7 @@ import { gql } from "@apollo/client";
 import ReportHeader from "./ReportHeader";
 import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 import ReportFilters from "./ReportFilters";
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 const ReportTable = ({
   tableData,
@@ -39,14 +40,16 @@ const ReportTable = ({
 
   const { 
     user: userId, 
-    group: groupId, 
     course: courseId, 
     lesson: lessonId, 
+    group: groupId, 
     category: categoryId,
     type: type
   } = router.query
 
   const reportType = ['course','user','group'].includes(type as string) ? type : 'course'
+
+  const { userHasCapability, userCapabilityArray } =  useUserHasCapability()
 
   const filterActive = (filterVal) => {
     return filterVal && filterVal !== 'all'
@@ -69,26 +72,34 @@ const ReportTable = ({
       }
     } else if (reportType === "course") {
       data = tableData.filter((item) => !item.node._deleted);
+
       if (filterActive(groupId)) {
-        data = data?.filter((item) => {
-          const fragment = client.readFragment({
-            id: `UserContentEdge:${item.userId}:${item.node.id}`,
-            fragment: gql`
-              fragment UserContentGroupFragment on UserContentEdge {
-                groups {
-                  edges {
-                    node {
-                      id
+        
+        if(userHasCapability('GetAllGroupsContent')) {
+          console.log('data')
+          console.log(data)
+          console.log(data?.filter(item => item.node.groupsEnrolled.edges.some(({node}) => node.id === groupId)))
+          data = data?.filter(item => item.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
+        } else {
+          data = data?.filter((item) => {
+            const fragment = client.readFragment({
+              id: `UserContentEdge:${item.userId}:${item.node.id}`,
+              fragment: gql`
+                fragment UserContentGroupFragment on UserContentEdge {
+                  groups {
+                    edges {
+                      node {
+                        id
+                      }
                     }
                   }
                 }
-              }
-            `,
+              `,
+            });
+            const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
+            return groupIds?.some((id) => id === groupId);
           });
-
-          const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
-          return groupIds?.some((id) => id === groupId);
-        });
+        }
       }
       if (filterActive(categoryId)) {
         data = data?.filter((item) => {
@@ -100,7 +111,7 @@ const ReportTable = ({
     return data || [];
     // return tableData || [];
 
-  }, [tableData, groupId]);
+  }, [tableData, groupId, userCapabilityArray]);
 
   
 
@@ -115,7 +126,7 @@ const ReportTable = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
   const filename = csvFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
@@ -128,10 +139,7 @@ const ReportTable = ({
     // );
     // exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
-console.log('table')
-!!table && console.log('aa')
-console.log(table)
-console.log(table.getHeaderGroups())
+
   return (
     <>
       <ReportHeader
