@@ -19,6 +19,9 @@ import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 import ReportFilters from "./ReportFilters";
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
+export const filterActive = (filterVal) => {
+  return filterVal && filterVal !== 'all'
+}
 const ReportTable = ({
   tableData,
   tableCols,
@@ -39,84 +42,25 @@ const ReportTable = ({
   const router = useRouter()
 
   const { 
-    user: userId, 
-    course: courseId, 
-    lesson: lessonId, 
-    group: groupId, 
     category: categoryId,
     type: type
   } = router.query
 
-  const reportType = ['course','user','group'].includes(type as string) ? type : 'course'
-
-  const { userHasCapability, userCapabilityArray } =  useUserHasCapability()
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const filterActive = (filterVal) => {
     return filterVal && filterVal !== 'all'
   }
 
-  // alert(reportType)
   const filteredData = useMemo(() => {
-    let data;
-    if(!tableData) {
-      return [];
+    if (filterActive(categoryId)) {
+      return tableData?.filter((edge) => {
+        return edge.node.tags.some((tag) => tag.id === categoryId);
+      });
     }
-    if (reportType === "user") {
-      data = tableData.filter((item) => !item.node._deleted);
-      if (filterActive(groupId)) {
-        data = data?.filter((item) => {
-          return item.node.groups.edges.some(
-            (groupEdge) => groupEdge.node.id === groupId
-          );
-        });
-      }
-    } else if (reportType === "course") {
-      data = tableData.filter((item) => !item.node._deleted);
-
-      if (filterActive(groupId)) {
-        
-        if(userHasCapability('GetAllGroupsContent')) {
-          console.log('data')
-          console.log(data)
-          console.log(data?.filter(item => item.node.groupsEnrolled.edges.some(({node}) => node.id === groupId)))
-          data = data?.filter(item => item.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
-        } else {
-          data = data?.filter((item) => {
-            const fragment = client.readFragment({
-              id: `UserContentEdge:${item.userId}:${item.node.id}`,
-              fragment: gql`
-                fragment UserContentGroupFragment on UserContentEdge {
-                  groups {
-                    edges {
-                      node {
-                        id
-                      }
-                    }
-                  }
-                }
-              `,
-            });
-            const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
-            return groupIds?.some((id) => id === groupId);
-          });
-        }
-      }
-      if (filterActive(categoryId)) {
-        data = data?.filter((item) => {
-          return item.node.tags.some((tag) => tag.id === categoryId);
-        });
-      }
-    }
-
-    return data || [];
-    // return tableData || [];
-
-  }, [tableData, groupId, userCapabilityArray]);
-
-  
-
-  const [sorting, setSorting] = useState<SortingState>([])
-
+    return tableData || []
+  },[tableData, categoryId])
+    
   const table = useReactTable({
     state: {
       sorting,

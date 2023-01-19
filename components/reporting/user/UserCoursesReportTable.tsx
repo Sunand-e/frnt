@@ -1,22 +1,35 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import ReportTable from "../ReportTable";
+import ReportTable, { filterActive } from "../ReportTable";
+import useGetGroups from "../../../hooks/groups/useGetGroups";
 
 const UserCoursesReportTable = () => {
   const router = useRouter();
-  const { user: userId } = router.query;
+  const { 
+    user: userId,
+    group: groupId 
+  } = router.query
 
   const { loading, error, user } = useGetUser(userId);
+  const { groups } = useGetGroups();
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    return user?.courses?.edges.filter((edge) => !edge.node._deleted) || [];
-  }, [user]);
+    let data = groups && user?.courses?.edges.filter((edge) => !edge.node._deleted)
+    if(filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+      data = data?.filter(edge => {
+        return groupEdge.node.assignedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
+      })
+    }
+
+    return data || []
+  }, [user, groups, groupId]);
 
   const tableCols = useMemo(() => {
     return [
@@ -54,7 +67,7 @@ const UserCoursesReportTable = () => {
       // },
       {
         id: "status",
-        header: "Course status",
+        header: "Status",
         accessorKey: "status",
       },
       {
@@ -104,6 +117,7 @@ const UserCoursesReportTable = () => {
       errorText="Unable to fetch user's courses."
       loading={loading}
       error={error}
+      filters={['group']}
       // groupFilter={true}
     />
   );

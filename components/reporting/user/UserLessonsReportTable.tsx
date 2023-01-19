@@ -78,7 +78,7 @@ const UserLessonsReportTable = () => {
       },
       {
         id: "status",
-        header: "Course status",
+        header: "Status",
         accessorKey: "status",
       },
       {

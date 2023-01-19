@@ -58,18 +58,20 @@ const UserCoursesTable = () => {
       //   }
       // },
       {
-        id: "EnrolmentStatus",
+        id: "AssignmentStatus",
         header: "Status",
         cell: ({ cell }) => {
           const values = cell.row.original;
           return (
             <div className="text-center">
-              { !!cell.row.original.groups.edges.length && (
+              { cell.row.original.groups.edges.length ? (
                 <>
-                  Enrolled via group:
+                  Assigned via group:
                   <strong> {cell.row.original.groups.edges.map(edge => edge.node.name).join(', ')}
                   </strong>
                 </>
+              ) : (
+                'Assigned'
               )}
             </div>
           )

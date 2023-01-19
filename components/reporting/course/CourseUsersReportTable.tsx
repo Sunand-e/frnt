@@ -8,26 +8,36 @@ import LoadingSpinner from "../../common/LoadingSpinner";
 import { Dot } from "../../common/misc/Dot";
 import dayjs from "dayjs";
 import { User } from "styled-icons/fa-solid";
-import ReportTable from "../ReportTable";
+import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import Button from "../../common/Button";
 import Link from "next/link";
+import useGetGroups from "../../../hooks/groups/useGetGroups";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 dayjs.extend(advancedFormat);
 
 const CourseUsersReportTable = () => {
   const router = useRouter();
+  const { 
+    course: courseId,
+    group: groupId 
+  } = router.query
 
-  const { course: id } = router.query;
-
-  const { loading, error, userConnection, course } = useGetCourseUsers(id);
+  const { groups } = useGetGroups();
+  const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
   
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => userConnection?.edges || [],
-    [userConnection]
-  );
+  const tableData = useMemo(() => {
+    let data = userConnection?.edges
+    if(filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+      data = data?.filter(edge => {
+        return groupEdge.node.users.edges.map(edge => edge.node.id).includes(edge.node.id)
+      })
+    }
+    return data || []
+  }, [userConnection, groups, groupId]);
 
   const tableCols = useMemo(
     () => [
@@ -45,7 +55,7 @@ const CourseUsersReportTable = () => {
             secondary: cell.row.original.node.email,
             href: cell.row.original.node.id && {
               query: {
-                course: id,
+                course: courseId,
                 user: cell.row.original.node.id,
               },
             },
@@ -109,7 +119,7 @@ const CourseUsersReportTable = () => {
           const userId = cell.row.original.node.id;
           const href = {
             query: {
-              course: id,
+              course: courseId,
               ...(userId && { user: userId }),
             },
           };
@@ -151,7 +161,7 @@ const CourseUsersReportTable = () => {
       errorText="Unable to fetch course users."
       loading={loading}
       error={error}
-      // filters={['group']}
+      filters={['group']}
       // groupFilter={true}
     />
   );
