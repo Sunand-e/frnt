@@ -13,6 +13,7 @@ import { commonTableCols } from "../../../utils/commonTableCols";
 import Button from "../../common/Button";
 import Link from "next/link";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 dayjs.extend(advancedFormat);
 
@@ -135,12 +136,20 @@ const CourseUsersReportTable = () => {
     []
   );
 
-  const backButton = {
-    onClick: (e) => {
-      router.push('/admin/reports')
-    },
-    text: 'Back to Courses'
-  }
+  const backButton = (
+    <ButtonLink
+      href={{
+        query: {
+          ...router.query,
+          type: 'course',
+          course: null,
+        }
+      }}
+    >
+      <span className='block <FileExport className="w-5 mr-2 -ml-1'><ArrowBack width="20" /></span>
+      <span className='hidden md:block'>Back to all courses</span>
+    </ButtonLink>
+  )
 
   return (
     <ReportTable
@@ -162,6 +171,7 @@ const CourseUsersReportTable = () => {
       loading={loading}
       error={error}
       filters={['group']}
+      backButton={backButton}
       // groupFilter={true}
     />
   );

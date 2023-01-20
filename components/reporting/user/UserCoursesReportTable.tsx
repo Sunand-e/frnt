@@ -4,8 +4,9 @@ import { useRouter } from "../../../utils/router";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import ReportTable, { filterActive } from "../ReportTable";
+import ReportTable, { filterActive, statusAccessor } from "../ReportTable";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 
 const UserCoursesReportTable = () => {
   const router = useRouter();
@@ -45,6 +46,7 @@ const UserCoursesReportTable = () => {
             // secondary: JSON.stringify(cell.row.original),
             href: course?.id && {
               query: {
+                ...router.query,
                 course: course?.id,
                 user: userId,
               },
@@ -69,6 +71,7 @@ const UserCoursesReportTable = () => {
         id: "status",
         header: "Status",
         accessorKey: "status",
+        accessorFn: statusAccessor,
       },
       {
         id: "score",
@@ -107,6 +110,21 @@ const UserCoursesReportTable = () => {
     ];
   }, []);
 
+  const backButton = (
+    <ButtonLink
+      href={{
+        query: {
+          ...router.query,
+          type: 'user',
+          user:null,
+        }
+      }}
+    >
+      <span className='block <FileExport className="w-5 mr-2 -ml-1'><ArrowBack width="20" /></span>
+      <span className='hidden md:block'>Back to all users</span>
+    </ButtonLink>
+  )
+
   return (
     <ReportTable
       title={user ? `${user.fullName}'s courses` : ``}
@@ -118,6 +136,7 @@ const UserCoursesReportTable = () => {
       loading={loading}
       error={error}
       filters={['group']}
+      backButton={backButton}
       // groupFilter={true}
     />
   );

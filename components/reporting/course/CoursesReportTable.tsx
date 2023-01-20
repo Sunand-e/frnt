@@ -148,6 +148,7 @@ const CoursesReportTable = () => {
             // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
               query: {
+                ...router.query,
                 course: cell.row.original.node.id,
                 type: 'user',
               },

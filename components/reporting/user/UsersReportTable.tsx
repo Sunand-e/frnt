@@ -61,6 +61,7 @@ const UsersReportTable = () => {
             secondary: cell.row.original.node.email,
             href: cell.row.original.node.id && {
               query: {
+                ...router.query,
                 user: cell.row.original.node.id,
               },
             },
