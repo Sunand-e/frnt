@@ -1,22 +1,48 @@
 import {
-  createColumnHelper,
   getCoreRowModel,
   useReactTable,
   getSortedRowModel,
   SortingState,
+  ColumnDef,
 } from '@tanstack/react-table'
-import React, { useMemo, useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
 import exportToCsv from "../../utils/exportToCsv";
 import TableStructure from "../common/tables/TableStructure";
 import { useRouter } from "../../utils/router";
-import { client } from "../../graphql/client";
-import { gql } from "@apollo/client";
 import ReportHeader from "./ReportHeader";
 import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 import ReportFilters from "./ReportFilters";
+
+export const filterActive = (filterVal: string) => {
+  return filterVal && filterVal !== 'all'
+}
+
+export const statusAccessor = (row) => {
+  let map = new Map([
+    ["not_started", 'Not started'],
+    ["in_progress", 'In progress'],
+    ["completed", 'Completed'],
+  ]);
+  return map.get(row.status) || 'Not started'
+}
+
+interface ReportTableProps {
+  tableData: any,
+  tableCols: ColumnDef<unknown, any>[],
+  loadingText?: string,
+  errorText?: string,
+  simpleHeader?: boolean,
+  loading?: any,
+  error?: any,
+  csvFilename: string,
+  title?: ReactNode,
+  filters?: any[],
+  backButton?: ReactNode
+  
+}
 
 const ReportTable = ({
   tableData,
@@ -29,7 +55,8 @@ const ReportTable = ({
   csvFilename = "report",
   title = <>Reports</>,
   filters = [],
-}) => {
+  backButton,
+}: ReportTableProps) => {
   // const [categoryId, setCategoryId] = useState(null);
   // const [groupId, setGroupId] = useState(null);
   // Table data is memo-ised due to this:
@@ -38,100 +65,50 @@ const ReportTable = ({
   const router = useRouter()
 
   const { 
-    user: userId, 
-    group: groupId, 
-    course: courseId, 
-    lesson: lessonId, 
     category: categoryId,
     type: type
   } = router.query
 
-  const reportType = ['course','user','group'].includes(type as string) ? type : 'course'
+  const [sorting, setSorting] = useState<SortingState>([])
 
-  const filterActive = (filterVal) => {
+  const filterActive = (filterVal: string) => {
     return filterVal && filterVal !== 'all'
   }
 
-  // alert(reportType)
   const filteredData = useMemo(() => {
-    let data;
-    if(!tableData) {
-      return [];
+    if (filterActive(categoryId)) {
+      return tableData?.filter((edge) => {
+        return edge.node.tags.some((tag) => tag.id === categoryId);
+      });
     }
-    if (reportType === "user") {
-      data = tableData.filter((item) => !item.node._deleted);
-      if (filterActive(groupId)) {
-        data = data?.filter((item) => {
-          return item.node.groups.edges.some(
-            (groupEdge) => groupEdge.node.id === groupId
-          );
-        });
-      }
-    } else if (reportType === "course") {
-      data = tableData.filter((item) => !item.node._deleted);
-      if (filterActive(groupId)) {
-        data = data?.filter((item) => {
-          const fragment = client.readFragment({
-            id: `UserContentEdge:${item.userId}:${item.node.id}`,
-            fragment: gql`
-              fragment UserContentGroupFragment on UserContentEdge {
-                groups {
-                  edges {
-                    node {
-                      id
-                    }
-                  }
-                }
-              }
-            `,
-          });
-
-          const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
-          return groupIds?.some((id) => id === groupId);
-        });
-      }
-      if (filterActive(categoryId)) {
-        data = data?.filter((item) => {
-          return item.node.tags.some((tag) => tag.id === categoryId);
-        });
-      }
-    }
-
-    return data || [];
-    // return tableData || [];
-
-  }, [tableData, groupId]);
-
-  
-
-  const [sorting, setSorting] = useState<SortingState>([])
-
+    return tableData || []
+  },[tableData, categoryId])
+    
   const table = useReactTable({
     state: {
       sorting,
     },
-    columns: tableCols, 
+    columns: tableCols,
     data: filteredData,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
   const filename = csvFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 
   const downloadCSV = () => {
+
     const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
-    const headerRow = csvCols.map((col) => col.Header);
-    // const dataRows = rows.map((row) =>
-    //   csvCols.map((col) => row.values[col.id])
-    // );
-    // exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
+    const headerRow = csvCols.map((col) => col.header);
+    const dataRows = table.getRowModel().rows.map(row => {
+      return csvCols.map(col => row.getValue(col.id))
+  })
+
+    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
-console.log('table')
-!!table && console.log('aa')
-console.log(table)
-console.log(table.getHeaderGroups())
+
   return (
     <>
       <ReportHeader
@@ -141,7 +118,10 @@ console.log(table.getHeaderGroups())
 
       <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
         <ReportFilters filters={filters} />
-        <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
+        <div className='flex space-x-3'>
+          {!!backButton && backButton}
+          <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
+        </div>
       </div>
 
       {loading && (

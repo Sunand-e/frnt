@@ -1,22 +1,36 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import ReportTable from "../ReportTable";
+import ReportTable, { filterActive, statusAccessor } from "../ReportTable";
+import useGetGroups from "../../../hooks/groups/useGetGroups";
+import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 
 const UserCoursesReportTable = () => {
   const router = useRouter();
-  const { user: userId } = router.query;
+  const { 
+    user: userId,
+    group: groupId 
+  } = router.query
 
   const { loading, error, user } = useGetUser(userId);
+  const { groups } = useGetGroups();
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    return user?.courses?.edges.filter((edge) => !edge.node._deleted) || [];
-  }, [user]);
+    let data = groups && user?.courses?.edges.filter((edge) => !edge.node._deleted)
+    if(filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+      data = data?.filter(edge => {
+        return groupEdge.node.assignedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
+      })
+    }
+
+    return data || []
+  }, [user, groups, groupId]);
 
   const tableCols = useMemo(() => {
     return [
@@ -32,6 +46,7 @@ const UserCoursesReportTable = () => {
             // secondary: JSON.stringify(cell.row.original),
             href: course?.id && {
               query: {
+                ...router.query,
                 course: course?.id,
                 user: userId,
               },
@@ -54,8 +69,9 @@ const UserCoursesReportTable = () => {
       // },
       {
         id: "status",
-        header: "Course status",
+        header: "Status",
         accessorKey: "status",
+        accessorFn: statusAccessor,
       },
       {
         id: "score",
@@ -94,9 +110,24 @@ const UserCoursesReportTable = () => {
     ];
   }, []);
 
+  const backButton = (
+    <ButtonLink
+      href={{
+        query: {
+          ...router.query,
+          type: 'user',
+          user:null,
+        }
+      }}
+    >
+      <span className='block <FileExport className="w-5 mr-2 -ml-1'><ArrowBack width="20" /></span>
+      <span className='hidden md:block'>Back to all users</span>
+    </ButtonLink>
+  )
+
   return (
     <ReportTable
-      title={`${user?.fullName}'s courses`}
+      title={user ? `${user.fullName}'s courses` : ``}
       csvFilename={`User courses for ${user?.fullName}`}
       tableData={tableData}
       tableCols={tableCols}
@@ -104,6 +135,8 @@ const UserCoursesReportTable = () => {
       errorText="Unable to fetch user's courses."
       loading={loading}
       error={error}
+      filters={['group']}
+      backButton={backButton}
       // groupFilter={true}
     />
   );

@@ -1,9 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import ReportTable from "../ReportTable";
 import { useRouter } from "../../../utils/router";
+import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
+import { client } from "../../../graphql/client";
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
@@ -13,7 +15,7 @@ const COURSES_REPORT_QUERY = gql`
           edges {
             node {
               id
-              name      
+              name
             }
           }
         }
@@ -21,6 +23,13 @@ const COURSES_REPORT_QUERY = gql`
         node {
           id
           title
+          groupsEnrolled {
+            edges {
+              node {
+                id
+              }
+            }
+          }
           _deleted @client
           image {
             id
@@ -43,19 +52,85 @@ const COURSES_REPORT_QUERY = gql`
         }
       }
     }
+    groups {
+      edges {
+        node {
+          id
+          users {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
 const CoursesReportTable = () => {
   const {
     loading,
     error,
-    data: { courses: courses } = {},
+    data: { courses: courses, groups: groups } = {},
   } = useQuery(COURSES_REPORT_QUERY);
 
   const router = useRouter()
+
+  const { 
+    group: groupId, 
+  } = router.query
+
+  const { userHasCapability, userCapabilityArray } = useUserHasCapability()
+
+  const filterActive = (filterVal) => {
+    return filterVal && filterVal !== 'all'
+  }
+
+  const applyGroupFilter = useCallback((edges) => {
+    let filteredEdges = edges;
+    if(filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+      filteredEdges = edges.filter(edge => {
+        return groupEdge.node.users.edges.map(edge => edge.node.id).includes(edge.node.id)
+      })
+    }
+    return filteredEdges
+  },[groups, groupId])
+
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => courses?.edges, [courses])
+  const tableData = useMemo(() => {
+    let data = courses?.edges.filter((edge) => !edge.node._deleted);
+
+    if (filterActive(groupId)) {
+      if(userHasCapability('GetAllGroupsContent')) {
+        data = data?.filter(edge => edge.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
+      } else {
+        data = data?.filter((item) => {
+          const fragment = client.readFragment({
+            id: `UserContentEdge:${item.userId}:${item.node.id}`,
+            fragment: gql`
+              fragment UserContentGroupFragment on UserContentEdge {
+                groups {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            `,
+          });
+          const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
+          return groupIds?.some((id) => id === groupId);
+        });
+      }
+    }
+
+    return data || []
+
+  }, [courses,groupId, userCapabilityArray])
 
   const tableCols = useMemo(
     () => [
@@ -73,6 +148,7 @@ const CoursesReportTable = () => {
             // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
               query: {
+                ...router.query,
                 course: cell.row.original.node.id,
                 type: 'user',
               },
@@ -84,34 +160,34 @@ const CoursesReportTable = () => {
       {
         id: "enrolled",
         header: "Enrolled users",
-        accessorFn: row => row.node.users.totalCount,
-        cell: ({ cell }) => cell.row.original.node.users?.totalCount,
+        accessorFn: row => applyGroupFilter(row.node.users.edges).length
       },
       {
         id: "not_started",
         header: "Not started",
-        accessorFn: (row) =>
-          row.node.users.edges.filter(
-            (contentUserEdge) =>
-              !contentUserEdge?.status ||
-              contentUserEdge.status === "not_started"
-          ).length,
+        accessorFn: (row) => (
+          applyGroupFilter(row.node.users.edges).filter(contentUserEdge => (
+            !contentUserEdge?.status || contentUserEdge.status === "not_started"
+          )).length
+        )
       },
       {
         id: "in_progress",
         header: "In progress",
-        accessorFn: row => 
-          row.node.users.edges.filter(
-            (contentUserEdge) => contentUserEdge.status === "in_progress"
-          ).length,
+        accessorFn: row => (
+          applyGroupFilter(row.node.users.edges).filter(
+            contentUserEdge => contentUserEdge.status === "in_progress"
+          ).length
+        )
       },
       {
         id: "completed",
         header: "Completed",
-        accessorFn: row =>
-          row.node.users.edges.filter(
-            (contentUserEdge) => contentUserEdge.status === "completed"
-          ).length,
+        accessorFn: row => (
+          applyGroupFilter(row.node.users.edges).filter(
+            contentUserEdge => contentUserEdge.status === "completed"
+          ).length
+        )
       },
       // {
       //   id: "avg_test_score",
@@ -174,9 +250,8 @@ const CoursesReportTable = () => {
         },
       },
     ],
-    []
+    [groups, groupId]
   );
-
   return (
     <ReportTable
       csvFilename="Course report"

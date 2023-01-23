@@ -67,6 +67,13 @@ export const UserContentConnectionFragment = gql`
           label
           tagType
         }
+        groupsEnrolled {
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
       roles {
         id
@@ -389,6 +396,20 @@ export const GET_USERS_COURSES = gql`
             ...UserContentConnectionFragment
           }
           groups {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+    groups {
+      edges {
+        node {
+          id
+          assignedCourses {
             edges {
               node {
                 id

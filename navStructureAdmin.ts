@@ -45,7 +45,8 @@ const navStructureAdmin = [
         name: 'pathways',
         title: 'Pathways',
         urlPath: '/admin/pathways',
-        icon: Flow
+        icon: Flow,
+        requireEnabledFeatures: ['pathways']
       },
     ],
   },
@@ -200,7 +201,7 @@ const navStructureAdmin = [
     title: 'Tenants',
     urlPath: '/admin/tenants',
     icon: Buildings,
-    superAdminOnly: true
+    superAdminOnly: true,
   },
   // {
   //   name: 'messaging',

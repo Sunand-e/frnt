@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import ColorPickerInput from '../common/inputs/ColorPickerInput';
 import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
+import CheckboxInput from '../common/inputs/CheckboxInput';
 
 interface TenantFormValues {
   id?: string
@@ -15,6 +16,7 @@ interface TenantFormValues {
   profileImage: string
   primaryBrandColor: string
   secondaryBrandColor: string
+  pathwaysEnabled: boolean
 }
 
 const TenantForm = ({tenant=null, onSubmit}) => {
@@ -26,6 +28,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     id: tenant?.id,
     primaryBrandColor: tenant?.settings?.primaryBrandColor,
     secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
+    pathwaysEnabled: tenant?.settings?.pathways?.enabled,
   }
 
   const endpoint = "/api/v1/tenant/update"
@@ -127,6 +130,13 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="secondaryBrandColor"
         control={control}
       />
+      <hr></hr>
+      <h2>Feature settings</h2>
+      <h3>Pathways</h3>
+      <CheckboxInput
+          label="Enable pathways"
+          inputAttrs={register("pathwaysEnabled")}
+        />
       <Button type="submit">Submit</Button>
     </form>
   );

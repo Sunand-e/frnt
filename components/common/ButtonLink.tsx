@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { forwardRef } from 'react'
+import { ReactNode } from 'react'
 import styles from './Button.module.scss'
 
 interface ButtonLinkProps {
@@ -9,7 +9,7 @@ interface ButtonLinkProps {
   className?
   target?: string
   displayType?: string
-  children: JSX.Element | string
+  children: ReactNode
 }
 
 const ButtonLink = ({target, href, displayType="normal", children, className, onClick}: ButtonLinkProps) => {
