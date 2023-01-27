@@ -1,4 +1,5 @@
 import React, {
+  MutableRefObject,
   useCallback,
   useEffect,
   useRef,
@@ -18,19 +19,14 @@ declare global {
   }
 }
 
-const USER_ID_FOR_SCORM = gql`
-query GetUserDataForScorm {
-  user {
-    fullName
-    id
-  }
+interface IFrameWithRefProps {
+  iframeRef?: MutableRefObject<HTMLIFrameElement>
 }
-`
-export const IFrameWithRef = ({ iframeRef, ...props }) => {
+export const IFrameWithRef = ({ iframeRef, ...props }:IFrameWithRefProps) => {
   return <PackageIFrame {...props} ref={iframeRef} />;
 }
 
-export const PackageIFrame = React.forwardRef(({
+export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   block,
   isEditing=false,
   setAttempt = () => null,
@@ -47,7 +43,7 @@ export const PackageIFrame = React.forwardRef(({
     UPSERT_SCO_ATTEMPT
   );
 
-  const { loading, data, error } = useQuery(
+  const { loading, data: attemptQueryData, error } = useQuery(
     GET_LATEST_SCO_ATTEMPT,
     {
       variables: {
@@ -59,12 +55,13 @@ export const PackageIFrame = React.forwardRef(({
   
   const apiRef = useRef(null)
 
-  const saveData = useCallback((data) => {
+  const saveData = useCallback((scormData) => {
     // alert('WHENDOESTHISFIRE?')
     // alert(attempt)
     console.log('data')
-    console.log(data)
-    if(['completed', 'passed'].includes(data?.cmi.core.lesson_status)) {
+    console.log(scormData)
+    if(!scormData?.cmi) return;
+    if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
     }
     upsertScoAttempt({
@@ -72,11 +69,13 @@ export const PackageIFrame = React.forwardRef(({
         attempt,
         contentItemId: courseId,
         scormModuleId: block.properties.moduleId,
-        data,
+        data: scormData,
       }
     }).then(res => {
+      console.log('res')
+      console.log(res)
     })
-  },[attempt])
+  },[attempt, attemptQueryData])
 
   const unloadHandler = () => {
     // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
@@ -95,7 +94,7 @@ export const PackageIFrame = React.forwardRef(({
       // lmsCommitUrl: '/d'
     }
 
-    if(!window.API && data) {
+    if(!window.API && attemptQueryData) {
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
@@ -116,14 +115,14 @@ export const PackageIFrame = React.forwardRef(({
   
       });
 
-      API.loadFromJSON(data?.latestScoAttempt?.data, '')
+      API.loadFromJSON(attemptQueryData?.latestScoAttempt?.data, '')
   
       window.addEventListener('beforeunload', unloadHandler)
       window.addEventListener('unload', unloadHandler)
 
       setLoaded(true)
     }
-  },[attempt, saveData, data])
+  },[attempt, saveData, attemptQueryData])
 
 
   useEffect(() => {
@@ -138,13 +137,16 @@ export const PackageIFrame = React.forwardRef(({
 
   
   useEffect(() => {
-    if(data) {
-      // alert(`Attempté: ${attempt}. Setting attempté to ${data?.latestScoAttempt?.attempt ?? 1}`)
-      setAttempt(data?.latestScoAttempt?.attempt ?? 1)    
-      data.latestScoAttempt?.data && apiRef.current.loadFromJSON(data.latestScoAttempt?.data?.cmi)
+    if(attemptQueryData) {
+      // alert(`Attempté: ${attempt}. Setting attempté to ${attemptQueryData?.latestScoAttempt?.attempt ?? 1}`)
+      setAttempt(attemptQueryData?.latestScoAttempt?.attempt ?? 1)
+      console.log("apiRef.current.cmi.core.lesson_location")
+      console.log(apiRef.current.cmi.core.lesson_location)
+      alert(apiRef.current.cmi.core.lesson_location)
+      attemptQueryData.latestScoAttempt?.data && apiRef.current.loadFromJSON(attemptQueryData.latestScoAttempt?.data?.cmi)
       // alert(data.latestScoAttempt?.data ? 'existing dataset' : 'fresh dataset')
     }
-  },[data])
+  },[attemptQueryData])
 
   return (
     <>

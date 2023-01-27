@@ -60,6 +60,7 @@ export const GET_LATEST_SCO_ATTEMPT = gql`
       courseId: $courseId,
       scormModuleId: $scormModuleId
     ) {
+      id
       data
       attempt
     }

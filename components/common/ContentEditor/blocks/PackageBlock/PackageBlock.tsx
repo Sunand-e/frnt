@@ -1,5 +1,5 @@
 import {
-  FunctionComponent, useRef, useState
+  FunctionComponent, MutableRefObject, useRef, useState
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
@@ -13,7 +13,7 @@ const DynamicPackageIFrame = dynamic(
 
 export const PackageBlock = ({block}) => {
 
-  const iframeRef = useRef();
+  const iframeRef: MutableRefObject<HTMLIFrameElement> = useRef();
   
   const {
     isFullscreenEnabled,
