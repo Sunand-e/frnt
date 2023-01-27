@@ -33,6 +33,7 @@ export const UPSERT_SCO_ATTEMPT = gql`
     }) {
       id
       data
+      attempt
     }
   }
 `

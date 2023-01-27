@@ -40,7 +40,24 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const { id:courseId } = router.query
 
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
-    UPSERT_SCO_ATTEMPT
+    UPSERT_SCO_ATTEMPT,
+    { 
+      update(cache, { data: { upsertScoAttempt } }) {
+        cache.updateQuery({ 
+          query: GET_LATEST_SCO_ATTEMPT,
+          variables: {
+            scormModuleId: block.properties.moduleId,
+            courseId
+          }
+         }, (data) => {
+          if(!data?.latestScoAttempt) {
+            return ({
+              latestScoAttempt: upsertScoAttempt
+            })
+          }
+        });
+      }
+    }
   );
 
   const { loading, data: attemptQueryData, error } = useQuery(
@@ -143,7 +160,10 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
+      <>
+
       <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+      </>
       ) : (
       <div className='flex items-center justify-center'>
         <LoadingSpinner />
