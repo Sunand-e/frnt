@@ -56,6 +56,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
+    console.log('scormData')
+    console.log(scormData)
     if(!scormData?.cmi) return;
     if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
