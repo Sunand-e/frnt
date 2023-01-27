@@ -56,10 +56,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
-    // alert('WHENDOESTHISFIRE?')
-    // alert(attempt)
-    console.log('data')
-    console.log(scormData)
     if(!scormData?.cmi) return;
     if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
@@ -103,10 +99,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
         const scormData = API.renderCommitCMI(true)
 
         if(CMIElement === 'cmi.core.exit' && value==='suspend') {
-          // document.querySelector('#debug_panel').innerHTML = '<pre>SCORM package sent exit status</pre>'
-          // alert('EXIT!!!')
-          // apiRef.current = window.API =null
-          // setReload(true)
         } else {
           document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
         }
@@ -138,13 +130,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   
   useEffect(() => {
     if(attemptQueryData) {
-      // alert(`Attempté: ${attempt}. Setting attempté to ${attemptQueryData?.latestScoAttempt?.attempt ?? 1}`)
       setAttempt(attemptQueryData?.latestScoAttempt?.attempt ?? 1)
-      console.log("apiRef.current.cmi.core.lesson_location")
-      console.log(apiRef.current.cmi.core.lesson_location)
-      alert(apiRef.current.cmi.core.lesson_location)
       attemptQueryData.latestScoAttempt?.data && apiRef.current.loadFromJSON(attemptQueryData.latestScoAttempt?.data?.cmi)
-      // alert(data.latestScoAttempt?.data ? 'existing dataset' : 'fresh dataset')
     }
   },[attemptQueryData])
 
