@@ -42,7 +42,9 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
     UPSERT_SCO_ATTEMPT,
     { 
-      update(cache, { data: { upsertScoAttempt } }) {
+      update(cache, { data: { upsertScoAttempt } }, request ) {
+        console.log('request')
+        console.log(request)
         cache.updateQuery({ 
           query: GET_LATEST_SCO_ATTEMPT,
           variables: {
@@ -50,6 +52,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
             courseId
           }
          }, (data) => {
+          console.log('data')
+          console.log(data)
           if(!data?.latestScoAttempt) {
             return ({
               latestScoAttempt: upsertScoAttempt
