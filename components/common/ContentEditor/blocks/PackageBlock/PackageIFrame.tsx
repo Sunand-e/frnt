@@ -42,25 +42,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
     UPSERT_SCO_ATTEMPT,
     { 
-      update(cache, { data: { upsertScoAttempt } }, request ) {
-        console.log('request')
-        console.log(request)
-        cache.updateQuery({ 
-          query: GET_LATEST_SCO_ATTEMPT,
-          variables: {
-            scormModuleId: block.properties.moduleId,
-            courseId
-          }
-         }, (data) => {
-          console.log('data')
-          console.log(data)
-          if(!data?.latestScoAttempt) {
-            return ({
-              latestScoAttempt: upsertScoAttempt
-            })
-          }
-        });
-      }
+
     }
   );
 
@@ -77,8 +59,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
-    console.log('scormData')
-    console.log(scormData)
     if(!scormData?.cmi) return;
     if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
@@ -89,12 +69,27 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
         contentItemId: courseId,
         scormModuleId: block.properties.moduleId,
         data: scormData,
+      },
+      update(cache, { data: { upsertScoAttempt } }, request ) {
+        cache.updateQuery({ 
+          query: GET_LATEST_SCO_ATTEMPT,
+          variables: {
+            scormModuleId: block.properties.moduleId,
+            courseId
+          }
+         }, (data) => {
+          if(!data?.latestScoAttempt) {
+            return ({
+              latestScoAttempt: upsertScoAttempt
+            })
+          }
+        });
       }
     }).then(res => {
-      console.log('res')
-      console.log(res)
+      // console.log('res')
+      // console.log(res)
     })
-  },[attempt, attemptQueryData])
+  },[attempt, attemptQueryData, courseId])
 
   const unloadHandler = () => {
     // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
