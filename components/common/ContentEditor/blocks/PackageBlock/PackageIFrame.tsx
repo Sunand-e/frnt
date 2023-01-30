@@ -59,10 +59,14 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
-    if(!scormData?.cmi) return;
+    if(!scormData?.cmi) {
+      return;
+    }
     if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
     }
+
+    // console.log('GOING TO UPSERT: ',variables)
     upsertScoAttempt({
       variables: {
         attempt,
@@ -70,7 +74,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
         scormModuleId: block.properties.moduleId,
         data: scormData,
       },
-      update(cache, { data: { upsertScoAttempt } }, request ) {
+      update(cache, response, request ) {
         cache.updateQuery({ 
           query: GET_LATEST_SCO_ATTEMPT,
           variables: {
@@ -80,16 +84,14 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
          }, (data) => {
           if(!data?.latestScoAttempt) {
             return ({
-              latestScoAttempt: upsertScoAttempt
+              latestScoAttempt: response.data.upsertScoAttempt
             })
           }
         });
       }
     }).then(res => {
-      // console.log('res')
-      // console.log(res)
     })
-  },[attempt, attemptQueryData, courseId])
+  },[block, attempt, attemptQueryData, courseId])
 
   const unloadHandler = () => {
     // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
@@ -100,7 +102,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     //   setUnloaded(true);
     // }
   }
-
 
   const initialiseAPI = useCallback(() => {
     ScormAgain;
@@ -160,8 +161,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
       <>
-
-      <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+        <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
       </>
       ) : (
       <div className='flex items-center justify-center'>

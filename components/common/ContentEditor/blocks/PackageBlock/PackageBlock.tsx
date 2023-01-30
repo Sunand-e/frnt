@@ -33,6 +33,7 @@ export const PackageBlock = ({block}) => {
       </div>
       <div className="aspect-w-16 aspect-h-9 px-1">
         <DynamicPackageIFrame
+          key={block.id}
           editMode={true}
           block={block}
           attempt={attempt}
