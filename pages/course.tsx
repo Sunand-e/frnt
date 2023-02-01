@@ -59,7 +59,7 @@ const CoursePage = () => {
     setShowCompletedPage(false)
     if(courseEdge) {
       if(courseScore!==null && courseEdge?.score === 100) {
-        setShowCompletedPage(true)
+        // setShowCompletedPage(true)
       }
       courseEdge?.score && setCourseScore(courseEdge.score)
     }

@@ -1,4 +1,5 @@
 import React, {
+  MutableRefObject,
   useCallback,
   useEffect,
   useRef,
@@ -18,19 +19,14 @@ declare global {
   }
 }
 
-const USER_ID_FOR_SCORM = gql`
-query GetUserDataForScorm {
-  user {
-    fullName
-    id
-  }
+interface IFrameWithRefProps {
+  iframeRef?: MutableRefObject<HTMLIFrameElement>
 }
-`
-export const IFrameWithRef = ({ iframeRef, ...props }) => {
+export const IFrameWithRef = ({ iframeRef, ...props }:IFrameWithRefProps) => {
   return <PackageIFrame {...props} ref={iframeRef} />;
 }
 
-export const PackageIFrame = React.forwardRef(({
+export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   block,
   isEditing=false,
   setAttempt = () => null,
@@ -44,10 +40,13 @@ export const PackageIFrame = React.forwardRef(({
   const { id:courseId } = router.query
 
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
-    UPSERT_SCO_ATTEMPT
+    UPSERT_SCO_ATTEMPT,
+    { 
+
+    }
   );
 
-  const { loading, data, error } = useQuery(
+  const { loading, data: attemptQueryData, error } = useQuery(
     GET_LATEST_SCO_ATTEMPT,
     {
       variables: {
@@ -59,24 +58,40 @@ export const PackageIFrame = React.forwardRef(({
   
   const apiRef = useRef(null)
 
-  const saveData = useCallback((data) => {
-    // alert('WHENDOESTHISFIRE?')
-    // alert(attempt)
-    console.log('data')
-    console.log(data)
-    if(['completed', 'passed'].includes(data?.cmi.core.lesson_status)) {
+  const saveData = useCallback((scormData) => {
+    if(!scormData?.cmi) {
+      return;
+    }
+    if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
     }
+
+    // console.log('GOING TO UPSERT: ',variables)
     upsertScoAttempt({
       variables: {
         attempt,
         contentItemId: courseId,
         scormModuleId: block.properties.moduleId,
-        data,
+        data: scormData,
+      },
+      update(cache, response, request ) {
+        cache.updateQuery({ 
+          query: GET_LATEST_SCO_ATTEMPT,
+          variables: {
+            scormModuleId: block.properties.moduleId,
+            courseId
+          }
+         }, (data) => {
+          if(!data?.latestScoAttempt) {
+            return ({
+              latestScoAttempt: response.data.upsertScoAttempt
+            })
+          }
+        });
       }
     }).then(res => {
     })
-  },[attempt])
+  },[block, attempt, attemptQueryData, courseId])
 
   const unloadHandler = () => {
     // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
@@ -88,14 +103,13 @@ export const PackageIFrame = React.forwardRef(({
     // }
   }
 
-
   const initialiseAPI = useCallback(() => {
     ScormAgain;
     const settings = {
       // lmsCommitUrl: '/d'
     }
 
-    if(!window.API && data) {
+    if(!window.API && attemptQueryData) {
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
       API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
@@ -104,10 +118,6 @@ export const PackageIFrame = React.forwardRef(({
         const scormData = API.renderCommitCMI(true)
 
         if(CMIElement === 'cmi.core.exit' && value==='suspend') {
-          // document.querySelector('#debug_panel').innerHTML = '<pre>SCORM package sent exit status</pre>'
-          // alert('EXIT!!!')
-          // apiRef.current = window.API =null
-          // setReload(true)
         } else {
           document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
         }
@@ -116,14 +126,14 @@ export const PackageIFrame = React.forwardRef(({
   
       });
 
-      API.loadFromJSON(data?.latestScoAttempt?.data, '')
+      API.loadFromJSON(attemptQueryData?.latestScoAttempt?.data, '')
   
       window.addEventListener('beforeunload', unloadHandler)
       window.addEventListener('unload', unloadHandler)
 
       setLoaded(true)
     }
-  },[attempt, saveData, data])
+  },[attempt, saveData, attemptQueryData])
 
 
   useEffect(() => {
@@ -138,13 +148,11 @@ export const PackageIFrame = React.forwardRef(({
 
   
   useEffect(() => {
-    if(data) {
-      // alert(`Attempté: ${attempt}. Setting attempté to ${data?.latestScoAttempt?.attempt ?? 1}`)
-      setAttempt(data?.latestScoAttempt?.attempt ?? 1)    
-      data.latestScoAttempt?.data && apiRef.current.loadFromJSON(data.latestScoAttempt?.data?.cmi)
-      // alert(data.latestScoAttempt?.data ? 'existing dataset' : 'fresh dataset')
+    if(attemptQueryData) {
+      setAttempt(attemptQueryData?.latestScoAttempt?.attempt ?? 1)
+      attemptQueryData.latestScoAttempt?.data && apiRef.current.loadFromJSON(attemptQueryData.latestScoAttempt?.data?.cmi)
     }
-  },[data])
+  },[attemptQueryData])
 
   return (
     <>
@@ -152,7 +160,9 @@ export const PackageIFrame = React.forwardRef(({
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
-      <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+      <>
+        <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+      </>
       ) : (
       <div className='flex items-center justify-center'>
         <LoadingSpinner />

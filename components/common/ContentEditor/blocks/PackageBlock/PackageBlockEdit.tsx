@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
 import Button from '../../../Button';
@@ -16,7 +16,7 @@ export const PackageBlockEdit = ({
   block
 }) => {
   const  defaultWidth = '100%'
-  const iframeRef = useRef()
+  const iframeRef : MutableRefObject<HTMLIFrameElement> = useRef();
   
   const {
     isEnabled: isFullscreenEnabled,

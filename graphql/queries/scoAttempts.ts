@@ -33,6 +33,7 @@ export const UPSERT_SCO_ATTEMPT = gql`
     }) {
       id
       data
+      attempt
     }
   }
 `
@@ -60,6 +61,7 @@ export const GET_LATEST_SCO_ATTEMPT = gql`
       courseId: $courseId,
       scormModuleId: $scormModuleId
     ) {
+      id
       data
       attempt
     }

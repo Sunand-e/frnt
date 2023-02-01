@@ -16,6 +16,7 @@ interface GroupFormValues {
   userRole: string
   assignedCourseIds: [any]
   assignedResourceIds: [any]
+  assignedPathwayIds: [any]
 }
 
 const GroupForm = ({group=null, onSubmit}) => {
@@ -29,6 +30,7 @@ const GroupForm = ({group=null, onSubmit}) => {
         userIds: users.map(user => user.id),
         assignedCourseIds: group?.assignedCourses.edges.map(edge => edge.node.id) || [],
         assignedResourceIds: group?.assignedResources.edges.map(edge => edge.node.id) || [],
+        assignedPathwayIds: group?.assignedPathways.edges.map(edge => edge.node.id) || [],
       }
     }
   );
@@ -40,7 +42,11 @@ const GroupForm = ({group=null, onSubmit}) => {
   const handleSubmit = values => {
     const input = {
       ...values,
-      assignedContentIds: [...values.assignedCourseIds, ...values.assignedResourceIds]
+      assignedContentIds: [
+        ...values.assignedCourseIds,
+        ...values.assignedResourceIds,
+        ...values.assignedPathwayIds
+      ]
     }
     onSubmit(input)
   }

@@ -31,7 +31,7 @@ const TenantSharedContentForm = () => {
     id,
     sharedCourseIds: sharedContentItems ? [...sharedContentItems?.courses.edges.map(edge => edge.node.id)]: [],
     sharedResourceIds: sharedContentItems ? [...sharedContentItems?.resources.edges.map(edge => edge.node.id)]: [],
-    sharedPathwayIds: sharedContentItems ? [...sharedContentItems?.pathways.edges.map(edge => edge.node.id)]: [],
+    // sharedPathwayIds: sharedContentItems ? [...sharedContentItems?.pathways.edges.map(edge => edge.node.id)]: [],
   }
 
   const { handleSubmit: rhfHandleSubmit, formState: { errors }, control, reset } = useForm<TenantSharedContentFormValues>({
@@ -43,7 +43,7 @@ const TenantSharedContentForm = () => {
     setInitialIds([
       ...defaultValues.sharedCourseIds,
       ...defaultValues.sharedResourceIds,
-      ...defaultValues.sharedPathwayIds,
+      // ...defaultValues.sharedPathwayIds,
     ])
   }, [sharedContentItems]);
 
@@ -52,7 +52,7 @@ const TenantSharedContentForm = () => {
     const contentItemIds = [
       ...data.sharedCourseIds,
       ...data.sharedResourceIds,
-      ...data.sharedPathwayIds,
+      // ...data.sharedPathwayIds,
     ]
 
     // revoke sharing content items which were shared, but are not now
@@ -78,7 +78,7 @@ const TenantSharedContentForm = () => {
     >
       <SharedCoursesInput control={control} />
       <SharedResourcesInput control={control} />
-      <SharedPathwaysInput control={control} />
+      {/* <SharedPathwaysInput control={control} /> */}
       <Button type="submit">Share content with this tenant</Button>
     </form>
   );
