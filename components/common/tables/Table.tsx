@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { FileExport } from 'styled-icons/fa-solid';
 import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
-import ReportFilters from '../../Reporting/ReportFilters';
+import ReportFilters from '../../reporting/ReportFilters';
 import Button from '../Button';
 import { DragHandle } from './DragHandle';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
