@@ -158,6 +158,7 @@ const UsersReportTable = () => {
       errorText="Unable to fetch users."
       loading={loading}
       error={error}
+      exportFilename={'users'}
       // filters={['group','course']}
       filters={['group']}
       simpleHeader={true}

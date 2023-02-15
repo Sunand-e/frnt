@@ -36,8 +36,14 @@ const COURSES_REPORT_QUERY = gql`
             location
           }
           tags {
-            id
-            label
+            edges {
+              id
+              order
+              node {
+                id
+                label
+              }
+            }
           }
           users {
             totalCount
@@ -142,8 +148,8 @@ const CoursesReportTable = () => {
           const cellProps = {
             image: cell.row.original.node.image,
             title: cell.getValue(),
-            secondary: cell.row.original.node.tags
-              ?.map((tag) => tag.label)
+            secondary: cell.row.original.node.tags.edges
+              ?.map(({node}) => node.label)
               .join(", "),
             // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
@@ -254,7 +260,7 @@ const CoursesReportTable = () => {
   );
   return (
     <ReportTable
-      csvFilename="Course report"
+      exportFilename="Course report"
       simpleHeader={true}
       title={<>Courses</>}
       tableData={tableData}

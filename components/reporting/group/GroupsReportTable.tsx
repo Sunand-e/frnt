@@ -94,7 +94,7 @@ const GroupsReportTable = () => {
 
   return (
     <ReportTable
-      csvFilename="Group report"
+      exportFilename="Group report"
       tableData={tableData}
       tableCols={tableCols}
       title={<>Groups</>}

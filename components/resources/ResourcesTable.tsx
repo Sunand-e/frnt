@@ -28,7 +28,7 @@ const ResourcesTable = () => {
     }, [filteredItems]
   );
 
-   const tableCols = useMemo(
+  const tableCols = useMemo(
     () => [
       {
         header: "Resource",

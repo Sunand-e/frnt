@@ -33,7 +33,6 @@ const useGetUrlMetadata = (url, setValidUrl) => {
   },600)
   
   useEffect(() => {
-    // alert('saywha')
     getUrlMetadata()
   },[url])
 

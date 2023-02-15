@@ -53,7 +53,7 @@ export default function SearchResults({items, itemType='item'}) {
       const isSelectedCategory = tag => {
         return tag.tagType === 'category' && tag.label === category
       }
-      return item.tags && item.tags.some(isSelectedCategory);   
+      return item.tags && item.tags.edges.some(({node}) => isSelectedCategory(node));   
     });
   }
   

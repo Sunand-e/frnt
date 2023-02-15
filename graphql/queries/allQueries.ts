@@ -1,6 +1,22 @@
 import { gql } from '@apollo/client';
 import { UserFragment } from './users';
 
+export const ContentItemTagEdgeFragment = gql`
+  fragment ContentItemTagEdgeFragment on ContentItemTagEdge {
+    id
+    order
+    node {
+      id
+      tagType
+      label
+      image {
+        id
+        location
+      }
+    }
+  }
+`
+
 export const ContentFragment = gql`
   fragment ContentFragment on ContentItem {
     content
@@ -8,6 +24,7 @@ export const ContentFragment = gql`
     createdAt
     settings
     shared
+    order
     image {
       location
       id
@@ -43,23 +60,22 @@ export const ContentFragment = gql`
       totalCount
     }
     tags {
-      id
-      tagType
-      label
-      image {
-        id
-        location
+      edges {
+        ...ContentItemTagEdgeFragment
       }
     }
     _deleted @client
   }
+  ${ContentItemTagEdgeFragment}
 `
+
 export const ResourceFragment = gql`
   fragment ResourceFragment on ContentItem {
     ...ContentFragment
   }
   ${ContentFragment}
 `
+
 export const LessonFragment = gql`
 fragment LessonFragment on ContentItem {
   ...ContentFragment
@@ -84,11 +100,6 @@ export const CourseFragment = gql`
     sections {
       ...SectionFragment
     }
-    tags {
-      id
-      label
-      tagType
-    }
   }
   ${ContentFragment}
   ${SectionFragment}
@@ -98,11 +109,6 @@ export const PathwayFragment = gql`
     ...ContentFragment
     children {
       ...CourseFragment
-    }
-    tags {
-      id
-      label
-      tagType
     }
   }
   ${ContentFragment}

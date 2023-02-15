@@ -4,9 +4,6 @@ export const AccordionBlock = ({block}) => {
 
   return (
     <div className="">
-      <pre>
-      { JSON.stringify(block,null,2) }
-      </pre>
       <Accordion defaultValue="customization">
       <Accordion.Item value="customization">
         <Accordion.Control>Customization</Accordion.Control>

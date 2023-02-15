@@ -6,6 +6,7 @@ import {
   DragOverlay,
   KeyboardSensor,
   MouseSensor,
+  PointerSensor,
   TouchSensor,
   useSensor,
   useSensors
@@ -20,111 +21,98 @@ import DraggableTableRow from "./DraggableTableRow";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { StaticTableRow } from "./StaticTableRow";
 import { gql, useMutation } from "@apollo/client";
-
-export const REORDER_TAGS = gql`
-  mutation ReorderTags(
-    $id: ID!,
-    $order: Int!
-  ) {
-    reorderTags(
-      input: {
-        id: $id,
-        order: $order,
-      }
-    ) {
-      tag {
-        id
-        order
-      }
-    }
-  }
-`
+import { useTableContext } from "./tableContext";
+import TableRow from "./TableRow";
 
 interface TableStructureProps {
   table: Table<any>
-  draggableRows?: boolean
-  selectable?: boolean
-  onRowClick?: () => void
-  setData?: (data) => void
 }
 interface MaybeDndContextProps {
-  draggableRows?: boolean
   children?: ReactNode
 }
 
-const MaybeDndContext = ({draggableRows, children, ...rest}: MaybeDndContextProps) => {
-  return (
-    <DndContext {...rest}>
+
+
+const MaybeDndContext = ({children, ...rest}: MaybeDndContextProps) => {
+  return useTableContext(s => s.isReorderable) ? (
+    <DndContext  {...rest}>
       { children }
     </DndContext>
-  )
+  ) : children
 }
 
-const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}: TableStructureProps) => {
+const TableStructure = ({table}: TableStructureProps) => {
 
   const rows = table.getRowModel().rows
+  const bulkActions = useTableContext(s => s.bulkActions)
+  const onRowClick = useTableContext(s => s.onRowClick)
+  const onReorder = useTableContext(s => s.onReorder)
+  const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
+  const isReorderable = useTableContext(s => s.isReorderable)
+  const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
+  const isSelectable = !!bulkActions.length;
 
-  const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
-    REORDER_TAGS
-  ) 
-
-  const items = useMemo(() => rows?.map(({ original }) => original.id), [rows]);
+  const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
   const [activeId, setActiveId] = useState();
   const tableElementRef = useRef<HTMLTableElement>(null)
-  const [colWidths, setColWidths] = useState<number[]>()
+  const [colWidths, setColWidths] = useState<number[] | null>(null)
   const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
-
-  useEffect(() => {
-    if(!tableElementRef.current) return
-    const ths =  Array.from(tableElementRef.current.getElementsByTagName("th"));
-    setColWidths(ths.map(th => th.offsetWidth));
-  },[])
+  console.log('items')
+  console.log(items)
+  const dataCellOffset = Number(isReorderable) + Number(isSelectable)
+  // useEffect(() => {
+  //   if(!tableElementRef.current) return
+  //   const ths =  Array.from(tableElementRef.current.getElementsByTagName("th"));
+  //   setColWidths(ths.map(th => th.offsetWidth));
+  // },[])
 
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
+    useSensor(KeyboardSensor, {}),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
   );
 
   function handleDragStart(event) {
     setActiveId(event.active.id);
-    console.log('event')
-    console.log(event.active.rect.current.initial)
+    const ths =  Array.from(tableElementRef.current.getElementsByTagName("th"));
+    setColWidths(ths.map(th => th.offsetWidth));
   }
 
   function handleDragEnd(event) {
     const { active, over } = event;
+    console.log('active, over')
+    console.log(active, over)
     if (active.id !== over.id) {
       const oldIndex = items.indexOf(active.id);
       const newIndex = items.indexOf(over.id);
-
-      setData((data) => {
-        return arrayMove(data, oldIndex, newIndex);
-      });
-      console.log('active.id')
-      console.log(active.id)
-      reorderTagsMutation({
-        variables: {
-          id: active.id,
-          order: newIndex
-        }
-      })
+      // setData((data) => {
+      //   return arrayMove(data, oldIndex, newIndex);
+      // });
+      onReorder && onReorder(active, over, newIndex, oldIndex)
+      setColWidths(null)
     }
+
+
     setActiveId(null);
   }
   function handleDragCancel() {
     setActiveId(null);
   }
 
-
   const selectedRow = useMemo(() => {
     if (!activeId) {
       return null;
     }
-    const row = rows.find(({ original }) => original.id === activeId);
+    const row = rows.find(row => (
+      getReorderableItemIdFromRow(row) === activeId
+    ))
     return row;
   }, [activeId, rows]);
-
 
   return (
     <div className="flex flex-col">
@@ -132,7 +120,6 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-y-visible border-b border-gray-200 sm:rounded-lg">
             <MaybeDndContext
-              draggableRows={true}
               sensors={sensors}
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
@@ -149,12 +136,9 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
                         <th key={header.id} colSpan={header.colSpan}
                         className={`px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider border-b border-gray-200`}
                         style={{
-                          textAlign: (index > (selectable ? 1 : 0)) ? 'center' : 'left',
+                          textAlign: (index > dataCellOffset) ? 'center' : 'left',
                           // width: header.getSize() !== 150 ? header.getSize() : 20,
-                          ...(header.column.columnDef?.id === 'select' ? { 
-                            paddingRight: '10000px',
-                            // width: '16px'
-                          } : {}),
+                          ...(colWidths && {width: colWidths[index]}),
                         }}
                         > {header.isPlaceholder ? null : (
                             <div className="inline-block">
@@ -195,18 +179,24 @@ const TableStructure = ({table, selectable, draggableRows, onRowClick, setData}:
                   ))}
                 </thead>
                 <tbody className="bg-white">
-                  <SortableContext items={items} strategy={verticalListSortingStrategy}>
-                    { rows.map((row) => (
-                      <DraggableTableRow row={row} key={row.original.id} onRowClick={onRowClick} selectable={selectable} draggingRowHeight={draggingRowHeight} />
-                    ))}
-                  </SortableContext>
+                  {
+                    isReorderableActive ? (
+                      <SortableContext items={items} strategy={verticalListSortingStrategy}>
+                      { rows.map((row) => (
+                        <DraggableTableRow row={row} key={row.original.id} onRowClick={onRowClick} draggingRowHeight={draggingRowHeight} />
+                      ))}
+                    </SortableContext>
+                    ) : rows.map((row) => (
+                      <TableRow style={{}} row={row} key={row.original.id} onRowClick={onRowClick} />
+                    ))
+                  }
                 </tbody>
               </table>
               <DragOverlay>
                 {activeId && (
                   <table style={{ width: "100%" }}>
                     <tbody>
-                      <StaticTableRow setDraggingRowHeight={setDraggingRowHeight} row={selectedRow} selectable={selectable} colWidths={colWidths} />
+                      <StaticTableRow row={selectedRow} colWidths={colWidths} setDraggingRowHeight={setDraggingRowHeight} />
                     </tbody>
                   </table>
                 )}

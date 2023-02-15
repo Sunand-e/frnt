@@ -3,7 +3,7 @@ import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInC
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
-import ContentSelectCategorised from "./ContentSelectCategorised"
+import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
 
 const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) => {
   
@@ -26,7 +26,7 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
   const tags = availableContent.reduce((tagArr,course,index, array) => {
     return [
         ...tagArr,
-        ...course.tags.filter(tag => !tagArr.some(t => t.id === tag.id))
+        ...course.tags.edges.filter(({node}) => !tagArr.some(t => t.id === node.id))
     ]
   }, [])
   
@@ -36,7 +36,7 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
     options: availableContent.filter(course => {
       if(
         uniqueContent.some(c => c.id === course.id)
-        || !course.tags.some(t => t.id === tag.id)
+        || !course.tags.edges.some(({node}) => node.id === tag.id)
       ) {
         return false
       }
@@ -53,7 +53,7 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
     {
       label: 'Uncategorised',
       options: availableContent.filter(course => {
-        return !uniqueContent.some(c => c.id === course.id) && !course.tags.length
+        return !uniqueContent.some(c => c.id === course.id) && !course.tags.edges.length
       }).map(course => ({
         label: course.title,
         value: course.id,

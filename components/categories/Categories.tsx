@@ -35,7 +35,7 @@ const Categories = () => {
         const isSelectedCategory = tag => {
           return tag.tagType === 'category' && tag.label === category
         }
-        return node.tags && node.tags.some(isSelectedCategory);   
+        return node.tags && node.tags.edges.some(({node}) => isSelectedCategory(node));   
       });
     } else {
       return nodes

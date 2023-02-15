@@ -6,6 +6,10 @@ const HandleWrapper = styled.div`
   vertical-align: bottom;
   display: inline-block;
   margin-right: 0.5rem;
+  opacity:0.8;
+  &:hover {
+    opacity: 1;
+  }
   svg {
     width: 100%;
     height: 100%;

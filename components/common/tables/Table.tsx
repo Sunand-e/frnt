@@ -5,77 +5,136 @@ import {
   getSortedRowModel,
   SortingState,
   ColumnResizeMode,
-  ColumnDef
+  ColumnDef,
+  Table as TableType
 } from '@tanstack/react-table'
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { FileExport } from 'styled-icons/fa-solid';
+import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
+import ReportFilters from '../../Reporting/ReportFilters';
+import Button from '../Button';
+import { DragHandle } from './DragHandle';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import TableActions from './TableActions';
+import { TableContext, TableProps, TableProvider, useTableContext } from './tableContext';
 import TableStructure from './TableStructure';
+import Tippy from '@tippyjs/react';
 
-const Table = ({
-  tableData,
-  tableCols,
-  options = {} as any,
-  bulkActions = [],
-  filters = [],
-  typeName ='item',
-  typeOptions={},
-  showTop=true,
-  draggableRows=false,
-  // rowSelection = {},
-  onRowSelect = (selection) => null,
-  onRowClick = null
-}) => {
 
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
-  const [rowSelection, setRowSelection] = useState({})
-  const [ categoryId, setCategoryId ] = useState(null)
-  const [ contentType, setContentType ] = useState(null)
+const TableWithProvider = (props: TableProps) => (
+  <TableProvider { ...props }>
+    <Table />
+  </TableProvider>
+)
 
+
+const Table = () => {
+  console.log('rerendertable')
+  const store = useContext(TableContext)
+
+  const exportFilename = useTableContext(s => s.exportFilename)
+  const globalFilter = useTableContext(s => s.globalFilter)
+  const categoryId = useTableContext(s => s.categoryId)
+  const sorting = useTableContext(s => s.sorting)
+  const tableCols = useTableContext(s => s.tableCols)
+  const tableData = useTableContext(s => s.tableData)
+  const showTop = useTableContext(s => s.showTop)
+  const bulkActions = useTableContext(s => s.bulkActions)
+  const rowSelection = useTableContext(s => s.rowSelection)
+  const contentType = useTableContext(s => s.contentType)
+  const setContentType = useTableContext(s => s.setContentType)
+  const filters = useTableContext(s => s.filters)
+  const isReorderable = useTableContext(s => s.isReorderable)
+  const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
+  const isReportingTable = useTableContext(s => s.isReportingTable)
+  const backButton = useTableContext(s => s.backButton)
+  const onFilterChange = useTableContext(s => s.onFilterChange)
+  const selectable = !!bulkActions.length;
+  
   const router = useRouter()
   const { type } = router.query
 
   useEffect(() => {
-    setContentType(type)
+    setContentType(type as string)
   },[type])
 
-  const selectable = !!bulkActions.length;
-
   const handleRowSelectionChange = (selection) => {
-    setRowSelection(selection)
+    store.setState(state => ({
+      rowSelection: selection,
+      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    }))
   }
 
   useEffect(() => {
-    onRowSelect(table.getSelectedRowModel().flatRows.map(row=>row.original.id))
- 
-  },[rowSelection])
+    onFilterChange && onFilterChange(categoryId, globalFilter)
+  },[categoryId, globalFilter])
 
   const columns = [
+    ...(isReorderable ? [{
+      id: 'dragHandle',
+      header: ({ table }) => {
+        return  (
+          <DragHandle />
+        )
+      },
+      cell: ({ row }) => {
+        if(isReorderableActive) {
+          return <DragHandle className={'text-main-secondary'} />
+        } else {
+          return (
+            <Tippy
+              className="bg-white text-main p-3 w-60"
+              // interactive={true}
+              appendTo={document.body}
+              // hideOnClick={false}
+              placement='top' // placement='right-start'
+              theme="memberhub-white"
+              content={
+                <p>You cannot reorder items as the table is being sorted by the <strong>{sorting[0].id}</strong> column.</p>
+              }
+            >
+              <div><DragHandle /></div>
+            </Tippy>
+          )
+        }
+      },
+      style: {
+        paddingRight: 0,
+        width: '50px',
+        opacity: isReorderableActive ? 1 : 0.5
+      }
+    }] : []),
     ...(selectable ? [{
       id: 'select',
-      header: ({ table }) => (
+      header: ({ table }) => {
+        return  (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        )
+      },
+      cell: ({ row }) => (
         <IndeterminateCheckbox
           {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
           }}
         />
       ),
-      cell: ({ row }) => (
-        // <div className="px-1">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        // </div>
-      ),
+      style: {
+        padding: 0,
+        width: '16px'
+      }
     }] : []),
+
+    // ...(isReorderable ? [{
+    // }] : []),
 
     ...tableCols
 
@@ -90,17 +149,11 @@ const Table = ({
 
     if(categoryId) {
       data = data?.filter(item => {
-        return item?.tags?.some(tag => tag.id === categoryId)
+        return item?.tags?.edges.some(({node}) => node.id === categoryId)
       })
     }
     return data
   },[tableData, categoryId, contentType])
-
-
-  const [data, setData] = useState(memoedData);
-
-
-  const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>("onChange");
 
   // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
   const globalFilterFn = (row, columnId, filterValue: string) => {
@@ -112,7 +165,10 @@ const Table = ({
     return value?.toLowerCase().includes(search);
   };
   
-  const table = useReactTable({
+  const table: TableType<any> = useReactTable({
+    initialState: {
+      columnVisibility: {order: false},
+    },
     state: {
       sorting,
       rowSelection,
@@ -120,8 +176,10 @@ const Table = ({
     },
     globalFilterFn,
     columns, 
-    data,
-    onSortingChange: setSorting,
+    data: memoedData,
+    onSortingChange: updater => store.setState(prevState => ({
+      sorting: typeof updater === 'function' ? updater(prevState.sorting) : updater
+    })),
     onRowSelectionChange: handleRowSelectionChange,
  
     getCoreRowModel: getCoreRowModel(),
@@ -130,28 +188,38 @@ const Table = ({
     // getPaginationRowModel: getPaginationRowModel(),
     // debugTable: true,
   });
-console.log('  table.getState().columnSizing')
-console.log(  table.getState().columnSizing)
+
+  const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
+
+  const downloadCSV = () => {
+
+    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
+    const headerRow = csvCols.map((col) => col.header);
+    const dataRows = table.getRowModel().rows.map(row => {
+      return csvCols.map(col => row.getValue(col.id))
+    })
+    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
+  };
+  
   return (
     <>
       { showTop && <TableActions { ...{
         table,
-        globalFilter,
-        setGlobalFilter,
-        bulkActions,
-        tableData,
-        categoryId,
-        setCategoryId,
-        contentType,
-        setContentType,
-        filters,
-        typeName,
-        typeOptions
       }} /> }
 
-      <TableStructure setData={setData} table={table} selectable={selectable} draggableRows={draggableRows} onRowClick={onRowClick} />
+      { isReportingTable && (
+        <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
+          <ReportFilters filters={filters} />
+          <div className='flex space-x-3'>
+            {!!backButton && backButton}
+            <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
+          </div>
+        </div>
+      )}
+
+      <TableStructure table={table} />
     </>
   );
 }
 
-export default Table
+export default TableWithProvider

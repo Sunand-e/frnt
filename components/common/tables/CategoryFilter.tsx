@@ -5,7 +5,7 @@ const CategoryFilter = ({tableData, categoryId, setCategoryId}) => {
 
   if(categoryId) {
     tableData = tableData?.filter(item => {
-      return item?.tags?.some(tag => tag.id === categoryId)
+      return item?.tags?.edges.some(({node}) => node.id === categoryId)
     })
   }
   

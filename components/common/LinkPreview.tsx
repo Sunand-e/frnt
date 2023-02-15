@@ -44,7 +44,6 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
   },600)
 
   useEffect(() => {
-    // alert('saywha')
     getUrlMetadata()
   },[url])
 

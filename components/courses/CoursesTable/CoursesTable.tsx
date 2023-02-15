@@ -7,32 +7,42 @@ import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import { GraduationCap } from 'styled-icons/fa-solid';
 import CourseActionsMenu from './CourseActionsMenu';
+import { TableProps } from '../../common/tables/tableContext';
+import { CourseFragmentFragment, GetCoursesQuery, GetCurrentUserQuery } from '../../../graphql/generated';
+import { CourseFragment, GET_COURSES } from '../../../graphql/queries/allQueries';
+import cache from '../../../graphql/cache';
+import { gql, useMutation } from '@apollo/client';
+import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_CONTENT';
+import { arrayMove } from '@dnd-kit/sortable';
+import { GET_CURRENT_USER } from '../../../graphql/queries/users';
 
+const CourseIdAndOrderFragment = gql`
+  fragment CourseIdAndOrderFragment on ContentItem {
+    id
+    order
+    _deleted @client
+  }
+`
 const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
 
-  // const { loading, error, courses } = useGetCourses()
-  const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
-  const { courses: coursesFull } = useGetCourses()
 
-  const [courses, setCourses] = useState(null);
+  const { loading, error, courses } = useGetCourses()
+  const [isReorderable, setIsReorderable] = useState(false)
+  const [onReorder, setOnReorder] = useState(null)
 
-  useEffect(() => {
-    if(coursesFull) {
-      setCourses(coursesFull)
-    } else if(coursesBasic) {
-      setCourses(coursesBasic)
-    }
-  }, [coursesFull,coursesBasic])
-  
+  const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
+    REORDER_CONTENT
+  ) 
+
   const editUrl = '/admin/courses/edit'
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return courses?.edges?.map(edge => edge.node).filter(node => {
+      return courses?.edges?.map(edge => edge.node).filter(node  => {
         return !node._deleted
-      }) || []
+      }).sort((a,b) => b.order - a.order) || []
     }, [courses]
   );
 
@@ -46,7 +56,7 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
             image={cell.row.original.image}
             icon={<GraduationCap className='p-1'/>}
             title={cell.getValue()}
-            secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
+            secondary={cell.row.original?.tags?.edges.map?.(({node}) => node.label).join(', ')}
             // secondary={cell.row.original.title}
             href={
               cell.row.original.shared === false && 
@@ -55,6 +65,11 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
             }
           />
         )
+      },
+      {
+        id: 'order',
+        header: "Order",
+        accessorKey: 'order'
       },
       {
         id: 'activeUsers',
@@ -71,9 +86,9 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
         id: 'category',
         header: "Category",
         accessorFn: (row) => {
-          return row.tags?.filter(tag => (
-            tag.tagType === 'category'
-          )).map(tag => tag.label).join(', ') || '-'
+          return row.tags?.edges.filter(({node}) => (
+            node.tagType === 'category'
+          )).map(node => node.label).join(', ') || '-'
         },
       },
       {
@@ -85,14 +100,100 @@ const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
     ],
     []
   );
+    
+  const handleReorder = (active, over, newIndex, oldIndex) => {
 
-  const tableProps = {
+    const overItem = cache.readFragment({
+      id:`ContentItem:${over.id}`,
+      fragment: CourseIdAndOrderFragment,
+    },true)
+
+    const activeItem = cache.readFragment({
+      id:`ContentItem:${active.id}`,
+      fragment: CourseFragment,
+      fragmentName: 'ContentFragment',
+    },true)
+
+    const newOrder = overItem.order + Number(overItem.order > activeItem.order)
+
+    reorderContentItemsMutation({
+      variables: {
+        id: activeItem.id,
+        order: newOrder
+      },
+      
+      update(cache, response, request) {
+        
+        const cachedData = cache.readQuery<GetCurrentUserQuery>({
+          query: GET_CURRENT_USER
+        },true)
+        
+        const newData = {
+          courses: {
+            ...cachedData.courses,
+            edges: cachedData.courses.edges.map(edge => {
+              if(
+                edge.node.id !== activeItem.id
+                && edge.node.order >= newOrder
+              ) {
+                const newEdge = {
+                  ...edge,
+                  node: {
+                    ...edge.node,
+                    order: edge.node.order + 1
+                  }    
+                }
+                return newEdge 
+              } else {
+                return edge
+              }
+            })
+          }
+        }
+        
+        cache.updateQuery({ query: GET_CURRENT_USER}, (data) => ({
+          ...data,
+          ...newData
+        }))
+      },
+      optimisticResponse: {
+        reorderContentItems: {
+          tenantContentItem: {
+            contentItem: {
+              id: activeItem.id,
+              order: newOrder,
+              __typename: "ContentItem"
+            },
+            __typename: "TenantContentItem"
+          },
+          __typename: "ReorderContentItemsPayload"
+        }
+      },
+    })
+  }
+
+  const handleFilterChange = (categoryId, globalFilter) => {
+    if(globalFilter || categoryId) {
+      setIsReorderable(false)
+    } else {
+      setIsReorderable(true)
+      setOnReorder(() => handleReorder)
+      // if(categoryId) {
+      //   setOnReorder(() => handleReorderInTags)
+      // } else {
+      //   setOnReorder(() => handleReorder)
+      // }
+    }
+  }
+
+  const tableProps: TableProps = {
     tableData,
     tableCols,
-    selectable: true,
-    enableRowSelection: true,
     typeName: 'course',
-    filters: ['category', 'global']
+    isReorderable,
+    onReorder,
+    filters: ['category', 'global'],
+    onFilterChange: handleFilterChange
   }
 
   return (
