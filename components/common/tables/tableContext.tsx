@@ -127,7 +127,7 @@ function TableProvider({ children, ...props }: TableProviderProps) {
     </TableContext.Provider>
   )
 }
-TableProvider.whyDidYouRender = true
+
 export { 
   useTableContext,
   TableProvider
