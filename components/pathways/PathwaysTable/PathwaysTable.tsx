@@ -1,98 +1,17 @@
-import React, { useMemo } from 'react';
-import Table from '../../common/tables/Table';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
-import useDeletePathway from '../../../hooks/pathways/useDeletePathway';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import { GraduationCap } from 'styled-icons/fa-solid';
-import PathwayActionsMenu from '../PathwayActionsMenu';
+import PathwayActionsMenu from './PathwayActionsMenu';
+import ContentTable from '../../common/tables/ContentTable';
+import { contentTypes } from '../../common/contentTypes';
 
 const PathwaysTable = () => {
 
   const { loading, error, pathways } = useGetPathways()
-  
-  const { deletePathway } = useDeletePathway();
-
-  const editUrl = '/admin/pathways/edit'
-
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      return pathways?.edges?.map(edge => edge.node).filter(item => !item._deleted) || []
-    }, [pathways]
-  );
-
-  const tableCols = useMemo(
-    () => [
-      {
-        header: "Pathway",
-        accessorKey: "title", // accessor is the "key" in the data
-        cell: ({ cell }) => (
-          <ItemWithImage
-            image={cell.row.original.image}
-            icon={<GraduationCap className='p-1'/>}
-            title={cell.getValue()}
-            secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
-            // secondary={cell.row.original.title}
-            href={
-              cell.row.original.shared === false && 
-                cell.row.original.id &&
-                  `${editUrl}?pid=${cell.row.original.id}`
-            }
-          />
-        )
-      },
-      {
-        header: "Active users",
-        accessorFn: row => row.users.totalCount,
-        cell: ({ cell }) => {
-          let userCount = cell.row.original.users?.totalCount
-          return (
-            <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
-          )
-        }
-      },
-      {
-        header: "Categories",
-        accessorKey: "tags",
-        cell: ({ cell }) => {
-          const tagString = cell.getValue().map(tag => tag.label).join(', ')
-          return (
-            <span>{tagString}</span>
-          )
-        }
-      },
-      {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <PathwayActionsMenu pathway={cell.row.original} />
-      }
-    ],
-    []
-  );
-
-  const tableProps = {
-    tableData,
-    tableCols,
-    filters: ['global'],
-    typeName: 'pathway'
-  }
-
+  const type = contentTypes['pathway']
+  console.log('loading')
+  console.log(loading)
   return (
-    <>
-      { loading && (
-        <LoadingSpinner />
-      )}
-      { error && (
-        <p>Unable to fetch pathways.</p>
-      )}
-      { (!loading && !error) && (
-        <Table { ...tableProps } />
-      )}
-    </>
-  );
+    <ContentTable content={pathways} type={type} loading={loading} error={error} ActionsMenuComponent={PathwayActionsMenu} />
+  )
 }
 
 export default PathwaysTable

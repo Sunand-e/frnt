@@ -7,21 +7,24 @@ export const contentTypes = {
     pluralKey: 'courses',
     plural: 'courses',
     label: "Course",
-    icon: GraduationCap
+    icon: GraduationCap,
+    editUrl: 'admin/courses/edit'
   },
   pathway: {
     name: 'pathway',
     pluralKey: 'pathways',
     plural: 'pathways',
     label: "Pathway",
-    icon: GraduationCap
+    icon: GraduationCap,
+    editUrl: 'admin/pathways/edit'
   },
   resource: {
     name: 'resource',
     pluralKey: 'resources',
     plural: 'resources',
     label: "Resource",
-    icon: GraduationCap
+    icon: GraduationCap,
+    editUrl: 'admin/resources/edit'
   },
   virtual: {
     label: "Virtual Event",

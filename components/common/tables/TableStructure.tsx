@@ -57,8 +57,6 @@ const TableStructure = ({table}: TableStructureProps) => {
   const tableElementRef = useRef<HTMLTableElement>(null)
   const [colWidths, setColWidths] = useState<number[] | null>(null)
   const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
-  console.log('items')
-  console.log(items)
   const dataCellOffset = Number(isReorderable) + Number(isSelectable)
   // useEffect(() => {
   //   if(!tableElementRef.current) return

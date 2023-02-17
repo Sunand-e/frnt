@@ -22,15 +22,17 @@ import TableStructure from './TableStructure';
 import Tippy from '@tippyjs/react';
 
 
-const TableWithProvider = (props: TableProps) => (
-  <TableProvider { ...props }>
-    <Table />
-  </TableProvider>
-)
+const TableWithProvider = (props: TableProps) => {
+  return (
+    <TableProvider { ...props }>
+      <Table />
+    </TableProvider>
+  )
+}
 
 
 const Table = () => {
-  console.log('rerendertable')
+  // console.log('rerendertable')
   const store = useContext(TableContext)
 
   const exportFilename = useTableContext(s => s.exportFilename)
@@ -52,12 +54,11 @@ const Table = () => {
   const onFilterChange = useTableContext(s => s.onFilterChange)
   const selectable = !!bulkActions.length;
   
-  const router = useRouter()
-  const { type } = router.query
-
-  useEffect(() => {
-    setContentType(type as string)
-  },[type])
+  // const router = useRouter()
+  // const { type } = router.query
+  // useEffect(() => {
+  //   setContentType(type as string)
+  // },[type])
 
   const handleRowSelectionChange = (selection) => {
     store.setState(state => ({
@@ -203,9 +204,9 @@ const Table = () => {
   
   return (
     <>
-      { showTop && <TableActions { ...{
+      {/* { showTop && <TableActions { ...{
         table,
-      }} /> }
+      }} /> } */}
 
       { isReportingTable && (
         <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
@@ -221,5 +222,4 @@ const Table = () => {
     </>
   );
 }
-
 export default TableWithProvider
