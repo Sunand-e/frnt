@@ -50,7 +50,8 @@ export const UserContentConnectionFragment = gql`
       userId
       node {
         id
-        title
+        title      
+        order
         content
         contentType
         itemType
@@ -63,9 +64,15 @@ export const UserContentConnectionFragment = gql`
           location
         }
         tags {
-          id
-          label
-          tagType
+          edges {
+            id
+            order
+            node {
+              id
+              label
+              tagType
+            }
+          }
         }
         groupsEnrolled {
           edges {

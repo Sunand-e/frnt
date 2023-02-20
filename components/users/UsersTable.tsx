@@ -59,22 +59,16 @@ const UsersTable = () => {
     []
   );
 
-  const [ rowSelection, setRowSelection] = useState({})
-
   const { sendInvite } = useSendInvite()
-
-  const sendInvitationEmails = useCallback(() => {
-    sendInvite(rowSelection)
-  },[rowSelection])
 
   const bulkActions = [
     {
       label: 'Send invites to selected users',
-      onClick: sendInvitationEmails
+      onClick: (ids: Array<string>) => sendInvite(ids)
     },
     {
       label: <span className="text-red-500">Delete users</span>,
-      onClick: console.log('test'),
+      onClick: () => console.log('test'),
     },
   ]
 
@@ -83,8 +77,7 @@ const UsersTable = () => {
     tableCols, 
     bulkActions,
     typeName: 'user',
-    filters: ['global'],
-    onRowSelect: setRowSelection
+    filters: ['global']
   }
 
   return (

@@ -54,6 +54,7 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
 
     const { complete, data } = useFragment_experimental({
       fragment: ContentFragment,
+      fragmentName: 'ContentFragment',
       from: {
         __typename: "ContentItem",
         id: id,

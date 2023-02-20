@@ -128,7 +128,7 @@ const UserCoursesReportTable = () => {
   return (
     <ReportTable
       title={user ? `${user.fullName}'s courses` : ``}
-      csvFilename={`User courses for ${user?.fullName}`}
+      exportFilename={`User courses for ${user?.fullName}`}
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading user's courses"

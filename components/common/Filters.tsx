@@ -11,7 +11,6 @@ interface UrlFilterQuery {
 }
 
 export default function Filters({hasSearch=true, hasCategories=true, types={}}) {
-  
   const router = useRouter()
   const { search, type, category } : UrlFilterQuery = router.query
 

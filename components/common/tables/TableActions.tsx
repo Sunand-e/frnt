@@ -4,22 +4,24 @@ import { useState } from "react"
 import TagSelect from "../../tags/inputs/TagSelect"
 import BulkActionsMenu from "./BulkActionsMenu"
 import GlobalFilter from "./GlobalFilter"
+import { useTableContext } from './tableContext'
+import { Table } from '@tanstack/react-table'
+import { useRouter } from '../../../utils/router'
 
-const TableActions = ({
-  table,
-  tableData, 
-  globalFilter,
-  setGlobalFilter,
-  bulkActions,
-  categoryId,
-  setCategoryId,
-  contentType,
-  setContentType,
-  typeOptions: types,
-  filters,
-  typeName='item'
-}) => {
+const TableActions = ({table }: { table: Table<any> }) => {
   
+  const globalFilter = useTableContext(s => s.globalFilter)
+  const categoryId = useTableContext(s => s.categoryId)
+  const setCategoryId = useTableContext(s => s.setCategoryId)
+  const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
+  const tableData = useTableContext(s => s.tableData)
+  const bulkActions = useTableContext(s => s.bulkActions)
+  const contentType = useTableContext(s => s.contentType)
+  const filters = useTableContext(s => s.filters)
+  const types = useTableContext(s => s.typeOptions)
+  const typeName = useTableContext(s => s.typeName)
+  const setContentType = useTableContext(s => s.setContentType)
+
   const clearFilters = () => {
     setCategoryId(null)
     setGlobalFilter(null)
@@ -35,13 +37,21 @@ const TableActions = ({
     }
   });
 
+  const router = useRouter()
+  const handleContentTypeChange = (option) => {
+    // (option) => setContentType(option?.value)
+    router.push({query: {
+      ...router.query,
+      ctype: option?.value
+    }})
+  }
+
   const pluralTypeName = Pluralize( typeName, 2 )
   const visibleCount = table.getFilteredRowModel().rows.length
   const itemCountString = `Showing ${visibleCount}
     ${visibleCount !== tableData.length ? `of ${tableData.length}` : ''}
     ${tableData.length === 1 ? typeName : pluralTypeName}
   `
-
   return (
 
     <div className='flex items-center flex-col mb-3 sm:justify-between sm:flex-row'>
@@ -72,7 +82,7 @@ const TableActions = ({
             }}
             // defaultValue={category}resourceTypes[typeName].label
             value={contentType && {value: contentType, label: types[contentType].label}}
-            onChange={(option) => setContentType(option?.value)}
+            onChange={handleContentTypeChange}
             placeholder={'Select type...'}
             options={typeOptions}
             instanceId="type"

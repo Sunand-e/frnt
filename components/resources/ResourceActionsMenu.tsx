@@ -2,7 +2,7 @@ import ActionsMenu from "../common/menus/ActionsMenu"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import useDeleteResource from "../../hooks/resources/useDeleteResource"
 
-const ResourceActionsMenu = ({resource}) => {
+const ResourceActionsMenu = ({content: resource}) => {
   const editUrl = '/admin/resources/edit'
   const editHref = resource?.id && `${editUrl}?id=${resource.id}`
   

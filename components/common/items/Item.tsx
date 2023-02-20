@@ -114,12 +114,12 @@ export default function Item({ item, options }) {
         { !!item?.tags?.length && (
           <h2 className="text-main mb-2 top-5 font-normal text-sm">
             <span className="bg-main-superlight">
-              { item.tags.map((tag, index) => {
+              { item.tags.edges.map(({node}, index) => {
                 return (
                   <div key={index} className="flex space-x-2 items-center">
                     {/* <img src={tag.image.location} className="h-8 rounded-full" /> */}
                     <span>
-                      {tag.label}
+                      {node.label}
                     </span>
                   </div>
                 )

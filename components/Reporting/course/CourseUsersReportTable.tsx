@@ -163,7 +163,7 @@ const CourseUsersReportTable = () => {
         </>
       )}
       simpleHeader={true}
-      csvFilename={`Course users for ${course?.title}`}
+      exportFilename={`Course users for ${course?.title}`}
       tableData={tableData}
       tableCols={tableCols}
       loadingText="Loading course users"

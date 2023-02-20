@@ -5,7 +5,7 @@ import {
   SortingState,
   ColumnDef,
 } from '@tanstack/react-table'
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
@@ -15,6 +15,7 @@ import { useRouter } from "../../utils/router";
 import ReportHeader from "./ReportHeader";
 import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 import ReportFilters from "./ReportFilters";
+import Table from '../common/tables/Table';
 
 export const filterActive = (filterVal: string) => {
   return filterVal && filterVal !== 'all'
@@ -37,11 +38,10 @@ interface ReportTableProps {
   simpleHeader?: boolean,
   loading?: any,
   error?: any,
-  csvFilename: string,
+  exportFilename: string,
   title?: ReactNode,
-  filters?: any[],
+  filters?: string[],
   backButton?: ReactNode
-  
 }
 
 const ReportTable = ({
@@ -52,7 +52,7 @@ const ReportTable = ({
   simpleHeader=false,
   loading = null,
   error = null,
-  csvFilename = "report",
+  exportFilename = "report",
   title = <>Reports</>,
   filters = [],
   backButton,
@@ -65,64 +65,32 @@ const ReportTable = ({
   const router = useRouter()
 
   const { 
-    category: categoryId,
-    type: type
+    category: categoryId
   } = router.query
-
-  const [sorting, setSorting] = useState<SortingState>([])
-
+  
   const filterActive = (filterVal: string) => {
     return filterVal && filterVal !== 'all'
   }
 
-  const filteredData = useMemo(() => {
+  const [ filteredData, setFilteredData ] = useState([])
+
+  useEffect(() => {
+    let data
     if (filterActive(categoryId)) {
-      return tableData?.filter((edge) => {
-        return edge.node.tags.some((tag) => tag.id === categoryId);
+      data = tableData?.filter((edge) => {
+        return edge.node.tags.edges.some(({node}) => node.id === categoryId);
       });
     }
-    return tableData || []
+    data = tableData || []
+    setFilteredData(data)
   },[tableData, categoryId])
     
-  const table = useReactTable({
-    state: {
-      sorting,
-    },
-    columns: tableCols,
-    data: filteredData,
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    // debugTable: true,
-  });
-
-  const filename = csvFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
-
-  const downloadCSV = () => {
-
-    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
-    const headerRow = csvCols.map((col) => col.header);
-    const dataRows = table.getRowModel().rows.map(row => {
-      return csvCols.map(col => row.getValue(col.id))
-  })
-
-    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
-  };
-
   return (
     <>
       <ReportHeader
         simple={simpleHeader}
         title={title}
       />
-
-      <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
-        <ReportFilters filters={filters} />
-        <div className='flex space-x-3'>
-          {!!backButton && backButton}
-          <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
-        </div>
-      </div>
 
       {loading && (
         <LoadingSpinner
@@ -137,9 +105,16 @@ const ReportTable = ({
         />
       )}
       {error && <p>{errorText}</p>}
-      {!loading && !error && table && (
-        <TableStructure
-          table={table}
+      {!loading && !error && (
+        <Table
+          exportFilename={exportFilename}
+          isReportingTable={true}
+          isExportable={true}
+          showTop={false}
+          tableCols={tableCols}
+          tableData={filteredData}
+          filters={filters}
+          backButton={backButton}
         />
       )}
     </>

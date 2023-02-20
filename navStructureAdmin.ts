@@ -77,25 +77,25 @@ const navStructureAdmin = [
       {
         name: 'documents',
         title: 'Documents',
-        urlPath: '/admin/resources?type=document',
+        urlPath: '/admin/resources?ctype=document',
         icon: Document,
       },
       {
         name: 'videos',
         title: 'Videos',
-        urlPath: '/admin/resources?type=video',
+        urlPath: '/admin/resources?ctype=video',
         icon: Video,
       },
       {
         name: 'audio',
         title: 'Audio',
-        urlPath: '/admin/resources?type=audio',
+        urlPath: '/admin/resources?ctype=audio',
         icon: Speaker2,
       },
       {
         name: 'link',
         title: 'Link',
-        urlPath: '/admin/resources?type=link',
+        urlPath: '/admin/resources?ctype=link',
         icon: Link,
       },
       // {

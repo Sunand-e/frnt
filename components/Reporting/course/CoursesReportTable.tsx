@@ -36,8 +36,14 @@ const COURSES_REPORT_QUERY = gql`
             location
           }
           tags {
-            id
-            label
+            edges {
+              id
+              order
+              node {
+                id
+                label
+              }
+            }
           }
           users {
             totalCount
@@ -102,7 +108,6 @@ const CoursesReportTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = courses?.edges.filter((edge) => !edge.node._deleted);
-
     if (filterActive(groupId)) {
       if(userHasCapability('GetAllGroupsContent')) {
         data = data?.filter(edge => edge.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
@@ -127,7 +132,6 @@ const CoursesReportTable = () => {
         });
       }
     }
-
     return data || []
 
   }, [courses,groupId, userCapabilityArray])
@@ -142,8 +146,8 @@ const CoursesReportTable = () => {
           const cellProps = {
             image: cell.row.original.node.image,
             title: cell.getValue(),
-            secondary: cell.row.original.node.tags
-              ?.map((tag) => tag.label)
+            secondary: cell.row.original.node.tags.edges
+              ?.map(({node}) => node.label)
               .join(", "),
             // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
@@ -254,7 +258,7 @@ const CoursesReportTable = () => {
   );
   return (
     <ReportTable
-      csvFilename="Course report"
+      exportFilename="Course report"
       simpleHeader={true}
       title={<>Courses</>}
       tableData={tableData}

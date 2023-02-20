@@ -16,7 +16,11 @@ const ResourceLibrary = () => {
   const { tags, resources } = useGetCurrentUser()
 
   // const { resources } = useGetResources()
-  const resourceNodes = resources?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
+  const resourceNodes = resources?.edges?.map(
+    edge => edge.node
+  ).filter(
+    node => !node._deleted
+  ).sort((a,b) => b.order - a.order) || []
   
   const [ searching, setSearching ] = useState(false)
 

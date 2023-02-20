@@ -2,7 +2,7 @@ import ActionsMenu from "../../common/menus/ActionsMenu"
 import useDeleteCourse from "../../../hooks/courses/useDeleteCourse"
 import useConfirmDelete from "../../../hooks/useConfirmDelete"
 
-const CourseActionsMenu = ({course}) => {
+const CourseActionsMenu = ({content: course}) => {
 
   const editUrl = '/admin/courses/edit'
   const editHref = course?.id && `${editUrl}?id=${course.id}`

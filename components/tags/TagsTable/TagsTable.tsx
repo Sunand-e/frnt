@@ -1,45 +1,35 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Table from '../../common/tables/Table'
-import ButtonLink from '../../common/ButtonLink';
-import useGetTags from '../../../hooks/tags/useGetTags';
-import useDeleteTag from '../../../hooks/tags/useDeleteTag';
-import Button from '../../common/Button';
-import useGetTagsFull from '../../../hooks/tags/useGetTagsFull';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-
 import {Category} from '@styled-icons/material-rounded/Category'
 import LoadingSpinner from '../../common/LoadingSpinner';
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 import TagActionsMenu from '../TagActionsMenu';
+import { useMutation } from '@apollo/client';
+import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
+import { arrayMove } from '@dnd-kit/sortable';
+import cache from '../../../graphql/cache';
+import { TagFragmentFragment } from '../../../graphql/generated';
+import { REORDER_TAGS } from '../../../graphql/mutations/tag/REORDER_TAGS';
+import { GET_CURRENT_USER } from '../../../graphql/queries/users';
 
 const TagsTable = () => {
 
   const { tags, loading, error, courses, resources, pathways } = useGetCurrentUser()
-  // const { tags: tagsFull } = useGetTagsFull()
-  const { deleteTag } = useDeleteTag()
-
   // const [tags, setTags] = useState([]);
 
-  // useEffect(() => {
-  //   if(tagsFull) {
-  //     setTags(tagsFull)
-  //   } else if(tagsBasic) {
-  //     setTags(tagsBasic)
-  //   }
-  // }, [tagsFull,tagsBasic])
-
-  
-  const handleDeleteClick = (id) => {
-    deleteTag(id)
-  }
-
   const editUrl = '/admin/tags/edit'
+
+  const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
+    REORDER_TAGS
+  ) 
+
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return tags?.filter(item => !item._deleted) || []
+      return tags?.filter(item => !item._deleted).sort((a,b) => b.order - a.order) || []
     }, [tags]
   );
 
@@ -60,6 +50,11 @@ const TagsTable = () => {
         )
       },
       {
+        id: 'order',
+        header: "Order",
+        accessorKey: 'order'
+      },
+      {
         header: "Item count",
         cell: ({ cell }) => {
           const allItemEdges = [
@@ -68,13 +63,10 @@ const TagsTable = () => {
             ...pathways?.edges
           ]
           const catItemCount = allItemEdges.filter(
-            edge => edge.node.tags.map(
-              tag => tag.id
+            edge => edge.node.tags.edges.map(
+              ({node}) => node.id
             ).includes(cell.row.original.id)
           ).length
-
-          console.log('catItemCount')
-          console.log(catItemCount)
           return (
             <span>{`${catItemCount || 0} item${catItemCount !== 1 ? 's' : ''}`}</span>
           )
@@ -93,7 +85,62 @@ const TagsTable = () => {
   const tableProps = {
     tableData,
     tableCols,
-    typeName: 'category'
+    typeName: 'category',
+    isReorderable: true,
+    onReorder: (active, over, newIndex, oldIndex) => {
+
+      const overTag = cache.readFragment<TagFragmentFragment>({
+        id:`Tag:${over.id}`,
+        fragment: TagFragment
+      },true)
+
+      const activeTag = cache.readFragment<TagFragmentFragment>({
+        id:`Tag:${active.id}`,
+        fragment: TagFragment
+      },true)
+
+      const newOrder = overTag.order + Number(overTag.order > activeTag.order)
+      reorderTagsMutation({
+        variables: {
+          id: active.id,
+          order: newOrder
+        },
+        update(cache, response) {
+          const newData = {
+            tags: tags.map(tag => {
+              if(tag.id === activeTag.id) {
+                return {
+                  ...tag,
+                  order: newOrder
+                }
+              } else if(tag.order >= newOrder) {
+                const newTag = {
+                  ...tag,
+                  order: tag.order + 1
+                }
+                return newTag 
+              } else {
+                return tag
+              }
+            })
+          }
+          cache.updateQuery({ query: GET_CURRENT_USER, optimistic: true}, (data) => ({
+            ...data,
+            ...newData
+          }))
+        },
+        optimisticResponse: {
+          reorderTags: {
+            __typename: "ReorderTagsPayload",
+            tag: {
+              ...activeTag,
+              order: newOrder
+            }
+          }
+        }
+      })
+
+    }
   }
     
 

@@ -61,7 +61,7 @@ const GroupForm = ({group=null, onSubmit}) => {
       <TextInput
         label="Group name"
         placeholder="Group name"
-        inputAttrs={register("name", { maxLength: 20 })}
+        inputAttrs={register("name", { maxLength: 100 })}
       />
 {/*       
       <ImageSelectInput
