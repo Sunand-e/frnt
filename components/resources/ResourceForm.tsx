@@ -91,10 +91,6 @@ const router = useRouter()
       case 'audio':
         !title && setValue('title', resource.fileName.replace(/\.[^/.]+$/, ""))
         break;
-      case 'video':
-        break;
-      case 'link':
-        break;
     }
   }
 
@@ -139,7 +135,6 @@ const router = useRouter()
           origImage={defaultValues?.image}
           control={control}
           name="imageId"
-          class
           // inputAttrs={register("image", { required: true })}
           />
         </div>

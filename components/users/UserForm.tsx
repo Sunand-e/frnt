@@ -72,11 +72,11 @@ const UserForm = ({user=null, onSubmit}) => {
         inputAttrs={register("email", {
           required:"Email is required",
           maxLength: {
-            value: 40,
-            message:"Max length of the name is 40"
+            value: 160,
+            message:"Max length of the email address is 160"
           },
           pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
             message: "Please give valid email"
           }
         })}

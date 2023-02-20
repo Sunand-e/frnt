@@ -1,4 +1,15 @@
-const BoxContainer = ({title, button=null, icon: IconComponent=null, children}) => {
+import { StyledIcon } from '@styled-icons/styled-icon';
+interface BoxContainerProps {
+  title: string,
+  button: {
+    text: string
+    onClick: any,
+  } | null,
+  icon: StyledIcon | null,
+  children: any
+}
+
+const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: BoxContainerProps) => {
 
   const HeaderButton = () => {
     return (

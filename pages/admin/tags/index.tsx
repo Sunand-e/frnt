@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import { ModalContext } from '../../../context/modalContext';
 import AddTagModal from '../../../components/tags/AddTagModal';
 import TagsTable from '../../../components/tags/TagsTable/TagsTable';
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import { handleModal } from '../../../stores/modalStore';
 
 
 const AddButton = () => (
@@ -17,8 +17,6 @@ const AddButton = () => (
 const AdminTags = () => {
   
   usePageTitle({ title: 'Categories' })
-
-  const { handleModal } = useContext(ModalContext);
   
   const handleNewTagButton = (tagType='category') => {
     handleModal({

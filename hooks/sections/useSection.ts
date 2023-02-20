@@ -18,6 +18,7 @@ function useLesson(id) {
     const cachedLesson = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${id}`,
       fragment: ContentFragment,
+      fragmentName: 'ContentFragment',
     })
     
     const variables = {

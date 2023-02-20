@@ -2,7 +2,7 @@ import { GET_MEDIA_ITEMS } from "../../graphql/queries/mediaItems";
 import DropzoneIconAndText from "../common/inputs/DropzoneIconAndText"
 import FileUploader from "../common/FileUploader"
 
-const MediaUploader = () => {
+const MediaUploader = ({onUploadComplete}) => {
 
   const refetchQuery = GET_MEDIA_ITEMS
   const endpoint = "/uploads/upload_media"
@@ -71,6 +71,7 @@ const MediaUploader = () => {
   return (
     <FileUploader
       refetchQuery={refetchQuery}
+      onAllUploadsComplete={onUploadComplete}
       fileParameterName={fileParameterName}
       additionalParams={additionalParams}
       endpoint={endpoint}

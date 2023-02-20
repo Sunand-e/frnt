@@ -1,5 +1,5 @@
 const TextInput = ({
-  label,
+  label='',
   inputAttrs = {},
   type="text",
   className='',
@@ -8,15 +8,16 @@ const TextInput = ({
 
   return (
     <label className={`block ${className}`}>
-      <span className="text-sm font-medium text-gray-700">{ label }</span>
+      { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
       <input
         type={type}
         className="
-          mt-1
+          px-3
+          p-1.5
           block
           w-full
           rounded-md
-          border-main/50
+          border-gray-300 hover:border-gray-400/60
           shadow-sm
           focus:border-main focus:ring focus:ring-main/50
         "

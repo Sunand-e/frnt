@@ -2,11 +2,11 @@ import { useMutation } from '@apollo/client';
 import { Form, Formik, useField } from "formik"
 import React, { useContext } from 'react';
 import { CourseFragment } from "../../graphql/queries/allQueries";
-import { ModalContext } from '../../context/modalContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { CreateSection, CreateSectionVariables } from '../../graphql/mutations/section/__generated__/CreateSection';
 import { CREATE_SECTION } from '../../graphql/mutations/section/CREATE_SECTION';
 import { GetCourse_course } from '../../graphql/queries/__generated__/GetCourse';
+import { closeModal, handleModal } from '../../stores/modalStore';
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -22,8 +22,6 @@ const TextInput = ({ label, ...props }) => {
 }
 const AddSectionModal = ({courseId}) => {
 
-  const { handleModal, closeModal } = useContext(ModalContext);
-  
   const anotherHandle = () => {
     handleModal({
       content: <LoadingSpinner />

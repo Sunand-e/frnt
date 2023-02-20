@@ -28,7 +28,7 @@ const TagSelectInput = ({control, tagType, label}) => {
   return (
     <>
       { tags && (
-        <label className={`block z-50`}>
+        <label className={`block z-40`}>
         { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
         <Select {...selectProps} />
       </label>

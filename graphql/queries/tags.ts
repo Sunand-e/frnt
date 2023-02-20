@@ -5,6 +5,7 @@ export const TagFragment = gql`
     id
     label
     tagType
+    order
     image {
       location
       id
@@ -37,10 +38,18 @@ export const GET_TAGS_FULL = gql`
     tags {
       ...TagFragment
       courses {
-        id
+        edges {
+          node {
+            id
+          }
+        }
       }
       resources {
-        id
+        edges {
+          node {
+            id
+          }
+        }
       }
     }
   }

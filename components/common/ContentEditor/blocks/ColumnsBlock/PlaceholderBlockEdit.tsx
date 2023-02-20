@@ -1,11 +1,9 @@
 import { useContext } from 'react';
-import { ModalContext } from '../../../../../context/modalContext';
+import { closeModal, handleModal } from '../../../../../stores/modalStore';
 import Button from '../../../Button'
 import BlockSelector from '../../BlockSelector';
 
 const PlaceholderBlockEdit = ({block}) => {
-
-  const { handleModal, closeModal } = useContext(ModalContext);
 
   const handleBlockSelect = () => {
     handleModal({

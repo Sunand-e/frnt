@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import MediaLibrary from '../../components/media/MediaLibrary';
-import { ModalContext } from '../../context/modalContext';
 import usePageTitle from '../../hooks/usePageTitle';
 import { Upload } from '@styled-icons/boxicons-regular/Upload'
 import useHeaderButtons from "../../hooks/useHeaderButtons";
 import MediaUploader from '../../components/media/MediaUploader';
 import MediaPreview from '../../components/media/MediaPreview';
+import { handleModal } from '../../stores/modalStore';
 
 const UploadButton = () => (
   <>
@@ -15,8 +15,6 @@ const UploadButton = () => (
 )
 
 const MediaLibraryPage = () => {
-
-  const { handleModal } = useContext(ModalContext);
 
   usePageTitle({ title: 'Media Library' })
 

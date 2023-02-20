@@ -109,9 +109,8 @@ export const ColumnsBlockEdit = ({id, block}) => {
 
 
   // useEffect(() => {
-  //   alert('widds')
   //   if(!widths?.length) {
-  //     alert('#dontodfod')
+  //     alert('!widths?.length')
   //     return
   //   }
   //   // alert('JSON.stringify(widths)')

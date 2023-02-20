@@ -3,12 +3,12 @@ import React, { useMemo } from 'react';
 import Table from '../../common/tables/Table';
 import { GET_GROUPS } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
-import Button from '../../common/Button';
 import ButtonLink from '../../common/ButtonLink';
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import { useRouter } from '../../../utils/router';
+import ReportTable from '../ReportTable';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -29,6 +29,7 @@ const GroupsReportTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
+        id: "name", // accessor is the "key" in the data
         header: "Group Name",
         accessorKey: "name", // accessor is the "key" in the data
         cell: ({ cell }) => {
@@ -41,10 +42,11 @@ const GroupsReportTable = () => {
           }
           return (
             <ItemWithImage { ...cellProps } />
-          )
-        }
-      },
-      {
+            )
+          }
+        },
+        {
+        id: "createdAt",
         header: "Date Created",
         accessorKey: "createdAt",
         cell: ({ cell }) => {
@@ -52,13 +54,16 @@ const GroupsReportTable = () => {
         }
       },
       {
+        id: "enrolled",
         header: "Enrolled Courses",
         accessorFn: row => row.enrolledCourses.totalCount,
       },
       {
+        id: "actions",
         width: 300,
-        header: "Actions",
+        header: "",
         accessorKey: "actions",
+        hideOnCsv: true,
         cell: ({ cell }) => {
           const usersHref = cell.row.original.id && {
             query: {
@@ -88,7 +93,13 @@ const GroupsReportTable = () => {
   }, []);
 
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <ReportTable
+      exportFilename="Group report"
+      tableData={tableData}
+      tableCols={tableCols}
+      title={<>Groups</>}
+      simpleHeader={true}
+    />
   );
 }
 

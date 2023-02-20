@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { ModalContext } from "../../context/modalContext"
 import useDeleteGroup from "../../hooks/groups/useDeleteGroup"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
+import { handleModal } from "../../stores/modalStore"
 import ActionsMenu from "../common/menus/ActionsMenu"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
@@ -12,12 +12,11 @@ const GroupActionsMenu = ({group}) => {
   
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
-    type: 'group',
+    itemType: 'group',
     name: group.title,
     onConfirm: () => deleteGroup(group.id)
   })
-  
-  const { handleModal } = useContext(ModalContext)
+
   const handleSendInvitations = () => {
     handleModal({
       title: `Send invites to group`,

@@ -4,10 +4,9 @@ import PackageUploader from "./PackageUploader"
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { useContext, useMemo } from "react";
-import { ModalContext } from "../../context/modalContext";
-import useGetMediaItems from "../../hooks/mediaItems/useGetMediaItems";
 import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
-import DeletePackageModal from "./DeletePackageModal";
+import PackageActionsMenu from "./PackageActionsMenu";
+import { handleModal } from "../../stores/modalStore";
 
 dayjs.extend(advancedFormat)
 
@@ -17,9 +16,8 @@ interface PackageLibraryProps {
 
 const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSelect}) => {
 
+  // const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
   const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
-
-  const { handleModal, closeModal } = useContext(ModalContext)
 
   const filteredScormModules = useMemo(() => {
     return scormModules?.filter(module => {
@@ -32,19 +30,6 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
       title: `Choose package`,
       content: <PackageLibrary onItemSelect={onItemSelect} />,
       size: 'lg'
-    })
-  }
-
-  const openDeleteModal = module => {
-    handleModal({
-      title: 'Delete SCORM package', 
-      content: (
-        <DeletePackageModal 
-          module={module}
-          onDelete={reopenPackageLibrary}
-          onCancel={reopenPackageLibrary}
-        />
-      )
     })
   }
 
@@ -107,11 +92,12 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
                       <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>
-                      <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                        <button onClick={(e) => {
+                      <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right" onClick={e=>e.stopPropagation()}>
+                        <PackageActionsMenu module={module} returnFn={reopenPackageLibrary} />
+                        {/* <button onClick={(e) => {
                           e.stopPropagation()
                           openDeleteModal(module)
-                        }}>Delete SCORM package</button>
+                        }}>Delete SCORM package</button> */}
                       </td>
                     </tr>
                   ))}

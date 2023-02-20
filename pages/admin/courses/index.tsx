@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { Notices } from '../../../components/common/Notices'
 import CoursesTable from '../../../components/courses/CoursesTable/CoursesTable'
-import { useContext } from 'react'
-import { ModalContext } from '../../../context/modalContext'
+import { useContext, useEffect } from 'react'
 import usePageTitle from '../../../hooks/usePageTitle'
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
 
 
 const AddButton = () => (
@@ -21,9 +21,18 @@ const AdminCourses = () => {
     title: 'Courses'
   })
 
+  const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const ready = !!userCapabilityArray.length || userType === 'SuperAdmin'
   const router = useRouter()
   
-  const { handleModal, closeModal } = useContext(ModalContext);
+  useEffect(() => {
+    if(ready) {
+      if(!userHasCapability('UpdateUser')) {
+        router.push('/')
+      }
+    }
+  },[ready])
+
 
   useHeaderButtons([
     // [<AddButton />, '/admin/courses/create']
@@ -31,10 +40,12 @@ const AdminCourses = () => {
 
 
   return (
+    (ready && (
     <>
       <Notices />
       <CoursesTable />
     </>
+    ))
   )
 }
 

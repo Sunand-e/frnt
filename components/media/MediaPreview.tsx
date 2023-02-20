@@ -1,12 +1,14 @@
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import { useCallback, useContext } from 'react'
-import { ModalContext } from '../../context/modalContext'
+import { useCallback } from 'react'
 import dayjs from 'dayjs'
 import {filesize} from 'filesize'
-import DeleteMediaItemModal from './DeleteMediaModal'
 import { resourceTypes } from '../resources/resourceTypes'
 import AudioPlayer from '../common/audio/AudioPlayer'
 import dynamic from 'next/dynamic';
+import useConfirmDelete from '../../hooks/useConfirmDelete'
+import useDeleteMediaItem from '../../hooks/mediaItems/useDeleteMediaItem'
+import MediaInUse from './MediaInUse'
+import { closeModal, handleModal } from '../../stores/modalStore'
 
 const DynamicPdfViewer = dynamic(
   () => import('../common/PdfViewer'),
@@ -19,29 +21,41 @@ interface MediaPreviewProps {
 
 const MediaPreview = ({item}: MediaPreviewProps) => {
   
-  const { handleModal, closeModal } = useContext(ModalContext)
-  
-  const handleCancelDelete = (item) => {
+  const { deleteMediaItem, deleteMediaItemResponse } = useDeleteMediaItem()
+
+  const handleCancelDelete = () => {
     handleModal({
       size: 'lg',
       title: `Media preview`,
       content: <MediaPreview item={item} />
     })
   }
-
-  const handleDelete = useCallback((e) => {
-    handleModal({
-      size: 'lg',
-      title: `Media preview`,
-      content: (
-        <DeleteMediaItemModal
-          onDelete={closeModal}
-          onCancel={() => handleCancelDelete(item)}
-          item={item}
-        />
-      )
-    })  
+  
+  const handleDelete = useCallback(async () => {
+    const response = await deleteMediaItem(item.id)
+    if(response.deleteMediaItem?.status === false) {
+      if(response.deleteMediaItem?.usage.length) {
+        handleModal({
+          size: 'md',
+          title: `Media file in use`,
+          content: <MediaInUse 
+            item={item} 
+            buttonAction={handleCancelDelete}
+            usage={response.deleteMediaItem?.usage}
+          />
+        })
+      }
+    } else {
+      closeModal()
+    }
   },[item])
+
+  const { confirmDelete } = useConfirmDelete({
+    itemType: 'media file',
+    name: item.fileName,
+    onConfirm: handleDelete,
+    autoClose: false
+  })
 
   const uploadedDate = dayjs(item?.createdAt).format('MMMM D, YYYY [at] h:mm A')
 
@@ -92,7 +106,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
           <p><span className='font-medium'>Uploaded: </span>{ uploadedDate }</p>
         </div>
         <div className="mediaActions flex items-end justify-end">
-          <button onClick={handleDelete}>
+          <button onClick={confirmDelete}>
             <div className="bg-red-600 hover:bg-red-800 text-white rounded-full w-8 h-8 flex justify-center">
               <Trash className={`w-6 cursor-pointer`} />
             </div>

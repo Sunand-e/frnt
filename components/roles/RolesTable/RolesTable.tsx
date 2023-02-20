@@ -71,6 +71,13 @@ const RolesTable = () => {
     []
   );
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    filters: ['global'],
+    typeName: 'role'
+  }
+  
   return (
     <>
       { loading && (
@@ -80,7 +87,7 @@ const RolesTable = () => {
         <p>Unable to fetch roles.</p>
       )}
       { (!loading && !error) && (
-        <Table tableData={tableData} tableCols={tableCols} />
+        <Table { ...tableProps } />
       )}
     </>
   );

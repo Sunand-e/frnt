@@ -1,9 +1,7 @@
-import { Accordion } from "@mantine/core"
 import { useRouter } from "next/router"
-import { useContext } from "react"
 import { useForm } from "react-hook-form"
-import { ModalContext } from "../../context/modalContext"
 import useCreateGroup from "../../hooks/groups/useCreateGroup"
+import { closeModal } from "../../stores/modalStore"
 import Button from "../common/Button"
 import TextInput from "../common/inputs/TextInput"
 
@@ -19,8 +17,6 @@ const UserImportAddToNewGroup = ({userIds}) => {
   const { register, handleSubmit, control, formState: { errors } } = useForm<UserImportAddToNewGroupFormValues>();
 
   const { createGroup } = useCreateGroup()
-
-  const { closeModal } = useContext(ModalContext)
 
   const router = useRouter()
 

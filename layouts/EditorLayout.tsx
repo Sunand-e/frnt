@@ -1,12 +1,6 @@
-import Header from '../components/app/header/Header'
-import NavContainer from '../components/app/navigation/NavContainer'
-import TopNotificationBar from '../components/common/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from '../utils/router';
-import { useQuery } from '@apollo/client';
-import { GET_COURSE } from '../graphql/queries/allQueries';
 import CourseStructureEditor from '../components/courses/CourseStructureEditor/CourseStructureEditor';
 import SidebarEditableItem from '../components/courses/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';

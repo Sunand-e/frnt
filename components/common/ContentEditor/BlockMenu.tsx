@@ -13,10 +13,10 @@ import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
-import { ModalContext } from '../../../context/modalContext';
 import BlockSettings from './blocks/common/BlockSettings';
 import blocktypes from './blocktypes';
 import { shiftPosition, useBlockStore } from './useBlockStore';
+import { handleModal } from '../../../stores/modalStore';
 
 const BlockMenu = ({ block, className='' }) => {
 
@@ -27,8 +27,6 @@ const BlockMenu = ({ block, className='' }) => {
   const isChild = !blocks.some(b => b.id === block.id)
 
   const index = blocks.findIndex(b => b.id === block.id)
-
-  const { handleModal } = useContext(ModalContext)
 
   const showSettings = () => {
     handleModal({

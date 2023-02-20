@@ -1,13 +1,10 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Table from '../common/tables/Table';
 import { GET_BULK_IMPORTS } from '../../graphql/queries/bulkImports';
 import { GetBulkImports } from '../../graphql/queries/__generated__/GetBulkImports';
 import Link from 'next/link';
 import ButtonLink from '../common/ButtonLink';
-import Button from '../common/Button';
-import { ModalContext } from '../../context/modalContext';
-import ItemWithImage from '../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 
 const BulkImportsTable = () => {
@@ -15,7 +12,6 @@ const BulkImportsTable = () => {
   // const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
   const { loading, error, data: queryData } = useQuery<GetBulkImports>(GET_BULK_IMPORTS);
 
-  const { handleModal } = useContext(ModalContext)
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {

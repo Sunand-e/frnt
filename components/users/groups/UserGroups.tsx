@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import { ModalContext } from "../../../context/modalContext";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import BoxContainer from "../../common/containers/BoxContainer";
 import AssignToGroupsModal from "./AssignToGroupsModal";
 import UserGroupsTable from "./UserGroupsTable";
 import {Group2} from "@styled-icons/remix-fill/Group2";
+import { handleModal } from "../../../stores/modalStore";
 
 const UserGroups = () => {
 
@@ -14,8 +13,6 @@ const UserGroups = () => {
   const { id } = router.query
 
   const { loading, error, user } = useGetUser(id)
-
-  const { handleModal, closeModal } = useContext(ModalContext);
 
   const openAssignToGroupsModal = () => {
     handleModal({

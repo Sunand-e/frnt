@@ -1,5 +1,5 @@
-import { FunctionComponent, useContext } from 'react'
-import { ModalContext } from '../../../../../context/modalContext';
+import { FunctionComponent } from 'react'
+import { closeModal } from '../../../../../stores/modalStore';
 import AudioSelector from '../../../inputs/AudioSelector';
 import useBlockEditor from '../../useBlockEditor';
 // @styled-icons/bootstrap/FilePdf
@@ -8,8 +8,6 @@ import useBlockEditor from '../../useBlockEditor';
 
 const AudioBlockEdit: FunctionComponent = ({block}) => {
 
-  const { closeModal } = useContext(ModalContext)
-  
   const { updateBlock } = useBlockEditor()
 
   const file = block?.properties?.file;

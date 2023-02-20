@@ -5,8 +5,8 @@ export const CREATE_GROUP = gql`
   mutation CreateGroup(
     $name: String!,
     $parentId: ID,
-    $assignedCourseIds: [ID!],
-    $enrolledCourseIds: [ID!],
+    $assignedContentIds: [ID!],
+    $enrolledContentIds: [ID!],
     $imageId: ID,
     $userIds: [ID!]
   ) {
@@ -14,8 +14,8 @@ export const CREATE_GROUP = gql`
       input: {
         name: $name,
         parentId: $parentId,
-        assignedCourseIds: $assignedCourseIds,
-        enrolledCourseIds: $enrolledCourseIds,
+        assignedContentIds: $assignedContentIds,
+        enrolledContentIds: $enrolledContentIds,
         imageId: $imageId,
         userIds: $userIds
       }

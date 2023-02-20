@@ -1,5 +1,4 @@
 import { useCallback, useContext, useRef, useState } from "react";
-import { ModalContext } from "../../../context/modalContext";
 import { PlusCircle } from '@styled-icons/heroicons-solid/PlusCircle'
 import AddItemToCourseForm from "../AddItemToCourseForm";
 import Tippy from '@tippyjs/react';

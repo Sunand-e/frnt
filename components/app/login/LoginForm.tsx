@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import TextInput from "../../common/inputs/TextInput";
 import Link from 'next/link';
 
-const ENDPOINT_SIGNIN = '/api/v1/users/sign_in'
+const ENDPOINT_SIGNIN = '/api/v1/user/sign_in'
 
 interface UserLoginFormValues{
     email: string;
@@ -22,11 +22,9 @@ const router = useRouter()
    // const onSubmit=(data) => console.log(data);
   const onSubmit = values => {
     const data = {
-      user: {
-        // remember_me: "1",
-        remember_me: "0",
-        ...values
-      }
+      // remember_me: "1",
+      remember_me: "0",
+      ...values
     }
 
     fetch(ENDPOINT_SIGNIN, {
@@ -77,12 +75,12 @@ const router = useRouter()
         inputAttrs={register("email", {
           required:"Email is required",
           maxLength: {
-            value: 40,
-            message:"Max length of the name is 40"
+            value: 160,
+            message:"Max length of the email address is 160 characters"
           },
           pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            message: "Please enter a valid email address"
+            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
+            message: "Please give valid email"
           }
         })}
       />

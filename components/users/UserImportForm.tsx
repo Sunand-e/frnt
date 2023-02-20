@@ -4,14 +4,14 @@ import FileUploader from '../common/FileUploader';
 import { GET_USERS } from '../../graphql/queries/users';
 import useGetUsers from '../../hooks/users/useGetUsers';
 import { useContext } from 'react';
-import { ModalContext } from '../../context/modalContext';
 import UserImportAccordion from './UserImportAccordion';
+import ButtonLink from '../common/ButtonLink';
+import DropzoneIconAndText from '../common/inputs/DropzoneIconAndText';
+import { handleModal } from '../../stores/modalStore';
 
 const UserImportForm = () => {
 
-  const users = useGetUsers();
-
-  const { handleModal } = useContext(ModalContext)
+  const users = useGetUsers()
   
   const handleAllUploadsComplete = (data) => {
     handleModal({
@@ -25,6 +25,11 @@ const UserImportForm = () => {
     // router.push('/admin/users')
   }
 
+  const dropZoneContent = <DropzoneIconAndText
+  fileHintText="CSV, up to 10MB"
+  linkText="Upload a CSV file"
+/>
+
   const fileUploaderProps = {
     accept: [
       '.csv', 
@@ -36,7 +41,8 @@ const UserImportForm = () => {
       'text/comma-separated-values',
       'text/x-comma-separated-values'
     ],
-    dropZoneContent: 'Upload a CSV',
+    
+    dropZoneContent,
     endpoint: "/api/v1/users/bulk_import",
     refetchQuery: 'GetUsers',
     fileParameterName: 'csv_file',
@@ -49,11 +55,9 @@ const UserImportForm = () => {
   return <>
     <FileUploader {...fileUploaderProps} />
     <p>
-      <Link href="/docs/import_user_example.csv">
-        
-          Download an example CSV
-        
-      </Link>
+      <ButtonLink href="/docs/import_user_example.csv">
+        Download an example CSV
+      </ButtonLink>
     </p>
   </>;
 }

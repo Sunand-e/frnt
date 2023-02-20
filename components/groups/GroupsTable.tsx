@@ -7,7 +7,6 @@ import Button from '../common/Button';
 import ButtonLink from '../common/ButtonLink';
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../common/cells/ItemWithImage';
-import { ModalContext } from '../../context/modalContext';
 import dayjs from 'dayjs'
 import GroupActionsMenu from './GroupActionsMenu';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
@@ -70,12 +69,17 @@ const GroupsTable = () => {
     ]
   }, []);
 
-  const options = {
-    selectable: false
+  const tableProps = {
+    tableData,
+    tableCols,
+    options: {
+      selectable: false
+    },
+    filters: ['global']
   }
-  
+    
   return (
-    <Table {...{tableData, tableCols, options }} />
+    <Table { ...tableProps } />
   );
 }
 

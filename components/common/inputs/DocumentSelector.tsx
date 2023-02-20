@@ -1,12 +1,10 @@
 import { useContext } from "react";
-import { ModalContext } from "../../../context/modalContext";
 import Button from "../Button";
 import MediaLibrary from "../../media/MediaLibrary";
 import DocumentItem from "../ContentEditor/blocks/DocumentBlock/DocumentItem";
+import { handleModal } from "../../../stores/modalStore";
 
 const DocumentSelector = ({file, onSelect, onRemove}) => {
-
-  const { handleModal } = useContext(ModalContext)
 
   const selectDocumentModal = () => {
     handleModal({

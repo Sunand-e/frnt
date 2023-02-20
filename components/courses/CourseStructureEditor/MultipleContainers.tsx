@@ -405,20 +405,10 @@ export function MultipleContainers({
               const activeIndex = containers.indexOf(active.id);
               const overIndex = containers.indexOf(over.id);
               const newContainerList = arrayMove(containers, activeIndex, overIndex);
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log('newContainerList')
-              console.log(newContainerList)
               setContainers(newContainerList)
               handleDragContainerEnd(newContainerList)
             } else {
               console.log('The item has changed containers');
-
               setItems((items) => ({
                 ...items,
                 [overContainer]: arrayMove(

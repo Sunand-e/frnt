@@ -1,8 +1,7 @@
 import { Control, useController } from "react-hook-form";
-import { RichTextEditor } from '@mantine/rte';
-import { useContext, useState } from "react";
 import AudioSelector from "./AudioSelector";
-import { ModalContext } from "../../../context/modalContext";
+import { closeModal } from "../../../stores/modalStore";
+import { useState } from "react";
 
 type AudioSelectorInputProps = { 
   control?: Control;
@@ -17,8 +16,6 @@ const AudioSelectorInput = ({
   label,
   initialValue=null,
 }: AudioSelectorInputProps) => {
-
-  const { closeModal } = useContext(ModalContext)
 
   const [value, setValue] = useState(initialValue)
 

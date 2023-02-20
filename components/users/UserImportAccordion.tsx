@@ -1,9 +1,7 @@
 import { Accordion } from "@mantine/core"
 import { useRouter } from "next/router"
-import { useContext } from "react"
-import { ModalContext } from "../../context/modalContext"
+import { closeModal, handleModal } from "../../stores/modalStore"
 import Button from "../common/Button"
-import NewUsersGroupForm from "./NewUsersGroupForm"
 import UserImportAddToNewGroup from "./UserImportAddToNewGroup"
 
 const UserImportAccordion = ({data}) => {
@@ -13,8 +11,6 @@ const UserImportAccordion = ({data}) => {
   const existingUsers = rows.filter(row => row.status === 'exists')
   const invalidRows = rows.filter(row => !['exists','new'].includes(row.status))
   const userIds = rows.filter(row => ['exists','new'].includes(row.status)).map(user => user.id)
-
-  const { closeModal, handleModal } = useContext(ModalContext)
 
   const router = useRouter()
 

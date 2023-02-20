@@ -1,36 +1,32 @@
-import { useField } from "formik"
-import { useContext } from 'react';
-import { ModalContext } from "../context/modalContext";
-import useDeleteResource from "./resources/useDeleteResource";
 import Button from '../components/common/Button';
+import { closeModal, handleModal } from '../stores/modalStore';
 
-const useConfirmDelete = ({type, name, onConfirm}) => {
-
-  const { handleModal, closeModal } = useContext(ModalContext)
+const useConfirmDelete = ({itemType, name, onConfirm, autoClose=true, onExit=null}) => {
 
   const handleDelete = () => {
     onConfirm()
-    closeModal()
+    // onExit ? onExit() : closeModal()
+    autoClose && closeModal()
   }
 
   const displayName = name ? (
     <>
-      the {type}: <span className="font-bold">{name}</span>
+      the {itemType}: <span className="font-bold">{name}</span>
     </>
   ) : (
-    <>this {type}</>
+    <>this {itemType}</>
   )
 
   const confirmDelete = () => {
     handleModal({
-      title: `Delete ${type}`,
+      title: `Delete ${itemType}`,
       content: (
         <>
           <p>
             Are you sure you want to delete {displayName} ?
           </p>
           <p className="font-bold mb-2">This action cannot be undone.</p>
-          <Button onClick={handleDelete}>{`Delete ${type}`}</Button>
+          <Button onClick={handleDelete}>{`Delete ${itemType}`}</Button>
         </>
       )
     })

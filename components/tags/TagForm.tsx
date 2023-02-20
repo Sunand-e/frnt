@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import TextInput from '../common/inputs/TextInput';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
-import { ModalContext } from '../../context/modalContext';
+import { handleModal } from '../../stores/modalStore';
 
 interface TagFormValues {
   label: string
@@ -16,7 +16,6 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
     tagType: 'category',
     ...tag
   }
-  const { handleModal } = useContext(ModalContext)
   
   const { register, handleSubmit, control, setFocus, getValues, formState: { errors } } = useForm<TagFormValues>(
     { defaultValues }

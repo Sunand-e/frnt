@@ -1,11 +1,12 @@
 import { UpdateGroup, UpdateGroupVariables } from "../../graphql/mutations/group/__generated__/UpdateGroup";
 import { UPDATE_GROUP } from "../../graphql/mutations/group/UPDATE_GROUP"
 import { GET_GROUP } from "../../graphql/queries/groups"
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
+import { GetGroup } from "../../graphql/queries/__generated__/GetGroup";
 
 function useUpdateGroup(id = null) {
 
-    const { loading, error, data: {group} = {} } = useQuery(
+  const { loading, error, data  } = useQuery<GetGroup>(
     GET_GROUP,
     {
       variables: {
@@ -15,12 +16,75 @@ function useUpdateGroup(id = null) {
   );
 
   const [updateGroupMutation, updateGroupResponse] = useMutation<UpdateGroup, UpdateGroupVariables>(
-    UPDATE_GROUP
+    UPDATE_GROUP, {
+      update(cache, { data: { updateGroup: { group } } } ) {
+        const newUserIds = group.users.edges.map(edge => edge.node.id) // userIds
+        const oldUserIds = data?.group.users.edges.map(edge => edge.node.id) || []// userIds
+        const addedUserIds = newUserIds.filter(x => !oldUserIds.includes(x));
+        const removedUserIds = oldUserIds.filter(x => !newUserIds.includes(x));
+
+        for(id of addedUserIds) {
+          updateUserGroupFragment(cache, id, group)
+        }
+        
+        for(id of removedUserIds) {
+          updateUserGroupFragment(cache, id, group, true)
+        }
+      }
+    }
   );
 
-  const updateGroup = (values) => {
-  // const updateGroup = ({name=null, contentBlocks=null}) => {
+  const updateUserGroupFragment = (cache, id, group, remove=false) => {
 
+    const user = cache.updateFragment({ // options object
+      id: `User:${id}`, // The value of the to-do item's unique identifier
+      fragment: gql`
+        fragment UserGroups on User {
+          groups {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      `,
+    }, (data) => {
+      const groups = {
+        ...data?.groups,
+        edges: remove ? removeUserGroupEdge(data, group) : addUserGroupEdge(data, group),
+        totalCount: data?.groups.totalCount + remove ? -1 : 1
+      }
+      return ({
+        groups
+      })
+    });
+
+    return user;
+  }
+
+  const removeUserGroupEdge = (data, group) => {
+    return data?.groups.edges.filter(userGroupEdge => {
+      return userGroupEdge.node.id !== group.id
+    })
+  }
+
+  const addUserGroupEdge = (data, group) => [
+    ...data.groups.edges, 
+    ...(!data.group?.edges.some(edge => edge.node.id === group.id) && [
+      {
+        __typename: 'UserGroupEdge',
+        roles: [],
+        node: {
+          name: group.name, 
+          __typename: 'Group', 
+          id: group.id
+        }
+      }
+    ])
+  ]
+
+  const updateGroup = (values) => {
     const variables = {
       ...values
     }
@@ -34,8 +98,14 @@ function useUpdateGroup(id = null) {
         updateGroup: {
           __typename: 'UpdateGroupPayload',
           group: {
-            ...group,
-            ...variables
+            ...data.group,
+            ...variables,
+            users: {
+              ...data.group.users,
+              edges: variables.userIds.map(id => {
+                return { node: { id, __typename: 'User'} }
+              })
+            }
           },
         }
       }
@@ -45,7 +115,7 @@ function useUpdateGroup(id = null) {
   }
 
   return {
-    group,
+    group: data?.group,
     loading,
     error,
     updateGroup

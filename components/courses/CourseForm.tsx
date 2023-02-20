@@ -6,8 +6,8 @@ import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import SelectInput from '../common/inputs/SelectInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
 import CheckboxInput from '../common/inputs/CheckboxInput';
-import { ModalContext } from '../../context/modalContext';
 import RTEInput from '../common/inputs/RTEInput';
+import { handleModal } from '../../stores/modalStore';
 
 interface CourseFormValues {
   title: string
@@ -26,7 +26,6 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
     ...course,
     tags: course?.tags?.map(({__typename, image, ...value}) => value) || []
   }
-  const { handleModal } = useContext(ModalContext)
 
   const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
 

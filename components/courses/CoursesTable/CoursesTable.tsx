@@ -1,133 +1,16 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Table from '../../common/tables/Table'
 import useGetCourses from '../../../hooks/courses/useGetCourses';
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import TagSelect from '../../tags/inputs/TagSelect';
-import { ModalContext } from '../../../context/modalContext';
-import useGetCoursesBasic from '../../../hooks/courses/useGetCoursesBasic';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { GraduationCap } from 'styled-icons/fa-solid';
 import CourseActionsMenu from './CourseActionsMenu';
+import ContentTable from '../../common/tables/ContentTable';
+import { contentTypes } from '../../common/contentTypes';
 
-const CoursesTable = ({selectable=false, onSelectionChange=null}) => {
+const CoursesTable = () => {
 
-  // const { loading, error, courses } = useGetCourses()
-  const { loading, error, courses: coursesBasic } = useGetCoursesBasic()
-  const { courses: coursesFull } = useGetCourses()
-
-  const [courses, setCourses] = useState(null);
-
-  useEffect(() => {
-    if(coursesFull) {
-      setCourses(coursesFull)
-    } else if(coursesBasic) {
-      setCourses(coursesBasic)
-    }
-  }, [coursesFull,coursesBasic])
-
-  const [ categoryId, setCategoryId ] = useState(null)
-  
-  const editUrl = '/admin/courses/edit'
-
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      let data = courses?.edges?.map(edge => edge.node).filter(node => {
-        return !node._deleted
-      })
-      
-      if(categoryId) {
-        data = data?.filter(item => {
-          return item?.tags?.some(tag => tag.id === categoryId)
-        })
-      }
-      return data || []
-    }, [courses, categoryId]
-  );
-
-  const tableCols = useMemo(
-    () => [
-      {
-        header: "Course",
-        accessorKey: "title", // accessor is the "key" in the data
-        cell: ({ cell }) => (
-          <ItemWithImage
-            image={cell.row.original.image}
-            icon={<GraduationCap className='p-1'/>}
-            title={cell.getValue()}
-            secondary={cell.row.original?.tags?.map?.(tag => tag.label).join(', ')}
-            // secondary={cell.row.original.title}
-            href={
-              cell.row.original.shared === false && 
-                cell.row.original.id &&
-                  `${editUrl}?id=${cell.row.original.id}`
-            }
-          />
-        )
-      },
-      {
-        id: 'activeUsers',
-        header: "Active users",
-        accessorFn: row => row.users?.totalCount,
-        cell: ({ cell }) => {
-          let userCount = cell.row.original.users?.totalCount
-          return (
-            <span>{`${userCount || 0} user${userCount !== 1 ? 's' : ''}`}</span>
-          )
-        }
-      },
-      {
-        id: 'category',
-        header: "Category",
-        accessorFn: (row) => {
-          return row.tags?.filter(tag => (
-            tag.tagType === 'category'
-          )).map(tag => tag.label).join(', ') || '-'
-        },
-      },
-      {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <CourseActionsMenu course={cell.row.original} />
-      }
-    ],
-    []
-  );
-
-  const clearFilters = () => {
-    setCategoryId(null)
-  }
-
-  const tableProps = {
-    tableData,
-    tableCols,
-    selectable: true,
-    enableRowSelection: true
-  }
+  const { loading, error, courses } = useGetCourses()
+  const type = contentTypes['course']
 
   return (
-    <>
-      <div className='flex items-center flex-col mb-2 sm:justify-between sm:flex-row'>
-        <div className='flex items-center flex-col sm:flex-row'>
-          <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
-          <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
-        </div>
-        <p>Showing {tableData.length} courses</p>
-      </div>
-
-      { loading && (
-        <LoadingSpinner />
-      )}
-      { error && (
-        <p>Unable to fetch courses.</p>
-      )}
-      { (!loading && !error) && (
-        <Table {...tableProps} />
-      )}
-    </>
-  );
+    <ContentTable content={courses} type={type} loading={loading} error={error} ActionsMenuComponent={CourseActionsMenu} />
+  )
 }
 
 export default CoursesTable

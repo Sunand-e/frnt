@@ -39,7 +39,8 @@ const navStructureUser = [
         name: 'pathways',
         title: 'Pathways',
         urlPath: '/pathways',
-        icon: Flow
+        icon: Flow,
+        requireEnabledFeatures: ['pathways']
       },
     ],
   },
@@ -47,7 +48,8 @@ const navStructureUser = [
     name: 'pathways',
     title: 'Pathways',
     urlPath: '/pathways',
-    icon: Flow
+    icon: Flow,
+    requireEnabledFeatures: ['pathways']
   },
   {
     name: 'library',

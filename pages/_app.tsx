@@ -35,15 +35,17 @@ import '../styles/toastify-overrides.css';
 
 import { client } from '../graphql/client'
 import { useRouter } from 'next/router'
-import { ModalProvider } from '../context/modalContext'
 import DefaultLayout from '../layouts/DefaultLayout'
 import { TenantContextProvider } from '../context/TenantContext';
 import useBeforeUnload from '../hooks/useBeforeUnload';
+import CapabilityCheckWrapper from '../components/app/CapabilityCheckWrapper'
+import Modal from '../components/common/Modal'
 addIconsToLibrary()
 
 interface PagePropertiesType {
   Component: Page & {
     navState
+    capabilities
   },
 }
 type AppPropsExtended = AppProps & PagePropertiesType 
@@ -117,11 +119,12 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     <>
     <ApolloProvider client={memoedClient}>
         <TenantContextProvider>
-            <ModalProvider>
-              {
-                layout
-              }
-            </ModalProvider>
+          <Modal />
+          <CapabilityCheckWrapper capabilities={PageComponent.capabilities}>
+            {
+              layout
+            }
+          </CapabilityCheckWrapper>
         </TenantContextProvider>
       </ApolloProvider>
     </>

@@ -3,15 +3,15 @@ import CourseEditor from '../../../components/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { viewVar } from '../../../graphql/cache'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import {Gear} from '@styled-icons/fa-solid/Gear'
 import useCourse from '../../../hooks/courses/useCourse'
-import { ModalContext } from '../../../context/modalContext'
 import CourseForm from '../../../components/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
+import { closeModal, handleModal } from '../../../stores/modalStore'
 
 const AdminCoursesEdit = () => {
   /*
@@ -45,8 +45,6 @@ const AdminCoursesEdit = () => {
       viewVar(newView)
     }
   },[])
-  
-  const { handleModal, closeModal } = useContext(ModalContext)
 
   const onSettingsSubmit = ({content, ...values}) => {
     updateCourse({

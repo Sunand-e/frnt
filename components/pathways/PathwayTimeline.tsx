@@ -2,7 +2,6 @@
 
 import { Reorder } from "framer-motion"
 import { useCallback, useContext, useEffect, useState } from "react"
-import { ModalContext } from "../../context/modalContext"
 import useGetCourses from "../../hooks/courses/useGetCourses"
 import useGetPathway from "../../hooks/pathways/useGetPathway"
 import { useRouter } from "../../utils/router"
@@ -29,7 +28,6 @@ const PathwayTimeline = ({editMode=false, onRemove=null}) => {
   const router = useRouter()
   const { pid } = router.query
   const { pathway } = useGetPathway(pid)
-  const { handleModal, closeModal } = useContext(ModalContext) 
   const items = usePathwayStore(state => state.items)
   const setItems = usePathwayStore(state => state.setItems)
   const editItems = usePathwayStore(state => state.editItems)

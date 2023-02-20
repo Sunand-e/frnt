@@ -45,6 +45,14 @@ export const GroupFragment = gql`
         }
       }
     }
+    assignedPathways {
+      totalCount
+      edges {
+        node {
+          id
+        }
+      }
+    }
     _deleted @client
   }
 `

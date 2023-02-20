@@ -1,119 +1,235 @@
 import {
-  createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
-  Column,
   getFilteredRowModel,
-  getPaginationRowModel,
-  ColumnDef,
   getSortedRowModel,
   SortingState,
+  ColumnResizeMode,
+  ColumnDef,
+  Table as TableType
 } from '@tanstack/react-table'
-import { useEffect, useState } from 'react';
-import BulkActionsMenu from './BulkActionsMenu';
-import GlobalFilter from './GlobalFilter';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { FileExport } from 'styled-icons/fa-solid';
+import exportToCsv from '../../../utils/exportToCsv';
+import { useRouter } from '../../../utils/router';
+import ReportFilters from '../../reporting/ReportFilters';
+import Button from '../Button';
+import { DragHandle } from './DragHandle';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
+import TableActions from './TableActions';
+import { TableContext, TableProps, TableProvider, useTableContext } from './tableContext';
 import TableStructure from './TableStructure';
+import Tippy from '@tippyjs/react';
 
-const Table = ({
-  tableData,
-  tableCols,
-  options = {} as any,
-  bulkActions = [],
-  // rowSelection = {},
-  onRowSelect = (selection) => null,
-}) => {
 
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
-  const [rowSelection, setRowSelection] = useState({})
+const TableWithProvider = (props: TableProps) => {
+  return (
+    <TableProvider tableProps = { props }>
+      <Table />
+    </TableProvider>
+  )
+}
 
+const Table = () => {
+  // console.log('rerendertable')
+  const store = useContext(TableContext)
+
+  const exportFilename = useTableContext(s => s.exportFilename)
+  const globalFilter = useTableContext(s => s.globalFilter)
+  const categoryId = useTableContext(s => s.categoryId)
+  const sorting = useTableContext(s => s.sorting)
+  const tableCols = useTableContext(s => s.tableCols)
+  const tableData = useTableContext(s => s.tableData)
+  const showTop = useTableContext(s => s.showTop)
+  const bulkActions = useTableContext(s => s.bulkActions)
+  const rowSelection = useTableContext(s => s.rowSelection)
+  const itemType = useTableContext(s => s.itemType)
+  const contentType = useTableContext(s => s.contentType)
+  const setContentType = useTableContext(s => s.setContentType)
+  const setItemType = useTableContext(s => s.setItemType)
+
+  const filters = useTableContext(s => s.filters)
+  const isReorderable = useTableContext(s => s.isReorderable)
+  const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
+  const isReportingTable = useTableContext(s => s.isReportingTable)
+  const backButton = useTableContext(s => s.backButton)
+  const onFilterChange = useTableContext(s => s.onFilterChange)
   const selectable = !!bulkActions.length;
+  
+  const router = useRouter()
+  const { type, ctype } = router.query
+
+  useEffect(() => {
+    setItemType(type as string)
+  },[type])
+
+  useEffect(() => {
+    setContentType(ctype as string)
+  },[ctype])
 
   const handleRowSelectionChange = (selection) => {
-    setRowSelection(selection)
+    store.setState(state => ({
+      rowSelection: selection,
+      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    }))
   }
 
   useEffect(() => {
-    onRowSelect(table.getSelectedRowModel().flatRows.map(row=>row.original.id))
-  },[rowSelection])
+    onFilterChange && onFilterChange(categoryId, globalFilter)
+  },[categoryId, globalFilter])
 
   const columns = [
+    ...(isReorderable ? [{
+      id: 'dragHandle',
+      header: ({ table }) => {
+        return  (
+          <DragHandle />
+        )
+      },
+      cell: ({ row }) => {
+        if(isReorderableActive) {
+          return <DragHandle className={'text-main-secondary'} />
+        } else {
+          return (
+            <Tippy
+              className="bg-white text-main p-3 w-60"
+              // interactive={true}
+              appendTo={document.body}
+              // hideOnClick={false}
+              placement='top' // placement='right-start'
+              theme="memberhub-white"
+              content={
+                <p>You cannot reorder items as the table is being sorted by the <strong>{sorting[0].id}</strong> column.</p>
+              }
+            >
+              <div><DragHandle /></div>
+            </Tippy>
+          )
+        }
+      },
+      style: {
+        paddingRight: 0,
+        width: '50px',
+        opacity: isReorderableActive ? 1 : 0.5
+      }
+    }] : []),
     ...(selectable ? [{
       id: 'select',
-      header: ({ table }) => (
+      header: ({ table }) => {
+        return  (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        )
+      },
+      cell: ({ row }) => (
         <IndeterminateCheckbox
           {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
           }}
         />
       ),
-      cell: ({ row }) => (
-        // <div className="px-1">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        // </div>
-      ),
+      style: {
+        padding: 0,
+        width: '16px'
+      }
     }] : []),
+
+    // ...(isReorderable ? [{
+    // }] : []),
 
     ...tableCols
 
   ]
 
-  const table = useReactTable({
+  const memoedData = useMemo(() => {
+    let data = tableData;
+    
+    if(!!itemType && !['group', 'user'].includes(itemType)) {
+      data = data.filter(item => item.itemType === itemType);
+    }
+    
+    if(contentType) {
+      data = data.filter(item => item.contentType === contentType);
+    }
+
+    if(categoryId) {
+      data = data?.filter(item => {
+        return item?.tags?.edges.some(({node}) => node.id === categoryId)
+      })
+    }
+    return data
+  },[tableData, categoryId, itemType, contentType])
+
+  // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
+  const globalFilterFn = (row, columnId, filterValue: string) => {
+    const search = filterValue.toLowerCase();
+  
+    let value = row.getValue(columnId) as string;
+    if (typeof value === 'number') value = String(value);
+  
+    return value?.toLowerCase().includes(search);
+  };
+  
+  const table: TableType<any> = useReactTable({
+    initialState: {
+      columnVisibility: {order: false},
+    },
     state: {
       sorting,
-      rowSelection
+      rowSelection,
+      globalFilter
     },
+    globalFilterFn,
     columns, 
-    data: tableData,
-    onSortingChange: setSorting,
+    data: memoedData,
+    onSortingChange: updater => store.setState(prevState => ({
+      sorting: typeof updater === 'function' ? updater(prevState.sorting) : updater
+    })),
     onRowSelectionChange: handleRowSelectionChange,
+ 
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     // getPaginationRowModel: getPaginationRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
+  const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
+
+  const downloadCSV = () => {
+
+    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
+    const headerRow = csvCols.map((col) => col.header);
+    const dataRows = table.getRowModel().rows.map(row => {
+      return csvCols.map(col => row.getValue(col.id))
+    })
+    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
+  };
+  
   return (
     <>
-      {/* <GlobalFilter
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      /> */}
-      <div className='mb-2'>
-        { !!bulkActions.length && <BulkActionsMenu {...{bulkActions}} /> }
-      </div>
-      {/* <button
-        className="border rounded p-2 mb-2"
-        onClick={() => console.info('rowSelection', rowSelection)}
-      >
-        Log `rowSelection` state
-      </button>
-      <button
-        className="border rounded p-2 mb-2"
-        onClick={() =>
-          console.info(
-            'table.getSelectedFlatRows()',
-            table.getSelectedRowModel().flatRows
-          )
-        }
-      >
-        Log table.getSelectedFlatRows()
-      </button> */}
+      { showTop && <TableActions { ...{
+        table,
+      }} /> }
+      { isReportingTable && (
+        <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
+          <ReportFilters filters={filters} />
+          <div className='flex space-x-3'>
+            {!!backButton && backButton}
+            <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
+          </div>
+        </div>
+      )}
 
-      <TableStructure table={table} selectable={selectable} />
+      <TableStructure table={table} />
     </>
   );
 }
-
-export default Table
+export default TableWithProvider

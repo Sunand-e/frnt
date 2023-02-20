@@ -1,5 +1,5 @@
 import {
-  FunctionComponent, useRef, useState
+  FunctionComponent, MutableRefObject, useRef, useState
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
@@ -13,25 +13,27 @@ const DynamicPackageIFrame = dynamic(
 
 export const PackageBlock = ({block}) => {
 
-  const iframeRef = useRef();
+  const iframeRef: MutableRefObject<HTMLIFrameElement> = useRef();
   
   const {
-    isEnabled: isFullscreenEnabled,
-    request,
-  } = useFullscreen()
+    isFullscreenEnabled,
+    isFullscreenAvailable,
+    toggleFullscreen
+  } = useFullscreen({target: iframeRef})
 
   const [attempt, setAttempt] = useState(null)
 
   return (
     <>
       <div className='flex justify-end space-x-2 my-4'>
-        { isFullscreenEnabled && (
-          <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
+        { isFullscreenAvailable && (
+          <Button onClick={toggleFullscreen} className=''>Go fullscreen</Button>
         )}
         {/* <Button onClick={() => setAttempt(attempt => attempt + 1)} className=''>Start new attempt</Button> */}
       </div>
       <div className="aspect-w-16 aspect-h-9 px-1">
         <DynamicPackageIFrame
+          key={block.id}
           editMode={true}
           block={block}
           attempt={attempt}

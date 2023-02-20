@@ -1,7 +1,7 @@
-import CreateGroupForm from '../../../../components/groups/CreateGroupForm';
 import usePageTitle from '../../../../hooks/usePageTitle';
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
+import CreateGroupForm from '../../../../components/groups/CreateGroupForm';
 
 const BackButton = () => (
   <>
@@ -18,16 +18,12 @@ const AdminUsersGroupsAdd = () => {
     [<BackButton />, '/admin/users/groups']
   ])
   
-  return (
-    <>
-      <CreateGroupForm />
-    </>
-  )
+  return <CreateGroupForm />
 }
 
 AdminUsersGroupsAdd.navState = {
-topLevel: 'users',
-secondary: 'groups'
+  topLevel: 'users',
+  secondary: 'groups'
 }
 
 export default AdminUsersGroupsAdd

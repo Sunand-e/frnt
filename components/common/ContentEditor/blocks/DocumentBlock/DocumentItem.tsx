@@ -22,7 +22,7 @@ const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
 
   return (
     <>
-      <a href={file.location} className="block hover:bg-gray-50 group" target="_blank">
+      <a href={file.location} className="block hover:bg-gray-100 bg-gray-50 group" target="_blank">
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center space-x-4">
             <div className="shrink-0">
@@ -30,10 +30,10 @@ const DocumentItem = ({file, onRemove=null, pdfPreview=false}) => {
             </div>
             <p className="text-sm font-medium text-main-secondary truncate">{file.fileName}</p>
           </div>
-            <div className="ml-auto h-7 flex space-x-4 hidden group-hover:block text-main">
-            <Download className={`w-6 cursor-pointer hover:w-8`} />
+            <div className="ml-auto h-7 flex space-x-4  text-main">
+            <Download className={`w-6 cursor-pointer group-hover:scale-125 text-main/80 hover:text-main`} />
             { onRemove && (
-              <Trash className={`w-6 cursor-pointer hover:w-8 text-red-800`} onClick={handleRemove} />
+              <Trash className={`w-6 cursor-pointer hover:scale-125 text-red-800`} onClick={handleRemove} />
             )}
             </div>
         </div>

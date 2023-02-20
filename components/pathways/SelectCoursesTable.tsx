@@ -1,7 +1,7 @@
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import SelectContentTable from './SelectContentTable';
 
-const SelectCoursesTable = ({onRowSelect}) => {
+const SelectCoursesTable = ({onRowClick}) => {
 
   const { courses: courseConnection, loading, error } = useGetCurrentUser()
 
@@ -11,7 +11,7 @@ const SelectCoursesTable = ({onRowSelect}) => {
     <SelectContentTable 
       contentItems={courses} 
       typeName='course' 
-      onRowSelect={onRowSelect}
+      onRowClick={onRowClick}
       loading={loading}
       error={error}
     />

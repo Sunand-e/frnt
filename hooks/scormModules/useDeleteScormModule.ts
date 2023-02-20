@@ -5,10 +5,7 @@ import { DeleteScormModule, DeleteScormModuleVariables } from "../../graphql/mut
 function useDeleteScormModule() {
 
   const [deleteScormModuleMutation, deleteScormModuleResponse] = useMutation<DeleteScormModule, DeleteScormModuleVariables>(
-    DELETE_SCORM_MODULE,
-    {
-      // refetchQueries: ['GetScormModules']
-    }
+    DELETE_SCORM_MODULE
   )
 
   const deleteScormModule = async (id) => {
@@ -16,13 +13,25 @@ function useDeleteScormModule() {
       variables: { 
         id
       },
+      
+      update(cache, { data: { deleteScormModule } }) {
+        if(deleteScormModule.success) {
+          cache.modify({
+            id: cache.identify({...deleteScormModule.scormModule}),
+            fields: {
+              _deleted(cachedValue) {
+                return true
+              },
+            }
+          });
+        }
+      }
     })
     if (!response.data) {
       throw new Error(`HTTP error: ${response.errors}`);
     }
     return response.data;
   }
-
       
   return {
     deleteScormModule,

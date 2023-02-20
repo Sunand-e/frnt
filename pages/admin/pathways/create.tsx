@@ -3,10 +3,6 @@ import { useRouter } from '../../../utils/router'
 import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import React, { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/common/Button'
-import { v4 as uuidv4 } from 'uuid';
-import { CreatePathway, CreatePathwayVariables } from '../../../graphql/mutations/pathway/__generated__/CreatePathway';
-import { GetPathways } from '../../../graphql/queries/__generated__/GetPathways';
-import { ModalContext } from '../../../context/modalContext'
 import TextInput from '../../../components/common/inputs/TextInput'
 import { useForm } from 'react-hook-form'
 import CheckboxInput from '../../../components/common/inputs/CheckboxInput'
@@ -16,6 +12,7 @@ import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import useCreatePathway from '../../../hooks/pathways/useCreatePathway'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
+import { closeModal, handleModal } from '../../../stores/modalStore'
 
 
 const BackButton = () => (
@@ -33,8 +30,6 @@ const AdminPathwaySetup = () => {
   const router = useRouter()
    
   const { createPathway } = useCreatePathway()
-
-  const { handleModal, closeModal } = useContext(ModalContext);
 
   usePageTitle({ 
     title: "New pathway"

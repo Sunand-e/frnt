@@ -5,6 +5,7 @@ import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";
 import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
+import UserResourceActionsMenu from "./UserResourceActionsMenu";
 
 const UserResourcesTable = () => {
   
@@ -41,11 +42,16 @@ const UserResourcesTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return user?.resources.edges.filter(edge => !edge.node._deleted) || []
+      return user?.resources.edges.filter(edge => (
+        !edge.node._deleted
+         && (
+          edge.groups.edges.some(edge => edge.roles.length) || 
+          edge.roles.length
+        )
+      )) || []
     },
     [user]
   );
-  
   const tableCols = useMemo(() => {
     return [
       {
@@ -72,36 +78,41 @@ const UserResourcesTable = () => {
       //   }
       // },
       {
-        width: 300,
-        id: "Actions",
-
+        id: "AssignmentStatus",
+        header: "Status",
         cell: ({ cell }) => {
           const values = cell.row.original;
           return (
-            <div className="text-right">
+            <div className="text-center">
               { cell.row.original.groups.edges.length ? (
                 <>
-                  Enrolled via group:
+                  Assigned via group:
                   <strong> {cell.row.original.groups.edges.map(edge => edge.node.name).join(', ')}
                   </strong>
                 </>
               ) : (
-                <a className="text-red-600 hover:text-red-800" href="#" onClick={() => {
-                  handleUnenrol(
-                    values,
-                    null,
-                  )
-                }}>Unassign resource</a>
-              ) }
+                'Assigned'
+              )}
             </div>
           )
         }
-      }
+      },
+      {
+        header: "Actions",
+        accessorKey: "actions",
+        cell: ({ cell }) => <UserResourceActionsMenu user={user} resource={cell.row.original} />
+      },
     ]
   }, []);
 
+  const tableProps = {
+    tableData,
+    tableCols,
+    showTop: false
+  }
+    
   return (
-    <Table tableData={tableData} tableCols={tableCols} />
+    <Table { ...tableProps } />
   );
 }
 

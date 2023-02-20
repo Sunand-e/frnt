@@ -1,19 +1,15 @@
-import {
-  useContext, useEffect, useState
-} from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import urlParser from "js-video-url-parser";
 import Button from '../../../Button';
 import useBlockEditor from '../../useBlockEditor';
-import { ModalContext } from '../../../../../context/modalContext';
 import VideoUrlSelect from './VideoUrlSelect';
+import { closeModal, handleModal } from '../../../../../stores/modalStore';
 
 export const VideoBlockEdit = ({block}) => {
 
   const { blocks, insertBlock, updateBlock, getIndexAndParent, addBlock } = useBlockEditor(block)
 
   const  defaultWidth = '50%';
-  const { closeModal, handleModal } = useContext(ModalContext);
 
   const handleVideoSelect = (url) => {
     updateBlock({

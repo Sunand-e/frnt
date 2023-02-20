@@ -9,7 +9,7 @@ import { usePathwayStore } from './usePathwayStore';
 const SelectContentTable = ({
   contentItems, 
   typeName, 
-  onRowSelect,
+  onRowClick,
   loading,
   error
 }) => {
@@ -85,12 +85,7 @@ const SelectContentTable = ({
       { (!loading && !error) && (
         <Table 
           {...tableProps}
-          rowProps={row => ({
-            onClick: () => onRowSelect(row.original),
-            style: {
-              cursor: "pointer"
-            }
-          })}
+          onRowClick={onRowClick}
          />
       )}
     </>
