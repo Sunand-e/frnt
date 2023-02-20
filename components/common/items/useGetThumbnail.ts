@@ -9,7 +9,7 @@ const useGetThumbnail = (item, width=300) => {
       setSrc(`/uploaded_images/${item.image.id}?w=${width}`);
     } else if (item?.contentType === "video") {
       const videoData = urlParser.parse(item?.content?.url);
-      switch (videoData.provider) {
+      switch (videoData?.provider) {
         case "youtube": {
           setSrc(`https://img.youtube.com/vi/${videoData.id}/mqdefault.jpg`);
         }
