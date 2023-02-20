@@ -7,10 +7,9 @@ const PathwaysTable = () => {
 
   const { loading, error, pathways } = useGetPathways()
   const type = contentTypes['pathway']
-  console.log('loading')
-  console.log(loading)
+  
   return (
-    <ContentTable content={pathways} type={type} loading={loading} error={error} ActionsMenuComponent={PathwayActionsMenu} />
+    <ContentTable content={pathways} type={type} loading={loading} error={error} ActionsMenuComponent={PathwayActionsMenu} idKey='pid' />
   )
 }
 

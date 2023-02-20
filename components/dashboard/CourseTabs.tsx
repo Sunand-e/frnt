@@ -11,7 +11,7 @@ export default function CourseTabs({gridClasses=''}) {
       ...edgeProps,
       ...node
     }
-  })
+  }).sort((a,b) => b.order - a.order) || []
   
   const options = {
     typeName: 'course',

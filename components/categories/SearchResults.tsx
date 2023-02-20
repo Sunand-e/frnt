@@ -49,12 +49,21 @@ export default function SearchResults({items, itemType='item'}) {
   }
 
   if(category) {
-    filteredItems = filteredItems.filter(item => {
-      const isSelectedCategory = tag => {
-        return tag.tagType === 'category' && tag.label === category
-      }
+
+    const isSelectedCategory = tag => {
+      return tag.tagType === 'category' && tag.label === category
+    }
+
+    filteredItems = filteredItems?.filter(item => {
       return item.tags && item.tags.edges.some(({node}) => isSelectedCategory(node));   
-    });
+    })?.sort((a,b) => {
+      let orderA = a.tags.edges.find(({node}) => isSelectedCategory(node)).order
+      let orderB = b.tags.edges.find(({node}) => isSelectedCategory(node)).order
+      return orderB - orderA
+    }) || []
+    
+    
+    ;
   }
   
   const resultCountString = `${filteredItems.length || 'No'} ${itemType}${filteredItems.length !== 1 ? 's' : ''} found`

@@ -24,12 +24,11 @@ import Tippy from '@tippyjs/react';
 
 const TableWithProvider = (props: TableProps) => {
   return (
-    <TableProvider { ...props }>
+    <TableProvider tableProps = { props }>
       <Table />
     </TableProvider>
   )
 }
-
 
 const Table = () => {
   // console.log('rerendertable')
@@ -44,8 +43,11 @@ const Table = () => {
   const showTop = useTableContext(s => s.showTop)
   const bulkActions = useTableContext(s => s.bulkActions)
   const rowSelection = useTableContext(s => s.rowSelection)
+  const itemType = useTableContext(s => s.itemType)
   const contentType = useTableContext(s => s.contentType)
   const setContentType = useTableContext(s => s.setContentType)
+  const setItemType = useTableContext(s => s.setItemType)
+
   const filters = useTableContext(s => s.filters)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
@@ -54,11 +56,16 @@ const Table = () => {
   const onFilterChange = useTableContext(s => s.onFilterChange)
   const selectable = !!bulkActions.length;
   
-  // const router = useRouter()
-  // const { type } = router.query
-  // useEffect(() => {
-  //   setContentType(type as string)
-  // },[type])
+  const router = useRouter()
+  const { type, ctype } = router.query
+
+  useEffect(() => {
+    setItemType(type as string)
+  },[type])
+
+  useEffect(() => {
+    setContentType(ctype as string)
+  },[ctype])
 
   const handleRowSelectionChange = (selection) => {
     store.setState(state => ({
@@ -144,7 +151,11 @@ const Table = () => {
   const memoedData = useMemo(() => {
     let data = tableData;
     
-    if(!!contentType && !['group', 'user'].includes(contentType)) {
+    if(!!itemType && !['group', 'user'].includes(itemType)) {
+      data = data.filter(item => item.itemType === itemType);
+    }
+    
+    if(contentType) {
       data = data.filter(item => item.contentType === contentType);
     }
 
@@ -154,7 +165,7 @@ const Table = () => {
       })
     }
     return data
-  },[tableData, categoryId, contentType])
+  },[tableData, categoryId, itemType, contentType])
 
   // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
   const globalFilterFn = (row, columnId, filterValue: string) => {
@@ -204,10 +215,9 @@ const Table = () => {
   
   return (
     <>
-      {/* { showTop && <TableActions { ...{
+      { showTop && <TableActions { ...{
         table,
-      }} /> } */}
-
+      }} /> }
       { isReportingTable && (
         <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
           <ReportFilters filters={filters} />

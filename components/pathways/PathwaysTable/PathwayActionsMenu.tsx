@@ -4,7 +4,7 @@ import useConfirmDelete from "../../../hooks/useConfirmDelete"
 
 const PathwayActionsMenu = ({content: pathway}) => {
   const editUrl = '/admin/pathways/edit'
-  const editHref = pathway?.id && `${editUrl}?id=${pathway.id}`
+  const editHref = pathway?.id && `${editUrl}?pid=${pathway.id}`
   
   const { deletePathway } = useDeletePathway()
   const { confirmDelete } = useConfirmDelete({

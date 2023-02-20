@@ -108,7 +108,6 @@ const CoursesReportTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = courses?.edges.filter((edge) => !edge.node._deleted);
-
     if (filterActive(groupId)) {
       if(userHasCapability('GetAllGroupsContent')) {
         data = data?.filter(edge => edge.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
@@ -133,7 +132,6 @@ const CoursesReportTable = () => {
         });
       }
     }
-
     return data || []
 
   }, [courses,groupId, userCapabilityArray])

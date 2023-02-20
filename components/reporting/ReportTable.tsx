@@ -5,7 +5,7 @@ import {
   SortingState,
   ColumnDef,
 } from '@tanstack/react-table'
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
@@ -65,21 +65,24 @@ const ReportTable = ({
   const router = useRouter()
 
   const { 
-    category: categoryId,
-    type: type
+    category: categoryId
   } = router.query
-
+  
   const filterActive = (filterVal: string) => {
     return filterVal && filterVal !== 'all'
   }
 
-  const filteredData = useMemo(() => {
+  const [ filteredData, setFilteredData ] = useState([])
+
+  useEffect(() => {
+    let data
     if (filterActive(categoryId)) {
-      return tableData?.filter((edge) => {
+      data = tableData?.filter((edge) => {
         return edge.node.tags.edges.some(({node}) => node.id === categoryId);
       });
     }
-    return tableData || []
+    data = tableData || []
+    setFilteredData(data)
   },[tableData, categoryId])
     
   return (

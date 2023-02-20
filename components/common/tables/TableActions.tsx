@@ -6,6 +6,7 @@ import BulkActionsMenu from "./BulkActionsMenu"
 import GlobalFilter from "./GlobalFilter"
 import { useTableContext } from './tableContext'
 import { Table } from '@tanstack/react-table'
+import { useRouter } from '../../../utils/router'
 
 const TableActions = ({table }: { table: Table<any> }) => {
   
@@ -35,6 +36,15 @@ const TableActions = ({table }: { table: Table<any> }) => {
       label: types[typeName].label
     }
   });
+
+  const router = useRouter()
+  const handleContentTypeChange = (option) => {
+    // (option) => setContentType(option?.value)
+    router.push({query: {
+      ...router.query,
+      ctype: option?.value
+    }})
+  }
 
   const pluralTypeName = Pluralize( typeName, 2 )
   const visibleCount = table.getFilteredRowModel().rows.length
@@ -72,7 +82,7 @@ const TableActions = ({table }: { table: Table<any> }) => {
             }}
             // defaultValue={category}resourceTypes[typeName].label
             value={contentType && {value: contentType, label: types[contentType].label}}
-            onChange={(option) => setContentType(option?.value)}
+            onChange={handleContentTypeChange}
             placeholder={'Select type...'}
             options={typeOptions}
             instanceId="type"

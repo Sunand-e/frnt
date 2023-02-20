@@ -25,8 +25,6 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
       //   'Authorization': `Bearer ${token}`,
       // },
     }).then(data => {
-      // console.log('dadaaaaaaaaaaaa')
-      // console.log(data)
       if(data.status !== 200 ) {
         setError('Something went wrong')
         setValidUrl && setValidUrl(null)
@@ -34,8 +32,6 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
         setError(data?.data?.error)
         setValidUrl && setValidUrl(null)
       } else {
-        console.log('data?.data')
-        console.log(data?.data)
         setError(null)
         setLink(data?.data)
         setValidUrl && setValidUrl(data?.data?.url)
@@ -55,6 +51,7 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
 
   const imageUrl = link?.meta_tags?.property?.['og:image'] ?? link?.images?.filter(image => {
     return (
+      image &&
       !image.startsWith('https://www.facebook.com/tr?') &&
       !image.startsWith('https://sb.scorecardresearch.com/p?')
     ) 

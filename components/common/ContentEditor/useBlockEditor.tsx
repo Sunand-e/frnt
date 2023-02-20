@@ -23,11 +23,7 @@ const useBlockEditor = (block=null) => {
     const { index, parent } = getIndexAndParent(block.id)
     // if(!isEqual(block, getBlock(block.id))) {
       // if newblock is provided, replace the top level 
-      console.log('blocks')
-      console.log(blocks) 
       insertBlock(newBlock ?? block, index, parent, 1)
-      console.log('blocks2')
-      console.log(blocks) 
     // }
   }
 

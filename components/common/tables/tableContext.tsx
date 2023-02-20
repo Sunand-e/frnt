@@ -1,6 +1,6 @@
 import { Column, ColumnDef, SortingState, Table } from "@tanstack/react-table";
 import { createStore, useStore } from 'zustand'
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useMemo } from 'react'
 import { useRef } from 'react'
 
 export interface TableProps {
@@ -12,6 +12,7 @@ export interface TableProps {
   tableCols: Array<any>,
   categoryId?: string,
   contentType?: string,
+  itemType?: string,
   filters?: Array<string>,
   typeName?: string,
   exportFilename?: string,
@@ -38,6 +39,7 @@ interface TableState extends TableProps {
   // setTableData: (tableData: TableProps['tableData']) => void
   setCategoryId: (categoryId: TableProps['categoryId']) => void
   setContentType: (contentType: TableProps['contentType']) => void
+  setItemType: (itemType: TableProps['contentType']) => void
   setFilters: (filters: TableProps['filters']) => void
   setTypeName: (typeName: TableProps['typeName']) => void
   setTypeOptions: (typeOptions: TableProps['typeOptions']) => void
@@ -58,6 +60,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     tableData: [],
     categoryId: null,
     contentType: null,
+    itemType: null,
     filters: [],
     typeName: 'item',
     typeOptions: {},
@@ -86,6 +89,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     // setTableData: tableData => set(state => ({tableData})),
     setCategoryId: categoryId => set(state => ({categoryId})),
     setContentType: contentType => set(state => ({contentType})),
+    setItemType: itemType => set(state => ({itemType})),
     setFilters: filters => set(state => ({filters})),
     setTypeName: typeName => set(state => ({typeName})),
     setTypeOptions: typeOptions => set(state => ({typeOptions})),
@@ -108,18 +112,25 @@ function useTableContext<T>(
   return useStore(store, selector, equalityFn)
 }
 
-
-
 type TableProviderProps = React.PropsWithChildren<TableProps>
 
-function TableProvider({ children, ...props }: TableProviderProps) {
+function TableProvider({ children, tableProps }: TableProviderProps) {
+
+  const tableStoreProps = useMemo(() => {
+    console.log('chanignigtableprops')
+    console.log(tableProps)
+    return tableProps
+  },[
+    tableProps.isReorderable,
+    tableProps.tableData
+  ])
 
   const storeRef = useRef<TableStore>()
   if (!storeRef.current) {
     console.log("There's not a current ref to the store")
-    storeRef.current = createTableStore(props)
+    storeRef.current = createTableStore(tableStoreProps)
   } else {
-    storeRef.current.setState(s => props)
+    storeRef.current.setState(s => tableStoreProps)
   }
   return (
     <TableContext.Provider value={storeRef.current}>

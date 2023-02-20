@@ -50,8 +50,6 @@ const BulkImportForm = ({bulkImport=null, onSubmit}) => {
       data.squareLogo instanceof File && (await uploadFileAndNotify(data.squareLogo, 'logo_square_image', endpoint)),
       data.squareWhiteLogo instanceof File && (await uploadFileAndNotify(data.squareWhiteLogo, 'logo_square_white_image', endpoint))
     ]).then(res => {
-      console.log('resresresresresresresresresres')
-      console.log(res)
       onSubmit(data)
     }
     )

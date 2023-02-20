@@ -4,10 +4,6 @@ import Table from "../../common/tables/Table";
 import { useRouter } from '../../../utils/router';
 import Button from "../../common/Button";
 import ItemWithImage from "../../common/cells/ItemWithImage";
-import Select from "react-select";
-import UserRoleSelectCell from "../groups/UserRoleSelectCell";
-import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";
-import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
 import UserCourseActionsMenu from "./UserCourseActionsMenu";
 
 const UserCoursesTable = () => {
