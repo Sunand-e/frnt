@@ -40,7 +40,13 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
     handleModal({
       title: `Course settings`,
       size: 'lg',
-      content: <CourseForm course={{...getValues(), image}} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
+      content: <CourseForm course={{
+        ...getValues(),
+        tags: {
+          edges: getValues().tags.map(tag => ({node: tag}))
+        },
+        image
+      }} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
     })
   }
 
