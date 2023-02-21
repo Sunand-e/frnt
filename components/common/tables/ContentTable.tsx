@@ -108,9 +108,11 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
         id: 'category',
         header: "Category",
         accessorFn: (row) => {
+          console.log('row.tags')
+          console.log(row.tags)
           return row.tags?.edges.filter(({node}) => (
             node.tagType === 'category'
-          )).map(node => node.label).join(', ') || '-'
+          )).map(({node}) => node.label).join(', ') || '-'
         },
       },
       {
