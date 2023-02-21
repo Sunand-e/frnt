@@ -1,5 +1,8 @@
 
 import type { CodegenConfig } from '@graphql-codegen/cli';
+const { loadEnvConfig } = require('@next/env')
+loadEnvConfig(process.cwd())
+
 const config: CodegenConfig = {
   overwrite: true,
   schema: [
