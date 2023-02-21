@@ -14,10 +14,10 @@ const TagSelectInput = ({control, tagType, label}) => {
   const selectProps = {
     isMulti: true,
     options: tags && tags.filter(tag => tag.tagType === tagType),
-    value: field.value?.map(({__typename, image, ...value}) => value),
+    value: field.value?.map(({__typename, image, order, ...value}) => value),
     getOptionValue: option => option.value ?? option.id,
     onChange: val => {
-      field.onChange(val.map(({__typename, image, _deleted, ...value}) => value))
+      field.onChange(val.map(({__typename, image, order, _deleted, ...value}) => value))
     },
     className: `w-full`,
     isSearchable: false,
