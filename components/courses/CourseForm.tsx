@@ -25,7 +25,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
   const defaultValues = {
     ...course,
     tags: course?.tags?.edges.map(({node}) => {
-      const {__typename, image, ...value} = node
+      const {__typename, image, order, ...value} = node
       return value
     }) || [], 
   }
