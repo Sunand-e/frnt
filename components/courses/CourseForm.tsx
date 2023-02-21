@@ -24,7 +24,10 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
 
   const defaultValues = {
     ...course,
-    tags: course?.tags?.map(({__typename, image, ...value}) => value) || []
+    tags: course?.tags?.edges.map(({node}) => {
+      const {__typename, image, ...value} = node
+      return value
+    }) || [], 
   }
 
   const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
