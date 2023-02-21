@@ -152,11 +152,17 @@ const Table = () => {
     let data = tableData;
     
     if(!!itemType && !['group', 'user'].includes(itemType)) {
-      data = data.filter(item => item.itemType === itemType);
+      data = data.filter(item => (
+        item.itemType === itemType
+        || item.node?.itemType === itemType
+      ))
     }
     
     if(contentType) {
-      data = data.filter(item => item.contentType === contentType);
+      data = data.filter(item => (
+        item.contentType === contentType
+        || item.node?.contentType === contentType
+      ))
     }
 
     if(categoryId) {

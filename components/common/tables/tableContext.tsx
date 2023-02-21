@@ -7,7 +7,7 @@ export interface TableProps {
   count?: number,
   table?: Table<any>,
   globalFilter?: string,
-  bulkActions?: [any?],
+  bulkActions?: Array<any>,
   tableData: Array<any>,
   tableCols: Array<any>,
   categoryId?: string,
