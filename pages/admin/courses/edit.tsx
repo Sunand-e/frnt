@@ -23,10 +23,6 @@ const AdminCoursesEdit = () => {
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  useEffect(() => {
-    course && console.log(course)
-  },[course])
-
   const { updateCourse } = useCourse(id)
   
 

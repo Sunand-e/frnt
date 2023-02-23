@@ -23,6 +23,7 @@ const COURSES_REPORT_QUERY = gql`
         node {
           id
           title
+          itemType
           groupsEnrolled {
             edges {
               node {

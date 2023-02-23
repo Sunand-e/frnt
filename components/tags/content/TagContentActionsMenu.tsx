@@ -1,15 +1,20 @@
 import ActionsMenu from "../../common/menus/ActionsMenu"
 import { useCallback } from "react"
+import useRemoveTagsFromContent from "../../../hooks/contentItems/useRemoveTagsFromContent"
 
 const TagContentActionsMenu = ({tag, item, contentType}) => {
+
+  const {removeTagsFromContent} = useRemoveTagsFromContent()
 
   const handleRemove = useCallback(() => {
     if(!tag?.id) {
       return false
     }
-    console.log({
-      tagId: tag.id,
-      contentItemId: item.node.id,
+    removeTagsFromContent({
+      tagIds: [tag.id],
+      contentItemIds: [item.node.id],
+    }, () => {
+      
     })
   }, [tag, item])
   

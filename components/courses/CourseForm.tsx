@@ -24,7 +24,10 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
 
   const defaultValues = {
     ...course,
-    tags: course?.tags?.map(({__typename, image, ...value}) => value) || []
+    tags: course?.tags?.edges.map(({node}) => {
+      const {__typename, image, order, ...value} = node
+      return value
+    }) || [], 
   }
 
   const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
@@ -37,7 +40,13 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
     handleModal({
       title: `Course settings`,
       size: 'lg',
-      content: <CourseForm course={{...getValues(), image}} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
+      content: <CourseForm course={{
+        ...getValues(),
+        tags: {
+          edges: getValues().tags.map(tag => ({node: tag}))
+        },
+        image
+      }} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
     })
   }
 

@@ -33,10 +33,6 @@ yarn-error.log*
 !/tmp/.keep
 !/docker/logs/.keep
 
-# Ignore env file
-.env
-.env.production
-
 # local env files
 .env.local
 .env.development.local

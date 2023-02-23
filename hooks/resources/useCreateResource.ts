@@ -67,7 +67,9 @@ function useCreateResource() {
             audio: null,
             document: null,
             ...values,
-            tags: [],
+            tags: {
+              edges: []
+            },
             image: null,
           },
           message: ''

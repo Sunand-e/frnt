@@ -29,7 +29,11 @@ function useCourse(id) {
           __typename: 'UpdateCoursePayload',
           course: {
             ...cachedCourse,
-            ...variables
+            ...variables,
+            tags: {
+              __typename: 'ContentItemTagConnection',
+              edges: []
+            }
           },
         }
       }

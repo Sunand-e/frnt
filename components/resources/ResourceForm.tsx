@@ -39,7 +39,10 @@ const router = useRouter()
     title: resource?.title,
     // description: resource?.content?.description
     description: resource?.content?.description,
-    tags: resource?.tags?.map(({__typename, image, ...value}) => value) || [],
+    tags: resource?.tags?.edges.map(({node}) => {
+      const {__typename, image, ...value} = node
+      return value
+    }) || [],
     image: resource?.image
   }
 

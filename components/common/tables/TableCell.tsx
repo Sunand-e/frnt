@@ -15,7 +15,7 @@ const TableCell = ({cell, index, style}:TableCellProps) => {
   
   const defaultStyles: CSSProperties = {
     padding: '1rem 1.5rem',
-    textAlign: (index > dataCellOffset) ? 'center' : 'left',
+    textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
   }
 
   return (

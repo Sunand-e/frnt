@@ -1,15 +1,11 @@
 import cache from '../../graphql/cache';
 import { TagFragmentFragment } from '../../graphql/generated';
 import { TagFragment } from '../../graphql/queries/tags';
-import useGetTag from '../../hooks/tags/useGetTag';
 import useUpdateTag from '../../hooks/tags/useUpdateTag';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useRouter } from '../../utils/router';
 import { contentTypes } from '../common/contentTypes';
 import TagContent from './content/TagContent';
-import TagCourses from './courses/TagCourses';
-import TagPathways from './pathways/TagPathways';
-import TagResources from './resources/TagResources';
 import TagForm from './TagForm';
 
 const EditTagForm = () => {
