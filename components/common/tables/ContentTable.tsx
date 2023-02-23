@@ -23,9 +23,6 @@ const ContentIdAndOrderFragment = gql`
 `
 const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}, idKey='id'}) => {
 
-
-  const [isReorderable, setIsReorderable] = useState(false)
-
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
   ) 
@@ -197,29 +194,15 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
     })
   }
 
-  const handleFilterChange = (categoryId, globalFilter) => {
-    if(globalFilter || categoryId) {
-      setIsReorderable(false)
-    } else {
-      setIsReorderable(true)
-      // setOnReorder(() => handleReorder)
-      // if(categoryId) {
-      //   setOnReorder(() => handleReorderInTags)
-      // } else {
-      //   setOnReorder(() => handleReorder)
-      // }
-    }
-  }
-
   const tProps: TableProps = {
     tableData,
     tableCols,
     typeName: type.name,
-    isReorderable,
+    isReorderable: true,
     typeOptions: tableProps.typeOptions || {},
     onReorder: handleReorder,
     filters: tableProps.filters ?? ['category', 'global'],
-    onFilterChange: handleFilterChange
+    // onFilterChange: handleFilterChange
   }
 
   return (

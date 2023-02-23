@@ -21,6 +21,7 @@ export const DragHandle = (props) => {
   return (
     <HandleWrapper {...props}>
       <svg
+        className={props.svgClass}
         aria-hidden="true"
         focusable="false"
         data-prefix="fas"
