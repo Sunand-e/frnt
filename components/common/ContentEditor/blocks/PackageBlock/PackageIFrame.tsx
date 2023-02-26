@@ -11,6 +11,7 @@ import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../../graph
 import { useRouter } from '../../../../../utils/router';
 import LoadingSpinner from '../../../LoadingSpinner';
 import { markCompleteDisabledVar } from '../../../../../graphql/cache';
+import useUpdateUserContentStatus from '../../../../../hooks/users/useUpdateUserContentStatus';
 
 declare global {
   interface Window {
@@ -37,14 +38,26 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   
   const router = useRouter()
 
-  const { id:courseId } = router.query
+  const { 
+    id: courseId,
+    cid: lessonId
+  } = router.query
 
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
-    UPSERT_SCO_ATTEMPT,
-    { 
-
-    }
+    UPSERT_SCO_ATTEMPT
   );
+  const { updateUserContentStatus } = useUpdateUserContentStatus()
+
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    if(progress) {
+      updateUserContentStatus({
+        contentItemId: lessonId,
+        score: progress
+      })
+    }
+  },[progress])
 
   const { loading, data: attemptQueryData, error } = useQuery(
     GET_LATEST_SCO_ATTEMPT,
@@ -59,14 +72,18 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
+    
     if(!scormData?.cmi) {
       return;
     }
+
     if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
       markCompleteDisabledVar(false)
     }
 
-    // console.log('GOING TO UPSERT: ',variables)
+    const riseProgress = ref.current.contentWindow.getRiseProgress?.()
+    riseProgress?.p && setProgress(riseProgress.p)
+
     upsertScoAttempt({
       variables: {
         attempt,
