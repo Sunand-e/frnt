@@ -8,7 +8,7 @@ import {
   ColumnDef,
   Table as TableType
 } from '@tanstack/react-table'
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { FileExport } from 'styled-icons/fa-solid';
 import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
@@ -50,12 +50,12 @@ const Table = () => {
 
   const filters = useTableContext(s => s.filters)
   const isReorderable = useTableContext(s => s.isReorderable)
-  const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
+  const isReorderableActive = useTableContext(s => s.isReorderableActive)
   const isReportingTable = useTableContext(s => s.isReportingTable)
   const backButton = useTableContext(s => s.backButton)
-  const onFilterChange = useTableContext(s => s.onFilterChange)
   const selectable = !!bulkActions.length;
   
+  const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
   const router = useRouter()
   const { type, ctype } = router.query
 
@@ -67,16 +67,12 @@ const Table = () => {
     setContentType(ctype as string)
   },[ctype])
 
-  const handleRowSelectionChange = (selection) => {
-    store.setState(state => ({
-      rowSelection: selection,
-      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
-    }))
-  }
 
-  useEffect(() => {
-    onFilterChange && onFilterChange(categoryId, globalFilter)
-  },[categoryId, globalFilter])
+  const handleRowSelectionChange = (updater) => store.setState(state => ({
+    rowSelection: typeof updater === 'function' ? updater(state.rowSelection) : updater,
+    selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+  }))
+
 
   const columns = [
     ...(isReorderable ? [{
@@ -93,16 +89,17 @@ const Table = () => {
           return (
             <Tippy
               className="bg-white text-main p-3 w-60"
-              // interactive={true}
               appendTo={document.body}
-              // hideOnClick={false}
-              placement='top' // placement='right-start'
+              // placement='top'
               theme="memberhub-white"
               content={
-                <p>You cannot reorder items as the table is being sorted by the <strong>{sorting[0].id}</strong> column.</p>
+                <>
+                  <p><strong>Reordering items disabled:</strong></p>
+                  <p>The table is being {tableReorderStatus}.</p>
+                </>
               }
             >
-              <div><DragHandle /></div>
+              <div><DragHandle svgClass="opacity-50" /></div>
             </Tippy>
           )
         }
@@ -152,11 +149,17 @@ const Table = () => {
     let data = tableData;
     
     if(!!itemType && !['group', 'user'].includes(itemType)) {
-      data = data.filter(item => item.itemType === itemType);
+      data = data.filter(item => (
+        item.itemType === itemType
+        || item.node?.itemType === itemType
+      ))
     }
     
     if(contentType) {
-      data = data.filter(item => item.contentType === contentType);
+      data = data.filter(item => (
+        item.contentType === contentType
+        || item.node?.contentType === contentType
+      ))
     }
 
     if(categoryId) {
@@ -176,7 +179,7 @@ const Table = () => {
   
     return value?.toLowerCase().includes(search);
   };
-  
+
   const table: TableType<any> = useReactTable({
     initialState: {
       columnVisibility: {order: false},
@@ -200,6 +203,34 @@ const Table = () => {
     // getPaginationRowModel: getPaginationRowModel(),
     // debugTable: true,
   });
+
+
+  useEffect(() => {
+    // onFilterChange && onFilterChange(categoryId, globalFilter)
+    if(globalFilter || categoryId || sorting?.length) {
+      store.setState(state => ({ isReorderableActive: false }))
+      if(sorting?.length) {
+        const sortingColumnHeading = table.getColumn(sorting[0].id).columnDef.header.toLowerCase()
+        setTableReorderStatus(<span>
+          sorted by the <strong>{sortingColumnHeading}</strong> column
+        </span>)
+      }
+      if(categoryId) {
+        setTableReorderStatus("filtered by category. Please clear filters")
+      }
+      if(globalFilter) {
+        setTableReorderStatus(`filtered by a custom search. Please clear filters`)
+      }
+    } else {
+      store.setState(state => ({ isReorderableActive: true }))
+      // setOnReorder(() => handleReorder)
+      // if(categoryId) {
+      //   setOnReorder(() => handleReorderInTags)
+      // } else {
+      //   setOnReorder(() => handleReorder)
+      // }
+    }
+  },[categoryId, globalFilter, sorting])
 
   const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 

@@ -69,6 +69,7 @@ export const Item = React.memo(
       const item = cache.readFragment<ContentFragmentType>({
         id:`ContentItem:${id}`,
         fragment: ContentFragment,
+        fragmentName: 'ContentFragment',
       })
 
       useEffect(() => {

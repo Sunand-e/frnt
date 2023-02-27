@@ -45,6 +45,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
     const section = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${label}`,
       fragment: ContentFragment,
+      fragmentName: 'ContentFragment',
       optimistic: true
     })
 

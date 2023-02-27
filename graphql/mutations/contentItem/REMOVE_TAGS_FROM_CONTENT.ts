@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const ADD_TAGS_TO_CONTENT = gql`
-  mutation AddTagsToContent(
+export const REMOVE_TAGS_FROM_CONTENT = gql`
+  mutation RemoveTagsFromContent(
     $tagIds: [ID!]!,
     $contentItemIds: [ID!]!
   ) {
-    addTagsToContent(
+    removeTagsFromContent(
       tagIds: $tagIds,
       contentItemIds: $contentItemIds,
     ) {

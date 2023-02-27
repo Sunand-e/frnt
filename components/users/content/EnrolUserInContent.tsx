@@ -23,44 +23,6 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
     !userCourseNodes?.some(userCourse=>userCourse.id === course.id)
   ) || []
   
-  const tags = availableContent.reduce((tagArr,course,index, array) => {
-    return [
-        ...tagArr,
-        ...course.tags.edges.filter(({node}) => !tagArr.some(t => t.id === node.id))
-    ]
-  }, [])
-  
-  let uniqueContent = []
-  const categorisedContentData = tags.map(tag => ({
-    label: tag.label,
-    options: availableContent.filter(course => {
-      if(
-        uniqueContent.some(c => c.id === course.id)
-        || !course.tags.edges.some(({node}) => node.id === tag.id)
-      ) {
-        return false
-      }
-      uniqueContent.push(course)
-      return true
-    }).map(course => ({
-      label: course.title,
-      value: course.id,
-    })),
-  }))
-  
-  const availableContentData = [
-    ...categorisedContentData,
-    {
-      label: 'Uncategorised',
-      options: availableContent.filter(course => {
-        return !uniqueContent.some(c => c.id === course.id) && !course.tags.edges.length
-      }).map(course => ({
-        label: course.title,
-        value: course.id,
-      }))  
-    }
-  ]
-  
   const {roles} = useGetRoles()
 
   const defaultRole = roles?.find(role => role.name === 'Learner')
@@ -86,7 +48,7 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
       {
         availableContent?.length ? (
           <div>
-            <ContentSelectCategorised data={availableContentData} onChange={handleChange} typeName={typeName} />
+            <ContentSelectCategorised availableContent={availableContent} onChange={handleChange} typeName={typeName} />
             {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
             { !!selectedCourseIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedCourseIds.length} ${typeName}s`}</Button>

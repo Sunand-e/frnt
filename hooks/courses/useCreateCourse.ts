@@ -22,7 +22,7 @@ function useCreateCourse(cb) {
             courses: {
               ...cachedData.courses,
               edges: [{node: createCourse.course}, ...cachedData.courses.edges]
-            }
+            },
           }
         })
       }
@@ -39,12 +39,14 @@ function useCreateCourse(cb) {
             __typename: 'ContentItem',
             id: Math.floor(Math.random() * 10000) + '',
             title: values.title,
-            tags: [],
             mediaItem: null,
             createdAt: '',
             updatedAt: '',
             _deleted: false,
-            ...values
+            ...values,
+            tags: {
+              edges: []
+            },
           },
           message: ''
         }

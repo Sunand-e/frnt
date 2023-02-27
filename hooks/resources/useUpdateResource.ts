@@ -36,7 +36,9 @@ function useUpdateResource(id=null) {
             ...resource,
             ...values,
             id,
-            tags: []
+            tags: {
+              edges: []
+            }
           },
         }
       },

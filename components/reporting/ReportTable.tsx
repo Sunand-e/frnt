@@ -84,7 +84,6 @@ const ReportTable = ({
     data = tableData || []
     setFilteredData(data)
   },[tableData, categoryId])
-    
   return (
     <>
       <ReportHeader

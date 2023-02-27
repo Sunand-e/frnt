@@ -49,7 +49,7 @@ const TableStructure = ({table}: TableStructureProps) => {
   const onReorder = useTableContext(s => s.onReorder)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
-  const isReorderableActive = useTableContext(s => s.isReorderable && !s.sorting?.length)
+  const isReorderableActive = useTableContext(s => s.isReorderableActive)
   const isSelectable = !!bulkActions.length;
 
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);

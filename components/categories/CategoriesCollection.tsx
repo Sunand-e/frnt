@@ -7,7 +7,10 @@ export default function CategoriesCollection() {
   // const { tags, loading, error } = useGetCurrentUser()
 
   const { tags, loading, error } = useGetTags()
-  const categories = tags?.filter(tag => tag.tagType === 'category')
+
+  const categories = tags?.filter(
+    tag => tag.tagType === 'category'
+  ).sort((a,b) => b.order - a.order) || []
 
   return (
     <>

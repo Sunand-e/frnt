@@ -15,7 +15,6 @@ function useAddTagsToContent() {
       variables: {
         ...values
       },
-      refetchQueries: ['GetUser'],
       onCompleted: cb
     }).catch(res => {
       // TODO: do something if there is an error!!

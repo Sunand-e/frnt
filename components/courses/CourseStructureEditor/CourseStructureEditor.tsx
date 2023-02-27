@@ -100,6 +100,7 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
           return cache.readFragment<ContentFragmentType>({
             id:`ContentItem:${id}`,
             fragment: ContentFragment,
+            fragmentName: 'ContentFragment',
           })
         })
 
@@ -239,6 +240,7 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
     const item = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${value}`,
       fragment: ContentFragment,
+      fragmentName: 'ContentFragment',
     })
 
     const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
