@@ -81,7 +81,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
       markCompleteDisabledVar(false)
     }
 
-    const riseProgress = ref.current.contentWindow.getRiseProgress?.()
+    const riseProgress = ref.current?.contentWindow.getRiseProgress?.()
     riseProgress?.p && setProgress(riseProgress.p)
 
     upsertScoAttempt({
@@ -125,7 +125,10 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     const settings = {
       // lmsCommitUrl: '/d'
     }
-
+    console.log('attemptQueryData')
+    console.log(attemptQueryData)
+    console.log('window.API')
+    console.log(window.API)
     if(!window.API && attemptQueryData) {
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
@@ -147,8 +150,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   
       window.addEventListener('beforeunload', unloadHandler)
       window.addEventListener('unload', unloadHandler)
-
       setLoaded(true)
+      console.log('setLoaded(true)')
     }
   },[attempt, saveData, attemptQueryData])
 
