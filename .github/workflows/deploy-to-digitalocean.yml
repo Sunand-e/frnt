@@ -4,10 +4,10 @@ name: Deploy to staging (DigitalOcean)
 on: 
   push: 
     branches:
-      - staging
+      - digitalocean
   pull_request:
     branches:
-      - staging
+      - digitalocean
 
 # This 'on' node triggers the jobs on any branch
 # on: [push, pull_request]
