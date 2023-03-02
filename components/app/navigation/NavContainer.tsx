@@ -121,7 +121,7 @@ export default function NavContainer({navState, sidebarComponent}) {
       <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
       { sidebarComponent && (
-        <div className="sticky top-18 h-[calc(100vh-48px)] w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
+        <div className="sticky top-18 h-[calc(100vh-48px)] w-[250px] 2xl:w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
           { sidebarComponent }
         </div>
       )}
