@@ -43,6 +43,7 @@ function useCreateCourse(cb) {
             createdAt: '',
             updatedAt: '',
             _deleted: false,
+            order: 99999999999,
             ...values,
             tags: {
               edges: []

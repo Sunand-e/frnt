@@ -6,6 +6,7 @@ import SidebarEditableItem from '../components/courses/CourseStructureEditor/Sid
 import Layout from './Layout';
 import { motion } from 'framer-motion';
 import useGetUserCourse from '../hooks/users/useGetUserCourse';
+import useGetCurrentUser from '../hooks/users/useGetCurrentUser';
 
 export default function EditorLayout( {page, navState} ) {
   /*

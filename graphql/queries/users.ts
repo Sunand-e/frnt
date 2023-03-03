@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ContentFragment } from './allQueries';
+import { ContentFragment, ResourceFragment } from './allQueries';
 import { TagFragment } from './tags';
 
 export const UserFragment = gql`
@@ -50,19 +50,11 @@ export const UserContentConnectionFragment = gql`
       userId
       node {
         id
-        title      
+        title
         order
         content
         contentType
         itemType
-        document {
-          id
-          location
-        }
-        image {
-          id
-          location
-        }
         tags {
           edges {
             id
@@ -166,12 +158,12 @@ export const UserResourcesFragment = gql`
       ...UserContentConnectionFragment
       edges {
         node {
-          ...ContentFragment
+          ...ResourceFragment
         }
       }
     }
   }
-  ${ContentFragment}
+  ${ResourceFragment}
   ${UserContentConnectionFragment}
 `
 
@@ -181,12 +173,12 @@ export const CurrentUserResourcesFragment = gql`
       ...UserContentConnectionFragment
       edges {
         node {
-          ...ContentFragment
+          ...ResourceFragment
         }
       }
     }
   }
-  ${ContentFragment}
+  ${ResourceFragment}
   ${UserContentConnectionFragment}
 `
 
@@ -438,36 +430,43 @@ export const GET_USER_COURSE = gql`
       id
     }
     courses(where: $courseFilter) {
-        ...UserContentConnectionFragment
-        edges {
-          node {
+      ...UserContentConnectionFragment
+      edges {
+        node {
+          id
+          sections {
             id
-            sections {
+            _deleted @client
+            lessons {
               id
-              lessons {
-                id
-              }
+              _deleted @client
             }
-          }
-        }
-      }
-      pathways {
-        ...UserContentConnectionFragment
-        edges {
-          node {
-            id
             children {
+              __typename
+              _deleted @client
               id
             }
           }
         }
       }
-      sections(where: $lessonSectionFilter) {
-        ...UserContentConnectionFragment
+    }
+    pathways {
+      ...UserContentConnectionFragment
+      edges {
+        node {
+          id
+          children {
+            id
+          }
+        }
       }
-      lessons(where: $lessonSectionFilter) {
-        ...UserContentConnectionFragment
-      }
+    }
+    sections(where: $lessonSectionFilter) {
+      ...UserContentConnectionFragment
+    }
+    lessons(where: $lessonSectionFilter) {
+      ...UserContentConnectionFragment
+    }
   }
   ${UserContentConnectionFragment}
 `

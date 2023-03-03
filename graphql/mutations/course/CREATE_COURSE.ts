@@ -30,6 +30,13 @@ export const CREATE_COURSE = gql`
     ) {
       course {
         ...CourseFragment
+        groupsEnrolled {
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
       message
     }

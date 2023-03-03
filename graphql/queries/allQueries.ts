@@ -40,18 +40,6 @@ export const ContentFragment = gql`
       id
     }
     itemType
-    document {
-      id
-      mediaType
-      location
-      fileName
-    }
-    audio {
-      id
-      mediaType
-      location
-      fileName
-    }
     prerequisites
     settings
     title
@@ -72,6 +60,18 @@ export const ContentFragment = gql`
 export const ResourceFragment = gql`
   fragment ResourceFragment on ContentItem {
     ...ContentFragment
+    document {
+      id
+      mediaType
+      location
+      fileName
+    }
+    audio {
+      id
+      mediaType
+      location
+      fileName
+    }
   }
   ${ContentFragment}
 `

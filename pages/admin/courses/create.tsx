@@ -124,6 +124,10 @@ const AdminCourseSetup = () => {
             tags: [],
             shared: false,
             mediaItem: null,
+            order: 9999999999,
+            groupsEnrolled: {
+              edges: []
+            },
             sections: [{
               __typename: 'ContentItem',
               itemType: 'section',
@@ -143,6 +147,7 @@ const AdminCourseSetup = () => {
               users: null,
               settings: {},
               tags: [],
+              order: 9999999999,
             }],
             users: null,
             settings: {},

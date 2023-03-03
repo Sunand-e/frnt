@@ -12,11 +12,6 @@ export default function NavContainer({navState, sidebarComponent}) {
 
   const view = useReactiveVar(viewVar)
   
-  // useEffect(() => {
-  //   console.log('viewChanged')
-  //   console.log(view)
-  // },[view])
-
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
 
   // If the 'topLevel' property of navState is empty, create the default navstate.
@@ -35,6 +30,7 @@ export default function NavContainer({navState, sidebarComponent}) {
 
   const isSlimNav = view?.isSlimNav || showSecondary
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
 <>
   <button
