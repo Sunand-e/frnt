@@ -19,6 +19,8 @@ import {
   useSensor,
   MeasuringStrategy,
   PointerSensor,
+  pointerWithin,
+  getFirstCollision,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -36,6 +38,7 @@ import {Item, Container} from '../../common/dnd-kit';
 import {createRange} from './utilities';
 import { DroppableContainer } from './DroppableContainer';
 import { SortableItem } from './SortableItem';
+import { useStructureContext } from './CourseStructureStore';
 
 export default {
   title: 'Presets/Sortable/Multiple Containers',
@@ -63,13 +66,6 @@ interface Props {
     isDragOverlay: boolean;
   }): React.CSSProperties;
   wrapperStyle?(args: {index: number}): React.CSSProperties;
-  itemCount?: number;
-  clonedItems: Items;
-  setClonedItems;
-  items: Items;
-  setItems;
-  containers;
-  setContainers;
   onRemoveContainer;
   handle?: boolean;
   onDragContainerEnd?: any;
@@ -85,23 +81,14 @@ interface Props {
 
 export const TRASH_ID = 'void';
 const PLACEHOLDER_ID = 'placeholder';
-const empty: UniqueIdentifier[] = [];
 
 export function MultipleContainers({
   adjustScale = false,
-  itemCount = 3,
   cancelDrop,
   columns,
   handle = false,
   onDragContainerEnd: handleDragContainerEnd,
-  onDragItemEnd: handleDragItemEnd,
-  // items: initialItems,
-  clonedItems,
-  setClonedItems,
-  items,
-  setItems,
-  containers,
-  setContainers,
+  onDragItemEnd,
   onRemoveContainer,
   containerStyle,
   getItemStyles = () => ({}),
@@ -115,19 +102,28 @@ export function MultipleContainers({
   scrollable,
 }: Props) {
 
-  // const [containers, setContainers] = useState(Object.keys(items));
+  
+  const items = useStructureContext((s) => s.items)
+  const setItems = useStructureContext((s) => s.setItems)
+  const sectionIds = useStructureContext((s) => s.sectionIds)
+  const setClonedItems = useStructureContext((s) => s.setClonedItems)
+  const clonedItems = useStructureContext((s) => s.clonedItems)
+  
   const [activeId, setActiveId] = useState<string | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
+  
   const recentlyMovedToNewContainer = useRef(false);
-  const isSortingContainer = activeId ? containers.includes(activeId) : false;
+  const isSortingContainer = activeId ? sectionIds.includes(activeId) : false;
 
-  // console.log('reloaded multicontainers');
-  // Custom collision detection strategy optimized for multiple containers
+  const handleDragItemEnd = (newItems) => {
+    onDragItemEnd(newItems)
+    // setItems(newItems) <-- check this
+  }
+
+  // console.log('reloaded multisectionIds');
+  // Custom collision detection strategy optimized for multiple sectionIds
   const collisionDetectionStrategy: CollisionDetection = useCallback(
     (args) => {
-      // Start by finding any intersecting droppable
-      let overId = rectIntersection(args);
-
       if (activeId && activeId in items) {
         return closestCenter({
           ...args,
@@ -137,33 +133,49 @@ export function MultipleContainers({
         });
       }
 
+      // Start by finding any intersecting droppable
+      const pointerIntersections = pointerWithin(args);
+      const intersections =
+        pointerIntersections.length > 0
+          ? // If there are droppables intersecting with the pointer, return those
+            pointerIntersections
+          : rectIntersection(args);
+      let overId = getFirstCollision(intersections, 'id');
+      console.log('intersections')
+      console.log(intersections)
       if (overId != null) {
         if (overId === TRASH_ID) {
           // If the intersecting droppable is the trash, return early
           // Remove this if you're not using trashable functionality in your app
-          return overId;
+          return intersections;
         }
-
+        console.log('overId')
+        console.log(overId)
         if (overId in items) {
           const containerItems = items[overId];
-
+          console.log('overId in items')
+          console.log('items')
+          console.log({...items})
           // If a container is matched and it contains items (columns 'A', 'B', 'C')
           if (containerItems.length > 0) {
             // Return the closest droppable within that container
+            console.log('Return the closest droppable within that container')
             overId = closestCenter({
               ...args,
               droppableContainers: args.droppableContainers.filter(
                 (container) =>
-                  container.id !== overId &&
-                  containerItems.includes(container.id)
-              ),
-            });
+                container.id !== overId &&
+                containerItems.includes(container.id)
+                ),
+              })[0]?.id;
+            console.log('RECALCULATED OVERID')
+            console.log(overId)
           }
         }
 
         lastOverId.current = overId;
 
-        return overId;
+        return [{id: overId}];
       }
 
       // When a draggable item moves to a new container, the layout may shift
@@ -175,7 +187,7 @@ export function MultipleContainers({
       }
 
       // If no droppable is matched, return the last match
-      return lastOverId.current;
+      return lastOverId.current ? [{id: lastOverId.current}] : [];
     },
     [activeId, items]
   );
@@ -192,23 +204,16 @@ export function MultipleContainers({
       },
     })
   );
-  const findContainer = (id: string) => {
+  
+  const findContainer = (id: string, items) => {
     if (id in items) {
       return id;
     }
-
     return Object.keys(items).find((key) => items[key].includes(id));
   };
 
-  const findOriginalContainer = (id: string) => {
-    if (id in clonedItems) {
-      return id;
-    }
-
-    return Object.keys(clonedItems).find((key) => clonedItems[key].includes(id));
-  };
   const getIndex = (id: string) => {
-    const container = findContainer(id);
+    const container = findContainer(id, items);
 
     if (!container) {
       return -1;
@@ -235,6 +240,211 @@ export function MultipleContainers({
       recentlyMovedToNewContainer.current = false;
     });
   }, [items]);
+  
+  const handleDragOver = ({active, over}) => {
+
+    const overId = over?.id;
+
+    console.log('DRAGGING overId')
+    console.log(overId)
+    // Get the id of the item or container which is being dragged over
+
+    // if there is no item being dragged over, or we're dragging a container, don't do anything.
+    if (!overId || overId === TRASH_ID || active.id in items) {
+      return;
+    }
+    
+    // Get the object for the container being dragged over, based on the item we're over:
+    const overContainer = findContainer(overId, items);
+    // get the container which was being dragged from
+    const activeContainer = findContainer(active.id, items);
+
+
+    // if either the container we're dragging into of from doesn't exist, don't do anything:
+    if (!overContainer || !activeContainer) {
+      return;
+    }
+    
+    // If dragging an item to another container, we need to 'place' the item in the new container 
+    if (activeContainer !== overContainer) {
+      const activeItems = items[activeContainer];
+      const overItems = items[overContainer];
+      const overIndex = overItems.indexOf(overId);
+      const activeIndex = activeItems.indexOf(active.id);
+
+      // determine the index at which to place the item in it's new container
+      let newIndex: number;
+
+      if (overId in items) {
+        
+        // dragging an item to another container, but not over an item. Set the index position to the last position.
+        newIndex = overItems.length + 1;
+      } else {
+        // dragging an item over another item in another container
+        const isBelowOverItem =
+          over &&
+          active.rect.current.translated &&
+          active.rect.current.translated.top >
+            over.rect.top + over.rect.height;
+
+        const modifier = isBelowOverItem ? 1 : 0;
+
+        newIndex =
+          overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+      }
+
+      recentlyMovedToNewContainer.current = true;
+
+      setItems({
+        ...items,
+        [activeContainer]: items[activeContainer].filter(
+          (item) => item !== active.id
+        ),
+        [overContainer]: [
+          ...items[overContainer].slice(0, newIndex),
+          items[activeContainer][activeIndex],
+          ...items[overContainer].slice(
+            newIndex,
+            items[overContainer].length
+          ),
+        ],
+      })
+    }
+  }
+  const handleDragEnd = useCallback(({active, over}) => {
+
+    const oldoverId = over?.id;
+    const overId = lastOverId.current;
+    console.log('DRAG END')
+    console.log('OLDoverId', oldoverId)
+    console.log('overId', overId)
+
+    const activeContainer = findContainer(active.id, items)
+
+    if (!activeContainer) {
+      setActiveId(null);
+      return;
+    }
+
+    if (!overId) {
+      setActiveId(null);
+      return;
+    }
+
+    // if (overId === TRASH_ID) {
+    //   setItems((items) => ({
+    //     ...items,
+    //     [activeContainer]: items[activeContainer].filter(
+    //       (id) => id !== activeId
+    //     ),
+    //   }));
+    //   setActiveId(null);
+    //   return;
+    // }
+
+
+    // if (overId === PLACEHOLDER_ID) {
+    //   const newContainerId = 'newContainerId';
+
+    //   unstable_batchedUpdates(() => {
+    //     setContainers((sectionIds) => [...sectionIds, newContainerId]);
+    //     setItems((items) => ({
+    //       ...items,
+    //       [activeContainer]: items[activeContainer].filter(
+    //         (id) => id !== activeId
+    //       ),
+    //       [newContainerId]: [active.id],
+    //     }));
+    //     setActiveId(null);
+    //   });
+    //   return;
+    // }
+
+    // const originalContainer = findContainer(active.id, clonedItems);
+    const originalContainer = findContainer(active.id, items);
+    // alert(JSON.stringify(items,null,2))
+    
+    const overContainer = findContainer(overId, items);
+    console.log('active.id')
+    console.log(active.id)
+    console.log('overId')
+    console.log(overId)
+    console.log('clonedItems')
+    console.log({...clonedItems})
+    console.log('items')
+    console.log({...items})
+    console.log('overContainer')
+    console.log(overContainer)
+    console.log('originalContainer')
+    console.log(originalContainer)
+    // console.log('items')
+    // console.log(items)
+    if (overContainer) {
+      const activeIndex = items[activeContainer].indexOf(active.id);
+      const overIndex = items[overContainer].indexOf(overId);
+      
+      // If the item has not chanaged it's container:
+      if(originalContainer === overContainer) {
+        // console.log('the item has not changed it\'s container');
+        // If the item hasn't changed position, do nothing
+        if (activeIndex === overIndex) {
+          // console.log('the item hasn\'t changed position, do nothing');
+          return false;
+        }
+        // console.log('items')
+        // console.log(items)
+        const updatedSectionChildIds = arrayMove(
+          items[overContainer],
+          activeIndex,
+          overIndex
+        // ).filter(id => !!id)
+        )
+
+        // console.log('overContainer')
+        // console.log(overContainer)
+        // console.log('items[overContainer]')
+        // console.log(items[overContainer])
+        console.log('activeIndex, overIndex')
+        console.log(activeIndex, overIndex)
+        // console.log('updatedSectionChildIds')
+        // console.log(updatedSectionChildIds)
+        // console.log('the item has changed position');
+        console.log('error1');
+        handleDragItemEnd({
+          ...items,
+          [overContainer]: updatedSectionChildIds,
+        })
+      } else {
+        // The item has changed sectionIds, or a container is being dragged.
+        // If a container is being dragged:
+        if (active.id in items) {
+          console.log('A container is changing position')
+          const activeIndex = sectionIds.indexOf(active.id);
+          const overIndex = sectionIds.indexOf(over.id);
+          const newSectionIds = arrayMove(sectionIds, activeIndex, overIndex);
+          console.log('newSectionIds')
+          console.log(newSectionIds)
+          handleDragContainerEnd(newSectionIds)
+        } else {
+          // console.log('The item has changed sectionIds');
+          // console.log('items')
+          // console.log(items)
+          // console.log('items[overContainer]')
+          // console.log(items[overContainer])
+          console.log('error2');
+          handleDragItemEnd({
+            ...items,
+            [overContainer]: arrayMove(
+              items[overContainer],
+              activeIndex,
+              overIndex
+            ),
+          })  
+        }
+      }
+    }
+    setActiveId(null);
+  },[items, clonedItems, sectionIds])
 
   return (
     <DndContext
@@ -246,191 +456,15 @@ export function MultipleContainers({
         },
       }}
       onDragStart={({active}) => {
+        // alert('dragstart')
+        console.log('START DRAGGING')
         setActiveId(active.id);
         setClonedItems(items);
       }}
 
       // When dragging over:
-      onDragOver={({active, over}) => {
-        // Get the id of the item or container which is being dragged over
-        const overId = over?.id;
-
-        // if there is no item being dragged over, or we're dragging a container, don't do anything.
-        if (!overId || overId === TRASH_ID || active.id in items) {
-          return;
-        }
-        
-        // Get the object for the container being dragged over, based on the item we're over:
-        const overContainer = findContainer(overId);
-        // get the container which was being dragged from
-        const activeContainer = findContainer(active.id);
-
-        // if either the container we're dragging into of from doesn't exist, don't do anything:
-        if (!overContainer || !activeContainer) {
-          return;
-        }
-        
-        // If dragging an item to another container, we need to 'place' the item in the new container 
-        if (activeContainer !== overContainer) {
-          setItems((items) => {
-            const activeItems = items[activeContainer];
-            const overItems = items[overContainer];
-            const overIndex = overItems.indexOf(overId);
-            const activeIndex = activeItems.indexOf(active.id);
-
-            // determine the index at which to place the item in it's new container
-            let newIndex: number;
-
-            if (overId in items) {
-              
-              // dragging an item to another container, but not over an item. Set the index position to the last position.
-              newIndex = overItems.length + 1;
-            } else {
-              // dragging an item over another item in another container
-              const isBelowOverItem =
-                over &&
-                active.rect.current.translated &&
-                active.rect.current.translated.top >
-                  over.rect.top + over.rect.height;
-
-              const modifier = isBelowOverItem ? 1 : 0;
-
-              newIndex =
-                overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-            }
-
-            recentlyMovedToNewContainer.current = true;
-
-            return {
-              ...items,
-              [activeContainer]: items[activeContainer].filter(
-                (item) => item !== active.id
-              ),
-              [overContainer]: [
-                ...items[overContainer].slice(0, newIndex),
-                items[activeContainer][activeIndex],
-                ...items[overContainer].slice(
-                  newIndex,
-                  items[overContainer].length
-                ),
-              ],
-            };
-          });
-        }
-      }}
-      onDragEnd={({active, over}) => {
-
-        const activeContainer = findContainer(active.id);
-
-        if (!activeContainer) {
-          setActiveId(null);
-          return;
-        }
-
-        const overId = over?.id;
-
-        if (!overId) {
-          setActiveId(null);
-          return;
-        }
-
-        // if (overId === TRASH_ID) {
-        //   setItems((items) => ({
-        //     ...items,
-        //     [activeContainer]: items[activeContainer].filter(
-        //       (id) => id !== activeId
-        //     ),
-        //   }));
-        //   setActiveId(null);
-        //   return;
-        // }
-
-
-        // if (overId === PLACEHOLDER_ID) {
-        //   const newContainerId = 'newContainerId';
-
-        //   unstable_batchedUpdates(() => {
-        //     setContainers((containers) => [...containers, newContainerId]);
-        //     setItems((items) => ({
-        //       ...items,
-        //       [activeContainer]: items[activeContainer].filter(
-        //         (id) => id !== activeId
-        //       ),
-        //       [newContainerId]: [active.id],
-        //     }));
-        //     setActiveId(null);
-        //   });
-        //   return;
-        // }
-
-        const originalContainer = findOriginalContainer(active.id);
-        const overContainer = findContainer(overId);
-
-        if (overContainer) {
-          const activeIndex = items[activeContainer].indexOf(active.id);
-          const overIndex = items[overContainer].indexOf(overId);
-          
-          // If the item has not chanaged it's container:
-          if(originalContainer === overContainer) {
-            // console.log('the item has not changed it\'s container');
-            // If the item hasn't changed position, do nothing
-            if (activeIndex === overIndex) {
-              // console.log('the item hasn\'t changed position, do nothing');
-              return false;
-            }
-            // console.log('the item has changed position');
-            setItems((items) => ({
-              ...items,
-              [overContainer]: arrayMove(
-                items[overContainer],
-                activeIndex,
-                overIndex
-              ),
-            }))
-
-            handleDragItemEnd({
-              ...items,
-              [overContainer]: arrayMove(
-                items[overContainer],
-                activeIndex,
-                overIndex
-              ),
-            })
-          } else {
-            // The item has changed containers, or a container is being dragged.
-
-            // If a container is being dragged:
-            if (active.id in items) {
-              console.log('A container is changing position')
-              const activeIndex = containers.indexOf(active.id);
-              const overIndex = containers.indexOf(over.id);
-              const newContainerList = arrayMove(containers, activeIndex, overIndex);
-              setContainers(newContainerList)
-              handleDragContainerEnd(newContainerList)
-            } else {
-              console.log('The item has changed containers');
-              setItems((items) => ({
-                ...items,
-                [overContainer]: arrayMove(
-                  items[overContainer],
-                  activeIndex,
-                  overIndex
-                ),
-              }))
-
-              handleDragItemEnd({
-                ...items,
-                [overContainer]: arrayMove(
-                  items[overContainer],
-                  activeIndex,
-                  overIndex
-                ),
-              })  
-            }
-          }
-        }
-        setActiveId(null);
-      }}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
       cancelDrop={cancelDrop}
       onDragCancel={onDragCancel}
       modifiers={modifiers}
@@ -443,15 +477,15 @@ export function MultipleContainers({
         }}
       >
         <SortableContext
-          // items={[...containers, PLACEHOLDER_ID]}
-          items={containers}
+          // items={[...sectionIds, PLACEHOLDER_ID]}
+          items={sectionIds}
           strategy={
             vertical
               ? verticalListSortingStrategy
               : horizontalListSortingStrategy
           }
         >
-          {containers.map((containerId) => (
+          {sectionIds.map((containerId) => (
             <DroppableContainer
               key={containerId}
               id={containerId}
@@ -499,14 +533,14 @@ export function MultipleContainers({
       {createPortal(
         <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>
           {activeId
-            ? containers.includes(activeId)
+            ? sectionIds.includes(activeId)
               ? renderContainerDragOverlay(activeId)
               : renderSortableItemDragOverlay(activeId)
             : null}
         </DragOverlay>,
         document.body
       )}
-      {trashable && activeId && !containers.includes(activeId) ? (
+      {trashable && activeId && !sectionIds.includes(activeId) ? (
         <Trash id={TRASH_ID} />
       ) : null}
     </DndContext>
@@ -518,7 +552,7 @@ export function MultipleContainers({
         id={id}
         handle={handle}
         style={getItemStyles({
-          containerId: findContainer(id) as string,
+          containerId: findContainer(id, items) as string,
           overIndex: -1,
           index: getIndex(id),
           id: id,
@@ -567,8 +601,8 @@ export function MultipleContainers({
   }
 
   // function handleRemove(containerID: UniqueIdentifier) {
-  //   setContainers((containers) =>
-  //     containers.filter((id) => id !== containerID)
+  //   setContainers((sectionIds) =>
+  //     sectionIds.filter((id) => id !== containerID)
   //   );
   // }
 }

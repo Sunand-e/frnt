@@ -49,12 +49,14 @@ export const UserContentConnectionFragment = gql`
     edges {
       userId
       node {
+        ...ContentFragment
         id
         title
         order
         content
         contentType
         itemType
+        order
         tags {
           edges {
             id
@@ -104,6 +106,7 @@ export const UserContentConnectionFragment = gql`
       completed
     }
   }
+  ${ContentFragment}
 `
 
 export const UserCoursesFragment = gql`
@@ -437,10 +440,6 @@ export const GET_USER_COURSE = gql`
           sections {
             id
             _deleted @client
-            lessons {
-              id
-              _deleted @client
-            }
             children {
               __typename
               _deleted @client

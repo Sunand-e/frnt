@@ -2,129 +2,115 @@ import { MultipleContainers } from "./MultipleContainers"
 import { useMutation } from '@apollo/client';
 import styles from '../../common/dnd-kit/Item/Item.module.scss'
 import classNames from 'classnames'
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import cache from "../../../graphql/cache"
-import { ContentFragment, SectionFragment } from "../../../graphql/queries/allQueries"
-import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
+import { ContentFragment, CourseFragment, SectionFragment } from "../../../graphql/queries/allQueries"
 import { SectionFragment as SectionFragmentType } from '../../../graphql/queries/__generated__/SectionFragment';
 import { UpdateCourse, UpdateCourseVariables } from '../../../graphql/mutations/course/__generated__/UpdateCourse';
-import Button from "../../common/Button"
 import DeleteLessonModal from "../DeleteLessonModal"
-import { BookOpenIcon } from "@heroicons/react/24/outline"
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-import dayjs from 'dayjs'
 import AddSectionModal from "../AddSectionModal"
 import DeleteSectionModal from "../DeleteSectionModal";
 import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../../graphql/mutations/course/UPDATE_COURSE";
-import router from "next/router";
-import { UPDATE_SECTION } from "../../../graphql/mutations/section/UPDATE_SECTION";
-import { UpdateSection, UpdateSectionVariables } from "../../../graphql/mutations/section/__generated__/UpdateSection";
 import { handleModal } from "../../../stores/modalStore";
+import useUpdateSection from "../../../hooks/sections/useUpdateSection";
+import { StructureProvider, useStructureContext } from "./CourseStructureStore";
 
-
-type Items = Record<string, string[]>;
+import { isEqual } from "lodash";
+import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
+import { useRouter } from "../../../utils/router";
 
 const itemIdsBySectionId = (mainArray) => {
   const obj = {}
-
   for (const section of mainArray) {
-    const sectionItemIds = section.lessons?.map(child => child.id)
+    const sectionItemIds = section.children?.map(child => child.id)
     obj[section.id] = sectionItemIds;
   }
   return obj
 }
 
-
-const filterDeletedCourseItems = (course) => {
-  return {
-    ...course,
-    sections: course.sections.filter(section => !section._deleted).map(section => {
-      return {
-        ...section,
-        lessons: section.lessons.filter(item => !item._deleted)
-      }
+const filterDeletedCourseItems = (course) => course && ({
+  ...course,
+  sections: course?.sections.filter(section => !section._deleted).map(section => {
+    return ({
+      ...section,
+      children: section.children.filter(child => !child._deleted)
     })
-  }
+  }) || []
+})
+
+const CourseStructureEditor = ({renderItem}) => {
+
+  const router = useRouter()
+  const { id } = router.query
+
+  const { courseEdge } = useGetUserCourse(id)
+  const course = courseEdge?.node
+
+  // if(course) { 
+  //   console.log('sectionchildren')
+  //   console.log(course)
+  //   console.log('scc')
+  //   console.log(null)
+  //   console.log('null')
+  //   console.log(course.sections.map(section => section.children))
+  //   console.log(course.sections.map(section => section.children.map(child => child.id)))
+  // }
+
+  const items = useMemo(() => {
+    // alert('calculating items for the first time')
+    return itemIdsBySectionId(
+      filterDeletedCourseItems(course)?.sections || []
+    )
+  },[courseEdge])
+
+  const sectionIds = useMemo(() => (
+    filterDeletedCourseItems(course)?.sections?.map(section => section.id) || []
+  ),[courseEdge])
+
+  return (
+    <StructureProvider
+      items={items}
+      sectionIds={sectionIds}
+    >
+      <CourseStructure renderItem={renderItem} />
+    </StructureProvider>
+  )
 }
 
-const CourseStructureEditor = ({course, renderItem=null}) => {
+const CourseStructure = ({renderItem}) => {
 
+  const router = useRouter()
+  const { id: courseId } = router.query
+
+  const clonedItems = useStructureContext((state) => state.clonedItems)
+  const items = useStructureContext((state) => state.items)
+  const sectionIds = useStructureContext((state) => state.sectionIds)
+  const setItems = useStructureContext((state) => state.setItems)
+  const setSectionIds = useStructureContext((state) => state.setSectionIds)
+
+  const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
   
-  const [courseItems, setCourseItems] = useState(
-    itemIdsBySectionId(
-      filterDeletedCourseItems(course).sections
-    )
-  )
+  const { updateSection } = useUpdateSection()
 
-  const [itemsBeforeDrag, setItemsBeforeDrag] = useState(courseItems);
-
-  const [courseSections, setCourseSections] = useState(
-    Object.keys(courseItems)
-  )
-
-  const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(
-    UPDATE_COURSE,
-    {
-      update(cache, { data: { updateCourse } } ) {
-      },
-    }
-  )
-  
-  const [updateSection, updateSectionResponse] = useMutation<UpdateSection, UpdateSectionVariables>(
-    UPDATE_SECTION
-  );
-
-  const handleReorderSectionChildren = (newItems) => {
-
-    console.log('REORDERING SECTION CHILDREN')
+  const handleReorderItems = (newItems) => {
+    console.log('newItems')
     console.log(newItems)
-
     for(const sectionId in newItems) {
-      const oldChildrenIds = itemsBeforeDrag[sectionId];
-      const newChildrenIds = newItems[sectionId];
-      if(
-        // sectionId !== 'newContainerId' &&
-        oldChildrenIds.length === newChildrenIds.length &&
-        oldChildrenIds.every((v, i) => v === newChildrenIds[i])
-      ) {
-        // console.log(`Section children order matches`, sectionId);
-      } else {
-        const cachedSection = cache.readFragment<SectionFragmentType>({
-          id:`ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment',
-        })
-        const newChildrenData = newChildrenIds.map(id => {
-          return cache.readFragment<ContentFragmentType>({
-            id:`ContentItem:${id}`,
-            fragment: ContentFragment,
-            fragmentName: 'ContentFragment',
-          })
-        })
-
+      if(!isEqual(newItems[sectionId], clonedItems[sectionId])) {
         updateSection({
-          variables: {
-            id: sectionId,
-            childrenIds: newChildrenIds
-          },
-          optimisticResponse: {
-            updateSection: {
-              __typename: 'UpdateSectionPayload',
-              section: {
-                ...cachedSection,
-                children: newChildrenData
-              },
-            }
-          }
+          id: sectionId,
+          childrenIds: newItems[sectionId]
         })
       }
     }
-
   }
   
   const handleReorderSections = (newSectionIds) => {
+    setSectionIds(newSectionIds)
+
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
         id:`ContentItem:${id}`,
@@ -133,6 +119,12 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
       })
     })
     
+    const course = cache.readFragment<SectionFragmentType>({
+      id:`ContentItem:${courseId}`,
+      fragment: CourseFragment,
+      fragmentName: 'CourseFragment',
+    })
+
     updateCourse({
       variables: {
         id: course.id,
@@ -152,183 +144,37 @@ const CourseStructureEditor = ({course, renderItem=null}) => {
     })
   }
 
-  const handleDragItemEnd = (items) => {
-    handleReorderSectionChildren(items)
-  }
-  const handleDragSectionEnd = (containers) => {
-    handleReorderSections(containers)
-  }
-
-  useEffect(() => {
-    const newItemsObject = itemIdsBySectionId(
-      filterDeletedCourseItems(course).sections
-    )
-
-    // console.log('newItemsObject')
-    // console.log(newItemsObject)
-    // console.log('Object.keys(newItemsObject)')
-    // console.log(Object.keys(newItemsObject))
-    setCourseItems(newItemsObject)
-    setCourseSections(Object.keys(newItemsObject))
-
-  },[course])
-
-  /* Can probably get rid of the setSections and setItems declarations????*/
-  // const setSections = (sections) => {
-  //   console.log('courseSections')
-  //   console.log('courseSections')
-  //   console.log('courseSections')
-  //   console.log('courseSections')
-  //   console.log(courseSections)
-  //   console.log(sections)
-  //   if (typeof sections === 'function') {
-  //     setCourseSections(sections(courseSections))
-  //   } else {
-  //     setCourseSections(courseSections)
-  //   }
-  // }
-
-  const setItems = (items) => {
-    if (typeof items === 'function') {
-      setCourseItems(items(courseItems))
-    } else {
-      setCourseItems(courseItems)
-    }
-  }
-
-  // const [items, setItems] = useState<Items>(courseItems);
-
-    // useEffect(() => {
-  //   setItems(itemIdsBySectionId(filterDeletedCourseItems(course).sections))
-  // },[course])
-
-  const handleDelete = (value) => {
-    handleModal({
-      title: `Delete lesson`,
-      content: <DeleteLessonModal lessonId={value} />
-    })
-  }
-
-  const handleDeleteSection = (value) => {
+  const handleDeleteSection = (id) => {
     handleModal({
       title: `Delete section`,
-      content: <DeleteSectionModal sectionId={value} />
+      content: <DeleteSectionModal id={id} />
     })
   }
 
   const handleAddSection = () => {
     handleModal({
       title: `Section name:`,
-      content: <AddSectionModal courseId={course.id} />
+      content: <AddSectionModal courseId={courseId} />
     })
-  }
-
-  const defaultRenderItem = ({
-    dragOverlay,
-    dragging,
-    sorting,
-    index,
-    fadeIn,
-    listeners,
-    ref,
-    style,
-    transform,
-    transition,
-    value
-  }) => {
-
-    const item = cache.readFragment<ContentFragmentType>({
-      id:`ContentItem:${value}`,
-      fragment: ContentFragment,
-      fragmentName: 'ContentFragment',
-    })
-
-    const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
-    
-    return (
-      <li
-        className={classNames(
-          styles.Wrapper,
-          `flex hover:bg-gray-50`,
-          fadeIn && styles.fadeIn,
-          sorting && styles.sorting,
-          dragOverlay && styles.dragOverlay
-        )}
-        style={
-          {
-            transition,
-            '--translate-x': transform
-            ? `${Math.round(transform.x)}px`
-            : undefined,
-            '--translate-y': transform
-            ? `${Math.round(transform.y)}px`
-            : undefined,
-            '--scale-x': transform?.scaleX
-            ? `${transform.scaleX}`
-            : undefined,
-            '--scale-y': transform?.scaleY
-            ? `${transform.scaleY}`
-            : undefined,
-            '--index': index,
-          } as React.CSSProperties
-        }
-        ref={ref}
-      >
-        <div
-          className={classNames(
-            'flex items-center w-full px-4 py-4 sm:px-6',
-            dragging && styles.dragging,
-            dragOverlay && styles.dragOverlay,
-          )}
-          style={style}
-          data-cypress="draggable-item"
-          {...listeners}
-          tabIndex={0}
-        >
-          <div className="min-w-0 flex-1 flex items-center" onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>
-            <div className="shrink-0 w-8 bg-main-secondary text-white p-1 rounded-full align-top">
-              <BookOpenIcon />
-            </div>
-            <div className="min-w-0 flex-0 px-4 md:grid md:grid-cols-2 md:gap-4 items-center">
-              <span className="text-sm font-medium text-indigo-600">{item.title}</span>
-              <div className="hidden md:block">
-                <span className="text-sm text-gray-900">
-                  Last edited: <time dateTime={item.updatedAt}>{updatedDate}</time>
-                </span>
-              </div>
-            </div>
-
-            <div className="ml-auto flex space-x-2">
-              <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button>
-              <Button onClick={() => handleDelete(item.id)}>Delete</Button>
-            </div>
-          </div>
-        </div>
-      </li>
-    )
   }
 
   return (
     <>
       <MultipleContainers 
         vertical
-        renderItem={renderItem ?? defaultRenderItem}
-        items={courseItems}
-        setItems={setItems}
-        clonedItems={itemsBeforeDrag}
-        setClonedItems={setItemsBeforeDrag}
-        containers={courseSections}
-        // setContainers={setSections}
-        setContainers={setCourseSections}
-        // onAddColumn={handleAddSectionModal}
+        renderItem={renderItem}
         modifiers={[restrictToVerticalAxis]}
         onRemoveContainer={handleDeleteSection}
-        onDragContainerEnd={handleDragSectionEnd}
-        onDragItemEnd={handleDragItemEnd}
+        onDragContainerEnd={handleReorderSections}
+        onDragItemEnd={handleReorderItems}
       />
       <NewSectionButton
-        onClick={() => handleAddSection()}
+        onClick={handleAddSection}
       />
+      {/* {sectionIds} */}
+      <pre>
+      { JSON.stringify(items,null,2) }
+      </pre>
     </>
   )
 }

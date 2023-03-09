@@ -1,21 +1,11 @@
 import { gql, useMutation } from '@apollo/client';
-import { SectionFragment } from "../../graphql/queries/allQueries";
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
-import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
-import { useEffect, useState } from 'react';
 import { SectionChildrenFragmentFragment } from '../../graphql/generated';
-import { GET_USER_COURSE } from '../../graphql/queries/users';
-import { useRouter } from '../../utils/router';
-
 export const SectionChildrenFragment = gql`
   fragment SectionChildrenFragment on ContentItem {
     children {
       __typename
-      id
-      _deleted @client
-    }
-    lessons {
       id
       _deleted @client
     }
@@ -38,14 +28,8 @@ function useCreateLesson(sectionId) {
             ...data.children,
             createLesson.lesson
           ],
-          lessons: [
-            // ...data.lessons.filter(child => child._deleted === false),
-            ...data.lessons,
-            createLesson.lesson
-          ]
         }))
       },
- 
     }
   );
 
@@ -55,17 +39,39 @@ function useCreateLesson(sectionId) {
         ...values,
         parentIds: [sectionId]
       },
+      optimisticResponse: {
+        createLesson: {
+          __typename: 'CreateLessonPayload',
+          lesson: {
+            __typename: 'ContentItem',
+            id: Math.floor(Math.random() * 10000) + '',
+            title: values.title || '',
+            createdAt: '',
+            updatedAt: '',
+            content: {},
+            contentType: 'text',
+            itemType: 'lesson',
+            image: null,
+            icon: null,
+            prerequisites: null,
+            _deleted: false,
+            settings: '',
+            shared: false,
+            mediaItem: null,
+            users: {
+              __typename: 'ContentUserConnection',
+              totalCount: 0
+            },
+            tags: [],
+            order: 99999999,
+          },
+          message: ''
+        }
+      }
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
   }
-
-
-
-  useEffect(() => {
-    // console.log('createLessonResponse')
-    // console.log(createLessonResponse)
-  }, [createLessonResponse])
 
   return {
     lesson: createLessonResponse.data?.createLesson?.lesson,

@@ -7,6 +7,7 @@ import { CreateSection, CreateSectionVariables } from '../../graphql/mutations/s
 import { CREATE_SECTION } from '../../graphql/mutations/section/CREATE_SECTION';
 import { GetCourse_course } from '../../graphql/queries/__generated__/GetCourse';
 import { closeModal, handleModal } from '../../stores/modalStore';
+import useCreateSection from '../../hooks/sections/useCreateSection';
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -29,64 +30,12 @@ const AddSectionModal = ({courseId}) => {
     closeModal()
   }
   
-  const [createSection, newSection] = useMutation<CreateSection, CreateSectionVariables>(
-    CREATE_SECTION,
-    {
-      update(cache, { data: { createSection } } ) {
-        console.log('run theipdatefunction')
-        const courseData = cache.readFragment<GetCourse_course>({
-          id:`ContentItem:${courseId}`,
-          fragment: CourseFragment,
-          fragmentName: 'CourseFragment'
-        })
-        
-        console.log('courseData')
-        console.log(courseData)
-        const newCourseData = {
-          ...courseData,
-          sections: [...courseData.sections, createSection.section]
-        }
-        
-        cache.writeFragment<GetCourse_course>({
-          id:`ContentItem:${courseId}`,
-          fragment: CourseFragment,
-          fragmentName: 'CourseFragment',
-          data: newCourseData
-        })
-      },
- 
-    }
-  );
+  const { createSection } = useCreateSection({courseId})
 
   const handleNewSection = (values) => {
     createSection({
-      variables: {
-        title: values.title,
-        parentIds: [courseId]        
-      },
-      // optimisticResponse: {
-      //   createSection: {
-      //     __typename: 'CreateSectionPayload',
-      //     section: {
-      //       __typename: 'ContentItem',
-      //       id: Math.floor(Math.random() * 10000) + '',
-      //       title: values.title,
-      //       createdAt: '',
-      //       updatedAt: '',
-      //       content: {},
-      //       contentType: null,
-      //       itemType: 'section',
-      //       image: null,
-      //       icon: null,
-      //       prerequisites: null,
-      //       _deleted: false,
-      //     },
-      //     message: ''
-      //   }
-      // }
-      // refetchQueries: [{ query: GET_COURSE }]
-    }).catch(res => {
-      // TODO: do something if there is an error!!
+      title: values.title,
+      parentIds: [courseId]
     })
     anotherHandle()
   }

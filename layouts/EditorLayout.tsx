@@ -5,8 +5,7 @@ import CourseStructureEditor from '../components/courses/CourseStructureEditor/C
 import SidebarEditableItem from '../components/courses/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
 import { motion } from 'framer-motion';
-import useGetUserCourse from '../hooks/users/useGetUserCourse';
-import useGetCurrentUser from '../hooks/users/useGetCurrentUser';
+import CourseStructureEditorTest from '../components/courses/CourseStructureEditor/CourseStructureEditorTest';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -14,28 +13,20 @@ export default function EditorLayout( {page, navState} ) {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
 
-    const router = useRouter()
-    const { id } = router.query
-    const { courseEdge } = useGetUserCourse(id)
-    const course = courseEdge?.node
-
-  
-  const courseStructureEditorProps = {
-    renderItem: SidebarEditableItem
-  }
-
   const layoutProps = {
     page,
     navState,
-    ...(course && {
+    // ...(course && {
       sidebarComponent: (
         <div className="px-3 py-3">
-          <CourseStructureEditor {...courseStructureEditorProps} course={course} />
+          {/* <CourseStructureEditorTest /> */}
+          <CourseStructureEditor
+            renderItem={SidebarEditableItem}
+          />
         </div>
       )
-    })
+    // })
   }
-
   return (
     <Layout {...layoutProps} >
       {/*<div className="w-full h-[calc(100%-4.5rem)] mx-auto bg-white">*/}

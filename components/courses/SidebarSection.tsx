@@ -6,12 +6,18 @@ import {Handle, Remove} from '../common/dnd-kit/Item';
 import styles from './SidebarSection.module.scss';
 import cache, { courseNavigationVar } from "../../graphql/cache"
 import { ContentFragment } from "../../graphql/queries/allQueries"
-import { useFragment_experimental, useReactiveVar } from '@apollo/client';
+import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client';
 import {Cancel} from '@styled-icons/material-rounded/Cancel'
 import {Save} from '@styled-icons/material-rounded/Save'
 import EasyEdit, {Types} from 'react-easy-edit';
 import useUpdateSection from '../../hooks/sections/useUpdateSection';
 
+export const ContentTitleFragment = gql`
+  fragment ContentTitleFragment on ContentItem {
+    id
+    title
+  }
+`
 export interface Props {
   id?: string;
   children: React.ReactNode;
@@ -52,16 +58,30 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
   ) => {
     const { updateSection } = useUpdateSection(id)
 
-    const { complete, data } = useFragment_experimental({
-      fragment: ContentFragment,
-      fragmentName: 'ContentFragment',
+
+    const { complete, data, missing } = useFragment_experimental({
+      fragment: ContentTitleFragment,
       from: {
         __typename: "ContentItem",
         id: id,
       },
+      optimistic: true
     });  
 
     const { expand } = useReactiveVar(courseNavigationVar)
+    // useEffect(() => {
+    //   console.log('id')
+    //   console.log(id)
+    // },[id])
+    // useEffect(() => {
+    //   console.log('data?.title')
+    //   console.log(data?.title)
+    // },[data?.title])
+    // useEffect(() => {
+    //   console.log('missing')
+    //   console.log(missing)
+    // },[missing])
+        
     return (
       <div
         {...props}
@@ -106,9 +126,10 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
                   cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
                   placeHolder="Section title..."
                   attributes={{ name: "awesome-input", id: 1}}
-                  value= { data?.title }
+                  value= { data?.id }
                 />
-              ) : data?.title }
+              // ) : data?.title }
+              ) : data?.id }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }

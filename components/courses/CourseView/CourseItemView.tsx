@@ -21,8 +21,8 @@ const CourseItemView = () => {
     // If there is a course but no item provided, show the first item
     if(course && !contentId) {
       const firstItemInCourse = course.sections?.find(
-        (section) => section.lessons?.length
-      )?.lessons[0]
+        (section) => section.children?.length
+      )?.children[0]
       
       if(firstItemInCourse) {
         router.push({query: {
