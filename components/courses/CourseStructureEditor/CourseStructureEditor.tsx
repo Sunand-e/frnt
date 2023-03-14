@@ -16,11 +16,11 @@ import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../../graphql/mutations/course/UPDATE_COURSE";
 import { handleModal } from "../../../stores/modalStore";
 import useUpdateSection from "../../../hooks/sections/useUpdateSection";
-import { StructureProvider, useStructureContext } from "./CourseStructureStore";
-
 import { isEqual } from "lodash";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../utils/router";
+
+import { StructureItems } from "./MultipleContainers";
 
 const itemIdsBySectionId = (mainArray) => {
   const obj = {}
@@ -43,63 +43,56 @@ const filterDeletedCourseItems = (course) => course && ({
 
 const CourseStructureEditor = ({renderItem}) => {
 
+  const [isReordering, setIsReordering] = useState(false)
+
   const router = useRouter()
   const { id } = router.query
 
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  // if(course) { 
-  //   console.log('sectionchildren')
-  //   console.log(course)
-  //   console.log('scc')
-  //   console.log(null)
-  //   console.log('null')
-  //   console.log(course.sections.map(section => section.children))
-  //   console.log(course.sections.map(section => section.children.map(child => child.id)))
-  // }
+  // const items = itemIdsBySectionId(
+  //   filterDeletedCourseItems(course)?.sections || []
+  // )
+  const [items, setItems] = useState({})
 
-  const items = useMemo(() => {
-    // alert('calculating items for the first time')
-    return itemIdsBySectionId(
+  
+  useEffect(() => {
+    const updatedCacheItems = itemIdsBySectionId(
       filterDeletedCourseItems(course)?.sections || []
     )
-  },[courseEdge])
+    setItems(updatedCacheItems)
+  
+  },[course])
+  //   const updatedCacheItems = itemIdsBySectionId(
+  //     filterDeletedCourseItems(course)?.sections || []
+  //   )
+  //   if(isEqual(items, updatedCacheItems)) {
+  //     console.log('theyre the same')
+  //   } else {
+  //     console.log('different')
+  //     console.log('items')
+  //     console.log(items)
+  //     console.log('updatedCacheItems')
+  //     console.log(updatedCacheItems)
+  //     setItems(updatedCacheItems)
+  //   }
 
-  const sectionIds = useMemo(() => (
-    filterDeletedCourseItems(course)?.sections?.map(section => section.id) || []
-  ),[courseEdge])
+  
 
-  return (
-    <StructureProvider
-      items={items}
-      sectionIds={sectionIds}
-    >
-      <CourseStructure renderItem={renderItem} />
-    </StructureProvider>
-  )
-}
-
-const CourseStructure = ({renderItem}) => {
-
-  const router = useRouter()
-  const { id: courseId } = router.query
-
-  const clonedItems = useStructureContext((state) => state.clonedItems)
-  const items = useStructureContext((state) => state.items)
-  const sectionIds = useStructureContext((state) => state.sectionIds)
-  const setItems = useStructureContext((state) => state.setItems)
-  const setSectionIds = useStructureContext((state) => state.setSectionIds)
 
   const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
   
   const { updateSection } = useUpdateSection()
 
-  const handleReorderItems = (newItems) => {
+  const handleReorderItems = (newItems: StructureItems, oldItems: StructureItems) => {
     console.log('newItems')
     console.log(newItems)
+    console.log('oldItems')
+    console.log(oldItems)
+
     for(const sectionId in newItems) {
-      if(!isEqual(newItems[sectionId], clonedItems[sectionId])) {
+      if(!isEqual(newItems[sectionId], oldItems[sectionId])) {
         updateSection({
           id: sectionId,
           childrenIds: newItems[sectionId]
@@ -109,7 +102,7 @@ const CourseStructure = ({renderItem}) => {
   }
   
   const handleReorderSections = (newSectionIds) => {
-    setSectionIds(newSectionIds)
+    // setSectionIds(newSectionIds)
 
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
@@ -120,7 +113,7 @@ const CourseStructure = ({renderItem}) => {
     })
     
     const course = cache.readFragment<SectionFragmentType>({
-      id:`ContentItem:${courseId}`,
+      id:`ContentItem:${id}`,
       fragment: CourseFragment,
       fragmentName: 'CourseFragment',
     })
@@ -154,29 +147,32 @@ const CourseStructure = ({renderItem}) => {
   const handleAddSection = () => {
     handleModal({
       title: `Section name:`,
-      content: <AddSectionModal courseId={courseId} />
+      content: <AddSectionModal courseId={id} />
     })
   }
-
   return (
     <>
+    { course && (
+    <div>
       <MultipleContainers 
         vertical
+        items={items}
         renderItem={renderItem}
         modifiers={[restrictToVerticalAxis]}
         onRemoveContainer={handleDeleteSection}
-        onDragContainerEnd={handleReorderSections}
-        onDragItemEnd={handleReorderItems}
+        onAddContainer={handleAddSection}
+        onItemReorder={handleReorderItems}
+        onContainerReorder={handleReorderSections}
       />
       <NewSectionButton
         onClick={handleAddSection}
       />
-      {/* {sectionIds} */}
-      <pre>
-      { JSON.stringify(items,null,2) }
-      </pre>
+    </div>
+    )}
     </>
   )
 }
+
+CourseStructureEditor.whyDidYouRender = true
 
 export default CourseStructureEditor

@@ -95,14 +95,14 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
         className={classNames(
           styles.SidebarSection,
           // 'bg-white bg-opacity-10',
-          expand && styles.expanded
+          expand && styles.expanded,
+          unstyled && styles.unstyled,
+          horizontal && styles.horizontal,
+          hover && styles.hover,
+          placeholder && styles.placeholder,
+          scrollable && styles.scrollable,
+          shadow && styles.shadow,
         )}
-        //   unstyled && styles.unstyled,
-        //   horizontal && styles.horizontal,
-        //   hover && styles.hover,
-        //   placeholder && styles.placeholder,
-        //   scrollable && styles.scrollable,
-        //   shadow && styles.shadow,
         // className={`
         // ${ !expand
         //   ? 'bg-white shadow sm:rounded-md mb-4'
@@ -111,7 +111,7 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
-        {id ? (
+        {id && id !== 'placeholder' ? (
           <div className={ classNames(
             `flex justify-between px-4`,
             styles.Header
@@ -126,10 +126,10 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
                   cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
                   placeHolder="Section title..."
                   attributes={{ name: "awesome-input", id: 1}}
-                  value= { data?.id }
+                  value= { data?.title }
                 />
               // ) : data?.title }
-              ) : data?.id }
+              ) : data?.title }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }

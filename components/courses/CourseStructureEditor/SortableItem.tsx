@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { Item } from '../../common/dnd-kit';
-import { SortableItemProps, useMountStatus } from './MultipleContainers';
+import { UniqueIdentifier } from '@dnd-kit/core';
+
+function useMountStatus() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsMounted(true), 500);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return isMounted;
+}
+
+interface SortableItemProps {
+  containerId: UniqueIdentifier;
+  id: UniqueIdentifier;
+  index: number;
+  handle: boolean;
+  disabled?: boolean;
+  style(args: any): React.CSSProperties;
+  getIndex(id: UniqueIdentifier): number;
+  renderItem(): React.ReactElement;
+  wrapperStyle({index}: {index: number}): React.CSSProperties;
+}
 
 export function SortableItem({
   disabled, id, index, handle, renderItem, style, containerId, getIndex, wrapperStyle,

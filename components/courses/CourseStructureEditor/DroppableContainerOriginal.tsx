@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { ContainerProps } from '../../common/dnd-kit';
+import { Container, ContainerProps } from '../../common/dnd-kit';
 import {
   AnimateLayoutChanges,
   useSortable,
@@ -51,9 +51,7 @@ export function DroppableContainer({
     : false;
 
   return (
-    <SidebarSection
-      editing={true}
-      id={id}
+    <Container
       ref={disabled ? undefined : setNodeRef}
       style={{
         ...style,
@@ -70,9 +68,6 @@ export function DroppableContainer({
       {...props}
     >
       {children}
-      { id !== 'placeholder' && <NewItemButton container={id} /> }
-      {/* { CSS.Translate.toString(transform) } */}
-
-    </SidebarSection>
+    </Container>
   );
 }

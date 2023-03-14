@@ -1,9 +1,9 @@
 import React, {forwardRef} from 'react';
-import classNames from 'classnames';
-
 import {Handle, Remove} from '../Item';
-
 import styles from './Container.module.scss';
+import cache from "../../../../graphql/cache"
+import { ContentFragment } from "../../../../graphql/queries/allQueries"
+import { ContentFragment as ContentFragmentType } from '../../../../graphql/queries/__generated__/ContentFragment';
 
 export interface Props {
   children: React.ReactNode;
@@ -41,10 +41,16 @@ export const Container = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) => {
-    const Component = onClick ? 'button' : 'div';
+
+    const section = cache.readFragment<ContentFragmentType>({
+      id:`ContentItem:${label}`,
+      fragment: ContentFragment,
+      fragmentName: 'ContentFragment',
+      optimistic: true
+    })
 
     return (
-      <Component
+      <div
         {...props}
         ref={ref}
         style={
@@ -53,31 +59,34 @@ export const Container = forwardRef<HTMLDivElement, Props>(
             '--columns': columns,
           } as React.CSSProperties
         }
-        className={classNames(
-          `bg-white shadow overflow-hidden sm:rounded-md mb-4`,
-          styles.Container,
-          unstyled && styles.unstyled,
-          horizontal && styles.horizontal,
-          hover && styles.hover,
-          placeholder && styles.placeholder,
-          scrollable && styles.scrollable,
-          shadow && styles.shadow,
-        )}
-        // className={`bg-white shadow overflow-hidden sm:rounded-md mb-4`}
+        // className={classNames(
+        //   styles.Container,
+        //   unstyled && styles.unstyled,
+        //   horizontal && styles.horizontal,
+        //   hover && styles.hover,
+        //   placeholder && styles.placeholder,
+        //   scrollable && styles.scrollable,
+        //   shadow && styles.shadow,
+        // )}
+        className={`bg-white shadow overflow-hidden sm:rounded-md mb-4`}
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
         {label ? (
           <div className={styles.Header}>
-            {label}
+            { section ? section.title : label }
+            {/* <br />
+            {section.id} */}
             <div className={styles.Actions}>
               {onRemove ? <Remove onClick={onRemove} /> : undefined}
               <Handle {...handleProps} />
             </div>
           </div>
         ) : null}
+
         {placeholder ? children : <ul className={`divide-y divide-gray-200`}>{children}</ul>}
-      </Component>
+
+      </div>
     );
   }
 );
