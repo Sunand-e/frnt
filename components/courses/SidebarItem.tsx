@@ -5,7 +5,6 @@ import styles from './SidebarItem.module.scss'
 import { forwardRef } from "react"
 import { lessonTypes } from "../courses/lessonTypes"
 import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
-import { useRouter } from '../../utils/router'
 import SidebarItemProgress from './SidebarItemProgress'
 
 const SidebarItem = forwardRef<HTMLLIElement, any>(({
@@ -19,8 +18,6 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   onSelect,
   onDelete
 }, ref) => {
-
-  const router = useRouter()
 
   const { complete, data } = useFragment_experimental({
     fragment: gql`

@@ -11,6 +11,7 @@ import {Cancel} from '@styled-icons/material-rounded/Cancel'
 import {Save} from '@styled-icons/material-rounded/Save'
 import EasyEdit, {Types} from 'react-easy-edit';
 import useUpdateSection from '../../hooks/sections/useUpdateSection';
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 export const ContentTitleFragment = gql`
   fragment ContentTitleFragment on ContentItem {
@@ -19,7 +20,7 @@ export const ContentTitleFragment = gql`
   }
 `
 export interface Props {
-  id?: string;
+  id?: UniqueIdentifier;
   children: React.ReactNode;
   columns?: number;
   style?: React.CSSProperties;

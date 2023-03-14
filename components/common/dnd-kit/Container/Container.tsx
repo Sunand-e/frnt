@@ -55,7 +55,7 @@ export const Container = forwardRef<HTMLDivElement, Props>(
         }
         className={classNames(
           `bg-white shadow overflow-hidden sm:rounded-md mb-4`,
-          styles.Container,
+          // styles.Container,
           unstyled && styles.unstyled,
           horizontal && styles.horizontal,
           hover && styles.hover,

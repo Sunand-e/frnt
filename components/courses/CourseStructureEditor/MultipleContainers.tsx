@@ -35,6 +35,10 @@ import {Item, Container} from '../../common/dnd-kit';
 import { DroppableContainer } from './DroppableContainer';
 import { SortableItem } from './SortableItem';
 import { isEqual } from 'lodash';
+import { SidebarSection } from '../SidebarSection';
+import NewItemButton from './NewItemButton';
+import SidebarItem from '../SidebarItem';
+import SidebarEditableItem from './SidebarEditableItem';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
@@ -430,9 +434,8 @@ export function MultipleContainers({
 
   function renderSortableItemDragOverlay(id: UniqueIdentifier) {
     return (
-      <Item
-        value={id}
-        handle={handle}
+      <SidebarEditableItem
+        id={id}
         style={getItemStyles({
           containerId: findContainer(id) as UniqueIdentifier,
           overIndex: -1,
@@ -442,8 +445,6 @@ export function MultipleContainers({
           isDragging: true,
           isDragOverlay: true,
         })}
-        wrapperStyle={wrapperStyle({index: 0})}
-        renderItem={renderItem}
         dragOverlay
       />
     );
@@ -451,8 +452,8 @@ export function MultipleContainers({
 
   function renderContainerDragOverlay(containerId: UniqueIdentifier) {
     return (
-      <Container
-        label={`Column ${containerId}`}
+      <SidebarSection
+        id={containerId}
         columns={columns}
         style={{
           height: '100%',
@@ -461,10 +462,9 @@ export function MultipleContainers({
         unstyled={false}
       >
         {items[containerId].map((item, index) => (
-          <Item
+          <SidebarEditableItem
             key={item}
-            value={item}
-            handle={handle}
+            id={item}
             style={getItemStyles({
               containerId,
               overIndex: -1,
@@ -474,11 +474,11 @@ export function MultipleContainers({
               isSorting: false,
               isDragOverlay: false,
             })}
-            wrapperStyle={wrapperStyle({index})}
             renderItem={renderItem}
           />
         ))}
-      </Container>
+        { containerId !== 'placeholder' && <NewItemButton container={containerId} /> }
+      </SidebarSection>
     );
   }
 }
