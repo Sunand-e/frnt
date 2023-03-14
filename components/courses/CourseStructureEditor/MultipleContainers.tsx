@@ -124,20 +124,22 @@ export function MultipleContainers({
       }
       );
       
-  const [containers, setContainers] = useState(
-    Object.keys(items) as UniqueIdentifier[]
-  );
+  // const [containers, setContainers] = useState(
+  //   Object.keys(items) as UniqueIdentifier[]
+  // );
+  const containers = Object.keys(items) as UniqueIdentifier[]
 
   const isDragging = useRef<boolean>(false)
-  const [clonedItems, setClonedItems] = useState<StructureItems | null>(initialItems);
+  // const [clonedItems, setClonedItems] = useState<StructureItems | null>(initialItems);
+  const clonedItems = useRef<StructureItems>(initialItems);
   
   useEffect(() => {
     // alert('initialItems have changed')
     // console.log('initialItemsaa')
     // console.log(initialItems)
     setItems(initialItems)
-    setClonedItems(initialItems)
-    setContainers(Object.keys(initialItems) as UniqueIdentifier[])
+    clonedItems.current = initialItems
+    // setContainers(Object.keys(initialItems) as UniqueIdentifier[])
   },[initialItems])
 
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -262,10 +264,10 @@ export function MultipleContainers({
   };
 
   const onDragCancel = () => {
-    if (clonedItems) {
+    if (clonedItems.current) {
       // Reset items to their original state in case items have been
       // Dragged across containers
-      setItems(clonedItems);
+      setItems(clonedItems.current);
     }
 
     setActiveId(null);
@@ -292,7 +294,7 @@ export function MultipleContainers({
       }}
       onDragStart={({active}) => {
         setActiveId(active.id);
-        setClonedItems(items);
+        clonedItems.current = items;
         isDragging.current = true;
       }}
       onDragOver={({active, over}) => {
@@ -354,13 +356,18 @@ export function MultipleContainers({
       }}
       onDragEnd={({active, over}) => {
 
-        if (active.id in items && over?.id) {
-          setContainers((containers) => {
-            const activeIndex = containers.indexOf(active.id);
-            const overIndex = containers.indexOf(over.id);
+        let newItems = items;
 
-            return arrayMove(containers, activeIndex, overIndex);
-          });
+        if (active.id in items && over?.id) {
+          const activeIndex = containers.indexOf(active.id);
+          const overIndex = containers.indexOf(over.id);
+          let containerArray = arrayMove(containers, activeIndex, overIndex);
+          const obj: StructureItems = {}
+          for (const sectionId of containerArray) {
+            obj[sectionId] = items[sectionId];
+          }
+          newItems = obj
+          setItems(newItems)
         }
 
         const activeContainer = findContainer(active.id);
@@ -379,7 +386,6 @@ export function MultipleContainers({
 
         const overContainer = findContainer(overId);
 
-        let newItems = items;
 
         if (overContainer) {
           const activeIndex = items[activeContainer].indexOf(active.id);
@@ -394,21 +400,13 @@ export function MultipleContainers({
               ),
             }
             setItems(newItems)
-            // setItems((items) => {
-            //   const newItems = {
-            //     ...items,
-            //     [overContainer]: arrayMove(
-            //       items[overContainer],
-            //       activeIndex,
-            //       overIndex
-            //     ),
-            //   }
-            //   return newItems;
-            // });
           }
         }
-        if(!isEqual(newItems, clonedItems)) {
-          onItemReorder(newItems, clonedItems)
+        // alert('gothere')
+        if(!isEqual(newItems, clonedItems.current)) {
+          onItemReorder(newItems, clonedItems.current)
+        } else if(!isEqual(Object.keys(newItems), Object.keys(clonedItems.current))) {
+          onContainerReorder(Object.keys(newItems))
         }
   
         setActiveId(null);
@@ -503,7 +501,7 @@ export function MultipleContainers({
     <div>
       <h3>MC clonedItems state</h3>
       <pre className='m-5'>
-      { JSON.stringify(clonedItems,null,2) }
+      { JSON.stringify(clonedItems.current,null,2) }
       </pre>
     </div>
     

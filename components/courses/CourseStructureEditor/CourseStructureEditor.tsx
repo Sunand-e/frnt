@@ -86,10 +86,6 @@ const CourseStructureEditor = ({renderItem}) => {
   const { updateSection } = useUpdateSection()
 
   const handleReorderItems = (newItems: StructureItems, oldItems: StructureItems) => {
-    console.log('newItems')
-    console.log(newItems)
-    console.log('oldItems')
-    console.log(oldItems)
 
     for(const sectionId in newItems) {
       if(!isEqual(newItems[sectionId], oldItems[sectionId])) {
