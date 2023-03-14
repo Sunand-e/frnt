@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {createPortal, unstable_batchedUpdates} from 'react-dom'
+import {createPortal} from 'react-dom'
 import {
   CancelDrop,
   closestCenter,
@@ -14,7 +14,6 @@ import {
   MouseSensor,
   TouchSensor,
   Modifiers,
-  useDroppable,
   UniqueIdentifier,
   useSensors,
   useSensor,
@@ -24,23 +23,18 @@ import {
   PointerSensor,
 } from '@dnd-kit/core';
 import {
-  AnimateLayoutChanges,
   SortableContext,
-  useSortable,
   arrayMove,
-  defaultAnimateLayoutChanges,
   verticalListSortingStrategy,
   SortingStrategy,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
-import { v4 as uuidv4 } from 'uuid';
 import {coordinateGetter as multipleContainersCoordinateGetter} from './multipleContainersKeyboardCoordinates';
 
-import {Item, Container, ContainerProps} from '../../common/dnd-kit';
+import {Item, Container} from '../../common/dnd-kit';
 import { DroppableContainer } from './DroppableContainer';
 import { SortableItem } from './SortableItem';
-import { clone, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
@@ -90,7 +84,6 @@ interface Props {
 
 export const TRASH_ID = 'void';
 const PLACEHOLDER_ID = 'placeholder';
-const empty: UniqueIdentifier[] = [];
 
 export function MultipleContainers({
   adjustScale = false,
@@ -106,60 +99,34 @@ export function MultipleContainers({
   modifiers,
   renderItem,
   strategy = verticalListSortingStrategy,
-  trashable = false,
   vertical = false,
   scrollable,
   onItemReorder,
   onContainerReorder,
   onAddContainer,
-  onRemoveContainer: onRemoveContainer,
-  onAddItem,
-  onRemoveItem
+  onRemoveContainer: onRemoveContainer
 }: Props) {
   
   const [items, setItems] = useState<StructureItems>(
-    () =>
-    initialItems ?? {
+    () => initialItems ?? {
       A: [],
-      }
-      );
-      
-  // const [containers, setContainers] = useState(
-  //   Object.keys(items) as UniqueIdentifier[]
-  // );
+    }
+  );
   const containers = Object.keys(items) as UniqueIdentifier[]
 
   const isDragging = useRef<boolean>(false)
-  // const [clonedItems, setClonedItems] = useState<StructureItems | null>(initialItems);
   const clonedItems = useRef<StructureItems>(initialItems);
   
   useEffect(() => {
-    // alert('initialItems have changed')
-    // console.log('initialItemsaa')
-    // console.log(initialItems)
     setItems(initialItems)
     clonedItems.current = initialItems
-    // setContainers(Object.keys(initialItems) as UniqueIdentifier[])
   },[initialItems])
 
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
   const isSortingContainer = activeId ? containers.includes(activeId) : false;
-  
-  // useEffect(() => {
-  //   if(containers.length > 0) {
-  //     onContainerReorder(containers)
-      // console.log('containers.length > 0')
-      // console.log('containers')
-      // console.log(containers)
-      // const obj: StructureItems = {}
-      // for (const id of containers) {
-      //   obj[id] = items[id];
-      // }
-      // onItemReorder(obj, items)
-  //   }
-  // },[containers])
+
   /**
    * Custom collision detection strategy optimized for multiple containers
    *
@@ -189,12 +156,6 @@ export function MultipleContainers({
       let overId = getFirstCollision(intersections, 'id');
 
       if (overId != null) {
-        if (overId === TRASH_ID) {
-          // If the intersecting droppable is the trash, return early
-          // Remove this if you're not using trashable functionality in your app
-          return intersections;
-        }
-
         if (overId in items) {
           const containerItems = items[overId];
 
@@ -253,14 +214,10 @@ export function MultipleContainers({
 
   const getIndex = (id: UniqueIdentifier) => {
     const container = findContainer(id);
-
     if (!container) {
       return -1;
     }
-
-    const index = items[container].indexOf(id);
-
-    return index;
+    return items[container].indexOf(id);
   };
 
   const onDragCancel = () => {
@@ -272,7 +229,6 @@ export function MultipleContainers({
 
     setActiveId(null);
     isDragging.current = false
-    // setClonedItems(null);
   };
 
   useEffect(() => {
@@ -282,8 +238,6 @@ export function MultipleContainers({
   }, [items]);
 
   return (
-    <div className="flex">
-    <div className="w-[400px]">
     <DndContext
       sensors={sensors}
       collisionDetection={collisionDetectionStrategy}
@@ -386,7 +340,6 @@ export function MultipleContainers({
 
         const overContainer = findContainer(overId);
 
-
         if (overContainer) {
           const activeIndex = items[activeContainer].indexOf(active.id);
           const overIndex = items[overContainer].indexOf(overId);
@@ -402,7 +355,6 @@ export function MultipleContainers({
             setItems(newItems)
           }
         }
-        // alert('gothere')
         if(!isEqual(newItems, clonedItems.current)) {
           onItemReorder(newItems, clonedItems.current)
         } else if(!isEqual(Object.keys(newItems), Object.keys(clonedItems.current))) {
@@ -417,9 +369,7 @@ export function MultipleContainers({
     >
       <div
         style={{
-          // display: 'inline-grid',
           boxSizing: 'border-box',
-          // padding: 20,
           gridAutoFlow: vertical ? 'row' : 'column',
         }}
       >
@@ -463,17 +413,6 @@ export function MultipleContainers({
               </SortableContext>
             </DroppableContainer>
           ))}
-          {minimal ? undefined : (
-            <DroppableContainer
-              id={PLACEHOLDER_ID}
-              disabled={isSortingContainer}
-              items={empty}
-              onClick={handleAddColumn}
-              placeholder
-            >
-              + Add column
-            </DroppableContainer>
-          )}
         </SortableContext>
       </div>
       {createPortal(
@@ -486,26 +425,7 @@ export function MultipleContainers({
         </DragOverlay>,
         document.body
       )}
-      {trashable && activeId && !containers.includes(activeId) ? (
-        <Trash id={TRASH_ID} />
-      ) : null}
     </DndContext>
-    </div>
-    <div>
-      <h3>MC items state</h3>
-      <pre className='m-5'>
-      { JSON.stringify(items,null,2) }
-      </pre>
-      <p>isDragging: {isDragging? 'true':'false'}</p>
-    </div>
-    <div>
-      <h3>MC clonedItems state</h3>
-      <pre className='m-5'>
-      { JSON.stringify(clonedItems.current,null,2) }
-      </pre>
-    </div>
-    
-    </div>
   );
 
   function renderSortableItemDragOverlay(id: UniqueIdentifier) {
@@ -560,27 +480,5 @@ export function MultipleContainers({
         ))}
       </Container>
     );
-  }
-
-  // function handleRemove(containerID: UniqueIdentifier) {
-  //   setContainers((containers) =>
-  //     containers.filter((id) => id !== containerID)
-  //   );
-  // }
-
-  function handleAddColumn() {
-    onAddContainer && onAddContainer()
-    // const newContainerId = uuidv4();
-    // unstable_batchedUpdates(() => {
-    //   setContainers((containers) => [...containers, newContainerId]);
-    //   setItems((items) => {
-    //     const newItems: StructureItems = {
-    //       ...items,
-    //       [newContainerId]: [],
-    //     }
-    //     // onAddColumn && onAddColumn(newItems, clonedItems)
-    //     return newItems
-    //   });
-    // });
   }
 }

@@ -24,7 +24,6 @@ const SidebarEditableItem = ({
 
   const handleDelete = (e) => {
     e.stopPropagation()
-    alert('ss')
     handleDeleteModal(id)
   }
   

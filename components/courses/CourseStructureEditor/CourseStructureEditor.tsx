@@ -1,15 +1,11 @@
 import { MultipleContainers } from "./MultipleContainers"
 import { useMutation } from '@apollo/client';
-import styles from '../../common/dnd-kit/Item/Item.module.scss'
-import classNames from 'classnames'
-import { useContext, useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import cache from "../../../graphql/cache"
-import { ContentFragment, CourseFragment, SectionFragment } from "../../../graphql/queries/allQueries"
+import { CourseFragment, SectionFragment } from "../../../graphql/queries/allQueries"
 import { SectionFragment as SectionFragmentType } from '../../../graphql/queries/__generated__/SectionFragment';
 import { UpdateCourse, UpdateCourseVariables } from '../../../graphql/mutations/course/__generated__/UpdateCourse';
-import DeleteLessonModal from "../DeleteLessonModal"
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-
 import AddSectionModal from "../AddSectionModal"
 import DeleteSectionModal from "../DeleteSectionModal";
 import NewSectionButton from "./NewSectionButton";
@@ -19,11 +15,11 @@ import useUpdateSection from "../../../hooks/sections/useUpdateSection";
 import { isEqual } from "lodash";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../utils/router";
-
 import { StructureItems } from "./MultipleContainers";
+import { UniqueIdentifier } from "@dnd-kit/core";
 
 const itemIdsBySectionId = (mainArray) => {
-  const obj = {}
+  const obj: StructureItems = {}
   for (const section of mainArray) {
     const sectionItemIds = section.children?.map(child => child.id)
     obj[section.id] = sectionItemIds;
@@ -43,50 +39,24 @@ const filterDeletedCourseItems = (course) => course && ({
 
 const CourseStructureEditor = ({renderItem}) => {
 
-  const [isReordering, setIsReordering] = useState(false)
-
   const router = useRouter()
   const { id } = router.query
 
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  // const items = itemIdsBySectionId(
-  //   filterDeletedCourseItems(course)?.sections || []
-  // )
   const [items, setItems] = useState({})
+  const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
+  const { updateSection } = useUpdateSection()
 
-  
   useEffect(() => {
     const updatedCacheItems = itemIdsBySectionId(
       filterDeletedCourseItems(course)?.sections || []
     )
     setItems(updatedCacheItems)
-  
   },[course])
-  //   const updatedCacheItems = itemIdsBySectionId(
-  //     filterDeletedCourseItems(course)?.sections || []
-  //   )
-  //   if(isEqual(items, updatedCacheItems)) {
-  //     console.log('theyre the same')
-  //   } else {
-  //     console.log('different')
-  //     console.log('items')
-  //     console.log(items)
-  //     console.log('updatedCacheItems')
-  //     console.log(updatedCacheItems)
-  //     setItems(updatedCacheItems)
-  //   }
-
-  
-
-
-  const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
-  
-  const { updateSection } = useUpdateSection()
 
   const handleReorderItems = (newItems: StructureItems, oldItems: StructureItems) => {
-
     for(const sectionId in newItems) {
       if(!isEqual(newItems[sectionId], oldItems[sectionId])) {
         updateSection({
@@ -97,9 +67,7 @@ const CourseStructureEditor = ({renderItem}) => {
     }
   }
   
-  const handleReorderSections = (newSectionIds) => {
-    // setSectionIds(newSectionIds)
-
+  const handleReorderSections = (newSectionIds: UniqueIdentifier[]) => {
     const newSectionData = newSectionIds.map(id => {
       return cache.readFragment<SectionFragmentType>({
         id:`ContentItem:${id}`,
@@ -133,7 +101,7 @@ const CourseStructureEditor = ({renderItem}) => {
     })
   }
 
-  const handleDeleteSection = (id) => {
+  const handleDeleteSection = (id: UniqueIdentifier) => {
     handleModal({
       title: `Delete section`,
       content: <DeleteSectionModal id={id} />
@@ -168,7 +136,5 @@ const CourseStructureEditor = ({renderItem}) => {
     </>
   )
 }
-
-CourseStructureEditor.whyDidYouRender = true
 
 export default CourseStructureEditor

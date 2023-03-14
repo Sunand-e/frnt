@@ -66,8 +66,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
             <a className={`flex py-1 space-x-2`}>
               { IconComponent && <IconComponent className="h-5 w-5 flex-0"/> }
               <span className="min-w-0 flex-1 text-sm font-medium break-words">
-                {/* { title || 'Untitled lesson'} */}
-                {id || 'Untitled lesson'}
+                { title || 'Untitled lesson'}
               </span>
             </a>
           {/* </Link> */}
