@@ -28,12 +28,10 @@ const useCreateSection = ({courseId}) => {
             ...data.sections,
             createSection.section
           ]
+          console.log('sections')
+          console.log(sections)
           return {
-            sections: [
-              // ...data.lessons.filter(child => child._deleted === false),
-              ...data.sections,
-              createSection.section
-            ]
+            sections
           }
         })
       },
@@ -46,13 +44,13 @@ const useCreateSection = ({courseId}) => {
         title: values.title,
         parentIds: [courseId]
       },
-      
+
       optimisticResponse: {
         createSection: {
           __typename: 'CreateSectionPayload',
           section: {
             __typename: 'ContentItem',
-            id: Math.floor(Math.random() * 10000) + '',
+            id: Math.floor(Math.random() * 10000) + '-',
             title: values.title,
             createdAt: '',
             updatedAt: '',

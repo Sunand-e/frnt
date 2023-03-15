@@ -17,25 +17,7 @@ import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../utils/router";
 import { StructureItems } from "./MultipleContainers";
 import { UniqueIdentifier } from "@dnd-kit/core";
-
-const itemIdsBySectionId = (mainArray) => {
-  const obj: StructureItems = {}
-  for (const section of mainArray) {
-    const sectionItemIds = section.children?.map(child => child.id)
-    obj[section.id] = sectionItemIds;
-  }
-  return obj
-}
-
-const filterDeletedCourseItems = (course) => course && ({
-  ...course,
-  sections: course?.sections.filter(section => !section._deleted).map(section => {
-    return ({
-      ...section,
-      children: section.children.filter(child => !child._deleted)
-    })
-  }) || []
-})
+import { filterDeletedCourseItems, getItemStructureFromSections } from "./utilities";
 
 const CourseStructureEditor = ({renderItem}) => {
 
@@ -45,15 +27,19 @@ const CourseStructureEditor = ({renderItem}) => {
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  const [items, setItems] = useState({})
+  const [items, setItems] = useState<StructureItems>()
   const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
   const { updateSection } = useUpdateSection()
 
   useEffect(() => {
-    const updatedCacheItems = itemIdsBySectionId(
-      filterDeletedCourseItems(course)?.sections || []
-    )
-    setItems(updatedCacheItems)
+    if(course) {
+      const updatedCacheItems = getItemStructureFromSections(
+        filterDeletedCourseItems(course).sections
+      )
+      console.log('updatedCacheItems')
+      console.log(updatedCacheItems)
+      setItems(updatedCacheItems)
+    }
   },[course])
 
   const handleReorderItems = (newItems: StructureItems, oldItems: StructureItems) => {
@@ -73,14 +59,14 @@ const CourseStructureEditor = ({renderItem}) => {
         id:`ContentItem:${id}`,
         fragment: SectionFragment,
         fragmentName: 'SectionFragment',
-      })
+      }, true)
     })
     
     const course = cache.readFragment<SectionFragmentType>({
       id:`ContentItem:${id}`,
       fragment: CourseFragment,
       fragmentName: 'CourseFragment',
-    })
+    },true)
 
     updateCourse({
       variables: {
@@ -124,7 +110,6 @@ const CourseStructureEditor = ({renderItem}) => {
         renderItem={renderItem}
         modifiers={[restrictToVerticalAxis]}
         onRemoveContainer={handleDeleteSection}
-        onAddContainer={handleAddSection}
         onItemReorder={handleReorderItems}
         onContainerReorder={handleReorderSections}
       />

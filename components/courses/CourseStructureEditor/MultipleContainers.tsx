@@ -82,7 +82,6 @@ interface Props {
   onItemReorder?: (newItems: StructureItems, oldItems: StructureItems) => void;
   onAddItem?: (newItems: StructureItems, oldItems: StructureItems) => void;
   onRemoveItem?: (newItems: StructureItems, oldItems: StructureItems) => void;
-  onAddContainer?: () => void;
   onRemoveContainer?: (id: UniqueIdentifier) => void;
 }
 
@@ -107,16 +106,15 @@ export function MultipleContainers({
   scrollable,
   onItemReorder,
   onContainerReorder,
-  onAddContainer,
   onRemoveContainer: onRemoveContainer
 }: Props) {
   
   const [items, setItems] = useState<StructureItems>(
-    () => initialItems ?? {
+    initialItems || {
       A: [],
     }
   );
-  const containers = Object.keys(items) as UniqueIdentifier[]
+  const containers = Object.keys(items || {}) as UniqueIdentifier[]
 
   const isDragging = useRef<boolean>(false)
   const clonedItems = useRef<StructureItems>(initialItems);
@@ -385,9 +383,10 @@ export function MultipleContainers({
               : horizontalListSortingStrategy
           }
         >
-          {containers.map((containerId) => (
+          {containers.map((containerId, index) => (
             <DroppableContainer
               key={containerId}
+              // key={index}
               id={containerId}
               label={minimal ? undefined : `Column ${containerId}`}
               columns={columns}
@@ -398,12 +397,12 @@ export function MultipleContainers({
               onRemove={() => onRemoveContainer(containerId)}
             >
               <SortableContext items={items[containerId]} strategy={strategy}>
-                {items[containerId].map((value, index) => {
+                {items[containerId].map((id, index) => {
                   return (
                     <SortableItem
                       disabled={isSortingContainer}
-                      key={value}
-                      id={value}
+                      key={id}
+                      id={id}
                       index={index}
                       handle={handle}
                       style={getItemStyles}
@@ -463,7 +462,7 @@ export function MultipleContainers({
       >
         {items[containerId].map((item, index) => (
           <SidebarEditableItem
-            key={item}
+            key={index}
             id={item}
             style={getItemStyles({
               containerId,

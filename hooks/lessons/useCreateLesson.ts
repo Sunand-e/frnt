@@ -34,6 +34,8 @@ function useCreateLesson(sectionId) {
   );
 
   const createLesson = (values) => {
+    console.log('values')
+    console.log(values)
     createLessonMutation({
       variables: {
         ...values,
@@ -45,7 +47,7 @@ function useCreateLesson(sectionId) {
           lesson: {
             __typename: 'ContentItem',
             id: Math.floor(Math.random() * 10000) + '',
-            title: values.title || '',
+            title: '',
             createdAt: '',
             updatedAt: '',
             content: {},
@@ -64,6 +66,7 @@ function useCreateLesson(sectionId) {
             },
             tags: [],
             order: 99999999,
+            ...values
           },
           message: ''
         }

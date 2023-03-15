@@ -14,7 +14,6 @@ const NewCourseItemList = ({
   const { updateLesson } = useUpdateLesson()
 
   const handleItemClick = (lessonType) => {
-    alert(sectionId)
     createLesson({
       content: lessonTypes[lessonType].getDefaultContent(), 
       contentType: lessonType

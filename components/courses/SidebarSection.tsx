@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import {Handle, Remove} from '../common/dnd-kit/Item';
 
 import styles from './SidebarSection.module.scss';
-import cache, { courseNavigationVar } from "../../graphql/cache"
-import { ContentFragment } from "../../graphql/queries/allQueries"
-import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client';
+import { courseNavigationVar } from "../../graphql/cache"
+import { gql, useReactiveVar } from '@apollo/client';
 import {Cancel} from '@styled-icons/material-rounded/Cancel'
 import {Save} from '@styled-icons/material-rounded/Save'
 import EasyEdit, {Types} from 'react-easy-edit';
 import useUpdateSection from '../../hooks/sections/useUpdateSection';
 import { UniqueIdentifier } from '@dnd-kit/core';
+import { useContentTitle } from '../common/ContentEditor/useContentTitle';
 
 export const ContentTitleFragment = gql`
   fragment ContentTitleFragment on ContentItem {
@@ -57,32 +57,11 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) => {
+
     const { updateSection } = useUpdateSection(id)
-
-
-    const { complete, data, missing } = useFragment_experimental({
-      fragment: ContentTitleFragment,
-      from: {
-        __typename: "ContentItem",
-        id: id,
-      },
-      optimistic: true
-    });  
-
+    const { title } = useContentTitle(id)
     const { expand } = useReactiveVar(courseNavigationVar)
-    // useEffect(() => {
-    //   console.log('id')
-    //   console.log(id)
-    // },[id])
-    // useEffect(() => {
-    //   console.log('data?.title')
-    //   console.log(data?.title)
-    // },[data?.title])
-    // useEffect(() => {
-    //   console.log('missing')
-    //   console.log(missing)
-    // },[missing])
-        
+    
     return (
       <div
         {...props}
@@ -122,15 +101,15 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
               {editing ? (
                 <EasyEdit
                   type={Types.TEXT}
-                  onSave={(title) => updateSection({title})}
+                  onSave={(title: String) => updateSection({title})}
                   saveButtonLabel={<Save className="w-6"  />}
                   cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
                   placeHolder="Section title..."
                   attributes={{ name: "awesome-input", id: 1}}
-                  value= { data?.title }
+                  value= { title }
                 />
               // ) : data?.title }
-              ) : data?.title }
+              ) : title }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }
@@ -141,7 +120,6 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
 
         {/* {placeholder ? children : <ul className={`list-none divide-y divide-gray-200`}>{children}</ul>} */}
         {placeholder ? children : <ul className={`list-none border-b border-gray-200`}>{children}</ul>}
-
       </div>
     );
   }

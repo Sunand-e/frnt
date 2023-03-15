@@ -38,6 +38,8 @@ function  useUpdateSection(id = null) {
       // ).filter(child => !!child)
       )
     }
+    console.log('children')
+    console.log(children)
     updateSectionMutation({
       variables: {
         id: sectionId,

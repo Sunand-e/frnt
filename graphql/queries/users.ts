@@ -439,8 +439,11 @@ export const GET_USER_COURSE = gql`
           id
           sections {
             id
+            title
             _deleted @client
             children {
+              title
+              contentType
               __typename
               _deleted @client
               id

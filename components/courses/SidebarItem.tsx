@@ -2,10 +2,13 @@ import classNames from 'classnames'
 import { currentContentItemVar } from "../../graphql/cache"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import styles from './SidebarItem.module.scss'
-import { forwardRef } from "react"
+import { forwardRef, useEffect, useMemo, useState } from "react"
 import { lessonTypes } from "../courses/lessonTypes"
 import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
 import SidebarItemProgress from './SidebarItemProgress'
+import { filterDeletedCourseItems, getItemStructureFromSections } from './CourseStructureEditor/utilities'
+import { useRouter } from '../../utils/router'
+import useGetUserCourse from '../../hooks/users/useGetUserCourse'
 
 const SidebarItem = forwardRef<HTMLLIElement, any>(({
   editing=false,
@@ -19,9 +22,16 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   onDelete
 }, ref) => {
 
-  const { complete, data } = useFragment_experimental({
+  const router = useRouter()
+  const { id: courseId } = router.query
+
+  const { courseEdge } = useGetUserCourse(courseId)
+  const course = courseEdge?.node
+
+  const { complete, data, missing } = useFragment_experimental({
     fragment: gql`
       fragment ContentTitleAndTypeFragment on ContentItem {
+        id
         title
         contentType
       }
@@ -29,10 +39,42 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
     from: { id, __typename: "ContentItem", },
   });
 
-  const { title, contentType } = data;
+  const [title, setTitle] = useState('Untitled Lesson')
+  const [contentType, setContentType] = useState('text')
+
+  useEffect(() => {
+    if(complete) {
+      if(!data.title) {
+        const itemStructure = getItemStructureFromSections(
+          filterDeletedCourseItems(course)?.sections || []
+        )
+        let lessonNumber = 0
+        for(let section in itemStructure) {
+          if(!section.includes(id)) {
+            lessonNumber += itemStructure[section].length
+          } else {
+            lessonNumber += itemStructure[section].indexOf(id) + 1
+            break;
+          }
+        }
+        setTitle(`Untitled Lesson`)
+        // setTitle(`Lesson ${lessonNumber}`)
+      } else {    
+        setTitle(data.title)
+      }
+      data.contentType && setContentType(data.contentType)
+    }
+  },[data,complete])
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
-  
+
+  // console.log('data')
+  // console.log(data)
+  // console.log('title')
+  // console.log(title)
+  // console.log(id)
+  // console.log('contentType')
+  // console.log(contentType)
   const IconComponent = contentType ? lessonTypes[contentType]?.icon : null
 
   const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
