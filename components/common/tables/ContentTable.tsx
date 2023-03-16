@@ -12,7 +12,7 @@ import { GET_CURRENT_USER } from '../../../graphql/queries/users';
 import { getIconFromFilename } from '../../../utils/getIconFromFilename';
 import useGetThumbnail from '../items/useGetThumbnail';
 import { resourceTypes } from '../../resources/resourceTypes';
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase';
 
 const ContentIdAndOrderFragment = gql`
   fragment ContentIdAndOrderFragment on ContentItem {

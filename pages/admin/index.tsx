@@ -1,11 +1,8 @@
 import usePageTitle from '../../hooks/usePageTitle';
-import { GraduationCap } from 'styled-icons/entypo';
-import { Users } from 'styled-icons/fa-solid';
+import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
+import {Users} from '@styled-icons/fa-solid/Users';
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
-
-import ChevronRightIcon from '@heroicons/react/20/solid/ChevronRightIcon';
-import BanknotesIcon from '@heroicons/react/20/solid/BanknotesIcon';
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
@@ -74,33 +71,8 @@ const AdminDashboardPage = () => {
     return classes.filter(Boolean).join(' ')
   }
 
-  const people = [
-    {
-      name: 'Leonard Krasner',
-      handle: 'leonardkrasner',
-      imageUrl:
-          'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Floyd Miles',
-      handle: 'floydmiles',
-      imageUrl:
-          'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Emily Selman',
-      handle: 'emilyselman',
-      imageUrl:
-          'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Kristin Watson',
-      handle: 'kristinwatson',
-      imageUrl:
-          'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  ]
-
+  console.log('cards')
+  console.log(cards)
 
   return (
     // <>

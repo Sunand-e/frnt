@@ -22,13 +22,6 @@ const TextInput = ({ label, ...props }) => {
   )
 }
 const AddSectionModal = ({courseId}) => {
-
-  const anotherHandle = () => {
-    handleModal({
-      content: <LoadingSpinner />
-    })
-    closeModal()
-  }
   
   const { createSection } = useCreateSection({courseId})
 
@@ -37,7 +30,10 @@ const AddSectionModal = ({courseId}) => {
       title: values.title,
       parentIds: [courseId]
     })
-    anotherHandle()
+    handleModal({
+      content: <LoadingSpinner />
+    })
+    closeModal()
   }
 
   return (

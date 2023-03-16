@@ -1,5 +1,6 @@
-import {TextLeft, Bricks} from '@styled-icons/bootstrap'
-import {Assignment} from '@styled-icons/material'
+import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
+import {Bricks} from '@styled-icons/bootstrap/Bricks'
+import {Assignment} from '@styled-icons/material/Assignment'
 import {Quiz} from '@styled-icons/material-rounded/Quiz'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'

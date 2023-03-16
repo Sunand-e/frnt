@@ -3,7 +3,7 @@ import {
 } from 'react';
 import ResizeableElement from '../common/ResizeableElement';
 import dynamic from 'next/dynamic';
-import { useFullscreen } from 'rooks';
+import useFullscreen from '@rooks/use-fullscreen';
 import Button from '../../../Button';
 
 const DynamicPackageIFrame = dynamic(

@@ -12,7 +12,7 @@ import NewSectionButton from "./NewSectionButton";
 import { UPDATE_COURSE } from "../../../graphql/mutations/course/UPDATE_COURSE";
 import { handleModal } from "../../../stores/modalStore";
 import useUpdateSection from "../../../hooks/sections/useUpdateSection";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../utils/router";
 import { StructureItems } from "./MultipleContainers";
@@ -36,8 +36,6 @@ const CourseStructureEditor = ({renderItem}) => {
       const updatedCacheItems = getItemStructureFromSections(
         filterDeletedCourseItems(course).sections
       )
-      console.log('updatedCacheItems')
-      console.log(updatedCacheItems)
       setItems(updatedCacheItems)
     }
   },[course])

@@ -1,7 +1,7 @@
 import Link from "next/link"
 
-const AdminDashCard = ({card}) => (
-  (
+const AdminDashCard = ({card}) => {
+  return (
     <div key={card.label} className="bg-white overflow-hidden shadow rounded-lg">
       <div className="p-5 pb-3">
         <div className="flex items-center">
@@ -29,6 +29,6 @@ const AdminDashCard = ({card}) => (
       </div>
     </div>
   )
-)
+}
 
 export default AdminDashCard

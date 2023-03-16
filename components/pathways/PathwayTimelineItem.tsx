@@ -1,13 +1,13 @@
 // from https://tailwindcomponents.com/component/vertical-timelineimport { useContext } from "react"
 
 import { motion, Reorder, useDragControls, useMotionValue } from "framer-motion";
-import { GraduationCap } from "styled-icons/fa-solid";
+import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
+import { DragIndicator } from "@styled-icons/material/DragIndicator";
 import { useRaisedShadow } from "../../hooks/useRaisedShadow";
 import ItemWithImage from "../common/cells/ItemWithImage";
-import { DragIndicator } from "@styled-icons/material/DragIndicator";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import { resourceTypes } from "../resources/resourceTypes";
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase';
 import { useRouter } from "../../utils/router";
 import ProgressBar from "../common/ProgressBar"
 import { useEffect, useState } from "react";

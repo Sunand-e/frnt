@@ -1,4 +1,5 @@
-import {TextLeft, Bricks} from '@styled-icons/bootstrap'
+import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
+import {Bricks} from '@styled-icons/bootstrap/Bricks'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {List} from '@styled-icons/fluentui-system-filled/List'

@@ -34,7 +34,7 @@ import {coordinateGetter as multipleContainersCoordinateGetter} from './multiple
 import {Item, Container} from '../../common/dnd-kit';
 import { DroppableContainer } from './DroppableContainer';
 import { SortableItem } from './SortableItem';
-import { isEqual } from 'lodash';
+import isEqual from "lodash/isEqual";
 import { SidebarSection } from '../SidebarSection';
 import NewItemButton from './NewItemButton';
 import SidebarItem from '../SidebarItem';
@@ -114,7 +114,18 @@ export function MultipleContainers({
       A: [],
     }
   );
-  const containers = Object.keys(items || {}) as UniqueIdentifier[]
+  const containerIds = Object.keys(items || {}) as UniqueIdentifier[]
+
+  let hasTempItems = false;
+
+  if(containerIds.some(id => (id as String).startsWith('temp'))) {
+    hasTempItems = true
+  }
+  for(let id of containerIds) {
+    if(items[id].some(id => (id as String).startsWith('temp'))) {
+      hasTempItems = true
+    }
+  }
 
   const isDragging = useRef<boolean>(false)
   const clonedItems = useRef<StructureItems>(initialItems);
@@ -127,7 +138,7 @@ export function MultipleContainers({
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
-  const isSortingContainer = activeId ? containers.includes(activeId) : false;
+  const isSortingContainer = activeId ? containerIds.includes(activeId) : false;
 
   /**
    * Custom collision detection strategy optimized for multiple containers
@@ -315,9 +326,9 @@ export function MultipleContainers({
         let newItems = items;
 
         if (active.id in items && over?.id) {
-          const activeIndex = containers.indexOf(active.id);
-          const overIndex = containers.indexOf(over.id);
-          let containerArray = arrayMove(containers, activeIndex, overIndex);
+          const activeIndex = containerIds.indexOf(active.id);
+          const overIndex = containerIds.indexOf(over.id);
+          let containerArray = arrayMove(containerIds, activeIndex, overIndex);
           const obj: StructureItems = {}
           for (const sectionId of containerArray) {
             obj[sectionId] = items[sectionId];
@@ -376,17 +387,17 @@ export function MultipleContainers({
         }}
       >
         <SortableContext
-          items={[...containers, PLACEHOLDER_ID]}
+          items={[...containerIds, PLACEHOLDER_ID]}
           strategy={
             vertical
               ? verticalListSortingStrategy
               : horizontalListSortingStrategy
           }
         >
-          {containers.map((containerId, index) => (
+          {containerIds.map((containerId, index) => (
             <DroppableContainer
               key={containerId}
-              // key={index}
+              disabled={hasTempItems}
               id={containerId}
               label={minimal ? undefined : `Column ${containerId}`}
               columns={columns}
@@ -400,7 +411,7 @@ export function MultipleContainers({
                 {items[containerId].map((id, index) => {
                   return (
                     <SortableItem
-                      disabled={isSortingContainer}
+                      disabled={isSortingContainer || hasTempItems}
                       key={id}
                       id={id}
                       index={index}
@@ -421,7 +432,7 @@ export function MultipleContainers({
       {createPortal(
         <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>
           {activeId
-            ? containers.includes(activeId)
+            ? containerIds.includes(activeId)
               ? renderContainerDragOverlay(activeId)
               : renderSortableItemDragOverlay(activeId)
             : null}

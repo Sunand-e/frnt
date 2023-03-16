@@ -46,7 +46,7 @@ function useCreateLesson(sectionId) {
           __typename: 'CreateLessonPayload',
           lesson: {
             __typename: 'ContentItem',
-            id: Math.floor(Math.random() * 10000) + '',
+            id: 'temp-' + Math.floor(Math.random() * 10000),
             title: '',
             createdAt: '',
             updatedAt: '',

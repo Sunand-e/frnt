@@ -1,13 +1,5 @@
-import React, { useMemo } from 'react';
 import useGetResources from '../../hooks/resources/useGetResources';
-import ItemWithImage from '../common/cells/ItemWithImage';
 import { resourceTypes } from '../resources/resourceTypes';
-import LoadingSpinner from '../common/LoadingSpinner';
-import { Dot } from '../common/misc/Dot';
-import { startCase } from 'lodash';
-import useGetThumbnail from '../common/items/useGetThumbnail';
-import { getIconFromFilename } from '../../utils/getIconFromFilename';
-import Table from '../common/tables/Table';
 import ResourceActionsMenu from './ResourceActionsMenu';
 import { contentTypes } from '../common/contentTypes';
 import ContentTable from '../common/tables/ContentTable';

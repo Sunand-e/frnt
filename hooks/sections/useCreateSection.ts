@@ -18,6 +18,8 @@ const useCreateSection = ({courseId}) => {
     CREATE_SECTION,
     {
       update(cache, { data: { createSection } } ) {
+        console.log('createSection.section')
+        console.log(createSection.section)
         cache.updateFragment<CourseSectionsFragmentFragment>({
           id:`ContentItem:${courseId}`,
           fragment: CourseSectionsFragment,
@@ -50,7 +52,7 @@ const useCreateSection = ({courseId}) => {
           __typename: 'CreateSectionPayload',
           section: {
             __typename: 'ContentItem',
-            id: Math.floor(Math.random() * 10000) + '-',
+            id: 'temp-' + Math.floor(Math.random() * 10000),
             title: values.title,
             createdAt: '',
             updatedAt: '',

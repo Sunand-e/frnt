@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Button from '../../../Button';
 import useBlockEditor from '../../useBlockEditor';
 import PackageLibrary from '../../../../packages/PackageLibrary';
-import { useFullscreen } from 'rooks';
+import useFullscreen from '@rooks/use-fullscreen';
 import { closeModal, handleModal } from '../../../../../stores/modalStore';
 
 const DynamicPackageIFrame = dynamic(
