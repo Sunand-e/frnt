@@ -6,7 +6,8 @@ import SecondaryNav from './SecondaryNav'
 import { viewVar } from '../../../graphql/cache'
 import { useReactiveVar } from '@apollo/client'
 import {Dialog, Transition} from "@headlessui/react";
-import {Bars3CenterLeftIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import Bars3CenterLeftIcon from "@heroicons/react/24/outline/Bars3CenterLeftIcon";
+import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 
 export default function NavContainer({navState, sidebarComponent}) {
 

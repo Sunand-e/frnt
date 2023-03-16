@@ -4,10 +4,8 @@ import { Users } from 'styled-icons/fa-solid';
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 
-import {
-  CashIcon,
-  ChevronRightIcon
-} from '@heroicons/react/20/solid'
+import ChevronRightIcon from '@heroicons/react/20/solid/ChevronRightIcon';
+import BanknotesIcon from '@heroicons/react/20/solid/BanknotesIcon';
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
@@ -138,7 +136,7 @@ const AdminDashboardPage = () => {
                     <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
                         <span className="flex items-center space-x-4">
                           <span className="flex-1 flex space-x-2 truncate">
-                            <CashIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <BanknotesIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                             <span className="flex flex-col text-gray-500 text-sm truncate">
                               <span className="truncate">{transaction.name}</span>
                               <span>
@@ -211,7 +209,7 @@ const AdminDashboardPage = () => {
                             <td className="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               <div className="flex">
                                 <a href={transaction.href} className="group inline-flex space-x-2 truncate text-sm">
-                                  <CashIcon
+                                  <BanknotesIcon
                                       className="shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                       aria-hidden="true"
                                   />

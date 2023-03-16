@@ -1,7 +1,11 @@
 import {TextLeft, Bricks} from '@styled-icons/bootstrap'
-import {Text, Box, Video, List, Image, Document} from '@styled-icons/fluentui-system-filled'
 import {Assignment} from '@styled-icons/material'
 import {Quiz} from '@styled-icons/material-rounded/Quiz'
+import {Box} from '@styled-icons/fluentui-system-filled/Box'
+import {Video} from '@styled-icons/fluentui-system-filled/Video'
+import {List} from '@styled-icons/fluentui-system-filled/List'
+import {Image} from '@styled-icons/fluentui-system-filled/Image'
+import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
 import { v4 as uuidv4 } from 'uuid'
 export const lessonTypes = {

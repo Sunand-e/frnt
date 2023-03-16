@@ -5,7 +5,7 @@ import { ContentFragment as ContentFragmentType } from '../../../graphql/queries
 import cache from "../../../graphql/cache"
 import { ContentFragment } from '../../../graphql/queries/allQueries';
 import { handleModal } from '../../../stores/modalStore'
-import { BookOpenIcon } from "@heroicons/react/24/outline"
+import BookOpenIcon from "@heroicons/react/24/outline/BookOpenIcon"
 import { useRouter } from "next/router";
 import Button from "../../common/Button"
 
