@@ -28,19 +28,19 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
   const [prevNextIds, setPrevNextIds] = useState([]);
 
   useEffect(() => {
-    const orderedLessonIds = course?.sections.reduce((arr, section) => {
-      return [...arr, ...section.lessons.map(lesson => lesson.id)]
+    const orderedIds = course?.sections.reduce((arr, section) => {
+      return [...arr, ...section.children.map(child => child.id)]
     }, []);
 
-    if(orderedLessonIds) {
-      let prevId = orderedLessonIds[orderedLessonIds.indexOf(id) - 1]
-      let nextId = orderedLessonIds[orderedLessonIds.indexOf(id) + 1]
+    if(orderedIds) {
+      let prevId = orderedIds[orderedIds.indexOf(id) - 1]
+      let nextId = orderedIds[orderedIds.indexOf(id) + 1]
       setPrevNextIds([prevId,nextId])
     }
   }, [id, course])
 
 
-  const goToLesson = id => {
+  const goTo = id => {
     router.push({
       pathname: `/course`,
       query: {
@@ -52,14 +52,14 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
 
   const handleMarkComplete = useCallback(() => {
     markComplete()
-    !!prevNextIds[1] && goToLesson(prevNextIds[1])
+    !!prevNextIds[1] && goTo(prevNextIds[1])
   }, [markComplete, prevNextIds])
 
   return (
     // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
     <>
     { prevNextIds[0] && (
-      <Button onClick={() => goToLesson(prevNextIds[0])}>
+      <Button onClick={() => goTo(prevNextIds[0])}>
         <span className='flex items-center xl:space-x-2'>
           <span className="hidden xl:block">Previous</span>
           <ArrowSmLeft className='h-8'/>
@@ -67,7 +67,7 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
       </Button>
     )}
     { prevNextIds[1] && (
-      <Button onClick={() => goToLesson(prevNextIds[1])}>
+      <Button onClick={() => goTo(prevNextIds[1])}>
         <span className='flex items-center xl:space-x-2'>
         <span className="hidden xl:block">Next</span>
           <ArrowSmRight className='h-8'/>

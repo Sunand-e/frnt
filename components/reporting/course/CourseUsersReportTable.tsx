@@ -7,7 +7,7 @@ import { useRouter } from "../../../utils/router";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import { Dot } from "../../common/misc/Dot";
 import dayjs from "dayjs";
-import { User } from "styled-icons/fa-solid";
+import { User } from "@styled-icons/fa-solid/User";
 import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import Button from "../../common/Button";

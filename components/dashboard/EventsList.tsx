@@ -1,8 +1,6 @@
-import {
-    CalendarIcon,
-    DotsHorizontalIcon,
-    LocationMarkerIcon,
-} from '@heroicons/react/20/solid'
+import CalendarIcon from '@heroicons/react/20/solid/CalendarIcon'
+import EllipsisHorizontalIcon from '@heroicons/react/20/solid/EllipsisHorizontalIcon'
+import MapPinIcon from '@heroicons/react/20/solid/MapPinIcon'
 import { Menu, Transition } from '@headlessui/react'
 import {Fragment} from "react";
 import UserDashTitles from "./UserDashTitles";
@@ -66,7 +64,7 @@ export default function EventListBlock() {
                                 <div className="mt-2 flex items-start space-x-3 xl:mt-0 xl:ml-3.5 xl:border-l xl:border-gray-400 xl:border-opacity-50 xl:pl-3.5">
                                     <dt className="mt-0.5">
                                         <span className="sr-only">Location</span>
-                                        <LocationMarkerIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                        <MapPinIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </dt>
                                     <dd>{meeting.location}</dd>
                                 </div>
@@ -76,7 +74,7 @@ export default function EventListBlock() {
                             <div>
                                 <Menu.Button className="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
                                     <span className="sr-only">Open options</span>
-                                    <DotsHorizontalIcon className="h-5 w-5" aria-hidden="true" />
+                                    <EllipsisHorizontalIcon className="h-5 w-5" aria-hidden="true" />
                                 </Menu.Button>
                             </div>
 

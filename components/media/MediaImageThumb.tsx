@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { useInViewRef } from "rooks"
+import useInViewRef from "@rooks/use-in-view-ref"
 
 
 const MediaImageThumb = ({image}) => {

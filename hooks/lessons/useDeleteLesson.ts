@@ -1,6 +1,6 @@
 
 import { ContentFragment, GET_LESSON, LessonFragment } from "../../graphql/queries/allQueries"
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
+import { gql, useMutation, useQuery, useReactiveVar } from "@apollo/client"
 
 import { DeleteLesson, DeleteLessonVariables } from '../../graphql/mutations/lesson/__generated__/DeleteLesson';
 import { DELETE_LESSON } from '../../graphql/mutations/lesson/DELETE_LESSON';
@@ -12,25 +12,26 @@ function useDeleteLesson(id) {
     {
       update(cache, { data: { deleteLesson } } ) {
         // We get a single item.
-        const lesson = cache.readFragment({
+        cache.updateFragment({
           id: `ContentItem:${id}`,
-          fragment: LessonFragment,
-          fragmentName: 'LessonFragment',
-          // optimistic: true,
-        });
-        // Then, we update it.
-        if (lesson) {
-          cache.writeFragment({
-            id: `ContentItem:${id}`,
-            fragment: LessonFragment,
-            fragmentName: 'LessonFragment',
-            data: {
-              ...lesson,
-              _deleted: true
-            },
-          });
-        }
-      },
+          fragment: gql`
+            fragment DeletedContentFragment on ContentItem {
+              _deleted @client
+            }
+          `
+        }, (data) => ({ _deleted: true }))
+
+
+        // // Also remove from section
+        // cache.updateFragment<SectionChildrenFragmentFragment>({
+        //   id:`ContentItem:${sectionId}`,
+        //   fragment: SectionChildrenFragment
+        // }, (data) => ({
+        //   children: [...data.children, createLesson.lesson],
+        //   lessons: [...data.lessons, createLesson.lesson]
+        // }))
+      }
+
     }
   );
 
@@ -55,7 +56,7 @@ function useDeleteLesson(id) {
             image: null,
             icon: null,
             prerequisites: null,
-            _deleted: false,
+            _deleted: true,
           },
           message: ''
         }

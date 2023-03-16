@@ -4,16 +4,23 @@ import classNames from 'classnames';
 import {Handle, Remove} from '../common/dnd-kit/Item';
 
 import styles from './SidebarSection.module.scss';
-import cache, { courseNavigationVar } from "../../graphql/cache"
-import { ContentFragment } from "../../graphql/queries/allQueries"
-import { useFragment_experimental, useReactiveVar } from '@apollo/client';
+import { courseNavigationVar } from "../../graphql/cache"
+import { gql, useReactiveVar } from '@apollo/client';
 import {Cancel} from '@styled-icons/material-rounded/Cancel'
 import {Save} from '@styled-icons/material-rounded/Save'
 import EasyEdit, {Types} from 'react-easy-edit';
 import useUpdateSection from '../../hooks/sections/useUpdateSection';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import { useContentTitle } from '../common/ContentEditor/useContentTitle';
 
+export const ContentTitleFragment = gql`
+  fragment ContentTitleFragment on ContentItem {
+    id
+    title
+  }
+`
 export interface Props {
-  id?: string;
+  id?: UniqueIdentifier;
   children: React.ReactNode;
   columns?: number;
   style?: React.CSSProperties;
@@ -50,18 +57,11 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) => {
+
     const { updateSection } = useUpdateSection(id)
-
-    const { complete, data } = useFragment_experimental({
-      fragment: ContentFragment,
-      fragmentName: 'ContentFragment',
-      from: {
-        __typename: "ContentItem",
-        id: id,
-      },
-    });  
-
+    const { title } = useContentTitle(id)
     const { expand } = useReactiveVar(courseNavigationVar)
+    
     return (
       <div
         {...props}
@@ -75,14 +75,14 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
         className={classNames(
           styles.SidebarSection,
           // 'bg-white bg-opacity-10',
-          expand && styles.expanded
+          expand && styles.expanded,
+          unstyled && styles.unstyled,
+          horizontal && styles.horizontal,
+          hover && styles.hover,
+          placeholder && styles.placeholder,
+          scrollable && styles.scrollable,
+          shadow && styles.shadow,
         )}
-        //   unstyled && styles.unstyled,
-        //   horizontal && styles.horizontal,
-        //   hover && styles.hover,
-        //   placeholder && styles.placeholder,
-        //   scrollable && styles.scrollable,
-        //   shadow && styles.shadow,
         // className={`
         // ${ !expand
         //   ? 'bg-white shadow sm:rounded-md mb-4'
@@ -91,7 +91,7 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}
       >
-        {id ? (
+        {id && id !== 'placeholder' ? (
           <div className={ classNames(
             `flex justify-between px-4`,
             styles.Header
@@ -101,14 +101,15 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
               {editing ? (
                 <EasyEdit
                   type={Types.TEXT}
-                  onSave={(title) => updateSection({title})}
+                  onSave={(title: String) => updateSection({title})}
                   saveButtonLabel={<Save className="w-6"  />}
                   cancelButtonLabel={<Cancel className="w-6 text-red-600"  />}
                   placeHolder="Section title..."
                   attributes={{ name: "awesome-input", id: 1}}
-                  value= { data?.title }
+                  value= { title }
                 />
-              ) : data?.title }
+              // ) : data?.title }
+              ) : title }
             </span>
             <div className={styles.Actions}>
               { onRemove && <Remove onClick={onRemove} /> }
@@ -119,7 +120,6 @@ export const SidebarSection = forwardRef<HTMLDivElement, Props>(
 
         {/* {placeholder ? children : <ul className={`list-none divide-y divide-gray-200`}>{children}</ul>} */}
         {placeholder ? children : <ul className={`list-none border-b border-gray-200`}>{children}</ul>}
-
       </div>
     );
   }

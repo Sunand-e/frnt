@@ -1,9 +1,16 @@
-import { useMutation } from '@apollo/client';
-import { SectionFragment } from "../../graphql/queries/allQueries";
+import { gql, useMutation } from '@apollo/client';
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
-import { GetSection, GetSection_section } from '../../graphql/queries/__generated__/GetSection';
-import { useEffect, useState } from 'react';
+import { SectionChildrenFragmentFragment } from '../../graphql/generated';
+export const SectionChildrenFragment = gql`
+  fragment SectionChildrenFragment on ContentItem {
+    children {
+      __typename
+      id
+      _deleted @client
+    }
+  }
+`
 
 function useCreateLesson(sectionId) {
 
@@ -11,45 +18,63 @@ function useCreateLesson(sectionId) {
     CREATE_LESSON,
     {
       update(cache, { data: { createLesson } } ) {
-        
-        const section = cache.readFragment<GetSection_section>({
-          id:`ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment'
-        })
-        const newSectionData = {
-          ...section,
-          children: [...section.children, createLesson.lesson]
-        }
 
-        cache.writeFragment<GetSection_section>({
+        cache.updateFragment<SectionChildrenFragmentFragment>({
           id:`ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment',
-          data: newSectionData
-        })
+          fragment: SectionChildrenFragment
+        }, (data) => ({
+          children: [
+            // ...data.children.filter(child => child._deleted === false),
+            ...data.children,
+            createLesson.lesson
+          ],
+        }))
       },
- 
     }
   );
 
   const createLesson = (values) => {
+    console.log('values')
+    console.log(values)
     createLessonMutation({
       variables: {
         ...values,
         parentIds: [sectionId]
       },
+      optimisticResponse: {
+        createLesson: {
+          __typename: 'CreateLessonPayload',
+          lesson: {
+            __typename: 'ContentItem',
+            id: 'temp-' + Math.floor(Math.random() * 10000),
+            title: '',
+            createdAt: '',
+            updatedAt: '',
+            content: {},
+            contentType: 'text',
+            itemType: 'lesson',
+            image: null,
+            icon: null,
+            prerequisites: null,
+            _deleted: false,
+            settings: '',
+            shared: false,
+            mediaItem: null,
+            users: {
+              __typename: 'ContentUserConnection',
+              totalCount: 0
+            },
+            tags: [],
+            order: 99999999,
+            ...values
+          },
+          message: ''
+        }
+      }
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
   }
-
-
-
-  useEffect(() => {
-    // console.log('createLessonResponse')
-    // console.log(createLessonResponse)
-  }, [createLessonResponse])
 
   return {
     lesson: createLessonResponse.data?.createLesson?.lesson,

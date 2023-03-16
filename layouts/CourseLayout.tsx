@@ -25,7 +25,7 @@ export default function CourseLayout( {page, navState} ) {
     <Layout 
       navState={navState}
       sidebarComponent={(
-        <div className="sticky h-[100vh] w-[300px] bg-blue bg-opacity-10 flex flex-col">
+        <div className="sticky h-[100vh] w-[250px] 2xl:w-[300px] bg-blue bg-opacity-10 flex flex-col">
           <CourseStructureView />
           { pid && course && (
             <ButtonLink className="mx-4" href={{

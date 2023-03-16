@@ -40,18 +40,6 @@ export const ContentFragment = gql`
       id
     }
     itemType
-    document {
-      id
-      mediaType
-      location
-      fileName
-    }
-    audio {
-      id
-      mediaType
-      location
-      fileName
-    }
     prerequisites
     settings
     title
@@ -72,15 +60,27 @@ export const ContentFragment = gql`
 export const ResourceFragment = gql`
   fragment ResourceFragment on ContentItem {
     ...ContentFragment
+    document {
+      id
+      mediaType
+      location
+      fileName
+    }
+    audio {
+      id
+      mediaType
+      location
+      fileName
+    }
   }
   ${ContentFragment}
 `
 
 export const LessonFragment = gql`
-fragment LessonFragment on ContentItem {
-  ...ContentFragment
-}
-${ContentFragment}
+  fragment LessonFragment on ContentItem {
+    ...ContentFragment
+  }
+  ${ContentFragment}
 `
 export const SectionFragment = gql`
   fragment SectionFragment on ContentItem {
@@ -121,9 +121,6 @@ export const GET_COURSE = gql`
       ...CourseFragment
       sections {
         ...SectionFragment
-        children {
-          ...ContentFragment
-        }
       }
     }
   }

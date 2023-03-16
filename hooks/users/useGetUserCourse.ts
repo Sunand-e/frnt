@@ -7,8 +7,8 @@ function useGetUserCourse(id=null) {
   const { loading, error, data } = useQuery(
     GET_USER_COURSE,
     {
-      fetchPolicy: "cache-and-network",
-      nextFetchPolicy: "cache-only",
+      // fetchPolicy: "cache-and-network",
+      // nextFetchPolicy: "cache-only",
       variables: {
         courseFilter: {
           courseId: id

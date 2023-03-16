@@ -20,6 +20,16 @@ const typePolicies = {
       return `UserContentEdge:${object.userId}:${object.node.id}`
     }
   },
+  ContentItem: {
+    fields: {
+      children: {
+        // Equivalent to options.mergeObjects(existing, incoming).
+        merge(existing, incoming) {
+          return incoming
+        }
+      },
+    },
+  },
 }
 
 export const navStateVar = makeVar({

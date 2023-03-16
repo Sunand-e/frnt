@@ -2,9 +2,9 @@ import useLogout from '../../../hooks/useLogout';
 import useView from '../../../hooks/useView';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
-import { User } from 'styled-icons/fa-solid';
+import { User } from '@styled-icons/fa-solid/User';
 import Link from 'next/link';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import MenuComponent from '../../common/menus/MenuComponent';
 import { Menu } from '@headlessui/react';
 

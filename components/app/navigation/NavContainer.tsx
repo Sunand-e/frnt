@@ -6,17 +6,13 @@ import SecondaryNav from './SecondaryNav'
 import { viewVar } from '../../../graphql/cache'
 import { useReactiveVar } from '@apollo/client'
 import {Dialog, Transition} from "@headlessui/react";
-import {Bars3CenterLeftIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import Bars3CenterLeftIcon from "@heroicons/react/24/outline/Bars3CenterLeftIcon";
+import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 
 export default function NavContainer({navState, sidebarComponent}) {
 
   const view = useReactiveVar(viewVar)
   
-  // useEffect(() => {
-  //   console.log('viewChanged')
-  //   console.log(view)
-  // },[view])
-
   const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
 
   // If the 'topLevel' property of navState is empty, create the default navstate.
@@ -35,6 +31,7 @@ export default function NavContainer({navState, sidebarComponent}) {
 
   const isSlimNav = view?.isSlimNav || showSecondary
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
 <>
   <button
@@ -121,7 +118,7 @@ export default function NavContainer({navState, sidebarComponent}) {
       <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
       { sidebarComponent && (
-        <div className="sticky top-18 h-[calc(100vh-48px)] w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
+        <div className="sticky top-18 h-[calc(100vh-48px)] w-[250px] 2xl:w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
           { sidebarComponent }
         </div>
       )}

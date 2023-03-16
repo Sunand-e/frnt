@@ -6,7 +6,7 @@ import Tippy from '@tippyjs/react';
 import { viewVar } from '../../../graphql/cache';
 import { useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
-import { useWindowSize } from 'rooks';
+import useWindowSize from '@rooks/use-window-size';
 import NavFooter from "./NavFooter";
 import { TenantContext } from '../../../context/TenantContext';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';

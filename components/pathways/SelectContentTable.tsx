@@ -3,7 +3,7 @@ import Table from '../common/tables/Table'
 import ItemWithImage from '../common/cells/ItemWithImage';
 import TagSelect from '../tags/inputs/TagSelect';
 import LoadingSpinner from '../common/LoadingSpinner';
-import { GraduationCap } from 'styled-icons/fa-solid';
+import { GraduationCap } from '@styled-icons/fa-solid/GraduationCap';
 import { usePathwayStore } from './usePathwayStore';
 
 const SelectContentTable = ({

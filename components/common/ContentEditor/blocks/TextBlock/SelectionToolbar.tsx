@@ -22,7 +22,6 @@ import {
   BlockToolbarButton,
   BalloonToolbar,
 } from '@udecode/plate-ui';
-// import TextTypeDropdown from '../common/TextTypeDropdown';
 import FontSizeDropdown from '../common/FontSizeDropdown';
 import { H1, H2, H3 } from '@styled-icons/remix-editor';
 import { FormatColorText } from '@styled-icons/material-rounded/FormatColorText';

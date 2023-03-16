@@ -12,7 +12,7 @@ export const ContentTitle = () => {
   
   // const editorRef = usePlateEditorRef(id)
 
-  const { title } = useContentTitle()
+  const { title } = useContentTitle(id)
 
   const handleUpdate = useDebouncedCallback((data) => {
     const title = data[0].children[0].text
