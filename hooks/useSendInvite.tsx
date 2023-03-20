@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import getJWT from '../utils/getToken';
 
 const useSendInvite = () => {
 
@@ -8,7 +9,7 @@ const useSendInvite = () => {
   const [token, setToken] = useState('')
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(getJWT())
   },[])
 
   const sendInvite = useCallback(async (userIds) => {

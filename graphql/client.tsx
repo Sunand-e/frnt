@@ -4,6 +4,7 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import getConfig from 'next/config'
 import cache from './cache';
+import getJWT from '../utils/getToken';
 
 const {publicRuntimeConfig} = getConfig()
 const {API_URL} = publicRuntimeConfig
@@ -39,7 +40,7 @@ const authLink = setContext((_, { headers }) => {
   let token: string
 
   if (typeof window !== 'undefined') {
-    token = localStorage.getItem('token');
+    token = getJWT();
   }
   // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
   // return the headers to the context so httpLink can read them

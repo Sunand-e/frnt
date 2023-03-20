@@ -7,6 +7,7 @@ import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
 import { useRouter } from "next/router";
 import { useBlockStore } from "../common/ContentEditor/useBlockStore";
 import { LessonContentFragment as LessonContentFragmentType } from "./__generated__/LessonContentFragment";
+import ContentCreator from "../common/ContentCreator/ContentCreator";
 
 const LessonContentFragment = gql`
   fragment LessonContentFragment on ContentItem {
@@ -58,6 +59,8 @@ const LessonEditor = () => {
 
   return (
     <>
+      <ContentCreator />
+      <ContentCreator />
       <ContentTitle />
       <BlockEditor />
     </>

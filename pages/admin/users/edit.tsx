@@ -14,6 +14,7 @@ import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
 import UserPathways from '../../../components/users/pathways/UserPathways';
+import getJWT from '../../../utils/getToken';
 
 const BackButton = () => (
   <>
@@ -36,7 +37,7 @@ const AdminUsersEdit = () => {
 
   const handleSubmit = ({profile_image, invite, ...values}) => {
 
-    const token = localStorage.getItem('token');
+    const token = getJWT();
 
     updateUser(values, () => updateUserTenantRoles({
       userId: id,

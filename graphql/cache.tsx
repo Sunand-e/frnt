@@ -2,6 +2,7 @@ import {
   InMemoryCache,
   makeVar,
 } from '@apollo/client'
+import getJWT from '../utils/getToken'
 import possibleTypes from './possibleTypes.json'
 
 const typePolicies = {
@@ -79,7 +80,8 @@ export const headerButtonsVar = makeVar(<></>)
 
 
 // Initializes to true if localStorage includes a 'token', false otherwise
-export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!localStorage.getItem('token') || null)
+export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!getJWT() || null)
+// export const actAsUserVar = makeVar<string>(localStorage.getItem('actAsToken') || null)
 
 const cache = new InMemoryCache({
   possibleTypes,

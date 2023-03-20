@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { isLoggedInVar } from '../graphql/cache';
 import { client } from '../graphql/client';
+import getJWT from '../utils/getToken';
 
 const useLogout = () => {
 
@@ -13,7 +14,7 @@ const useLogout = () => {
   const [token, setToken] = useState('')
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(getJWT())
   },[])
 
   const logout = useCallback(async () => {

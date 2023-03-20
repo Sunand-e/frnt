@@ -4,6 +4,7 @@ import { client } from '../graphql/client';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Dot } from '../components/common/misc/Dot';
+import getJWT from '../utils/getToken';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
@@ -19,7 +20,7 @@ const useUploadAndNotify = ({
   onComplete=null,
 } : UseUploadAndNotifyProps) => {
   
-  const token = localStorage.getItem('token');
+  const token = getJWT();
   const [dismissed, setDismissed] = useState(false);
 
   const uploadFileAndNotify = useCallback(async (file, fileParameterName, endpoint) => {

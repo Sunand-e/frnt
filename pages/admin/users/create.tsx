@@ -9,6 +9,7 @@ import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import { GET_USERS } from '../../../graphql/queries/users';
 import cache from '../../../graphql/cache';
+import getJWT from '../../../utils/getToken';
 
 
 const BackButton = () => (
@@ -48,7 +49,7 @@ const AdminCreateUser = () => {
 
   const handleSubmit = ({profile_image, firstName, lastName, ...values}) => {
     console.log(values)
-    const token = localStorage.getItem('token');
+    const token = getJWT();
     
     const data = {
       user: {

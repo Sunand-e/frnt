@@ -10,6 +10,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 import WelcomeUserPanel from "../components/dashboard/WelcomeUserPanel";
 import DashboardLayout from '../layouts/DashboardLayout';
 import useUserHasCapability from '../hooks/users/useUserHasCapability';
+import ActAsUser from '../components/ActAsUser';
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -63,6 +64,7 @@ const DashboardPage = () => {
         <>
           {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
           <Button onClick={handleAdminButtonClick}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</Button>
+          <ActAsUser />
         </>
       )
     }
