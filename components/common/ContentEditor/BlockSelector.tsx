@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
+import { DndContext } from '@dnd-kit/core';
+import { Draggable, DraggableOverlay } from '../dnd-kit';
 
 interface block {
   type: string,
@@ -20,14 +22,16 @@ interface BlockSelectorProps {
   replace?: boolean, 
   exclude?: any[],
   className?: string,
+  blockButtonClassName?: string,
   onSelect?:()=>void,
-  style: CSSProperties
+  style?: CSSProperties
 }
 const BlockSelector = ({
   block=null, 
   replace=false, 
   exclude=[], 
   className='',
+  blockButtonClassName='',
   onSelect = ():void => null,
   style={}
 }: BlockSelectorProps) => {
@@ -112,21 +116,36 @@ const BlockSelector = ({
   const BlockTypeButtons = blockButtons.map((type, index) => {
     const isDisabled = type.name === 'package' && blocks.some(({type}) => type === 'package')
     return(
+      <>
       <BlockTypeButton
         key={index}
         type={type}
         isDisabled={isDisabled}
         onSelect={handleSelectType}
+        className={blockButtonClassName}
       />
+      </>
     )
   })
 
   return (
-    <div style={style} className={`flex flex-col text-center text-main-secondary ${className}`}>
-      <div 
-        className="mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
-        { BlockTypeButtons }
-      </div>
+    <div style={style} className={className}>
+     <DndContext
+        // collisionDetection={collisionDetection}
+        // modifiers={parent === null ? undefined : modifiers}
+        // onDragStart={() => setIsDragging(true)}
+        // onDragEnd={({over}) => {
+        //   setParent(over ? over.id : null);
+        //   setIsDragging(false);
+        // }}
+        // onDragStart={onDragStart}
+        // onDragEnd={handleDragEnd}
+        // onDragCancel={() => setIsDragging(false)}
+      >
+      { BlockTypeButtons }
+      
+      <DraggableOverlay />
+    </DndContext>
     </div>
   )
 };

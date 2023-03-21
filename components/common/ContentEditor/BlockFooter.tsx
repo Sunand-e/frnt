@@ -37,6 +37,7 @@ const BlockFooter = ({block}) => {
               style={{}} 
               block={block}
               onSelect={() => setShowBlockSelector(false)}
+              className={`mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm`}
             />
           </motion.div>
         }

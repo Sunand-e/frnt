@@ -5,7 +5,8 @@ import CourseStructureEditor from '../components/courses/CourseStructureEditor/C
 import SidebarEditableItem from '../components/courses/CourseStructureEditor/SidebarEditableItem';
 import Layout from './Layout';
 import { motion } from 'framer-motion';
-import CourseStructureEditorTest from '../components/courses/CourseStructureEditor/CourseStructureEditorTest';
+import BlockSelector from '../components/common/ContentEditor/BlockSelector';
+import { Sidebar } from '../components/common/ContentEditor/Sidebar';
 
 export default function EditorLayout( {page, navState} ) {
   /*
@@ -18,12 +19,7 @@ export default function EditorLayout( {page, navState} ) {
     navState,
     // ...(course && {
       sidebarComponent: (
-        <div className="px-3 py-3">
-          {/* <CourseStructureEditorTest /> */}
-          <CourseStructureEditor
-            renderItem={SidebarEditableItem}
-          />
-        </div>
+        <Sidebar />
       )
     // })
   }
@@ -35,10 +31,10 @@ export default function EditorLayout( {page, navState} ) {
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
             <motion.div
-              className="w-full flex justify-center px-16 h-[calc(100vh-120px)] overflow-auto"
+              className="w-full flex justify-center h-[calc(100vh-120px)] overflow-auto"
               layoutScroll
             >
-              <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
+              <div className="min-w-0 w-full flex-auto">
                 {page}
               </div>
             </motion.div>

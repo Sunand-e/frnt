@@ -55,7 +55,10 @@ const BlockEditor = () => {
           <div className={`text-center text-main-secondary font-semibold pb-4`}>
             Add a new block
           </div>
-          <BlockSelector className={``} style={{}} />
+          <BlockSelector
+            className={`text-main-secondary mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm`}
+            blockButtonClassName={`flex items-center space-x-2 p-2 text-center bg-white rounded-lg shadow shadow-lg`}
+          />
         </div>
       </div>
     </>

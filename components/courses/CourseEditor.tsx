@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { currentContentItemVar } from "../../graphql/cache"
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson"
 import useGetUserCourse from "../../hooks/users/useGetUserCourse"
+import { SettingsPanel } from "../common/ContentEditor/SettingsPanel"
 
 const CourseEditor = () => {
 
@@ -57,15 +58,18 @@ const CourseEditor = () => {
   // },[])
 
   return (
-    <>
-      { currentContentItem.id ? (
-        <LessonEditor />
-      ) :
-        <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-          <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first lesson" />
-        </div>
-      }
-    </>
+    <div className="h-full">
+      <div className="px-16  fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-120px)] mx-[300px] left-0 right-0">
+        { currentContentItem.id ? (
+          <LessonEditor />
+        ) :
+          <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+            <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first lesson" />
+          </div>
+        }
+      </div>
+      <SettingsPanel />
+    </div>
   )
 }
 export default CourseEditor

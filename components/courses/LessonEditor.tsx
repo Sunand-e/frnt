@@ -59,9 +59,8 @@ const LessonEditor = () => {
 
   return (
     <>
-      <ContentCreator />
-      <ContentCreator />
-      <ContentTitle />
+      {/* <ContentCreator /> */}
+      {/* <ContentTitle /> */}
       <BlockEditor />
     </>
   )
