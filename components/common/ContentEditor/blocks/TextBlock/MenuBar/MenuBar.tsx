@@ -1,8 +1,22 @@
-import './MenuBar.scss'
-
+import styles from './MenuBar.module.scss'
 import React, { Fragment } from 'react'
-
 import MenuItem from './MenuItem'
+import FontSizeDropdown from '../../common/FontSizeDropdown'
+
+import Select from 'react-select'
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+  { value: '1chocolate', label: 'Chocolate 2' },
+  { value: '1strawberry', label: 'Strawberry 2' },
+  { value: '1vanilla', label: 'Vanilla 2' }
+]
+
+const FSSelect = () => (
+  <Select options={options} />
+)
 
 export default ({ editor }) => {
   const items = [
@@ -25,18 +39,6 @@ export default ({ editor }) => {
       isActive: () => editor.isActive('strike'),
     },
     {
-      icon: 'code-view',
-      title: 'Code',
-      action: () => editor.chain().focus().toggleCode().run(),
-      isActive: () => editor.isActive('code'),
-    },
-    {
-      icon: 'mark-pen-line',
-      title: 'Highlight',
-      action: () => editor.chain().focus().toggleHighlight().run(),
-      isActive: () => editor.isActive('highlight'),
-    },
-    {
       type: 'divider',
     },
     {
@@ -56,6 +58,9 @@ export default ({ editor }) => {
       title: 'Paragraph',
       action: () => editor.chain().focus().setParagraph().run(),
       isActive: () => editor.isActive('paragraph'),
+    },
+    {
+      type: 'fontsize'
     },
     {
       icon: 'list-unordered',
@@ -128,7 +133,14 @@ export default ({ editor }) => {
     <div className="editor__header">
       {items.map((item, index) => (
         <Fragment key={index}>
-          {item.type === 'divider' ? <div className="divider" /> : <MenuItem {...item} />}
+          { item.type === 'divider' ? (
+            <div className={styles.divider} />
+          ) : item.type === 'fontsize' ? (
+              <FSSelect />
+              // <FontSizeDropdown />
+          ) : (
+              <MenuItem {...item} />
+          )}
         </Fragment>
       ))}
     </div>

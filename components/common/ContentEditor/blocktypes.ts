@@ -60,14 +60,14 @@ const blocktypes = {
   //   icon: Text,
   //   hideFromSelector: true,
   // },
-  // text: {
-  //   name: 'text',
-  //   text: 'Text',
-  //   component: TextBlock,
-  //   editComponent: TextBlockEdit,
-  //   settingsComponent: TextSettings,
-  //   icon: Text,
-  // },
+  text: {
+    name: 'text',
+    text: 'Text',
+    component: TextBlock,
+    editComponent: TextBlockEdit,
+    settingsComponent: TextSettings,
+    icon: TextT,
+  },
   // list: {
   //   text: 'List',
   //   component: ListBlock,
@@ -110,13 +110,13 @@ const blocktypes = {
     settingsComponent: PackageSettings,
     icon: Box,
   }, 
-  // columns: {
-  //   text: 'Columns',
-  //   component: ColumnsBlock,
-  //   editComponent: ColumnsBlockEdit,
-  //   settingsComponent: ColumnsSettings,
-  //   icon: Columns,
-  // },
+  columns: {
+    text: 'Columns',
+    component: ColumnsBlock,
+    editComponent: ColumnsBlockEdit,
+    settingsComponent: ColumnsSettings,
+    icon: Columns,
+  },
   placeholder: {
     text: 'Placeholder',
     component: PlaceholderBlock,

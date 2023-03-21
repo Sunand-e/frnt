@@ -2,6 +2,7 @@
 import React, { useMemo, FunctionComponent, useEffect } from 'react';
 
 import useBlockEditor from '../../useBlockEditor';
+import Editor from './Editor';
 
 export const TextBlockEdit: FunctionComponent = ({block}) => {
   const { properties } = block
@@ -34,7 +35,7 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
 
   return (
     <>
-      {/* <TipTap /> */}
+      <Editor />
     </>
   );
 }
