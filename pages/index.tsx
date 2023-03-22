@@ -10,7 +10,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 import WelcomeUserPanel from "../components/dashboard/WelcomeUserPanel";
 import DashboardLayout from '../layouts/DashboardLayout';
 import useUserHasCapability from '../hooks/users/useUserHasCapability';
-import ActAsUser from '../components/ActAsUser';
+import ReturnToMyAccount from '../components/ReturnToMyAccount';
 
 // when the page has loaded, and all items have been loaded, 
 
@@ -45,38 +45,24 @@ const DashboardPage = () => {
     e.target.blur()
   }
 
-  const { logout } = useLogout()
-
-  const handleLogoutClick = (e) => {
-    logout()
-    e.target.blur()
-  }
-
   const { userHasCapability, userCapabilityArray } = useUserHasCapability()
 
   useEffect(() => {
-    if(userHasCapability([
-      'UpdateUser',
-      'UpdateCourse',
-      'UpdateResource',
-    ])) {
-      headerButtonsVar(
-        <>
-          {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
+    headerButtonsVar(
+      <>
+        {userHasCapability([
+          'UpdateUser',
+          'UpdateCourse',
+          'UpdateResource',
+        ]) && (
           <Button onClick={handleAdminButtonClick}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</Button>
-          <ActAsUser />
-        </>
-      )
-    }
+        )}
+        <ReturnToMyAccount />
+      </>
+    )
   },[userHasCapability])
   
   const router = useRouter()
-
-  const handleTopicClick = tag => e => {
-    e.preventDefault()
-    router.push(`/library?tag=${tag.label}`, undefined, { shallow: true })
-    console.log( libraryVar() ) 
-  }
   
   return (
     <>
