@@ -64,11 +64,11 @@ const UsersTable = () => {
   const bulkActions = [
     {
       label: 'Send invites to selected users',
-      onClick: (ids: Array<string>) => sendInvite(ids)
+      onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
     },
     {
       label: <span className="text-red-500">Delete users</span>,
-      onClick: () => console.log('test'),
+      onClick: (ids: Array<string>) => console.log('test'),
     },
   ]
 

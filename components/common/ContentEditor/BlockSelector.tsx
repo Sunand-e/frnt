@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
-import { DndContext } from '@dnd-kit/core';
+import { defaultDropAnimationSideEffects, DndContext, DragOverlay, DropAnimation, useDroppable } from '@dnd-kit/core';
 import { Draggable, DraggableOverlay } from '../dnd-kit';
+import { createPortal } from 'react-dom';
 
 interface block {
   type: string,
@@ -37,6 +38,10 @@ const BlockSelector = ({
 }: BlockSelectorProps) => {
 
   const { blocks, addBlock } = useBlockEditor(block)
+
+  // const {isOver, setNodeRef} = useDroppable({
+  //   id: 'blockSelector',
+  // });
 
   const handleAddVideo = (newBlock) => {
     handleModal({
@@ -116,7 +121,6 @@ const BlockSelector = ({
   const BlockTypeButtons = blockButtons.map((type, index) => {
     const isDisabled = type.name === 'package' && blocks.some(({type}) => type === 'package')
     return(
-      <>
       <BlockTypeButton
         key={index}
         type={type}
@@ -124,28 +128,25 @@ const BlockSelector = ({
         onSelect={handleSelectType}
         className={blockButtonClassName}
       />
-      </>
     )
   })
 
   return (
     <div style={style} className={className}>
-     <DndContext
-        // collisionDetection={collisionDetection}
-        // modifiers={parent === null ? undefined : modifiers}
-        // onDragStart={() => setIsDragging(true)}
-        // onDragEnd={({over}) => {
-        //   setParent(over ? over.id : null);
-        //   setIsDragging(false);
-        // }}
-        // onDragStart={onDragStart}
-        // onDragEnd={handleDragEnd}
-        // onDragCancel={() => setIsDragging(false)}
-      >
+
       { BlockTypeButtons }
-      
-      <DraggableOverlay />
-    </DndContext>
+{/*       
+      {createPortal(
+        <DragOverlay dropAnimation={dropAnimation}>
+          <BlockTypeButton
+            type={blocktypes['text']}
+            isDisabled={false}
+            onSelect={handleSelectType}
+            className={blockButtonClassName}
+          />
+        </DragOverlay>,
+        document.body
+      )} */}
     </div>
   )
 };

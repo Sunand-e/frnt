@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import getJWT from '../utils/getToken';
 
 const useSendInvite = () => {
@@ -25,6 +26,13 @@ const useSendInvite = () => {
     }).then(data => {  
       console.log('then....')
       console.log(data)
+      if(userIds?.length > 0) {
+        toast(`${ userIds.length > 1 ? `${userIds.length} invitations` : 'Invitation'} sent.`, {
+          toastId: 'changesSaved',
+          hideProgressBar: true,
+          autoClose: 2500
+        })
+      }
     })
   },[token])
 

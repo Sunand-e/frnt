@@ -11,13 +11,13 @@ const BlockContainer = ({
   id,
   isColumn = false,
   dragging = false,
+  dragListeners = null,
   // onClick: handleClick, 
   handle = true,
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
   const blocks = useBlockStore(state => state.blocks)
-  const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
@@ -33,12 +33,15 @@ const BlockContainer = ({
 
   return (
     <div 
-      className={`group flex flex-col h-full ${parent ? '' : '-mx-16'}`}
+      className={`group flex flex-col h-full ${parent ? '' : ''}`}
       style={{
         backgroundColor: block?.properties?.bgColor,
         color: block?.properties?.textColor || 'inherit'
       }}
     >
+      {/* <pre>
+      { JSON.stringify(parent,null,2) }
+      </pre> */}
       <div
         className={`
           ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
@@ -60,6 +63,7 @@ const BlockContainer = ({
         {/* <span className={`absolute -right-14`}> */}
           <BlockMenu
             block={block}
+            dragListeners={dragListeners}
             className={`
               ${!isActive && 'block'}
               ${!isColumn && 'bg-white rounded hidden group-hover:block'}

@@ -70,9 +70,14 @@ const Table = () => {
 
   const handleRowSelectionChange = (updater) => store.setState(state => ({
     rowSelection: typeof updater === 'function' ? updater(state.rowSelection) : updater,
-    selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    // selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
   }))
 
+  useEffect(() => {
+    store.setState(state => ({
+      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    }))
+  },[rowSelection])
 
   const columns = [
     ...(isReorderable ? [{

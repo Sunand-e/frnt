@@ -1,21 +1,28 @@
 import create from 'zustand'
 import { arrayMove } from "@dnd-kit/sortable";
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 type BlockState = {
   isDirty: boolean
   blocks: any[]
+  activeDragItem: any
   setIsDirty: (isDirty) => void
   editBlocks: (blocks) => void
   setBlocks: (blocks) => void
   insertBlock: (newBlock, index, parent, replace) => void
+
 }
 
 export const useBlockStore = create<BlockState>(set => ({
   isDirty: false,
+  activeDragItem: null,
   setIsDirty: (isDirty) => set(state => ({ isDirty })),
   blocks: [],
+  draggingRowHeight: null,
   editBlocks: (blocks) => set(state => ({ blocks, isDirty: true })),
-  setBlocks: (blocks) => set(state => ({ blocks, isDirty: false })),
+  setBlocks: (blocks) => {
+    return set(state => ({ blocks, isDirty: false }))
+  },
   insertBlock: (newBlock, index=null, parent=null, replace = false) => set(state => {
     let overwrite = replace ? 1 : 0
     let newTopLevelBlock, topLevelIndex;
@@ -95,7 +102,7 @@ export const getBlock = (id) => {
   let parent = null
 
   let index = blocks.findIndex(b => b.id === id)
-
+  
   let block
 
   if(index < 0) {
@@ -107,4 +114,8 @@ export const getBlock = (id) => {
     block = blocks[index]
   }
   return block
+}
+
+export const setActiveDragItem = (item) => {
+  useBlockStore.setState({activeDragItem: item });
 }

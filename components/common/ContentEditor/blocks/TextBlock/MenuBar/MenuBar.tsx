@@ -5,17 +5,17 @@ import FontSizeDropdown from '../../common/FontSizeDropdown'
 
 import Select from 'react-select'
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: '1chocolate', label: 'Chocolate 2' },
-  { value: '1strawberry', label: 'Strawberry 2' },
-  { value: '1vanilla', label: 'Vanilla 2' }
+const fontSizes = [
+  10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52
 ]
 
+const fontSizeOptions = fontSizes.map(size => ({
+  value: size,
+  label: `${size}px`
+}))
+
 const FSSelect = () => (
-  <Select options={options} />
+  <Select options={fontSizeOptions} />
 )
 
 export default ({ editor }) => {

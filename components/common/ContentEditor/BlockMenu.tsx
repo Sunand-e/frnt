@@ -5,6 +5,7 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Gear} from '@styled-icons/fa-solid/Gear'
 import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
 import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
+import {DragIndicator} from '@styled-icons/material/DragIndicator'
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import 'tippy.js/themes/light.css';
@@ -18,7 +19,7 @@ import blocktypes from './blocktypes';
 import { shiftPosition, useBlockStore } from './useBlockStore';
 import { handleModal } from '../../../stores/modalStore';
 
-const BlockMenu = ({ block, className='' }) => {
+const BlockMenu = ({ block, className='', dragListeners }) => {
 
   const blocks = useBlockStore(state => state.blocks)
 
@@ -50,6 +51,12 @@ const BlockMenu = ({ block, className='' }) => {
   )
 
   const allBlockMenuItems = [
+    {
+      name: 'drag-handle',
+      text: 'Drag',
+      iconComponent: DragIndicator,
+      isDisabled: () => index === 0,
+    },
     {
       name: 'settings',
       text: 'Settings',
@@ -121,7 +128,9 @@ const BlockMenu = ({ block, className='' }) => {
           </p>
         )}
       >
-        <div>
+        <div
+          {...(menuItem.name === 'drag-handle' && dragListeners)}
+        >
           <StyledButton
             className={`
               ${menuItem.isDisabled?.() && 'text-gray-400'}

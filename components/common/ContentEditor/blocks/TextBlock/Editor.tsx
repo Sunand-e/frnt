@@ -10,7 +10,7 @@ export default () => {
 
   const editor = useEditor({  editorProps: {
     attributes: {
-      class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+      class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',
     },
   },
     extensions: [ 

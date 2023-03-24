@@ -2,18 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { Item } from '../../common/dnd-kit';
 import { UniqueIdentifier } from '@dnd-kit/core';
-
-function useMountStatus() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsMounted(true), 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  return isMounted;
-}
+import { useMountStatus } from '../../../hooks/useMountStatus';
 
 interface SortableItemProps {
   containerId: UniqueIdentifier;

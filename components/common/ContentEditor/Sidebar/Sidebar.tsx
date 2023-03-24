@@ -52,6 +52,12 @@ const Slider = styled(motion.div)`
   position: absolute;
 `;
 
+export const sidebarBlockButtonClassName = `
+  aspect-square flex flex-col justify-center items-center 
+  space-y-2 p-2 text-center
+  bg-white rounded-lg
+  shadow shadow-lg
+`
 const tabs = [
   {
     name: "Structure",
@@ -65,18 +71,16 @@ const tabs = [
     name: "Blocks",
     component: <BlockSelector
     className="text-main-secondary gap-2  align-center items-center grid sm:grid-cols-2 text-sm" 
-    blockButtonClassName="aspect-square flex flex-col justify-center items-center space-y-2 p-2 text-center bg-white rounded-lg shadow shadow-lg" 
+    blockButtonClassName={sidebarBlockButtonClassName}
     />
   },
 ]
-
-
 export const Sidebar = () => {
   const [value, setValue] = useState(1);
   const childRefs = useRef(new Map());
   const tabListRef = useRef();
   const [slider, setSlider] = useState({ hasValue: false, left: 0, right: 0 });
-  const { bounds, ref } = useMeasure();
+  const { bounds, ref: tabContainerRef } = useMeasure();
 
   // measure our elements
   React.useEffect(() => {
@@ -105,7 +109,7 @@ export const Sidebar = () => {
 
   return (
     <div>
-      <TabContainer ref={ref}>
+      <TabContainer ref={tabContainerRef}>
         <TabList ref={tabListRef} className={`h-18 flex justify-center justify-evenly`}>
           {tabs.map((tab, i) => (
             <TabItem
