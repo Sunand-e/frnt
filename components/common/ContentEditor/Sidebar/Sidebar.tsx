@@ -70,7 +70,7 @@ const tabs = [
   {
     name: "Blocks",
     component: <BlockSelector
-    className="text-main-secondary gap-2  align-center items-center grid sm:grid-cols-2 text-sm" 
+    className="text-main-secondary gap-3 p-3  align-center items-center grid sm:grid-cols-2 text-sm" 
     blockButtonClassName={sidebarBlockButtonClassName}
     />
   },
