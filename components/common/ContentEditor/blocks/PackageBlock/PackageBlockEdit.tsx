@@ -62,7 +62,7 @@ export const PackageBlockEdit = ({
         defaultWidth={defaultWidth}
         >
         { block.properties?.url ? (
-          <div className="aspect-w-16 aspect-h-9 px-1">
+          <div className="aspect-video px-1">
             <DynamicPackageIFrame block={block} isEditing={true} iframeRef={iframeRef} />
           </div>
         ) : (

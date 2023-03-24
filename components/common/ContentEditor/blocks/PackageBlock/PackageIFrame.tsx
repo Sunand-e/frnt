@@ -181,7 +181,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
       <>
-        <iframe key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+        <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
       </>
       ) : (
       <div className='flex items-center justify-center'>

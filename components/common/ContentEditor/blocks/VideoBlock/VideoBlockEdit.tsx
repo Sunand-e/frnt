@@ -37,7 +37,7 @@ export const VideoBlockEdit = ({block}) => {
       defaultWidth={defaultWidth}
     >
       { block.properties?.url ? (
-        <div className="aspect-w-16 aspect-h-9 px-1">
+        <div className="aspect-video px-1">
           <iframe 
             src={block?.properties?.url} 
             width="640" 

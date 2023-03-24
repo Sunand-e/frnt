@@ -40,7 +40,7 @@ export const VideoUrlSelect = ({onVideoSelect}) => {
           <label className="block text-gray-500 text-sm font-bold mb-2">
             Preview:
           </label>
-          <div className="aspect-w-16 aspect-h-9 px-1 mb-4 ">          
+          <div className="aspect-video px-1 mb-4 ">          
             <iframe
               src={embedUrl} 
               width="640" 
