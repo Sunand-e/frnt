@@ -12,6 +12,9 @@ import { useRouter } from '../../../../../utils/router';
 import LoadingSpinner from '../../../LoadingSpinner';
 import { markCompleteDisabledVar } from '../../../../../graphql/cache';
 import useUpdateUserContentStatus from '../../../../../hooks/users/useUpdateUserContentStatus';
+import { useFullscreen } from 'rooks';
+import Button from '../../../Button';
+import { Fullscreen } from '@styled-icons/boxicons-regular/Fullscreen'
 
 declare global {
   interface Window {
@@ -72,7 +75,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
-    
+    console.log('attempt')
+    console.log(attempt)
     if(!scormData?.cmi) {
       return;
     }
@@ -174,15 +178,32 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     }
   },[attemptQueryData])
 
+  
+  const {
+    isFullscreenEnabled,
+    isFullscreenAvailable,
+    toggleFullscreen
+  } = useFullscreen({target: ref})
+
   return (
     <>
       {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
     {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
-      <>
+      <div className='relative w-full h-full'>
         <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
-      </>
+        <div className='absolute top-3 right-7'>
+          { isFullscreenAvailable && (
+            <Button onClick={toggleFullscreen}>
+              <span className='flex items-center xl:space-x-2'>
+                <Fullscreen className='h-6'/>
+                <span className="hidden xl:block">Full Screen</span>
+              </span>
+            </Button>
+          )}
+        </div>
+      </div>
       ) : (
       <div className='flex items-center justify-center'>
         <LoadingSpinner />

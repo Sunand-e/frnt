@@ -9,6 +9,7 @@ import Layout from './Layout';
 import CourseStructureView from '../components/courses/CourseView/CourseStructureView';
 import ButtonLink from '../components/common/ButtonLink';
 import useGetUserCourse from '../hooks/users/useGetUserCourse';
+import CourseSidebarHeader from '../components/courses/CourseSidebarHeader';
 
 export default function CourseLayout( {page, navState} ) {
   /*
@@ -25,7 +26,8 @@ export default function CourseLayout( {page, navState} ) {
     <Layout 
       navState={navState}
       sidebarComponent={(
-        <div className="sticky h-[100vh] w-[250px] 2xl:w-[300px] bg-blue bg-opacity-10 flex flex-col">
+        <div className="sticky h-[100vh] w-full bg-blue bg-opacity-10 flex flex-col">
+          <CourseSidebarHeader />
           <CourseStructureView />
           { pid && course && (
             <ButtonLink className="mx-4" href={{
@@ -38,13 +40,13 @@ export default function CourseLayout( {page, navState} ) {
         </div>
       )}
     >
-      <div className="w-full h-[calc(100vh-4.5rem)] mx-auto bg-white">
+      <div className="w-full h-[calc(100vh-108px)] mx-auto bg-white">
         <div className="lg:flex h-full">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
 
-            <div className="w-full flex justify-center px-16">
-              <div className="min-w-0 w-full flex-auto pt-4 pb-24 lg:pb-16">
+            <div className="w-full flex justify-center">
+              <div className="min-w-0 w-full flex-auto">
                 {page}
               </div>
             </div>

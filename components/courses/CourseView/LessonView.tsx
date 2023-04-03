@@ -7,7 +7,7 @@ import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
 import { currentContentItemVar, markCompleteDisabledVar } from "../../../graphql/cache";
 import { useReactiveVar } from "@apollo/client";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
-import useBlockEditor from "../../common/ContentEditor/useBlockEditor";
+import ScormView from "../scorm/ScormView";
 
 const LessonView = () => {
   
@@ -49,14 +49,20 @@ const LessonView = () => {
 
 
   return (
-    <div className="w-full flex flex-col">
-      {blocks && 
-        blocks.map((block, index) => (
-          <Block block={block} key={index} />
-        ))
-      }
-      {/* <PrevNextButtons /> */}
-    </div>
+    <>
+      { lesson?.node?.contentType === 'scorm_assessment' ? (
+        <ScormView />
+      ) : (
+        <div className="w-full flex flex-col">
+          {blocks && 
+            blocks.map((block, index) => (
+              <Block block={block} key={index} />
+            ))
+          }
+          {/* <PrevNextButtons /> */}
+        </div>
+      )}
+    </>
   )
 }
 

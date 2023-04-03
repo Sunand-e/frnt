@@ -22,7 +22,7 @@ const customStyles = {
 
 const SelectNewCourseItem = ({
   sectionId, 
-  placeholder="Choose a lesson type...",
+  placeholder="Choose a module type...",
   onSelect = () => null
 }) => {
   
@@ -33,16 +33,6 @@ const SelectNewCourseItem = ({
     createLesson({content, contentType: value})
     onSelect()
   }
-    
-  useEffect(() => {
-    if(lesson) {
-      currentContentItemVar({
-        type: 'lesson',
-        id: lesson.id,
-        updateFunction: updateLesson(lesson.id)
-      })
-    }
-  },[lesson])
 
   return (
     <Select

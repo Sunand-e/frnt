@@ -50,8 +50,24 @@ import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
+import { ReactComponentElement, ReactNode } from 'react'
+import DragBlock from './blocks/DragBlock/DragBlock'
 
-const blocktypes = {
+export type BlockType = {
+  name: string,
+  text: string,
+  component: React.FC<any>,
+  editComponent: React.FC<any>,
+  settingsComponent: React.FC<any>,
+  icon: React.FC<any>,
+  hideFromSelector?: boolean
+}
+
+export type BlockTypes = {
+  [key: string]: BlockType
+}
+
+const blocktypes: BlockTypes = {
   // header: {
   //   text: 'Header',
   //   component: HeaderBlock,
@@ -60,6 +76,15 @@ const blocktypes = {
   //   icon: Text,
   //   hideFromSelector: true,
   // },
+  dragBlock: {
+    name: 'dragBlock',
+    text: 'Drag',
+    component: DragBlock,
+    editComponent: DragBlock,
+    settingsComponent: TextSettings,
+    icon: TextT,
+    hideFromSelector: true
+  },
   text: {
     name: 'text',
     text: 'Text',
@@ -75,15 +100,17 @@ const blocktypes = {
   // settingsComponent: ListSettings,
   //   icon: List,
   // },
-  image: {
+  'image': {
     text: 'Image',
+    name: 'image',
     component: ImageBlock,
     editComponent: ImageBlockEdit,
     settingsComponent: ImageSettings,
     icon: Image,
   },
-  video: {
+  'video': {
     text: 'Video',
+    name: 'video',
     component: VideoBlock,
     editComponent: VideoBlockEdit,
     settingsComponent: VideoSettings,
@@ -91,6 +118,7 @@ const blocktypes = {
   },
   audio: {
     text: 'Audio',
+    name: 'audio',
     component: AudioBlock,
     editComponent: AudioBlockEdit,
     settingsComponent: AudioSettings,
@@ -98,6 +126,7 @@ const blocktypes = {
   },
   document: {
     text: 'Document',
+    name: 'document',
     component: DocumentBlock,
     editComponent: DocumentBlockEdit,
     settingsComponent: DocumentSettings,
@@ -105,6 +134,7 @@ const blocktypes = {
   },
   package: {
     text: 'SCORM / xAPI',
+    name: 'package',
     component: PackageBlock,
     editComponent: PackageBlockEdit,
     settingsComponent: PackageSettings,
@@ -112,6 +142,7 @@ const blocktypes = {
   }, 
   columns: {
     text: 'Columns',
+    name: 'columns',
     component: ColumnsBlock,
     editComponent: ColumnsBlockEdit,
     settingsComponent: ColumnsSettings,
@@ -119,6 +150,7 @@ const blocktypes = {
   },
   placeholder: {
     text: 'Placeholder',
+    name: 'placeholder',
     component: PlaceholderBlock,
     editComponent: PlaceholderBlockEdit,
     settingsComponent: PlaceholderSettings,
@@ -134,6 +166,7 @@ const blocktypes = {
   // },
   linedivider: {
     text: 'Line Divider',
+    name: 'linedivider',
     component: LineDividerBlock,
     editComponent: LineDividerBlockEdit,
     settingsComponent: LineDividerSettings,

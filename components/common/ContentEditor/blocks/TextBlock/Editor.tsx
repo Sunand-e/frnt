@@ -6,13 +6,15 @@ import MenuBar from './MenuBar/MenuBar'
 import { useState } from 'react'
 import Placeholder from '@tiptap/extension-placeholder'
 
-export default () => {
+export default ({editable=true, onUpdate, content=null}) => {
 
-  const editor = useEditor({  editorProps: {
-    attributes: {
-      class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',
+  const editor = useEditor({
+    editable,
+    editorProps: {
+      attributes: {
+        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',
+      },
     },
-  },
     extensions: [ 
       StarterKit,
       Placeholder.configure({
@@ -25,6 +27,12 @@ export default () => {
         },
       })
     ],
+    ...( !!onUpdate && {
+      onUpdate: ({editor}) => {
+        onUpdate(editor.getJSON())
+      }
+    }),
+    content
   })
 
   return (

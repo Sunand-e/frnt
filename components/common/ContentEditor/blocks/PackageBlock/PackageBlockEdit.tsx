@@ -52,11 +52,11 @@ export const PackageBlockEdit = ({
   
   return (
     <>
-      { isFullscreenEnabled && (
+      {/* { isFullscreenEnabled && (
         <div className='flex justify-end my-4'>
           <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
         </div>
-      )}
+      )} */}
       <ResizeableElement
         block={block}
         defaultWidth={defaultWidth}

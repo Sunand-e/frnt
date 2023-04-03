@@ -4,7 +4,9 @@ import SidebarItem from "../SidebarItem"
 import styles from '../SidebarItem.module.scss'
 import { useContext } from "react"
 import { useRouter } from 'next/router'
-import { handleModal } from '../../../stores/modalStore'
+import { closeModal, handleModal } from '../../../stores/modalStore'
+import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson'
+import useConfirmDelete from '../../../hooks/useConfirmDelete'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -22,16 +24,18 @@ const SidebarEditableItem = ({
 
   const router = useRouter()
 
+  const { deleteLesson } = useDeleteLesson(id)
+  const { confirmDelete } = useConfirmDelete({
+    itemType: 'lesson',
+    name: 'id',
+    onConfirm: () => {
+      deleteLesson()
+    }
+  })
+
   const handleDelete = (e) => {
     e.stopPropagation()
-    handleDeleteModal(id)
-  }
-  
-  const handleDeleteModal = (id) => {
-    handleModal({
-      title: `Delete lesson`,
-      content: <DeleteLessonModal lessonId={id} />
-    })
+    confirmDelete()
   }
   
   const handleSelect = () => {

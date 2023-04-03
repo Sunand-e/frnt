@@ -4,6 +4,7 @@ export const VideoBlock = ({block}) => {
     <div className="aspect-video px-1">
       <iframe 
         src={block?.properties?.url} 
+        className="w-full h-full"
         width="640" 
         height="360" 
         frameBorder="0" 

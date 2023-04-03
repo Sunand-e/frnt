@@ -11,7 +11,7 @@ function useCourse(id) {
     UPDATE_COURSE
   );
 
-  const updateCourse = (variables) => {
+  const updateCourse = async (variables) => {
 
     const cachedCourse = cache.readFragment<CourseFragmentType>({
       id:`ContentItem:${id}`,
@@ -19,7 +19,7 @@ function useCourse(id) {
       fragmentName: 'CourseFragment',
     })
     
-    updateCourseMutation({
+    await updateCourseMutation({
       variables: {
         id,
         ...variables

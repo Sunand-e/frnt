@@ -1,12 +1,13 @@
 import { useDraggable } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
-import blocktypes from './blocktypes';
+import blocktypes, { BlockType } from './blocktypes';
 import { CSS } from '@dnd-kit/utilities';
+import { useRef, useState } from 'react';
 
 
 type BlockTypeButtonProps = {
   onSelect?: (event: any) => void,
-  type,
+  type: BlockType,
   className: string,
   isDisabled: false
 }
@@ -17,8 +18,16 @@ const BlockTypeButton = ({
   className, 
   isDisabled
 } : BlockTypeButtonProps) => {
+
+  
+  const id = useRef(uuidv4())
+  
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
-    id: type.name,
+    id: `tmp-${id.current}`,
+    data: {
+      type,
+      fromSidebar: true
+    }
   });
 
   return (

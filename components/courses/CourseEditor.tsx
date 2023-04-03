@@ -29,12 +29,10 @@ const CourseEditor = () => {
       )?.children[0]
       
       if(firstItemInCourse) {
-        currentContentItemVar({
-          id: firstItemInCourse.id,
-          type:'lesson',
-          title: firstItemInCourse.title,
-          updateFunction: updateLesson(firstItemInCourse.id)
-        })
+        router.push({query: {
+          ...router.query,
+          cid: firstItemInCourse.id
+        }})
       }
     } else {
       currentContentItemVar({
@@ -59,7 +57,7 @@ const CourseEditor = () => {
 
   return (
     <div className="h-full">
-      <div className="px-16  fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-120px)] mx-[300px] left-0 right-0">
+      <div className="fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)] mx-[300px] left-16 right-0">
         { currentContentItem.id ? (
           <LessonEditor />
         ) :

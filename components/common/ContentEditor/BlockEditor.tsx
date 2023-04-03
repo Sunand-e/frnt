@@ -11,34 +11,50 @@ import useWarningOnExit from "../../../hooks/useWarningOnExit";
 import {SortableContext, useSortable, verticalListSortingStrategy} from '@dnd-kit/sortable';
 import { CSS } from "@dnd-kit/utilities";
 import SortableBlock from "./SortableBlock";
-import { DragOverlay } from "@dnd-kit/core";
+import { DragOverlay, useDroppable } from "@dnd-kit/core";
 import BlockContainerOverlay from "./BlockContainerOverlay";
 
 const BlockEditor = () => {
 
-  const editBlocks = useBlockStore(state => state.editBlocks)
-  const blocks = useBlockStore(state => state.blocks)
-  const activeDragItem = useBlockStore(state => state.activeDragItem)
-  const isDirty = useBlockStore(state => state.isDirty)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
-  const setBlocks = useBlockStore(state => state.setBlocks)
-  
-  const router = useRouter()
-  
   // useWarningOnExit(isDirty)
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition
+  } = useDroppable({
+    id: "editor_pane",
+    data: {
+      parent: null,
+      isContainer: true
+    }
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition
+  };
 
   return (
     <>
-      <div className="list">
-        <SortableContext
-          items={blockIds}
-          strategy={verticalListSortingStrategy}
+      <SortableContext
+        items={blockIds}
+        strategy={verticalListSortingStrategy}
+      >
+        <div
+          className="h-full w-full"
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
         >
           {blockIds.map(id => {
             return <SortableBlock key={id} id={id} />
           })}
-        </SortableContext>
-      </div>
+        </div>
+      </SortableContext>
 
       {!blockIds.length && (
       <div className={`w-full flex flex-col items-center mt-4`}>

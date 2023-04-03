@@ -33,10 +33,10 @@ function useCreateLesson(sectionId) {
     }
   );
 
-  const createLesson = (values) => {
+  const createLesson = async (values) => {
     console.log('values')
     console.log(values)
-    createLessonMutation({
+    const newLesson = await createLessonMutation({
       variables: {
         ...values,
         parentIds: [sectionId]
@@ -71,9 +71,8 @@ function useCreateLesson(sectionId) {
           message: ''
         }
       }
-    }).catch(res => {
-      // TODO: do something if there is an error!!
     })
+    return newLesson
   }
 
   return {

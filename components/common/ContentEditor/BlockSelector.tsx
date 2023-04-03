@@ -1,14 +1,11 @@
 import blocktypes from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
-import PackageSelectModal from './blocks/PackageBlock/PackageSelectModal'
-import { CSSProperties, StyleHTMLAttributes, useContext } from 'react';
+import { CSSProperties } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
-import { defaultDropAnimationSideEffects, DndContext, DragOverlay, DropAnimation, useDroppable } from '@dnd-kit/core';
-import { Draggable, DraggableOverlay } from '../dnd-kit';
-import { createPortal } from 'react-dom';
+import PackageLibrary from '../../packages/PackageLibrary';
 
 interface block {
   type: string,
@@ -62,7 +59,19 @@ const BlockSelector = ({
     })
   }
 
-
+  const handlePackageSelect = (module) => {
+    const newBlock = {
+      type: 'package',
+      id: uuidv4(),
+      properties: {
+        url: module.launchUrl,
+        moduleId: module.id,
+      }
+    }
+    addBlock(newBlock)
+    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
+    closeModal()
+  }
   
   const handleSelectType = (type) => {
     const newBlock: block = {
@@ -75,7 +84,7 @@ const BlockSelector = ({
       case 'package': {
         handleModal({
           title: `Choose package`,
-          content: <PackageSelectModal block={block} />,
+          content: <PackageLibrary onItemSelect={handlePackageSelect} />,
           size: 'lg'
         })
         break;

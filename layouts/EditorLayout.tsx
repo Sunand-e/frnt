@@ -12,6 +12,7 @@ import blocktypes from '../components/common/ContentEditor/blocktypes';
 import BlockContainer from '../components/common/ContentEditor/BlockContainer';
 import { sidebarBlockButtonClassName } from '../components/common/ContentEditor/Sidebar/Sidebar';
 import { arrayMove } from '@dnd-kit/sortable';
+import { useRef } from 'react';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
@@ -29,6 +30,20 @@ export default function EditorLayout( {page, navState} ) {
   const activeDragItem = useBlockStore(state => state.activeDragItem)
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
+
+  const spacerInsertedRef = useRef<Boolean>();
+
+  
+  function getData(prop) {
+    return prop?.data?.current ?? {};
+  }
+
+  const cleanUp = () => {
+    // setActiveSidebarField(null);
+    setActiveDragItem(null);
+    // currentDragFieldRef.current = null;
+    spacerInsertedRef.current = false;
+  };
 
   const sensors = useSensors(
     // useSensor(KeyboardSensor, {
@@ -61,22 +76,71 @@ export default function EditorLayout( {page, navState} ) {
   }
 
   const handleDragOver = ({active, over, ...restOfEvent}) => {
-    console.log('restOfEvent')
-    console.log(restOfEvent)
-    console.log('over')
-    console.log(over)
-    console.log('active')
-    console.log(active)
-    console.log('blockIds')
-    console.log(blockIds)
+
+    const overData = getData(over)
+
     const overId = over?.id;
 
-    if (blockIds.includes(overId)) {
+    if (overId === 'editor_pane' || blockIds.includes(overId)) {
       console.log('yup')
+
       // alert('moved to editor')
       return;
+    }  
+    if (!spacerInsertedRef.current) {
+
+      const spacer = {
+        type: 'dragBlock',
+        id: active.id,
+        properties: {}
+      }
+      
+      let newBlocks = []
+      if (!blocks.length) {
+        newBlocks.push(spacer);
+      } else {
+
+        const nextIndex = overData.index > -1 ? overData.index : blocks.length;
+
+        newBlocks = blocks.splice(nextIndex, 0, spacer);
+      }
+      setBlocks([
+        ...newBlocks,
+        {
+          type: 'dragBlock',
+          id: active.id,
+          properties: {}
+        }
+      ])
+      spacerInsertedRef.current = true;
+        
+    } else if (!over) {
+      // This solves the issue where you could have a spacer handing out in the canvas if you drug
+      // a sidebar item on and then off
+      setBlocks(blocks.filter((f) => f.type !== "dragBlock" ));
+      spacerInsertedRef.current = false;
+    } else {
+      // Since we're still technically dragging the sidebar draggable and not one of the sortable draggables
+      // we need to make sure we're updating the spacer position to reflect where our drop will occur.
+      // We find the spacer and then swap it with the over skipping the op if the two indexes are the same
+      // updateData((draft) => {
+      //   const spacerIndex = draft.fields.findIndex(
+      //     (f) => f.id === active.id + "-spacer"
+      //   );
+
+      //   const nextIndex =
+      //     overData.index > -1 ? overData.index : draft.fields.length - 1;
+
+      //   if (nextIndex === spacerIndex) {
+      //     return;
+      //   }
+
+      //   draft.fields = arrayMove(draft.fields, spacerIndex, overData.index);
+      // });
     }
   }
+
+
 
   return (
     <DndContext
@@ -103,7 +167,7 @@ export default function EditorLayout( {page, navState} ) {
             <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
               <ToastContainer />
               <motion.div
-                className="w-full flex justify-center h-[calc(100vh-120px)] overflow-auto"
+                className="w-full flex justify-center h-[calc(100vh-108px)] overflow-auto"
                 layoutScroll
               >
                 <div className="min-w-0 w-full flex-auto">
@@ -115,7 +179,6 @@ export default function EditorLayout( {page, navState} ) {
           </div>
         </div>
       </Layout>
-      (       
       {createPortal(
         <DragOverlay dropAnimation={dropAnimation}>
           {activeDragItem && (
@@ -124,7 +187,7 @@ export default function EditorLayout( {page, navState} ) {
               <BlockContainer id={activeDragItem.id} />
             ) : (
               <BlockTypeButton
-                type={blocktypes[activeDragItem.id]}
+                type={blocktypes[activeDragItem.data.current.type.name]}
                 isDisabled={false}
                 className={`text-main-secondary text-sm ${sidebarBlockButtonClassName}`}
               />

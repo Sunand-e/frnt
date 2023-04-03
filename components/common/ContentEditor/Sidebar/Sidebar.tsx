@@ -1,13 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMeasure } from "./use-measure";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Pager } from "./Pager";
 import BlockSelector from "../BlockSelector";
 import CourseStructureEditor from "../../../courses/CourseStructureEditor/CourseStructureEditor";
 import SidebarEditableItem from "../../../courses/CourseStructureEditor/SidebarEditableItem";
+import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
+import { useRouter } from "../../../../utils/router";
+import { lessonTypes } from "../../../courses/lessonTypes";
+import CourseSidebarHeader from "../../../courses/CourseSidebarHeader";
 
-const TabContainer = styled.div`
+const TabContainer = styled(motion.div)`
   overflow-y: hidden;
   box-shadow: none;
 `;
@@ -58,9 +62,10 @@ export const sidebarBlockButtonClassName = `
   bg-white rounded-lg
   shadow shadow-lg
 `
-const tabs = [
+const allTabs = [
   {
-    name: "Structure",
+    name: "structure",
+    label: "Structure",
     component: (
       <CourseStructureEditor
         renderItem={SidebarEditableItem}
@@ -68,22 +73,33 @@ const tabs = [
     )
   },
   {
-    name: "Blocks",
+    name: "blocks",
+    label: "Blocks",
     component: <BlockSelector
     className="text-main-secondary gap-3 p-3  align-center items-center grid sm:grid-cols-2 text-sm" 
     blockButtonClassName={sidebarBlockButtonClassName}
     />
   },
 ]
+
 export const Sidebar = () => {
-  const [value, setValue] = useState(1);
+
+  const router = useRouter()
+  const { cid: contentId } = router.query
+
+  const [value, setValue] = useState(0);
   const childRefs = useRef(new Map());
   const tabListRef = useRef();
   const [slider, setSlider] = useState({ hasValue: false, left: 0, right: 0 });
   const { bounds, ref: tabContainerRef } = useMeasure();
+  const { complete, data } = useLessonContentFragment(contentId)
 
+  const handleTabClick = (i) => {
+    setValue(i)
+  }
   // measure our elements
-  React.useEffect(() => {
+  useEffect(() => {
+
     const target = childRefs.current.get(value);
     const container = tabListRef.current;
     if (target) {
@@ -107,40 +123,56 @@ export const Sidebar = () => {
     }
   }, [value, bounds]);
 
+  const tabs = allTabs.filter(tab => {
+    return lessonTypes[data?.contentType]?.sidebarPanels.includes(tab.name)
+  })
+
+  const showTabs = lessonTypes[data?.contentType]?.sidebarPanels?.length > 1
+  
   return (
-    <div>
-      <TabContainer ref={tabContainerRef}>
-        <TabList ref={tabListRef} className={`h-18 flex justify-center justify-evenly`}>
-          {tabs.map((tab, i) => (
-            <TabItem
-              key={tab.name}
-              isActive={i === value}
-              className={`${i === value ? "text-main" : "text-main-secondary"}`}
-              whileHover={{ backgroundColor: "#f1f3f5" }}
-              transition={{ duration: 0.1 }}
-              whileTap={{ backgroundColor: "#e9ecef" }}
-              ref={el => childRefs.current.set(i, el)}
-              onClick={() => setValue(i)}
-            >
-              {tab.name}
-            </TabItem>
-          ))}
-          {slider.hasValue && (
-            <Slider
-            className="bg-main"
-              layout={true}
-              transition={{
-                bounceDamping: 3,
-              }}
-              initial={false}
-              style={{
-                left: slider.left,
-                right: slider.right
-              }}
-            />
-          )}
-        </TabList>
-      </TabContainer>
+    <>
+      <CourseSidebarHeader showProgress={false} />
+      <AnimatePresence>
+      { showTabs && (
+        <TabContainer ref={tabContainerRef} 
+          initial={{ height: 0 }}
+          animate={{ height: 'auto' }}
+          exit={{ height: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <TabList ref={tabListRef} className={`flex justify-center justify-evenly`}>
+            {tabs.map((tab, i) => (
+              <TabItem
+                key={tab.name}
+                isActive={i === value}
+                className={`${i === value ? "text-main" : "text-main-secondary"}`}
+                whileHover={{ backgroundColor: "#f1f3f5" }}
+                transition={{ duration: 0.1 }}
+                whileTap={{ backgroundColor: "#e9ecef" }}
+                ref={el => childRefs.current.set(i, el)}
+                onClick={() => handleTabClick(i)}
+              >
+                {tab.label}
+              </TabItem>
+            ))}
+            {slider.hasValue && (
+              <Slider
+              className="bg-main"
+                layout={true}
+                transition={{
+                  bounceDamping: 3,
+                }}
+                initial={false}
+                style={{
+                  left: slider.left,
+                  right: slider.right
+                }}
+              />
+            )}
+          </TabList>
+        </TabContainer>
+      )}
+      </AnimatePresence>
       <Pager value={value}>
         {tabs.map(tab => (
           <div
@@ -155,6 +187,6 @@ export const Sidebar = () => {
           </div>
         ))}
       </Pager>
-    </div>
+    </>
   );
 }

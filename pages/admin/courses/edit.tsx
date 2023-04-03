@@ -4,7 +4,6 @@ import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { viewVar } from '../../../graphql/cache'
 import { useEffect } from 'react'
-import {Gear} from '@styled-icons/fa-solid/Gear'
 import useCourse from '../../../hooks/courses/useCourse'
 import CourseForm from '../../../components/courses/CourseForm'
 import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
@@ -23,9 +22,6 @@ const AdminCoursesEdit = () => {
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  const { updateCourse } = useCourse(id)
-  
-
   useEffect(() => {
     const view = {
       isSlimNav: true,
@@ -42,32 +38,6 @@ const AdminCoursesEdit = () => {
     }
   },[])
 
-  const onSettingsSubmit = ({content, ...values}) => {
-    updateCourse({
-      content: { description: content }, 
-      ...values
-    })
-    closeModal()
-  }
-
-  const openCourseSettings = () => {
-    handleModal({
-      title: `Course settings`,
-      size: 'lg',
-      content: <CourseForm course={course} isModal={true} onSubmit={onSettingsSubmit} submitButtonText="Save settings" />
-    })
-  }
-
-  usePageTitle({ 
-    title: `Course${course?.title ? ': ' : ''}`, 
-    editable:  course?.title || '', 
-    onEdit: title => updateCourse({title}),
-    after: (
-      <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>
-        <Gear size="18"  />
-      </div>
-    )
-  })
 
   useSaveContentButton()
   

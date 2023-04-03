@@ -11,7 +11,7 @@ export const Block = ({ block, dragOverlay = false }) => {
   const blockId = dragOverlay ? `overlay-${id}` : id;
   return (
     // <div className="p-2 mb-4 bg-white rounded-lg shadow shadow-lg">
-    <div className={`${parent ? '' : '-mx-16'} flex flex-col items-center`}
+    <div className={`flex flex-col items-center`}
     style={{
       backgroundColor: block?.properties?.bgColor,
       paddingTop: block?.properties?.paddingTop || "20px",
@@ -20,7 +20,7 @@ export const Block = ({ block, dragOverlay = false }) => {
       paddingRight: block?.properties?.paddingRight,
       color: block?.properties?.textColor || 'inherit'
     }}>
-      <div className='w-full max-w-screen-lg mb-12'>
+      <div className='w-full max-w-screen-lg mb-6'>
         { BlockComponent && <BlockComponent id={blockId} block={block} /> }
       </div>
     </div>

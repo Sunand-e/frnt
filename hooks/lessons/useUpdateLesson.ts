@@ -5,7 +5,7 @@ import { ContentFragment as ContentFragmentType } from '../../graphql/queries/__
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 import cache from "../../graphql/cache"
 
-function useUpdateLesson(id = null) {
+function useUpdateLesson() {
 
   const [updateLessonMutation, updateLessonResponse] = useMutation<UpdateLesson, UpdateLessonVariables>(
     UPDATE_LESSON
@@ -13,7 +13,6 @@ function useUpdateLesson(id = null) {
 
   const updateLesson = id => async values => {
   // const updateLesson = ({title=null, contentBlocks=null}) => {
-
     const cachedLesson = cache.readFragment<ContentFragmentType>({
       id:`ContentItem:${id}`,
       fragment: ContentFragment,

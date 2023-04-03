@@ -1,50 +1,44 @@
-import { gql, useFragment_experimental, useReactiveVar } from "@apollo/client"
 import { currentContentItemVar } from "../../graphql/cache"
 import { useEffect } from "react";
 import BlockEditor from "../common/ContentEditor/BlockEditor";
-import { ContentTitle } from "../common/ContentEditor/ContentTitle";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
-import { useRouter } from "next/router";
 import { useBlockStore } from "../common/ContentEditor/useBlockStore";
-import { LessonContentFragment as LessonContentFragmentType } from "./__generated__/LessonContentFragment";
-import ContentCreator from "../common/ContentCreator/ContentCreator";
+import { useRouter } from "../../utils/router";
+import { useLessonContentFragment } from "../../hooks/lessons/useLessonContentFragment";
+import usePageTitle from "../../hooks/usePageTitle";
+import ScormView from "./scorm/ScormView";
 
-const LessonContentFragment = gql`
-  fragment LessonContentFragment on ContentItem {
-    content
-  }
-`
 const LessonEditor = () => {
 
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-  const { id } = currentContentItem
-
   const router = useRouter()
-  
-  const { updateLesson } = useUpdateLesson(id)
+  const { cid: contentId } = router.query
+  const { updateLesson } = useUpdateLesson()
 
   const setBlocks = useBlockStore(state => state.setBlocks)
+  
+  const { complete, data: lesson } = useLessonContentFragment(contentId)
 
-  const { complete, data } = useFragment_experimental<LessonContentFragmentType, any>({
-    fragment: LessonContentFragment,
-    from: {
-      __typename: "ContentItem",
-      id: id,
-    },
-  });
+  usePageTitle({ 
+    title: `Lesson: `, 
+    editable:  lesson?.title || 'Untitled Lesson', 
+    onEdit: title => {
+      updateLesson(contentId)({title})
+    }
+  })
+
 
   useEffect(() => {
-    data?.content && setBlocks(data.content.blocks || [])
-  },[data])
+    lesson?.content && setBlocks(lesson.content.blocks || [])
+  },[lesson])
 
   /* REFACTOR NEEDED */
   useEffect(() => {
-    if(router.query.cid) {
+    if(contentId) {
       currentContentItemVar({
         title: null,
-        id: router.query.cid,
+        id: contentId,
         type: 'lesson',
-        updateFunction: updateLesson(router.query.cid)
+        updateFunction: updateLesson(contentId)
       })
     }
     return () => {
@@ -55,13 +49,15 @@ const LessonEditor = () => {
         type:null
       })
     }
-  },[router.query.cid])
+  },[contentId])
 
   return (
     <>
-      {/* <ContentCreator /> */}
-      {/* <ContentTitle /> */}
-      <BlockEditor />
+      { lesson.contentType === 'scorm_assessment' ? (
+        <ScormView isEditing={true} />
+      ) : (
+        <BlockEditor />
+      )}
     </>
   )
 }

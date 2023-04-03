@@ -8,6 +8,7 @@ import Button from '../components/common/Button'
 import PrevNextButtons from '../components/courses/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/courses/CourseView/CourseCompleted'
 import useGetUserCourse from '../hooks/users/useGetUserCourse'
+import useUserHasCapability from '../hooks/users/useUserHasCapability'
 
 const CoursePage = () => {
   /*
@@ -15,8 +16,12 @@ const CoursePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId, showEdit=false } = router.query
-
+  const { id, cid: contentId } = router.query
+  const { userHasCapability } = useUserHasCapability()
+  const showEditButton = userHasCapability([
+    'UpdateCourse',
+  ])
+    
   const { user } = useGetCurrentUser();
   const { courseEdge } = useGetUserCourse(id)
   const [courseScore, setCourseScore] = useState(null)
@@ -69,11 +74,11 @@ const CoursePage = () => {
   useEffect(() => {
     headerButtonsVar(
       <>
-        {showEdit && <Button onClick={editCourse}>Edit Course</Button> }
+        {showEditButton && <Button onClick={editCourse}>Edit Course</Button> }
         { user && <PrevNextButtons /> }
       </>
     )
-  },[showEdit, user])
+  },[showEditButton, user])
   
   return (
     <>

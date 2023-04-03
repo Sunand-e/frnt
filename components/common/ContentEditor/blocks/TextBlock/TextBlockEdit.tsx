@@ -35,7 +35,7 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
 
   return (
     <>
-      <Editor />
+      <Editor onUpdate={handleChange} content={properties?.content} />
     </>
   );
 }

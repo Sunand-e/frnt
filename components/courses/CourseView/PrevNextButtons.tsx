@@ -76,8 +76,8 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
     )}
     { (lessonEdge?.status !== 'completed') && (
       <Button disabled={disabled} onClick={handleMarkComplete}>
-        <span className='flex items-center space-x-2'>
-          <span>Mark Complete</span>
+        <span className='flex items-center xl:space-x-2'>
+          <span className="hidden xl:block">Mark Complete</span>
           <Tick className='h-8'/>
         </span>
       </Button>

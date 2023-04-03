@@ -14,9 +14,6 @@ const SidebarItemProgress = ({id}) => {
   let lessonEdge = lessons?.edges.find(edge => edge.node.id === id)
 
   const [progress, setProgress] = useState(0)
-  console.log('lessonEdge')
-  console.log(lessonEdge)
-  console.log(id)
   useEffect(() => {
       // alert(lessonEdge?.status)
     switch(lessonEdge?.status) {
