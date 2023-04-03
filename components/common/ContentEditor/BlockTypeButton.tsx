@@ -1,7 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
-import blocktypes, { BlockType } from './blocktypes';
-import { CSS } from '@dnd-kit/utilities';
+import { BlockType } from './blocktypes';
 import { useRef, useState } from 'react';
 
 
@@ -9,14 +8,14 @@ type BlockTypeButtonProps = {
   onSelect?: (event: any) => void,
   type: BlockType,
   className: string,
-  isDisabled: false
+  isDisabled: boolean
 }
 
 const BlockTypeButton = ({
   onSelect, 
   type, 
   className, 
-  isDisabled
+  isDisabled=false
 } : BlockTypeButtonProps) => {
 
   

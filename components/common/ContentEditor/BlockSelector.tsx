@@ -1,4 +1,4 @@
-import blocktypes from './blocktypes'
+import blocktypes, { BlockType } from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
 import { CSSProperties } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,17 +6,10 @@ import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
-
-interface block {
-  type: string,
-  id: string,
-  children?: block[]
-  properties?: {[key: string]: any}
-  widths?: {[key: string]: any}
-}
+import { Block } from './useBlockStore';
 
 interface BlockSelectorProps {
-  block?,
+  block?: Block,
   replace?: boolean, 
   exclude?: any[],
   className?: string,
@@ -40,7 +33,7 @@ const BlockSelector = ({
   //   id: 'blockSelector',
   // });
 
-  const handleAddVideo = (newBlock) => {
+  const handleAddVideo = (newBlock: Block) => {
     handleModal({
       title: `Add video`,
       size: 'md',
@@ -73,8 +66,8 @@ const BlockSelector = ({
     closeModal()
   }
   
-  const handleSelectType = (type) => {
-    const newBlock: block = {
+  const handleSelectType = (type: BlockType) => {
+    const newBlock: Block = {
       type: type.name,
       id: uuidv4(),
       properties: {}

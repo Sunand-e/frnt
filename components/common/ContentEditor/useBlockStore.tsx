@@ -2,15 +2,22 @@ import create from 'zustand'
 import { arrayMove } from "@dnd-kit/sortable";
 import { UniqueIdentifier } from '@dnd-kit/core';
 
+export interface Block {
+  type: string,
+  id: string,
+  children?: Block[]
+  properties?: {[key: string]: any}
+  widths?: {[key: string]: any}
+}
+
 type BlockState = {
   isDirty: boolean
-  blocks: any[]
+  blocks: Block[]
   activeDragItem: any
   setIsDirty: (isDirty) => void
-  editBlocks: (blocks) => void
-  setBlocks: (blocks) => void
-  insertBlock: (newBlock, index, parent, replace) => void
-
+  editBlocks: (blocks: Block[]) => void
+  setBlocks: (blocks: Block[]) => void
+  insertBlock: (newBlock: Block, index: number, parent: Block | null, replace: boolean) => void
 }
 
 export const useBlockStore = create<BlockState>(set => ({
@@ -59,7 +66,7 @@ export const useBlockStore = create<BlockState>(set => ({
 }))
 
 
-export const shiftPosition = (block, direction='down') => {
+export const shiftPosition = (block: Block, direction='down') => {
 
   const { blocks } = useBlockStore.getState()
   const { index, parent } = getIndexAndParent(block.id)

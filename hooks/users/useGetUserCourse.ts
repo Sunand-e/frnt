@@ -1,10 +1,11 @@
 
 import { useQuery } from "@apollo/client"
+import { GetUserCourseQuery } from "../../graphql/generated";
 import { GET_USER_COURSE } from "../../graphql/queries/users";
 
 function useGetUserCourse(id=null) {
   
-  const { loading, error, data } = useQuery(
+  const { loading, error, data } = useQuery<GetUserCourseQuery>(
     GET_USER_COURSE,
     {
       // fetchPolicy: "cache-and-network",

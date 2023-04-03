@@ -1,13 +1,22 @@
+interface TextInputProps {
+  label?: string
+  inputAttrs?: any
+  type?: string
+  className?: string
+  placeholder?: string,
+  onClick?: () => void
+}
 const TextInput = ({
   label='',
   inputAttrs = {},
   type="text",
   className='',
-  placeholder: placeholder = ''
-}) => {
+  placeholder: placeholder = '',
+  onClick
+} : TextInputProps ) => {
 
   return (
-    <label className={`block ${className}`}>
+    <label className={`block ${className}`} onClick={onClick}>
       { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
       <input
         type={type}

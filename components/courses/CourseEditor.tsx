@@ -8,7 +8,7 @@ import { useEffect } from "react"
 import { currentContentItemVar } from "../../graphql/cache"
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson"
 import useGetUserCourse from "../../hooks/users/useGetUserCourse"
-import { SettingsPanel } from "../common/ContentEditor/SettingsPanel"
+import { SettingsPane } from "../common/ContentEditor/SettingsPane"
 
 const CourseEditor = () => {
 
@@ -66,7 +66,7 @@ const CourseEditor = () => {
           </div>
         }
       </div>
-      <SettingsPanel />
+      <SettingsPane />
     </div>
   )
 }

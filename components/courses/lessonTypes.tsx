@@ -9,7 +9,18 @@ import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
 import { v4 as uuidv4 } from 'uuid'
-export const lessonTypes = {
+import { ReactNode } from 'react'
+import {StyledIcon} from '@styled-icons/styled-icon'
+interface ModuleTypes {
+  [key: string]: {
+    label?: string
+    shortName?: string
+    icon?: StyledIcon
+    sidebarPanels?: string[]
+  }
+}
+
+export const lessonTypes: ModuleTypes = {
   standard_lesson: {
     label: "Lesson", 
     shortName: "Lesson", 

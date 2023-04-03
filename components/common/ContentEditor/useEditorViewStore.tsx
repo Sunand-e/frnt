@@ -1,11 +1,11 @@
 import create from 'zustand'
 
 type EditorViewState = {
-  currentSettingsPanel: string,
-  isSettingsPanelOpen: boolean,
+  activeSettingsPanel: string,
+  isSettingsPaneOpen: boolean,
 }
 
 export const useEditorViewStore = create<EditorViewState>(set => ({
-  currentSettingsPanel: 'a',
-  isSettingsPanelOpen: false
+  activeSettingsPanel: 'a',
+  isSettingsPaneOpen: false
 }))

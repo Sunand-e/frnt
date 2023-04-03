@@ -7,15 +7,17 @@ import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../../utils/router";
 import CourseForm from "../../../courses/CourseForm";
 import { lessonTypes } from "../../../courses/lessonTypes";
+import { LessonModulePanel } from "./LessonModulePanel";
+import { ScormModulePanel } from "./ScormModulePanel";
 
-export const SettingsPanel = () => {
+export const SettingsPane = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
 
-  const { complete, data } = useLessonContentFragment(contentId)
-  const lessonType = lessonTypes[data.contentType]
-  const lessonSettingsTitle = `${lessonType?.shortName || lessonType?.label} settings`
+  const { complete, data: module } = useLessonContentFragment(contentId)
+  const moduleType = lessonTypes[module.contentType]
+  const modulePanelTitle = `${moduleType?.shortName || moduleType?.label} settings`
 
   const [activePanelIndex, setActivePanelIndex] = useState(0)
 
@@ -39,6 +41,12 @@ export const SettingsPanel = () => {
     })
   }
 
+  const ModulePanel = module.contentType === 'scorm_assessment' ? (
+    ScormModulePanel
+    ) : (
+    LessonModulePanel
+  )
+
   const panels = [
     {
       title: "Course settings",
@@ -51,9 +59,9 @@ export const SettingsPanel = () => {
         />
       )
     },
-    ...( !!lessonType && [{
-      title: lessonSettingsTitle,
-      content: <></>
+    ...( !!moduleType && [{
+      title: modulePanelTitle,
+      content: <ModulePanel />
     }] || [])
   ]
 

@@ -1,4 +1,5 @@
 import { gql, useFragment_experimental } from "@apollo/client";
+import { LessonContentFragmentFragment } from "../../graphql/generated";
 
 const LessonContentFragment = gql`
   fragment LessonContentFragment on ContentItem {
@@ -9,7 +10,7 @@ const LessonContentFragment = gql`
 `
 
 export const useLessonContentFragment = (id) => {
-  return useFragment_experimental<LessonContentFragmentType, any>({
+  return useFragment_experimental<LessonContentFragmentFragment, any>({
     fragment: LessonContentFragment,
     from: {
       __typename: "ContentItem",
