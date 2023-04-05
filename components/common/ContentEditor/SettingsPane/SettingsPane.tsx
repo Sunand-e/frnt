@@ -1,5 +1,6 @@
+import { height } from "@fortawesome/free-solid-svg-icons/faCalendarDays";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 import useCourse from "../../../../hooks/courses/useCourse";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
@@ -25,7 +26,10 @@ export const SettingsPane = () => {
   const course = courses?.edges[0]?.node
   const { updateCourse } = useCourse(id)
 
-
+  const handleClick = (index) => {
+    const activeIndex = (index === activePanelIndex) ? null : index
+    setActivePanelIndex(activeIndex)
+  }
 
   const onCourseSettingsSubmit = async ({content, ...values}) => {
 
@@ -66,29 +70,52 @@ export const SettingsPane = () => {
   ]
 
   return (
-    <div className="flex-none w-[300px] fixed right-0 h-full bg-main/10 shadow-md px-3">
+    <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
       { panels.map((panel, index) => {
         const isActive = (index === activePanelIndex)
+
         return (
-          <div>
+          <Fragment key={index}>
             <div
-              className="border-b border-gray-300 py-4 px-1"
-              onClick={() => setActivePanelIndex(index)}
+              className="border-b border-gray-300 py-4 px-1 flex-0 "
+              onClick={() => handleClick(index)}
             >
               <h3 className="text-base font-medium leading-6 text-main-secondary">{ panel.title }</h3>
             </div>
-            {/* <AnimatePresence>
-            { isActive && ( */}
-              <motion.div
-                className="border-b border-gray-300 py-4 px-1"
-                animate={{ height: 'auto' }}
-                exit={{ height: 0 }}
-              >
-                { panel.content }
-              </motion.div>
-            {/* )} */}
-            {/* </AnimatePresence> */}
-          </div>
+
+            <AnimatePresence>
+              { isActive && (
+                <motion.div
+                  transition={{
+                    duration: 0.6,
+                  }}
+                  layout
+                  style={{
+                    overflowY: 'auto',
+                    overflowX: 'auto',
+                    minHeight: 0
+                    // ...containerStyles
+                  }}
+                  initial={'closed'}
+                  exit={'closed'}
+                  animate={'open'}
+                  variants={{
+                    closed: { 
+                      flexGrow: 0, 
+                      padding: 0,
+                      height:0,
+                    },
+                    open: { 
+                      height: '200px',
+                      flexGrow: 1,
+                    }
+                  }}
+                >
+                  { panel.content }
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Fragment>
         )
       })}
     </div>

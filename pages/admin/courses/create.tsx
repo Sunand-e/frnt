@@ -169,7 +169,11 @@ const AdminCourseSetup = () => {
   return (
     // <div className='h-full w-full max-w-screen-lg mx-auto'>
     <>
-      <CourseForm submitButtonText='Course Builder' onSubmit={onSubmit}/>
+      <CourseForm 
+        submitButtonText='Course Builder' 
+        onSubmit={onSubmit}
+        autoFocus={true}
+      />
     </>
   )
 }

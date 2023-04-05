@@ -20,7 +20,7 @@ interface CourseFormValues {
   disableProgression: boolean
 }
 
-const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Submit"}) => {
+const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Submit", autoFocus=false}) => {
 
   const defaultValues = {
     ...course,
@@ -33,7 +33,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
   const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
 
   useEffect(() => {
-    setFocus('title')
+    autoFocus && setFocus('title')
   },[])
 
   const reopenFormInModal = (image) => {
