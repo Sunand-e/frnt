@@ -6,7 +6,7 @@ import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
-import { Block } from './useBlockStore';
+import { Block, useBlockStore } from './useBlockStore';
 
 interface BlockSelectorProps {
   block?: Block,
@@ -28,6 +28,7 @@ const BlockSelector = ({
 }: BlockSelectorProps) => {
 
   const { blocks, addBlock } = useBlockEditor(block)
+  const sidebarFieldsRegenKey = useBlockStore(state => state.sidebarFieldsRegenKey)
 
   // const {isOver, setNodeRef} = useDroppable({
   //   id: 'blockSelector',
@@ -134,8 +135,7 @@ const BlockSelector = ({
   })
 
   return (
-    <div style={style} className={className}>
-
+    <div style={style} key={sidebarFieldsRegenKey} className={className}>
       { BlockTypeButtons }
 {/*       
       {createPortal(

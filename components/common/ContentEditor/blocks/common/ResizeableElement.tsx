@@ -1,8 +1,8 @@
 import { Resizable } from 're-resizable';
 import { ResizeableHandle } from './ResizeableHandle'
-import { activeContentBlockVar } from '../../../../../graphql/cache';
 import useBlockEditor from '../../useBlockEditor';
 import { useEffect, useState } from 'react';
+import { useBlockStore } from '../../useBlockStore';
 
 export const ResizeableElement = ({block, defaultWidth, children}) => {
 
@@ -86,7 +86,9 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
               right: { right: 0 },
             }}
             onResize={(e, direction, ref) => {
-              activeContentBlockVar(block.id)
+              useBlockStore.setState({
+                activeBlockId: block.id
+              })
             }}
             onResizeStop={(e, direction, ref) => {
               setWidth(ref.offsetWidth)

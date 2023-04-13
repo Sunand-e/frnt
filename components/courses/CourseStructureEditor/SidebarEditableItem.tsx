@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import { closeModal, handleModal } from '../../../stores/modalStore'
 import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson'
 import useConfirmDelete from '../../../hooks/useConfirmDelete'
+import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore'
+import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -38,7 +40,10 @@ const SidebarEditableItem = ({
     confirmDelete()
   }
   
-  const handleSelect = () => {
+  const handleSelect = (id) => {
+    useEditorViewStore.setState({activeSettingsPanel: 'module'})
+    useBlockStore.setState({activeBlockId: null})
+
     router.push({
       pathname: `/admin/courses/edit`,
       query: {

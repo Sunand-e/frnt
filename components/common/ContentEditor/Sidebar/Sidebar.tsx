@@ -3,13 +3,12 @@ import { useMeasure } from "./use-measure";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { Pager } from "./Pager";
-import BlockSelector from "../BlockSelector";
-import CourseStructureEditor from "../../../courses/CourseStructureEditor/CourseStructureEditor";
-import SidebarEditableItem from "../../../courses/CourseStructureEditor/SidebarEditableItem";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import { useRouter } from "../../../../utils/router";
 import { lessonTypes } from "../../../courses/lessonTypes";
 import CourseSidebarHeader from "../../../courses/CourseSidebarHeader";
+import { useEditorViewStore } from "../useEditorViewStore";
+import { sidebarPanels } from "./sidebarPanels";
 
 const TabContainer = styled(motion.div)`
   overflow-y: hidden;
@@ -62,45 +61,29 @@ export const sidebarBlockButtonClassName = `
   bg-white rounded-lg
   shadow shadow-lg
 `
-const allTabs = [
-  {
-    name: "structure",
-    label: "Structure",
-    component: (
-      <CourseStructureEditor
-        renderItem={SidebarEditableItem}
-      />
-    )
-  },
-  {
-    name: "blocks",
-    label: "Blocks",
-    component: <BlockSelector
-    className="text-main-secondary gap-3 p-3  align-center items-center grid sm:grid-cols-2 text-sm" 
-    blockButtonClassName={sidebarBlockButtonClassName}
-    />
-  },
-]
 
 export const Sidebar = () => {
 
   const router = useRouter()
   const { cid: contentId } = router.query
+  const { complete, data: module } = useLessonContentFragment(contentId)
+  const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
+  const moduleType = lessonTypes[moduleTypeName]
+  const panels = moduleType?.sidebarPanels
+  const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
 
-  const [value, setValue] = useState(0);
   const childRefs = useRef(new Map());
-  const tabListRef = useRef();
+  const tabListRef = useRef<HTMLDivElement>();
   const [slider, setSlider] = useState({ hasValue: false, left: 0, right: 0 });
   const { bounds, ref: tabContainerRef } = useMeasure();
-  const { complete, data } = useLessonContentFragment(contentId)
 
-  const handleTabClick = (i) => {
-    setValue(i)
+  const handleTabClick = (name) => {
+    useEditorViewStore.setState({activeSidebarPanel: name})
   }
   // measure our elements
   useEffect(() => {
 
-    const target = childRefs.current.get(value);
+    const target = childRefs.current.get(activeSidebarPanel);
     const container = tabListRef.current;
     if (target) {
       const cRect = container.getBoundingClientRect();
@@ -121,19 +104,19 @@ export const Sidebar = () => {
         right: right + 8
       });
     }
-  }, [value, bounds]);
+  }, [activeSidebarPanel, bounds]);
 
-  const tabs = allTabs.filter(tab => {
-    return lessonTypes[data?.contentType]?.sidebarPanels.includes(tab.name)
-  })
+  // const panels = sidebarPanels.filter(panel => {
+  //   return lessonTypes[data?.contentType]?.sidebarPanels.includes(panel.name)
+  // })
 
-  const showTabs = lessonTypes[data?.contentType]?.sidebarPanels?.length > 1
+  const showTabs = panels?.length > 1
   
   return (
     <>
       <CourseSidebarHeader showProgress={false} />
       <AnimatePresence>
-      { showTabs && (
+      { showTabs && panels && (
         <TabContainer ref={tabContainerRef} 
           initial={{ height: 0 }}
           animate={{ height: 'auto' }}
@@ -141,23 +124,23 @@ export const Sidebar = () => {
           transition={{ duration: 1 }}
         >
           <TabList ref={tabListRef} className={`flex justify-center justify-evenly`}>
-            {tabs.map((tab, i) => (
+            {panels.map((panel, i) => (
               <TabItem
-                key={tab.name}
-                isActive={i === value}
-                className={`${i === value ? "text-main" : "text-main-secondary"}`}
+                key={panel}
+                // isActive={panel === activeSidebarPanel}
+                className={`${panel === activeSidebarPanel ? "text-main" : "text-main-secondary"}`}
                 whileHover={{ backgroundColor: "#f1f3f5" }}
                 transition={{ duration: 0.1 }}
                 whileTap={{ backgroundColor: "#e9ecef" }}
-                ref={el => childRefs.current.set(i, el)}
-                onClick={() => handleTabClick(i)}
+                ref={el => childRefs.current.set(panel, el)}
+                onClick={() => handleTabClick(panel)}
               >
-                {tab.label}
+                {sidebarPanels.find(p => panel === p.name).label}
               </TabItem>
             ))}
             {slider.hasValue && (
               <Slider
-              className="bg-main"
+                className="bg-main"
                 layout={true}
                 transition={{
                   bounceDamping: 3,
@@ -173,20 +156,22 @@ export const Sidebar = () => {
         </TabContainer>
       )}
       </AnimatePresence>
-      <Pager value={value}>
-        {tabs.map(tab => (
-          <div
-            key={tab.name}
-            className="px-3 py-3"
-            style={{
-              width: "100%",
-              height:'auto'
-            }}
-          >
-            {tab.component}
-          </div>
-        ))}
-      </Pager>
+      { panels && (
+        <Pager>
+          {panels.map(panel => (
+            <div
+              key={panel}
+              className="px-3 py-3"
+              style={{
+                width: "100%",
+                height:'auto'
+              }}
+            >
+              {sidebarPanels.find(p => panel === p.name).component}
+            </div>
+          ))}
+        </Pager>
+      )}
     </>
   );
 }

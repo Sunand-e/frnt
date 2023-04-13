@@ -14,18 +14,24 @@ type BlockState = {
   isDirty: boolean
   blocks: Block[]
   activeDragItem: any
+  lastAddedItemId: any
+  activeBlockId: string
   setIsDirty: (isDirty) => void
   editBlocks: (blocks: Block[]) => void
   setBlocks: (blocks: Block[]) => void
-  insertBlock: (newBlock: Block, index: number, parent: Block | null, replace: boolean) => void
+  insertBlock: (newBlock: Block, index?: number, parent?: Block | null, replace?: boolean) => void
+  sidebarFieldsRegenKey: number
 }
 
 export const useBlockStore = create<BlockState>(set => ({
   isDirty: false,
   activeDragItem: null,
+  lastAddedItemId: null,
+  activeBlockId: null,
   setIsDirty: (isDirty) => set(state => ({ isDirty })),
   blocks: [],
   draggingRowHeight: null,
+  sidebarFieldsRegenKey: Date.now(),
   editBlocks: (blocks) => set(state => ({ blocks, isDirty: true })),
   setBlocks: (blocks) => {
     return set(state => ({ blocks, isDirty: false }))

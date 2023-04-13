@@ -1,4 +1,5 @@
 import { height } from "@fortawesome/free-solid-svg-icons/faCalendarDays";
+import { CodeCurlyDimensions } from "@styled-icons/boxicons-regular/CodeCurly";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
@@ -8,7 +9,11 @@ import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../../utils/router";
 import CourseForm from "../../../courses/CourseForm";
 import { lessonTypes } from "../../../courses/lessonTypes";
+import { useBlockStore } from "../useBlockStore";
+import { useEditorViewStore } from "../useEditorViewStore";
+import { BlockPanel } from "./BlockPanel";
 import { LessonModulePanel } from "./LessonModulePanel";
+import { QuizModulePanel } from "./QuizModulePanel";
 import { ScormModulePanel } from "./ScormModulePanel";
 
 export const SettingsPane = () => {
@@ -17,18 +22,20 @@ export const SettingsPane = () => {
   const { id, cid: contentId } = router.query
 
   const { complete, data: module } = useLessonContentFragment(contentId)
-  const moduleType = lessonTypes[module.contentType]
+  const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
+  const moduleType = lessonTypes[moduleTypeName]
   const modulePanelTitle = `${moduleType?.shortName || moduleType?.label} settings`
 
-  const [activePanelIndex, setActivePanelIndex] = useState(0)
-
+  const activePanel = useEditorViewStore(state => state.activeSettingsPanel)
+  const activeBlockId = useBlockStore(state => state.activeBlockId)
+  
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
   const { updateCourse } = useCourse(id)
 
-  const handleClick = (index) => {
-    const activeIndex = (index === activePanelIndex) ? null : index
-    setActivePanelIndex(activeIndex)
+  const handleClick = (panel) => {
+    const newActivePanel = (panel.name === activePanel) ? null : panel.name
+    useEditorViewStore.setState({activeSettingsPanel: newActivePanel})
   }
 
   const onCourseSettingsSubmit = async ({content, ...values}) => {
@@ -45,14 +52,19 @@ export const SettingsPane = () => {
     })
   }
 
-  const ModulePanel = module.contentType === 'scorm_assessment' ? (
-    ScormModulePanel
-    ) : (
-    LessonModulePanel
-  )
+  const ModulePanel = () => {
+    if(moduleTypeName === 'scorm_assessment') {
+      return <ScormModulePanel />
+    } else if(moduleTypeName === 'quiz') {
+      return <QuizModulePanel />
+    } else {
+      return <LessonModulePanel />
+    }
+  }
 
   const panels = [
     {
+      name: 'course',
       title: "Course settings",
       content: (
         <CourseForm 
@@ -64,21 +76,27 @@ export const SettingsPane = () => {
       )
     },
     ...( !!moduleType && [{
+      name: 'module',
       title: modulePanelTitle,
       content: <ModulePanel />
+    }] || []),
+    ...( !!activeBlockId && [{
+      name: 'block',
+      title: "Block settings",
+      content: <BlockPanel />
     }] || [])
   ]
-
+  
   return (
     <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
       { panels.map((panel, index) => {
-        const isActive = (index === activePanelIndex)
+        const isActive = (panel.name === activePanel)
 
         return (
           <Fragment key={index}>
             <div
               className="border-b border-gray-300 py-4 px-1 flex-0 "
-              onClick={() => handleClick(index)}
+              onClick={() => handleClick(panel)}
             >
               <h3 className="text-base font-medium leading-6 text-main-secondary">{ panel.title }</h3>
             </div>
@@ -87,7 +105,7 @@ export const SettingsPane = () => {
               { isActive && (
                 <motion.div
                   transition={{
-                    duration: 0.6,
+                    duration: 0.4,
                   }}
                   layout
                   style={{

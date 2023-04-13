@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { activeContentBlockVar } from '../../../graphql/cache'
 import BlockMenu from './BlockMenu'
 import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
 import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
+import { useEditorViewStore } from './useEditorViewStore';
 
 const BlockContainer = ({
   id,
@@ -18,10 +18,12 @@ const BlockContainer = ({
 
   const [ showFooter, setShowFooter ]  = useState(false)
   const blocks = useBlockStore(state => state.blocks)
+  const activeBlockId = useBlockStore(state => state.activeBlockId)
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
-  const isActive = useReactiveVar(activeContentBlockVar) === id
+  
+  const isActive = activeBlockId === block.id
   
   useEffect(() => {
     if(!isColumn && index !== blocks.length -1) {
@@ -56,7 +58,12 @@ const BlockContainer = ({
         }}
         onClick={() => {
           // alert(id)
-          activeContentBlockVar(id)
+          useBlockStore.setState({
+            activeBlockId: block.id
+          })
+          useEditorViewStore.setState({
+            activeSettingsPanel: 'block'
+          })
         }}
       >
         <span className={`absolute z-10 right-2 top-2`}>

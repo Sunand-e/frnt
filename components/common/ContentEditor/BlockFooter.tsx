@@ -1,13 +1,15 @@
 import React, { useRef, useState } from 'react'
-import { activeContentBlockVar } from '../../../graphql/cache'
 import BlockSelector from './BlockSelector'
-import { useReactiveVar } from '@apollo/client'
 import LineWithIcon from '../../common/LineWithIcon'
 import useOutsideClick from '../../../hooks/useOutsideClick'
 import { motion, AnimatePresence } from "framer-motion"
+import { useBlockStore } from './useBlockStore'
 
 const BlockFooter = ({block}) => {
-  const isActive = useReactiveVar(activeContentBlockVar) === block.id
+
+  const activeBlockId = useBlockStore(state => state.activeBlockId)
+  
+  const isActive = activeBlockId === block.id
 
   const outsideClickRef = useRef(null);
   

@@ -1,6 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { useEditorViewStore } from "../useEditorViewStore";
+import { useRouter } from "../../../../utils/router";
+import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
+import { lessonTypes } from "../../../courses/lessonTypes";
 
 const PagerContainer = styled.div`
   display: flex;
@@ -30,7 +34,16 @@ const Page = styled.div`
   outline: none;
 `;
 
-export function Pager({ children, value }) {
+export function Pager({ children }) {
+  
+  const router = useRouter()
+  const { cid: contentId } = router.query
+  const { complete, data } = useLessonContentFragment(contentId)
+
+  const visiblePanels = lessonTypes[data?.contentType]?.sidebarPanels
+  const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
+  const activeIndex = visiblePanels?.indexOf(activeSidebarPanel) || null
+
   return (
     <PagerContainer>
       <PagerAnimtedContainer
@@ -40,13 +53,13 @@ export function Pager({ children, value }) {
           mass: 0.4
         }}
         initial={false}
-        animate={{ x: value * -100 + "%" }}
+        animate={{ x: activeIndex * -100 + "%" }}
       >
-        {React.Children.map(children, (child, i) => (
+        {children.map((child, i) => (
           <Page
             key={i}
-            aria-hidden={value !== i}
-            tabIndex={value === i ? 0 : -1}
+            aria-hidden={activeIndex !== i}
+            tabIndex={activeIndex === i ? 0 : -1}
           >
             {child}
           </Page>

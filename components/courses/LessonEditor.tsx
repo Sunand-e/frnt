@@ -19,7 +19,7 @@ const LessonEditor = () => {
   const { complete, data: lesson } = useLessonContentFragment(contentId)
 
   usePageTitle({ 
-    title: `Lesson: `, 
+    title: ``, 
     editable:  lesson?.title || 'Untitled Lesson', 
     onEdit: title => {
       updateLesson(contentId)({title})
@@ -50,7 +50,6 @@ const LessonEditor = () => {
       })
     }
   },[contentId])
-
   return (
     <>
       { lesson.contentType === 'scorm_assessment' ? (

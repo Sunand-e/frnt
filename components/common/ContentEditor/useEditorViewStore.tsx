@@ -3,9 +3,13 @@ import create from 'zustand'
 type EditorViewState = {
   activeSettingsPanel: string,
   isSettingsPaneOpen: boolean,
+  activeSidebarPanel: string,
+  visibleSidebarPanels: Array<string>,
 }
 
 export const useEditorViewStore = create<EditorViewState>(set => ({
-  activeSettingsPanel: 'a',
-  isSettingsPaneOpen: false
+  activeSettingsPanel: 'course',
+  isSettingsPaneOpen: false,
+  activeSidebarPanel: 'structure',
+  visibleSidebarPanels: ['structure'],
 }))

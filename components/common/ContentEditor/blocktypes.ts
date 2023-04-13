@@ -3,7 +3,7 @@ import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
-
+import {QuestionMarkCircle} from '@styled-icons/heroicons-outline/QuestionMarkCircle'
 import {List} from '@styled-icons/fluentui-system-filled/List'
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
@@ -51,7 +51,9 @@ import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 import AddColumn from './Icons/AddColumn';
 import Columns from './Icons/Columns'
 import { ReactComponentElement, ReactNode } from 'react'
-import DragBlock from './blocks/DragBlock/DragBlock'
+import Spacer from './blocks/Spacer/Spacer'
+import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
+import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
 
 export type BlockType = {
   name: string,
@@ -76,11 +78,11 @@ const blocktypes: BlockTypes = {
   //   icon: Text,
   //   hideFromSelector: true,
   // },
-  dragBlock: {
-    name: 'dragBlock',
+  spacer: {
+    name: 'spacer',
     text: 'Drag',
-    component: DragBlock,
-    editComponent: DragBlock,
+    component: Spacer,
+    editComponent: Spacer,
     settingsComponent: TextSettings,
     icon: TextT,
     hideFromSelector: true
@@ -132,13 +134,21 @@ const blocktypes: BlockTypes = {
     settingsComponent: DocumentSettings,
     icon: Document,
   },
-  package: {
-    text: 'SCORM / xAPI',
-    name: 'package',
+  // package: {
+  //   text: 'SCORM / xAPI',
+  //   name: 'package',
+  //   component: PackageBlock,
+  //   editComponent: PackageBlockEdit,
+  //   settingsComponent: PackageSettings,
+  //   icon: Box,
+  // }, 
+  question: {
+    text: 'Question',
+    name: 'question',
     component: PackageBlock,
-    editComponent: PackageBlockEdit,
-    settingsComponent: PackageSettings,
-    icon: Box,
+    editComponent: QuestionBlockEdit,
+    settingsComponent: QuestionSettings,
+    icon: QuestionMarkCircle,
   }, 
   columns: {
     text: 'Columns',

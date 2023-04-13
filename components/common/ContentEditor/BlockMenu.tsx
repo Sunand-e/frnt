@@ -51,18 +51,18 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
   )
 
   const allBlockMenuItems = [
-    {
-      name: 'drag-handle',
-      text: 'Drag',
-      iconComponent: DragIndicator,
-      isDisabled: () => index === 0,
-    },
-    {
-      name: 'settings',
-      text: 'Settings',
-      iconComponent: Gear,
-      onClick: showSettings
-    },
+    // {
+    //   name: 'drag-handle',
+    //   text: 'Drag',
+    //   iconComponent: DragIndicator,
+    //   isDisabled: () => index === 0,
+    // },
+    // {
+    //   name: 'settings',
+    //   text: 'Settings',
+    //   iconComponent: Gear,
+    //   onClick: showSettings
+    // },
     {
       name: 'move-up',
       text: 'Move up',

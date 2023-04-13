@@ -63,7 +63,6 @@ export const courseNavigationVar = makeVar(
 )
 
 export const markCompleteDisabledVar = makeVar(true)
-export const activeContentBlockVar = makeVar(null)
 export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])
 export const latestContentVar = makeVar([])

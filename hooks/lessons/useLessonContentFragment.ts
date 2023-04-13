@@ -6,6 +6,7 @@ const LessonContentFragment = gql`
     title
     content
     contentType
+    itemType
   }
 `
 

@@ -444,6 +444,7 @@ export const GET_USER_COURSE = gql`
             children {
               title
               contentType
+              itemType
               __typename
               _deleted @client
               id
@@ -467,6 +468,9 @@ export const GET_USER_COURSE = gql`
       ...UserContentConnectionFragment
     }
     lessons(where: $lessonSectionFilter) {
+      ...UserContentConnectionFragment
+    }
+    quizzes(where: $lessonSectionFilter) {
       ...UserContentConnectionFragment
     }
   }

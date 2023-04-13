@@ -1,5 +1,5 @@
 import {  useContext } from "react"
-import { activeContentBlockVar, currentContentItemVar } from "../../../graphql/cache";
+import { currentContentItemVar } from "../../../graphql/cache";
 import { useDebouncedCallback } from 'use-debounce';
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
@@ -23,7 +23,7 @@ const useBlockEditor = (block: Block = null) => {
     const { index, parent } = getIndexAndParent(block.id)
     // if(!isEqual(block, getBlock(block.id))) {
       // if newblock is provided, replace the top level 
-      insertBlock(newBlock ?? block, index, parent, 1)
+      insertBlock(newBlock ?? block, index, parent, true)
     // }
   }
 
@@ -40,7 +40,10 @@ const useBlockEditor = (block: Block = null) => {
     return updatedBlock
   }
 
-  const addBlock = (newBlock: Block, replace=false) => {
+  const addBlock = (newBlock: Block, replace=false, focus=true) => {
+
+    useBlockStore.setState({lastAddedItemId: newBlock.id});
+
     if(block) {
       if(replace) {
         updateBlock(block, newBlock)
@@ -190,7 +193,6 @@ const useBlockEditor = (block: Block = null) => {
     updateBlock,
     updateBlockProperties,
     getIndexAndParent,
-    activeBlockId: activeContentBlockVar(),
     debouncedUpdateBlock,
     handleDeleteBlock
   }

@@ -32,6 +32,11 @@ export const lessonTypes: ModuleTypes = {
     icon: Box,
     sidebarPanels: ['structure']
   },
+  quiz: {
+    label: "Quiz",
+    icon: Quiz,
+    sidebarPanels: ['structure', 'blocks']
+  },
 // export const lessonTypes = {
 //   text: {
 //     label: "Text", 
@@ -90,13 +95,6 @@ export const lessonTypes: ModuleTypes = {
 //     icon: Bricks,
 //     getDefaultContent: () => (
 //       { blocks: []}
-//     )
-//   },
-//   quiz: {
-//     label: "Quiz",
-//     icon: Quiz,
-//     getDefaultContent: () => (
-//       { blocks: [{id: uuidv4(), type:'text'}]}
 //     )
 //   },
 }
