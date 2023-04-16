@@ -1,7 +1,7 @@
 import { height } from "@fortawesome/free-solid-svg-icons/faCalendarDays";
 import { CodeCurlyDimensions } from "@styled-icons/boxicons-regular/CodeCurly";
 import { AnimatePresence, motion } from "framer-motion";
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import useCourse from "../../../../hooks/courses/useCourse";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
@@ -62,7 +62,7 @@ export const SettingsPane = () => {
     }
   }
 
-  const panels = [
+  const panels = useMemo(() => [
     {
       name: 'course',
       title: "Course settings",
@@ -85,7 +85,7 @@ export const SettingsPane = () => {
       title: "Block settings",
       content: <BlockPanel />
     }] || [])
-  ]
+  ],[course, moduleType,activeBlockId])
   
   return (
     <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">

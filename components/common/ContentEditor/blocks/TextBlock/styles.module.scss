@@ -89,8 +89,8 @@
   color: #0d0d0d;
   display: flex;
   flex-direction: column;
-  margin-bottom:1rem;
-
+  // margin-bottom:1rem;
+  min-width: 200px;
   & [class*=header] {
     align-items: center;
     // border-bottom: 2px solid;

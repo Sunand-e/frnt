@@ -1,7 +1,7 @@
 import blocktypes, { BlockType } from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
 import { CSSProperties } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, v4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
@@ -68,7 +68,8 @@ const BlockSelector = ({
   }
   
   const handleSelectType = (type: BlockType) => {
-    const newBlock: Block = {
+
+    let newBlock: Block = {
       type: type.name,
       id: uuidv4(),
       properties: {}
@@ -88,6 +89,22 @@ const BlockSelector = ({
         break;
       }
       case 'text': {
+        addBlock(newBlock, replace)
+        break;
+      }
+      case 'question': {
+        newBlock.properties = {
+          question: {
+            content: ''
+          },
+          options: [
+            {
+              id: uuidv4(),
+              content: '',
+              correct: true
+            }
+          ]
+        }
         addBlock(newBlock, replace)
         break;
       }

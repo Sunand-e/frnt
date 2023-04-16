@@ -3,9 +3,7 @@ import { getBlock } from './useBlockStore';
 
 export const BlockEdit = ({ id, dragOverlay = false }) => {
 
-
   const block = getBlock(id)
-
   const { type } = block
   const BlockEditComponent = blocktypes[type]?.editComponent
   

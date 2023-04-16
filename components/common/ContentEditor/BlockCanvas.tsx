@@ -7,7 +7,7 @@ import { useEditorViewStore } from "./useEditorViewStore";
 const BlockCanvas = () => {
 
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
-
+  
   const {
     setNodeRef,
   } = useDroppable({
@@ -24,11 +24,12 @@ const BlockCanvas = () => {
   return (
     <div
       className="h-full w-full p-6"
+      onClick={showBlocksPanel}
       ref={setNodeRef}
     >
       
       {!blockIds.length ? (
-        <div onClick={showBlocksPanel} className={`w-full flex flex-col items-center mt-4`}>
+        <div className={`w-full flex flex-col items-center mt-4`}>
           <div className="w-full max-w-screen-lg bg-main p-4 bg-opacity-10 border-2 border-dashed border-grey">
             <div className={`text-center text-main-secondary py-4`}>
               Select a block from the <b>Blocks</b> panel.

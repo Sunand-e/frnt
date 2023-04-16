@@ -1,37 +1,36 @@
-import styles from './styles.module.scss'
+import styles from '../TextBlock/styles.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import MenuBar from './MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
+import MenuBar from '../TextBlock/MenuBar/MenuBar'
+import { useEffect } from 'react'
 
-export default ({editable=true, onUpdate=null, content=null}) => {
+const OptionEditor = ({id=null, editable=true, onChange, content=null}) => {
 
   const editor = useEditor({
     editable,
     editorProps: {
       attributes: {
-        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',
+        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none',
       },
     },
     extensions: [ 
       StarterKit,
       Placeholder.configure({
         placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
-            return 'Enter a heading.....'
-          }
-
-          return 'Enter text here...'
+          return 'Enter answer here...'
         },
       })
     ],
-    ...( !!onUpdate && {
-      onUpdate: ({editor}) => {
-        onUpdate(editor.getJSON())
-      }
-    }),
     content
   })
+
+  useEffect(() => {
+    if(editor) {
+      editor.off("update");
+      editor.on("update", ({ editor: updatedEditor }) => onChange(updatedEditor.getJSON()));
+    }
+  }, [editor, onChange]);
 
   return (
     <div className={styles.editor}>
@@ -55,7 +54,11 @@ export default ({editable=true, onUpdate=null, content=null}) => {
           </motion.div>
         )}
       </AnimatePresence> */}
-      <EditorContent className="editor__content" editor={editor} />
+      <EditorContent id={id} className="editor__content" editor={editor} />
     </div>
   )
 }
+
+OptionEditor.whyDidYouRender = true 
+
+export default OptionEditor

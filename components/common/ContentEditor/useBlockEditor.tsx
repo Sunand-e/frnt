@@ -59,7 +59,7 @@ const useBlockEditor = (block: Block = null) => {
   
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
-  }, 500);
+  }, 300);
   
   const deleteBlock = (block: Block) => {
     

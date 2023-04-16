@@ -1,7 +1,9 @@
 export const QuestionSettings = ({block}) => {
 
   return (
-    <>Question settings panel</>
+    <><pre>
+    { JSON.stringify(block.properties.options.map(o => o.id),null,2) }
+    </pre></>
   )
 }
 

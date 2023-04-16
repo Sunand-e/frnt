@@ -87,4 +87,4 @@ const BlockContainer = ({
   );
 }
 
-export default React.memo(BlockContainer)
+export default BlockContainer

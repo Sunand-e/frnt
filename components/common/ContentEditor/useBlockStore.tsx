@@ -112,6 +112,7 @@ export const getIndexAndParent = (id) => {
 
 export const getBlock = (id) => {
   const { blocks } = useBlockStore.getState()
+  
   let parent = null
 
   let index = blocks.findIndex(b => b.id === id)
@@ -121,6 +122,9 @@ export const getBlock = (id) => {
   if(index < 0) {
     let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
     parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
+    if(!parent) {
+      return null
+    }
     index = parent.children.findIndex(b => b.id === id)
     block = parent.children[index]
   } else {

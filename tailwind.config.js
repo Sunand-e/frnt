@@ -60,6 +60,20 @@ module.exports = {
       },
       backgroundOpacity: ['hover', 'active', 'focus'],
     },
+    typography: ({ theme }) => ({
+      DEFAULT: { // this is for prose class
+        css: {
+          p: {
+            color: theme('colors.secondary'), // change global color scheme
+          },
+        },
+      },
+    }),
+  },
+  variants: {
+    extend: {
+        display: ["group-hover"],
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
