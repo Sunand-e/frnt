@@ -1,4 +1,3 @@
-
 import React, { useMemo, FunctionComponent, useEffect } from 'react';
 
 import useBlockEditor from '../../useBlockEditor';

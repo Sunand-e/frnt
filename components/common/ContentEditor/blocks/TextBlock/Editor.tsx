@@ -1,7 +1,7 @@
-import styles from './styles.module.scss'
+import styles from '../../../../../styles/TipTap.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import MenuBar from './MenuBar/MenuBar'
+import MenuBar from '../../../TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
 
 export default ({editable=true, onUpdate=null, content=null}) => {

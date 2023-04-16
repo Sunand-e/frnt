@@ -1,9 +1,9 @@
-import styles from '../TextBlock/styles.module.scss'
+import styles from '../../../styles/TipTap.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
-import MenuBar from '../TextBlock/MenuBar/MenuBar'
 import { useEffect } from 'react'
+import MenuBar from '../../common/TipTap/MenuBar/MenuBar'
+import Placeholder from '@tiptap/extension-placeholder'
 
 const OptionEditor = ({id=null, editable=true, onChange, content=null}) => {
 
@@ -11,7 +11,7 @@ const OptionEditor = ({id=null, editable=true, onChange, content=null}) => {
     editable,
     editorProps: {
       attributes: {
-        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none',
+        class: 'rounded-md prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none',
       },
     },
     extensions: [ 

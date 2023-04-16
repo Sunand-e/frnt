@@ -1,4 +1,4 @@
-import styles from '../TextBlock/styles.module.scss'
+import styles from '../../../styles/TipTap.module.scss'
 import { EditorContent, useEditor } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
@@ -34,7 +34,7 @@ const QuestionTextEditor = ({editable=true, onChange=null, content=null}) => {
     ],
     editorProps: {
       attributes: {
-        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none text-main',
+        class: 'rounded-md prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none text-main',
       },
     },
     content: content

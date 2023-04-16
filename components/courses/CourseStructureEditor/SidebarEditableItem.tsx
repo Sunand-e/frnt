@@ -1,10 +1,7 @@
 import classNames from 'classnames'
-import DeleteLessonModal from "../DeleteLessonModal"
 import SidebarItem from "../SidebarItem"
 import styles from '../SidebarItem.module.scss'
-import { useContext } from "react"
 import { useRouter } from 'next/router'
-import { closeModal, handleModal } from '../../../stores/modalStore'
 import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson'
 import useConfirmDelete from '../../../hooks/useConfirmDelete'
 import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore'

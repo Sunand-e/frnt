@@ -1,13 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { TrashAlt } from '@styled-icons/boxicons-regular';
-import useBlockEditor from '../../useBlockEditor';
 import { produce } from 'immer'
 import QuestionTextEditor from './QuestionTextEditor';
-import OptionEditor from './OptionEditor';
-import { v4 as uuidv4 } from 'uuid';
-import { getBlock } from '../../useBlockStore';
 import OptionContainer from './OptionContainer';
+import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedCallback } from 'use-debounce';
+
 /* FOR TS...
 {
   type: 'question',

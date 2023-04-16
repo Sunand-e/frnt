@@ -51,6 +51,11 @@ const NewCourseItemList = ({
         content: <PackageLibrary onItemSelect={handlePackageSelect} />,
         size: 'lg'
       })
+    } else if(lessonType === 'quiz') {
+      // const newQuiz = await createQuiz({
+      //   content: lessonTypes[lessonType].getDefaultContent?.() || {blocks:[]},
+      // })
+      // navigateToItem(newQuiz.data.createQuiz.lesson.id)
     } else {
       const newLesson = await createLesson({
         content: lessonTypes[lessonType].getDefaultContent?.() || {blocks:[]}, 

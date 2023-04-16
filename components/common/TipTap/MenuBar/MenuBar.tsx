@@ -1,7 +1,7 @@
 import styles from './MenuBar.module.scss'
 import React, { Fragment } from 'react'
 import MenuItem from './MenuItem'
-import FontSizeDropdown from '../../common/FontSizeDropdown'
+import FontSizeDropdown from '../../ContentEditor/blocks/common/FontSizeDropdown'
 
 import Select from 'react-select'
 

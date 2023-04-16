@@ -5,19 +5,18 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { useMountStatus } from '../../../hooks/useMountStatus';
 
 interface SortableItemProps {
-  containerId: UniqueIdentifier;
+  containerId?: UniqueIdentifier;
   id: UniqueIdentifier;
   index: number;
-  handle: boolean;
+  handle?: boolean;
   disabled?: boolean;
-  style(args: any): React.CSSProperties;
-  getIndex(id: UniqueIdentifier): number;
+  style?(args: any): React.CSSProperties;
   renderItem(): React.ReactElement;
-  wrapperStyle({index}: {index: number}): React.CSSProperties;
+  wrapperStyle?({index}: {index: number}): React.CSSProperties;
 }
 
 export function SortableItem({
-  disabled, id, index, handle, renderItem, style, containerId, getIndex, wrapperStyle,
+  disabled, id, index, handle, renderItem, wrapperStyle,
 }: SortableItemProps) {
   const {
     setNodeRef, listeners, isDragging, isSorting, over, overIndex, transform, transition,
@@ -37,14 +36,6 @@ export function SortableItem({
       index={index}
       wrapperStyle={wrapperStyle({ index })}
       style={{
-        ...style({
-          index,
-          id: id,
-          isDragging,
-          isSorting,
-          overIndex: over ? getIndex(over.id) : overIndex,
-          containerId,
-        }),
         opacity: isDragging ? 0.5 : undefined,
       }}
       transition={transition}

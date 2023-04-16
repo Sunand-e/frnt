@@ -27,4 +27,12 @@ export const sidebarPanels = [
       blockButtonClassName={sidebarBlockButtonClassName}
     />
   },
+  {
+    name: "questions",
+    label: "Questions",
+    component: <BlockSelector
+      className="text-main-secondary gap-3 p-3  align-center items-center grid sm:grid-cols-2 text-sm" 
+      blockButtonClassName={sidebarBlockButtonClassName}
+    />
+  },
 ]
