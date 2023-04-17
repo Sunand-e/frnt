@@ -2,15 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
 import { SectionChildrenFragmentFragment } from '../../graphql/generated';
-export const SectionChildrenFragment = gql`
-  fragment SectionChildrenFragment on ContentItem {
-    children {
-      __typename
-      id
-      _deleted @client
-    }
-  }
-`
+import { SectionChildrenFragment } from '../../graphql/queries/allQueries';
 
 function useCreateLesson(sectionId) {
 

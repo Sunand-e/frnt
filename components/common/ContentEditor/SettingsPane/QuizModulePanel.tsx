@@ -4,9 +4,9 @@ export const QuizModulePanel = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { lessons } = useGetUserCourse(id)
+  const { quizzes } = useGetUserCourse(id)
   
-  const module = lessons?.edges.find(edge => (
+  const module = quizzes?.edges.find(edge => (
     edge.node.id === contentId
   )).node
 

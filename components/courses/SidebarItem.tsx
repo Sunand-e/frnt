@@ -33,6 +33,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
         id
         title
         contentType
+        itemType
       }
     `,
     from: { id, __typename: "ContentItem", },
@@ -56,18 +57,19 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
             break;
           }
         }
-        setTitle(`Untitled Lesson`)
+        const label = lessonTypes[type]?.label
+        setTitle(`Untitled ${label || 'module'}`)
         // setTitle(`Lesson ${lessonNumber}`)
       } else {    
         setTitle(data.title)
       }
-      data.contentType && setContentType(data.contentType)
     }
   },[data,complete])
 
   const currentContentItem = useReactiveVar(currentContentItemVar)
   
-  const icon = contentType ? lessonTypes[contentType]?.icon : null
+  const type = data.contentType || data.itemType
+  const icon = type ? lessonTypes[type]?.icon : null
 
   const active = currentContentItem.id === id
 

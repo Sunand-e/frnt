@@ -1,11 +1,27 @@
 import { gql, useMutation } from '@apollo/client';
-import { CreateQuiz, CreateQuizVariables } from '../../graphql/mutations/quiz/__generated__/CreateQuiz';
+import { SectionChildrenFragmentFragment } from '../../graphql/generated';
 import { CREATE_QUIZ } from '../../graphql/mutations/quiz/CREATE_QUIZ';
+import { SectionChildrenFragment } from '../../graphql/queries/allQueries';
 
 function useCreateQuiz(sectionId) {
 
-  const [createQuizMutation, createQuizResponse] = useMutation<CreateQuiz, CreateQuizVariables>(
-    CREATE_QUIZ
+  const [createQuizMutation, createQuizResponse] = useMutation(
+    CREATE_QUIZ,
+    {
+      update(cache, { data: { createQuiz } } ) {
+
+        cache.updateFragment<SectionChildrenFragmentFragment>({
+          id:`ContentItem:${sectionId}`,
+          fragment: SectionChildrenFragment
+        }, (data) => ({
+          children: [
+            // ...data.children.filter(child => child._deleted === false),
+            ...data.children,
+            createQuiz.quiz
+          ],
+        }))
+      },
+    }
   );
 
   const createQuiz = async (values) => {
@@ -26,6 +42,7 @@ function useCreateQuiz(sectionId) {
             createdAt: '',
             updatedAt: '',
             content: {},
+            questions: [],
             contentType: 'text',
             itemType: 'quiz',
             image: null,

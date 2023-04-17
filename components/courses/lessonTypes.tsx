@@ -17,6 +17,7 @@ interface ModuleTypes {
     shortName?: string
     icon?: StyledIcon
     sidebarPanels?: string[]
+    defaultContent?: JSON
   }
 }
 
@@ -28,7 +29,7 @@ export const lessonTypes: ModuleTypes = {
     sidebarPanels: ['structure', 'blocks']
   },
   scorm_assessment: {
-    label: "SCORM",
+    label: "SCORM Module",
     icon: Box,
     sidebarPanels: ['structure']
   },
@@ -41,60 +42,50 @@ export const lessonTypes: ModuleTypes = {
 //   text: {
 //     label: "Text", 
 //     icon: TextLeft,
-//     getDefaultContent: () => (
-//       { blocks: [{id: uuidv4(), type:'text'}]}
-//     )
+//     defaultContent: { blocks: [{id: uuidv4(), type:'text'}]}
 //   },
 //   video: {
 //     label: "Video",
 //     icon: Video,
-//     getDefaultContent: () => (
-//       { blocks: [{
+//     defaultContent: { blocks: [{
 //         id: uuidv4(), type:'video',
 //         properties: {
 //           url: ''
 //         }
 //       }]}
-//     )
 //   },
 //   image: {
 //     label: "Image",
 //     icon: Image,
-//     getDefaultContent: () => (
-//       { blocks: [{id: uuidv4(), type:'image'}]}
-//     )
+//     defaultContent: { blocks: [{id: uuidv4(), type:'image'}]}
 //   },
 //   document: {
 //     label: "Document",
 //     icon: Document,
-//     getDefaultContent: () => (
+//     defaultContent:
 //       { blocks: [{id: uuidv4(), type:'document'}]}
-//     )
 //   },
 //   audio: {
 //     label: "Audio",
 //     icon: Speaker2,
-//     getDefaultContent: () => (
+//     defaultContent:
 //       { blocks: [{id: uuidv4(), type:'audio'}]}
-//     )
 //   },
 //   scorm: {
 //     label: "SCORM",
 //     icon: Box,
-//     getDefaultContent: () => (
+//     defaultContent:
 //       { blocks: [{
 //         id: uuidv4(), type:'package',
 //         properties: {
 //           url: ''
 //         }
 //       }]}
-//     )
 //   },
 //   freeform: {
 //     label: "Freeform",
 //     icon: Bricks,
-//     getDefaultContent: () => (
+//     defaultContent:
 //       { blocks: []}
-//     )
 //   },
 }

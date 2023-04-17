@@ -47,7 +47,7 @@ const QuestionEditor = ({ question, type, onUpdate }) => {
 
   const handleRemoveOption = (option) => {
     onUpdate(produce(question, draft => {
-      draft.properties.options = draft.properties.options.filter(
+      draft.options = draft.options.filter(
         o => o.id !== option.id
       )
     }))

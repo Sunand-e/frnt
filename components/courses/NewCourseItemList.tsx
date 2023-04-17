@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { currentContentItemVar } from "../../graphql/cache";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
+import useCreateQuiz from "../../hooks/quizzes/useCreateQuiz";
 import { closeModal, handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import PackageLibrary from "../packages/PackageLibrary";
@@ -23,6 +24,7 @@ const NewCourseItemList = ({
     }})
   }
   const { createLesson, lesson } = useCreateLesson(sectionId)
+  const { createQuiz, quiz } = useCreateQuiz(sectionId)
 
   const handlePackageSelect = async (scormModule) => {
     const newLesson = await createLesson({
@@ -52,31 +54,20 @@ const NewCourseItemList = ({
         size: 'lg'
       })
     } else if(lessonType === 'quiz') {
-      // const newQuiz = await createQuiz({
-      //   content: lessonTypes[lessonType].getDefaultContent?.() || {blocks:[]},
-      // })
-      // navigateToItem(newQuiz.data.createQuiz.lesson.id)
+      const newQuiz = await createQuiz({
+        content: lessonTypes[lessonType].defaultContent || {blocks:[]},
+      })
+      navigateToItem(newQuiz.data.createQuiz.quiz.id)
     } else {
       const newLesson = await createLesson({
-        content: lessonTypes[lessonType].getDefaultContent?.() || {blocks:[]}, 
+        content: lessonTypes[lessonType].defaultContent || {blocks:[]}, 
         contentType: lessonType
       })
       navigateToItem(newLesson.data.createLesson.lesson.id)
     }
     onSelect()
   }
-    
-  // useEffect(() => {
-  //   if(lesson) {
-  //     currentContentItemVar({
-  //       title: lesson.title,
-  //       type: 'lesson',
-  //       id: lesson.id,
-  //       updateFunction: updateLesson(lesson.id)
-  //     })
-  //   }
-  // },[lesson])
-
+  
   const items = Object.keys(lessonTypes).map(key => {
     return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={lessonTypes[key].label} IconComponent={lessonTypes[key].icon} />
   })
