@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Pager } from "./Pager";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import { useRouter } from "../../../../utils/router";
-import { lessonTypes } from "../../../courses/lessonTypes";
+import { moduleTypes } from "../../../courses/moduleTypes";
 import CourseSidebarHeader from "../../../courses/CourseSidebarHeader";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { sidebarPanels } from "./sidebarPanels";
@@ -13,11 +13,11 @@ import { sidebarPanels } from "./sidebarPanels";
 const TabContainer = styled(motion.div)`
   overflow-y: hidden;
   box-shadow: none;
+  flex-shrink: 0;
 `;
 
 const TabList = styled.div`
   position: relative;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 `;
 
 const TabItem = styled(motion.button)`
@@ -68,7 +68,7 @@ export const Sidebar = () => {
   const { cid: contentId } = router.query
   const { complete, data: module } = useLessonContentFragment(contentId)
   const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
-  const moduleType = lessonTypes[moduleTypeName]
+  const moduleType = moduleTypes[moduleTypeName]
   const panels = moduleType?.sidebarPanels
   const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
 
@@ -107,23 +107,24 @@ export const Sidebar = () => {
   }, [activeSidebarPanel, bounds]);
 
   // const panels = sidebarPanels.filter(panel => {
-  //   return lessonTypes[data?.contentType]?.sidebarPanels.includes(panel.name)
+  //   return moduleTypes[data?.contentType]?.sidebarPanels.includes(panel.name)
   // })
 
   const showTabs = panels?.length > 1
-  
+  console.log('panels')
+  console.log(panels)
   return (
     <>
       <CourseSidebarHeader showProgress={false} />
       <AnimatePresence>
       { showTabs && panels && (
-        <TabContainer ref={tabContainerRef} 
+        <TabContainer ref={tabContainerRef}
           initial={{ height: 0 }}
           animate={{ height: 'auto' }}
           exit={{ height: 0 }}
           transition={{ duration: 1 }}
         >
-          <TabList ref={tabListRef} className={`flex justify-center justify-evenly`}>
+          <TabList ref={tabListRef} className={`flex justify-evenly`}>
             {panels.map((panel, i) => (
               <TabItem
                 key={panel}

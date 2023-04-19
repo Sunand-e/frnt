@@ -6,7 +6,7 @@ import CourseUsersReportTable from './course/CourseUsersReportTable';
 import LessonUsersReportTable from './course/LessonUsersReportTable';
 import GroupsReportTable from './group/GroupsReportTable';
 import UserCoursesReportTable from './user/UserCoursesReportTable';
-import UserLessonsReportTable from './user/UserLessonsReportTable';
+import UserCourseReportTable from './user/UserCourseReportTable';
 import UsersReportTable from './user/UsersReportTable';
 
 const Reporting = () => {
@@ -37,7 +37,7 @@ const Reporting = () => {
     if(lessonId) {
       TableComponent = () => <p>User's lesson statistics for lesson with id: {lessonId}</p>
     } else if(courseId) {
-      TableComponent = UserLessonsReportTable
+      TableComponent = UserCourseReportTable
     } else {
       // cOURSE REPORT FOR USER: ''
       TableComponent = UserCoursesReportTable

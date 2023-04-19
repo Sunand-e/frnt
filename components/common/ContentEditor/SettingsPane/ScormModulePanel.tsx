@@ -9,7 +9,7 @@ import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { closeModal, handleModal } from "../../../../stores/modalStore";
 import { useRouter } from "../../../../utils/router";
 import CourseForm from "../../../courses/CourseForm";
-import { lessonTypes } from "../../../courses/lessonTypes";
+import { moduleTypes } from "../../../courses/moduleTypes";
 import PackageLibrary from "../../../packages/PackageLibrary";
 import TextInput from "../../inputs/TextInput";
 import useBlockEditor from "../useBlockEditor";
@@ -17,16 +17,19 @@ import { useBlockStore } from "../useBlockStore";
 
 import { useForm } from 'react-hook-form';
 import useGetScormModules from "../../../../hooks/scormModules/useGetMediaItems";
+import { useFragment_experimental } from "@apollo/client";
+import { LessonFragment } from "../../../../graphql/queries/allQueries";
 
 export const ScormModulePanel = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { lessons } = useGetUserCourse(id)
   
-  const module = lessons?.edges.find(edge => (
-    edge.node.id === contentId
-  )).node
+  const { complete, data, missing } = useFragment_experimental({
+    fragment: LessonFragment,
+    fragmentName: 'LessonFragment',
+    from: { id: contentId, __typename: "ContentItem", },
+  });
 
   const { blocks } = useBlockStore()
   const { updateBlock } = useBlockEditor()
@@ -65,11 +68,9 @@ export const ScormModulePanel = () => {
   return (
     <div>
       <TextInput 
-        inputAttrs={register("filename", {
-          required:"Course name is required"
-        })}
-      onClick={handleInputClick} />
-      
+        inputAttrs={register("filename")}
+        onClick={handleInputClick}
+      />    
     </div>
   )
 }

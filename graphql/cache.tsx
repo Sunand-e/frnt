@@ -47,12 +47,7 @@ export const pageTitleVar = makeVar({
   after: null,
   onEdit: () => false
 })
-export const currentContentItemVar = makeVar({
-  type: null,
-  id: null,
-  title: null,
-  updateFunction: (values) => null
-})
+
 export const currentCourseItemIdVar = makeVar(null)
 
 export const courseNavigationVar = makeVar(

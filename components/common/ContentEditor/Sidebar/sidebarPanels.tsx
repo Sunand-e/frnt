@@ -1,6 +1,7 @@
 import BlockSelector from "../BlockSelector";
 import CourseStructureEditor from "../../../courses/CourseStructureEditor/CourseStructureEditor";
 import SidebarEditableItem from "../../../courses/CourseStructureEditor/SidebarEditableItem";
+import QuizStructureEditor from "../../../quiz/QuizStructureEditor/QuizStructureEditor";
 
 export const sidebarBlockButtonClassName = `
   aspect-square flex flex-col justify-center items-center 
@@ -12,7 +13,7 @@ export const sidebarBlockButtonClassName = `
 export const sidebarPanels = [
   {
     name: "structure",
-    label: "Structure",
+    label: "Course Structure",
     component: (
       <CourseStructureEditor
         renderItem={SidebarEditableItem}
@@ -30,9 +31,6 @@ export const sidebarPanels = [
   {
     name: "questions",
     label: "Questions",
-    component: <BlockSelector
-      className="text-main-secondary gap-3 p-3  align-center items-center grid sm:grid-cols-2 text-sm" 
-      blockButtonClassName={sidebarBlockButtonClassName}
-    />
+    component: <QuizStructureEditor />
   },
 ]

@@ -97,7 +97,7 @@ const BlockSelector = ({
           question: {
             content: ''
           },
-          options: [
+          answers: [
             {
               id: uuidv4(),
               content: '',

@@ -3,29 +3,26 @@ import { QuestionFragment } from '../../queries/allQueries';
 
 export const CREATE_QUESTION = gql`
   mutation CreateQuestion(
-    $title: String,
-    $content: JSON,
-    $contentType: String,
-    $parentIds: JSON,
-    $prerequisites: JSON,
-    $imageId: ID,
-    $iconId: ID
+    $id: ID
+    $order: Int
+    $contentItemId: ID!
+    $questionType: String!
+    $content: JSON
+    $answers: JSON
   ) {
     createQuestion(
       input: {
-        title: $title,
+        id: $id,
+        order: $order,
+        contentItemId: $contentItemId,
+        questionType: $questionType,
         content: $content,
-        contentType: $contentType,
-        parentIds: $parentIds,
-        prerequisites: $prerequisites,
-        imageId: $imageId,
-        iconId: $iconId
+        answers: $answers
       }
     ) {
       question {
         ...QuestionFragment
       }
-      message
     }
   }
   ${QuestionFragment}

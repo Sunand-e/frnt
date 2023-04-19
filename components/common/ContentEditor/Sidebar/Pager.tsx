@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { useRouter } from "../../../../utils/router";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
-import { lessonTypes } from "../../../courses/lessonTypes";
+import { moduleTypes } from "../../../courses/moduleTypes";
 
 const PagerContainer = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Page = styled.div`
   justify-content: flex-start;
   flex-shrink: 0;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   outline: none;
 `;
 
@@ -40,12 +40,12 @@ export function Pager({ children }) {
   const { cid: contentId } = router.query
   const { complete, data } = useLessonContentFragment(contentId)
 
-  const visiblePanels = lessonTypes[data?.contentType]?.sidebarPanels
+  const visiblePanels = moduleTypes[data?.contentType || data?.itemType]?.sidebarPanels
   const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
   const activeIndex = visiblePanels?.indexOf(activeSidebarPanel) || null
 
   return (
-    <PagerContainer>
+    <PagerContainer className="flex-grow">
       <PagerAnimtedContainer
         transition={{
           tension: 190,
@@ -57,6 +57,7 @@ export function Pager({ children }) {
       >
         {children.map((child, i) => (
           <Page
+            className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto"
             key={i}
             aria-hidden={activeIndex !== i}
             tabIndex={activeIndex === i ? 0 : -1}

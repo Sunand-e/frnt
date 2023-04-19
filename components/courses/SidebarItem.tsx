@@ -1,8 +1,7 @@
-import { currentContentItemVar } from "../../graphql/cache"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import { forwardRef, useEffect, useMemo, useState } from "react"
-import { lessonTypes } from "../courses/lessonTypes"
-import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
+import { moduleTypes } from "../courses/moduleTypes"
+import { gql, useFragment_experimental } from '@apollo/client'
 import SidebarItemProgress from './SidebarItemProgress'
 import { filterDeletedCourseItems, getItemStructureFromSections } from './CourseStructureEditor/utilities'
 import { useRouter } from '../../utils/router'
@@ -22,7 +21,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
 }, ref) => {
 
   const router = useRouter()
-  const { id: courseId } = router.query
+  const { id: courseId, cid: currentId } = router.query
 
   const { courseEdge } = useGetUserCourse(courseId)
   const course = courseEdge?.node
@@ -57,7 +56,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
             break;
           }
         }
-        const label = lessonTypes[type]?.label
+        const label = moduleTypes[type]?.label
         setTitle(`Untitled ${label || 'module'}`)
         // setTitle(`Lesson ${lessonNumber}`)
       } else {    
@@ -66,12 +65,10 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
     }
   },[data,complete])
 
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-  
   const type = data.contentType || data.itemType
-  const icon = type ? lessonTypes[type]?.icon : null
+  const icon = type ? moduleTypes[type]?.icon : null
 
-  const active = currentContentItem.id === id
+  const active = currentId === id
 
   const after = editing ? (
     <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">

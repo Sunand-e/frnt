@@ -1,5 +1,4 @@
-import { currentContentItemVar } from "../../graphql/cache"
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import BlockEditor from "../common/ContentEditor/BlockEditor";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
 import { useBlockStore } from "../common/ContentEditor/useBlockStore";
@@ -7,6 +6,7 @@ import { useRouter } from "../../utils/router";
 import { useLessonContentFragment } from "../../hooks/lessons/useLessonContentFragment";
 import usePageTitle from "../../hooks/usePageTitle";
 import ScormView from "./scorm/ScormView";
+import QuizEditor from "../quiz/QuizEditor";
 
 const LessonEditor = () => {
 
@@ -26,39 +26,20 @@ const LessonEditor = () => {
     }
   })
 
-
   useEffect(() => {
     lesson?.content && setBlocks(lesson.content.blocks || [])
   },[lesson])
 
-  /* REFACTOR NEEDED */
-  useEffect(() => {
-    if(contentId) {
-      currentContentItemVar({
-        title: null,
-        id: contentId,
-        type: 'lesson',
-        updateFunction: updateLesson(contentId)
-      })
-    }
-    return () => {
-      currentContentItemVar({
-        title: null,
-        id: null,
-        updateFunction:null,
-        type:null
-      })
-    }
-  },[contentId])
-  return (
-    <>
-      { lesson.contentType === 'scorm_assessment' ? (
-        <ScormView isEditing={true} />
-      ) : (
-        <BlockEditor />
-      )}
-    </>
-  )
+  const component = useMemo(() => (
+    lesson.itemType === 'quiz' ? (
+      <QuizEditor id={contentId} />
+    ) : lesson.contentType === 'scorm_assessment' ? (
+      <ScormView isEditing={true} />
+    ) : (
+      <BlockEditor />
+  )),[lesson.contentType,lesson.itemType])
+
+  return component
 }
 
 export default LessonEditor

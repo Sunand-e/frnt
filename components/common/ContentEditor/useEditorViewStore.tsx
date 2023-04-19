@@ -5,6 +5,7 @@ type EditorViewState = {
   isSettingsPaneOpen: boolean,
   activeSidebarPanel: string,
   visibleSidebarPanels: Array<string>,
+  activeModuleType: string
 }
 
 export const useEditorViewStore = create<EditorViewState>(set => ({
@@ -12,4 +13,5 @@ export const useEditorViewStore = create<EditorViewState>(set => ({
   isSettingsPaneOpen: false,
   activeSidebarPanel: 'structure',
   visibleSidebarPanels: ['structure'],
+  activeModuleType: null
 }))

@@ -2,28 +2,22 @@ import { useCallback, useEffect, useState } from "react";
 import {Tick} from '@styled-icons/typicons/Tick'
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import {ArrowSmLeft} from '@styled-icons/heroicons-solid/ArrowSmLeft'
-import {ExitToApp} from '@styled-icons/material/ExitToApp'
-import useGetCourse from "../../../hooks/courses/useGetCourse";
-import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
-import { useReactiveVar } from "@apollo/client";
-import { currentContentItemVar } from "../../../graphql/cache";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import useMarkComplete from "../../../hooks/courses/useMarkComplete";
 
 const PrevNextButtons = () => {
 
   const router = useRouter()
-  const { id: courseId } = router.query
-  const { id } = useReactiveVar(currentContentItemVar)
+  const { id: courseId, cid: moduleId } = router.query
   const { courses, lessons } = useGetUserCourse(courseId)
   const course = courses?.edges[0]?.node
   const lessonEdge = lessons?.edges.find(edge => (
-    edge.node.id === id
+    edge.node.id === moduleId
   ))
   
-const { markComplete, disabled } = useMarkComplete(id, courseId)
+const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
 
   const [prevNextIds, setPrevNextIds] = useState([]);
 
@@ -33,11 +27,11 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
     }, []);
 
     if(orderedIds) {
-      let prevId = orderedIds[orderedIds.indexOf(id) - 1]
-      let nextId = orderedIds[orderedIds.indexOf(id) + 1]
+      let prevId = orderedIds[orderedIds.indexOf(moduleId) - 1]
+      let nextId = orderedIds[orderedIds.indexOf(moduleId) + 1]
       setPrevNextIds([prevId,nextId])
     }
-  }, [id, course])
+  }, [moduleId, course])
 
 
   const goTo = id => {

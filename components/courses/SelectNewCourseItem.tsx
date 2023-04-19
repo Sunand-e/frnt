@@ -1,14 +1,12 @@
-import { useEffect } from "react";
 import Select from "react-select";
-import { currentContentItemVar } from "../../graphql/cache";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
 import IconOption from "../common/inputs/react-select/IconOption";
-import { lessonTypes } from "./lessonTypes";
+import { moduleTypes } from "./moduleTypes";
 
-const lessonTypesArray = Object.keys(lessonTypes).map(key => {
+const moduleTypesArray = Object.keys(moduleTypes).map(key => {
   return {
-    ...lessonTypes[key],
+    ...moduleTypes[key],
     value: key
   }
 });
@@ -37,7 +35,7 @@ const SelectNewCourseItem = ({
   return (
     <Select
       placeholder={<span className="text-main-secondary">{placeholder}</span>}
-      options={lessonTypesArray}
+      options={moduleTypesArray}
       styles={customStyles}
       components={{ Option: IconOption }}
       onChange={handleNewLessonButton}

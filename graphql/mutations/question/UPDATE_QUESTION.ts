@@ -5,22 +5,20 @@ import { QuestionFragment } from '../../queries/allQueries';
 export const UPDATE_QUESTION = gql`
   mutation UpdateQuestion(
     $id: ID!
-    $title: String,
-    $content: JSON,
-    $contentType: String,
-    $scormId: ID,
-    $childrenIds: JSON,
-    $prerequisites: JSON
+    $order: Int
+    $contentItemId: ID
+    $questionType: String
+    $content: JSON
+    $answers: JSON
   ) {
     updateQuestion(
       input: {
         id: $id,
-        title: $title,
+        order: $order,
+        contentItemId: $contentItemId,
+        questionType: $questionType,
         content: $content,
-        contentType: $contentType,
-        scormId: $scormId,
-        childrenIds: $childrenIds,
-        prerequisites: $prerequisites
+        answers: $answers
       }
     ) {
       question {

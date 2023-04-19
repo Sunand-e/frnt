@@ -1,22 +1,27 @@
-import { currentContentItemVar, headerButtonsVar } from "../../../graphql/cache";
+import { headerButtonsVar } from "../../../graphql/cache";
 import { useCallback, useEffect } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { useBlockStore } from "./useBlockStore";
 import Button from "../Button";
 import { toast } from "react-toastify";
+import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
+import { useRouter } from "../../../utils/router";
 
 export const useSaveContentButton = () => {
 
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-    
-  const { id, updateFunction } = currentContentItem
+  const router = useRouter()
+  const { cid: id } = router.query
 
   const blocks = useBlockStore(state => state.blocks)
+  const content = { blocks }
+
   const isDirty = useBlockStore(state => state.isDirty)
   const setIsDirty = useBlockStore(state => state.setIsDirty)
 
+  const { updateLesson } = useUpdateLesson()
+
   const saveChanges = useCallback(() => {
-    updateFunction({content: { blocks }}).then(res => {
+    updateLesson({id})({content}).then(res => {
       setIsDirty(false)
       toast('Changes saved.', {
         toastId: 'changesSaved',
@@ -24,7 +29,7 @@ export const useSaveContentButton = () => {
         autoClose: 2500
       })
     })
-  },[blocks, isDirty, updateFunction])
+  },[content, isDirty, updateLesson])
   
   useEffect(() => {
     headerButtonsVar(

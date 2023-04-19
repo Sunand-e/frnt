@@ -1,6 +1,5 @@
-import { currentContentItemVar, headerButtonsVar } from "../../graphql/cache";
+import { headerButtonsVar } from "../../graphql/cache";
 import { useCallback, useEffect } from "react";
-import { useReactiveVar } from "@apollo/client";
 import { usePathwayStore } from "./usePathwayStore";
 import Button from "../common/Button";
 import { toast } from "react-toastify";

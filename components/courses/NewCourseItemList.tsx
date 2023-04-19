@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { currentContentItemVar } from "../../graphql/cache";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
 import useCreateQuiz from "../../hooks/quizzes/useCreateQuiz";
 import { closeModal, handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import PackageLibrary from "../packages/PackageLibrary";
-import { lessonTypes } from "./lessonTypes";
+import { moduleTypes } from "./moduleTypes";
 import NewCourseItem from "./NewCourseItem";
 
 const NewCourseItemList = ({
@@ -46,30 +45,30 @@ const NewCourseItemList = ({
     closeModal()
   }
   
-  const handleItemClick = async (lessonType) => {
-    if(lessonType === 'scorm_assessment') {
+  const handleItemClick = async (moduleType) => {
+    if(moduleType === 'scorm_assessment') {
       handleModal({
         title: `Choose package`,
         content: <PackageLibrary onItemSelect={handlePackageSelect} />,
         size: 'lg'
       })
-    } else if(lessonType === 'quiz') {
+    } else if(moduleType === 'quiz') {
       const newQuiz = await createQuiz({
-        content: lessonTypes[lessonType].defaultContent || {blocks:[]},
+        content: moduleTypes[moduleType].defaultContent || {blocks:[]},
       })
       navigateToItem(newQuiz.data.createQuiz.quiz.id)
     } else {
       const newLesson = await createLesson({
-        content: lessonTypes[lessonType].defaultContent || {blocks:[]}, 
-        contentType: lessonType
+        content: moduleTypes[moduleType].defaultContent || {blocks:[]}, 
+        contentType: moduleType
       })
       navigateToItem(newLesson.data.createLesson.lesson.id)
     }
     onSelect()
   }
   
-  const items = Object.keys(lessonTypes).map(key => {
-    return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={lessonTypes[key].label} IconComponent={lessonTypes[key].icon} />
+  const items = Object.keys(moduleTypes).map(key => {
+    return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={moduleTypes[key].label} IconComponent={moduleTypes[key].icon} />
   })
 
   return (

@@ -8,7 +8,9 @@ import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonCon
 import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../../utils/router";
 import CourseForm from "../../../courses/CourseForm";
-import { lessonTypes } from "../../../courses/lessonTypes";
+import { moduleTypes } from "../../../courses/moduleTypes";
+import QuestionSettings from "../../../quiz/questions/QuestionSettings";
+import { useQuizStore } from "../../../quiz/useQuizStore";
 import { useBlockStore } from "../useBlockStore";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { BlockPanel } from "./BlockPanel";
@@ -23,11 +25,12 @@ export const SettingsPane = () => {
 
   const { complete, data: module } = useLessonContentFragment(contentId)
   const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
-  const moduleType = lessonTypes[moduleTypeName]
+  const moduleType = moduleTypes[moduleTypeName]
   const modulePanelTitle = `${moduleType?.shortName || moduleType?.label} settings`
 
   const activePanel = useEditorViewStore(state => state.activeSettingsPanel)
   const activeBlockId = useBlockStore(state => state.activeBlockId)
+  const activeQuestion = useQuizStore(state => state.activeQuestion)
   
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
@@ -84,6 +87,13 @@ export const SettingsPane = () => {
       name: 'block',
       title: "Block settings",
       content: <BlockPanel />
+    }] || []),
+    ...( moduleTypeName === 'quiz' && activeQuestion && [{
+    // ...( activeQuestion && [{
+      name: 'question',
+      title: "Question settings",
+      // content: <>{moduleTypeName}</>
+      content: <QuestionSettings />
     }] || [])
   ],[course, moduleType,activeBlockId])
   

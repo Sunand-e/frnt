@@ -1,9 +1,6 @@
-import {  useContext } from "react"
-import { currentContentItemVar } from "../../../graphql/cache";
 import { useDebouncedCallback } from 'use-debounce';
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { useReactiveVar } from "@apollo/client";
 import {useBlockStore, getIndexAndParent, shiftPosition, getBlock, Block} from './useBlockStore';
 import { handleModal } from "../../../stores/modalStore";
 // import isEqual from 'lodash/isEqual';
@@ -11,11 +8,6 @@ import { handleModal } from "../../../stores/modalStore";
 // import "./styles.css";
 // 
 const useBlockEditor = (block: Block = null) => {
-
-  // testing::::
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-    
-  const { id, type } = currentContentItem
 
   const { blocks, setBlocks, insertBlock } = useBlockStore()
 

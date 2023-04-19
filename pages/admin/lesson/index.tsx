@@ -6,7 +6,7 @@ import { GET_LESSON } from "../../../graphql/queries/allQueries"
 import Button from "../../../components/common/Button"
 
 import EditorLayout from "../../../layouts/EditorLayout"
-import LessonEditor from "../../../components/courses/LessonEditor"
+import ModuleEditor from "../../../components/courses/ModuleEditor"
 import usePageTitle from "../../../hooks/usePageTitle"
 
 const AdminLesson = () => {
@@ -54,7 +54,7 @@ const AdminLesson = () => {
     <>
       { lesson &&
         <>
-          { lesson && <LessonEditor id={id} /> }
+          { lesson && <ModuleEditor id={id} /> }
         </>
       }
     </>

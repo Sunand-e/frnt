@@ -2,11 +2,11 @@ import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { useRouter } from "../../../utils/router";
-import { lessonTypes } from "../../courses/lessonTypes";
+import { moduleTypes } from "../../courses/moduleTypes";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable from "../ReportTable";
 
-const UserLessonsReportTable = () => {
+const UserCourseReportTable = () => {
   const router = useRouter();
 
   const { user: userId, course: courseId } = router.query;
@@ -66,7 +66,7 @@ const UserLessonsReportTable = () => {
         accessorFn: row => row.node.title,
         cell: ({ cell }) => {
           const IconComponent =
-            lessonTypes[cell.row.original.node?.contentType]?.icon || null;
+            moduleTypes[cell.row.original.node?.contentType]?.icon || null;
           const cellProps = {
             title: cell.row.original.node?.title,
             icon: !!IconComponent && (
@@ -156,7 +156,7 @@ const UserLessonsReportTable = () => {
       simpleHeader={true}
       title={(
         <>
-          <span className="font-semibold">Lesson report </span>
+          <span className="font-semibold">Progress report </span>
           <span className="font-normal">for user: </span>
           <span className="font-semibold">{data?.user?.fullName} </span>
           <span className="font-normal">in course: </span>
@@ -176,4 +176,4 @@ const UserLessonsReportTable = () => {
   );
 };
 
-export default UserLessonsReportTable;
+export default UserCourseReportTable;

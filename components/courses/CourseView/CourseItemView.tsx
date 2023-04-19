@@ -1,16 +1,11 @@
 import { useRouter } from '../../../utils/router'
 import LessonView from "./LessonView"
-import useBlockEditor from '../../common/ContentEditor/useBlockEditor'
 import { useEffect } from 'react'
-import { useReactiveVar } from '@apollo/client'
-import { currentContentItemVar } from '../../../graphql/cache'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
 
 const CourseItemView = () => {
-
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
@@ -33,14 +28,6 @@ const CourseItemView = () => {
     }
   },[id, course?.id])
 
-  useEffect(() => {
-    currentContentItemVar({
-      ...currentContentItem,
-      type: 'lesson',
-      id: contentId
-    })
-  },[id, contentId])
-  
   return (
     course ? (
       <LessonView />

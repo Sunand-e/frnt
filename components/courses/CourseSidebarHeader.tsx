@@ -20,7 +20,7 @@ const CourseSidebarHeader = ({showProgress=true}) => {
   },[course, id])
 
   return (
-    <div className="flex flex-col justify-around p-2 px-4 h-18 bg-main bg-opacity-10 text-main-secondary">
+    <div className="shrink-0 flex flex-col justify-around p-2 px-4 h-18 bg-main bg-opacity-10 text-main-secondary">
       <div className="flex items-center max-w-xs h-10">
         { course?.tags?.[0] && (
         <div className="h-8 w-8 shrink-0">

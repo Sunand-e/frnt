@@ -4,8 +4,7 @@ import { useRouter } from "../../../utils/router";
 import usePageTitle from "../../../hooks/usePageTitle";
 import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
 import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
-import { currentContentItemVar, markCompleteDisabledVar } from "../../../graphql/cache";
-import { useReactiveVar } from "@apollo/client";
+import { markCompleteDisabledVar } from "../../../graphql/cache";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import ScormView from "../scorm/ScormView";
 
@@ -15,10 +14,8 @@ const LessonView = () => {
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
 
-  const { id: lessonId } = useReactiveVar(currentContentItemVar)
-
   const router = useRouter()
-  const { id, cid: contentId } = router.query
+  const { id, cid: lessonId } = router.query
   const { lessons } = useGetUserCourse(id)
   
   const lesson = lessons?.edges.find(edge => (
