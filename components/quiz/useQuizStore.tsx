@@ -15,13 +15,20 @@ export interface Question {
 export type QuizState = {
   isDirty: boolean
   questions: Array<Question>
-  activeQuestion: Question
+  activeQuestionId: string
+  computed: {
+    activeQuestion: any
+  }
   activeAnswerIndex: number
 }
 
-export const useQuizStore = create<QuizState>(set => ({
+export const useQuizStore = create<QuizState>((set, get) => ({
   isDirty: false,
   questions: [],
-  activeQuestion: null,
+  activeQuestionId: null,
   activeAnswerIndex: null,
+  computed: {
+    // See: https://github.com/pmndrs/zustand/issues/132#issuecomment-1120467721
+    activeQuestion: () => get().questions.find(q => q.id === get().activeQuestionId)
+  },
 }))

@@ -24,11 +24,15 @@ const typePolicies = {
   ContentItem: {
     fields: {
       children: {
-        // Equivalent to options.mergeObjects(existing, incoming).
         merge(existing, incoming) {
           return incoming
         }
       },
+      questions: {
+        merge(existing, incoming) {
+          return incoming
+        }
+      }
     },
   },
 }

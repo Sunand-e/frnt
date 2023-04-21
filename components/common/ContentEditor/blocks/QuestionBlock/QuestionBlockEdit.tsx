@@ -18,7 +18,9 @@ const QuestionBlockEdit = ({ block: b }) => {
   };
 
   return (
-    <QuestionEditor onUpdate={handleUpdateQuestion} question={block.properties} type='simple' />
+    <div className='p-8'>
+      <QuestionEditor onUpdate={handleUpdateQuestion} question={block.properties} type='single' />
+    </div>
   );
 }
 

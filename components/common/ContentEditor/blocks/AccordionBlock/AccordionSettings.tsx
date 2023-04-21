@@ -1,7 +1,7 @@
 export const AccordionSettings = ({block}) => {
 
   return (
-    <>Accordion settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

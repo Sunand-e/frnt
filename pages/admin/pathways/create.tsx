@@ -101,7 +101,20 @@ const AdminPathwaySetup = () => {
         />
         <SelectInput
           label="Pathway access type"
-          options={["Open access", "Assignable", "Paid access"]}
+          options={[
+            {
+              label: "Open access",
+              value: 'open'
+            },
+            {
+              label: "Assignable",
+              value: 'assignable'
+            },
+            {
+              label: "Paid access",
+              value: 'paid'
+            },
+          ]}
           inputAttrs={register("accessType")}
         />
         <TextInput

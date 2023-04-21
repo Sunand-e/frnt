@@ -13,8 +13,6 @@ export const BlockPanel = () => {
 
   return (
     <>
-    {activeBlock.id}
-      {/* <p className="m-2">Coming soon...</p> */}
       <BlockSettingsComponent block={activeBlock} />
     </>
   )

@@ -1,7 +1,7 @@
 export const PackageSettings = ({block}) => {
 
   return (
-    <>Package settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

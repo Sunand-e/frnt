@@ -20,9 +20,9 @@ const SelectInput = ({
         "
         { ...inputAttrs }
       >
-        { options?.map(value => (
-          <option key={value} value={value}>
-            {value}
+        { options?.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

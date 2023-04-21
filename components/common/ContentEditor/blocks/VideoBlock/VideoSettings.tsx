@@ -1,7 +1,7 @@
 export const VideoSettings = ({block}) => {
 
   return (
-    <>Video settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

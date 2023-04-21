@@ -1,7 +1,7 @@
 export const TextSettings = ({block}) => {
 
   return (
-    <>Text settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

@@ -7,8 +7,12 @@ import { useLessonContentFragment } from "../../hooks/lessons/useLessonContentFr
 import usePageTitle from "../../hooks/usePageTitle";
 import ScormView from "./scorm/ScormView";
 import QuizEditor from "../quiz/QuizEditor";
+import useWarningOnExit from "../../hooks/useWarningOnExit";
+import { useQuizStore } from "../quiz/useQuizStore";
+import { useFragment_experimental } from "@apollo/client";
+import { QuizFragment } from "../../graphql/queries/allQueries";
 
-const LessonEditor = () => {
+const ModuleEditor = () => {
 
   const router = useRouter()
   const { cid: contentId } = router.query
@@ -16,30 +20,47 @@ const LessonEditor = () => {
 
   const setBlocks = useBlockStore(state => state.setBlocks)
   
-  const { complete, data: lesson } = useLessonContentFragment(contentId)
+  const isDirty = useBlockStore(state => state.isDirty)
+
+  useWarningOnExit(isDirty)
+  
+  const { complete, data: module } = useLessonContentFragment(contentId)
 
   usePageTitle({ 
     title: ``, 
-    editable:  lesson?.title || 'Untitled Lesson', 
+    editable:  module?.title || 'Untitled module', 
     onEdit: title => {
       updateLesson(contentId)({title})
     }
   })
 
+  const { data: quiz } = useFragment_experimental({
+    fragment: QuizFragment,
+    fragmentName: 'QuizFragment',
+    from: { id: contentId, __typename: "ContentItem", },
+  });
+
   useEffect(() => {
-    lesson?.content && setBlocks(lesson.content.blocks || [])
-  },[lesson])
+    console.log('somethingchanged')
+    if(module.itemType === 'quiz') {
+      quiz?.questions && useQuizStore.setState({
+        questions: quiz?.questions || []
+      })
+    } else {
+      module?.content && setBlocks(module.content.blocks || [])
+    }
+  },[module, quiz, contentId])
 
   const component = useMemo(() => (
-    lesson.itemType === 'quiz' ? (
+    module.itemType === 'quiz' ? (
       <QuizEditor id={contentId} />
-    ) : lesson.contentType === 'scorm_assessment' ? (
+    ) : module.contentType === 'scorm_assessment' ? (
       <ScormView isEditing={true} />
     ) : (
       <BlockEditor />
-  )),[lesson.contentType,lesson.itemType])
+  )),[module.contentType,module.itemType])
 
   return component
 }
 
-export default LessonEditor
+export default ModuleEditor

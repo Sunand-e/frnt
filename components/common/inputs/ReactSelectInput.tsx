@@ -43,7 +43,7 @@ const ReactSelectInput = ({
   return (
     <>
       { label
-        ? <label>{label}<Select {...selectProps} /></label>
+        ? <label><span className="block mb-2">{label}</span><Select {...selectProps} /></label>
         : <Select {...selectProps} />
       }
     </>

@@ -35,7 +35,7 @@ const BlockTypeButton = ({
     <button 
       onClick={() => onSelect(type)} 
       disabled={isDisabled} 
-      className={`${isDisabled && 'text-gray-500 cursor-not-allowed'} ${className} w-full h-full`}
+      className={`${isDisabled && 'text-gray-500 cursor-not-allowed'} ${className} h-full`}
       ref={setNodeRef}
       // style={style}
       {...listeners}

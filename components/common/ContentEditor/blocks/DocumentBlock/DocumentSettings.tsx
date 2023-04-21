@@ -1,7 +1,7 @@
 export const DocumentSettings = ({block}) => {
 
   return (
-    <>Document settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

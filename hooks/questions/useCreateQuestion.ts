@@ -50,7 +50,7 @@ function useCreateQuestion(quizId) {
             createdAt: '',
             updatedAt: '',
             answers: [],
-            questionType: 'simple',
+            questionType: 'single',
             order: 99999999,
             ...values
           },

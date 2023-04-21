@@ -1,7 +1,7 @@
 export const ImageSettings = ({block}) => {
 
   return (
-    <>Image settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

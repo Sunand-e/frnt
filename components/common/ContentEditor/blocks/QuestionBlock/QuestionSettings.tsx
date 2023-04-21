@@ -5,8 +5,17 @@ export const QuestionSettings = ({block}) => {
   return (
     <>
     <SelectInput
-    label="Question type"
-    options={[]}
+      label="Question type"
+      options={[
+        {
+          label: 'Single choice',
+          value: 'single'
+        },
+        {
+          label: 'Multiple choice',
+          value: 'multi'
+        }
+      ]}
     />
     <pre>
 

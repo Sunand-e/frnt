@@ -40,6 +40,13 @@ const BlockFooter = ({block}) => {
               block={block}
               onSelect={() => setShowBlockSelector(false)}
               className={`mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm`}
+              blockButtonClassName = {`
+                flex flex-none justify-center items-center
+                space-x-2 p-3 text-center text-main
+                bg-white rounded-lg
+                shadow shadow-lg
+                mb-3
+              `}
             />
           </motion.div>
         }

@@ -31,10 +31,10 @@ const SortableBlock = ({id, index}) => {
       // alert(node)
       console.log('node.current')
       console.log(node.current)
-      node.current?.scrollIntoView({behavior:'smooth'})
+      // node.current?.scrollIntoView({behavior:'smooth'})
+      // window.scrollTo({top: node.current.offsetTop,behavior:'smooth'})
       useBlockStore.setState({activeBlockId: id})
       useEditorViewStore.setState({activeSettingsPanel: 'block'})
-      // window.scrollTo(123, {behavior:'smooth'})
 
     }
   },[lastAddedItemId])
@@ -44,15 +44,12 @@ const SortableBlock = ({id, index}) => {
     transition: transition,
     // ...(isDragging && { height: draggingRowHeight } ) 
   };
-
-  const mounted = useMountStatus();
-  const mountedWhileDragging = isDragging && !mounted;
  
   return (
     <div
       style={style}
       // ref={disabled ? undefined : setNodeRef}
-      className={id === activeDragItem?.id && 'invisible'}
+      className={id === activeDragItem?.id ? 'invisible' : ''}
       ref={setNodeRef}
       {...attributes}
     >

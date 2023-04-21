@@ -12,9 +12,11 @@ const useBlockEditor = (block: Block = null) => {
   const { blocks, setBlocks, insertBlock } = useBlockStore()
 
   const updateBlock = (block: Block, newBlock: Block = null) => {
+    console.log('UPDATINGBLOCK')
     const { index, parent } = getIndexAndParent(block.id)
     // if(!isEqual(block, getBlock(block.id))) {
       // if newblock is provided, replace the top level 
+
       insertBlock(newBlock ?? block, index, parent, true)
     // }
   }
@@ -33,9 +35,8 @@ const useBlockEditor = (block: Block = null) => {
   }
 
   const addBlock = (newBlock: Block, replace=false, focus=true) => {
-
+    console.log('ADDDINGBLOCK')
     useBlockStore.setState({lastAddedItemId: newBlock.id});
-
     if(block) {
       if(replace) {
         updateBlock(block, newBlock)

@@ -18,6 +18,7 @@ import { useRouter } from "../../../utils/router";
 import { StructureItems } from "./MultipleContainers";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { filterDeletedCourseItems, getItemStructureFromSections } from "./utilities";
+import { useEditorViewStore } from "../../common/ContentEditor/useEditorViewStore";
 
 const CourseStructureEditor = ({renderItem}) => {
 
@@ -27,7 +28,8 @@ const CourseStructureEditor = ({renderItem}) => {
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  const [items, setItems] = useState<StructureItems>()
+  // const [items, setItems] = useState<StructureItems>()
+  const items = useEditorViewStore(state => state.items)
   const [updateCourse, courseData] = useMutation<UpdateCourse, UpdateCourseVariables>(UPDATE_COURSE)
   const { updateSection } = useUpdateSection()
 
@@ -36,7 +38,7 @@ const CourseStructureEditor = ({renderItem}) => {
       const updatedCacheItems = getItemStructureFromSections(
         filterDeletedCourseItems(course).sections
       )
-      setItems(updatedCacheItems)
+      useEditorViewStore.setState({items: updatedCacheItems})
     }
   },[course])
 

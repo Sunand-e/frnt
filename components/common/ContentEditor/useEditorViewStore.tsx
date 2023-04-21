@@ -1,4 +1,5 @@
 import create from 'zustand'
+import { StructureItems } from '../../courses/CourseStructureEditor/MultipleContainers'
 
 type EditorViewState = {
   activeSettingsPanel: string,
@@ -6,6 +7,7 @@ type EditorViewState = {
   activeSidebarPanel: string,
   visibleSidebarPanels: Array<string>,
   activeModuleType: string
+  items: StructureItems
 }
 
 export const useEditorViewStore = create<EditorViewState>(set => ({
@@ -13,5 +15,7 @@ export const useEditorViewStore = create<EditorViewState>(set => ({
   isSettingsPaneOpen: false,
   activeSidebarPanel: 'structure',
   visibleSidebarPanels: ['structure'],
-  activeModuleType: null
+  activeModuleType: null,
+  activeModuleId: null,
+  items: null
 }))

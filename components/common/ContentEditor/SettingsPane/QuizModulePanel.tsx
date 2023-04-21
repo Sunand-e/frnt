@@ -14,16 +14,12 @@ export const QuizModulePanel = () => {
   });
 
   const questions = useQuizStore(state => state.questions)
-  const activeQuestion = useQuizStore(state => state.activeQuestion)
+  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
   return (
-    <div>dddddd
-      <pre>
-      {/* { JSON.stringify(data,null,2) } */}
-      { JSON.stringify(questions,null,2) }
-      <p>activeQuestion</p>
+    <div>
+      {/* <pre>
       { JSON.stringify(activeQuestion,null,2) }
-      </pre>
-      
+      </pre> */}
     </div>
   )
 }

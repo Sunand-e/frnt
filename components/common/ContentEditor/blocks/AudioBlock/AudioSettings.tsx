@@ -1,7 +1,7 @@
 export const AudioSettings = ({block}) => {
 
   return (
-    <>Audio settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

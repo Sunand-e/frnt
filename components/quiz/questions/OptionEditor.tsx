@@ -18,7 +18,7 @@ const OptionEditor = ({id=null, editable=true, onChange, content=null}) => {
       StarterKit,
       Placeholder.configure({
         placeholder: ({ node }) => {
-          return 'Enter answer here...'
+          return 'New answer text...'
         },
       })
     ],

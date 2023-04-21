@@ -18,19 +18,14 @@ function useUpdateQuiz() {
       fragment: ContentFragment,
       fragmentName: 'ContentFragment',
     })
-
-    /*
-     * If the quiz contains a package block, get the scormId
-     * and pass it to the mutation as a variable 
-     */
-    const scormBlock = values.content?.blocks?.find(block => block.type === 'package')
-    const scormId = scormBlock?.properties?.moduleId
-
+    const questions = values.questions.map(q => ({
+      ...q, contentItemId: id
+    }))
     await updateQuizMutation({
       variables: {
         id,
         ...values,
-        ...(scormId && {scormId})
+        questions
       },
       optimisticResponse: {
         updateQuiz: {

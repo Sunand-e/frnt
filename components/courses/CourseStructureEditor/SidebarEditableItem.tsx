@@ -22,12 +22,28 @@ const SidebarEditableItem = ({
 }) => {
 
   const router = useRouter()
+  const { cid: contentId } = router.query
 
   const { deleteLesson } = useDeleteLesson(id)
+  const items = useEditorViewStore(state => state.items)
+
   const { confirmDelete } = useConfirmDelete({
     itemType: 'lesson',
     name: 'id',
     onConfirm: () => {
+      if(contentId === id) {
+        const flatItemsArray = Object.values(items).flat()
+        const prevItemIndex = flatItemsArray.indexOf(id) - 1
+        const prevItemId = flatItemsArray[prevItemIndex]
+
+        router.push({
+          pathname: `/admin/courses/edit`,
+          query: {
+            ...router.query,
+            cid: prevItemId
+          }
+        })
+      }
       deleteLesson()
     }
   })
@@ -39,12 +55,12 @@ const SidebarEditableItem = ({
   
   const handleSelect = (id) => {
     useEditorViewStore.setState({activeSettingsPanel: 'module'})
-    useBlockStore.setState({activeBlockId: null})
+    // useBlockStore.setState({activeBlockId: null})
 
     router.push({
       pathname: `/admin/courses/edit`,
       query: {
-        ...router.query,
+        id: router.query.id,
         cid: id
       }
     })

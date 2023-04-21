@@ -1,7 +1,7 @@
 export const PlaceholderSettings = ({block}) => {
 
   return (
-    <>Placeholder settings panel</>
+    <p className="p-2">Coming soon...</p>
   )
 }
 

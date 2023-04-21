@@ -22,11 +22,9 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
       // console.log(parent.widths[index])
   }
   
-  useEffect(() => {
-    console.log(parent)
-  },[parent]);
-
-  useEffect(() => {
+  const handleResize = (e, direction, ref) => {
+    const width = ref.offsetWidth
+    setWidth(width)
     const updatedBlock = {
       ...block,
       properties: {
@@ -35,8 +33,8 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
       }
     }
     updateBlock(updatedBlock)
-  }, [width]);
-
+  }
+  
   // Determine the max width depending on if it is a column or not
   let maxWidth
   if(parent) {
@@ -86,13 +84,11 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
               right: { right: 0 },
             }}
             onResize={(e, direction, ref) => {
-              useBlockStore.setState({
-                activeBlockId: block.id
-              })
+              // useBlockStore.setState({
+              //   activeBlockId: block.id
+              // })
             }}
-            onResizeStop={(e, direction, ref) => {
-              setWidth(ref.offsetWidth)
-            }}
+            onResizeStop={handleResize}
           >
             { children }
           </Resizable>

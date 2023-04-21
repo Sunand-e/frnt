@@ -1,58 +1,86 @@
 import { useFragment_experimental } from '@apollo/client';
-import { produce } from 'immer'
-import { useEffect } from 'react';
-import { client } from '../../graphql/client';
-import { QuestionFragmentFragment } from '../../graphql/generated';
-import { QuestionFragment, QuizFragment } from '../../graphql/queries/allQueries';
-import useCreateQuestion from '../../hooks/questions/useCreateQuestion';
-import useUpdateQuestion from '../../hooks/questions/useUpdateQuestion';
+import { useCallback, useEffect } from 'react';
 import useUpdateQuiz from '../../hooks/quizzes/useUpdateQuiz';
 import { useRouter } from '../../utils/router';
+import { useEditorViewStore } from '../common/ContentEditor/useEditorViewStore';
+import { useSaveContentButton } from '../common/ContentEditor/useSaveContentButton';
 import QuestionEditor from './questions/QuestionEditor';
-import { useQuizStore } from './useQuizStore';
+import { Question, useQuizStore } from './useQuizStore';
+import { QuizFragment } from '../../graphql/queries/allQueries';
 
 const QuizEditor = () => {
 
   const router = useRouter()
-  const { cid: id, q } = router.query
-
-  const { updateQuestion } = useUpdateQuestion()
-
+  const { cid: quizId } = router.query
+  
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
-    from: { id, __typename: "ContentItem" },
-  });
-  
-  const { data: question, complete } = useFragment_experimental<QuestionFragmentFragment,any>({
-    fragment: QuestionFragment,
-    fragmentName: 'QuestionFragment',
-    from: { id: q, __typename: "Question", },
+    from: { id: quizId, __typename: "ContentItem", },
   });
 
+  const questions = useQuizStore(state => state.questions)
+  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
+  const isDirty = useQuizStore(state => state.isDirty)
+  const { updateQuiz } = useUpdateQuiz()
+
+     
   useEffect(() => {
-    useQuizStore.setState({activeQuestion: question})
-  },[question])
+    useQuizStore.setState({
+      questions: quiz.questions,
+      activeQuestionId: quiz.questions[0]?.id
+    })
+  },[quiz.id])
 
-  const handleUpdateQuestion = (question) => {
-    console.log('question')
-    console.log(question)
-    updateQuestion(question)
+  const handleSave = useCallback(async () => {
+    const questionsInput = questions.map((q, index) => ({
+      answers: q.answers,
+      content: q.content,
+      id: q.id,
+      order: index,
+      questionType: q.questionType
+    }))
+
+    await updateQuiz(quizId)({questions: questionsInput})
+    useQuizStore.setState({isDirty: false})
+
+  },[questions, isDirty, updateQuiz])
+  
+  useSaveContentButton({
+    buttonText: 'Save quiz', 
+    onSave: handleSave, 
+    isDirty
+  })
+
+  const handleUpdateQuestion = (question: Question) => {
+    useQuizStore.setState(({questions}) => {
+
+      return ({
+      questions: questions.map(q => ( question.id === q.id ? question : q )),
+      isDirty: true
+    })})
   };
-
+  
+  const showQuestionsPanel = () => {
+    useEditorViewStore.setState({activeSidebarPanel: 'questions'})
+  }
+  
   return (
-    q && complete ? (
-      <div className='bg-main'>
-        <QuestionEditor onUpdate={handleUpdateQuestion} question={question} type='simple' />
+    activeQuestion ? (
+      <div
+        className="h-full w-full p-16"
+        onClick={showQuestionsPanel}
+      >
+        <QuestionEditor onUpdate={handleUpdateQuestion} question={activeQuestion} />
       </div>
     ) : (
-        <div className={`w-full flex flex-col items-center mt-4`}>
-          <div className="w-full max-w-screen-lg bg-main p-4 bg-opacity-10 border-2 border-dashed border-grey">
-            <div className={`text-center text-main-secondary py-4`}>
-              Select a question from the <b>Questions</b> panel.
-            </div>
+      <div className={`p-12 flex justify-center`}>
+        <div className="w-full max-w-screen-lg bg-main p-4 bg-opacity-10 border-2 border-dashed border-grey">
+          <div className={`text-center text-main-secondary py-4`}>
+            Select a question from the <b>Questions</b> panel.
           </div>
         </div>
+      </div>
     )
   );
 }

@@ -30,7 +30,7 @@ export const SettingsPane = () => {
 
   const activePanel = useEditorViewStore(state => state.activeSettingsPanel)
   const activeBlockId = useBlockStore(state => state.activeBlockId)
-  const activeQuestion = useQuizStore(state => state.activeQuestion)
+  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
   
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
@@ -95,7 +95,7 @@ export const SettingsPane = () => {
       // content: <>{moduleTypeName}</>
       content: <QuestionSettings />
     }] || [])
-  ],[course, moduleType,activeBlockId])
+  ],[course, moduleType,activeBlockId,activeQuestion])
   
   return (
     <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
