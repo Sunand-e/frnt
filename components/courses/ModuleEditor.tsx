@@ -19,13 +19,15 @@ const ModuleEditor = () => {
   const { updateLesson } = useUpdateLesson()
 
   const setBlocks = useBlockStore(state => state.setBlocks)
-  
   const isDirty = useBlockStore(state => state.isDirty)
 
   useWarningOnExit(isDirty)
   
   const { complete, data: module } = useLessonContentFragment(contentId)
-
+  console.log('module')
+  console.log(module)
+  console.log('contentId')
+  console.log(contentId)
   usePageTitle({ 
     title: ``, 
     editable:  module?.title || 'Untitled module', 
@@ -41,7 +43,6 @@ const ModuleEditor = () => {
   });
 
   useEffect(() => {
-    console.log('somethingchanged')
     if(module.itemType === 'quiz') {
       quiz?.questions && useQuizStore.setState({
         questions: quiz?.questions || []

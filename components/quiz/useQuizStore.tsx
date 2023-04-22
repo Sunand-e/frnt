@@ -17,7 +17,7 @@ export type QuizState = {
   questions: Array<Question>
   activeQuestionId: string
   computed: {
-    activeQuestion: any
+    activeQuestion: () => Question
   }
   activeAnswerIndex: number
 }

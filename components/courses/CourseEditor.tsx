@@ -16,8 +16,8 @@ const CourseEditor = () => {
     // If there is a course but no item provided, show the first item
     if(course && !contentId) {
       const firstItemInCourse = course?.sections.find(
-        (section) => section.children?.length
-      )?.children[0]
+        (section) => section.children?.filter(module => module._deleted !== true).length
+      )?.children.find(module => module._deleted !== true)
       
       if(firstItemInCourse) {
         router.push({query: {

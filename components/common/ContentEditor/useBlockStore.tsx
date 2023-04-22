@@ -16,14 +16,17 @@ type BlockState = {
   activeDragItem: any
   lastAddedItemId: any
   activeBlockId: string
-  setIsDirty: (isDirty) => void
+  computed: {
+    activeBlock: () => Block
+  }
+  setIsDirty: (isDirty: boolean) => void
   editBlocks: (blocks: Block[]) => void
   setBlocks: (blocks: Block[]) => void
   insertBlock: (newBlock: Block, index?: number, parent?: Block | null, replace?: boolean) => void
   sidebarFieldsRegenKey: number
 }
 
-export const useBlockStore = create<BlockState>(set => ({
+export const useBlockStore = create<BlockState>((set, get) => ({
   isDirty: false,
   activeDragItem: null,
   lastAddedItemId: null,
@@ -32,6 +35,10 @@ export const useBlockStore = create<BlockState>(set => ({
   blocks: [],
   draggingRowHeight: null,
   sidebarFieldsRegenKey: Date.now(),
+  computed: {
+    // See: https://github.com/pmndrs/zustand/issues/132#issuecomment-1120467721
+    activeBlock: () => getBlock(get().activeBlockId)
+  },
   editBlocks: (blocks) => set(state => ({ blocks, isDirty: true })),
   setBlocks: (blocks) => {
     return set(state => ({ blocks, isDirty: false }))
@@ -97,7 +104,7 @@ export const shiftPosition = (block: Block, direction='down') => {
   useBlockStore.setState({blocks: newBlocks, isDirty: true });
 }
 
-export const getIndexAndParent = (id) => {
+export const getIndexAndParent = (id: string) => {
   const { blocks } = useBlockStore.getState()
   let parent = null
   let index = blocks.findIndex(b => b.id === id)
@@ -110,7 +117,7 @@ export const getIndexAndParent = (id) => {
 }
 
 
-export const getBlock = (id) => {
+export function getBlock(id: string): Block {
   const { blocks } = useBlockStore.getState()
   
   let parent = null

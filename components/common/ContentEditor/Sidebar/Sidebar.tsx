@@ -69,7 +69,7 @@ export const Sidebar = () => {
   const { complete, data: module } = useLessonContentFragment(contentId)
   const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
   const moduleType = moduleTypes[moduleTypeName]
-  const panels = moduleType?.sidebarPanels
+  const panels = moduleType?.sidebarPanels || ['structure']
   const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
 
   const childRefs = useRef(new Map());
@@ -111,8 +111,7 @@ export const Sidebar = () => {
   // })
 
   const showTabs = panels?.length > 1
-  console.log('panels')
-  console.log(panels)
+  
   return (
     <>
       <CourseSidebarHeader showProgress={false} />

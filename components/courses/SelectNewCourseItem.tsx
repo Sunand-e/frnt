@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import Select from "react-select";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
 import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
+import useCreateQuiz from "../../hooks/quizzes/useCreateQuiz";
 import IconOption from "../common/inputs/react-select/IconOption";
 import { moduleTypes } from "./moduleTypes";
 
@@ -21,15 +23,27 @@ const customStyles = {
 const SelectNewCourseItem = ({
   sectionId, 
   placeholder="Choose a module type...",
-  onSelect = () => null
 }) => {
-  
-  const { createLesson, lesson } = useCreateLesson(sectionId)
-  const { updateLesson } = useUpdateLesson()
 
-  const handleNewLessonButton = ({ content, value }) => {
-    createLesson({content, contentType: value})
-    onSelect()
+  const router = useRouter()
+  const { createLesson, lesson } = useCreateLesson(sectionId)
+  const { createQuiz, quiz } = useCreateQuiz(sectionId)
+
+  const navigateToItem = (id) => {
+    router.push({query: {
+      ...router.query,
+      cid: id
+    }})
+  }
+  const handleNewModule = async ({value}) => {
+
+    if(value === 'quiz') { 
+      const newModule = await createQuiz({})
+      navigateToItem(newModule.data.createQuiz.quiz.id)
+    } else {
+      const newModule = await createLesson({contentType: value})
+      navigateToItem(newModule.data.createLesson.lesson.id)
+    }
   }
 
   return (
@@ -38,7 +52,7 @@ const SelectNewCourseItem = ({
       options={moduleTypesArray}
       styles={customStyles}
       components={{ Option: IconOption }}
-      onChange={handleNewLessonButton}
+      onChange={handleNewModule}
       value={null}
       className={`w-full`}
       isSearchable={false} 

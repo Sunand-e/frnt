@@ -9,6 +9,9 @@ import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Expand} from '@styled-icons/material-twotone/Expand'
 import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
+import {Columns} from '@styled-icons/octicons/Columns'
+import {LineHorizontal1} from '@styled-icons/fluentui-system-filled/LineHorizontal1'
+
 import TextBlock from './blocks/TextBlock/TextBlock'
 import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
@@ -49,7 +52,6 @@ import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
 import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 
 import AddColumn from './Icons/AddColumn';
-import Columns from './Icons/Columns'
 import { ReactComponentElement, ReactNode } from 'react'
 import Spacer from './blocks/Spacer/Spacer'
 import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
@@ -180,7 +182,7 @@ const blocktypes: BlockTypes = {
     component: LineDividerBlock,
     editComponent: LineDividerBlockEdit,
     settingsComponent: LineDividerSettings,
-    icon: SplitHorizontal
+    icon: LineHorizontal1
   }
 }
 

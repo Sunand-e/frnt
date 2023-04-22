@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
-import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
 import useCreateQuiz from "../../hooks/quizzes/useCreateQuiz";
 import { closeModal, handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
@@ -73,7 +72,7 @@ const NewCourseItemList = ({
 
   return (
     <div>
-      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-secondary font-semibold">Choose a lesson type...</p>
+      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-secondary font-semibold">Choose a module type...</p>
       {items}
     </div>
   )

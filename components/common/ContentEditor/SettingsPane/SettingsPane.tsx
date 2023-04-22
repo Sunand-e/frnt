@@ -11,6 +11,7 @@ import CourseForm from "../../../courses/CourseForm";
 import { moduleTypes } from "../../../courses/moduleTypes";
 import QuestionSettings from "../../../quiz/questions/QuestionSettings";
 import { useQuizStore } from "../../../quiz/useQuizStore";
+import blocktypes from "../blocktypes";
 import { useBlockStore } from "../useBlockStore";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { BlockPanel } from "./BlockPanel";
@@ -29,7 +30,8 @@ export const SettingsPane = () => {
   const modulePanelTitle = `${moduleType?.shortName || moduleType?.label} settings`
 
   const activePanel = useEditorViewStore(state => state.activeSettingsPanel)
-  const activeBlockId = useBlockStore(state => state.activeBlockId)
+
+  const activeBlock = useBlockStore(state => state.computed.activeBlock())
   const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
   
   const { courses } = useGetUserCourse(id)
@@ -83,9 +85,9 @@ export const SettingsPane = () => {
       title: modulePanelTitle,
       content: <ModulePanel />
     }] || []),
-    ...( !!activeBlockId && [{
+    ...( !!activeBlock && [{
       name: 'block',
-      title: "Block settings",
+      title: `${blocktypes[activeBlock.type].text} block settings`,
       content: <BlockPanel />
     }] || []),
     ...( moduleTypeName === 'quiz' && activeQuestion && [{
@@ -95,7 +97,7 @@ export const SettingsPane = () => {
       // content: <>{moduleTypeName}</>
       content: <QuestionSettings />
     }] || [])
-  ],[course, moduleType,activeBlockId,activeQuestion])
+  ],[course, moduleType,activeBlock,activeQuestion])
   
   return (
     <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
