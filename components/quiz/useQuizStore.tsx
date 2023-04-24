@@ -1,6 +1,7 @@
 import create from 'zustand'
 
 export interface Answer {
+  id?: string
   content: JSON | string
   correct: boolean
 }

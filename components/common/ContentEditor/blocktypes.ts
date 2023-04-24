@@ -56,6 +56,7 @@ import { ReactComponentElement, ReactNode } from 'react'
 import Spacer from './blocks/Spacer/Spacer'
 import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
 import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
+import QuestionBlock from './blocks/QuestionBlock/QuestionBlock'
 
 export type BlockType = {
   name: string,
@@ -147,7 +148,7 @@ const blocktypes: BlockTypes = {
   question: {
     text: 'Question',
     name: 'question',
-    component: PackageBlock,
+    component: QuestionBlock,
     editComponent: QuestionBlockEdit,
     settingsComponent: QuestionSettings,
     icon: QuestionMarkCircle,

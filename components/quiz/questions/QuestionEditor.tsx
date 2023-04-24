@@ -1,11 +1,9 @@
 import { produce } from 'immer'
-import QuestionTextEditor from './QuestionTextEditor';
-import OptionContainer from './OptionContainer';
 import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedCallback } from 'use-debounce';
-import { useQuizStore } from '../useQuizStore';
+import { Answer, useQuizStore } from '../useQuizStore';
 import { useMemo } from 'react';
-import Button from '../../common/Button';
+import QuestionContainer from './QuestionContainer';
 
 const QuestionEditor = ({ question, onUpdate }) => {
   
@@ -21,7 +19,7 @@ const QuestionEditor = ({ question, onUpdate }) => {
     }))
   }, 300);
 
-  const handleNewOptionChange = (id, content) => {
+  const handleNewOptionChange = (id: string, content: JSON) => {
     onUpdate(produce(question, draft => {
       draft.answers.push({id, content})
     }))
@@ -36,7 +34,7 @@ const QuestionEditor = ({ question, onUpdate }) => {
     }))
   };
 
-  const handleRemoveOption = (option) => {
+  const handleRemoveOption = (option: Answer) => {
     onUpdate(produce(question, draft => {
       draft.answers = draft.answers.filter(
         o => o.id !== option.id
@@ -51,23 +49,14 @@ const QuestionEditor = ({ question, onUpdate }) => {
   }),[question.answers.length])
   
   return (
-    <div className="p-12 bg-white rounded-lg shadow-md w-full">
-      <div className="flex items-center space-x-4 mb-2">
-        <QuestionTextEditor key={question.id} content={question.content} onChange={handleQuestionChange} />
-      </div>
-      {question.answers.map((option, index) => (
-        <OptionContainer
-          key={option.id}
-          option={option}
-          questionType={question.questionType}
-          onChange={handleOptionChange}
-          onRemove={handleRemoveOption}
-        />
-      ))}
-      <button onClick={handleAddOption} className="text-main hover:font-bold ml-4 mt-2">
-        + Add answer
-      </button>
-    </div>
+    <QuestionContainer
+      editable={true}
+      question={question}
+      handleAddOption={handleAddOption}
+      handleOptionChange={handleOptionChange}
+      handleQuestionChange={handleQuestionChange}
+      handleRemoveOption={handleRemoveOption}
+    />
   );
 }
 
