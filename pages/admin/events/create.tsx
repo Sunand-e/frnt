@@ -6,21 +6,18 @@ import { useState } from 'react'
 import useCreateEvent from '../../../hooks/events/useCreateEvent'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import dayjs from 'dayjs'
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to events list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import Button from '../../../components/common/Button'
+import { useRouter } from '../../../utils/router'
+import ButtonBack from '../../../components/common/ButtonBack'
 
 const CreateEventPage = () => {
 
   usePageTitle({ title: 'Create New Event' })
   
-  useHeaderButtons([
-    [<BackButton />,'/admin/events']
-  ])
+  useHeaderButtons({
+    id: 'backToEvents',
+    component: <ButtonBack text='Back to events list' action='/admin/events' />,
+  })
 
   const { createEvent } = useCreateEvent()
 

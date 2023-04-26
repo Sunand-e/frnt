@@ -1,17 +1,8 @@
 import { Notices } from '../../../components/common/Notices'
 import PathwaysTable from '../../../components/pathways/PathwaysTable/PathwaysTable'
-import { useContext, useEffect } from 'react'
 import usePageTitle from '../../../hooks/usePageTitle'
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
-import {Add} from "@styled-icons/fluentui-system-filled/Add";
-
-
-const AddButton = () => (
-  <>
-    <span className='hidden lg:block'>Create new pathway</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
-  </>
-)
+import ButtonAdd from '../../../components/common/ButtonAdd';
 
 const AdminPathways = () => {
 
@@ -39,9 +30,10 @@ const AdminPathways = () => {
   //   )
   // },[])
 
-  useHeaderButtons([
-    [<AddButton />, '/admin/pathways/create']
-  ])
+  useHeaderButtons({
+    id: 'createPathway',
+    component: <ButtonAdd action='/admin/pathways/create' text='Create new pathway' />
+  })
 
   return (
     <>

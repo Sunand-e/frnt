@@ -1,7 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
-import { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/common/Button'
 import { v4 as uuidv4 } from 'uuid';
 import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
@@ -13,6 +11,7 @@ import { GET_CURRENT_USER } from '../../../graphql/queries/users'
 import { GetCurrentUser } from '../../../graphql/queries/__generated__/GetCurrentUser'
 import dayjs from 'dayjs'
 import { closeModal, handleModal } from '../../../stores/modalStore'
+import useHeaderButtons from '../../../hooks/useHeaderButtons'
 
 const AdminCourseSetup = () => {
   /*
@@ -25,11 +24,10 @@ const AdminCourseSetup = () => {
     title: "Set up a new course"
   })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <Button onClick={() => router.push('/admin/courses')}>Back to Courses</Button>
-    )
-  },[])
+  useHeaderButtons({
+    id: 'courseList',
+    component: <Button onClick={() => router.push('/admin/courses')}>Back to Courses</Button>
+  })
 
   const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,

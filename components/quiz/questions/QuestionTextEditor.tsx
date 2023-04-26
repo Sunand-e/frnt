@@ -5,14 +5,17 @@ import Heading from '@tiptap/extension-heading'
 import Placeholder from '@tiptap/extension-placeholder'
 import Text from '@tiptap/extension-text'
 import { useEffect } from 'react'
+import { useQuizStore } from '../useQuizStore'
 
 const CustomDocument = Document.extend({
   content: 'heading block*',
 })
 const QuestionTextEditor = ({editable=true, onChange=null, content=null}) => {
 
+  const isEditMode = useQuizStore(state => state.isEditMode)
+
   const editor = useEditor({
-    editable,
+    editable: isEditMode,
     extensions: [
       CustomDocument,
       // Document,
@@ -27,7 +30,7 @@ const QuestionTextEditor = ({editable=true, onChange=null, content=null}) => {
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
-            return 'Enter question here...'
+            return 'Enter question text...'
           }
         },
       }),

@@ -1,7 +1,6 @@
-import { headerButtonsVar } from "../../../graphql/cache";
-import { useEffect } from "react";
 import Button from "../Button";
 import { toast } from "react-toastify";
+import useHeaderButtons from "../../../hooks/useHeaderButtons";
 
 export const useSaveContentButton = ({buttonText, isDirty, onSave}) => {
 
@@ -14,11 +13,9 @@ export const useSaveContentButton = ({buttonText, isDirty, onSave}) => {
     })
   }
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button disabled={!isDirty} onClick={saveChanges}>{buttonText}</Button>
-      </>
-    )
-  },[saveChanges, isDirty])
+  useHeaderButtons({
+    id: 'saveContent',
+    component: <Button disabled={!isDirty} onClick={saveChanges}>{buttonText}</Button>
+  })
+  // },[saveChanges, isDirty])
 }

@@ -1,13 +1,12 @@
 import usePageTitle from '../hooks/usePageTitle'
 import { useRouter } from '../utils/router'
-import CourseLayout from '../layouts/CourseLayout'
-import { viewVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import CourseItemView from '../components/courses/CourseView/CourseItemView'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
 import Button from '../components/common/Button'
 import useGetPathway from '../hooks/pathways/useGetPathway'
 import PathwayTimeline from '../components/pathways/PathwayTimeline'
+import { useViewStore, resetViewStore } from '../hooks/useViewStore'
 
 const PathwayPage = () => {
   /*
@@ -17,25 +16,17 @@ const PathwayPage = () => {
   const router = useRouter()
   const { pid } = router.query
 
-  const { user } = useGetCurrentUser();
-  const { loading, error, pathway } = useGetPathway(pid);
+  const { user } = useGetCurrentUser()
+  const { loading, error, pathway } = useGetPathway(pid)
 
   usePageTitle({ title: pathway?.title ? `Pathway: ${pathway.title}` : 'Pathway' })
 
   useEffect(() => {
-    const view = {
+    useViewStore.setState({
       isSlimNav: true,
-      showSecondary: true,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view }
-      viewVar(newView)
-    }
+      showSecondaryNav: true,
+    })
+    return resetViewStore()
   },[])
 
   return (

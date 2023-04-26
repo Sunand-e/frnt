@@ -1,14 +1,12 @@
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Tippy from '@tippyjs/react';
-import { viewVar } from '../../../graphql/cache';
-import { useReactiveVar } from '@apollo/client';
 import useLogout from '../../../hooks/useLogout';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import { useViewStore } from '../../../hooks/useViewStore';
 
 const AdminViewSwitch = () => {
 
-  const view = useReactiveVar(viewVar)
+  const isAdminView = useViewStore(state => state.isAdminView)
 
   const handleAdminButtonClick = (e) => {
     e.target.blur()
@@ -24,14 +22,14 @@ const AdminViewSwitch = () => {
 
   return (
     <Link
-      onClick={handleAdminButtonClick} href={view.isAdmin ? '/' : '/admin'}
+      onClick={handleAdminButtonClick} href={isAdminView ? '/' : '/admin'}
     >
       <div className={`overflow-hidden text-main h-12 flex items-center px-4 transition-colors duration-100 text-base`}>
         <div className={`rounded-full flex-none w-8 h-8 flex items-center justify-center mr-4`}>
-          <FontAwesomeIcon className="text-xl" icon={{prefix: 'fas', iconName: view.isAdmin ? 'user' : 'cog'}} />
+          <FontAwesomeIcon className="text-xl" icon={{prefix: 'fas', iconName: isAdminView ? 'user' : 'cog'}} />
         </div>
         <span className="mr-8">
-          {`${view.isAdmin ? 'User' : 'Admin'} View`}
+          {`${isAdminView ? 'User' : 'Admin'} View`}
         </span>
       </div>
     </Link>

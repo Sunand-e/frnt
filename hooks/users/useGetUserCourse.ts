@@ -31,6 +31,12 @@ function useGetUserCourse(id=null) {
     sections: data?.sections, 
     contentItems: data?.contentItems, 
     resources: data?.resources,
+    modules: {
+      edges: [
+        ...(data?.lessons?.edges ? data?.lessons?.edges : []),
+        ...(data?.quizzes?.edges ? data?.quizzes?.edges : []),
+      ]
+    },
     loading,
     error
   }

@@ -1,9 +1,9 @@
 import { useRouter } from '../../../utils/router'
-import LessonView from "./LessonView"
 import { useEffect } from 'react'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
+import ModuleView from './ModuleView'
 
 const CourseItemView = () => {
 
@@ -30,11 +30,11 @@ const CourseItemView = () => {
 
   return (
     course ? (
-      <LessonView />
+      <ModuleView />
     ) : (
       <LoadingSpinner text={(
         <>
-          Loading your course
+          Loading course module
           <Dot>.</Dot>
           <Dot>.</Dot>
           <Dot>.</Dot>

@@ -4,19 +4,15 @@ import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 import useGetGroup from '../../../../hooks/groups/useGetGroup';
 import { useRouter } from '../../../../utils/router';
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to groups list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../../components/common/ButtonBack';
 
 const AdminUsersGroupsEdit = () => {
 
-  useHeaderButtons([
-    [<BackButton />, '/admin/users/groups']
-  ])
+  useHeaderButtons({
+    id: "backToGroups",
+    component: <ButtonBack text="Back to group list" action="/admin/users/groups" />
+  });
+
   const router = useRouter()
   const { id } = router.query
   const { group } = useGetGroup(id)

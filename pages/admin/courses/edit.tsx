@@ -1,11 +1,14 @@
 import CourseEditor from '../../../components/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
-import { viewVar } from '../../../graphql/cache'
-import { useEffect } from 'react'
+import { headerButtonsVar } from '../../../graphql/cache'
+import { useEffect, useLayoutEffect } from 'react'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
+import Button from '../../../components/common/Button'
+import { useViewStore } from '../../../hooks/useViewStore'
+import useHeaderButtons from '../../../hooks/useHeaderButtons'
 
 const AdminCoursesEdit = () => {
   /*
@@ -13,25 +16,31 @@ const AdminCoursesEdit = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id } = router.query
+  const { id, cid: contentId } = router.query
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
   useEffect(() => {
-    const view = {
+    useViewStore.setState({
       isSlimNav: true,
-      showSecondary: false,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      // delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view, isSlimNav: true }
-      viewVar(newView)
-    }
+      showSecondaryNav: false,
+    })
   },[])
+  
+  const previewCourse = () => {
+    router.push({
+      pathname: `/course`,
+      query: {
+        id,
+        ...(contentId && {cid: contentId})
+      }
+    })
+  }
+
+  useHeaderButtons({
+    id: 'previewCourse',
+    component: <Button onClick={previewCourse}>Preview course</Button>
+  })
   
   return (
     <>

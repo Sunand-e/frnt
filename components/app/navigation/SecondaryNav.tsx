@@ -1,8 +1,9 @@
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TenantContext } from '../../../context/TenantContext'
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
+import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function SecondaryNav({showSecondary, primaryNavItem, pageNavState}) {
 

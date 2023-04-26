@@ -1,12 +1,11 @@
-import { useReactiveVar } from "@apollo/client"
-import { ReactDOM } from "react"
-import { headerButtonsVar } from "../../../graphql/cache"
+import { Fragment } from "react"
+import { useViewStore } from "../../../hooks/useViewStore"
 
 const HeaderButtons = () => {
-  const headerButtons = useReactiveVar(headerButtonsVar)
+  const headerButtons = useViewStore(state => state.headerButtons)
   return (
     <div className="min-w-16 shrink-0 flex items-center justify-end space-x-3 lg:space-x-6 ">
-      {headerButtons}
+      {headerButtons.map(button => <Fragment key={button.id}>{button.component}</Fragment>)}
     </div>
   )
 }

@@ -10,22 +10,16 @@ import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import { GET_USERS } from '../../../graphql/queries/users';
 import cache from '../../../graphql/cache';
 import getJWT from '../../../utils/getToken';
-
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack';
 
 const AdminCreateUser = () => {
   
   usePageTitle({ title: 'Add new user' })
   
-  useHeaderButtons([
-    [<BackButton />, '/admin/users'],
-  ])
+  useHeaderButtons({
+    id: "backToUsers",
+    component: <ButtonBack text="Back to user list" action="/admin/users" />
+  });
   
   const router = useRouter()
   const endpoint = "/api/v1/users/"
@@ -85,9 +79,7 @@ const AdminCreateUser = () => {
   }
 
   return (
-    <>
-      <UserForm onSubmit={handleSubmit}  />
-    </>
+    <UserForm onSubmit={handleSubmit}  />
   )
 }
 

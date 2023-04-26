@@ -17,6 +17,7 @@ export type QuizState = {
   isDirty: boolean
   questions: Array<Question>
   activeQuestionId: string
+  isEditMode: boolean
   computed: {
     activeQuestion: () => Question
   }
@@ -26,6 +27,7 @@ export type QuizState = {
 export const useQuizStore = create<QuizState>((set, get) => ({
   isDirty: false,
   questions: [],
+  isEditMode: false,
   activeQuestionId: null,
   activeAnswerIndex: null,
   computed: {

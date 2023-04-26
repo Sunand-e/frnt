@@ -1,47 +1,42 @@
+import produce from "immer"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import Button from "../components/common/Button"
-import { headerButtonsVar } from "../graphql/cache"
+import { useViewStore } from "./useViewStore"
 
 const useHeaderButtons = (buttons) => {
-
-  const router = useRouter()
-
-  // useEffect(() => {
-  //   headerButtonsVar(
-  //     <div className="space-x-2">
-  //       { buttons.map((button, idx) => (
-  //         <Button key={idx} onClick={() => {
-  //           if(typeof button[1] === 'string') {
-  //             router.push(button[1])
-  //           } else if(typeof button[1] === 'function') {
-  //             button[1]()
-  //           }
-  //         }}>
-  //           {button[0]}
-  //         </Button>
-  //       ))}
-  //     </div>
-  //   )
-  // },[])
-
   useEffect(() => {
-    headerButtonsVar(
-      <div className="space-x-2 flex items-center">
-        { buttons.map((button, idx) => (
-          <Button key={idx} onClick={() => {
-            if(typeof button[1] === 'function') {
-              button[1]()
+    let buttonsArray
+    if(buttons) {
+      if(!(buttons instanceof Array)) {
+        buttonsArray = [buttons]
+      } else {
+        buttonsArray = buttons
+      }
+    }
+    if(buttonsArray) {
+      useViewStore.setState(state => ({
+        headerButtons: produce(state.headerButtons, draft => {
+          for(let button of buttonsArray) {
+            const buttonIndex = state.headerButtons.findIndex(b => b.id === button.id)
+            if(buttonIndex === -1) {
+              draft.push(button)
             } else {
-              router.push(button[1])
+              draft[buttonIndex] = button
             }
-          }}>
-            {button[0]}
-          </Button>
-        ))}
-      </div>
-    )
-  },[])
+          }
+        })
+      }))
+    }
+    return () => {
+      useViewStore.setState(state => {
+        const headerButtons = state.headerButtons.filter(hb => !buttonsArray.map(b => b.id).includes(hb.id))
+        return {
+            headerButtons
+          }
+        }   
+      )
+    }
+  },[buttons])
 
 }
 

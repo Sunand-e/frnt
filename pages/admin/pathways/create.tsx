@@ -1,6 +1,5 @@
 import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
-import { headerButtonsVar, viewVar } from '../../../graphql/cache'
 import React, { useState, useEffect, useContext } from 'react'
 import Button from '../../../components/common/Button'
 import TextInput from '../../../components/common/inputs/TextInput'
@@ -10,17 +9,9 @@ import SelectInput from '../../../components/common/inputs/SelectInput'
 import ImageSelectInput from '../../../components/common/inputs/ImageSelectInput'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import useCreatePathway from '../../../hooks/pathways/useCreatePathway'
-import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import { closeModal, handleModal } from '../../../stores/modalStore'
-
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to Pathways</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack'
 
 const AdminPathwaySetup = () => {
   /*
@@ -35,13 +26,13 @@ const AdminPathwaySetup = () => {
     title: "New pathway"
   })
 
-
-  useHeaderButtons([
-    [<BackButton />,'/admin/pathways']
-  ])
+  useHeaderButtons({
+    id: 'backToPathways',
+    component: <ButtonBack action={'/admin/pathways'} text='Back to Pathways' />
+  })
 
   const onSubmit = (formValues) => {
-    
+
     const { title, imageId, ...settings } = formValues
     // setSubmitted(values);
     const values = {

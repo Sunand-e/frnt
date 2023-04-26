@@ -5,13 +5,7 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import ResourceForm from '../../../components/resources/ResourceForm'
 import { ArrowBack } from '@styled-icons/boxicons-regular/ArrowBack'
 import { JsonInput } from '@mantine/core'
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to resource library</span>
-    <span className='block lg:hidden'><ArrowBack width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack'
 
 const AdminResourcesEdit = () => {
 
@@ -21,9 +15,10 @@ const AdminResourcesEdit = () => {
   
   const { resource, updateResource } = useUpdateResource(id)
 
-  useHeaderButtons([
-    [<BackButton />, '/admin/resources']
-  ])
+  useHeaderButtons({
+    id: 'backToResources',
+    component: <ButtonBack text='Back to Resource Library' action='/admin/resources' />,
+  })
 
   usePageTitle({ 
     title: "Edit Resource: ", 

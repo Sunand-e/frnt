@@ -50,7 +50,6 @@ const QuestionEditor = ({ question, onUpdate }) => {
   
   return (
     <QuestionContainer
-      editable={true}
       question={question}
       handleAddOption={handleAddOption}
       handleOptionChange={handleOptionChange}

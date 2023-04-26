@@ -28,7 +28,8 @@ const QuizEditor = () => {
   useEffect(() => {
     useQuizStore.setState({
       questions: quiz.questions,
-      activeQuestionId: quiz.questions[0]?.id
+      activeQuestionId: quiz.questions[0]?.id,
+      isEditMode: true
     })
   },[quiz.id])
 

@@ -17,9 +17,7 @@ const ActAsUser = () => {
       (result) => {
         if(result.token) {
           localStorage.setItem('actAsToken', result.token as string);
-          alert('success')
         } else if(result.error) {
-          alert('error')
           console.log('result')
           console.log(result)
           // setError(result.error)

@@ -1,6 +1,5 @@
 import { useRouter } from '../utils/router'
 import CourseLayout from '../layouts/CourseLayout'
-import { headerButtonsVar, viewVar } from '../graphql/cache'
 import { useEffect, useState } from 'react'
 import CourseItemView from '../components/courses/CourseView/CourseItemView'
 import useGetCurrentUser from '../hooks/users/useGetCurrentUser'
@@ -9,6 +8,8 @@ import PrevNextButtons from '../components/courses/CourseView/PrevNextButtons'
 import CourseCompleted from '../components/courses/CourseView/CourseCompleted'
 import useGetUserCourse from '../hooks/users/useGetUserCourse'
 import useUserHasCapability from '../hooks/users/useUserHasCapability'
+import { useViewStore } from '../hooks/useViewStore'
+import useHeaderButtons from '../hooks/useHeaderButtons'
 
 const CoursePage = () => {
   /*
@@ -26,28 +27,17 @@ const CoursePage = () => {
   const { courseEdge } = useGetUserCourse(id)
   const [courseScore, setCourseScore] = useState(null)
   const [showCompletedPage, setShowCompletedPage] = useState(false)
-
-
-
+  
   useEffect(() => {
     console.log('courseEdge')
     console.log(id, courseEdge)
   },[id, courseEdge])
   
   useEffect(() => {
-    const view = {
+    useViewStore.setState({
       isSlimNav: true,
-      showSecondary: false,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view }
-      viewVar(newView)
-    }
+      showSecondaryNav: false,
+    })
   },[])
 
   const editCourse = () => {
@@ -71,14 +61,16 @@ const CoursePage = () => {
   },[courseEdge, id])
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        {showEditButton && <Button onClick={editCourse}>Edit Course</Button> }
-        { user && <PrevNextButtons /> }
-      </>
-    )
-  },[showEditButton, user])
+  useHeaderButtons([
+    ...(showEditButton ? [{
+      id: 'editCourse',
+      component: <Button onClick={editCourse}>Edit Course</Button>
+    }] : []),
+    ...(user ? [{
+      id: 'prevNextButtons',
+      component: <PrevNextButtons />
+    }]: [])
+  ],)
   
   return (
     <>

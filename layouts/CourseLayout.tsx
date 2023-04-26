@@ -1,6 +1,3 @@
-import Header from '../components/app/header/Header'
-import NavContainer from '../components/app/navigation/NavContainer'
-import TopNotificationBar from '../components/common/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';

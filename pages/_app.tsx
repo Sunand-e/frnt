@@ -10,9 +10,7 @@ import {
 } from '@apollo/client';
 
 import {
-  viewVar,
   isLoggedInVar,
-  headerButtonsVar,
   navStateVar
 } from '../graphql/cache'
 
@@ -40,6 +38,7 @@ import { TenantContextProvider } from '../context/TenantContext';
 import useBeforeUnload from '../hooks/useBeforeUnload';
 import CapabilityCheckWrapper from '../components/app/CapabilityCheckWrapper'
 import Modal from '../components/common/Modal'
+import { useViewStore } from '../hooks/useViewStore'
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -57,7 +56,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   // Clear header buttons and set nav state reactive variable on route change
   useEffect(() => {
     navStateVar(PageComponent.navState)
-    headerButtonsVar(null)
   },[router.route])
 
   const [title, setTitle] = useState(PageComponent.title)
@@ -71,7 +69,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   const loginLayout = (
     <LoginLayout
-      pageState={viewVar()}
       navState={PageComponent.navState || {}}
       page={<PageComponent {...pageProps} />}
     />
@@ -97,15 +94,14 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     )
   },[isLoggedIn, PageComponent])
 
-  // After initial render, check if it's an admin page and change the reactive 'viewVar' if necessary
+  // After initial render, check if it's an admin page and change the view state if necessary
   useEffect(() => {
+
     const checkIfAdminPage = () => {
-      viewVar({
-        ...viewVar(),
-        isAdmin: router.pathname.startsWith('/admin'),
-      })
+      useViewStore.setState(state => ({ isAdminView: router.pathname.startsWith('/admin')}))
     }
     checkIfAdminPage()
+
     router.events.on('routeChangeComplete', checkIfAdminPage); // add listener
     
     return () => {

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "../../utils/router";
 import useGetPathway from "../../hooks/pathways/useGetPathway";
 import useUpdatePathway from "../../hooks/pathways/useUpdatePathway";
+import useHeaderButtons from "../../hooks/useHeaderButtons";
 
 export const useSavePathwayButton = () => {
 
@@ -37,11 +38,8 @@ export const useSavePathwayButton = () => {
     // })
   },[items, isDirty, updatePathway])
   
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        <Button disabled={!isDirty} onClick={saveChanges}>Save Changes</Button>
-      </>
-    )
-  },[pid, saveChanges, isDirty])
+  useHeaderButtons({
+    id: 'savePathway',
+    component: <Button disabled={!isDirty} onClick={saveChanges}>Save Changes</Button>
+  })
 }

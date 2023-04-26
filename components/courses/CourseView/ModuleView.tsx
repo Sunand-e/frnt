@@ -7,47 +7,53 @@ import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
 import { markCompleteDisabledVar } from "../../../graphql/cache";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import ScormView from "../scorm/ScormView";
+import QuizView from "../../quiz/QuizView";
 
-const LessonView = () => {
+const ModuleView = () => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
 
   const router = useRouter()
-  const { id, cid: lessonId } = router.query
-  const { lessons } = useGetUserCourse(id)
+  const { id, cid: moduleId } = router.query
+  const { modules } = useGetUserCourse(id)
   
-  const lesson = lessons?.edges.find(edge => (
-    edge.node.id === lessonId
+  const module = modules?.edges.find(edge => (
+    edge.node.id === moduleId
   ))
 
   usePageTitle({
-    title: lesson ? (lesson.node.title || 'Untitled Lesson') : ''
+    title: module ? (module.node.title || 'Untitled module') : ''
   })
 
   useEffect(() => {
-    if(lesson) {
+    if(module) {
 
       // Enable mark completion button
-      const scormBlock = lesson?.node.content?.blocks?.find(block => block.type === 'package')
+      const scormBlock = module?.node.content?.blocks?.find(block => block.type === 'package')
       markCompleteDisabledVar(!!scormBlock?.properties?.moduleId)      
 
-      setBlocks(lesson.node.content.blocks)
-      const currentStatus = lesson.status
+      setBlocks(module.node.content.blocks)
+      const currentStatus = module.status
       if(currentStatus !== 'completed') {
         updateUserContentStatus({
-          contentItemId: lessonId,
+          contentItemId: moduleId,
           status: 'in_progress'
         }, id)
       }
     }
-  },[lessonId])
+  },[moduleId])
 
 
   return (
     <>
-      { lesson?.node?.contentType === 'scorm_assessment' ? (
+    <pre>
+    { JSON.stringify(module,null,2) }
+    </pre>
+      { module?.node?.itemType === 'quiz' ? (
+        <QuizView />
+      ) : module?.node?.contentType === 'scorm_assessment' ? (
         <ScormView />
       ) : (
         <div className="w-full flex flex-col">
@@ -63,4 +69,4 @@ const LessonView = () => {
   )
 }
 
-export default LessonView
+export default ModuleView

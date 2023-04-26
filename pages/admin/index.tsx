@@ -10,9 +10,8 @@ import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 import { useQuery } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
-import { headerButtonsVar } from '../../graphql/cache';
-import Button from '../../components/common/Button';
 import ButtonLink from '../../components/common/ButtonLink';
+import useHeaderButtons from '../../hooks/useHeaderButtons';
 
 const AdminDashboardPage = () => {
   
@@ -20,14 +19,10 @@ const AdminDashboardPage = () => {
 
   usePageTitle({ title: 'Admin Dashboard' })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
-        <ButtonLink href={'/'}>User View</ButtonLink>
-      </>
-    )
-  },[])
+  useHeaderButtons([{
+    id: 'saveResource',
+    component: <ButtonLink href={'/'}>User View</ButtonLink>
+  }])
   
   const cards = useMemo(() => ([
     {

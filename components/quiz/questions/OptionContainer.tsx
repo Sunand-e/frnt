@@ -1,14 +1,16 @@
 import { TrashAlt } from '@styled-icons/boxicons-regular/TrashAlt';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useQuizStore } from '../useQuizStore';
 import OptionEditor from './OptionEditor'
 
 const OptionContainer = ({option, questionType=null, editable=true, onChange, onRemove=null}) => {
 
   const contentRef = useRef(option.content)
-    
+  const isEditMode = useQuizStore(state => state.isEditMode)
+
   const handleChange = useCallback((content) => {
-    onChange(option, content)
+    onChange && onChange(option, content)
   },[onChange])
 
   return (
@@ -25,7 +27,7 @@ const OptionContainer = ({option, questionType=null, editable=true, onChange, on
           content={contentRef.current} 
           onChange={handleChange}
         />
-        { editable && onRemove && (
+        { isEditMode && onRemove && (
           <button onClick={() => onRemove(option)} className="text-red-500 opacity-0 group-hover/option:opacity-100 hover:text-red-600">
             <TrashAlt size={20} />
           </button>

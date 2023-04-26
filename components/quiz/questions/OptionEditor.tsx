@@ -4,11 +4,14 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 import MenuBar from '../../common/TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
+import { useQuizStore } from '../useQuizStore'
 
-const OptionEditor = ({id=null, editable=true, onChange, content=null}) => {
+const OptionEditor = ({id=null, onChange, content=null}) => {
+
+  const isEditMode = useQuizStore(state => state.isEditMode)
 
   const editor = useEditor({
-    editable,
+    editable: isEditMode,
     editorProps: {
       attributes: {
         class: 'rounded-md prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none',

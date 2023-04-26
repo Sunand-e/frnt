@@ -1,28 +1,19 @@
-import Header from '../components/app/header/Header'
-import NavContainer from '../components/app/navigation/NavContainer'
-import TopNotificationBar from '../components/common/TopNotificationBar'
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
 import MessagingSidebar from '../components/messaging/MessagingSidebar';
 import { useEffect } from 'react';
-import { viewVar } from '../graphql/cache';
+import { resetViewStore, useViewStore } from '../hooks/useViewStore';
 
 export default function MessagingLayout( {page, navState} ) {
   
+  const navState = useViewStore(state => state.navState)
+  
   useEffect(() => {
-    const view = {
+    useViewStore.setState({
       isSlimNav: true,
-      showSecondary: false,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view }
-      viewVar(newView)
-    }
+      showSecondaryNav: false,
+    })
+    return resetViewStore()
   },[])
 
   return (

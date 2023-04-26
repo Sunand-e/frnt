@@ -8,20 +8,13 @@ import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRo
 import UserGroups from '../../../components/users/groups/UserGroups';
 import UserCourses from '../../../components/users/courses/UserCourses';
 import UserResources from '../../../components/users/resources/UserResources';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
 import UserPathways from '../../../components/users/pathways/UserPathways';
 import getJWT from '../../../utils/getToken';
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack';
 
 const AdminUsersEdit = () => {
   
@@ -69,9 +62,10 @@ const AdminUsersEdit = () => {
   }
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
-  useHeaderButtons([
-    [<BackButton />, '/admin/users']
-  ])
+  useHeaderButtons({
+    id: "backToUsers",
+    component: <ButtonBack text="Back to user list" action="/admin/users" />
+  });
 
   return (
     <>
