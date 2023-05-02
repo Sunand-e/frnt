@@ -12,6 +12,9 @@ import QuizView from "../../quiz/QuizView";
 const ModuleView = () => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
+  const store = useBlockStore()
+  console.log('store')
+  console.log(store)
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
 
@@ -48,9 +51,6 @@ const ModuleView = () => {
 
   return (
     <>
-    <pre>
-    { JSON.stringify(module,null,2) }
-    </pre>
       { module?.node?.itemType === 'quiz' ? (
         <QuizView />
       ) : module?.node?.contentType === 'scorm_assessment' ? (
@@ -59,7 +59,7 @@ const ModuleView = () => {
         <div className="w-full flex flex-col">
           {blocks && 
             blocks.map((block, index) => (
-              <Block block={block} key={index} />
+              <Block block={block} key={index+'view'} />
             ))
           }
           {/* <PrevNextButtons /> */}

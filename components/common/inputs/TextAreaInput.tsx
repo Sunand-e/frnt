@@ -1,4 +1,4 @@
-interface TextInputProps {
+interface TextAreaInputProps {
   label?: string
   inputAttrs?: any
   type?: string
@@ -6,20 +6,18 @@ interface TextInputProps {
   placeholder?: string,
   onClick?: () => void
 }
-const TextInput = ({
+const TextAreaInput = ({
   label='',
   inputAttrs = {},
-  type="text",
   className='',
   placeholder: placeholder = '',
   onClick
-} : TextInputProps ) => {
+} : TextAreaInputProps ) => {
 
   return (
     <label className={`block ${className}`} onClick={onClick}>
       { label && <span className="text-sm font-medium text-secondary">{ label }</span> }
-      <input
-        type={type}
+      <textarea
         className="
           px-3
           p-1.5
@@ -37,4 +35,4 @@ const TextInput = ({
   )
 }
 
-export default TextInput
+export default TextAreaInput

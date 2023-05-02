@@ -22,7 +22,7 @@ const ScormModuleEdit = () => {
     })
   },[content, isDirty, updateLesson])
 
-  useSaveContentButton({buttonText: 'Save SCORM Module', isDirty, onSave: handleSave})
+  useSaveContentButton({typeName: 'SCORM Module', isDirty, onSave: handleSave})
 
   return (
     <ScormView isEditing={true} />

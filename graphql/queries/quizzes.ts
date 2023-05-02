@@ -1,0 +1,54 @@
+import { gql } from "@apollo/client"
+
+export const UserQuizAttemptFragment = gql`
+  fragment UserQuizAttemptFragment on UserQuizAttempt {
+    id
+    createdAt
+    updatedAt
+    finishedTime
+    contentItem {
+      id
+    }
+    user {
+      id
+    }
+  }
+`
+
+export const CREATE_USER_QUIZ_ATTEMPT = gql`
+  mutation CreateUserQuizAttempt(
+    $contentItemId: ID!
+  ) {
+    createUserQuizAttempt(input: {
+      contentItemId: $contentItemId,
+    }) {
+      userQuizAttempt {
+        ...UserQuizAttemptFragment
+      }
+    }
+  }
+`
+
+export const UPDATE_USER_QUIZ_ATTEMPT = gql`
+  mutation UpdateUserQuizAttempt(
+    $id: ID!,
+    $finishedTime: String,
+  ) {
+    updateUserQuizAttempt(input: {
+      id: $id,
+      finishedTime: $finishedTime,
+    }) {
+      userQuizAttempt {
+        ...UserQuizAttemptFragment
+      }
+    }
+  }
+`
+
+export const GET_LATEST_USER_QUIZ_ATTEMPT = gql`
+  query GetLatestUserQuizAttempt {
+    latestUserQuizAttempt {
+      ...UserQuizAttemptFragment
+    }
+  }
+`

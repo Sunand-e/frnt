@@ -42,7 +42,7 @@ export function Pager({ children }) {
 
   const visiblePanels = moduleTypes[data?.contentType || data?.itemType]?.sidebarPanels
   const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
-  const activeIndex = visiblePanels?.indexOf(activeSidebarPanel) || null
+  const activeIndex = visiblePanels?.indexOf(activeSidebarPanel)+1 || null
 
   return (
     <PagerContainer className="flex-grow">

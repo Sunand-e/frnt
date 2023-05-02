@@ -83,27 +83,27 @@ export const SettingsPane = () => {
     ...( !!moduleType && [{
       name: 'module',
       title: modulePanelTitle,
-      content: <ModulePanel />
+      content: <ModulePanel key={contentId} />
     }] || []),
     ...( !!activeBlock && [{
       name: 'block',
       title: `${blocktypes[activeBlock.type].text} block settings`,
-      content: <BlockPanel />
+      content: <BlockPanel key={activeBlock.id} />
     }] || []),
     ...( moduleTypeName === 'quiz' && activeQuestion && [{
     // ...( activeQuestion && [{
       name: 'question',
       title: "Question settings",
       // content: <>{moduleTypeName}</>
-      content: <QuestionSettings />
+      content: <QuestionSettings key={activeQuestion.id} idd={activeQuestion.id} />
     }] || [])
-  ],[course, moduleType,activeBlock,activeQuestion])
+  ],[course, moduleType,activeBlock, activeQuestion?.id, contentId])
   
   return (
-    <div className="flex-none w-[300px] fixed right-0 h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
+    <div className="flex-none w-[300px] fixed right-0 overflow-auto h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
+      {/* {activeQuestion.id} */}
       { panels.map((panel, index) => {
         const isActive = (panel.name === activePanel)
-
         return (
           <Fragment key={index}>
             <div

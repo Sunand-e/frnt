@@ -1,25 +1,58 @@
 import { useFragment_experimental } from "@apollo/client";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { QuizFragment } from "../../../../graphql/queries/allQueries";
 import { useRouter } from "../../../../utils/router";
 import { useQuizStore } from "../../../quiz/useQuizStore";
+import RadioButtonsInput from "../../inputs/RadioButtonsInput";
+
+interface QuizFormValues {
+  settings: {
+    feedback?: string
+  }
+}
+
 export const QuizModulePanel = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
   
-  const { complete, data, missing } = useFragment_experimental({
+  const { complete, data: quiz, missing } = useFragment_experimental({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: contentId, __typename: "ContentItem", },
   });
+  
+  const { register, watch, control } = useForm<QuizFormValues>({defaultValues: quiz});
 
-  const questions = useQuizStore(state => state.questions)
-  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
+  useEffect(() => {
+    const subscription = watch((data) => {
+      useQuizStore.setState({
+        isDirty: true,
+        settings: data.settings
+      })
+    })
+    return () => subscription.unsubscribe()
+
+  },[watch])
+
   return (
-    <div>
-      {/* <pre>
-      { JSON.stringify(activeQuestion,null,2) }
-      </pre> */}
+    <div className="pt-3 p-1">
+      <RadioButtonsInput
+      label="Show feedback" 
+      className="text-sm"
+      inputAttrs={register("settings.feedback")}
+      options={[
+        {
+        text: 'On',
+        value: 'afterQuestion'
+        },
+        {
+        text: 'Off',
+        value: 'off'
+        }
+      ]}
+       />
     </div>
   )
 }

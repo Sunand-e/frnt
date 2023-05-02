@@ -69,7 +69,7 @@ export const Sidebar = () => {
   const { complete, data: module } = useLessonContentFragment(contentId)
   const moduleTypeName = module.itemType === 'quiz' ? 'quiz' : module.contentType
   const moduleType = moduleTypes[moduleTypeName]
-  const panels = moduleType?.sidebarPanels || ['structure']
+  const panels = ['structure', ...(moduleType?.sidebarPanels || [])]
   const activeSidebarPanel = useEditorViewStore(state => state.activeSidebarPanel)
 
   const childRefs = useRef(new Map());
@@ -160,7 +160,7 @@ export const Sidebar = () => {
         <Pager>
           {panels.map(panel => (
             <div
-              key={panel}
+              key={`${panel}${panel !== 'structure' && contentId}`}
               className="px-3 py-3"
               style={{
                 width: "100%",

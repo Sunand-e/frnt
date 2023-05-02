@@ -89,6 +89,7 @@ export const QuestionFragment = gql`
     content
     createdAt
     updatedAt
+    settings
     id
     questionType
     order

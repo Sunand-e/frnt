@@ -6,6 +6,7 @@ type QuestionProps = {
   question: Question
   handleQuestionChange?: (content: JSON) => void
   handleOptionChange?: (option: Answer, content: JSON) => void
+  handleOptionSelect?: (option: Answer, value: boolean) => void
   handleRemoveOption?: (option: Answer) => void
   handleAddOption?: () => void
 }
@@ -13,24 +14,29 @@ const QuestionContainer = ({
   question,
   handleQuestionChange,
   handleOptionChange,
+  handleOptionSelect,
   handleRemoveOption,
   handleAddOption
  }: QuestionProps) => {
   
   const isEditMode = useQuizStore(state => state.isEditMode)
-  console.log('question')
-  console.log(question)
+
   return (
-    <div className="p-12 bg-white rounded-lg shadow-md w-full">
+    <div className="w-full">
       <div className="flex items-center space-x-4 mb-2">
-        <QuestionTextEditor key={question.id} content={question.content} onChange={handleQuestionChange} />
+        <QuestionTextEditor 
+          key={question.id+(isEditMode ? 'edit' : 'read')} 
+          content={question.content} 
+          onChange={handleQuestionChange}
+        />
       </div>
       {question.answers.map((option, index) => (
         <OptionContainer
-          key={option.id}
+          key={option.id+isEditMode}
           option={option}
           questionType={question.questionType}
           onChange={handleOptionChange}
+          onSelectedChange = {(e) => !!handleOptionSelect && handleOptionSelect(option, e.target.checked)}
           onRemove={handleRemoveOption}
         />
       ))}

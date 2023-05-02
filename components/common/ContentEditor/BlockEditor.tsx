@@ -8,6 +8,7 @@ import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
 import BlockSelector from "./BlockSelector";
+import useWarningOnExit from "../../../hooks/useWarningOnExit";
 
 const BlockEditor = () => {
 
@@ -20,6 +21,8 @@ const BlockEditor = () => {
   const isDirty = useBlockStore(state => state.isDirty)
   const setIsDirty = useBlockStore(state => state.setIsDirty)
 
+  useWarningOnExit(isDirty)
+
   const { updateLesson } = useUpdateLesson()
 
   const handleSave = useCallback(async () => {
@@ -29,7 +32,7 @@ const BlockEditor = () => {
   },[content, isDirty, updateLesson])
   
   useSaveContentButton({
-    buttonText: 'Save lesson', 
+    typeName: 'lesson', 
     onSave: handleSave, 
     isDirty
   })

@@ -2,11 +2,22 @@ import { produce } from 'immer'
 import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedCallback } from 'use-debounce';
 import { Answer, useQuizStore } from '../useQuizStore';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import QuestionContainer from './QuestionContainer';
 
 const QuestionEditor = ({ question, onUpdate }) => {
-  
+
+  useEffect(() => {
+    useQuizStore.setState({
+      isEditMode: true
+    })
+    return () => {
+      useQuizStore.setState({
+        isEditMode: false
+      })
+    }
+  },[])
+
   const handleQuestionChange = useDebouncedCallback((content) => {
     onUpdate({...question, content})
   }, 300);
@@ -18,10 +29,12 @@ const QuestionEditor = ({ question, onUpdate }) => {
       ))
     }))
   }, 300);
-
-  const handleNewOptionChange = (id: string, content: JSON) => {
+  
+  const handleOptionSelect = (option, value) => {
     onUpdate(produce(question, draft => {
-      draft.answers.push({id, content})
+      draft.answers = draft.answers.map(o => (
+        o.id === option.id ? { ...o, correct: value } : o
+      ))
     }))
   }
     
@@ -51,8 +64,10 @@ const QuestionEditor = ({ question, onUpdate }) => {
   return (
     <QuestionContainer
       question={question}
+      editMode={true}
       handleAddOption={handleAddOption}
       handleOptionChange={handleOptionChange}
+      handleOptionSelect={handleOptionSelect}
       handleQuestionChange={handleQuestionChange}
       handleRemoveOption={handleRemoveOption}
     />

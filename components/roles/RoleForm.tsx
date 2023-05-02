@@ -4,6 +4,7 @@ import TextInput from '../common/inputs/TextInput';
 import React, { useEffect } from 'react';
 import RoleCapabilitiesInput from './inputs/RoleCapabilitiesInput';
 import RoleTypeSelect from './inputs/RoleTypeSelect';
+import { disableSubmitOnEnterKey } from '../../utils/forms';
 
 interface RoleFormValues {
   name?: string 
@@ -32,6 +33,7 @@ const RoleForm = ({role=null, onSubmit}) => {
     <form
       className='h-full w-full max-w-screen-lg flex flex-col space-y-4'
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
         label="Role name"

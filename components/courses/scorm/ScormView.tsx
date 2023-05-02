@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { MutableRefObject, useRef, useState } from 'react';
+import useWarningOnExit from '../../../hooks/useWarningOnExit';
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore';
 
 const DynamicPackageIFrame = dynamic(
@@ -10,7 +11,10 @@ const DynamicPackageIFrame = dynamic(
 const ScormView = ({isEditing = false}) => {
 
   const blocks = useBlockStore(state => state.blocks)
-  
+  const isDirty = useBlockStore(state => state.isDirty)
+
+  useWarningOnExit(isDirty)
+
   const iframeRef : MutableRefObject<HTMLIFrameElement> = useRef();
 
   const block = blocks.find(b => b.type === 'package')

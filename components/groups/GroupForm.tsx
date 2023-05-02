@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import AssignedResourcesInput from './inputs/AssignedResourcesInput';
 import AssignedPathwaysInput from './inputs/AssignedPathwaysInput';
 import AssignedCoursesInput from './inputs/AssignedCoursesInput';
+import { disableSubmitOnEnterKey } from '../../utils/forms';
 
 interface GroupFormValues {
   id?: string
@@ -52,11 +53,14 @@ const GroupForm = ({group=null, onSubmit}) => {
   }
 
   const buttonText = group ? 'Save changes' : 'Create group'
+
+
   
   return (
     <form
       className='h-full w-full max-w-3xl flex flex-col space-y-4'
       onSubmit={rhfHandleSubmit(handleSubmit)}
+      onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
         label="Group name"

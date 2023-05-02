@@ -8,7 +8,7 @@ import usePageTitle from "../../hooks/usePageTitle";
 import ScormView from "./scorm/ScormView";
 import QuizEditor from "../quiz/QuizEditor";
 import useWarningOnExit from "../../hooks/useWarningOnExit";
-import { useQuizStore } from "../quiz/useQuizStore";
+import { resetQuizStore, useQuizStore } from "../quiz/useQuizStore";
 import { useFragment_experimental } from "@apollo/client";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 
@@ -19,15 +19,9 @@ const ModuleEditor = () => {
   const { updateLesson } = useUpdateLesson()
 
   const setBlocks = useBlockStore(state => state.setBlocks)
-  const isDirty = useBlockStore(state => state.isDirty)
 
-  useWarningOnExit(isDirty)
-  
   const { complete, data: module } = useLessonContentFragment(contentId)
-  console.log('module')
-  console.log(module)
-  console.log('contentId')
-  console.log(contentId)
+
   usePageTitle({ 
     title: ``, 
     editable:  module?.title || 'Untitled module', 
@@ -51,6 +45,13 @@ const ModuleEditor = () => {
       module?.content && setBlocks(module.content.blocks || [])
     }
   },[module, quiz, contentId])
+
+  useEffect(() => {
+    return () => {
+      resetQuizStore()
+      useBlockStore.destroy()
+    }
+  },[])
 
   const component = useMemo(() => (
     module.itemType === 'quiz' ? (

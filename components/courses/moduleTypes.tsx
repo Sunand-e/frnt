@@ -17,16 +17,15 @@ export const moduleTypes: ModuleTypes = {
     label: "Lesson", 
     shortName: "Lesson", 
     icon: TextLeft,
-    sidebarPanels: ['structure', 'blocks']
+    sidebarPanels: ['blocks']
   },
   scorm_assessment: {
     label: "SCORM Module",
     icon: Box,
-    sidebarPanels: ['structure']
   },
   quiz: {
     label: "Quiz",
     icon: Quiz,
-    sidebarPanels: ['structure', 'questions']
+    sidebarPanels: ['questions']
   },
 }

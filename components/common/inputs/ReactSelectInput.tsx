@@ -16,6 +16,7 @@ const ReactSelectInput = ({
   name,
   label,
   onChange,
+  className,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -43,7 +44,12 @@ const ReactSelectInput = ({
   return (
     <>
       { label
-        ? <label><span className="block mb-2">{label}</span><Select {...selectProps} /></label>
+        ? (
+          <label className={`block ${className}`}>
+            <span className="text-sm font-medium text-secondary">{ label }</span>
+            <Select {...selectProps} />
+          </label>
+        )
         : <Select {...selectProps} />
       }
     </>

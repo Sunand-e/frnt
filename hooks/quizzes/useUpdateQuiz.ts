@@ -27,15 +27,15 @@ function useUpdateQuiz() {
         ...values,
         questions
       },
-      optimisticResponse: {
-        updateQuiz: {
-          __typename: 'UpdateQuizPayload',
-          quiz: {
-            ...cachedQuiz,
-            ...values
-          },
-        }
-      }
+      // optimisticResponse: {
+      //   updateQuiz: {
+      //     __typename: 'UpdateQuizPayload',
+      //     quiz: {
+      //       ...cachedQuiz,
+      //       ...values
+      //     },
+      //   }
+      // }
     }).catch(res => {
       // TODO: do something if there is an error!!
     })

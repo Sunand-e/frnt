@@ -8,6 +8,7 @@ export const UPDATE_QUIZ = gql`
     $title: String,
     $content: JSON,
     $contentType: String,
+    $settings: JSON,
     $scormId: ID,
     $questions: [QuestionInput!],
     $prerequisites: JSON
@@ -18,6 +19,7 @@ export const UPDATE_QUIZ = gql`
         title: $title,
         content: $content,
         contentType: $contentType,
+        settings: $settings,
         scormId: $scormId,
         questions: $questions,
         prerequisites: $prerequisites

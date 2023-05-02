@@ -12,6 +12,8 @@ import { GetCurrentUser } from '../../../graphql/queries/__generated__/GetCurren
 import dayjs from 'dayjs'
 import { closeModal, handleModal } from '../../../stores/modalStore'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
+import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
+import { Dot } from '../../../components/common/misc/Dot';
 
 const AdminCourseSetup = () => {
   /*
@@ -23,6 +25,8 @@ const AdminCourseSetup = () => {
   usePageTitle({ 
     title: "Set up a new course"
   })
+
+  const { loading } = useGetCurrentUser()
 
   useHeaderButtons({
     id: 'courseList',
@@ -166,13 +170,22 @@ const AdminCourseSetup = () => {
 
   return (
     // <div className='h-full w-full max-w-screen-lg mx-auto'>
-    <>
+    loading ? (
+      <LoadingSpinner text={(
+        <>
+          Loading
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+          <Dot>.</Dot>
+        </>
+      )} />
+    ) : (
       <CourseForm 
         submitButtonText='Course Builder' 
         onSubmit={onSubmit}
         autoFocus={true}
       />
-    </>
+    )
   )
 }
 
