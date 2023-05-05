@@ -4,45 +4,60 @@ import { Answer, Question, useQuizStore } from '../useQuizStore';
 
 type QuestionProps = {
   question: Question
-  handleQuestionChange?: (content: JSON) => void
-  handleOptionChange?: (option: Answer, content: JSON) => void
-  handleOptionSelect?: (option: Answer, value: boolean) => void
-  handleRemoveOption?: (option: Answer) => void
-  handleAddOption?: () => void
+  disabled: boolean
+  onQuestionChange?: (content: JSON) => void
+  onOptionChange?: (option: Answer, content: JSON) => void
+  onOptionSelect?: (option: Answer, value: boolean) => void
+  onRemoveOption?: (option: Answer) => void
+  onAddOption?: () => void,
+  selectedOptionIds?: Array<string>
 }
 const QuestionContainer = ({
   question,
-  handleQuestionChange,
-  handleOptionChange,
-  handleOptionSelect,
-  handleRemoveOption,
-  handleAddOption
+  disabled,
+  onQuestionChange,
+  onOptionChange,
+  onOptionSelect,
+  onRemoveOption,
+  onAddOption,
+  selectedOptionIds
  }: QuestionProps) => {
   
   const isEditMode = useQuizStore(state => state.isEditMode)
-
   return (
-    <div className="w-full">
+    <div className="w-full mb-2">
       <div className="flex items-center space-x-4 mb-2">
         <QuestionTextEditor 
           key={question.id+(isEditMode ? 'edit' : 'read')} 
           content={question.content} 
-          onChange={handleQuestionChange}
+          onChange={onQuestionChange}
         />
       </div>
-      {question.answers.map((option, index) => (
-        <OptionContainer
-          key={option.id+isEditMode}
-          option={option}
-          questionType={question.questionType}
-          onChange={handleOptionChange}
-          onSelectedChange = {(e) => !!handleOptionSelect && handleOptionSelect(option, e.target.checked)}
-          onRemove={handleRemoveOption}
-        />
-      ))}
       
       { isEditMode && (
-        <button onClick={handleAddOption} className="text-main hover:font-bold ml-4 mt-2">
+        <div className='flex uppercase text-xs space-x-2 text-main opacity-80'>
+          <span>Correct?</span>
+        </div>
+      )}
+
+      {question.answers.map((option, index) => {
+        const selected = isEditMode ? option.correct : selectedOptionIds?.includes(option.id)
+        return (
+          <OptionContainer
+            disabled={disabled}
+            key={option.id+isEditMode}
+            option={option}
+            questionType={question.questionType}
+            onChange={onOptionChange}
+            onSelectedChange = {(e) => !!onOptionSelect && onOptionSelect(option, e.target.checked)}
+            onRemove={onRemoveOption}
+            selected={selected}
+          />
+        )
+      })}
+      
+      { isEditMode && (
+        <button onClick={onAddOption} className="text-main hover:font-bold ml-4 mt-2">
           + Add answer
         </button>
       )}

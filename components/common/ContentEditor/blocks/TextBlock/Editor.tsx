@@ -8,6 +8,7 @@ export default ({editable=true, onUpdate=null, content=null}) => {
 
   const editor = useEditor({
     editable,
+    autofocus: true,
     editorProps: {
       attributes: {
         class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',

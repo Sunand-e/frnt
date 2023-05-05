@@ -39,7 +39,7 @@ const AdminCoursesEdit = () => {
 
   useHeaderButtons({
     id: 'previewCourse',
-    component: <Button onClick={previewCourse}>Preview course</Button>
+    component: <Button onClick={previewCourse}>View course</Button>
   })
   
   return (

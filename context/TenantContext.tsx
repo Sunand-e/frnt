@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { createContext, useEffect, useState } from 'react'
 import baseTheme from '../themes/base';
 import { applyTheme, createTheme } from '../themes/utils';
@@ -23,6 +24,15 @@ const TenantContextProvider = ({children}) => {
         console.log('Looks like there was a problem. Status code: ' + response.status);
         return;
       }
+      const latestClientVersion = response.headers.get('x-latest-client-version')
+      const clientVersion = localStorage.getItem('client_version')
+
+      if(!clientVersion || dayjs(latestClientVersion).diff(clientVersion) > 0) {
+        localStorage.setItem('client_version', latestClientVersion)
+        fetch(window.location.href, { cache: "reload" })
+        location.reload()
+      }
+      
       // Examine the text in the response
       response.json().then(function(data) {
         const theme = createTheme({

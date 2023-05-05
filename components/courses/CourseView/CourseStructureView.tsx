@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse"
 import SidebarItem from "../../courses/SidebarItem"
 import { SidebarSection } from "../../courses/SidebarSection"
+import { filterDeletedCourseItems } from "../CourseStructureEditor/utilities"
 
 const CourseStructureView = () => {
 
@@ -10,6 +11,8 @@ const CourseStructureView = () => {
   const { id, cid } = router.query
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
+
+  const filteredCourse = filterDeletedCourseItems(course)
 
   const handleItemSelect = id => {
     router.push({
@@ -23,9 +26,9 @@ const CourseStructureView = () => {
 
   return (
     <>
-      { course && (
+      { filteredCourse && (
         <ul className="p-4">
-          { course.sections.filter(section => section.children.length).map((section, index) => (
+          { filteredCourse.sections.filter(section => section.children.length).map((section, index) => (
             <SidebarSection key={index} id={section.id}>
               { section.children.map((item, index) => (
                 <SidebarItem key={index} id={item.id} onSelect={handleItemSelect} />

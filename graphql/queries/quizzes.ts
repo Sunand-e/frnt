@@ -27,6 +27,7 @@ export const CREATE_USER_QUIZ_ATTEMPT = gql`
       }
     }
   }
+  ${UserQuizAttemptFragment}
 `
 
 export const UPDATE_USER_QUIZ_ATTEMPT = gql`
@@ -43,12 +44,18 @@ export const UPDATE_USER_QUIZ_ATTEMPT = gql`
       }
     }
   }
+  ${UserQuizAttemptFragment}
 `
 
 export const GET_LATEST_USER_QUIZ_ATTEMPT = gql`
-  query GetLatestUserQuizAttempt {
-    latestUserQuizAttempt {
+  query GetLatestUserQuizAttempt(
+    $contentItemId: ID!,
+  ) {
+    latestUserQuizAttempt(
+      contentItemId: $contentItemId
+    ) {
       ...UserQuizAttemptFragment
     }
   }
+  ${UserQuizAttemptFragment}
 `

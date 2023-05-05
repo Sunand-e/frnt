@@ -11,13 +11,14 @@ const PrevNextButtons = () => {
 
   const router = useRouter()
   const { id: courseId, cid: moduleId } = router.query
-  const { courses, lessons } = useGetUserCourse(courseId)
+  const { courses, modules } = useGetUserCourse(courseId)
   const course = courses?.edges[0]?.node
-  const lessonEdge = lessons?.edges.find(edge => (
+  const moduleEdge = modules?.edges.find(edge => (
     edge.node.id === moduleId
   ))
-  
-const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
+  const module = moduleEdge?.node
+
+  const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
 
   const [prevNextIds, setPrevNextIds] = useState([]);
 
@@ -68,7 +69,7 @@ const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
         </span>
       </Button>
     )}
-    { (lessonEdge?.status !== 'completed') && (
+    { (module?.itemType!== 'quiz' && moduleEdge?.status !== 'completed') && (
       <Button disabled={disabled} onClick={handleMarkComplete}>
         <span className='flex items-center xl:space-x-2'>
           <span className="hidden xl:block">Mark Complete</span>

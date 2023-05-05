@@ -5,6 +5,7 @@ import { onError } from "@apollo/client/link/error";
 import getConfig from 'next/config'
 import cache from './cache';
 import getJWT from '../utils/getToken';
+import dayjs from 'dayjs';
 
 const {publicRuntimeConfig} = getConfig()
 const {API_URL} = publicRuntimeConfig
@@ -15,6 +16,20 @@ const httpLink = createHttpLink({
   // credentials: "include", (response header must include Access-Control-Allow-Credentials: true)
 });
 
+const afterwareLink = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    const context = operation.getContext()
+    const latestClientVersion = context.response.headers.get('x-latest-client-version')
+    const clientVersion = localStorage.getItem('client_version')
+
+    if(!clientVersion || dayjs(latestClientVersion).diff(clientVersion) > 0) {
+      localStorage.setItem('client_version', latestClientVersion)
+      fetch(window.location.href, { cache: "reload" })
+      location.reload()
+    }
+    return response
+  })
+})
 // const delay = setContext(
 //   request => {
 //     new Promise<void>((success, fail) => {
@@ -73,7 +88,7 @@ const link = ApolloLink.from([
   // delay,
   errorLink,
   restLink,
-  authLink.concat(httpLink),
+  afterwareLink.concat(authLink.concat(httpLink)),
 ])
 
 const typesWithDeleted = ['ContentItem', 'ScormModule', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']

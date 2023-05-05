@@ -29,11 +29,6 @@ const CoursePage = () => {
   const [showCompletedPage, setShowCompletedPage] = useState(false)
   
   useEffect(() => {
-    console.log('courseEdge')
-    console.log(id, courseEdge)
-  },[id, courseEdge])
-  
-  useEffect(() => {
     useViewStore.setState({
       isSlimNav: true,
       showSecondaryNav: false,

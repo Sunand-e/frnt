@@ -25,6 +25,7 @@ export type QuizState = {
   isDirty: boolean
   questions: Array<Question>
   activeQuestionId: string
+  attemptOptionIds: Array<string>
   settings?: {
     feedback?: string
   }
@@ -32,14 +33,13 @@ export type QuizState = {
   computed?: {
     activeQuestion: () => Question
   }
-  activeAnswerIndex: number
 }
 const initialState: QuizState = {
   isDirty: false,
   questions: [],
   isEditMode: false,
   activeQuestionId: null,
-  activeAnswerIndex: null
+  attemptOptionIds: [],
 }
 
 export const useQuizStore = create<QuizState>((set, get) => ({

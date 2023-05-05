@@ -16,6 +16,7 @@ const QuestionTextEditor = ({editable=true, onChange=null, content=null}) => {
 
   const editor = useEditor({
     editable: isEditMode,
+    autofocus: true,
     extensions: [
       CustomDocument,
       // Document,

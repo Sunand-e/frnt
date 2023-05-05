@@ -11,7 +11,7 @@ const QuizStructureEditor = () => {
     const newQuestion: Question = {
       id,
       questionType: 'single',
-      content: 'New question',
+      content: '',
       answers: [],
       settings: {}
     }
@@ -43,7 +43,6 @@ const QuizStructureEditor = () => {
     // <div className="p-4 bg-white rounded-lg shadow-md">
     <div>
       {questions.map((question, index) => (
-        <>
         <QuestionContainer
           onSelect={handleSelect}
           active={question.id === activeQuestionId}
@@ -52,7 +51,6 @@ const QuizStructureEditor = () => {
           index={index}
           onRemove={handleRemoveQuestion}
         />
-        </>
       ))}
       <button onClick={handleAddQuestion} className="text-main hover:font-bold">
         + Add question

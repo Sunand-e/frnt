@@ -39,4 +39,5 @@ export const CREATE_USER_QUESTION_ATTEMPT = gql`
       }
     }
   }
+  ${UserQuestionAttemptFragment}
 `

@@ -12,6 +12,7 @@ const OptionEditor = ({id=null, onChange, content=null}) => {
 
   const editor = useEditor({
     editable: isEditMode,
+    autofocus: true,
     editorProps: {
       attributes: {
         class: 'rounded-md prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none',
@@ -21,12 +22,12 @@ const OptionEditor = ({id=null, onChange, content=null}) => {
       StarterKit,
       Placeholder.configure({
         placeholder: ({ node }) => {
-          return 'New answer text...'
+          return 'Enter answer text...'
         },
       })
     ],
     content
-  })
+  },[])
 
   useEffect(() => {
     if(editor) {

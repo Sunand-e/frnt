@@ -24,14 +24,6 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
     !properties?.content && setTimeout(focus, 10);
   },[])
 
-  const focus = () => {
-    // const editor = getPlateEditorRef(block.id)
-    // if(editor) {
-    //   Transforms.select(editor, Editor.end(editor, []));
-    //   ReactEditor.focus(editor);  
-    // }
-  }
-
   return (
     <>
       <Editor onUpdate={handleChange} content={properties?.content} />

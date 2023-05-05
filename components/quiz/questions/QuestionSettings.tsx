@@ -3,7 +3,7 @@ import { useQuizStore } from "../useQuizStore"
 import { useForm } from 'react-hook-form';
 import TextAreaInput from "../../common/inputs/TextAreaInput";
 import { useEffect } from "react";
-interface QuestionFormValues {
+export interface QuestionFormValues {
   questionType: string
   settings: {
     feedback?: {
@@ -18,30 +18,32 @@ interface QuestionFormValues {
 export const QuestionSettings = ({idd}) => {
 
   const question = useQuizStore(state => state.computed.activeQuestion())
-  
   const { register, watch, control } = useForm<QuestionFormValues>({defaultValues: question});
-  
   const watchFeedbackType = watch("settings.feedback.type")
 
   useEffect(() => {
     const subscription = watch((data) => {
-      console.log(data)
-      
-      useQuizStore.setState(({questions}) => ({
-        isDirty: true,
-        questions: questions.map(q => q.id === question.id ? ({
-          ...question,
-          ...data
-        }) : q)
-      }))
+
+      useQuizStore.setState(({questions}) => {
+        return ({
+          isDirty: true,
+          questions: questions.map(q => q.id === question.id ? ({
+            ...q,
+            questionType: data.questionType,
+            settings: {
+              ...question.settings,
+              ...data.settings
+            }
+          }) : q)
+        })
+      })
     })
     return () => subscription.unsubscribe()
 
-  },[watch])
+  },[watch, question])
 
   return (
     <form className='h-full w-full max-w-sm flex flex-col space-y-4 pt-2 px-1 text-sm'>
-      {/* {idd} */}
       <ReactSelectInput
         control={control}
         name={'questionType'}
@@ -56,7 +58,7 @@ export const QuestionSettings = ({idd}) => {
             value: 'multi'
           }
         ]}
-        />
+      />
       <ReactSelectInput
         control={control}
         // onChange={handleChangeType}

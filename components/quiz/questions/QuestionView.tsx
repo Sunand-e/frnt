@@ -1,0 +1,119 @@
+import { useFragment_experimental, useQuery } from "@apollo/client";
+import { useCallback, useState } from "react";
+import { GET_LATEST_USER_QUIZ_ATTEMPT } from "../../../graphql/queries/quizzes";
+import useCreateUserQuestionAttempt from "../../../hooks/questions/useCreateUserQuestionAttempt";
+import { useRouter } from "../../../utils/router";
+import Button from "../../common/Button";
+import QuestionContainer from "../questions/QuestionContainer";
+import { useQuizStore } from "../useQuizStore"
+import xor from 'lodash/xor';
+import FeedbackContainer from "./FeedbackContainer";
+import { QuizFragment } from "../../../graphql/queries/allQueries";
+
+function QuestionView() {
+
+  const router = useRouter()
+  const { cid: quizId } = router.query
+  const {createUserQuestionAttempt} = useCreateUserQuestionAttempt()
+
+  const { loading, data: attemptQueryData, error } = useQuery(
+    GET_LATEST_USER_QUIZ_ATTEMPT,
+    {
+      variables: {
+        contentItemId: quizId,
+      }
+    }
+  );
+  const { data: quiz } = useFragment_experimental({
+    fragment: QuizFragment,
+    fragmentName: 'QuizFragment',
+    from: { id: quizId, __typename: "ContentItem", },
+  });
+
+  const questions = useQuizStore(state => state.questions)
+  const attemptOptionIds = useQuizStore(state => state.attemptOptionIds)
+  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
+
+  const [status, setStatus] = useState('unanswered')
+
+  const currentQuestionIndex = questions.findIndex(q => q.id === activeQuestion.id)
+  const nextQuestion = questions[currentQuestionIndex + 1]
+
+  const submitDisabled = attemptOptionIds.length === 0
+
+  const goToNextQuestion = () => {
+    useQuizStore.setState({
+      activeQuestionId: nextQuestion.id,
+    })
+    setStatus('unanswered')
+  }
+
+  const submitAnswer = () => {
+
+    const answers = activeQuestion.answers.filter(answer => attemptOptionIds.includes(answer.id))
+    const correctAnswerIds = activeQuestion.answers.filter(a => a.correct).map(a => a.id)
+    const isCorrect = xor(correctAnswerIds, attemptOptionIds).length === 0
+    
+    createUserQuestionAttempt({
+      userQuizAttemptId: attemptQueryData?.latestUserQuizAttempt.id,
+      questionId: activeQuestion.id,
+      status: isCorrect ? 100 : 0,
+      answers
+    })
+
+    setStatus(isCorrect ? 'correct' : 'incorrect')
+
+    if(quiz.settings.feedback === 'off') {
+      goToNextQuestion()
+    }
+  }
+
+  const handleOptionSelect = useCallback((option, value) => {
+    if(activeQuestion.questionType === 'multi') {
+      useQuizStore.setState({
+        attemptOptionIds: value ? (
+          attemptOptionIds.includes(option.id) ? attemptOptionIds : [...attemptOptionIds, option.id]
+        ) : (
+          attemptOptionIds.filter(id => id !== option.id)
+        )
+      })
+    } else {
+      useQuizStore.setState({
+        attemptOptionIds: [option.id]
+      })
+    }
+  },[activeQuestion?.questionType, attemptOptionIds])
+
+  return (
+    <div className="max-w-screen-lg w-full">
+      <h3 className="mb-3 text-gray-400">
+        {'Question '}
+        <span className="font-bold">
+          {questions.findIndex(q => q.id === activeQuestion.id) + 1}
+        </span>
+        {' of '}
+        <span className="font-bold">
+          {questions.length}
+        </span>
+      </h3>
+      <QuestionContainer
+        disabled={status!=='unanswered'}
+        question={activeQuestion}              
+        onOptionSelect={handleOptionSelect}
+        selectedOptionIds={attemptOptionIds}
+      />
+      { status === 'unanswered' ? (
+        <Button className="mt-2" onClick={submitAnswer} disabled={submitDisabled}>Submit</Button>
+      ) : quiz.settings.feedback !== 'off' && (
+        <FeedbackContainer status={status} question={activeQuestion}>
+          { nextQuestion && (
+            <Button className="mt-2" onClick={goToNextQuestion}>Next question</Button>
+          )}
+        </FeedbackContainer>
+      )}
+
+    </div>
+  )
+}
+
+export default QuestionView

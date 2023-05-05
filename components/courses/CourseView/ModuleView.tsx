@@ -13,8 +13,6 @@ const ModuleView = () => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
   const store = useBlockStore()
-  console.log('store')
-  console.log(store)
   const setBlocks = useBlockStore(state => state.setBlocks)
   const blocks = useBlockStore(state => state.blocks)
 

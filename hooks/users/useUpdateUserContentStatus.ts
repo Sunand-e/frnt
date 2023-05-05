@@ -46,8 +46,8 @@ function useUpdateUserContentStatus() {
         }
       }
     }).then(res => {
-      console.log('response')
-      console.log(res)
+      // console.log('response')
+      // console.log(res)
     }).catch(res => {
       // TODO: do something if there is an error!!
     })

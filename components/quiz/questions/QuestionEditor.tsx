@@ -2,21 +2,25 @@ import { produce } from 'immer'
 import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedCallback } from 'use-debounce';
 import { Answer, useQuizStore } from '../useQuizStore';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import QuestionContainer from './QuestionContainer';
 
 const QuestionEditor = ({ question, onUpdate }) => {
 
-  useEffect(() => {
+  const [ mounted, setMounted ] = useState(false)
+
+  useLayoutEffect(() => {
     useQuizStore.setState({
       isEditMode: true
     })
+    setMounted(true)
+
     return () => {
       useQuizStore.setState({
         isEditMode: false
       })
     }
-  },[])
+  },[question.id])
 
   const handleQuestionChange = useDebouncedCallback((content) => {
     onUpdate({...question, content})
@@ -31,11 +35,21 @@ const QuestionEditor = ({ question, onUpdate }) => {
   }, 300);
   
   const handleOptionSelect = (option, value) => {
-    onUpdate(produce(question, draft => {
-      draft.answers = draft.answers.map(o => (
-        o.id === option.id ? { ...o, correct: value } : o
-      ))
-    }))
+    if(question.questionType === 'single') {
+      if(value === true) {
+        onUpdate(produce(question, draft => {
+          draft.answers = draft.answers.map(o => (
+            o.id === option.id ? { ...o, correct: true } : { ...o, correct: false }
+          ))
+        }))
+      }
+    } else {
+      onUpdate(produce(question, draft => {
+        draft.answers = draft.answers.map(o => (
+          o.id === option.id ? { ...o, correct: value } : o
+        ))
+      }))
+    }
   }
     
   const handleAddOption = () => {
@@ -54,23 +68,18 @@ const QuestionEditor = ({ question, onUpdate }) => {
       )
     }))
   };
-  
-  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
-  const newOption = useMemo(() => ({
-    id: uuidv4(),
-    content: ''
-  }),[question.answers.length])
-  
-  return (
-    <QuestionContainer
-      question={question}
-      editMode={true}
-      handleAddOption={handleAddOption}
-      handleOptionChange={handleOptionChange}
-      handleOptionSelect={handleOptionSelect}
-      handleQuestionChange={handleQuestionChange}
-      handleRemoveOption={handleRemoveOption}
-    />
+
+  return mounted && (
+    <>
+      <QuestionContainer
+        question={question}
+        onAddOption={handleAddOption}
+        onOptionChange={handleOptionChange}
+        onOptionSelect={handleOptionSelect}
+        onQuestionChange={handleQuestionChange}
+        onRemoveOption={handleRemoveOption}
+      />
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useFragment_experimental } from '@apollo/client';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect } from 'react';
 import useUpdateQuiz from '../../hooks/quizzes/useUpdateQuiz';
 import { useRouter } from '../../utils/router';
 import { useEditorViewStore } from '../common/ContentEditor/useEditorViewStore';
@@ -8,6 +8,7 @@ import QuestionEditor from './questions/QuestionEditor';
 import { Question, useQuizStore } from './useQuizStore';
 import { QuizFragment } from '../../graphql/queries/allQueries';
 import useWarningOnExit from '../../hooks/useWarningOnExit';
+import { AVAILABLE_TRANSITIONS } from '@mantine/core';
 
 const QuizEditor = () => {
 
@@ -33,13 +34,10 @@ const QuizEditor = () => {
       activeQuestionId: quiz.questions[0]?.id,
       isEditMode: true
     })
-  },[quiz.id])
-
-  useEffect(() => {
     return () => {
       useQuizStore.destroy()
     }
-  },[])
+  },[quiz.id])
 
   const handleSave = useCallback(async () => {
     const questionsInput = questions.map((q, index) => ({
