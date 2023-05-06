@@ -114,8 +114,6 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
         )}
       </div>
       <Button type="submit">{submitButtonText}</Button>
-      {/* <p className='text-lg font-bold mt-4'>Create your first course item:</p>
-      <AddItemToCourseForm sectionId={123} /> */}
     </form>
   )
 }

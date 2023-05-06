@@ -66,7 +66,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     GET_LATEST_SCO_ATTEMPT,
     {
       variables: {
-        scormModuleId: block.properties.moduleId,
+        scormPackageId: block.properties.moduleId,
         courseId
       }
     }
@@ -92,14 +92,14 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
       variables: {
         attempt,
         contentItemId: courseId,
-        scormModuleId: block.properties.moduleId,
+        scormPackageId: block.properties.moduleId,
         data: scormData,
       },
       update(cache, response, request ) {
         cache.updateQuery({ 
           query: GET_LATEST_SCO_ATTEMPT,
           variables: {
-            scormModuleId: block.properties.moduleId,
+            scormPackageId: block.properties.moduleId,
             courseId
           }
          }, (data) => {

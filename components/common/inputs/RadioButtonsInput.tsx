@@ -20,7 +20,7 @@ const RadioButtonsInput = ({
     <div className={`flex flex-col space-y-2 ${className}`} onClick={onClick}>
       { label && <span className="text-sm font-medium text-secondary">{ label }</span> }
       {options.map(option => (
-        <label className="flex items-center">
+        <label key={option.value} className="flex items-center">
           <input
             type="radio"
             id={`${label}_${option.value}`}

@@ -4,11 +4,11 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UpdateScormModule
+// GraphQL mutation operation: UpdateScormPackage
 // ====================================================
 
-export interface UpdateScormModule_updateScormModule_scormModule {
-  __typename: "ScormModule";
+export interface UpdateScormPackage_updateScormPackage_scormModule {
+  __typename: "ScormPackage";
   id: string;
   createdAt: any;
   launchUrl: string | null;
@@ -20,16 +20,16 @@ export interface UpdateScormModule_updateScormModule_scormModule {
   _deleted: boolean;
 }
 
-export interface UpdateScormModule_updateScormModule {
-  __typename: "UpdateScormModulePayload";
-  scormModule: UpdateScormModule_updateScormModule_scormModule;
+export interface UpdateScormPackage_updateScormPackage {
+  __typename: "UpdateScormPackagePayload";
+  scormModule: UpdateScormPackage_updateScormPackage_scormModule;
 }
 
-export interface UpdateScormModule {
-  updateScormModule: UpdateScormModule_updateScormModule | null;
+export interface UpdateScormPackage {
+  updateScormPackage: UpdateScormPackage_updateScormPackage | null;
 }
 
-export interface UpdateScormModuleVariables {
+export interface UpdateScormPackageVariables {
   id: string;
   title?: string | null;
 }

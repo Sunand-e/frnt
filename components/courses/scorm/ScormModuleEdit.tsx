@@ -5,7 +5,7 @@ import { useBlockStore } from '../../common/ContentEditor/useBlockStore';
 import { useSaveContentButton } from '../../common/ContentEditor/useSaveContentButton';
 import ScormView from './ScormView';
 
-const ScormModuleEdit = () => {
+const ScormPackageEdit = () => {
 
   const router = useRouter()
   const { cid: id } = router.query
@@ -29,4 +29,4 @@ const ScormModuleEdit = () => {
   );
 };
 
-export default ScormModuleEdit
+export default ScormPackageEdit

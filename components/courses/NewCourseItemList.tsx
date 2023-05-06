@@ -24,7 +24,7 @@ const NewCourseItemList = ({
   const { createLesson, lesson } = useCreateLesson(sectionId)
   const { createQuiz, quiz } = useCreateQuiz(sectionId)
 
-  const handlePackageSelect = async (scormModule) => {
+  const handlePackageSelect = async (scormPackage) => {
     const newLesson = await createLesson({
       contentType: 'scorm_assessment',
       content: {
@@ -33,8 +33,8 @@ const NewCourseItemList = ({
             type: 'package',
             id: uuidv4(),
             properties: {
-              url: scormModule.launchUrl,
-              moduleId: scormModule.id
+              url: scormPackage.launchUrl,
+              moduleId: scormPackage.id
             }
           }
         ],

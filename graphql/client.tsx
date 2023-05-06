@@ -91,7 +91,7 @@ const link = ApolloLink.from([
   afterwareLink.concat(authLink.concat(httpLink)),
 ])
 
-const typesWithDeleted = ['ContentItem', 'ScormModule', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']
+const typesWithDeleted = ['ContentItem', 'ScormPackage', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']
 
 const resolvers = typesWithDeleted.reduce((accumulator, value) => {
   return {

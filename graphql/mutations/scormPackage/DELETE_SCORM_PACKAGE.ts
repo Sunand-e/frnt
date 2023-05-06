@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
-export const DELETE_SCORM_MODULE = gql`
-  mutation DeleteScormModule(
+export const DELETE_SCORM_PACKAGE = gql`
+  mutation DeleteScormPackage(
     $id: ID!
   ) {
-    deleteScormModule(
+    deleteScormPackage(
       id: $id
     ) {
-      scormModule {
+      scormPackage {
         id,
         _deleted @client
       }

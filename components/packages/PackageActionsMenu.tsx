@@ -1,25 +1,25 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
-import useDeleteScormModule from "../../hooks/scormModules/useDeleteScormModule"
+import useDeleteScormPackage from "../../hooks/scormPackages/useDeleteScormPackage"
 import { useContext } from "react"
 import PackageInUse from "./PackageInUse"
 import { handleModal } from "../../stores/modalStore"
 
 const PackageActionsMenu = ({module, returnFn}) => {
   
-  const { deleteScormModule } = useDeleteScormModule()
+  const { deleteScormPackage } = useDeleteScormPackage()
 
   const handleDelete = async () => {
-    const response = await deleteScormModule(module.id)
-    if(response.deleteScormModule?.success === false) {
-      if(response.deleteScormModule?.usage.length) {
+    const response = await deleteScormPackage(module.id)
+    if(response.deleteScormPackage?.success === false) {
+      if(response.deleteScormPackage?.usage.length) {
         handleModal({
           size: 'md',
           title: `SCORM module in use`,
           content: <PackageInUse 
             item={module} 
             buttonAction={returnFn}
-            usage={response.deleteScormModule?.usage}
+            usage={response.deleteScormPackage?.usage}
           />
         })
       }
@@ -40,7 +40,7 @@ const PackageActionsMenu = ({module, returnFn}) => {
     {
       label: <span className="text-red-500">Delete SCORM package</span>,
       onClick: confirmDelete,
-      capability: 'DeleteScormModule'
+      capability: 'DeleteScormPackage'
     },
     // { title: 'Settings', href:'settings' },
   ]

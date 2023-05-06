@@ -35,7 +35,7 @@ const CourseEditor = () => {
           <ModuleEditor />
         ) :
           <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-            <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first lesson" />
+            <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first course module" />
           </div>
         }
       </div>

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { ScormModule } from "../../../../graphql/generated";
+import { ScormPackage } from "../../../../graphql/generated";
 import useCourse from "../../../../hooks/courses/useCourse";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import useUpdateLesson from "../../../../hooks/lessons/useUpdateLesson";
@@ -16,7 +16,7 @@ import useBlockEditor from "../useBlockEditor";
 import { useBlockStore } from "../useBlockStore";
 
 import { useForm } from 'react-hook-form';
-import useGetScormModules from "../../../../hooks/scormModules/useGetMediaItems";
+import useGetScormPackages from "../../../../hooks/scormPackages/useGetScormPackages";
 import { useFragment_experimental } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
 

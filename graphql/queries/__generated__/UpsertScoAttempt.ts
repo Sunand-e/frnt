@@ -21,5 +21,5 @@ export interface UpsertScoAttemptVariables {
   data: any;
   attempt: number;
   contentItemId: string;
-  scormModuleId: string;
+  scormPackageId: string;
 }
