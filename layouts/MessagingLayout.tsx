@@ -6,8 +6,6 @@ import { resetViewStore, useViewStore } from '../hooks/useViewStore';
 
 export default function MessagingLayout( {page, navState} ) {
   
-  const navState = useViewStore(state => state.navState)
-  
   useEffect(() => {
     useViewStore.setState({
       isSlimNav: true,
