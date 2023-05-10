@@ -8,7 +8,7 @@ const ConditionalLabelWrapper = ({ isEditMode, children }) => (
   isEditMode ? children : <label className="w-full flex items-center space-x-3">{children}</label>
 )
 
-const OptionContainer = ({option, disabled=false, questionType=null, onChange, onSelectedChange, selected, onRemove=null}) => {
+const OptionContainer = ({option, disabled=false, question=null, onChange, onSelectedChange, selected, onRemove=null}) => {
 
   const contentRef = useRef(option.content)
   const isEditMode = useQuizStore(state => state.isEditMode)
@@ -21,10 +21,10 @@ const OptionContainer = ({option, disabled=false, questionType=null, onChange, o
     <div key={option.id} className="w-full flex items-center mb-2 hover:bg-main hover:bg-opacity-5">
       <div className="w-full flex items-center space-x-4 group/option px-4">
         <ConditionalLabelWrapper isEditMode={isEditMode}>
-          { questionType === 'multi' ? (
+          { question.questionType === 'multi' ? (
             <input type="checkbox" checked={selected} disabled={disabled} onChange={onSelectedChange} id={`option${option.id}`} name={`option${option.id}`} value={option.id} className="h-5 w-5 text-main focus:ring-main border-gray-300 rounded" />
           ) : (
-            <input type="radio" checked={selected} disabled={disabled} onChange={onSelectedChange} id={`option${option.id}`} name="options" value={option.id} className="h-5 w-5 text-main focus:ring-main border-gray-300 rounded-full" />
+            <input type="radio" checked={selected} disabled={disabled} onChange={onSelectedChange} id={`option${option.id}`} name={`options-${question.id}`} value={option.id} className="h-5 w-5 text-main focus:ring-main border-gray-300 rounded-full" />
           )}          
           <OptionEditor
             id={option.id}

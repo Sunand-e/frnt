@@ -24,6 +24,7 @@ const QuestionContainer = ({
  }: QuestionProps) => {
   
   const isEditMode = useQuizStore(state => state.isEditMode)
+
   return (
     <div className="w-full mb-2">
       <div className="flex items-center space-x-4 mb-2">
@@ -39,15 +40,15 @@ const QuestionContainer = ({
           <span>Correct?</span>
         </div>
       )}
-
+      
       {question.answers.map((option, index) => {
-        const selected = isEditMode ? option.correct : selectedOptionIds?.includes(option.id)
+        const selected = (isEditMode) ? option.correct : selectedOptionIds?.includes(option.id)
         return (
           <OptionContainer
             disabled={disabled}
             key={option.id+isEditMode}
+            question={question}
             option={option}
-            questionType={question.questionType}
             onChange={onOptionChange}
             onSelectedChange = {(e) => !!onOptionSelect && onOptionSelect(option, e.target.checked)}
             onRemove={onRemoveOption}

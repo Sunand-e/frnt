@@ -94,6 +94,7 @@ const BlockSelector = ({
       }
       case 'question': {
         newBlock.properties = {
+          id: uuidv4(),
           question: {
             content: ''
           },

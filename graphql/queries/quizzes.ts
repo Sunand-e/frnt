@@ -12,6 +12,14 @@ export const UserQuizAttemptFragment = gql`
     user {
       id
     }
+    userQuestionAttempts {
+      id
+      status
+      question {
+        id
+      }
+      answers
+    }
   }
 `
 

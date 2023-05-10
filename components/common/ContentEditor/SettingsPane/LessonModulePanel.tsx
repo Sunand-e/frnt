@@ -1,19 +1,9 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import useCourse from "../../../../hooks/courses/useCourse";
-import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import useUpdateLesson from "../../../../hooks/lessons/useUpdateLesson";
-import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
-import { closeModal, handleModal } from "../../../../stores/modalStore";
 import { useRouter } from "../../../../utils/router";
-import CourseForm from "../../../courses/CourseForm";
-import { moduleTypes } from "../../../courses/moduleTypes";
-import PackageLibrary from "../../../packages/PackageLibrary";
 import TextInput from "../../inputs/TextInput";
 
 import { useForm } from 'react-hook-form';
-import { gql, useFragment_experimental } from "@apollo/client";
+import { useFragment_experimental } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
 
 interface LessonFormValues {

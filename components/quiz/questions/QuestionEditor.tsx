@@ -14,12 +14,6 @@ const QuestionEditor = ({ question, onUpdate }) => {
       isEditMode: true
     })
     setMounted(true)
-
-    return () => {
-      useQuizStore.setState({
-        isEditMode: false
-      })
-    }
   },[question.id])
 
   const handleQuestionChange = useDebouncedCallback((content) => {
@@ -35,7 +29,13 @@ const QuestionEditor = ({ question, onUpdate }) => {
   }, 300);
   
   const handleOptionSelect = (option, value) => {
-    if(question.questionType === 'single') {
+    if(question.questionType === 'multi') {
+      onUpdate(produce(question, draft => {
+        draft.answers = draft.answers.map(o => (
+          o.id === option.id ? { ...o, correct: value } : o
+        ))
+      }))
+    } else {
       if(value === true) {
         onUpdate(produce(question, draft => {
           draft.answers = draft.answers.map(o => (
@@ -43,12 +43,6 @@ const QuestionEditor = ({ question, onUpdate }) => {
           ))
         }))
       }
-    } else {
-      onUpdate(produce(question, draft => {
-        draft.answers = draft.answers.map(o => (
-          o.id === option.id ? { ...o, correct: value } : o
-        ))
-      }))
     }
   }
     

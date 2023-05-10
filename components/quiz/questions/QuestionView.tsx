@@ -1,6 +1,5 @@
 import { useFragment_experimental, useQuery } from "@apollo/client";
 import { useCallback, useState } from "react";
-import { GET_LATEST_USER_QUIZ_ATTEMPT } from "../../../graphql/queries/quizzes";
 import useCreateUserQuestionAttempt from "../../../hooks/questions/useCreateUserQuestionAttempt";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
@@ -9,26 +8,24 @@ import { useQuizStore } from "../useQuizStore"
 import xor from 'lodash/xor';
 import FeedbackContainer from "./FeedbackContainer";
 import { QuizFragment } from "../../../graphql/queries/allQueries";
+import useGetLatestQuizAttempt from "../../../hooks/quizzes/useGetLatestQuizAttempt";
 
-function QuestionView() {
+function QuestionView({onFinishQuiz}) {
 
   const router = useRouter()
   const { cid: quizId } = router.query
-  const {createUserQuestionAttempt} = useCreateUserQuestionAttempt()
+  
+  const { loading, data: attemptQueryData, error } = useGetLatestQuizAttempt({quizId})
 
-  const { loading, data: attemptQueryData, error } = useQuery(
-    GET_LATEST_USER_QUIZ_ATTEMPT,
-    {
-      variables: {
-        contentItemId: quizId,
-      }
-    }
-  );
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },
   });
+
+  const { createUserQuestionAttempt } = useCreateUserQuestionAttempt({
+    quizAttemptId: attemptQueryData?.latestUserQuizAttempt.id
+  })
 
   const questions = useQuizStore(state => state.questions)
   const attemptOptionIds = useQuizStore(state => state.attemptOptionIds)
@@ -38,6 +35,7 @@ function QuestionView() {
 
   const currentQuestionIndex = questions.findIndex(q => q.id === activeQuestion.id)
   const nextQuestion = questions[currentQuestionIndex + 1]
+  const isLastQuestion = currentQuestionIndex + 1 === questions.length
 
   const submitDisabled = attemptOptionIds.length === 0
 
@@ -53,7 +51,7 @@ function QuestionView() {
     const answers = activeQuestion.answers.filter(answer => attemptOptionIds.includes(answer.id))
     const correctAnswerIds = activeQuestion.answers.filter(a => a.correct).map(a => a.id)
     const isCorrect = xor(correctAnswerIds, attemptOptionIds).length === 0
-    
+
     createUserQuestionAttempt({
       userQuizAttemptId: attemptQueryData?.latestUserQuizAttempt.id,
       questionId: activeQuestion.id,
@@ -108,6 +106,9 @@ function QuestionView() {
         <FeedbackContainer status={status} question={activeQuestion}>
           { nextQuestion && (
             <Button className="mt-2" onClick={goToNextQuestion}>Next question</Button>
+          )}
+          { isLastQuestion && (
+            <Button className="mt-2" onClick={onFinishQuiz}>Finish quiz</Button>
           )}
         </FeedbackContainer>
       )}

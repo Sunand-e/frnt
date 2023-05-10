@@ -1,11 +1,14 @@
 import { useFragment_experimental, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
-import { GET_LATEST_USER_QUIZ_ATTEMPT } from "../../graphql/queries/quizzes";
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
 import { useRouter } from "../../utils/router";
 import { useQuizStore } from "./useQuizStore"
 import QuestionView from "./questions/QuestionView";
+import QuizProgress from "./QuizProgress";
+import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt";
+import QuizFinished from "./QuizFinished";
+import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 
 function QuizView() {
 
@@ -13,23 +16,27 @@ function QuizView() {
   const { cid: quizId } = router.query
   
   const {createUserQuizAttempt} = useCreateUserQuizAttempt()
+  const {updateUserQuizAttempt} = useUpdateUserQuizAttempt()
 
-  const { loading, data: attemptQueryData, error } = useQuery(
-    GET_LATEST_USER_QUIZ_ATTEMPT,
-    {
-      variables: {
-        contentItemId: quizId,
-      }
-    }
-  );
-
+  const { loading, data, error } = useGetLatestQuizAttempt({quizId})
+  const latestUserQuizAttempt = data?.latestUserQuizAttempt
+  
   useEffect(() => {
-    if(attemptQueryData && attemptQueryData.latestUserQuizAttempt === null) {
+    if(typeof latestUserQuizAttempt !== 'undefined' && latestUserQuizAttempt === null) {
       createUserQuizAttempt({
         contentItemId: quizId,
       })
     }
-  },[attemptQueryData, quizId])
+  },[latestUserQuizAttempt, quizId])
+
+  const finishQuiz = () => {
+    if(latestUserQuizAttempt) {
+      updateUserQuizAttempt({
+        id: latestUserQuizAttempt.id,
+        finishedTime: new Date().toUTCString()
+      })
+    }
+  }
 
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
@@ -56,10 +63,21 @@ function QuizView() {
   return (
     <div className="h-full w-full p-16">
       <div className="p-12 bg-white rounded-lg shadow-md w-full flex justify-center">
-        { activeQuestion && attemptQueryData?.latestUserQuizAttempt && (
-          <QuestionView />
-        )}
+        {
+          latestUserQuizAttempt && (
+            latestUserQuizAttempt.finishedTime ? (
+              <QuizFinished />
+            ) : (
+              activeQuestion && (
+                <QuestionView
+                  onFinishQuiz={finishQuiz}
+                 />
+              )
+            )
+          )
+        }
       </div>
+      {/* <QuizProgress /> */}
   </div>
   )
 }
