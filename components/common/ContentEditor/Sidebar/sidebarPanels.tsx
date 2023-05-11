@@ -31,6 +31,7 @@ export const sidebarPanels = [
   {
     name: "questions",
     label: "Questions",
+    height: '100%',
     component: <QuizStructureEditor />
   },
 ]

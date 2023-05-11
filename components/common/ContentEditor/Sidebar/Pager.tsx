@@ -13,7 +13,7 @@ const PagerContainer = styled.div`
   width: 100%;
 `;
 
-const PagerAnimtedContainer = styled(motion.div)`
+const PagerAnimatedContainer = styled(motion.div)`
   flex-direction: row;
   direction: ltr;
   will-change: transform;
@@ -46,7 +46,7 @@ export function Pager({ children }) {
 
   return (
     <PagerContainer className="flex-grow">
-      <PagerAnimtedContainer
+      <PagerAnimatedContainer
         transition={{
           tension: 190,
           friction: 70,
@@ -65,7 +65,7 @@ export function Pager({ children }) {
             {child}
           </Page>
         ))}
-      </PagerAnimtedContainer>
+      </PagerAnimatedContainer>
     </PagerContainer>
   );
 }

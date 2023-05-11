@@ -9,14 +9,14 @@ const SidebarItemProgress = ({id}) => {
   const router = useRouter()
   const { id: courseId } = router.query
   
-  const { lessons } = useGetUserCourse(courseId);
+  const { modules } = useGetUserCourse(courseId);
     
-  let lessonEdge = lessons?.edges.find(edge => edge.node.id === id)
+  let moduleEdge = modules?.edges.find(edge => edge.node.id === id)
 
   const [progress, setProgress] = useState(0)
   useEffect(() => {
-      // alert(lessonEdge?.status)
-    switch(lessonEdge?.status) {
+      // alert(moduleEdge?.status)
+    switch(moduleEdge?.status) {
       case 'in_progress': {
         setProgress(0.5)
         break
@@ -30,7 +30,7 @@ const SidebarItemProgress = ({id}) => {
         break
       }
     }
-  },[lessonEdge?.status])
+  },[moduleEdge?.status])
 
   const circleStyle = {
     strokeDashoffset: 0,

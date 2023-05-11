@@ -9,6 +9,7 @@ import QuizProgress from "./QuizProgress";
 import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt";
 import QuizFinished from "./QuizFinished";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
+import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 
 function QuizView() {
 
@@ -17,6 +18,7 @@ function QuizView() {
   
   const {createUserQuizAttempt} = useCreateUserQuizAttempt()
   const {updateUserQuizAttempt} = useUpdateUserQuizAttempt()
+  const {updateUserContentStatus} = useUpdateUserContentStatus()
 
   const { loading, data, error } = useGetLatestQuizAttempt({quizId})
   const latestUserQuizAttempt = data?.latestUserQuizAttempt
@@ -34,6 +36,11 @@ function QuizView() {
       updateUserQuizAttempt({
         id: latestUserQuizAttempt.id,
         finishedTime: new Date().toUTCString()
+      })
+      updateUserContentStatus({
+        contentItemId: quizId,
+        score: 100,
+        status: 'completed'
       })
     }
   }

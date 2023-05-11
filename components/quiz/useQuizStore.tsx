@@ -7,7 +7,7 @@ export interface Answer {
 }
 
 export interface Question {
-  id?: string
+  id: string
   questionType?: string
   content?: JSON | string
   answers?: Array<Answer>

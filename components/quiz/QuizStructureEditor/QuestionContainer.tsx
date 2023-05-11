@@ -1,7 +1,11 @@
 import { TrashAlt } from '@styled-icons/boxicons-regular';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import { useQuizStore } from '../useQuizStore';
 
-const QuestionContainer = ({question, editable=true, active=false, onSelect=null, onRemove, index}) => {
+const QuestionContainer = ({question, onSelect=null, onRemove, index}) => {
+  
+  const activeQuestionId = useQuizStore(state => state.activeQuestionId)
+  const active = question.id === activeQuestionId
 
   const questionText = question.content?.content?.find(c => (
     ['heading', 'paragraph'].includes(c.type)
@@ -11,20 +15,21 @@ const QuestionContainer = ({question, editable=true, active=false, onSelect=null
     <div 
       key={question.id} 
       className={`
-        group/question p-2 flex space-x-4 items-center mb-2
+        group/question p-2 flex space-x-4 items-center
         ${active ? 'bg-opacity-10 bg-main' : ''}
         hover:bg-opacity-5 hover:bg-main w-full
       `}
     >
-      <span 
+      <div
         onClick={() => onSelect(question.id)}
-        className="space-x-2 w-full line-clamp-1"
+        // className="space-x-2 w-full line-clamp-1"
+        className="space-x-2 w-full"
       >
-        <span className='inline'>Question {index+1}: </span>
-        <span className='inline  text-gray-400'>{questionText}</span>
-      </span>
+        <span className=''>Question {index+1}{questionText && ':'} </span>
+        <span className=' text-gray-400 line-clamp-1'>{questionText}</span>
+      </div>
       <div className="ml-auto opacity-0 h-7 flex space-x-2 opacity-0 group-hover/question:opacity-100 " onClick={() => onRemove(question)}>
-        <Trash className={`w-4 cursor-pointer`}/>
+        <Trash className={`w-4 cursor-pointer hover:scale-125 text-red-800`} />
       </div>
     </div>
   )

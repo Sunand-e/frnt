@@ -158,18 +158,21 @@ export const Sidebar = () => {
       </AnimatePresence>
       { panels && (
         <Pager>
-          {panels.map(panel => (
-            <div
-              key={`${panel}${panel !== 'structure' && contentId}`}
-              className="px-3 py-3"
-              style={{
-                width: "100%",
-                height:'auto'
-              }}
-            >
-              {sidebarPanels.find(p => panel === p.name).component}
-            </div>
-          ))}
+          {panels.map(panelName => {
+            const panel = sidebarPanels.find(p => panelName === p.name)
+            return (
+              <div
+                key={`${panel.name}${panel.name !== 'structure' && contentId}`}
+                className="px-3 py-3"
+                style={{
+                  width: "100%",
+                  height: panel.height || 'auto'
+                }}
+              >
+                {sidebarPanels.find(p => panel.name === p.name).component}
+              </div>
+            )
+          })}
         </Pager>
       )}
     </>

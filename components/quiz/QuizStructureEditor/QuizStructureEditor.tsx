@@ -1,11 +1,14 @@
-import QuestionContainer from './QuestionContainer';
 import { v4 as uuidv4 } from 'uuid';
 import { Question, useQuizStore } from '../useQuizStore';
 import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore';
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import SortableQuestion from './SortableQuestion';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { useMemo, useState } from 'react';
 
 const QuizStructureEditor = () => {
   const questions = useQuizStore(state => state.questions)
-  const activeQuestionId = useQuizStore(state => state.activeQuestionId)
   const handleAddQuestion = () => {
     const id = uuidv4()
     const newQuestion: Question = {
@@ -39,37 +42,59 @@ const QuizStructureEditor = () => {
     })
     useQuizStore.setState({activeQuestionId: id})
   }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = active.data.current.sortable.index
+      const newIndex = over.data.current.sortable.index
+      useQuizStore.setState(state => ({
+        isDirty: true,
+        questions: arrayMove(state.questions, oldIndex, newIndex)
+      }))
+    }
+  }
+  
+  const sensors = useSensors(
+    useSensor(MouseSensor, {}),
+    useSensor(TouchSensor, {}),
+    useSensor(KeyboardSensor, {}),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
+
   return questions && (
-    // <div className="p-4 bg-white rounded-lg shadow-md">
-    <div>
+    <div className='h-full flex flex-col'>
+    <div
+      className="scrollbar-thin -mr-3 pr-3 scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto"
+    >
+      <DndContext
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+        modifiers={[restrictToVerticalAxis]}
+      >
+      <SortableContext items={questions} strategy={verticalListSortingStrategy}>
       {questions.map((question, index) => (
-        <QuestionContainer
+        <SortableQuestion
           onSelect={handleSelect}
-          active={question.id === activeQuestionId}
           key={question.id}
           question={question}
           index={index}
           onRemove={handleRemoveQuestion}
         />
       ))}
-      <button onClick={handleAddQuestion} className="text-main hover:font-bold">
-        + Add question
-      </button>
+      </SortableContext>
+    
+      </DndContext>
     </div>
-    // <DndContext>
-    //   <SortableContext items={questions} strategy={strategy}>
-    //     {questions.map((id, index) => {
-    //       return (
-    //         <SortableItem
-    //           renderItem={<Question />}
-    //           key={id}
-    //           id={id}
-    //           index={index}
-    //         />
-    //       );
-    //     })}
-    //   </SortableContext>
-    // </DndContext>
+    
+    <button onClick={handleAddQuestion} className="text-main hover:font-bold p-3 pb-0 border-main border-t">
+    + Add question
+  </button>
+  </div>
   )
 }
 
