@@ -59,11 +59,13 @@ const CoursePage = () => {
   useHeaderButtons([
     ...(showEditButton ? [{
       id: 'editCourse',
-      component: <Button onClick={editCourse}>Edit Course</Button>
+      component: <Button onClick={editCourse}>Edit Course</Button>,
+      order: 1
     }] : []),
     ...(user ? [{
       id: 'prevNextButtons',
-      component: <PrevNextButtons />
+      component: <PrevNextButtons />,
+      order:5
     }]: [])
   ],)
   

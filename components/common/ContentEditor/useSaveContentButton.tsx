@@ -19,6 +19,7 @@ export const useSaveContentButton = ({typeName, isDirty, onSave}) => {
   const buttonText = isSaving ? `Saving ${typeName}...` : `Save ${typeName}`
   useHeaderButtons({
     id: 'saveContent',
+    order: 0,
     component: <Button disabled={isSaving || !isDirty} onClick={saveChanges}>{buttonText}</Button>
   })
 }

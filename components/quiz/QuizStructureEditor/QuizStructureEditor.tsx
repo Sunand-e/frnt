@@ -6,6 +6,7 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 import SortableQuestion from './SortableQuestion';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { useMemo, useState } from 'react';
+import useConfirmDelete from '../../../hooks/useConfirmDelete';
 
 const QuizStructureEditor = () => {
   const questions = useQuizStore(state => state.questions)
@@ -29,10 +30,16 @@ const QuizStructureEditor = () => {
   }
 
   const handleRemoveQuestion = (question: Question) => {
-    useQuizStore.setState(({questions}) => ({
-      questions: questions.filter(q => q.id !== question.id),
-      isDirty: true
-    }))
+    const { confirmDelete } = useConfirmDelete({
+      itemType: 'question',
+      onConfirm: () => {
+        useQuizStore.setState(({questions}) => ({
+          questions: questions.filter(q => q.id !== question.id),
+          isDirty: true
+        }))    
+      }
+    })
+    confirmDelete(question)
     // deleteQuestion(newQuestion)
   }
 

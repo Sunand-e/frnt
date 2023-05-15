@@ -5,10 +5,12 @@ import { QuizFragment } from "../../../../graphql/queries/allQueries";
 import { useRouter } from "../../../../utils/router";
 import { useQuizStore } from "../../../quiz/useQuizStore";
 import RadioButtonsInput from "../../inputs/RadioButtonsInput";
+import TextInput from "../../inputs/TextInput";
 
 interface QuizFormValues {
   settings: {
     feedback?: string
+    passMark?: number
   }
 }
 
@@ -37,7 +39,16 @@ export const QuizModulePanel = () => {
   },[watch])
 
   return (
-    <div className="pt-3 p-1">
+    <div className="pt-3 p-1 flex-col space-y-3">
+      <TextInput
+        label="Pass mark (%)"
+        type="number"
+        inputAttrs={{
+          ...register("settings.passMark"),
+          min: 0,
+          max: 100
+        }}
+      />
       <RadioButtonsInput
       label="Show feedback" 
       className="text-sm"

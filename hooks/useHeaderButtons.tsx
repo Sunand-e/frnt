@@ -5,14 +5,9 @@ import { useViewStore } from "./useViewStore"
 
 const useHeaderButtons = (buttons) => {
   useEffect(() => {
-    let buttonsArray
-    if(buttons) {
-      if(!(buttons instanceof Array)) {
-        buttonsArray = [buttons]
-      } else {
-        buttonsArray = buttons
-      }
-    }
+    let buttonsArray = buttons && (
+      buttons instanceof Array ? buttons : [buttons]
+    )
     if(buttonsArray) {
       useViewStore.setState(state => ({
         headerButtons: produce(state.headerButtons, draft => {

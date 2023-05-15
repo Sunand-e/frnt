@@ -51,15 +51,17 @@ function QuestionView({onFinishQuiz}) {
     const answers = activeQuestion.answers.filter(answer => attemptOptionIds.includes(answer.id))
     const correctAnswerIds = activeQuestion.answers.filter(a => a.correct).map(a => a.id)
     const isCorrect = xor(correctAnswerIds, attemptOptionIds).length === 0
+    const status = isCorrect ? 'correct' : 'incorrect'
 
     createUserQuestionAttempt({
       userQuizAttemptId: attemptQueryData?.latestUserQuizAttempt.id,
       questionId: activeQuestion.id,
-      status: isCorrect ? 100 : 0,
+      score: isCorrect ? 100 : 0,
+      status,
       answers
     })
 
-    setStatus(isCorrect ? 'correct' : 'incorrect')
+    setStatus(status)
 
     if(quiz.settings.feedback === 'off') {
       goToNextQuestion()
@@ -81,7 +83,8 @@ function QuestionView({onFinishQuiz}) {
       })
     }
   },[activeQuestion?.questionType, attemptOptionIds])
-
+  console.log('activeQuestion')
+  console.log(activeQuestion)
   return (
     <div className="max-w-screen-lg w-full">
       <h3 className="mb-3 text-gray-400">
@@ -94,6 +97,7 @@ function QuestionView({onFinishQuiz}) {
           {questions.length}
         </span>
       </h3>
+      
       <QuestionContainer
         disabled={status!=='unanswered'}
         question={activeQuestion}              

@@ -4,6 +4,7 @@ import create from 'zustand'
 type HeaderButton = {
   id: string
   component: ReactNode
+  order: number
   action: string | (() => void)
 }
 

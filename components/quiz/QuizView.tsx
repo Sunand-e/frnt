@@ -10,6 +10,7 @@ import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt
 import QuizFinished from "./QuizFinished";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
+import { AnimatePresence, motion } from "framer-motion";
 
 function QuizView() {
 
@@ -24,7 +25,12 @@ function QuizView() {
   const latestUserQuizAttempt = data?.latestUserQuizAttempt
   
   useEffect(() => {
+    console.log('typeof latestUserQuizAttempt')
+    console.log(typeof latestUserQuizAttempt)
+    console.log('latestUserQuizAttempt')
+    console.log(latestUserQuizAttempt)
     if(typeof latestUserQuizAttempt !== 'undefined' && latestUserQuizAttempt === null) {
+
       createUserQuizAttempt({
         contentItemId: quizId,
       })
@@ -35,10 +41,11 @@ function QuizView() {
     if(latestUserQuizAttempt) {
       updateUserQuizAttempt({
         id: latestUserQuizAttempt.id,
-        finishedTime: new Date().toUTCString()
+        completedAt: new Date().toUTCString()
       })
       updateUserContentStatus({
         contentItemId: quizId,
+        progress: 100,
         score: 100,
         status: 'completed'
       })
@@ -69,21 +76,33 @@ function QuizView() {
 
   return (
     <div className="h-full w-full p-16">
-      <div className="p-12 bg-white rounded-lg shadow-md w-full flex justify-center">
+      <AnimatePresence>
+      <motion.div
+        key={activeQuestion?.id}
+        className="p-12 bg-white rounded-lg shadow-md w-full flex justify-center"
+        initial={{ opacity: 0, x: 500, position: 'absolute' }}
+        animate={{ opacity: 1, x: 0, position: 'relative' }}
+        exit={{ opacity: 0, x: -500, position: 'absolute' }}
+        transition={{duration: 0.6}}
+      >
+      <pre>
+      {/* { JSON.stringify(latestUserQuizAttempt,null,2) } */}
+      </pre>
         {
           latestUserQuizAttempt && (
-            latestUserQuizAttempt.finishedTime ? (
+            latestUserQuizAttempt.completedAt ? (
               <QuizFinished />
             ) : (
               activeQuestion && (
                 <QuestionView
-                  onFinishQuiz={finishQuiz}
-                 />
+                onFinishQuiz={finishQuiz}
+                />
               )
             )
           )
         }
-      </div>
+      </motion.div>
+      </AnimatePresence>
       {/* <QuizProgress /> */}
   </div>
   )

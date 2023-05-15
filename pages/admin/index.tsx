@@ -20,7 +20,7 @@ const AdminDashboardPage = () => {
   usePageTitle({ title: 'Admin Dashboard' })
 
   useHeaderButtons([{
-    id: 'saveResource',
+    id: 'userView',
     component: <ButtonLink href={'/'}>User View</ButtonLink>
   }])
   

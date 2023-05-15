@@ -5,7 +5,7 @@ export const UserQuizAttemptFragment = gql`
     id
     createdAt
     updatedAt
-    finishedTime
+    completedAt
     contentItem {
       id
     }
@@ -41,11 +41,11 @@ export const CREATE_USER_QUIZ_ATTEMPT = gql`
 export const UPDATE_USER_QUIZ_ATTEMPT = gql`
   mutation UpdateUserQuizAttempt(
     $id: ID!,
-    $finishedTime: String,
+    $completedAt: String,
   ) {
     updateUserQuizAttempt(input: {
       id: $id,
-      finishedTime: $finishedTime,
+      completedAt: $completedAt,
     }) {
       userQuizAttempt {
         ...UserQuizAttemptFragment

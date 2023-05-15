@@ -38,7 +38,8 @@ const AdminCoursesEdit = () => {
   }
 
   useHeaderButtons({
-    id: 'previewCourse',
+    id: 'viewCourse',
+    order:8,
     component: <Button onClick={previewCourse}>View course</Button>
   })
   

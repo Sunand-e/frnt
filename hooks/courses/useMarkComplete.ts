@@ -13,6 +13,7 @@ const useMarkComplete = (id, courseId) => {
     updateUserContentStatus({
       contentItemId: id,
       score: 100,
+      progress: 100,
       status: 'completed'
     }, courseId)
   }, [id, courseId])
