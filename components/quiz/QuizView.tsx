@@ -1,5 +1,5 @@
 import { useFragment_experimental, useQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
 import { useRouter } from "../../utils/router";
@@ -11,6 +11,8 @@ import QuizFinished from "./QuizFinished";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 import { AnimatePresence, motion } from "framer-motion";
+import { GetLatestUserQuizAttemptQuery, UserQuizAttempt } from "../../graphql/generated";
+import { GetLatestScoAttempt } from "../../graphql/queries/__generated__/GetLatestScoAttempt";
 
 function QuizView() {
 
@@ -22,35 +24,8 @@ function QuizView() {
   const {updateUserContentStatus} = useUpdateUserContentStatus()
 
   const { loading, data, error } = useGetLatestQuizAttempt({quizId})
-  const latestUserQuizAttempt = data?.latestUserQuizAttempt
+  // const [quizAttempt, setQuizAttempt] = useState<UserQuizAttempt>()
   
-  useEffect(() => {
-    console.log('typeof latestUserQuizAttempt')
-    console.log(typeof latestUserQuizAttempt)
-    console.log('latestUserQuizAttempt')
-    console.log(latestUserQuizAttempt)
-    if(typeof latestUserQuizAttempt !== 'undefined' && latestUserQuizAttempt === null) {
-
-      createUserQuizAttempt({
-        contentItemId: quizId,
-      })
-    }
-  },[latestUserQuizAttempt, quizId])
-
-  const finishQuiz = () => {
-    if(latestUserQuizAttempt) {
-      updateUserQuizAttempt({
-        id: latestUserQuizAttempt.id,
-        completedAt: new Date().toUTCString()
-      })
-      updateUserContentStatus({
-        contentItemId: quizId,
-        progress: 100,
-        score: 100,
-        status: 'completed'
-      })
-    }
-  }
 
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
@@ -58,12 +33,49 @@ function QuizView() {
     from: { id: quizId, __typename: "ContentItem", },
   });
 
+  useEffect(() => {
+    // Check if the quiz attempt is not set and the latestUserQuizAttempt data is available
+    if (data && typeof data?.latestUserQuizAttempt !== 'undefined') {
+      // If the latestUserQuizAttempt is null, create a new quiz attempt
+      if (data?.latestUserQuizAttempt === null) {
+        createUserQuizAttempt({
+          contentItemId: quizId,
+        });
+      }
+    }
+  }, [data, quizId]);
+
+  useEffect(() => {
+    // Check if the quiz attempt is not set and the latestUserQuizAttempt data is available
+    if (data?.latestUserQuizAttempt) {
+        // If a quiz attempt exists, set the attempted question IDs and update the quiz state
+        const attemptedQuestionIds = data.latestUserQuizAttempt.userQuestionAttempts.map(
+          attempt => attempt.question.id
+        );
+        useQuizStore.setState({
+          activeQuestionId: quiz.questions.find(q => {
+            // Find the first question that has not been attempted
+            return !attemptedQuestionIds.includes(q.id);
+          })?.id,
+          isEditMode: false
+        });
+      }
+  }, [data?.latestUserQuizAttempt?.id, quizId]);
+
+
   const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
 
+  const finishQuiz = () => {
+    if(data?.latestUserQuizAttempt) {
+      updateUserQuizAttempt({
+        id: data.latestUserQuizAttempt.id,
+        finished: true
+      })
+    }
+  }
   useEffect(() => {
     useQuizStore.setState({
       questions: quiz.questions,
-      activeQuestionId: quiz.questions[0]?.id,
       isEditMode: false
     })
   },[quiz.id])
@@ -74,28 +86,28 @@ function QuizView() {
     })
   },[activeQuestion])
 
+  const completed = data?.latestUserQuizAttempt?.completedAt
+
   return (
-    <div className="h-full w-full p-16">
+    <div className="h-full w-full p-16 relative overflow-x-hidden">
       <AnimatePresence>
       <motion.div
-        key={activeQuestion?.id}
+        key={activeQuestion?.id+completed}
         className="p-12 bg-white rounded-lg shadow-md w-full flex justify-center"
         initial={{ opacity: 0, x: 500, position: 'absolute' }}
         animate={{ opacity: 1, x: 0, position: 'relative' }}
         exit={{ opacity: 0, x: -500, position: 'absolute' }}
         transition={{duration: 0.6}}
       >
-      <pre>
-      {/* { JSON.stringify(latestUserQuizAttempt,null,2) } */}
-      </pre>
         {
-          latestUserQuizAttempt && (
-            latestUserQuizAttempt.completedAt ? (
+          data?.latestUserQuizAttempt && (
+            completed ? (
               <QuizFinished />
             ) : (
               activeQuestion && (
                 <QuestionView
-                onFinishQuiz={finishQuiz}
+                  question={activeQuestion}
+                  onFinishQuiz={finishQuiz}
                 />
               )
             )

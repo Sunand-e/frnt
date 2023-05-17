@@ -14,6 +14,7 @@ export const ContentUserEdgeFragment = gql`
       createdAt
       updatedAt
       score
+      progress
       visits
       completed
     }

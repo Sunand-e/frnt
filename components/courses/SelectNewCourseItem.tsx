@@ -62,7 +62,7 @@ const SelectNewCourseItem = ({
   const handleNewModule = async ({value}) => {
 
     if(value === 'quiz') { 
-      const newModule = await createQuiz({})
+      const newModule = await createQuiz({settings: {passMark: 80, feedback: 'afterQuestion'}})
       navigateToItem(newModule.data.createQuiz.quiz.id)
     } else if(value === 'scorm_assessment') { 
       handleModal({

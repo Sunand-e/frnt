@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { Block } from "../../common/ContentEditor/Block";
 import { useRouter } from "../../../utils/router";
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -48,7 +48,7 @@ const ModuleView = () => {
 
 
   return (
-    <>
+    <Fragment key={module?.node?.id}>
       { module?.node?.itemType === 'quiz' ? (
         <QuizView />
       ) : module?.node?.contentType === 'scorm_assessment' ? (
@@ -60,10 +60,9 @@ const ModuleView = () => {
               <Block block={block} key={index+'view'} />
             ))
           }
-          {/* <PrevNextButtons /> */}
         </div>
       )}
-    </>
+    </Fragment>
   )
 }
 

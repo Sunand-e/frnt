@@ -35,6 +35,7 @@ const UserCourseReportTable = () => {
               createdAt
               updatedAt
               score
+              progress
               visits
               completed
             }

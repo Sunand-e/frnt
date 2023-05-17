@@ -39,7 +39,7 @@ const SidebarItemProgress = ({id}) => {
   }
   return (
     <div className="ml-auto h-7 flex space-x-2 ">
-    <svg id="progress" width="100%" height="auto" viewBox="0 0 100 100">
+    <svg id="progress" width="100%" viewBox="0 0 100 100">
       <circle 
         cx="50" 
         cy="50" 

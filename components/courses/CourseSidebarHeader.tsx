@@ -15,7 +15,7 @@ const CourseSidebarHeader = ({showProgress=true}) => {
   useEffect(() => {
     if(course) {
       let userContent = courses.edges.find(userContentEdge => userContentEdge.node.id === id)
-      userContent && setProgress(userContent.score)
+      userContent && setProgress(userContent.progress)
     }
   },[course, id])
 
@@ -44,7 +44,6 @@ const CourseSidebarHeader = ({showProgress=true}) => {
           </div> */}
         </div>
       </div>
-
       { showProgress && progress !== null && progress !== undefined && (
         <ProgressBar value={progress} className={`-mb-0.5`} />
       )}

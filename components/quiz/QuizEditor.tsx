@@ -8,7 +8,7 @@ import QuestionEditor from './questions/QuestionEditor';
 import { Question, useQuizStore } from './useQuizStore';
 import { QuizFragment } from '../../graphql/queries/allQueries';
 import useWarningOnExit from '../../hooks/useWarningOnExit';
-import { AVAILABLE_TRANSITIONS } from '@mantine/core';
+import usePageTitle from '../../hooks/usePageTitle';
 
 const QuizEditor = () => {
 
@@ -20,11 +20,21 @@ const QuizEditor = () => {
     from: { id: quizId, __typename: "ContentItem", },
   });
 
+  const { updateQuiz } = useUpdateQuiz()
+  
+  usePageTitle({
+    title: ``, 
+    editable:  quiz?.title || 'Untitled quiz',
+    onEdit: title => {
+      updateQuiz(quizId)({title})
+    }
+  })
+
   const questions = useQuizStore(state => state.questions)
   const settings = useQuizStore(state => state.settings)
+  const activeQuestionId = useQuizStore(state => state.activeQuestionId)
   const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
   const isDirty = useQuizStore(state => state.isDirty)
-  const { updateQuiz } = useUpdateQuiz()
 
   useWarningOnExit(isDirty)
      
@@ -35,9 +45,9 @@ const QuizEditor = () => {
       isEditMode: true
     })
     return () => {
-      useQuizStore.destroy()
+      useQuizStore.setState(null)
     }
-  },[quiz.id])
+  },[quizId])
 
   const handleSave = useCallback(async () => {
     const questionsInput = questions.map((q, index) => ({

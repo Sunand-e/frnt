@@ -13,7 +13,7 @@ function useUpdateQuestion(id = null) {
   const updateQuestion = async values => {
   // const updateQuestion = ({title=null, contentBlocks=null}) => {
     const cachedQuestion = cache.readFragment<QuestionFragmentFragment>({
-      id:`id => :${id}`,
+      id:`Question:${id}`,
       fragment: QuestionFragment,
       fragmentName: 'QuestionFragment',
     })

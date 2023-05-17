@@ -6,9 +6,9 @@ import { useSaveContentButton } from "./useSaveContentButton";
 import { useRouter } from "../../../utils/router";
 import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
 import { useCallback } from "react";
-import { toast } from "react-toastify";
-import BlockSelector from "./BlockSelector";
 import useWarningOnExit from "../../../hooks/useWarningOnExit";
+import usePageTitle from "../../../hooks/usePageTitle";
+import { useLessonContentFragment } from "../../../hooks/lessons/useLessonContentFragment";
 
 const BlockEditor = () => {
 
@@ -24,6 +24,16 @@ const BlockEditor = () => {
   useWarningOnExit(isDirty)
 
   const { updateLesson } = useUpdateLesson()
+
+  const { complete, data: lesson } = useLessonContentFragment(id)
+  
+  usePageTitle({ 
+    title: ``, 
+    editable:  lesson?.title || 'Untitled module', 
+    onEdit: title => {
+      updateLesson(id)({title})
+    }
+  })
 
   const handleSave = useCallback(async () => {
     await updateLesson(id)({content}).then(res => {

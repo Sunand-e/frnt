@@ -10,7 +10,7 @@ import FeedbackContainer from "./FeedbackContainer";
 import { QuizFragment } from "../../../graphql/queries/allQueries";
 import useGetLatestQuizAttempt from "../../../hooks/quizzes/useGetLatestQuizAttempt";
 
-function QuestionView({onFinishQuiz}) {
+function QuestionView({question, onFinishQuiz}) {
 
   const router = useRouter()
   const { cid: quizId } = router.query
@@ -29,11 +29,10 @@ function QuestionView({onFinishQuiz}) {
 
   const questions = useQuizStore(state => state.questions)
   const attemptOptionIds = useQuizStore(state => state.attemptOptionIds)
-  const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
 
   const [status, setStatus] = useState('unanswered')
 
-  const currentQuestionIndex = questions.findIndex(q => q.id === activeQuestion.id)
+  const currentQuestionIndex = questions.findIndex(q => q.id === question.id)
   const nextQuestion = questions[currentQuestionIndex + 1]
   const isLastQuestion = currentQuestionIndex + 1 === questions.length
 
@@ -48,14 +47,14 @@ function QuestionView({onFinishQuiz}) {
 
   const submitAnswer = () => {
 
-    const answers = activeQuestion.answers.filter(answer => attemptOptionIds.includes(answer.id))
-    const correctAnswerIds = activeQuestion.answers.filter(a => a.correct).map(a => a.id)
+    const answers = question.answers.filter(answer => attemptOptionIds.includes(answer.id))
+    const correctAnswerIds = question.answers.filter(a => a.correct).map(a => a.id)
     const isCorrect = xor(correctAnswerIds, attemptOptionIds).length === 0
     const status = isCorrect ? 'correct' : 'incorrect'
 
     createUserQuestionAttempt({
       userQuizAttemptId: attemptQueryData?.latestUserQuizAttempt.id,
-      questionId: activeQuestion.id,
+      questionId: question.id,
       score: isCorrect ? 100 : 0,
       status,
       answers
@@ -69,7 +68,7 @@ function QuestionView({onFinishQuiz}) {
   }
 
   const handleOptionSelect = useCallback((option, value) => {
-    if(activeQuestion.questionType === 'multi') {
+    if(question.questionType === 'multi') {
       useQuizStore.setState({
         attemptOptionIds: value ? (
           attemptOptionIds.includes(option.id) ? attemptOptionIds : [...attemptOptionIds, option.id]
@@ -82,15 +81,13 @@ function QuestionView({onFinishQuiz}) {
         attemptOptionIds: [option.id]
       })
     }
-  },[activeQuestion?.questionType, attemptOptionIds])
-  console.log('activeQuestion')
-  console.log(activeQuestion)
+  },[question?.questionType, attemptOptionIds])
   return (
     <div className="max-w-screen-lg w-full">
       <h3 className="mb-3 text-gray-400">
         {'Question '}
         <span className="font-bold">
-          {questions.findIndex(q => q.id === activeQuestion.id) + 1}
+          {questions.findIndex(q => q.id === question.id) + 1}
         </span>
         {' of '}
         <span className="font-bold">
@@ -100,14 +97,14 @@ function QuestionView({onFinishQuiz}) {
       
       <QuestionContainer
         disabled={status!=='unanswered'}
-        question={activeQuestion}              
+        question={question}              
         onOptionSelect={handleOptionSelect}
         selectedOptionIds={attemptOptionIds}
       />
       { status === 'unanswered' ? (
         <Button className="mt-2" onClick={submitAnswer} disabled={submitDisabled}>Submit</Button>
       ) : quiz.settings.feedback !== 'off' && (
-        <FeedbackContainer status={status} question={activeQuestion}>
+        <FeedbackContainer status={status} question={question}>
           { nextQuestion && (
             <Button className="mt-2" onClick={goToNextQuestion}>Next question</Button>
           )}

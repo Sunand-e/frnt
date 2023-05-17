@@ -34,7 +34,6 @@ function useUpdateUserContentStatus() {
               properties:{},
               node:{
                 id: values.contentItemId || contentItemId,
-                itemType:"section",
                 __typename:"ContentItem"
               },
               ...values,              

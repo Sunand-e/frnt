@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client"
+import { UserQuestionAttemptFragment } from "./questions"
+import { UserContentConnectionFragment } from "./users"
 
 export const UserQuizAttemptFragment = gql`
   fragment UserQuizAttemptFragment on UserQuizAttempt {
@@ -6,6 +8,8 @@ export const UserQuizAttemptFragment = gql`
     createdAt
     updatedAt
     completedAt
+    status
+    score
     contentItem {
       id
     }
@@ -13,14 +17,10 @@ export const UserQuizAttemptFragment = gql`
       id
     }
     userQuestionAttempts {
-      id
-      status
-      question {
-        id
-      }
-      answers
+      ...UserQuestionAttemptFragment
     }
   }
+  ${UserQuestionAttemptFragment}
 `
 
 export const CREATE_USER_QUIZ_ATTEMPT = gql`
@@ -41,14 +41,23 @@ export const CREATE_USER_QUIZ_ATTEMPT = gql`
 export const UPDATE_USER_QUIZ_ATTEMPT = gql`
   mutation UpdateUserQuizAttempt(
     $id: ID!,
-    $completedAt: String,
+    $finished: Boolean,
   ) {
     updateUserQuizAttempt(input: {
       id: $id,
-      completedAt: $completedAt,
+      finished: $finished,
     }) {
       userQuizAttempt {
         ...UserQuizAttemptFragment
+      }
+      userContent {
+        edges {
+          userId
+          node {
+            id
+          }
+          status
+        }
       }
     }
   }

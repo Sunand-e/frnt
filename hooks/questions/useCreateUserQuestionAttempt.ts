@@ -11,7 +11,8 @@ function useCreateUserQuestionAttempt({quizAttemptId}) {
       update(cache, { data: { createUserQuestionAttempt } } ) {
         cache.updateFragment<UserQuizAttemptFragmentFragment>({
           id:`UserQuizAttempt:${quizAttemptId}`,
-          fragment: UserQuizAttemptFragment
+          fragment: UserQuizAttemptFragment,
+          fragmentName: 'UserQuizAttemptFragment'
         }, (data) => {
           console.log('data')
           console.log(data)

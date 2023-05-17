@@ -39,7 +39,6 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   });
 
   const [title, setTitle] = useState('Untitled Lesson')
-  const [contentType, setContentType] = useState('text')
 
   useEffect(() => {
     if(complete) {

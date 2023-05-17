@@ -18,14 +18,16 @@ function useUpdateQuiz() {
       fragment: ContentFragment,
       fragmentName: 'ContentFragment',
     })
-    const questions = values.questions.map(q => ({
-      ...q, contentItemId: id
-    }))
+
     await updateQuizMutation({
       variables: {
         id,
         ...values,
-        questions
+        ...(values.questions && {
+          questions: values.questions.map(q => ({
+            ...q, contentItemId: id
+          }))
+        })
       },
       // optimisticResponse: {
       //   updateQuiz: {

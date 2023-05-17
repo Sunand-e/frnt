@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
+import { useLessonContentFragment } from '../../../hooks/lessons/useLessonContentFragment';
 import useUpdateLesson from '../../../hooks/lessons/useUpdateLesson';
+import usePageTitle from '../../../hooks/usePageTitle';
 import { useRouter } from '../../../utils/router';
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore';
 import { useSaveContentButton } from '../../common/ContentEditor/useSaveContentButton';
 import ScormView from './ScormView';
 
-const ScormPackageEdit = () => {
+const ScormModuleEditor = () => {
 
   const router = useRouter()
   const { cid: id } = router.query
@@ -24,9 +26,19 @@ const ScormPackageEdit = () => {
 
   useSaveContentButton({typeName: 'SCORM Module', isDirty, onSave: handleSave})
 
+  const { complete, data: scormModule } = useLessonContentFragment(id)
+  
+  usePageTitle({ 
+    title: ``, 
+    editable:  scormModule?.title || 'Untitled module', 
+    onEdit: title => {
+      updateLesson(id)({title})
+    }
+  })
+  
   return (
     <ScormView isEditing={true} />
   );
 };
 
-export default ScormPackageEdit
+export default ScormModuleEditor

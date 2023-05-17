@@ -102,6 +102,7 @@ export const UserContentConnectionFragment = gql`
       createdAt
       updatedAt
       score
+      progress
       visits
       completed
     }

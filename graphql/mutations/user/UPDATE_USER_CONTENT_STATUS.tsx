@@ -13,7 +13,7 @@ const UserContentFragment = gql`
       firstVisited
       node {
         id
-        itemType
+        # itemType
       }
     }
   }
@@ -27,6 +27,7 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
     $lastVisited: ISO8601DateTime
     $firstVisited: ISO8601DateTime
     $score: Int
+    $progress: Int
     $visits: Int
     $completed: Boolean
   ) {
@@ -36,6 +37,7 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       firstVisited: $firstVisited,
       lastVisited: $lastVisited,
       score: $score,
+      progress: $progress,
       status: $status,
       userId: $userId,
       visits: $visits

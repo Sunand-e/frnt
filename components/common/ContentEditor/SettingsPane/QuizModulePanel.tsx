@@ -44,7 +44,9 @@ export const QuizModulePanel = () => {
         label="Pass mark (%)"
         type="number"
         inputAttrs={{
-          ...register("settings.passMark"),
+          ...register("settings.passMark", {
+            valueAsNumber: true
+          }),
           min: 0,
           max: 100
         }}

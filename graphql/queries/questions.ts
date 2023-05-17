@@ -6,6 +6,7 @@ export const UserQuestionAttemptFragment = gql`
     createdAt
     updatedAt
     answers
+    score
     question {
       id
     }
