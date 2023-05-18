@@ -57,7 +57,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     if(progress) {
       updateUserContentStatus({
         contentItemId: lessonId,
-        score: progress
+        progress: progress
       })
     }
   },[progress])
@@ -75,8 +75,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const apiRef = useRef(null)
 
   const saveData = useCallback((scormData) => {
-    console.log('attempt')
-    console.log(attempt)
     if(!scormData?.cmi) {
       return;
     }
@@ -129,10 +127,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     const settings = {
       // lmsCommitUrl: '/d'
     }
-    console.log('attemptQueryData')
-    console.log(attemptQueryData)
-    console.log('window.API')
-    console.log(window.API)
     if(!window.API && attemptQueryData) {
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 

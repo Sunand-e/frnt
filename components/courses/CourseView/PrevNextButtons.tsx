@@ -69,14 +69,14 @@ const PrevNextButtons = () => {
         </span>
       </Button>
     )}
-    { (module?.itemType!== 'quiz' && moduleEdge?.status !== 'completed') && (
+    {/* { (module?.itemType!== 'quiz' && moduleEdge?.status !== 'completed') && (
       <Button disabled={disabled} onClick={handleMarkComplete}>
         <span className='flex items-center xl:space-x-2'>
           <span className="hidden xl:block">Mark Complete</span>
           <Tick className='h-8'/>
         </span>
       </Button>
-    )}
+    )} */}
   </>
   )
 }

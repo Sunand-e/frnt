@@ -26,7 +26,8 @@ function useUpdateUserContentStatus() {
             edges:[{
               userId: user?.id,
               status: "in_progress",
-              score: 71,
+              score: 0,
+              progress: 0,
               updatedAt: "2022-10-18T21:38:36Z",
               firstVisited: "2022-10-18T21:38:36Z",
               lastVisited: "2022-10-18T21:38:36Z",

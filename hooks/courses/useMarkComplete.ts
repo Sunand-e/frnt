@@ -12,7 +12,6 @@ const useMarkComplete = (id, courseId) => {
   const markComplete = useCallback(() => {
     updateUserContentStatus({
       contentItemId: id,
-      score: 100,
       progress: 100,
       status: 'completed'
     }, courseId)

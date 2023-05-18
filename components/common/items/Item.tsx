@@ -128,9 +128,9 @@ export default function Item({ item, options }) {
           </h2>
         )}
         <div className="mt-auto w-full">
-          { item?.score !== null && item?.score !== undefined && (
+          { item?.progress !== null && item?.progress !== undefined && (
             <span className="mb-2 mt-2">
-              <ProgressBar value={item.score} />
+              <ProgressBar value={item.progress} />
             </span>
           )}
           <ButtonLink className="uppercase w-full mt-2" href={href}>

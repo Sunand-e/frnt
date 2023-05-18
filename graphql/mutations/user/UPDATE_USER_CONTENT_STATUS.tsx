@@ -6,6 +6,7 @@ const UserContentFragment = gql`
       userId
       status
       score
+      progress
       updatedAt
       completed
       properties

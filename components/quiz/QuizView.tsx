@@ -7,7 +7,7 @@ import { useQuizStore } from "./useQuizStore"
 import QuestionView from "./questions/QuestionView";
 import QuizProgress from "./QuizProgress";
 import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt";
-import QuizFinished from "./QuizFinished";
+import QuizSummary from "./QuizSummary";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 import { AnimatePresence, motion } from "framer-motion";
@@ -71,6 +71,14 @@ function QuizView() {
         id: data.latestUserQuizAttempt.id,
         finished: true
       })
+      console.log('data.latestUserQuizAttempt')
+      console.log(data.latestUserQuizAttempt)
+      updateUserContentStatus({
+        contentItemId: quizId,
+        progress: 100,
+        // score: 100,
+        status: 'completed'
+      })
     }
   }
   useEffect(() => {
@@ -102,7 +110,7 @@ function QuizView() {
         {
           data?.latestUserQuizAttempt && (
             completed ? (
-              <QuizFinished />
+              <QuizSummary />
             ) : (
               activeQuestion && (
                 <QuestionView
