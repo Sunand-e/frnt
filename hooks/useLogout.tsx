@@ -28,6 +28,7 @@ const useLogout = () => {
     }).then(data => {  
       isLoggedInVar(false)
       localStorage.removeItem('token')
+      localStorage.removeItem('actAsToken')
       client.clearStore()
       router.push('/')
     })

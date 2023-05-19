@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import { useViewStore } from "../../../hooks/useViewStore"
+import ReturnToMyAccount from "../../ReturnToMyAccount";
 
 const HeaderButtons = () => {
 
@@ -18,6 +19,7 @@ const HeaderButtons = () => {
   return (
     <div className="min-w-16 shrink-0 flex items-center justify-end space-x-3 lg:space-x-6 ">
       {headerButtons.map(button => <Fragment key={button.id}>{button.component}</Fragment>)}
+      <ReturnToMyAccount />
     </div>
   )
 }
