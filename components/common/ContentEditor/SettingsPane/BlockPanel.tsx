@@ -1,5 +1,6 @@
 import { getBlock, useBlockStore } from "../useBlockStore";
 import blocktypes from "../blocktypes";
+import BlockGeneralSettings from "../blocks/common/BlockGeneralSettings";
 
 export const BlockPanel = () => {
 
@@ -14,6 +15,7 @@ export const BlockPanel = () => {
   return (
     <>
       <BlockSettingsComponent block={activeBlock} />
+      <BlockGeneralSettings block={activeBlock} />
     </>
   )
 }

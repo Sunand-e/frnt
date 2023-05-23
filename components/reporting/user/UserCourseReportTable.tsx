@@ -5,6 +5,8 @@ import { useRouter } from "../../../utils/router";
 import { moduleTypes } from "../../courses/moduleTypes";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable from "../ReportTable";
+import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
+import { USER_COURSE_REPORT } from "./USER_COURSE_REPORT";
 
 const UserCourseReportTable = () => {
   const router = useRouter();
@@ -12,38 +14,7 @@ const UserCourseReportTable = () => {
   const { user: userId, course: courseId } = router.query;
 
   const { loading, error, data } = useQuery(
-    gql`
-      query getUsersLessons($userId: ID!, $where: JSON) {
-        user(id: $userId) {
-          fullName
-          courses(where: $where) {
-            nodes {
-              id
-              title
-            }
-          }
-          lessons(where: $where) {
-            edges {
-              node {
-                id
-                title
-                contentType
-              }
-              status
-              lastVisited
-              firstVisited
-              createdAt
-              updatedAt
-              score
-              progress
-              visits
-              completed
-            }
-            totalCount
-          }
-        }
-      }
-    `,
+    USER_COURSE_REPORT,
     {
       variables: {
         userId,
@@ -51,19 +22,27 @@ const UserCourseReportTable = () => {
       },
     }
   );
+  const course = data?.user.courses.edges[0]?.node
+  const orderedIds = course?.sections.reduce((arr, section) => {
+    return [...arr, ...section.children.map(child => child.id)]
+  }, []);
+
+  const modules = data && [
+    ...(data?.user.lessons.edges ? data.user.lessons.edges : []),
+    ...(data?.user.quizzes.edges ? data.user.quizzes.edges : []),
+  ]
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => {
-    const lessons = data?.user?.lessons.edges;
-    return lessons;
-  }, [data]);
-
+  const tableData = useMemo(() => modules ? (
+    modules.sort((a, b) => orderedIds.indexOf(a.node.id) - orderedIds.indexOf(b.node.id))
+  ) : [], [modules]);
+  
   const tableCols = useMemo(
     () => [
       {
         id: "title",
-        header: "Lesson",
+        header: "Course module",
         accessorFn: row => row.node.title,
         cell: ({ cell }) => {
           const IconComponent =
@@ -77,15 +56,20 @@ const UserCourseReportTable = () => {
           return <ItemWithImage {...cellProps} />;
         },
       },
-      {
-        id: "status",
-        header: "Status",
-        accessorKey: "status",
-      },
+      { ...commonTableCols.status },
+      { ...commonTableCols.progress },
       {
         id: "score",
         header: "Score",
         accessorKey: "score",
+        cell: ({ cell }) => {
+          if(cell.row.original.node.itemType === 'quiz'
+          || cell.row.original.node.contentType === 'scorm_assessment') {
+            return cell.getValue() || '0' + '%'
+          } else {
+            return <span>&mdash;</span>
+          }
+        }
       },
       {
         ...commonTableCols.createdAt,

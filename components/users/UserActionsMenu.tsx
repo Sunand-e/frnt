@@ -14,7 +14,7 @@ const useRequestSwitchUser = ({user}) => {
 
     const token = getJWT()
 
-    fetch(`/api/v1/user/${user.id}`, {
+    fetch(`/api/v1/user/act_as/${user.id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -65,7 +65,7 @@ const UserActionsMenu = ({user}) => {
     },
     {
       label: 'Act as user',
-      capability: 'DeleteUser',
+      capability: 'ViewAsAnyUser',
       onClick: requestSwitchUser
     },
     {

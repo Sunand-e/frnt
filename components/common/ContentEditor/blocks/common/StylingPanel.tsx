@@ -26,39 +26,38 @@ const StylingPanel = ({block: origBlock, children = null}) => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex space-x-4">
-        { !parent ? (
-          <>
-            <PaddingSelect
-              side='top'
-              onSelect={data => selectPadding(data.value, 'top')}
-              selected='none'
-              label="Padding Top"
-            />  
-            <PaddingSelect 
-              side='bottom'
-              onSelect={data => selectPadding(data.value, 'bottom')}
-              selected='none'
-              label="Padding Bottom"
-              />
-            </>
-          ) : (
-            <>
-              <PaddingSelect
-                side='left'
-                onSelect={data => selectPadding(data.value, 'left')}
-                selected='none'
-                label="Padding Left"
-              />
-              <PaddingSelect 
-                side='right'
-                onSelect={data => selectPadding(data.value, 'right')}
-                selected='none'
-                label="Padding Right"
-              />
-            </>
-          )
-        }
+      <div id="block_padding_settings" className="">
+        <span className="text-sm font-medium text-secondary">Padding</span>
+        {/* { !parent ? ( */}
+        <div className={`flex w-full items-center space-x-4 mb-2`}>
+          <PaddingSelect
+            side='top'
+            onSelect={data => selectPadding(data.value, 'top')}
+            selected='none'
+            label="Top"
+          />  
+          <PaddingSelect 
+            side='bottom'
+            onSelect={data => selectPadding(data.value, 'bottom')}
+            selected='none'
+            label="Bottom"
+          />
+        </div>
+        <div className={`flex w-full items-center space-x-4 mb-2`}>
+          <PaddingSelect
+            side='left'
+            onSelect={data => selectPadding(data.value, 'left')}
+            selected='none'
+            label="Left"
+          />
+          <PaddingSelect 
+            side='right'
+            onSelect={data => selectPadding(data.value, 'right')}
+            selected='none'
+            label="Right"
+          />
+          {/* )} */}
+        </div>
       </div>
       <ColorPicker
         label="Background Color"

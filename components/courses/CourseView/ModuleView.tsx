@@ -1,5 +1,4 @@
 import { Fragment, useEffect } from "react";
-import { Block } from "../../common/ContentEditor/Block";
 import { useRouter } from "../../../utils/router";
 import usePageTitle from "../../../hooks/usePageTitle";
 import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
@@ -8,13 +7,12 @@ import { markCompleteDisabledVar } from "../../../graphql/cache";
 import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import ScormView from "../scorm/ScormView";
 import QuizView from "../../quiz/QuizView";
+import LessonView from "./LessonView";
 
 const ModuleView = () => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
-  const store = useBlockStore()
   const setBlocks = useBlockStore(state => state.setBlocks)
-  const blocks = useBlockStore(state => state.blocks)
 
   const router = useRouter()
   const { id, cid: moduleId } = router.query
@@ -53,14 +51,8 @@ const ModuleView = () => {
         <QuizView />
       ) : module?.node?.contentType === 'scorm_assessment' ? (
         <ScormView />
-      ) : (
-        <div className="w-full flex flex-col">
-          {blocks && 
-            blocks.map((block, index) => (
-              <Block block={block} key={index+'view'} />
-            ))
-          }
-        </div>
+        ) : (
+        <LessonView />
       )}
     </Fragment>
   )

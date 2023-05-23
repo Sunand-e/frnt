@@ -29,8 +29,7 @@ function useGetUserCourse(id=null) {
     lessons: data?.lessons, 
     quizzes: data?.quizzes, 
     sections: data?.sections, 
-    contentItems: data?.contentItems, 
-    resources: data?.resources,
+    contentItems: data?.contentItems,
     modules: {
       edges: [
         ...(data?.lessons?.edges ? data?.lessons?.edges : []),

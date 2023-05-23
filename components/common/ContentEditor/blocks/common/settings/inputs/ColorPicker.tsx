@@ -3,7 +3,7 @@ import { HexColorInput, HexColorPicker } from "react-colorful"
 
 const ColorPicker = ({label=null, value, onChange}) => {
   return (
-    <div>
+    <div className="text-sm font-medium text-secondary">
       { label && <label>{label}</label> }
       <div className="flex space-x-2">
         <Tippy
