@@ -13,9 +13,9 @@ export const BlockPanel = () => {
   const BlockSettingsComponent = blocktypes[activeBlock.type]?.settingsComponent
 
   return (
-    <>
+    <div className="flex flex-col space-y-4">
       <BlockSettingsComponent block={activeBlock} />
       <BlockGeneralSettings block={activeBlock} />
-    </>
+    </div>
   )
 }

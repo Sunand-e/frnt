@@ -15,8 +15,8 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
       type: 'image',
       id: uuidv4(),
       properties: {
-        url: image.location,
-        mediaId: image.id
+        url: image?.location,
+        mediaId: image?.id
       }
     }
     addBlock(newBlock, true)

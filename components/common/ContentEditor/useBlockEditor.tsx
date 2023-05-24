@@ -99,7 +99,7 @@ const useBlockEditor = (block: Block = null) => {
   const handleDeleteBlock = (block: Block) => {
     handleModal({
       title: `Delete block`,
-      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
+      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block, true)} block={block} />
     })
   }
 

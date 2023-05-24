@@ -40,8 +40,8 @@ export const useBlockStore = create<BlockState>((set, get) => ({
     activeBlock: () => getBlock(get().activeBlockId)
   },
   editBlocks: (blocks) => set(state => ({ blocks, isDirty: true })),
-  setBlocks: (blocks) => {
-    return set(state => ({ blocks, isDirty: false }))
+  setBlocks: (blocks, isDirty=false) => {
+    return set(state => ({ blocks, isDirty }))
   },
   insertBlock: (newBlock, index=null, parent=null, replace = false) => set(state => {
     let overwrite = replace ? 1 : 0

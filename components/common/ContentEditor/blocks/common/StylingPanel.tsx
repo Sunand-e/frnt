@@ -27,7 +27,7 @@ const StylingPanel = ({block: origBlock, children = null}) => {
   return (
     <div className="flex flex-col space-y-4">
       <div id="block_padding_settings" className="">
-        <span className="text-sm font-medium text-secondary">Padding</span>
+        <label className="text-sm font-medium text-secondary mb-2 block">Padding</label>
         {/* { !parent ? ( */}
         <div className={`flex w-full items-center space-x-4 mb-2`}>
           <PaddingSelect
@@ -60,15 +60,15 @@ const StylingPanel = ({block: origBlock, children = null}) => {
         </div>
       </div>
       <ColorPicker
-        label="Background Color"
+        label="Background color"
         onChange={updateBgColor}
         value={block?.properties?.bgColor}
       />
-      <ColorPicker
+      {/* <ColorPicker
         label="Default Text Color"
         onChange={updateTextColor}
         value={block?.properties?.textColor}
-      />
+      /> */}
     </div>
   )
 }

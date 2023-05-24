@@ -34,21 +34,24 @@ const BlockSelector = ({
   //   id: 'blockSelector',
   // });
 
-  const handleAddVideo = (newBlock: Block) => {
+  const handleVideoSelect = (url) => {
+    const videoBlock = {
+      type: 'video',
+      id: uuidv4(),
+      properties: {
+        url
+      }
+    }
+    addBlock(videoBlock, replace)
+    closeModal()
+  }
+
+  const handleAddVideo = () => {
     handleModal({
       title: `Add video`,
       size: 'md',
       content: (
-        <VideoUrlSelect onVideoSelect={(url) => {
-          const videoBlock = {
-            ...newBlock,
-            properties: {
-              ...newBlock.properties,
-              url
-            }
-          }
-          addBlock(videoBlock, replace)
-        }} />
+        <VideoUrlSelect onVideoSelect={handleVideoSelect} />
       )
     })
   }

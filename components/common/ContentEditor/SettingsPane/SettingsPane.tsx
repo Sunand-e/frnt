@@ -116,6 +116,7 @@ export const SettingsPane = () => {
             <AnimatePresence>
               { isActive && (
                 <motion.div
+                className="mt-4"
                   transition={{
                     duration: 0.4,
                   }}
