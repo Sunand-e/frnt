@@ -11,9 +11,6 @@ const DynamicPackageIFrame = dynamic(
 const ScormView = ({isEditing = false}) => {
 
   const blocks = useBlockStore(state => state.blocks)
-  const isDirty = useBlockStore(state => state.isDirty)
-
-  useWarningOnExit(isDirty)
 
   const iframeRef : MutableRefObject<HTMLIFrameElement> = useRef();
 

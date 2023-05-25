@@ -13,7 +13,7 @@ function useUpdateUserContentStatus() {
 
   const { user } = useGetCurrentUser()
 
-  const updateUserContentStatus = useCallback((values, contentItemId=null) => {
+  const updateUserContentStatus = useCallback((values) => {
     
     updateUserContentStatusMutation({
       variables: {
@@ -34,7 +34,7 @@ function useUpdateUserContentStatus() {
               completed:null,
               properties:{},
               node:{
-                id: values.contentItemId || contentItemId,
+                id: values.contentItemId,
                 __typename:"ContentItem"
               },
               ...values,              

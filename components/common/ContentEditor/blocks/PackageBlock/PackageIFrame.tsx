@@ -15,6 +15,8 @@ import useUpdateUserContentStatus from '../../../../../hooks/users/useUpdateUser
 import { useFullscreen } from 'rooks';
 import Button from '../../../Button';
 import { Fullscreen } from '@styled-icons/boxicons-regular/Fullscreen'
+import useGetUserCourse from '../../../../../hooks/users/useGetUserCourse';
+import useMarkComplete from '../../../../../hooks/courses/useMarkComplete';
 
 declare global {
   interface Window {
@@ -40,11 +42,14 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const [loaded, setLoaded] = useState(false)
   
   const router = useRouter()
+  const { id: courseId, cid: moduleId } = router.query
 
-  const { 
-    id: courseId,
-    cid: lessonId
-  } = router.query
+  const { modules } = useGetUserCourse(courseId)
+  
+  const module = modules?.edges.find(edge => (
+    edge.node.id === moduleId
+  ))
+
 
   const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
     UPSERT_SCO_ATTEMPT
@@ -56,7 +61,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   useEffect(() => {
     if(progress) {
       updateUserContentStatus({
-        contentItemId: lessonId,
+        contentItemId: moduleId,
         progress: progress
       })
     }
@@ -74,14 +79,20 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   
   const apiRef = useRef(null)
 
+  const { markComplete } = useMarkComplete(moduleId)
+
   const saveData = useCallback((scormData) => {
     if(!scormData?.cmi) {
       return;
     }
 
-    if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
-      markCompleteDisabledVar(false)
+    if(module.status !== 'completed') {
+      if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
+        alert('completed')
+        markComplete({})
+      }
     }
+    // }
 
     const riseProgress = ref.current?.contentWindow.getRiseProgress?.()
     riseProgress?.p && setProgress(riseProgress.p)
@@ -186,6 +197,12 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     {/* <Button onClick={reload}>Start new attempt</Button> */}
     { loaded ? (
       <div className='relative w-full h-full'>
+        <pre>
+        { JSON.stringify(module.status,null,2) }
+        <pre>
+        { JSON.stringify(block.properties?.url,null,2) }
+        </pre>
+        </pre>
         <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
         <div className='absolute top-3 right-7'>
           { isFullscreenAvailable && (

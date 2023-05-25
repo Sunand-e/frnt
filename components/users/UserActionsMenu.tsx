@@ -65,7 +65,7 @@ const UserActionsMenu = ({user}) => {
     },
     {
       label: 'Act as user',
-      capability: 'ViewAsAnyUser',
+      capability: 'ActAsAnyUser',
       onClick: requestSwitchUser
     },
     {

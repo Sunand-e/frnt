@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useLessonContentFragment } from '../../../hooks/lessons/useLessonContentFragment';
 import useUpdateLesson from '../../../hooks/lessons/useUpdateLesson';
 import usePageTitle from '../../../hooks/usePageTitle';
+import useWarningOnExit from '../../../hooks/useWarningOnExit';
 import { useRouter } from '../../../utils/router';
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore';
 import { useSaveContentButton } from '../../common/ContentEditor/useSaveContentButton';
@@ -24,6 +25,7 @@ const ScormModuleEditor = () => {
     })
   },[content, isDirty, updateLesson])
 
+  useWarningOnExit(isDirty)
   useSaveContentButton({typeName: 'SCORM Module', isDirty, onSave: handleSave})
 
   const { complete, data: scormModule } = useLessonContentFragment(id)

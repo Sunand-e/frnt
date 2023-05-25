@@ -28,18 +28,13 @@ const ModuleView = () => {
 
   useEffect(() => {
     if(module) {
-
-      // Enable mark completion button
-      const scormBlock = module?.node.content?.blocks?.find(block => block.type === 'package')
-      markCompleteDisabledVar(!!scormBlock?.properties?.moduleId)      
-
       setBlocks(module.node.content.blocks)
       const currentStatus = module.status
       if(currentStatus !== 'completed') {
         updateUserContentStatus({
           contentItemId: moduleId,
           status: 'in_progress'
-        }, id)
+        })
       }
     }
   },[moduleId])

@@ -56,15 +56,15 @@ const ResourceView = ({id}) => {
 
   const markComplete = useCallback(() => {
     updateUserContentStatus({
-      contentItemId: id,
+      contentItemId: resource.id,
       progress: 100,
       status: 'completed'
-    }, resource.id)
+    })
     router.push({
       pathname: `/pathway`,
       query: { pid }
     })
-  }, [resource])
+  }, [resource.id])
 
   return (
     <div className="w-full flex flex-col">
