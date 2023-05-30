@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import {Tick} from '@styled-icons/typicons/Tick'
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import {ArrowSmLeft} from '@styled-icons/heroicons-solid/ArrowSmLeft'
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
-import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import useMarkComplete from "../../../hooks/courses/useMarkComplete";
 import usePreviousAndNextIds from "./usePreviousAndNextIds";
 
@@ -28,7 +25,7 @@ const PrevNextButtons = () => {
   const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
   // const handleMarkComplete = useCallback(() => {
   //   markComplete()
-  //   !!prevNextIds[1] && goTo(prevNextIds[1])
+  //   !!next && goTo(next)
   // }, [markComplete, prevNextIds])
 
   return (

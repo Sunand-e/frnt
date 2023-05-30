@@ -10,7 +10,6 @@ const useMarkComplete = (id) => {
   const disabled = useReactiveVar(markCompleteDisabledVar)
 
   const markComplete = useCallback(({progress = null}) => {
-    console.log('yoooo')
     updateUserContentStatus({
       contentItemId: id,
       status: 'completed',

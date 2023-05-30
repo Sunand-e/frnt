@@ -2,14 +2,31 @@ import { gql, useMutation } from '@apollo/client';
 import { SectionChildrenFragmentFragment } from '../../graphql/generated';
 import { CREATE_QUIZ } from '../../graphql/mutations/quiz/CREATE_QUIZ';
 import { SectionChildrenFragment } from '../../graphql/queries/allQueries';
+import { GET_USER_COURSE } from '../../graphql/queries/users';
+import { userContentEdgeDefaults } from '../users/userContentEdgeDefaults';
+import useGetCurrentUser from '../users/useGetCurrentUser';
+import { contentItemDefaults } from '../contentItems/contentItemDefaults';
 
 function useCreateQuiz(sectionId) {
+
+  const { user } = useGetCurrentUser()
 
   const [createQuizMutation, createQuizResponse] = useMutation(
     CREATE_QUIZ,
     {
       update(cache, { data: { createQuiz } } ) {
 
+        const data = cache.readFragment({
+          id: `ContentItem:${sectionId}`, // The value of the to-do item's cache ID
+          fragment: gql`
+            fragment ParentsFragment on ContentItem {
+              parents {
+                id
+              }
+            }
+          `,
+        });
+        
         cache.updateFragment<SectionChildrenFragmentFragment>({
           id:`ContentItem:${sectionId}`,
           fragment: SectionChildrenFragment
@@ -20,13 +37,53 @@ function useCreateQuiz(sectionId) {
             createQuiz.quiz
           ],
         }))
+
+
+        
+        for(const parent of data.parents) {
+          cache.updateQuery({
+            query: GET_USER_COURSE,
+            variables: {
+              courseFilter: {
+                courseId: parent.id
+              },
+              lessonSectionFilter: {
+                courseId: parent.id
+              }
+            }
+          }, (data) => {
+
+            const newEdge = {
+              ...userContentEdgeDefaults,
+              userId: user.id,            
+              node: {
+                ...userContentEdgeDefaults.node,
+                ...createQuiz.quiz
+              }
+            }
+
+            const newData = {
+              ...data,
+              quizzes: {
+                ...data.quizzes,
+                edges: [
+                  ...data.quizzes.edges,
+                  newEdge
+                ],
+                totalCount: data.quizzes.totalCount + 1
+              },
+            }
+            
+            return newData;
+          });
+        }
+
       },
     }
   );
 
   const createQuiz = async (values) => {
-    console.log('values')
-    console.log(values)
+
     const newQuiz = await createQuizMutation({
       variables: {
         ...values,
@@ -36,28 +93,10 @@ function useCreateQuiz(sectionId) {
         createQuiz: {
           __typename: 'CreateQuizPayload',
           quiz: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: 'temp-' + Math.floor(Math.random() * 10000),
-            title: '',
-            createdAt: '',
-            updatedAt: '',
-            content: {},
-            questions: [],
-            contentType: 'text',
             itemType: 'quiz',
-            image: null,
-            icon: null,
-            prerequisites: null,
-            _deleted: false,
-            settings: '',
-            shared: false,
-            mediaItem: null,
-            users: {
-              __typename: 'ContentUserConnection',
-              totalCount: 0
-            },
-            tags: [],
-            order: 99999999,
+            questions: [],
             ...values
           },
           message: ''

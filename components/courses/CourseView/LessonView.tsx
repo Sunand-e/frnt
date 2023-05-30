@@ -1,13 +1,13 @@
-import { Block } from "../../common/ContentEditor/Block";
-import { useRouter } from "../../../utils/router";
-import usePageTitle from "../../../hooks/usePageTitle";
-import { useBlockStore } from "../../common/ContentEditor/useBlockStore";
-import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
-import {Tick} from '@styled-icons/typicons/Tick'
-import Button from "../../common/Button";
-import useMarkComplete from "../../../hooks/courses/useMarkComplete";
-import { useCallback } from "react";
-import usePreviousAndNextIds from "./usePreviousAndNextIds";
+import { Block } from "../../common/ContentEditor/Block"
+import { useRouter } from "../../../utils/router"
+import usePageTitle from "../../../hooks/usePageTitle"
+import { useBlockStore } from "../../common/ContentEditor/useBlockStore"
+import useGetUserCourse from "../../../hooks/users/useGetUserCourse"
+import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
+import Button from "../../common/Button"
+import useMarkComplete from "../../../hooks/courses/useMarkComplete"
+import { useCallback } from "react"
+import usePreviousAndNextIds from "./usePreviousAndNextIds"
 
 const LessonView = () => {
 
@@ -25,22 +25,25 @@ const LessonView = () => {
     title: lesson ? (lesson.node.title || 'Untitled lesson') : ''
   })
 
-  const goTo = id => {
+  const { next } = usePreviousAndNextIds()
+
+  const goToNext = () => {
     router.push({
       pathname: `/course`,
       query: {
         ...router.query,
-        cid: id
+        cid: next
       }
     })
   }
 
-  const { next } = usePreviousAndNextIds()
-
   const { markComplete } = useMarkComplete(lessonId)
-  const handleMarkComplete = useCallback(() => {
-    markComplete({progress:100})
-    !!next && goTo(next)
+
+  const handleClickNext = useCallback(() => {
+    if(lesson?.status !== 'completed') {
+      markComplete({progress:100})
+    }
+    !!next && goToNext()
   }, [markComplete, next])
 
   return (
@@ -51,10 +54,10 @@ const LessonView = () => {
           ))}
       </div>
       <div className={`flex flex-col items-center`}>
-        <Button onClick={handleMarkComplete}>
+        <Button onClick={handleClickNext}>
           <span className='flex items-center xl:space-x-2'>
-            <span className="hidden xl:block">Mark Complete</span>
-            <Tick className='h-8'/>
+          <span className="hidden xl:block">Next</span>
+            <ArrowSmRight className='h-8'/>
           </span>
         </Button>
       </div>

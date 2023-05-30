@@ -47,6 +47,9 @@ export const ContentFragment = gql`
     users {
       totalCount
     }
+    parents {
+      id
+    }
     tags {
       edges {
         ...ContentItemTagEdgeFragment

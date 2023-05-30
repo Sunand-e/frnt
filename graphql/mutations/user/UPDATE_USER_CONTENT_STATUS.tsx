@@ -1,21 +1,19 @@
 import { gql } from '@apollo/client';
 
-const UserContentFragment = gql`
-  fragment UserContentFragment on UserContentConnection {
-    edges {
-      userId
-      status
-      score
-      progress
-      updatedAt
-      completed
-      properties
-      lastVisited
-      firstVisited
-      node {
-        id
-        # itemType
-      }
+export const UserContentStatusFragment = gql`
+  fragment UserContentStatusFragment on UserContentEdge {
+    userId
+    status
+    score
+    progress
+    updatedAt
+    completed
+    properties
+    lastVisited
+    firstVisited
+    node {
+      id
+      # itemType
     }
   }
 `
@@ -44,9 +42,11 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
       visits: $visits
     }) {
       userContents {
-        ...UserContentFragment
+        edges {
+          ...UserContentStatusFragment
+        }
       }
     }
   }
-  ${UserContentFragment}
+  ${UserContentStatusFragment}
 `

@@ -2,7 +2,6 @@ import usePageTitle from '../../../hooks/usePageTitle'
 import { useRouter } from '../../../utils/router'
 import Button from '../../../components/common/Button'
 import { v4 as uuidv4 } from 'uuid';
-import { CreateCourse, CreateCourseVariables } from '../../../graphql/mutations/course/__generated__/CreateCourse';
 import { useMutation } from '@apollo/client'
 import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
@@ -14,6 +13,9 @@ import { closeModal, handleModal } from '../../../stores/modalStore'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 import { Dot } from '../../../components/common/misc/Dot';
+import { contentItemDefaults } from '../../../hooks/contentItems/contentItemDefaults';
+import { CreateCourseMutation, CreateCourseMutationVariables } from '../../../graphql/generated';
+import { userContentEdgeDefaults } from '../../../hooks/users/userContentEdgeDefaults';
 
 const AdminCourseSetup = () => {
   /*
@@ -33,7 +35,7 @@ const AdminCourseSetup = () => {
     component: <Button onClick={() => router.push('/admin/courses')}>Back to Courses</Button>
   })
 
-  const [createCourse, newCourse] = useMutation<CreateCourse, CreateCourseVariables>(
+  const [createCourse, newCourse] = useMutation<CreateCourseMutation, CreateCourseMutationVariables>(
     CREATE_COURSE,
     {
       // the update function updates the list of courses returned from the cached query.
@@ -53,20 +55,9 @@ const AdminCourseSetup = () => {
               ...cachedData?.courses,
               edges: [
                 {
+                  ...userContentEdgeDefaults,
                   userId: cachedData.user.id,
-                  groups: {
-                    edges: []
-                  },
-                  roles: [],
                   node: createCourse.course,
-                  completed: null,
-                  visits: 0,
-                  score: 0,
-                  updatedAt: dayjs().toISOString,
-                  createdAt: dayjs().toISOString,
-                  lastVisited: null,
-                  firstVisited: null,
-                  status: 'not_started'
 
                 },
                 ...(cachedData?.courses.edges || [])
@@ -112,48 +103,25 @@ const AdminCourseSetup = () => {
         createCourse: {
           __typename: 'CreateCoursePayload',
           course: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: `tmp-${Math.floor(Math.random() * 10000)}`,
             title: values.title,
-            createdAt: '',
-            updatedAt: '',
-            content: {},
-            contentType: null,
             itemType: 'course',
-            image: null,
-            icon: null,
-            prerequisites: null,
-            tags: [],
-            shared: false,
-            mediaItem: null,
             order: 9999999999,
+            tags: contentItemDefaults.tags,
             groupsEnrolled: {
               edges: []
             },
             sections: [{
-              __typename: 'ContentItem',
+              ...contentItemDefaults,
               itemType: 'section',
               id: uuidv4(),
               title: 'Section 1',
-              createdAt: '',
-              updatedAt: '',
-              content: {},
-              contentType: null,
-              image: null,
-              shared: false,
-              mediaItem: null,
-              icon: null,
-              prerequisites: null,
-              _deleted: false,
               children: [],
-              users: null,
-              settings: {},
-              tags: [],
+              tags: contentItemDefaults.tags,
               order: 9999999999,
             }],
             users: null,
-            settings: {},
-            _deleted: false,
           },
           message: ''
         }

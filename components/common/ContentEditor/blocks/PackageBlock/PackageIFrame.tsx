@@ -10,7 +10,6 @@ import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../../graphql/queries/scoAttempts';
 import { useRouter } from '../../../../../utils/router';
 import LoadingSpinner from '../../../LoadingSpinner';
-import { markCompleteDisabledVar } from '../../../../../graphql/cache';
 import useUpdateUserContentStatus from '../../../../../hooks/users/useUpdateUserContentStatus';
 import { useFullscreen } from 'rooks';
 import Button from '../../../Button';
@@ -44,9 +43,9 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const router = useRouter()
   const { id: courseId, cid: moduleId } = router.query
 
-  const { modules } = useGetUserCourse(courseId)
+  const { lessons } = useGetUserCourse(courseId)
   
-  const module = modules?.edges.find(edge => (
+  const module = lessons?.edges.find(edge => (
     edge.node.id === moduleId
   ))
 
@@ -78,17 +77,18 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   );
   
   const apiRef = useRef(null)
+  const statusRef = useRef(null)
 
   const { markComplete } = useMarkComplete(moduleId)
 
-  const saveData = useCallback((scormData) => {
+  const saveData = (scormData) => {
     if(!scormData?.cmi) {
       return;
     }
 
-    if(module.status !== 'completed') {
+    if(statusRef.current !== 'completed') {
       if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
-        alert('completed')
+        statusRef.current = 'completed'
         markComplete({})
       }
     }
@@ -121,7 +121,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
       }
     }).then(res => {
     })
-  },[block, attempt, attemptQueryData, courseId])
+  }
 
   const unloadHandler = () => {
     // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
@@ -133,47 +133,35 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     // }
   }
 
-  const initialiseAPI = useCallback(() => {
+  // Initialise API
+  useEffect(() => {
     ScormAgain;
+    
     const settings = {
       // lmsCommitUrl: '/d'
     }
     if(!window.API && attemptQueryData) {
+    // if(attemptQueryData) {
+
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
-      API.on('LMSSetValue.cmi.*', function(CMIElement, value) {
+      API.clear('LMSSetValue.cmi.*')
+      API.on('LMSSetValue.cmi.*', (CMIElement, value) => {
         API.storeData(true);
-
         const scormData = API.renderCommitCMI(true)
-
-        if(CMIElement === 'cmi.core.exit' && value==='suspend') {
-        } else {
-          document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(scormData,null,2)+'</pre>'
-        }
-
         !isEditing && saveData(scormData)
-  
       });
 
       API.loadFromJSON(attemptQueryData?.latestScoAttempt?.data, '')
-  
-      window.addEventListener('beforeunload', unloadHandler)
-      window.addEventListener('unload', unloadHandler)
       setLoaded(true)
-      console.log('setLoaded(true)')
     }
-  },[attempt, saveData, attemptQueryData])
 
-
-  useEffect(() => {
-    initialiseAPI()
     return () => {
+      // window.API && window.API.clear('LMSSetValue.cmi.*')
       window.API = apiRef.current = null
-      unloadHandler()
-      window.removeEventListener('beforeunload', unloadHandler)
-      window.removeEventListener('unload', unloadHandler)
     }
-  },[initialiseAPI])
+
+  },[attempt, saveData, attemptQueryData])
 
   
   useEffect(() => {
@@ -192,34 +180,25 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
 
   return (
     <>
-      {/* <iframe width="100%" height="100%" src={properties.url}></iframe> */}
-    {/* <iframe src="/scorm/rise-quiz/scormdriver/indexAPI.html?moduleId=abcdef-123456&contentItemId=1234-5678"></iframe> */}
-    {/* <Button onClick={reload}>Start new attempt</Button> */}
-    { loaded ? (
-      <div className='relative w-full h-full'>
-        <pre>
-        { JSON.stringify(module.status,null,2) }
-        <pre>
-        { JSON.stringify(block.properties?.url,null,2) }
-        </pre>
-        </pre>
-        <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
-        <div className='absolute top-3 right-7'>
-          { isFullscreenAvailable && (
-            <Button onClick={toggleFullscreen}>
-              <span className='flex items-center xl:space-x-2'>
-                <Fullscreen className='h-6'/>
-                <span className="hidden xl:block">Full Screen</span>
-              </span>
-            </Button>
-          )}
+      { loaded ? (
+        <div className='relative w-full h-full'>
+          <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+          <div className='absolute top-3 right-7'>
+            { isFullscreenAvailable && (
+              <Button onClick={toggleFullscreen}>
+                <span className='flex items-center xl:space-x-2'>
+                  <Fullscreen className='h-6'/>
+                  <span className="hidden xl:block">Full Screen</span>
+                </span>
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-      ) : (
-      <div className='flex items-center justify-center'>
-        <LoadingSpinner />
-      </div>
-    )}
+        ) : (
+        <div className='flex items-center justify-center'>
+          <LoadingSpinner />
+        </div>
+      )}
     </>
     // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )
