@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { QuizFragment } from "../../../../graphql/queries/allQueries";
 import { useRouter } from "../../../../utils/router";
 import { useQuizStore } from "../../../quiz/useQuizStore";
+import CheckboxInput from "../../inputs/CheckboxInput";
 import RadioButtonsInput from "../../inputs/RadioButtonsInput";
 import TextInput from "../../inputs/TextInput";
 
@@ -11,6 +12,7 @@ interface QuizFormValues {
   settings: {
     feedback?: string
     passMark?: number
+    hasCertificate?: boolean
   }
 }
 
@@ -40,6 +42,9 @@ export const QuizModulePanel = () => {
 
   return (
     <div className="pt-3 p-1 flex-col space-y-3">
+      <pre>
+      { JSON.stringify(watch('settings'),null,2) }
+      </pre>
       <TextInput
         label="Pass mark (%)"
         type="number"
@@ -52,9 +57,23 @@ export const QuizModulePanel = () => {
         }}
       />
       <RadioButtonsInput
-      label="Show feedback" 
-      className="text-sm"
-      inputAttrs={register("settings.feedback")}
+        label="Show feedback" 
+        className="text-sm"
+        inputAttrs={register("settings.feedback")}
+        options={[
+          {
+          text: 'On',
+          value: 'afterQuestion'
+          },
+          {
+          text: 'Off',
+          value: 'off'
+          }
+        ]}
+      />
+      <CheckboxInput
+      label="Award certificate?" 
+      inputAttrs={register("settings.hasCertificate")}
       options={[
         {
         text: 'On',
