@@ -6,6 +6,8 @@ import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson'
 import useConfirmDelete from '../../../hooks/useConfirmDelete'
 import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore'
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
+import { ContentTitleAndTypeFragment } from '../../../graphql/queries/allQueries'
+import { useFragment_experimental } from '@apollo/client'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -27,16 +29,21 @@ const SidebarEditableItem = ({
   const { deleteLesson } = useDeleteLesson(id)
   const items = useEditorViewStore(state => state.items)
 
+  const { complete, data, missing } = useFragment_experimental({
+    fragment: ContentTitleAndTypeFragment,
+    from: { id, __typename: "ContentItem", },
+  });
+
   const { confirmDelete } = useConfirmDelete({
     itemType: 'lesson',
-    name: 'id',
+    name: data?.title,
     onConfirm: () => {
       if(contentId === id) {
         const flatItemsArray = Object.values(items).flat()
         const prevItemIndex = flatItemsArray.indexOf(id) - 1
         const prevItemId = flatItemsArray[prevItemIndex]
 
-        router.push({
+        prevItemId && router.push({
           pathname: `/admin/courses/edit`,
           query: {
             ...router.query,

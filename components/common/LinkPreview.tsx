@@ -40,6 +40,7 @@ const LinkPreview = ({setValidUrl=null, url, onRemove=null}) => {
 
   useEffect(() => {
     getUrlMetadata()
+    return () => abortController.current?.abort()
   },[url])
 
   /*

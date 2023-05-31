@@ -64,7 +64,7 @@ const ResourceView = ({id}) => {
       pathname: `/pathway`,
       query: { pid }
     })
-  }, [resource.id])
+  }, [resource])
 
   return (
     <div className="w-full flex flex-col">

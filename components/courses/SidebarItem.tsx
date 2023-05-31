@@ -7,6 +7,7 @@ import { filterDeletedCourseItems, getItemStructureFromSections } from './Course
 import { useRouter } from '../../utils/router'
 import useGetUserCourse from '../../hooks/users/useGetUserCourse'
 import ListItem from '../common/DndList/ListItem'
+import { ContentTitleAndTypeFragment } from '../../graphql/queries/allQueries'
 
 const SidebarItem = forwardRef<HTMLLIElement, any>(({
   editing=false,
@@ -27,14 +28,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   const course = courseEdge?.node
 
   const { complete, data, missing } = useFragment_experimental({
-    fragment: gql`
-      fragment ContentTitleAndTypeFragment on ContentItem {
-        id
-        title
-        contentType
-        itemType
-      }
-    `,
+    fragment: ContentTitleAndTypeFragment,
     from: { id, __typename: "ContentItem", },
   });
 

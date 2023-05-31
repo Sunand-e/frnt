@@ -149,6 +149,14 @@ export const PathwayFragment = gql`
   ${ContentFragment}
   ${CourseFragment}
 `
+export const ContentTitleAndTypeFragment = gql`
+  fragment ContentTitleAndTypeFragment on ContentItem {
+    id
+    title
+    contentType
+    itemType
+  }
+`
 
 export const GET_COURSE = gql`
   query GetCourse($id: ID!) {
