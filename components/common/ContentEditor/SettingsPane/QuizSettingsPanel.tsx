@@ -42,9 +42,6 @@ export const QuizSettingsPanel = () => {
 
   return (
     <div className="pt-3 p-1 flex-col space-y-3">
-      <pre>
-      { JSON.stringify(watch('settings'),null,2) }
-      </pre>
       <TextInput
         label="Pass mark (%)"
         type="number"

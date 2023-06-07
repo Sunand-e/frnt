@@ -8,6 +8,7 @@ import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import ScormView from "../scorm/ScormView";
 import QuizView from "../../quiz/QuizView";
 import LessonView from "./LessonView";
+import { moduleTypes } from "../moduleTypes";
 
 const ModuleView = () => {
   
@@ -22,8 +23,12 @@ const ModuleView = () => {
     edge.node.id === moduleId
   ))
 
+  const moduleTypeName = module?.node.itemType === 'quiz' ? 'quiz' : module?.node.contentType
+
+  const moduleType = moduleTypes[moduleTypeName]
+
   usePageTitle({
-    title: module ? (module.node.title || 'Untitled module') : ''
+    title: module ? (module.node.title || `Untitled ${moduleType.label}`) : ''
   })
 
   useEffect(() => {

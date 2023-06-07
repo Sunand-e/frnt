@@ -29,7 +29,7 @@ const BlockEditor = () => {
   
   usePageTitle({ 
     title: ``, 
-    editable:  lesson?.title || 'Untitled module', 
+    editable:  lesson?.title || 'Untitled Lesson', 
     onEdit: title => {
       updateLesson(id)({title})
     }

@@ -58,11 +58,11 @@ export const LessonSettingsPanel = () => {
       <form>
         <div className={`flex flex-col space-y-3`}>
           <TextInput
-            label="Course name"
-            placeholder="Untitled course"
+            label="Lesson name"
+            placeholder="Untitled lesson"
             inputAttrs={{
               ...register("title", {
-                required:"Course name is required"
+                required:"Lesson name is required"
               }),
               // onChange: (e) => debouncedUpdate({title: e.target.value})
             }}

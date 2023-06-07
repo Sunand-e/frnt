@@ -24,7 +24,7 @@ const QuizEditor = () => {
   
   usePageTitle({
     title: ``, 
-    editable:  quiz?.title || 'Untitled quiz',
+    editable:  quiz?.title || 'Untitled Quiz',
     onEdit: title => {
       updateQuiz(quizId)({title})
     }

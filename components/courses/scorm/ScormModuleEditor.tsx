@@ -32,7 +32,7 @@ const ScormModuleEditor = () => {
   
   usePageTitle({ 
     title: ``, 
-    editable:  scormModule?.title || 'Untitled module', 
+    editable:  scormModule?.title || 'Untitled SCORM Module', 
     onEdit: title => {
       updateLesson(id)({title})
     }
