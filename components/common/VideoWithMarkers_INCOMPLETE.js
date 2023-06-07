@@ -25,7 +25,7 @@ const Webinar = () => {
           <div className="mb-8 w-full shadow-lg bg-main-semitransparent" >
             { webinar.videoMarkers.length && (
               <>
-                <h3 className="bg-blue text-white p-2 px-4">In this video:</h3>
+                <h3 className="bg-main text-white p-2 px-4">In this video:</h3>
                   { webinar.videoMarkers.map(marker => (
                     <div className="flex mt-1 items-center cursor-pointer" onClick={() => handleMarkerClick(marker.time)}>
                         <span className="bg-main-secondary text-white px-4 py-2">{new Date(marker.time * 1000).toISOString().substr(11, 8)}</span>

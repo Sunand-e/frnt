@@ -3,21 +3,22 @@ import { CodeCurlyDimensions } from "@styled-icons/boxicons-regular/CodeCurly";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import useCourse from "../../../../hooks/courses/useCourse";
+import useUpdateCourse from "../../../../hooks/courses/useUpdateCourse";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../../utils/router";
 import CourseForm from "../../../courses/CourseForm";
+import CourseSettings from "../../../courses/CourseSettings";
 import { moduleTypes } from "../../../courses/moduleTypes";
 import QuestionSettings from "../../../quiz/questions/QuestionSettings";
 import { useQuizStore } from "../../../quiz/useQuizStore";
 import blocktypes from "../blocktypes";
 import { useBlockStore } from "../useBlockStore";
 import { useEditorViewStore } from "../useEditorViewStore";
-import { BlockPanel } from "./BlockPanel";
-import { LessonModulePanel } from "./LessonModulePanel";
-import { QuizModulePanel } from "./QuizModulePanel";
-import { ScormModulePanel } from "./ScormModulePanel";
+import { BlockSettingsPanel } from "./BlockSettingsPanel";
+import { LessonSettingsPanel } from "./LessonSettingsPanel";
+import { QuizSettingsPanel } from "./QuizSettingsPanel";
+import { ScormSettingsPanel } from "./ScormSettingsPanel";
 
 export const SettingsPane = () => {
 
@@ -34,9 +35,7 @@ export const SettingsPane = () => {
   const activeBlock = useBlockStore(state => state.computed.activeBlock())
   const activeQuestion = useQuizStore(state => state.computed.activeQuestion())
   
-  const { courses } = useGetUserCourse(id)
-  const course = courses?.edges[0]?.node
-  const { updateCourse } = useCourse(id)
+  const { updateCourse } = useUpdateCourse(id)
 
   const handleClick = (panel) => {
     const newActivePanel = (panel.name === activePanel) ? null : panel.name
@@ -58,12 +57,14 @@ export const SettingsPane = () => {
   }
 
   const ModulePanel = () => {
+    console.log('moduleTypeName')
+    console.log(moduleTypeName)
     if(moduleTypeName === 'scorm_assessment') {
-      return <ScormModulePanel />
+      return <ScormSettingsPanel />
     } else if(moduleTypeName === 'quiz') {
-      return <QuizModulePanel />
+      return <QuizSettingsPanel />
     } else {
-      return <LessonModulePanel />
+      return <LessonSettingsPanel />
     }
   }
 
@@ -71,14 +72,7 @@ export const SettingsPane = () => {
     {
       name: 'course',
       title: "Course settings",
-      content: (
-        <CourseForm 
-          course={course} 
-          isModal={true}
-          onSubmit={onCourseSettingsSubmit}
-          submitButtonText="Save settings"
-        />
-      )
+      content: <CourseSettings />
     },
     ...( !!moduleType && [{
       name: 'module',
@@ -88,7 +82,7 @@ export const SettingsPane = () => {
     ...( !!activeBlock && [{
       name: 'block',
       title: `${blocktypes[activeBlock.type].text} block settings`,
-      content: <BlockPanel key={activeBlock.id} />
+      content: <BlockSettingsPanel key={activeBlock.id} />
     }] || []),
     ...( moduleTypeName === 'quiz' && activeQuestion && [{
     // ...( activeQuestion && [{
@@ -97,7 +91,7 @@ export const SettingsPane = () => {
       // content: <>{moduleTypeName}</>
       content: <QuestionSettings key={activeQuestion.id} idd={activeQuestion.id} />
     }] || [])
-  ],[course, moduleType,activeBlock, activeQuestion?.id, contentId])
+  ],[moduleType,activeBlock, activeQuestion?.id, contentId])
   
   return (
     <div className="flex-none w-[300px] fixed right-0 overflow-auto h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
@@ -116,7 +110,7 @@ export const SettingsPane = () => {
             <AnimatePresence>
               { isActive && (
                 <motion.div
-                className="mt-4"
+                className="mt-2"
                   transition={{
                     duration: 0.4,
                   }}

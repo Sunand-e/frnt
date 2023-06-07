@@ -19,6 +19,7 @@ import { StructureItems } from "./MultipleContainers";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { filterDeletedCourseItems, getItemStructureFromSections } from "./utilities";
 import { useEditorViewStore } from "../../common/ContentEditor/useEditorViewStore";
+import { CourseFragmentFragment, SectionFragmentFragment } from "../../../graphql/generated";
 
 const CourseStructureEditor = ({renderItem}) => {
 
@@ -55,14 +56,14 @@ const CourseStructureEditor = ({renderItem}) => {
   
   const handleReorderSections = (newSectionIds: UniqueIdentifier[]) => {
     const newSectionData = newSectionIds.map(id => {
-      return cache.readFragment<SectionFragmentType>({
+      return cache.readFragment<SectionFragmentFragment>({
         id:`ContentItem:${id}`,
         fragment: SectionFragment,
         fragmentName: 'SectionFragment',
       }, true)
     })
     
-    const course = cache.readFragment<SectionFragmentType>({
+    const course = cache.readFragment<CourseFragmentFragment>({
       id:`ContentItem:${id}`,
       fragment: CourseFragment,
       fragmentName: 'CourseFragment',

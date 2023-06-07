@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react"
+import MyCertificates from "../certificates/MyCertificates"
 import Tabs from "./containers/Tabs"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
@@ -48,40 +49,54 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     contents: filteredCourses, readMoreLabel, noItemsText 
   } = visibleContentPanels.find(tab => tab.name === activeTab) || visibleContentPanels[0]
 
-  const tabs = visibleContentPanels.map(({contents, ...panel}) => {
-    return {
-      ...panel,
-      count: contents?.length || 0,
-      href: '#'
-    }
-  })
-// alert(JSON.stringify(currentPanel));
+  const tabs = [
+    ...visibleContentPanels.map(({contents, ...panel}) => {
+      return {
+        ...panel,
+        count: contents?.length || 0,
+        href: '#'
+      }
+    }),
+    ... options?.typeName === 'course' ? [{
+      href: '#',
+      name: 'certificates',
+      title: 'Certificates',
+      contents: content?.filter(item => item.status === 'in_progress'),
+      readMoreLabel: options?.tabs?.in_progress?.readMoreLabel || 'Continue',
+      noItemsText: options?.tabs?.in_progress?.noItemsText || 'No contents are currently in progress'
+    }] : []
+  ]
+
   return (
     <>
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
-      
-      { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s...`}/> }
-
-      { !!content?.length && (
+      { activeTab === 'certificates' ? (
+        <MyCertificates />
+      ) : (
         <>
-          <ItemCollection
-            items={filteredCourses || []}
-            gridClasses={gridClasses}
-            noItemsText={noItemsText}
+          { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s...`}/> }
+          { !!content?.length && (
+            <>
+              <ItemCollection
+                items={filteredCourses || []}
+                gridClasses={gridClasses}
+                noItemsText={noItemsText}
 
-            options={{
-              ...defaultOptions,
-              itemOptions: {
-                ...defaultOptions.itemOptions,
-                ...options?.items,
-                getReadMoreLabel: (item) => readMoreLabel,
-                // getInfoContent: item => item.content?.description,
-              },
-              maxItems: 0,
-            }}
-          />
+                options={{
+                  ...defaultOptions,
+                  itemOptions: {
+                    ...defaultOptions.itemOptions,
+                    ...options?.items,
+                    getReadMoreLabel: (item) => readMoreLabel,
+                    // getInfoContent: item => item.content?.description,
+                  },
+                  maxItems: 0,
+                }}
+              />
+            </>
+          )}
         </>
-      ) }
+      )}
     </>
   )
 }

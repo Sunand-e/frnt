@@ -1,7 +1,7 @@
 import React, { useMemo, FunctionComponent, useEffect } from 'react';
 
 import useBlockEditor from '../../useBlockEditor';
-import Editor from './Editor';
+import Editor from '../../../inputs/Editor';
 
 export const TextBlockEdit: FunctionComponent = ({block}) => {
   const { properties } = block
@@ -26,7 +26,7 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
 
   return (
     <>
-      <Editor onUpdate={handleChange} content={properties?.content} />
+      <Editor onUpdate={handleChange} content={properties?.content} editorClass={'m-5'} />
     </>
   );
 }

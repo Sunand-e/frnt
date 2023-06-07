@@ -16,7 +16,7 @@ interface QuizFormValues {
   }
 }
 
-export const QuizModulePanel = () => {
+export const QuizSettingsPanel = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
@@ -71,20 +71,6 @@ export const QuizModulePanel = () => {
           }
         ]}
       />
-      <CheckboxInput
-      label="Award certificate?" 
-      inputAttrs={register("settings.hasCertificate")}
-      options={[
-        {
-        text: 'On',
-        value: 'afterQuestion'
-        },
-        {
-        text: 'Off',
-        value: 'off'
-        }
-      ]}
-       />
     </div>
   )
 }

@@ -1,17 +1,17 @@
-import styles from '../../../../../styles/TipTap.module.scss'
+import styles from '../../../styles/TipTap.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import MenuBar from '../../../TipTap/MenuBar/MenuBar'
+import MenuBar from '../TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
 
-export default ({editable=true, onUpdate=null, content=null}) => {
+export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) => {
 
   const editor = useEditor({
     editable,
     autofocus: true,
     editorProps: {
       attributes: {
-        class: 'prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md m-5 focus:outline-none',
+        class: `${editorClass} prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none`,
       },
     },
     extensions: [ 

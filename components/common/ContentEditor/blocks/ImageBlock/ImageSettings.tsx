@@ -16,7 +16,7 @@ export const ImageSettings = ({block}) => {
   return (
     <ImageSelectFromLibrary
       label="Image file"
-      placeholder="d"
+      placeholder="image"
       src={block.properties.url}
       buttonText="Select image"
       isButtonAlwaysVisible={true}

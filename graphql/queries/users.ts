@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ContentFragment, QuizFragment, ResourceFragment } from './allQueries';
+import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
 import { TagFragment } from './tags';
 
 export const UserFragment = gql`
@@ -101,6 +101,7 @@ export const UserContentConnectionFragment = gql`
       firstVisited
       createdAt
       updatedAt
+      completedAt
       score
       progress
       visits
@@ -438,6 +439,7 @@ export const GET_USER_COURSE = gql`
       edges {
         node {
           id
+          ...CourseFragment
           sections {
             id
             title
@@ -481,6 +483,7 @@ export const GET_USER_COURSE = gql`
     }
   }
   ${UserContentConnectionFragment}
+  ${CourseFragment}
   ${QuizFragment}
 `
 

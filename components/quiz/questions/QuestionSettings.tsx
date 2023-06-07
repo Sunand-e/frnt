@@ -43,7 +43,7 @@ export const QuestionSettings = ({idd}) => {
   },[watch, question])
 
   return (
-    <form className='h-full w-full max-w-sm flex flex-col space-y-4 pt-2 px-1 text-sm'>
+    <form className='h-full w-full max-w-sm flex flex-col space-y-3 pt-2 px-1 text-sm'>
       <ReactSelectInput
         control={control}
         name={'questionType'}

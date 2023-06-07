@@ -151,6 +151,7 @@ const AdminCourseSetup = () => {
       <CourseForm 
         submitButtonText='Course Builder' 
         onSubmit={onSubmit}
+        showDescription={true}
         autoFocus={true}
       />
     )

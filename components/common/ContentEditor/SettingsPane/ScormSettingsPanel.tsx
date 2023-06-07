@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { ScormPackage } from "../../../../graphql/generated";
-import useCourse from "../../../../hooks/courses/useCourse";
+import useUpdateCourse from "../../../../hooks/courses/useUpdateCourse";
 import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
 import useUpdateLesson from "../../../../hooks/lessons/useUpdateLesson";
 import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
@@ -20,7 +20,7 @@ import useGetScormPackages from "../../../../hooks/scormPackages/useGetScormPack
 import { useFragment_experimental } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
 
-export const ScormModulePanel = () => {
+export const ScormSettingsPanel = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query

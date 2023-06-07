@@ -4,20 +4,18 @@ import { CourseFragment } from "../../graphql/queries/allQueries"
 import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__generated__/CourseFragment';
 import { useMutation } from "@apollo/client"
 import cache from "../../graphql/cache"
+import useGetUserCourse from "../users/useGetUserCourse";
 
-function useCourse(id) {
+function useUpdateCourse(id) {
 
   const [updateCourseMutation, updateCourseResponse] = useMutation<UpdateCourse, UpdateCourseVariables>(
     UPDATE_COURSE
   );
 
+  const { courseEdge } = useGetUserCourse(id)
+  const cachedCourse = courseEdge?.node
+  
   const updateCourse = async (variables) => {
-
-    const cachedCourse = cache.readFragment<CourseFragmentType>({
-      id:`ContentItem:${id}`,
-      fragment: CourseFragment,
-      fragmentName: 'CourseFragment',
-    })
     
     await updateCourseMutation({
       variables: {
@@ -56,4 +54,4 @@ function useCourse(id) {
   }
 }
 
-export default useCourse
+export default useUpdateCourse

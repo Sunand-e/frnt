@@ -25,7 +25,7 @@ const StylingPanel = ({block: origBlock, children = null}) => {
 
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-3">
       <div id="block_padding_settings" className="">
         <label className="text-sm font-medium text-secondary mb-2 block">Padding</label>
         {/* { !parent ? ( */}

@@ -1,48 +1,11 @@
-import Head from 'next/head'
-import usePageTitle from '../hooks/usePageTitle'
-import DashboardLayout from '../layouts/DashboardLayout';
-import Button from '../components/common/Button';
-import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer, usePDF } from '@react-pdf/renderer';
-import CertificateBg from '../components/certificates/CertificateBg';
+import { PDFViewer, usePDF } from '@react-pdf/renderer';
+import Head from 'next/head';
 import { useContext } from 'react';
+import CertificatePdf from '../components/certificates/CertificatePdf';
+import Button from '../components/common/Button';
 import { TenantContext } from '../context/TenantContext';
-
-const CertificatePdf = ({colors}) => {
-
-  const styles = StyleSheet.create({
-    page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4',
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1,
-    },
-    pageBackground: {
-      position: 'absolute',
-      minWidth: '100%',
-      minHeight: '100%',
-      display: 'flex',
-      height: '100%',
-      width: '100%',
-    },
-  });
-  
-  return (
-    <Document>
-      <Page size="A4" orientation='landscape' style={styles.page}>
-        <View style={styles.pageBackground}>
-          <CertificateBg colors={colors} />
-        </View>
-          <View style={styles.section}>
-            <Text>Hello, World!</Text>
-          </View>
-      </Page>
-    </Document>
-  );
-};
-
+import usePageTitle from '../hooks/usePageTitle';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 const DashboardPage = () => {
 

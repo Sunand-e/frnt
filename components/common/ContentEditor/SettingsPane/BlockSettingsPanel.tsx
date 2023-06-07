@@ -2,7 +2,7 @@ import { getBlock, useBlockStore } from "../useBlockStore";
 import blocktypes from "../blocktypes";
 import BlockGeneralSettings from "../blocks/common/BlockGeneralSettings";
 
-export const BlockPanel = () => {
+export const BlockSettingsPanel = () => {
 
   const activeBlock = useBlockStore(state => getBlock(state.activeBlockId))
 
@@ -13,7 +13,7 @@ export const BlockPanel = () => {
   const BlockSettingsComponent = blocktypes[activeBlock.type]?.settingsComponent
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-3">
       <BlockSettingsComponent block={activeBlock} />
       <BlockGeneralSettings block={activeBlock} />
     </div>

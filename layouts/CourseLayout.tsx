@@ -23,7 +23,7 @@ export default function CourseLayout( {page, navState} ) {
     <Layout 
       navState={navState}
       sidebarComponent={(
-        <div className="sticky h-[100vh] w-full bg-blue bg-opacity-10 flex flex-col">
+        <div className="sticky h-[100vh] w-full bg-main bg-opacity-10 flex flex-col">
           <CourseSidebarHeader />
           <CourseStructureView />
           { pid && course && (
