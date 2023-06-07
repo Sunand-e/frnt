@@ -5,6 +5,7 @@ import { useContext, useEffect } from 'react'
 import usePageTitle from '../../../hooks/usePageTitle'
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
+import ButtonAdd from '../../../components/common/ButtonAdd'
 
 const AdminCourses = () => {
 
@@ -13,6 +14,17 @@ const AdminCourses = () => {
   })
 
   const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const showCreateButton = userHasCapability([
+    'CreateCourse',
+  ])
+  
+  useHeaderButtons([
+    ...(showCreateButton ? [{
+      id: 'createCourse',
+      component: <ButtonAdd action='/admin/courses/create' text='Create new course' />
+    }] : []),
+  ])
+
   const ready = !!userCapabilityArray.length || userType === 'SuperAdmin'
   const router = useRouter()
   
