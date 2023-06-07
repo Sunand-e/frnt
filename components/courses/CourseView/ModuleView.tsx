@@ -28,7 +28,7 @@ const ModuleView = () => {
   const moduleType = moduleTypes[moduleTypeName]
 
   usePageTitle({
-    title: module ? (module.node.title || `Untitled ${moduleType.label}`) : ''
+    title: module ? (module.node.title || `Untitled ${moduleType?.label}`) : ''
   })
 
   useEffect(() => {
