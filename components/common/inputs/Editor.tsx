@@ -3,6 +3,9 @@ import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import MenuBar from '../TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
+import TextAlign from '@tiptap/extension-text-align'
 
 export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) => {
 
@@ -24,6 +27,11 @@ export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) =
 
           return 'Enter text here...'
         },
+      }),
+      TextStyle,
+      Color,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
       })
     ],
     ...( !!onUpdate && {

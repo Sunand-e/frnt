@@ -63,6 +63,9 @@ export default ({ editor }) => {
       type: 'fontsize'
     },
     {
+      type: 'color'
+    },
+    {
       icon: 'list-unordered',
       title: 'Bullet List',
       action: () => editor.chain().focus().toggleBulletList().run(),
@@ -90,16 +93,34 @@ export default ({ editor }) => {
       type: 'divider',
     },
     {
-      icon: 'double-quotes-l',
-      title: 'Blockquote',
-      action: () => editor.chain().focus().toggleBlockquote().run(),
-      isActive: () => editor.isActive('blockquote'),
+      icon: 'align-left',
+      title: 'Align Left',
+      action: () => editor.chain().focus().setTextAlign('left').run(),
+      isActive: () => editor.isActive({ textAlign: 'left' }),
     },
     {
-      icon: 'separator',
-      title: 'Horizontal Rule',
-      action: () => editor.chain().focus().setHorizontalRule().run(),
+      icon: 'align-center',
+      title: 'Align Center',
+      action: () => editor.chain().focus().setTextAlign('center').run(),
+      isActive: () => editor.isActive({ textAlign: 'center' }),
     },
+    {
+      icon: 'align-right',
+      title: 'Align Right',
+      action: () => editor.chain().focus().setTextAlign('right').run(),
+      isActive: () => editor.isActive({ textAlign: 'right' }),
+    },
+    // {
+    //   icon: 'double-quotes-l',
+    //   title: 'Blockquote',
+    //   action: () => editor.chain().focus().toggleBlockquote().run(),
+    //   isActive: () => editor.isActive('blockquote'),
+    // },
+    // {
+    //   icon: 'separator',
+    //   title: 'Horizontal Rule',
+    //   action: () => editor.chain().focus().setHorizontalRule().run(),
+    // },
     {
       type: 'divider',
     },
@@ -137,7 +158,13 @@ export default ({ editor }) => {
             <div className={styles.divider} />
           ) : item.type === 'fontsize' ? (
               <FSSelect />
-              // <FontSizeDropdown />
+          ) : item.type === 'color' ? (
+            <input
+              type="color"
+              className='w-7 ml-2'
+              onInput={event => editor.chain().focus().setColor(event.target.value).run()}
+              value={editor.getAttributes('textStyle').color}
+            />
           ) : (
               <MenuItem {...item} />
           )}
