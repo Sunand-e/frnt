@@ -5,6 +5,7 @@ import { CourseFragment as CourseFragmentType } from '../../graphql/queries/__ge
 import { useMutation } from "@apollo/client"
 import cache from "../../graphql/cache"
 import useGetUserCourse from "../users/useGetUserCourse";
+import { filterDeletedCourseItems, getItemStructureFromSections } from "../../components/courses/CourseStructureEditor/utilities";
 
 function useUpdateCourse(id) {
 
@@ -16,7 +17,9 @@ function useUpdateCourse(id) {
   const cachedCourse = courseEdge?.node
   
   const updateCourse = async (variables) => {
-    
+    const updatedCacheItems = getItemStructureFromSections(
+      filterDeletedCourseItems(cachedCourse).sections
+    )
     await updateCourseMutation({
       variables: {
         id,

@@ -5,7 +5,7 @@ import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
 import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
-import { useEditorViewStore } from './useEditorViewStore';
+import { showBlocksPanel, useEditorViewStore } from './useEditorViewStore';
 
 const BlockContainer = ({
   id,
@@ -33,9 +33,11 @@ const BlockContainer = ({
     }
   },[blocks])
 
+  const isLastColumn = parent && index === parent.children.length - 1
+
   return (
     <div 
-      className={`group flex flex-col h-full ${parent ? '' : ''}`}
+      className={`relative group flex flex-col h-full ${parent ? '' : ''}`}
       style={{
         backgroundColor: block?.properties?.bgColor,
         color: block?.properties?.textColor || 'inherit'
@@ -56,24 +58,29 @@ const BlockContainer = ({
           paddingLeft: block?.properties?.paddingLeft,
           paddingRight: block?.properties?.paddingRight,
         }}
-        onClick={() => {
-          // alert(id)
-          useBlockStore.setState({
-            activeBlockId: block.id
-          })
-          useEditorViewStore.setState({
-            activeSettingsPanel: 'block'
-          })
+        onClick={(e) => {
+          if(block.type === 'placeholder') {
+
+          } else {
+            e.stopPropagation()
+            showBlocksPanel()
+            useBlockStore.setState({
+              activeBlockId: block.id
+            })
+            useEditorViewStore.setState({
+              activeSettingsPanel: 'block'
+            })
+          }
         }}
       >
-        <span className={`absolute z-10 right-2 top-2`}>
+        <span className={`absolute z-10 ${isLastColumn ? 'left-2' : 'right-2'} top-2`}>
         {/* <span className={`absolute -right-14`}> */}
           <BlockMenu
             block={block}
             dragListeners={dragListeners}
             className={`
-              ${!isActive && 'block'}
-              ${!isColumn && 'bg-white rounded hidden group-hover:block'}
+              ${!isActive && 'hidden'}
+              ${!isColumn && 'bg-white rounded group-hover:flex'}
             `}
           />
 

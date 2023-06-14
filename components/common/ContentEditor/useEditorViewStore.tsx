@@ -19,3 +19,7 @@ export const useEditorViewStore = create<EditorViewState>(set => ({
   activeModuleId: null,
   items: null
 }))
+
+export const showBlocksPanel = () => {
+  useEditorViewStore.setState({activeSidebarPanel: 'blocks'})
+}

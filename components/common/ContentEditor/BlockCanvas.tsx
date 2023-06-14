@@ -2,7 +2,7 @@
 import { useBlockStore } from "./useBlockStore";
 import SortableBlock from "./SortableBlock";
 import { useDroppable } from "@dnd-kit/core";
-import { useEditorViewStore } from "./useEditorViewStore";
+import { showBlocksPanel, useEditorViewStore } from "./useEditorViewStore";
 import BlockSelector from "./BlockSelector";
 
 const BlockCanvas = () => {
@@ -19,9 +19,6 @@ const BlockCanvas = () => {
     }
   });
   
-  const showBlocksPanel = () => {
-    useEditorViewStore.setState({activeSidebarPanel: 'blocks'})
-  }
   return (
     <div
       className="h-full w-full"
@@ -42,7 +39,7 @@ const BlockCanvas = () => {
           </div>
         </div>
       ) : (
-        <>
+        <div className="pb-24">
           { blockIds.map((id, index) => {
             return <SortableBlock key={id} id={id} index={index} />
           })}
@@ -56,7 +53,7 @@ const BlockCanvas = () => {
               mb-3
             `}
           /> */}
-        </>
+        </div>
       )}
     </div>
   );

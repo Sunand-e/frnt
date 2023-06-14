@@ -46,4 +46,12 @@ export const commonTableCols = {
       return (cell.getValue() || '0') + '%'
     }
   },
+  score: {
+    id: "score",
+    header: "Score",
+    accessorKey: "score",
+    cell: ({ cell }) => {
+      return (cell.getValue() || noDataDash)
+    }
+  },
 }

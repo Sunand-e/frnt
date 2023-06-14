@@ -9,7 +9,8 @@ import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import TextInput from '../common/inputs/TextInput';
 import TipTapInput from '../common/inputs/TipTapInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
-
+import { AnimatePresence, motion } from "framer-motion";
+import ScoreFromModuleIdsInput from './inputs/ScoreFromModuleIdsInput';
 
 interface CourseSettingsFormValues {
   title: string
@@ -19,8 +20,10 @@ interface CourseSettingsFormValues {
     description: JSON
   }
   settings: {
+    isScored: Boolean
     hasCertificate: JSON
     passMark: Number
+    scoreFromModuleIds: Array<string>
   }
   tags: [any]
   accessType: string
@@ -43,8 +46,9 @@ const CourseSettings = ({options={}}) => {
     updateCourse(values);
   }, 500);
   
+  const { sections, ...cachedValues } = course
   const defaultValues = {
-    ...course,
+    ...cachedValues,
     tags: course?.tags?.edges.map(({node}) => {
       const {__typename, image, order, ...value} = node
       return value
@@ -74,10 +78,11 @@ const CourseSettings = ({options={}}) => {
 
   },[watch])
 
+  const isScored = watch('settings.isScored');
 
   return (
     <form>
-      <div className={`flex flex-col space-y-3`}>
+      <div className={`flex flex-col space-y-3 pb-2`}>
         <TextInput
           label="Course name"
           placeholder="Untitled course"
@@ -114,30 +119,45 @@ const CourseSettings = ({options={}}) => {
           content={course?.content?.description}
         />
         <CheckboxInput
+          label="Scored course"
+          labelClassName='text-sm font-medium'
+          inputAttrs={register("settings.isScored")}
+          options={[
+            { text: 'Yes', value: true },
+            { text: 'No', value: false }
+          ]}
+        />
+
+        <AnimatePresence>
+          { isScored && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <ScoreFromModuleIdsInput
+                control={control}
+                label={'Score from:'}
+              />
+              <TextInput
+                label="Pass mark (%)"
+                type="number"
+                inputAttrs={{
+                  ...register("settings.passMark", {
+                    valueAsNumber: true
+                  }),
+                  min: 0,
+                  max: 100
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <CheckboxInput
           label="Award certificate?"
           labelClassName='text-sm font-medium'
           inputAttrs={register("settings.hasCertificate")}
-          options={[
-            {
-            text: 'On',
-            value: 'afterQuestion'
-            },
-            {
-            text: 'Off',
-            value: 'off'
-            }
-          ]}
-        />
-        <TextInput
-          label="Pass mark (%)"
-          type="number"
-          inputAttrs={{
-            ...register("settings.passMark", {
-              valueAsNumber: true
-            }),
-            min: 0,
-            max: 100
-          }}
         />
       </div>
     </form>

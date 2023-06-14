@@ -73,11 +73,7 @@ const UserCoursesReportTable = () => {
         accessorKey: "status",
         accessorFn: statusAccessor,
       },
-      {
-        id: "score",
-        header: "Score",
-        accessorKey: "score",
-      },
+      commonTableCols.score,
       {
         ...commonTableCols.createdAt,
         header: "First access",

@@ -61,6 +61,7 @@ const CourseUsersReportTable = () => {
       },
       { ...commonTableCols.status },
       { ...commonTableCols.progress },
+      { ...commonTableCols.score },
       {
         ...commonTableCols.createdAt,
         header: "First access",

@@ -1,6 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { CreateSection, CreateSectionVariables } from '../../graphql/mutations/section/__generated__/CreateSection';
 import { CREATE_SECTION } from '../../graphql/mutations/section/CREATE_SECTION';
+import { contentItemDefaults } from '../contentItems/contentItemDefaults';
 
 export const CourseSectionsFragment = gql`
   fragment CourseSectionsFragment on ContentItem {
@@ -51,21 +52,11 @@ const useCreateSection = ({courseId}) => {
         createSection: {
           __typename: 'CreateSectionPayload',
           section: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: 'temp-' + Math.floor(Math.random() * 10000),
             title: values.title,
-            createdAt: '',
-            updatedAt: '',
-            content: {},
-            contentType: null,
             itemType: 'section',
-            image: null,
-            icon: null,
-            prerequisites: null,
-            _deleted: false,
-            settings: '',
-            shared: false,
-            mediaItem: null,
+
             users: {
               __typename: 'ContentUserConnection',
               totalCount: 0

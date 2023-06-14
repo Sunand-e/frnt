@@ -36,13 +36,12 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
   }
   
   // Determine the max width depending on if it is a column or not
-  let maxWidth
-  if(parent) {
-    const widthUnits = parent.widths?.[index] || 12 / parent.children.length
-    maxWidth = (((1024 / 12) * widthUnits) - 32)
-  } else {
-    maxWidth = '100%'
-  }
+  let maxWidth = '100%'
+  // if(parent) {
+  //   const widthUnits = parent.widths?.[index] || 12 / parent.children.length
+  //   maxWidth = (((1024 / 12) * widthUnits) - 32)
+  // }
+  
   // alert(JSON.stringify(parent,null,2))
   return (
     <div
@@ -50,7 +49,6 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
     >
         <figure
           className={`group m-0 relative`}
-          
         >
           <Resizable
             // @ts-ignore

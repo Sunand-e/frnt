@@ -7,7 +7,7 @@ const MyCertificates = () => {
   console.log(certificates)
   return (
     <div>
-      { certificates ? certificates.edges.map(certificate => (
+      { certificates ? certificates.map(certificate => (
         <CertificateLink key={Math.random()} certificate={certificate}/>
       )) : (
         <p className="text-lg mt-12 text-center">You do not have any certificates available.</p>

@@ -39,7 +39,9 @@ const BlockSelector = ({
       type: 'video',
       id: uuidv4(),
       properties: {
-        url
+        url,
+        paddingTop: '30px',
+        paddingBottom: '30px',
       }
     }
     addBlock(videoBlock, replace)
@@ -63,6 +65,8 @@ const BlockSelector = ({
       properties: {
         url: module.launchUrl,
         moduleId: module.id,
+        paddingTop: '30px',
+        paddingBottom: '30px',
       }
     }
     addBlock(newBlock)
@@ -75,7 +79,10 @@ const BlockSelector = ({
     let newBlock: Block = {
       type: type.name,
       id: uuidv4(),
-      properties: {}
+      properties: {
+        paddingTop: '30px',
+        paddingBottom: '30px',
+      }
     }
     onSelect?.()
     switch(type.name) {

@@ -33,17 +33,19 @@ const StylingPanel = ({block: origBlock, children = null}) => {
           <PaddingSelect
             side='top'
             onSelect={data => selectPadding(data.value, 'top')}
-            selected='none'
+            // selected='none'
+            selected={block.properties.paddingTop}
             label="Top"
-          />  
+            />  
           <PaddingSelect 
             side='bottom'
             onSelect={data => selectPadding(data.value, 'bottom')}
+            selected={block.properties.paddingBottom}
             selected='none'
             label="Bottom"
           />
         </div>
-        <div className={`flex w-full items-center space-x-4 mb-2`}>
+        {/* <div className={`flex w-full items-center space-x-4 mb-2`}>
           <PaddingSelect
             side='left'
             onSelect={data => selectPadding(data.value, 'left')}
@@ -56,8 +58,7 @@ const StylingPanel = ({block: origBlock, children = null}) => {
             selected='none'
             label="Right"
           />
-          {/* )} */}
-        </div>
+        </div> */}
       </div>
       <ColorPicker
         label="Background color"

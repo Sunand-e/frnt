@@ -29,8 +29,6 @@ const SortableBlock = ({id, index}) => {
     if(lastAddedItemId === id) {
       // alert(lastAddedItemId)
       // alert(node)
-      console.log('node.current')
-      console.log(node.current)
       // node.current?.scrollIntoView({behavior:'smooth'})
       // window.scrollTo({top: node.current.offsetTop,behavior:'smooth'})
       useBlockStore.setState({activeBlockId: id})
@@ -42,6 +40,8 @@ const SortableBlock = ({id, index}) => {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition: transition,
+    zIndex: 9999-index,
+    position: 'relative'
     // ...(isDragging && { height: draggingRowHeight } ) 
   };
  

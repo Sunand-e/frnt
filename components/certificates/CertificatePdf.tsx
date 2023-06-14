@@ -53,10 +53,12 @@ const CertificatePdf = ({user, certificate, colors}) => {
               fontSize: 28,
               marginTop: 20,
               fontStyle: 'italic'
-            }}>{certificate.node.title}</Text>
-            <Text style={{
-              marginTop: 20,
-            }}>With a score of: {certificate.score}/100</Text>
+            }}>{certificate.course?.title}</Text>
+            {/* { certificate.isScored && (
+              <Text style={{
+                marginTop: 20,
+              }}>With a score of: {certificate.score}/100</Text>
+            )} */}
             <Text
             style={{
               marginTop: 20,

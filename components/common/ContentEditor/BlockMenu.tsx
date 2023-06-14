@@ -42,7 +42,7 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-4 py-3 flex align-left items-center rounded hover:bg-main-secondary hover:bg-opacity-5 justify-center
+        px-3 py-3 flex align-left items-center rounded hover:bg-main-secondary hover:bg-opacity-5 justify-center
         ${className}
       `}
     >
@@ -121,7 +121,7 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
         className={`text-white px-4 py-2 z-50`}
         theme={'memberhub-block-menu light'}
         arrow={true}
-        placement={'left'}
+        placement={'top'}
         content={(
           <p className={`${menuItem.isDisabled?.() && 'text-gray-400'} whitespace-nowrap`}>
             {isChild ? menuItem.childText ?? menuItem.text : menuItem.text }
@@ -149,7 +149,7 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
 
   if(!isChild) {
     return (
-      <div className={`flex flex-col rounded bg-white text-gray-600 ${className}`}>
+      <div className={`flex rounded bg-white text-gray-600 ${className}`}>
         { menuItems }
       </div>
     )

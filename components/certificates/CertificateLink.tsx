@@ -18,7 +18,7 @@ const CertificateLink = ({certificate}) => {
     secondary: tenant.secondaryBrandColor || '#222222',
   }} />
 
-  const [instance, updateInstance] = usePDF({ document: pdfContent });
+  // const [instance, updateInstance] = usePDF({ document: pdfContent });
 
   const handleClick = () => {
       handleModal({
@@ -36,11 +36,8 @@ const CertificateLink = ({certificate}) => {
       {user && (
         <>
           <h3 onClick={handleClick}>
-            {certificate.node.title || `Untitled ${certificate.node.itemType}`}
+            {certificate.course.title || `Untitled ${certificate.course.itemType}`}
           </h3>
-          <PDFViewer className={"w-full aspect-video"}>
-            {pdfContent}
-          </PDFViewer>
         </>
       )}
     </div>

@@ -6,6 +6,8 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
+import { FontSize } from '../ContentEditor/extensions/font-size'
+import { LineHeight } from '../ContentEditor/extensions/line-height'
 
 export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) => {
 
@@ -31,6 +33,12 @@ export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) =
       TextStyle,
       Color,
       TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      FontSize.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      LineHeight.configure({
         types: ['heading', 'paragraph'],
       })
     ],
