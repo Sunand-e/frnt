@@ -76,91 +76,88 @@ const CourseSettings = ({options={}}) => {
     })
     return () => subscription.unsubscribe()
 
-  },[watch])
+  },[watch, updateCourse])
 
   const isScored = watch('settings.isScored');
 
   return (
-    <form>
-      <div className={`flex flex-col space-y-3 pb-2`}>
-        <TextInput
-          label="Course name"
-          placeholder="Untitled course"
-          inputAttrs={{
-            ...register("title", {
-              required:"Course name is required"
-            }),
-            // onChange: (e) => debouncedUpdate({title: e.target.value})
-          }}
-          // onClick
-        />
-        <div className='max-w-5xl shadow bg-main/10'>
-          <ImageSelectInput
-            buttonText="Choose course image"
-            className={'max-w-sm'}
-            origImage={defaultValues?.image}
-            control={control}
-            name="imageId"
-            // onSelect={image => updateCourse({imageId: image.id})}
-            // inputAttrs={register("image", { required: true })}
-          />
-        </div>
-        <TagSelectInput
+    <div className={`flex flex-col space-y-3 pb-2`}>
+      <TextInput
+        label="Course name"
+        placeholder="Untitled course"
+        inputAttrs={{
+          ...register("title", {
+            required:"Course name is required"
+          }),
+          // onChange: (e) => debouncedUpdate({title: e.target.value})
+        }}
+        // onClick
+      />
+      <div className='max-w-5xl shadow bg-main/10'>
+        <ImageSelectInput
+          buttonText="Choose course image"
+          className={'max-w-sm'}
+          origImage={defaultValues?.image}
           control={control}
-          tagType="category"
-          label="Categories"
-          // onChange={(tags) => updateCourse({tags})}
-          />
-        
-        <TipTapInput
-          label={`Description`}
-          name='content.description'
-          control={control}
-          content={course?.content?.description}
-        />
-        <CheckboxInput
-          label="Scored course"
-          labelClassName='text-sm font-medium'
-          inputAttrs={register("settings.isScored")}
-          options={[
-            { text: 'Yes', value: true },
-            { text: 'No', value: false }
-          ]}
-        />
-
-        <AnimatePresence>
-          { isScored && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <ScoreFromModuleIdsInput
-                control={control}
-                label={'Score from:'}
-              />
-              <TextInput
-                label="Pass mark (%)"
-                type="number"
-                inputAttrs={{
-                  ...register("settings.passMark", {
-                    valueAsNumber: true
-                  }),
-                  min: 0,
-                  max: 100
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        <CheckboxInput
-          label="Award certificate?"
-          labelClassName='text-sm font-medium'
-          inputAttrs={register("settings.hasCertificate")}
+          name="imageId"
+          // onSelect={image => updateCourse({imageId: image.id})}
+          // inputAttrs={register("image", { required: true })}
         />
       </div>
-    </form>
+      <TagSelectInput
+        control={control}
+        tagType="category"
+        label="Categories"
+        // onChange={(tags) => updateCourse({tags})}
+      />
+      <TipTapInput
+        label={`Description`}
+        name='content.description'
+        control={control}
+        content={course?.content?.description}
+      />
+      <CheckboxInput
+        label="Scored course"
+        labelClassName='text-sm font-medium'
+        inputAttrs={register("settings.isScored")}
+        options={[
+          { text: 'Yes', value: true },
+          { text: 'No', value: false }
+        ]}
+      />
+
+      <AnimatePresence>
+        { isScored && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            <ScoreFromModuleIdsInput
+              control={control}
+              label={'Score from:'}
+            />
+            {/* <TextInput
+              label="Pass mark (%)"
+              type="number"
+              inputAttrs={{
+                ...register("settings.passMark", {
+                  valueAsNumber: true
+                }),
+                min: 0,
+                max: 100
+              }}
+            /> */}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      <CheckboxInput
+        label="Award certificate?"
+        labelClassName='text-sm font-medium'
+        inputAttrs={register("settings.hasCertificate")}
+      />
+    </div>
   )
 }
 

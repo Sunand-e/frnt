@@ -2,23 +2,75 @@ import styles from './MenuBar.module.scss'
 import React, { Fragment } from 'react'
 import MenuItem from './MenuItem'
 import FontSizeDropdown from '../../ContentEditor/blocks/common/FontSizeDropdown'
-
-import Select from 'react-select'
-
+import Select, { components, ContainerProps } from 'react-select';
+import { FontSize } from '@styled-icons/boxicons-regular/FontSize'
+import remixiconUrl from './remixicon.symbol.svg'
 const fontSizes = [
   10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52
 ]
+
+const lineHeights = [
+  0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8
+]
+
+const lineHeightOptions = lineHeights.map(size => ({
+  value: size, label: size
+}))
 
 const fontSizeOptions = fontSizes.map(size => ({
   value: size,
   label: `${size}px`
 }))
 
-const FSSelect = () => (
-  <Select options={fontSizeOptions} />
+const FontSizeControl = ({ children, ...props }) => (
+  <components.Control {...props}>
+    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
+      <use xlinkHref={`${remixiconUrl}#ri-font-size`} />
+    </svg>
+    {children}
+  </components.Control>
+);
+
+const LineHeightControl = ({ children, ...props }) => (
+  <components.Control {...props}>
+    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
+      <use xlinkHref={`${remixiconUrl}#ri-line-height`} />
+    </svg>
+    {children}
+  </components.Control>
+);
+
+const FontSizeSelect = ({onChange}) => (
+  <Select 
+    className='mr-1 text-main-secondary'
+    components={{ Control: FontSizeControl }}
+    isSearchable={false}
+    options={fontSizeOptions}
+    onChange={onChange}
+  />
+)
+
+const LineHeightSelect = ({onChange}) => (
+  <Select 
+    className='mx-1 text-main-secondary'
+    components={{ Control: LineHeightControl }}
+    options={lineHeightOptions}
+    isSearchable={false}
+    onChange={onChange}
+
+  />
 )
 
 export default ({ editor }) => {
+
+  const changeFontSize = option => {
+    editor.chain().focus().setFontSize(option.value+'px').run()
+  }
+  
+  const changeLineHeight = option => {
+    editor.chain().focus().setLineHeight(option.value).run()
+  }
+
   const items = [
     {
       icon: 'bold',
@@ -60,7 +112,10 @@ export default ({ editor }) => {
       isActive: () => editor.isActive('paragraph'),
     },
     {
-      type: 'fontsize'
+      type: 'font-size'
+    },
+    {
+      type: 'line-height'
     },
     {
       type: 'color'
@@ -156,8 +211,10 @@ export default ({ editor }) => {
         <Fragment key={index}>
           { item.type === 'divider' ? (
             <div className={styles.divider} />
-          ) : item.type === 'fontsize' ? (
-              <FSSelect />
+          ) : item.type === 'font-size' ? (
+              <FontSizeSelect onChange={changeFontSize} />
+          ) : item.type === 'line-height' ? (
+              <LineHeightSelect onChange={changeLineHeight} />
           ) : item.type === 'color' ? (
             <input
               type="color"

@@ -17,9 +17,6 @@ function useUpdateCourse(id) {
   const cachedCourse = courseEdge?.node
   
   const updateCourse = async (variables) => {
-    const updatedCacheItems = getItemStructureFromSections(
-      filterDeletedCourseItems(cachedCourse).sections
-    )
     await updateCourseMutation({
       variables: {
         id,

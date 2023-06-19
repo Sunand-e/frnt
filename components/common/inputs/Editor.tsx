@@ -36,10 +36,10 @@ export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) =
         types: ['heading', 'paragraph'],
       }),
       FontSize.configure({
-        types: ['heading', 'paragraph'],
+        types: ['textStyle'],
       }),
       LineHeight.configure({
-        types: ['heading', 'paragraph'],
+        types: ['heading", "paragraph'],
       })
     ],
     ...( !!onUpdate && {
