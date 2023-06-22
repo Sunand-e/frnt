@@ -5,10 +5,13 @@ import Button from "../../common/Button";
 import useMarkComplete from "../../../hooks/courses/useMarkComplete";
 import usePreviousAndNextIds from "./usePreviousAndNextIds";
 
-const PrevNextButtons = () => {
+const PrevNextButtons = ({
+  showPrevious=true, 
+  showNext=true,
+  onClickNext=null,
+}) => {
 
   const router = useRouter()
-  const { id: courseId, cid: moduleId } = router.query
   
   const { previous, next } = usePreviousAndNextIds()
 
@@ -21,17 +24,15 @@ const PrevNextButtons = () => {
       }
     })
   }
-
-  const { markComplete, disabled } = useMarkComplete(moduleId, courseId)
-  // const handleMarkComplete = useCallback(() => {
-  //   markComplete()
-  //   !!next && goTo(next)
-  // }, [markComplete, prevNextIds])
-
+  
+  const handleClickNext = () => {
+    !!onClickNext && onClickNext()
+    goTo(next)
+  }
   return (
     // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
     <>
-    { previous && (
+    { showPrevious && previous && (
       <Button onClick={() => goTo(previous)}>
         <span className='flex items-center xl:space-x-2'>
           <span className="hidden xl:block">Previous</span>
@@ -39,8 +40,8 @@ const PrevNextButtons = () => {
         </span>
       </Button>
     )}
-    { next && (
-      <Button onClick={() => goTo(next)}>
+    { showNext && next && (
+      <Button onClick={handleClickNext}>
         <span className='flex items-center xl:space-x-2'>
         <span className="hidden xl:block">Next</span>
           <ArrowSmRight className='h-8'/>

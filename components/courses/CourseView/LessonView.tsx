@@ -8,6 +8,7 @@ import Button from "../../common/Button"
 import useMarkComplete from "../../../hooks/courses/useMarkComplete"
 import { useCallback } from "react"
 import usePreviousAndNextIds from "./usePreviousAndNextIds"
+import PrevNextButtons from "./PrevNextButtons"
 
 const LessonView = () => {
 
@@ -25,26 +26,13 @@ const LessonView = () => {
     title: lesson ? (lesson.node.title || 'Untitled lesson') : ''
   })
 
-  const { next } = usePreviousAndNextIds()
-
-  const goToNext = () => {
-    router.push({
-      pathname: `/course`,
-      query: {
-        ...router.query,
-        cid: next
-      }
-    })
-  }
-
   const { markComplete } = useMarkComplete(lessonId)
 
   const handleClickNext = useCallback(() => {
     if(lesson?.status !== 'completed') {
       markComplete({progress:100})
     }
-    !!next && goToNext()
-  }, [markComplete, next])
+  }, [markComplete])
 
   return (
     <>
@@ -54,12 +42,10 @@ const LessonView = () => {
           ))}
       </div>
       <div className={`flex flex-col items-center`}>
-        <Button onClick={handleClickNext}>
-          <span className='flex items-center xl:space-x-2'>
-          <span className="hidden xl:block">Next</span>
-            <ArrowSmRight className='h-8'/>
-          </span>
-        </Button>
+        <PrevNextButtons
+          onClickNext={handleClickNext}
+          showPrevious={false}
+        />
       </div>
     </>
   )

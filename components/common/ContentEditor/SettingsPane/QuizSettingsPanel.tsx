@@ -27,7 +27,14 @@ export const QuizSettingsPanel = () => {
     from: { id: contentId, __typename: "ContentItem", },
   });
   
-  const { register, watch, control } = useForm<QuizFormValues>({defaultValues: quiz});
+  const { register, watch, control } = useForm<QuizFormValues>({defaultValues: {
+    ...quiz,
+    settings: {
+      passMark:80,
+      feedback: 'afterQuestion',
+      ...quiz.settings
+    }
+  }});
 
   useEffect(() => {
     const subscription = watch((data) => {

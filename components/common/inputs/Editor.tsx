@@ -9,11 +9,11 @@ import TextAlign from '@tiptap/extension-text-align'
 import { FontSize } from '../ContentEditor/extensions/font-size'
 import { LineHeight } from '../ContentEditor/extensions/line-height'
 
-export default ({editable=true, onUpdate=null, content=null,  editorClass=''}) => {
+export default ({autofocus=true, editable=true, onUpdate=null, content=null,  editorClass=''}) => {
 
   const editor = useEditor({
     editable,
-    autofocus: true,
+    autofocus,
     editorProps: {
       attributes: {
         class: `${editorClass} prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none`,

@@ -6,6 +6,7 @@ import {RestartAlt} from '@styled-icons/material-rounded/RestartAlt'
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
 import { useFragment_experimental } from "@apollo/client";
 import { QuizFragment } from "../../graphql/queries/allQueries";
+import PrevNextButtons from "../courses/CourseView/PrevNextButtons";
 function QuizSummary() {
 
   const router = useRouter()
@@ -38,12 +39,12 @@ function QuizSummary() {
 
   return (
         <div className="max-w-screen-lg w-full text-center">
-          <h2 className="mb-6 text-main text-2xl">
+          <h2 className="mb-6 text-main text-3xl">
             {'Quiz complete'}
           </h2>
           {quizAttempt && (
             <>
-              <h4 className="mb-3 text-main text-xl">
+              <h4 className="mb-3 text-main text-2xl">
                 { quizAttempt.status === 'passed' ? (
                   'Congratulations, you passed!'
                   ) : (
@@ -54,17 +55,22 @@ function QuizSummary() {
                   )
                 }
               </h4>
-              <h4 className="mb-3 text-main text-xlg">
-                Your score: {quizAttempt.score}%
+              <h4 className="mb-3 text-main text-xl">
+                Your score: <strong>{quizAttempt.score}%</strong>
               </h4>
             </>
           )}
-          <Button onClick={startNewAttempt}>
-          <span className="flex items-center xl:space-x-2">
-            <RestartAlt width={26}/>
-            Start New Attempt
-          </span>
-          </Button>
+          <div>
+            <Button onClick={startNewAttempt} className="mb-6">
+            <span className="flex items-center xl:space-x-2 ">
+              <RestartAlt width={26}/>
+              Start New Attempt
+            </span>
+            </Button>
+          </div>
+          <PrevNextButtons
+            showPrevious={false}
+          />
       </div>
   )
 }

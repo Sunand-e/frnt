@@ -1,6 +1,8 @@
 import usePageTitle from '../../hooks/usePageTitle';
 import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
 import {Users} from '@styled-icons/fa-solid/Users';
+import {Group2} from "@styled-icons/remix-fill/Group2";
+import {Library} from "@styled-icons/ionicons-solid/Library"
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
@@ -44,14 +46,14 @@ const AdminDashboardPage = () => {
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
-      IconComponent: GraduationCap,
+      IconComponent: Group2,
       href: "admin/users/groups"
     },
     {
       name: 'allResources',
       label: 'Total resources',
       value: data?.resources.totalCount,
-      IconComponent: Users,
+      IconComponent: Library,
       href: "admin/resources"
     },
   ]),[data])

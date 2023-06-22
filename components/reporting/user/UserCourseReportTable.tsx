@@ -5,7 +5,6 @@ import { useRouter } from "../../../utils/router";
 import { moduleTypes } from "../../courses/moduleTypes";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable from "../ReportTable";
-import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { USER_COURSE_REPORT } from "./USER_COURSE_REPORT";
 
 const UserCourseReportTable = () => {
@@ -45,10 +44,18 @@ const UserCourseReportTable = () => {
         header: "Course module",
         accessorFn: row => row.node.title,
         cell: ({ cell }) => {
+          const module = cell.row.original.node
+          const moduleTypeName = module?.itemType === 'quiz' ? 
+            'quiz'
+            : module?.contentType
+
+          const moduleType = moduleTypes[moduleTypeName] 
+          const title = module ? (module.title || `Untitled ${moduleType?.label}`) : ''
           const IconComponent =
-            moduleTypes[cell.row.original.node?.contentType]?.icon || null;
+            moduleTypes[moduleTypeName]?.icon || null;
+
           const cellProps = {
-            title: cell.row.original.node?.title,
+            title,
             icon: !!IconComponent && (
               <IconComponent className="hidden w-6 h-full bg-grey-500 text-main-secondary" />
             ),
@@ -63,9 +70,13 @@ const UserCourseReportTable = () => {
         header: "Score",
         accessorKey: "score",
         cell: ({ cell }) => {
-          if(cell.row.original.node.itemType === 'quiz'
-          || cell.row.original.node.contentType === 'scorm_assessment') {
-            return cell.getValue() || '0' + '%'
+          if(cell.row.original.status !== 'not_started' &&
+            cell.row.original.status !== null && (
+              cell.row.original.node.itemType === 'quiz' ||
+              cell.row.original.node.contentType === 'scorm_assessment'
+            )
+          ) {
+            return cell.getValue() || '0'
           } else {
             return <span>&mdash;</span>
           }
@@ -117,8 +128,9 @@ const UserCourseReportTable = () => {
     []
   );
 
-  const courseNode = data?.user?.courses?.nodes?.[0];
-
+  const courseNode = data?.user?.courses?.edges?.[0].node;
+  console.log('courseNode')
+  console.log(courseNode)
   // const titleBreadcrumbs = [
   //   {
   //     text: "Courses",

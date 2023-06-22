@@ -3,8 +3,6 @@ import CertificateLink from "./CertificateLink"
 
 const MyCertificates = () => {
   const { certificates } = useGetCertificates()
-  console.log('certificates')
-  console.log(certificates)
   return (
     <div>
       { certificates ? certificates.map(certificate => (

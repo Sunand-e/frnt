@@ -13,6 +13,7 @@ import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentSt
 import { AnimatePresence, motion } from "framer-motion";
 import { GetLatestUserQuizAttemptQuery, UserQuizAttempt } from "../../graphql/generated";
 import { GetLatestScoAttempt } from "../../graphql/queries/__generated__/GetLatestScoAttempt";
+import PrevNextButtons from "../courses/CourseView/PrevNextButtons";
 
 function QuizView() {
 
@@ -48,18 +49,18 @@ function QuizView() {
   useEffect(() => {
     // Check if the quiz attempt is not set and the latestUserQuizAttempt data is available
     if (data?.latestUserQuizAttempt) {
-        // If a quiz attempt exists, set the attempted question IDs and update the quiz state
-        const attemptedQuestionIds = data.latestUserQuizAttempt.userQuestionAttempts.map(
-          attempt => attempt.question.id
-        );
-        useQuizStore.setState({
-          activeQuestionId: quiz.questions.find(q => {
-            // Find the first question that has not been attempted
-            return !attemptedQuestionIds.includes(q.id);
-          })?.id,
-          isEditMode: false
-        });
-      }
+      // If a quiz attempt exists, set the attempted question IDs and update the quiz state
+      const attemptedQuestionIds = data.latestUserQuizAttempt.userQuestionAttempts.map(
+        attempt => attempt.question.id
+      );
+      useQuizStore.setState({
+        activeQuestionId: quiz.questions.find(q => {
+          // Find the first question that has not been attempted
+          return !attemptedQuestionIds.includes(q.id);
+        })?.id,
+        isEditMode: false
+      });
+    }
   }, [data?.latestUserQuizAttempt?.id, quizId]);
 
 
@@ -110,7 +111,10 @@ function QuizView() {
         {
           data?.latestUserQuizAttempt && (
             completed ? (
+              <>
               <QuizSummary />
+              </>
+
             ) : (
               activeQuestion && (
                 <QuestionView

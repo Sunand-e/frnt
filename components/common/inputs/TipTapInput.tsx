@@ -32,6 +32,7 @@ const TipTapInput = ({
         content={content}
         editable={editable}
         onUpdate={handleUpdate}
+        autofocus={false}
       />
     </label>
   )

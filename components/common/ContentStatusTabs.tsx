@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import MyCertificates from "../certificates/MyCertificates"
+import CertificatesTable from "../certificates/CertificatesTable"
 import Tabs from "./containers/Tabs"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
@@ -71,7 +71,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     <>
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
       { activeTab === 'certificates' ? (
-        <MyCertificates />
+        <CertificatesTable />
       ) : (
         <>
           { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s...`}/> }

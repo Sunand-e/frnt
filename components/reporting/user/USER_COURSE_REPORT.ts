@@ -8,6 +8,7 @@ export const USER_COURSE_REPORT = gql`
         edges {
           node {
             id
+            title
             sections {
               id
               title
@@ -30,6 +31,7 @@ export const USER_COURSE_REPORT = gql`
             id
             title
             contentType
+            itemType
           }
           status
           lastVisited
@@ -49,6 +51,7 @@ export const USER_COURSE_REPORT = gql`
             id
             title
             contentType
+            itemType
           }
           status
           lastVisited

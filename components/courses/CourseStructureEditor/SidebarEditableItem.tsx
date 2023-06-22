@@ -8,6 +8,7 @@ import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStor
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
 import { ContentTitleAndTypeFragment } from '../../../graphql/queries/allQueries'
 import { useFragment_experimental } from '@apollo/client'
+import { moduleTypes } from '../moduleTypes'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -34,8 +35,11 @@ const SidebarEditableItem = ({
     from: { id, __typename: "ContentItem", },
   });
 
+  const moduleTypeName = data ? data.itemType === 'quiz' ? 'quiz' : data.contentType : null
+  const moduleTypeString = moduleTypeName && moduleTypes[moduleTypeName].lowercase
   const { confirmDelete } = useConfirmDelete({
-    itemType: 'lesson',
+    // itemType: 'lesson',
+    itemType: moduleTypeString,
     name: data?.title,
     onConfirm: () => {
       if(contentId === id) {

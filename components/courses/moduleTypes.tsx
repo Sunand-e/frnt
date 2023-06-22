@@ -6,6 +6,7 @@ interface ModuleTypes {
   [key: string]: {
     label?: string
     shortName?: string
+    lowercase?: string
     icon?: StyledIcon
     sidebarPanels?: string[]
     defaultContent?: JSON
@@ -15,16 +16,19 @@ interface ModuleTypes {
 export const moduleTypes: ModuleTypes = {
   standard_lesson: {
     label: "Lesson", 
+    lowercase: "lesson", 
     shortName: "Lesson", 
     icon: TextLeft,
     sidebarPanels: ['blocks']
   },
   scorm_assessment: {
     label: "SCORM Module",
+    lowercase: "SCORM module", 
     icon: Box,
   },
   quiz: {
     label: "Quiz",
+    lowercase: "quiz",
     icon: Quiz,
     sidebarPanels: ['questions']
   },
