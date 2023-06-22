@@ -41,7 +41,6 @@ const StylingPanel = ({block: origBlock, children = null}) => {
             side='bottom'
             onSelect={data => selectPadding(data.value, 'bottom')}
             selected={block.properties.paddingBottom}
-            selected='none'
             label="Bottom"
           />
         </div>

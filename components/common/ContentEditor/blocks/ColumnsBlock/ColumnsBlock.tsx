@@ -16,7 +16,14 @@ export const ColumnsBlock = ({id, block}) => {
     <div className={`w-full grid ${gridColsClass}`}>
       { 
         block.children?.map((childBlock, index, blocks) => (
-          <div className='flex-1' key={childBlock.id}>
+          <div 
+            className='flex-1 relative px-4'
+            style={{
+              backgroundColor: childBlock?.properties?.bgColor,
+              color: childBlock?.properties?.textColor || 'inherit'
+            }}
+            key={childBlock.id}
+          >
             <Block block={childBlock} />
           </div>
 

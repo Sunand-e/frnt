@@ -1,6 +1,6 @@
-import Select from "react-select";
+import Select, { components }  from "react-select";
 
-const paddingOptions = ['none','10px','20px','30px','40px','50px','60px','70px','80px','90px','100px']
+const paddingOptions = ['0px','10px','20px','30px','40px','50px','60px','70px','80px','90px','100px']
 
 const PaddingSelect = ({side, onSelect, selected, label, styles={}}) => {
 
@@ -8,19 +8,32 @@ const PaddingSelect = ({side, onSelect, selected, label, styles={}}) => {
     onSelect(tag)
   }
 
+  const options = paddingOptions.map(option => { 
+    return {
+      label: option,
+      value: option
+    }
+  })
+
+  const selectedOption = options.filter(o => o.value === selected)
+
   const selectProps = {
-    options: paddingOptions.map(option => { 
-      return {
-        label: option,
-        value: option === 'none' ? '0px' : option       
-      }
-    }),
-    defaultValue: selected,
+    options,
+    defaultValue: selectedOption,
     menuPortalTarget: document.body,
     isSearchable: false,
     onChange,
     styles: { 
-      
+      dropdownIndicator: (provided, state) => {
+        return {
+          ...provided,
+          padding: '0px',
+          paddingLeft: '3px',
+          paddingTop: '0px',
+          paddingRight: '3px',
+          paddingDown: '0px',
+        };
+      },
       menuPortal: base => ({ ...base, zIndex: 9999 }),
       control: (provided, state) => ({
         ...provided,

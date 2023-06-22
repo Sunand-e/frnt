@@ -1,11 +1,11 @@
 import Tippy from "@tippyjs/react"
-import { HexColorInput, HexColorPicker } from "react-colorful"
+import { HexAlphaColorPicker, HexColorInput, HexColorPicker } from "react-colorful"
 
 const ColorPicker = ({label=null, value, onChange}) => {
   return (
     <div className="text-sm font-medium text-secondary">
       { label && <label className="block mb-2">{label}</label> }
-      <div className="flex space-x-2">
+      <div className="flex space-x-4 items-center">
         <Tippy
           className="bg-white text-main pt-1"
           interactive={true}
@@ -18,19 +18,31 @@ const ColorPicker = ({label=null, value, onChange}) => {
           }}
           content={
             <div>
-              <HexColorPicker color={value} onChange={onChange} />
+              <HexAlphaColorPicker color={value} onChange={onChange} />
+              <HexColorInput color={value} onChange={onChange} alpha />
             </div>
           }
           >
-          <input 
+          {/* <input 
             onClick={(e) => e.preventDefault()}
             className="flex items-center w-12 h-8"
             type="color"
             value={value}
             readOnly={true}
+          /> */}
+          <div 
+            className="flex items-center w-12 h-8 border border-gray-400"
+            style={{backgroundColor: value}}
           />
         </Tippy>
-        <HexColorInput color={value} onChange={onChange} alpha={true} />
+        { value && (
+          <span 
+            onClick={() => onChange('')}
+            className="text-main"
+          >
+            clear
+          </span>
+        )}
       </div>
     </div>
   )
