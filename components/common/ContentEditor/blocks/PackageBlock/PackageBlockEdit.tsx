@@ -26,13 +26,14 @@ export const PackageBlockEdit = ({
   const { updateBlock, addBlock } = useBlockEditor(block)
   
    
-  const handlePackageSelect = (module) => {
+  const handlePackageSelect = (scormPackage) => {
     updateBlock({
       ...block,
       properties: {
         ...block.properties,
-        url: module.launchUrl,
-        moduleId: module.id
+        url: scormPackage.launchUrl,
+        moduleId: scormPackage.id,
+        title: scormPackage.title
       }
     })
     closeModal()

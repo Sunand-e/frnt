@@ -19,41 +19,28 @@ import { useForm } from 'react-hook-form';
 import useGetScormPackages from "../../../../hooks/scormPackages/useGetScormPackages";
 import { useFragment_experimental } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
+import { Box } from "@styled-icons/boxicons-regular";
 
 export const ScormSettingsPanel = () => {
 
-  const router = useRouter()
-  const { id, cid: contentId } = router.query
-  
-  const { complete, data, missing } = useFragment_experimental({
-    fragment: LessonFragment,
-    fragmentName: 'LessonFragment',
-    from: { id: contentId, __typename: "ContentItem", },
-  });
-
   const { blocks } = useBlockStore()
   const { updateBlock } = useBlockEditor()
-  
+
   const scormPackageBlock = blocks.find(
     block => block.type === 'package'
   )
   
-  const defaultValues = {
-    filename: scormPackageBlock?.properties?.title
-  }
-
-  const { register, watch, control, setFocus, getValues, setValue, formState: { errors } } = useForm({defaultValues});
-
-  const handlePackageSelect = (_package: ScormModule) => {
+  const handlePackageSelect = (scormPackage: ScormPackage) => {
     updateBlock({
       ...scormPackageBlock,
       properties: {
         ...scormPackageBlock?.properties,        
-        url: _package.launchUrl,
-        moduleId: _package.id
+        url: scormPackage.launchUrl,
+        moduleId: scormPackage.id,
+        title: scormPackage.title
       }
     })
-    setValue('filename', _package.title)
+    // setValue('filename', _package.title)
     closeModal()
   }
   
@@ -67,10 +54,19 @@ export const ScormSettingsPanel = () => {
 
   return (
     <div>
-      <TextInput 
-        inputAttrs={register("filename")}
-        onClick={handleInputClick}
-      />    
+      <span className="text-sm font-medium text-secondary">SCORM zip file</span>
+      <div className="flex items-star space-x-2">
+        <Box className="w-8 text-main" />
+      <div className="">
+          <p className="text-sm font-medium text-main-secondary truncate">
+            { scormPackageBlock?.properties?.title }
+          </p>
+          <p 
+            className="text-sm text-main hover:font-bold cursor-pointer"
+            onClick={handleInputClick}
+          >Change package</p>
+        </div>
+      </div>
     </div>
   )
 }

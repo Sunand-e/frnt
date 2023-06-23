@@ -22,6 +22,15 @@ export const commonTableCols = {
     ),
     cell: (cell) => cell.getValue() || noDataDash
   },
+  
+  passedAt: {
+    id: "passedAt",
+    header: "Last visited",
+    accessorFn: row => (
+      row.passedAt ? dayjs(row.passedAt).format('Do MMMM YYYY [at] h:mm A') : null
+    ),
+    cell: (cell) => cell.getValue() || noDataDash
+  },
 
   status: {
     id: "status",

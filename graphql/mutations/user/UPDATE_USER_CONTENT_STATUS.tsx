@@ -7,7 +7,8 @@ export const UserContentStatusFragment = gql`
     score
     progress
     updatedAt
-    completed
+    passedAt
+    completedAt
     properties
     lastVisited
     firstVisited
@@ -28,11 +29,9 @@ export const UPDATE_USER_CONTENT_STATUS = gql`
     $score: Int
     $progress: Int
     $visits: Int
-    $completed: Boolean
   ) {
     updateUserContentStatus(input: {
       contentItemId: $contentItemId, 
-      completed: $completed,
       firstVisited: $firstVisited,
       lastVisited: $lastVisited,
       score: $score,

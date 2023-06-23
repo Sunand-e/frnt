@@ -43,72 +43,78 @@ export const CurrentUserFragment = gql`
   ${TagFragment}
 `
 
+export const UserContentEdgeFragment = gql`
+  fragment UserContentEdgeFragment on UserContentEdge {
+    userId
+    node {
+      ...ContentFragment
+      id
+      title
+      order
+      content
+      contentType
+      itemType
+      order
+      tags {
+        edges {
+          id
+          order
+          node {
+            id
+            label
+            tagType
+          }
+        }
+      }
+      groupsEnrolled {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+    roles {
+      id
+      name
+      roleType
+      capabilities {
+        id
+        name
+      }
+    }
+    groups {
+      edges {
+        roles {
+          id
+        }
+        node {
+          id
+          name      
+        }
+      }
+    }
+    status
+    lastVisited
+    firstVisited
+    createdAt
+    updatedAt
+    completedAt
+    passedAt
+    score
+    progress
+    visits
+  }
+  ${ContentFragment}
+`
 export const UserContentConnectionFragment = gql`
   fragment UserContentConnectionFragment on UserContentConnection {
     totalCount
     edges {
-      userId
-      node {
-        ...ContentFragment
-        id
-        title
-        order
-        content
-        contentType
-        itemType
-        order
-        tags {
-          edges {
-            id
-            order
-            node {
-              id
-              label
-              tagType
-            }
-          }
-        }
-        groupsEnrolled {
-          edges {
-            node {
-              id
-            }
-          }
-        }
-      }
-      roles {
-        id
-        name
-        roleType
-        capabilities {
-          id
-          name
-        }
-      }
-      groups {
-        edges {
-          roles {
-            id
-          }
-          node {
-            id
-            name      
-          }
-        }
-      }
-      status
-      lastVisited
-      firstVisited
-      createdAt
-      updatedAt
-      completedAt
-      score
-      progress
-      visits
-      completed
+      ...UserContentEdgeFragment
     }
   }
-  ${ContentFragment}
+  ${UserContentEdgeFragment}
 `
 
 export const UserCoursesFragment = gql`

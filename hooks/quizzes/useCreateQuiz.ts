@@ -87,6 +87,10 @@ function useCreateQuiz(sectionId) {
     const newQuiz = await createQuizMutation({
       variables: {
         ...values,
+        settings: {
+          ...values.settings,
+          passMark: 80
+        },
         parentIds: [sectionId]
       },
       optimisticResponse: {

@@ -5,7 +5,7 @@ import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import { useRouter } from "../../../utils/router";
 import { useState } from "react";
 
-const ScoreFromModuleIdsInput = ({control, label, onChange=null}) => {
+const ScoreFromModuleIdsInput = ({control, label}) => {
 
   const router = useRouter()
   const { id } = router.query
@@ -41,8 +41,7 @@ const ScoreFromModuleIdsInput = ({control, label, onChange=null}) => {
       // console.log(val.map(v => v.value))
       // field.onChange(val.map(v => v.value))
       console.log(val.value)
-      field.onChange(val.value)
-      onChange && onChange(val)
+      field.onChange([val.value])
     },
     getOptionValue: option => option.value ?? option.id,
     className: `w-full`,

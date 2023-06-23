@@ -49,7 +49,8 @@ const SelectNewCourseItem = ({
             id: uuidv4(),
             properties: {
               url: scormPackage.launchUrl,
-              moduleId: scormPackage.id
+              moduleId: scormPackage.id,
+              title: scormPackage.title,
             }
           }
         ],

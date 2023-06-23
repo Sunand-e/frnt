@@ -58,13 +58,14 @@ const BlockSelector = ({
     })
   }
 
-  const handlePackageSelect = (module) => {
+  const handlePackageSelect = (scormPackage) => {
     const newBlock = {
       type: 'package',
       id: uuidv4(),
       properties: {
-        url: module.launchUrl,
-        moduleId: module.id,
+        url: scormPackage.launchUrl,
+        moduleId: scormPackage.id,
+        title: scormPackage.title,
         paddingTop: '30px',
         paddingBottom: '30px',
       }

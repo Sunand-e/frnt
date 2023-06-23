@@ -1,4 +1,7 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import dayjs from 'dayjs';
+var advancedFormat = require('dayjs/plugin/advancedFormat')
+dayjs.extend(advancedFormat)
 import CertificateBg from './CertificateBg';
 
 const CertificatePdf = ({user, certificate, colors}) => {
@@ -26,7 +29,17 @@ const CertificatePdf = ({user, certificate, colors}) => {
       width: '100%',
     },
   });
-  
+
+  const userCourseEdge = certificate.courseUserContent.edges[0]
+  let date
+  if(certificate.isScored) {
+    date = userCourseEdge.passedAt            
+  } else {
+    date = userCourseEdge.completedAt
+  }
+
+  const displayDate = dayjs(date).format('Do MMMM YYYY')
+
   return (
     user ? (
     <Document>
@@ -42,7 +55,8 @@ const CertificatePdf = ({user, certificate, colors}) => {
             </Text>
             <Text style={{
               fontSize: 28,
-              marginTop: 20
+              marginTop: 20,
+              fontFamily: 'Times-Bold',
             }}>
               {user.fullName}
             </Text>
@@ -52,7 +66,7 @@ const CertificatePdf = ({user, certificate, colors}) => {
             <Text style={{
               fontSize: 28,
               marginTop: 20,
-              fontStyle: 'italic'
+              fontFamily: 'Times-Italic',
             }}>{certificate.course?.title}</Text>
             {/* { certificate.isScored && (
               <Text style={{
@@ -62,8 +76,12 @@ const CertificatePdf = ({user, certificate, colors}) => {
             <Text
             style={{
               marginTop: 20,
-              fontStyle: 'italic'
-            }}>on {certificate.completedAt}</Text>
+            }}>on</Text>
+            <Text
+            style={{
+              marginTop: 20,
+              fontFamily: 'Times-Bold',
+            }}>{displayDate}</Text>
             {/* <Image></Image> */}
           </View>
       </Page>
