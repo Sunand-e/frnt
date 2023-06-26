@@ -41,7 +41,6 @@ export const USER_COURSE_REPORT = gql`
           score
           progress
           visits
-          completed
         }
         totalCount
       }
@@ -61,7 +60,6 @@ export const USER_COURSE_REPORT = gql`
           score
           progress
           visits
-          completed
         }
         totalCount
       }

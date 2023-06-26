@@ -34,7 +34,6 @@ const LessonUsersReportTable = () => {
               score
               progress
               visits
-              completed
             }
             totalCount
           }
