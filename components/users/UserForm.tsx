@@ -16,8 +16,7 @@ interface UserFormValues {
 }
 
 const UserForm = ({user=null, onSubmit}) => {
-  console.log('user?.roles.map(role => role.id)')
-  console.log(user?.roles.map(role => role.id))
+  
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,

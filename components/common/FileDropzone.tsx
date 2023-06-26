@@ -33,8 +33,7 @@ const FileDropzone = ({
     console.log('runtings')
     onDrop(acceptedFiles, fileRejections, event)
   }
-console.log('  accept')
-console.log(  accept)
+  
   const {
     acceptedFiles,
     getRootProps,
