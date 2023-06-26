@@ -14,6 +14,9 @@ export const UserFragment = gql`
     updatedAt
     userType
     profileImageUrl
+    invitationSentAt
+    invitationAcceptedAt
+    currentSignInAt
     roles {
       id
       name
