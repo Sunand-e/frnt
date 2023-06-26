@@ -30,7 +30,7 @@ const AdminCourses = () => {
   
   useEffect(() => {
     if(ready) {
-      if(!userHasCapability('UpdateUser')) {
+      if(!userHasCapability('UpdateCourse')) {
         router.push('/')
       }
     }
@@ -43,12 +43,10 @@ const AdminCourses = () => {
 
 
   return (
-    (ready && (
     <>
       <Notices />
       <CoursesTable />
     </>
-    ))
   )
 }
 
