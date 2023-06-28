@@ -26,14 +26,6 @@ const LessonView = () => {
     title: lesson ? (lesson.node.title || 'Untitled lesson') : ''
   })
 
-  const { markComplete } = useMarkComplete(lessonId)
-
-  const handleClickNext = useCallback(() => {
-    if(lesson?.status !== 'completed') {
-      markComplete({progress:100})
-    }
-  }, [markComplete])
-
   return (
     <>
       <div className="w-full flex flex-col">
@@ -43,7 +35,6 @@ const LessonView = () => {
       </div>
       <div className={`flex flex-col items-center`}>
         <PrevNextButtons
-          onClickNext={handleClickNext}
           showPrevious={false}
         />
       </div>

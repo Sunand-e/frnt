@@ -10,7 +10,11 @@ const usePreviousAndNextIds = () => {
   const { courses } = useGetUserCourse(courseId)
   const course = courses?.edges[0]?.node
   
-  const [prevNextIds, setPrevNextIds] = useState([]);
+  const [prevNextLast, setPrevNextLast] = useState({
+    prev: null,
+    next: null,
+    last: null
+  });
 
   useEffect(() => {
     const orderedIds = course && filterDeletedCourseItems(course).sections.reduce((arr, section) => {
@@ -18,16 +22,15 @@ const usePreviousAndNextIds = () => {
     }, []);
 
     if(orderedIds) {
-      let prevId = orderedIds[orderedIds.indexOf(moduleId) - 1]
-      let nextId = orderedIds[orderedIds.indexOf(moduleId) + 1]
-      setPrevNextIds([prevId,nextId])
+      setPrevNextLast({
+        prev: orderedIds[orderedIds.indexOf(moduleId) - 1],
+        next: orderedIds[orderedIds.indexOf(moduleId) + 1],
+        last: orderedIds[-1]
+      })
     }
   }, [moduleId, course])
 
-  return {
-    previous: prevNextIds[0],
-    next: prevNextIds[1]
-  }
+  return prevNextLast
 }
 
 export default usePreviousAndNextIds

@@ -17,7 +17,7 @@ const CoursePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, cid: contentId } = router.query
+  const { id, cid: contentId, completed } = router.query
   const { userHasCapability } = useUserHasCapability()
   const showEditButton = userHasCapability([
     'UpdateRole',
@@ -25,9 +25,8 @@ const CoursePage = () => {
     
   const { user } = useGetCurrentUser();
   const { courseEdge } = useGetUserCourse(id)
-  const [courseScore, setCourseScore] = useState(null)
-  const [showCompletedPage, setShowCompletedPage] = useState(false)
   
+  const showCompletedPage = !contentId && completed && courseEdge.status === 'completed'
   useEffect(() => {
     useViewStore.setState({
       isSlimNav: true,
@@ -45,15 +44,6 @@ const CoursePage = () => {
     })
   }
 
-  useEffect(() => {
-    setShowCompletedPage(false)
-    if(courseEdge) {
-      if(courseScore!==null && courseEdge?.score === 100) {
-        // setShowCompletedPage(true)
-      }
-      courseEdge?.score && setCourseScore(courseEdge.score)
-    }
-  },[courseEdge, id])
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useHeaderButtons([
