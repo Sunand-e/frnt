@@ -11,6 +11,7 @@ export const userContentEdgeDefaults = {
   createdAt: null,
   updatedAt: null,
   completedAt: null,
+  passedAt: null,
   firstVisited: null,
   lastVisited: null,
   properties:{},
