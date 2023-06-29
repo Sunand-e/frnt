@@ -40,12 +40,12 @@ const CertificatesTable = () => {
       {
         header: "Awarded on",
         accessorFn: row => {
-          const edge = row.courseUserContent.edges[0]
+          const courseEdge = row.courseUserContent
           let date
           if(row.isScored) {
-            date = edge.passedAt            
+            date = courseEdge.passedAt            
           } else {
-            date = edge.completedAt
+            date = courseEdge.completedAt
           }
           return dayjs(date).format('Do MMMM YYYY [at] h:mm A')
         },

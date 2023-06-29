@@ -30,7 +30,7 @@ const CertificatePdf = ({user, certificate, colors}) => {
     },
   });
 
-  const userCourseEdge = certificate.courseUserContent.edges[0]
+  const userCourseEdge = certificate.courseUserContent
   let date
   if(certificate.isScored) {
     date = userCourseEdge.passedAt            

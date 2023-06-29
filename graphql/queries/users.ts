@@ -46,6 +46,20 @@ export const CurrentUserFragment = gql`
   ${TagFragment}
 `
 
+export const UserContentFragment = gql`
+  fragment UserContentFragment on UserContent {
+    status
+    lastVisited
+    firstVisited
+    createdAt
+    updatedAt
+    completedAt
+    passedAt
+    score
+    progress
+    visits
+  }
+`
 export const UserContentEdgeFragment = gql`
   fragment UserContentEdgeFragment on UserContentEdge {
     userId
