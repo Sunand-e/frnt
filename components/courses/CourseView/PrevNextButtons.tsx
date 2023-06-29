@@ -6,6 +6,7 @@ import useMarkComplete from "../../../hooks/courses/useMarkComplete";
 import usePreviousAndNextIds from "./usePreviousAndNextIds";
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse';
 import { useCallback } from 'react';
+import cache from '../../../graphql/cache';
 
 const PrevNextButtons = ({
   showPrevious=true, 
@@ -49,6 +50,8 @@ const PrevNextButtons = ({
     if(next) {
       goTo(next)
     } else {
+      cache.evict({ fieldName: "certificates" });
+      
       router.push({
         pathname: `/course`,
         query: {
