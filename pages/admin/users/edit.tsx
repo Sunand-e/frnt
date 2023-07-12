@@ -15,6 +15,7 @@ import axios from 'axios';
 import UserPathways from '../../../components/users/pathways/UserPathways';
 import getJWT from '../../../utils/getToken';
 import ButtonBack from '../../../components/common/ButtonBack';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 
 const AdminUsersEdit = () => {
   
@@ -22,6 +23,7 @@ const AdminUsersEdit = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
+  const { userHasCapability } = useUserHasCapability()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
   const { uploadFileAndNotify } = useUploadAndNotify({
@@ -32,7 +34,7 @@ const AdminUsersEdit = () => {
 
     const token = getJWT();
 
-    updateUser(values, () => updateUserTenantRoles({
+    updateUser(values, () => userHasCapability('UpdateUserTenantRoles') && updateUserTenantRoles({
       userId: id,
       roleIds: values.role_ids
     }))
@@ -53,7 +55,7 @@ const AdminUsersEdit = () => {
     }
     router.push('/admin/users')
   }
-  
+
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
   useHeaderButtons({
