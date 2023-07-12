@@ -16,7 +16,7 @@ const rejectStyle: CSSProperties = {
 export interface FileDropzoneProps {
   accept;
   dropZoneContent;
-  onClick;
+  onClick?;
   onDrop;
   multiple;
 }
