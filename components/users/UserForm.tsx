@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import CheckboxInput from '../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
 import ImageDropzoneInput from "../common/inputs/ImageDropzoneInput";
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 interface UserFormValues {
   id?: string
@@ -17,6 +18,8 @@ interface UserFormValues {
 
 const UserForm = ({user=null, onSubmit}) => {
   
+  const { userHasCapability } = useUserHasCapability()
+
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,
@@ -55,8 +58,7 @@ const UserForm = ({user=null, onSubmit}) => {
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("lastName",
-  {
+        inputAttrs={register("lastName", {
           required:"Last is required",
           maxLength: {
             value: 20,
@@ -77,7 +79,7 @@ const UserForm = ({user=null, onSubmit}) => {
           },
           pattern:{
             value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
-            message: "Please give valid email"
+            message: "Please enter a valid email address"
           }
         })}
       />
@@ -102,10 +104,12 @@ const UserForm = ({user=null, onSubmit}) => {
         options={["Employee", "External", "Manager"]}
         inputAttrs={register("userRole")}
       /> */}
-      <UserRoleSelect
-        control={control}
-        roleType='tenant_role'
-      />
+      { userHasCapability('UpdateUserTenantRoles') && (
+        <UserRoleSelect
+          control={control}
+          roleType='tenant_role'
+        />
+      )}
       { !user ? (
         <CheckboxInput
           label="Send user an invitation upon creation"
