@@ -37,6 +37,7 @@ const UserForm = ({user=null, onSubmit}) => {
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
+      autoComplete="off"
       onSubmit={rhfHandleSubmit(handleSubmit)}
     >
       <TextInput
