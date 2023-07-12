@@ -1,16 +1,14 @@
-import usePageTitle from '../../../hooks/usePageTitle';
-import UserForm from '../../../components/users/UserForm'
-import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import { useRouter } from 'next/router';
-import useGetUsers from '../../../hooks/users/useGetUsers';
 import axios from 'axios';
-import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import { GET_USERS } from '../../../graphql/queries/users';
-import cache from '../../../graphql/cache';
-import getJWT from '../../../utils/getToken';
+import { useRouter } from 'next/router';
 import ButtonBack from '../../../components/common/ButtonBack';
+import UserForm from '../../../components/users/UserForm';
+import cache from '../../../graphql/cache';
+import { GET_USERS } from '../../../graphql/queries/users';
+import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import usePageTitle from '../../../hooks/usePageTitle';
+import useGetUsers from '../../../hooks/users/useGetUsers';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import getJWT from '../../../utils/getToken';
 
 const AdminCreateUser = () => {
   
@@ -60,12 +58,7 @@ const AdminCreateUser = () => {
         'Authorization': `Bearer ${token}`,
       },
       data
-    }).then (response => {      
-      // Roles are already applied in the REST API call, no need to trigger mutation 
-      // updateUserTenantRoles({
-      //   userId: data.data.id,
-      //   roleIds: values.roles
-      // })
+    }).then (response => {
       refetchUsers()
       
       if(response.data.user?.id) {

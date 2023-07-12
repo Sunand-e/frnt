@@ -38,7 +38,6 @@ const AdminUsersEdit = () => {
     }))
 
     if(invite) {
-      
       axios.request({
         method: "post", 
         url: '/api/v1/users/send_invitation',
@@ -46,12 +45,6 @@ const AdminUsersEdit = () => {
           'Authorization': `Bearer ${token}`,
         },
         data: { emails: [values.email] }
-      }).then (response => {      
-        // Roles are already applied in the REST API call, no need to trigger mutation 
-        // updateUserTenantRoles({
-        //   userId: data.data.id,
-        //   roleIds: values.roles
-        // })
       })
     }
     if(profile_image) {
@@ -60,6 +53,7 @@ const AdminUsersEdit = () => {
     }
     router.push('/admin/users')
   }
+  
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
   useHeaderButtons({
