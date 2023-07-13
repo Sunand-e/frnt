@@ -27,7 +27,7 @@ const TenantContextProvider = ({children}) => {
       const latestClientVersion = response.headers.get('x-latest-client-version')
       const clientVersion = localStorage.getItem('client_version')
 
-      if(!clientVersion || dayjs(latestClientVersion).diff(clientVersion) > 0) {
+      if(latestClientVersion && !clientVersion || dayjs(latestClientVersion).diff(clientVersion) > 0) {
         localStorage.setItem('client_version', latestClientVersion)
         fetch(window.location.href, { cache: "reload" })
         location.reload()
