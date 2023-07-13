@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { ContentFragment, ResourceFragment } from './allQueries';
+import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
 import { TagFragment } from './tags';
 
 export const UserFragment = gql`
@@ -14,6 +14,9 @@ export const UserFragment = gql`
     updatedAt
     userType
     profileImageUrl
+    invitationSentAt
+    invitationAcceptedAt
+    currentSignInAt
     roles {
       id
       name
@@ -43,70 +46,92 @@ export const CurrentUserFragment = gql`
   ${TagFragment}
 `
 
+export const UserContentFragment = gql`
+  fragment UserContentFragment on UserContent {
+    status
+    lastVisited
+    firstVisited
+    createdAt
+    updatedAt
+    completedAt
+    passedAt
+    score
+    progress
+    visits
+  }
+`
+export const UserContentEdgeFragment = gql`
+  fragment UserContentEdgeFragment on UserContentEdge {
+    userId
+    node {
+      ...ContentFragment
+      id
+      title
+      order
+      content
+      contentType
+      itemType
+      order
+      tags {
+        edges {
+          id
+          order
+          node {
+            id
+            label
+            tagType
+          }
+        }
+      }
+      groupsEnrolled {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+    roles {
+      id
+      name
+      roleType
+      capabilities {
+        id
+        name
+      }
+    }
+    groups {
+      edges {
+        roles {
+          id
+        }
+        node {
+          id
+          name      
+        }
+      }
+    }
+    status
+    lastVisited
+    firstVisited
+    createdAt
+    updatedAt
+    completedAt
+    passedAt
+    score
+    progress
+    visits
+  }
+  ${ContentFragment}
+`
 export const UserContentConnectionFragment = gql`
   fragment UserContentConnectionFragment on UserContentConnection {
     totalCount
     edges {
-      userId
-      node {
-        ...ContentFragment
-        id
-        title
-        order
-        content
-        contentType
-        itemType
-        order
-        tags {
-          edges {
-            id
-            order
-            node {
-              id
-              label
-              tagType
-            }
-          }
-        }
-        groupsEnrolled {
-          edges {
-            node {
-              id
-            }
-          }
-        }
-      }
-      roles {
-        id
-        name
-        roleType
-        capabilities {
-          id
-          name
-        }
-      }
-      groups {
-        edges {
-          roles {
-            id
-          }
-          node {
-            id
-            name      
-          }
-        }
-      }
-      status
-      lastVisited
-      firstVisited
-      createdAt
-      updatedAt
-      score
-      visits
-      completed
+      ...UserContentEdgeFragment
     }
   }
-  ${ContentFragment}
+  ${UserContentEdgeFragment}
 `
 
 export const UserCoursesFragment = gql`
@@ -437,6 +462,7 @@ export const GET_USER_COURSE = gql`
       edges {
         node {
           id
+          ...CourseFragment
           sections {
             id
             title
@@ -444,6 +470,7 @@ export const GET_USER_COURSE = gql`
             children {
               title
               contentType
+              itemType
               __typename
               _deleted @client
               id
@@ -469,8 +496,18 @@ export const GET_USER_COURSE = gql`
     lessons(where: $lessonSectionFilter) {
       ...UserContentConnectionFragment
     }
+    quizzes(where: $lessonSectionFilter) {
+      ...UserContentConnectionFragment
+      edges {
+        node {
+          ...QuizFragment
+        }
+      }
+    }
   }
   ${UserContentConnectionFragment}
+  ${CourseFragment}
+  ${QuizFragment}
 `
 
 export const GET_USER_PATHWAY = gql`

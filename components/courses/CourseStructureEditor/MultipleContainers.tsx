@@ -484,7 +484,6 @@ export function MultipleContainers({
               isSorting: false,
               isDragOverlay: false,
             })}
-            renderItem={renderItem}
           />
         ))}
         { containerId !== 'placeholder' && <NewItemButton container={containerId} /> }

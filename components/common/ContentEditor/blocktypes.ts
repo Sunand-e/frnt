@@ -3,12 +3,15 @@ import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
-
+import {QuestionMarkCircle} from '@styled-icons/heroicons-outline/QuestionMarkCircle'
 import {List} from '@styled-icons/fluentui-system-filled/List'
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Expand} from '@styled-icons/material-twotone/Expand'
 import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
+import {Columns} from '@styled-icons/octicons/Columns'
+import {LineHorizontal1} from '@styled-icons/fluentui-system-filled/LineHorizontal1'
+
 import TextBlock from './blocks/TextBlock/TextBlock'
 import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
@@ -49,9 +52,27 @@ import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
 import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 
 import AddColumn from './Icons/AddColumn';
-import Columns from './Icons/Columns'
+import { ReactComponentElement, ReactNode } from 'react'
+import Spacer from './blocks/Spacer/Spacer'
+import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
+import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
+import QuestionBlock from './blocks/QuestionBlock/QuestionBlock'
 
-const blocktypes = {
+export type BlockType = {
+  name: string,
+  text: string,
+  component: React.FC<any>,
+  editComponent: React.FC<any>,
+  settingsComponent: React.FC<any>,
+  icon: React.FC<any>,
+  hideFromSelector?: boolean
+}
+
+export type BlockTypes = {
+  [key: string]: BlockType
+}
+
+const blocktypes: BlockTypes = {
   // header: {
   //   text: 'Header',
   //   component: HeaderBlock,
@@ -60,14 +81,23 @@ const blocktypes = {
   //   icon: Text,
   //   hideFromSelector: true,
   // },
-  // text: {
-  //   name: 'text',
-  //   text: 'Text',
-  //   component: TextBlock,
-  //   editComponent: TextBlockEdit,
-  //   settingsComponent: TextSettings,
-  //   icon: Text,
-  // },
+  spacer: {
+    name: 'spacer',
+    text: 'Drag',
+    component: Spacer,
+    editComponent: Spacer,
+    settingsComponent: TextSettings,
+    icon: TextT,
+    hideFromSelector: true
+  },
+  text: {
+    name: 'text',
+    text: 'Text',
+    component: TextBlock,
+    editComponent: TextBlockEdit,
+    settingsComponent: TextSettings,
+    icon: TextT,
+  },
   // list: {
   //   text: 'List',
   //   component: ListBlock,
@@ -75,15 +105,17 @@ const blocktypes = {
   // settingsComponent: ListSettings,
   //   icon: List,
   // },
-  image: {
+  'image': {
     text: 'Image',
+    name: 'image',
     component: ImageBlock,
     editComponent: ImageBlockEdit,
     settingsComponent: ImageSettings,
     icon: Image,
   },
-  video: {
+  'video': {
     text: 'Video',
+    name: 'video',
     component: VideoBlock,
     editComponent: VideoBlockEdit,
     settingsComponent: VideoSettings,
@@ -91,6 +123,7 @@ const blocktypes = {
   },
   audio: {
     text: 'Audio',
+    name: 'audio',
     component: AudioBlock,
     editComponent: AudioBlockEdit,
     settingsComponent: AudioSettings,
@@ -98,27 +131,39 @@ const blocktypes = {
   },
   document: {
     text: 'Document',
+    name: 'document',
     component: DocumentBlock,
     editComponent: DocumentBlockEdit,
     settingsComponent: DocumentSettings,
     icon: Document,
   },
-  package: {
-    text: 'SCORM / xAPI',
-    component: PackageBlock,
-    editComponent: PackageBlockEdit,
-    settingsComponent: PackageSettings,
-    icon: Box,
+  // package: {
+  //   text: 'SCORM / xAPI',
+  //   name: 'package',
+  //   component: PackageBlock,
+  //   editComponent: PackageBlockEdit,
+  //   settingsComponent: PackageSettings,
+  //   icon: Box,
+  // }, 
+  question: {
+    text: 'Question',
+    name: 'question',
+    component: QuestionBlock,
+    editComponent: QuestionBlockEdit,
+    settingsComponent: QuestionSettings,
+    icon: QuestionMarkCircle,
   }, 
-  // columns: {
-  //   text: 'Columns',
-  //   component: ColumnsBlock,
-  //   editComponent: ColumnsBlockEdit,
-  //   settingsComponent: ColumnsSettings,
-  //   icon: Columns,
-  // },
+  columns: {
+    text: 'Columns',
+    name: 'columns',
+    component: ColumnsBlock,
+    editComponent: ColumnsBlockEdit,
+    settingsComponent: ColumnsSettings,
+    icon: Columns,
+  },
   placeholder: {
     text: 'Placeholder',
+    name: 'placeholder',
     component: PlaceholderBlock,
     editComponent: PlaceholderBlockEdit,
     settingsComponent: PlaceholderSettings,
@@ -134,10 +179,11 @@ const blocktypes = {
   // },
   linedivider: {
     text: 'Line Divider',
+    name: 'linedivider',
     component: LineDividerBlock,
     editComponent: LineDividerBlockEdit,
     settingsComponent: LineDividerSettings,
-    icon: SplitHorizontal
+    icon: LineHorizontal1
   }
 }
 

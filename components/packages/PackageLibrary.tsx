@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client"
-import { GetScormModules } from "../../graphql/queries/__generated__/GetScormModules";
+import { GetScormPackages } from "../../graphql/queries/__generated__/GetScormPackages";
 import PackageUploader from "./PackageUploader"
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { useContext, useMemo } from "react";
-import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
+import { GET_SCORM_PACKAGES } from "../../graphql/queries/scormPackages";
 import PackageActionsMenu from "./PackageActionsMenu";
 import { handleModal } from "../../stores/modalStore";
 
@@ -16,14 +16,14 @@ interface PackageLibraryProps {
 
 const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSelect}) => {
 
-  // const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
-  const { loading, error, data: { scormModules } = {} } = useQuery<GetScormModules>(GET_SCORM_MODULES)
+  // const { loading, error, data: { scormPackages } = {} } = useQuery<GetScormPackages>(GET_SCORM_PACKAGES)
+  const { loading, error, data: { scormPackages } = {} } = useQuery<GetScormPackages>(GET_SCORM_PACKAGES)
 
-  const filteredScormModules = useMemo(() => {
-    return scormModules?.filter(module => {
+  const filteredScormPackages = useMemo(() => {
+    return scormPackages?.filter(module => {
       return !module._deleted
     })
-  },[scormModules]) ?? []
+  },[scormPackages]) ?? []
 
   const reopenPackageLibrary = () => {
     handleModal({
@@ -88,7 +88,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                 </thead>
                   {/* <tbody className="bg-white divide-y divide-gray-200"> */}
                   <tbody className="">
-                  { filteredScormModules.map((module) => (
+                  { filteredScormPackages.map((module) => (
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
                       <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>

@@ -1,17 +1,9 @@
-import { useContext } from 'react'
 import usePageTitle from '../../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../../hooks/useHeaderButtons';
 import AddRoleModal from '../../../../components/roles/AddRoleModal';
 import RolesTable from '../../../../components/roles/RolesTable/RolesTable';
-import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import { handleModal } from '../../../../stores/modalStore';
-
-const AddButton = () => (
-  <>
-    <span className='hidden lg:block'>Create new role</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
-  </>
-)
+import ButtonAdd from '../../../../components/common/ButtonAdd';
 
 const AdminUsersRoles = () => {
   
@@ -25,16 +17,13 @@ const AdminUsersRoles = () => {
     })
   }
 
-  useHeaderButtons([
-    [<AddButton />, () => handleNewRoleButton()]
-  ])
-
+  useHeaderButtons({
+    id: 'createRole',
+    component: <ButtonAdd action={handleNewRoleButton} text='Create new role' />
+  })
   
   return (
-    <>
-    {/* <Button onClick=>Create new role</Button> */}
     <RolesTable />
-    </>
   )
 }
 

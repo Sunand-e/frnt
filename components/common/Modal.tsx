@@ -31,7 +31,7 @@ export default function Modal() {
     <Transition.Root show={modalActive} as={Fragment}>
       {/* <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={handleModal}> */}
       <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={() => false}>
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -58,7 +58,7 @@ export default function Modal() {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className={`inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle ${sizeMap?.get(modalSize)} sm:w-full sm:p-6`}>
+            <div className={`inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle ${sizeMap?.get(modalSize)} sm:w-full sm:p-6`}>
               <>
                 <div className="flex justify-between mb-4">
                   <h1 className={'text-main-secondary'}>{modalTitle}</h1><span onClick={closeModal}><XCircleIcon className="fill-current text-main-secondary w-8"/></span>

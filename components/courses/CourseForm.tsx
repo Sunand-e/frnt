@@ -20,7 +20,7 @@ interface CourseFormValues {
   disableProgression: boolean
 }
 
-const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Submit"}) => {
+const CourseForm = ({course=null, onSubmit, showDescription=false, extended=false, submitButtonText="Submit", autoFocus=false}) => {
 
   const defaultValues = {
     ...course,
@@ -30,33 +30,19 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
     }) || [], 
   }
 
-  const { register, watch, handleSubmit, control, setFocus, getValues, setValue, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
+  const { register, watch, handleSubmit, control, setFocus, formState: { errors } } = useForm<CourseFormValues>({defaultValues});
 
   useEffect(() => {
-    setFocus('title')
+    autoFocus && setFocus('title')
   },[])
-
-  const reopenFormInModal = (image) => {
-    handleModal({
-      title: `Course settings`,
-      size: 'lg',
-      content: <CourseForm course={{
-        ...getValues(),
-        tags: {
-          edges: getValues().tags.map(tag => ({node: tag}))
-        },
-        image
-      }} isModal={true} onSubmit={onSubmit} submitButtonText="Save settings" />
-    })
-  }
-
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className={'flex flex-col items-center space-y-4'}
     >
       <div className='flex space-x-6 max-w-screen-xl'>
-        <div className={`${!isModal && 'w-1/2'} flex flex-col space-y-4`}>
+        <div className={`${!!showDescription && 'w-1/2'} flex flex-col space-y-4`}>
           <TextInput
             label="Course name"
             placeholder="Untitled course"
@@ -69,11 +55,10 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             <ImageSelectInput
               // placeholder={'https://picsum.photos/640/360'}
               buttonText="Choose course image"
-              className={isModal ? 'max-w-sm' : ''}
+              className={showDescription ? '' : 'max-w-sm'}
               origImage={defaultValues?.image}
               control={control}
               name="imageId"
-              onSelect={isModal ? reopenFormInModal : null}
               class
               // inputAttrs={register("image", { required: true })}
             />
@@ -82,7 +67,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             control={control}
             tagType="category"
             label="Categories"
-            />
+          />
           {/* <SelectInput
             label="Course access type"
             options={["Open access", "Assignable", "Paid access"]}
@@ -102,7 +87,7 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
             inputAttrs={register("disableProgression")}
           /> */}
         </div>
-        { !isModal && (
+        { showDescription && (
           <div className="w-1/2 flex flex-col">
             <RTEInput
               initialValue={course?.content?.description}
@@ -114,8 +99,6 @@ const CourseForm = ({course=null, onSubmit, isModal=false, submitButtonText="Sub
         )}
       </div>
       <Button type="submit">{submitButtonText}</Button>
-      {/* <p className='text-lg font-bold mt-4'>Create your first course item:</p>
-      <AddItemToCourseForm sectionId={123} /> */}
     </form>
   )
 }

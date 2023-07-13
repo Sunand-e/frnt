@@ -47,7 +47,7 @@ const PathwayTimelineItem = ({
           break
         }
       }
-      setProgress(userContent?.score || 0)
+      setProgress(userContent?.progress || 0)
     }
   },[user, item])
 

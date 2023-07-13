@@ -1,7 +1,7 @@
 export const HeaderSettings = ({block}) => {
 
   return (
-    <>Header settings panel</>
+    <></>
   )
 }
 

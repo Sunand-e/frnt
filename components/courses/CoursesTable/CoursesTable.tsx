@@ -2,10 +2,12 @@ import useGetCourses from '../../../hooks/courses/useGetCourses';
 import CourseActionsMenu from './CourseActionsMenu';
 import ContentTable from '../../common/tables/ContentTable';
 import { contentTypes } from '../../common/contentTypes';
+import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 
 const CoursesTable = () => {
 
-  const { loading, error, courses } = useGetCourses()
+  const { loading, error, courses } = useGetCurrentUser()
+  // const { loading, error, courses } = useGetCourses()
   const type = contentTypes['course']
 
   return (

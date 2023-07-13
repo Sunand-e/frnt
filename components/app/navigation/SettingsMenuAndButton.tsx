@@ -1,14 +1,13 @@
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Tippy from '@tippyjs/react';
-import { viewVar } from '../../../graphql/cache';
-import { useReactiveVar } from '@apollo/client';
 import useLogout from '../../../hooks/useLogout';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import { useViewStore } from '../../../hooks/useViewStore';
 
 const SettingsMenuAndButton = () => {
 
-  const view = useReactiveVar(viewVar)
+  const isAdminView = useViewStore(state => state.isAdminView)
 
   const handleAdminButtonClick = (e) => {
     e.target.blur()
@@ -24,33 +23,33 @@ const SettingsMenuAndButton = () => {
 
   return (
     <Tippy
-        className="bg-white text-main p-3 w-60"
-        interactive={true}
-        appendTo={document.body}
-        hideOnClick={false}
-        placement='top' // placement='right-start'
-        theme="memberhub-white"
-        content={
-          <ul className="flex flex-col shadow-2 space-y-3">
-            {/* <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(baseTheme)}>Base theme</li>
-            <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(darkTheme)}>Dark theme</li> */}
-            <li className="hover:text-main-secondary cursor-pointer" onClick={handleLogoutClick}>Log out</li>
-            { userHasCapability([
-              'UpdateUser',
-              'UpdateCourse',
-              'UpdateResource',
-              'GetUsers',
-            ]) && (
-              <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>
-                <Link href={view.isAdmin ? '/' : '/admin'}>
+      className="bg-white text-main p-3 w-60"
+      interactive={true}
+      appendTo={document.body}
+      hideOnClick={false}
+      placement='top' // placement='right-start'
+      theme="memberhub-white"
+      content={
+        <ul className="flex flex-col shadow-2 space-y-3">
+          {/* <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(baseTheme)}>Base theme</li>
+          <li className="hover:text-main-secondary cursor-pointer" onClick={() => applyTheme(darkTheme)}>Dark theme</li> */}
+          <li className="hover:text-main-secondary cursor-pointer" onClick={handleLogoutClick}>Log out</li>
+          { userHasCapability([
+            'UpdateUser',
+            'UpdateCourse',
+            'UpdateResource',
+            'GetUsers',
+          ]) && (
+            <li className="hover:text-main-secondary cursor-pointer" onClick={handleAdminButtonClick}>
+              <Link href={isAdminView ? '/' : '/admin'}>
 
-                  {`${view.isAdmin ? 'User' : 'Admin'} View`}
+                {`${isAdminView ? 'User' : 'Admin'} View`}
 
-                </Link>
-              </li>
-            ) }
-          </ul>
-        }
+              </Link>
+            </li>
+          ) }
+        </ul>
+      }
     >
       <div
           // href={item.urlPath}

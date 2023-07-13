@@ -2,7 +2,7 @@ import useGetTags from "../../../hooks/tags/useGetTags"
 import Select from "react-select";
 import { useController } from "react-hook-form";
 
-const TagSelectInput = ({control, tagType, label}) => {
+const TagSelectInput = ({control, tagType, label, onChange=null}) => {
 
   const { tags, loading, error } = useGetTags()
 
@@ -17,7 +17,9 @@ const TagSelectInput = ({control, tagType, label}) => {
     value: field.value?.map(({__typename, image, order, ...value}) => value),
     getOptionValue: option => option.value ?? option.id,
     onChange: val => {
-      field.onChange(val.map(({__typename, image, order, _deleted, ...value}) => value))
+      const newValue = val.map(({__typename, image, order, _deleted, ...value}) => value)
+      field.onChange(newValue)
+      onChange && onChange(newValue)
     },
     className: `w-full`,
     isSearchable: false,

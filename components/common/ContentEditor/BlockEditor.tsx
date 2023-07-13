@@ -1,63 +1,61 @@
 
-import { useMotionValue } from "framer-motion";
-import { Reorder } from "framer-motion";
-import BlockContainer from "./BlockContainer";
-import BlockSelector from "./BlockSelector";
-import { useRaisedShadow } from "../../../hooks/useRaisedShadow";
 import { useBlockStore } from "./useBlockStore";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable';
+import BlockCanvas from "./BlockCanvas";
+import { useSaveContentButton } from "./useSaveContentButton";
+import { useRouter } from "../../../utils/router";
+import useUpdateLesson from "../../../hooks/lessons/useUpdateLesson";
+import { useCallback } from "react";
 import useWarningOnExit from "../../../hooks/useWarningOnExit";
-
-const ReorderableBlock = ({id}) => {
-  const y = useMotionValue(0);
-  const boxShadow = useRaisedShadow(y);
- 
-  return (
-    <Reorder.Item value={id} id={id} dragListener={false} style={{ boxShadow, y }}>
-      <BlockContainer id={id} />
-    </Reorder.Item> 
-  )
-}
+import usePageTitle from "../../../hooks/usePageTitle";
+import { useLessonContentFragment } from "../../../hooks/lessons/useLessonContentFragment";
 
 const BlockEditor = () => {
 
-  const editBlocks = useBlockStore(state => state.editBlocks)
-  const blocks = useBlockStore(state => state.blocks)
-  const isDirty = useBlockStore(state => state.isDirty)
-  const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
-  const setBlocks = useBlockStore(state => state.setBlocks)
-  
-
   const router = useRouter()
+  const { cid: id } = router.query
   
-  // useWarningOnExit(isDirty)
+  const blocks = useBlockStore(state => state.blocks)
+  const blockIds = blocks.map(block => block.id)
+  const content = { blocks }
+  const isDirty = useBlockStore(state => state.isDirty)
+  const setIsDirty = useBlockStore(state => state.setIsDirty)
 
-  useEffect(() => {
-    return () => setBlocks([])
-  }, [])
+  useWarningOnExit(isDirty)
+
+  const { updateLesson } = useUpdateLesson()
+
+  const { complete, data: lesson } = useLessonContentFragment(id)
+  
+  usePageTitle({ 
+    title: ``, 
+    editable:  lesson?.title || 'Untitled Lesson', 
+    onEdit: title => {
+      updateLesson(id)({title})
+    }
+  })
+
+  const handleSave = useCallback(async () => {
+    await updateLesson(id)({content}).then(res => {
+      setIsDirty(false)
+    })
+  },[content, isDirty, updateLesson])
+  
+  useSaveContentButton({
+    typeName: 'lesson', 
+    onSave: handleSave, 
+    isDirty
+  })
 
   return (
     <>
-    {/* <pre>
-    { JSON.stringify(blocks,null,2) }
-    </pre> */}
-      <div className="list">
-        {/* <Button onClick={handleClick}>Click</Button> */}
-        <Reorder.Group axis="y" onReorder={editBlocks} values={blocks}>
-          {blockIds.map(id => {
-            return <ReorderableBlock key={id} id={id} />
-          })}
-        </Reorder.Group>
-      </div>
-      <div className={`w-full flex flex-col items-center mt-4`}>
-        <div className="w-full max-w-screen-lg bg-main p-4 bg-opacity-10 border-2 border-dashed border-grey">
-          <div className={`text-center text-main-secondary font-semibold pb-4`}>
-            Add a new block
-          </div>
-          <BlockSelector className={``} style={{}} />
-        </div>
-      </div>
+      <SortableContext
+        id="editor_pane"
+        items={blockIds}
+        strategy={verticalListSortingStrategy}
+      >
+        <BlockCanvas />
+      </SortableContext>
     </>
   );
 };

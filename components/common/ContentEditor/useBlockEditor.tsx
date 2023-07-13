@@ -1,33 +1,26 @@
-import {  useContext } from "react"
-import { activeContentBlockVar, currentContentItemVar } from "../../../graphql/cache";
 import { useDebouncedCallback } from 'use-debounce';
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import { useReactiveVar } from "@apollo/client";
-import {useBlockStore, getIndexAndParent, shiftPosition, getBlock} from './useBlockStore';
+import {useBlockStore, getIndexAndParent, shiftPosition, getBlock, Block} from './useBlockStore';
 import { handleModal } from "../../../stores/modalStore";
 // import isEqual from 'lodash/isEqual';
 
 // import "./styles.css";
 // 
-const useBlockEditor = (block=null) => {
-
-  // testing::::
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-    
-  const { id, type } = currentContentItem
+const useBlockEditor = (block: Block = null) => {
 
   const { blocks, setBlocks, insertBlock } = useBlockStore()
 
-  const updateBlock = (block, newBlock=null) => {
+  const updateBlock = (block: Block, newBlock: Block = null) => {
     const { index, parent } = getIndexAndParent(block.id)
     // if(!isEqual(block, getBlock(block.id))) {
       // if newblock is provided, replace the top level 
-      insertBlock(newBlock ?? block, index, parent, 1)
+
+      insertBlock(newBlock ?? block, index, parent, true)
     // }
   }
 
-  const updateBlockProperties = (block, properties={}) => {
+  const updateBlockProperties = (block: Block, properties={}) => {
     
     const updatedBlock = {
       ...block,
@@ -40,7 +33,9 @@ const useBlockEditor = (block=null) => {
     return updatedBlock
   }
 
-  const addBlock = (newBlock, replace=false) => {
+  const addBlock = (newBlock: Block, replace=false, focus=true) => {
+    console.log('ADDDINGBLOCK')
+    useBlockStore.setState({lastAddedItemId: newBlock.id});
     if(block) {
       if(replace) {
         updateBlock(block, newBlock)
@@ -56,9 +51,9 @@ const useBlockEditor = (block=null) => {
   
   const debouncedUpdateBlock = useDebouncedCallback((block) => {
     updateBlock(block);
-  }, 500);
+  }, 300);
   
-  const deleteBlock = block => {
+  const deleteBlock = (block: Block) => {
     
     const { index, parent } = getIndexAndParent(block.id)
     
@@ -101,10 +96,10 @@ const useBlockEditor = (block=null) => {
     }
   }
   
-  const handleDeleteBlock = (block) => {
+  const handleDeleteBlock = (block: Block) => {
     handleModal({
       title: `Delete block`,
-      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
+      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block, true)} block={block} />
     })
   }
 
@@ -124,7 +119,7 @@ const useBlockEditor = (block=null) => {
     }
   }
 
-  const addColumn = block => {
+  const addColumn = (block: Block) => {
     let newTopLevelBlock
     if(block.type === 'columns') {
       let currentColumnCount = block.children.length
@@ -190,7 +185,6 @@ const useBlockEditor = (block=null) => {
     updateBlock,
     updateBlockProperties,
     getIndexAndParent,
-    activeBlockId: activeContentBlockVar(),
     debouncedUpdateBlock,
     handleDeleteBlock
   }

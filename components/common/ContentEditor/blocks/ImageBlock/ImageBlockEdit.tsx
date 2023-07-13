@@ -9,17 +9,13 @@ import { closeModal } from '../../../../../stores/modalStore';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
-  const { addBlock } = useBlockEditor(block)
+  const { updateBlockProperties } = useBlockEditor()
+
   const selectImage = (image) => {
-    const newBlock = {
-      type: 'image',
-      id: uuidv4(),
-      properties: {
-        url: image.location,
-        mediaId: image.id
-      }
-    }
-    addBlock(newBlock, true)
+    updateBlockProperties(block, {
+      url: image?.location,
+      mediaId: image?.id
+    })
     closeModal()
   }
 

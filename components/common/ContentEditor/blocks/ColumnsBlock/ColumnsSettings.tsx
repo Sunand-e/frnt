@@ -1,7 +1,7 @@
 export const ColumnsSettings = ({block}) => {
 
   return (
-    <>Columns settings panel</>
+    <></>
   )
 }
 

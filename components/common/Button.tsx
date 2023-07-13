@@ -5,7 +5,7 @@ interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset"
   size?: "sm" | "md" | "lg"
-  children: JSX.Element | string,
+  children: JSX.Element | string | Array<JSX.Element | string>,
   className?: string
   displayType?: string
   disabled?: boolean

@@ -22,4 +22,45 @@ export const commonTableCols = {
     ),
     cell: (cell) => cell.getValue() || noDataDash
   },
+  
+  passedAt: {
+    id: "passedAt",
+    header: "Last visited",
+    accessorFn: row => (
+      row.passedAt ? dayjs(row.passedAt).format('Do MMMM YYYY [at] h:mm A') : null
+    ),
+    cell: (cell) => cell.getValue() || noDataDash
+  },
+
+  status: {
+    id: "status",
+    header: "Status",
+    accessorKey: "status",
+    cell: ({ cell }) => {
+      switch(cell.getValue()) {
+        case 'in_progress': 
+          return 'In progress'
+        case 'completed': 
+          return 'Completed'
+        default:
+          return 'Not started'
+      }
+    }          
+  },
+  progress: {
+    id: "progress",
+    header: "Progress",
+    accessorKey: "progress",
+    cell: ({ cell }) => {
+      return (cell.getValue() || '0') + '%'
+    }
+  },
+  score: {
+    id: "score",
+    header: "Score",
+    accessorKey: "score",
+    cell: ({ cell }) => {
+      return (cell.getValue() || noDataDash)
+    }
+  },
 }

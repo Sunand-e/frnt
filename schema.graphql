@@ -1,7 +1,10 @@
 extend type ContentItem {
   _deleted: Boolean!
 }
-extend type ScormModule {
+extend type Question {
+  _deleted: Boolean!
+}
+extend type ScormPackage {
   _deleted: Boolean!
 }
 extend type Group {

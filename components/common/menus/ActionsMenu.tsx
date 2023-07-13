@@ -27,7 +27,7 @@ const ActionsMenu = ({menuItems, buttonText='Actions', align='right'}) => {
   return (
     <MenuComponent 
       align={align}
-      menuItems={menuItems}
+      menuItems={filteredMenuItems}
       button={button}
     />
   )

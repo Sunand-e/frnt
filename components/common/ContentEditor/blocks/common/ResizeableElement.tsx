@@ -1,8 +1,8 @@
 import { Resizable } from 're-resizable';
 import { ResizeableHandle } from './ResizeableHandle'
-import { activeContentBlockVar } from '../../../../../graphql/cache';
 import useBlockEditor from '../../useBlockEditor';
 import { useEffect, useState } from 'react';
+import { useBlockStore } from '../../useBlockStore';
 
 export const ResizeableElement = ({block, defaultWidth, children}) => {
 
@@ -22,11 +22,9 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
       // console.log(parent.widths[index])
   }
   
-  useEffect(() => {
-    console.log(parent)
-  },[parent]);
-
-  useEffect(() => {
+  const handleResize = (e, direction, ref) => {
+    const width = ref.offsetWidth
+    setWidth(width)
     const updatedBlock = {
       ...block,
       properties: {
@@ -35,16 +33,15 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
       }
     }
     updateBlock(updatedBlock)
-  }, [width]);
-
-  // Determine the max width depending on if it is a column or not
-  let maxWidth
-  if(parent) {
-    const widthUnits = parent.widths?.[index] || 12 / parent.children.length
-    maxWidth = (((1024 / 12) * widthUnits) - 32)
-  } else {
-    maxWidth = '100%'
   }
+  
+  // Determine the max width depending on if it is a column or not
+  let maxWidth = '100%'
+  // if(parent) {
+  //   const widthUnits = parent.widths?.[index] || 12 / parent.children.length
+  //   maxWidth = (((1024 / 12) * widthUnits) - 32)
+  // }
+  
   // alert(JSON.stringify(parent,null,2))
   return (
     <div
@@ -52,7 +49,6 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
     >
         <figure
           className={`group m-0 relative`}
-          
         >
           <Resizable
             // @ts-ignore
@@ -86,11 +82,11 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
               right: { right: 0 },
             }}
             onResize={(e, direction, ref) => {
-              activeContentBlockVar(block.id)
+              // useBlockStore.setState({
+              //   activeBlockId: block.id
+              // })
             }}
-            onResizeStop={(e, direction, ref) => {
-              setWidth(ref.offsetWidth)
-            }}
+            onResizeStop={handleResize}
           >
             { children }
           </Resizable>

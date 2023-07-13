@@ -13,9 +13,11 @@ export const ContentUserEdgeFragment = gql`
       firstVisited
       createdAt
       updatedAt
+      completedAt
+      passedAt
       score
+      progress
       visits
-      completed
     }
   }
 `

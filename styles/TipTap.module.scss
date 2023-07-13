@@ -1,0 +1,125 @@
+/* Basic editor styles */
+
+.editor :global {
+  & .ProseMirror {
+    padding: 10px;
+    @apply outline-main;
+    &:focus {
+      // outline: none;
+      // @apply shadow-xl;
+    }
+    & > * + * {
+      margin-top: 0.75em;
+    }
+
+    // & [class*=is-editor-empty]:first-child::before {
+    & [class*=is-editor-empty]:first-child::before {
+      color: #333;
+      opacity: 0.5;
+      content: attr(data-placeholder);
+      float: left;
+      height: 0;
+      pointer-events: none;
+    }
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#a16161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0d0d0d;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
+    padding: 0.75rem 1rem;
+    
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
+    }
+  }
+
+  mark {
+    background-color: #faf594;
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  hr {
+    margin: 1rem 0;
+  }
+
+  blockquote {
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
+    margin: 2rem 0;
+  }
+}
+
+.editor {
+  // background-color: #fff;
+  // border: 3px solid #0d0d0d;
+  border-radius: 0.75rem;
+  color: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  // margin-bottom:1rem;
+  min-width: 200px;
+  & [class*=header] {
+    align-items: center;
+    // border-bottom: 2px solid;
+    // @apply border-main;
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    padding: 0.25rem;
+  }
+
+  & [class*=content] {
+    flex: 1 1 auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow: visible;
+  }
+
+  & [class*=footer] {
+    align-items: center;
+    border-top: 3px solid #0d0d0d;
+    color: #0d0d0d;
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 12px;
+    flex-wrap: wrap;
+    font-weight: 600;
+    justify-content: space-between;
+    padding: 0.25rem 0.75rem;
+    white-space: nowrap;
+  }
+}

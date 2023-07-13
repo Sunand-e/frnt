@@ -36,6 +36,18 @@ module.exports = withBundleAnalyzer({
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 
+    config.module.rules.push({
+      test: /\.(svg|png|jpe?g|gif|mp4)$/i,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next',
+            name: 'static/media/[name].[hash].[ext]',
+          },
+        },
+      ],
+    })
     // config.resolve.alias.canvas = false
     
     // fix for Plate which uses 'fs' in cosmiconfig package

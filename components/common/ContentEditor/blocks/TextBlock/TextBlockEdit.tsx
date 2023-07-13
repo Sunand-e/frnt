@@ -1,7 +1,7 @@
-
 import React, { useMemo, FunctionComponent, useEffect } from 'react';
 
 import useBlockEditor from '../../useBlockEditor';
+import Editor from '../../../inputs/Editor';
 
 export const TextBlockEdit: FunctionComponent = ({block}) => {
   const { properties } = block
@@ -24,17 +24,9 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
     !properties?.content && setTimeout(focus, 10);
   },[])
 
-  const focus = () => {
-    // const editor = getPlateEditorRef(block.id)
-    // if(editor) {
-    //   Transforms.select(editor, Editor.end(editor, []));
-    //   ReactEditor.focus(editor);  
-    // }
-  }
-
   return (
     <>
-      {/* <TipTap /> */}
+      <Editor onUpdate={handleChange} content={properties?.content} editorClass={'m-5'} />
     </>
   );
 }

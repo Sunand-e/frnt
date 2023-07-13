@@ -5,9 +5,16 @@ import { DeleteSection, DeleteSectionVariables } from '../../graphql/mutations/s
 import { DELETE_SECTION } from '../../graphql/mutations/section/DELETE_SECTION';
 import Button from '../common/Button';
 import { closeModal, handleModal } from '../../stores/modalStore';
+import { useEditorViewStore } from '../common/ContentEditor/useEditorViewStore';
+import { useRouter } from '../../utils/router';
 
 const DeleteSectionModal = ({id}) => {
   
+  const router = useRouter()
+
+  const { cid: moduleId } = router.query
+  const items = useEditorViewStore(state => state.items)
+
   const [deleteSection, deleteSectionResponse] = useMutation<DeleteSection, DeleteSectionVariables>(
     DELETE_SECTION,
     {
@@ -25,10 +32,27 @@ const DeleteSectionModal = ({id}) => {
     }
   );
 
-  const handleDeleteSection = (value) => {
+  const handleDeleteSection = (id) => {
+
+    // if(items[id].includes(moduleId)) {
+    //   const sectionIds = Object.values(items).flat()
+    //   const flatItemsArray = Object.values(items).flat()
+    //   const prevItemIndex = Math.max(flatItemsArray.indexOf(id) - 1)
+    //   const prevItemId = flatItemsArray[prevItemIndex]
+  
+    //   router.push({
+    //     pathname: `/admin/courses/edit`,
+    //     query: {
+    //       ...router.query,
+    //       cid: prevItemId
+    //     }
+    //   })
+    // }
+
+
     deleteSection({
       variables: {
-        id: value
+        id
       },
       
       optimisticResponse: {

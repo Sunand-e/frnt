@@ -43,7 +43,7 @@ const router = useRouter()
       const {__typename, image, ...value} = node
       return value
     }) || [],
-    image: resource?.image
+    image: resource?.image || null
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({

@@ -26,13 +26,14 @@ export const PackageBlockEdit = ({
   const { updateBlock, addBlock } = useBlockEditor(block)
   
    
-  const handlePackageSelect = (module) => {
+  const handlePackageSelect = (scormPackage) => {
     updateBlock({
       ...block,
       properties: {
         ...block.properties,
-        url: module.launchUrl,
-        moduleId: module.id
+        url: scormPackage.launchUrl,
+        moduleId: scormPackage.id,
+        title: scormPackage.title
       }
     })
     closeModal()
@@ -52,17 +53,17 @@ export const PackageBlockEdit = ({
   
   return (
     <>
-      { isFullscreenEnabled && (
+      {/* { isFullscreenEnabled && (
         <div className='flex justify-end my-4'>
           <Button onClick={() => request(iframeRef.current)} className=''>Go fullscreen</Button>
         </div>
-      )}
+      )} */}
       <ResizeableElement
         block={block}
         defaultWidth={defaultWidth}
         >
         { block.properties?.url ? (
-          <div className="aspect-w-16 aspect-h-9 px-1">
+          <div className="aspect-video px-1">
             <DynamicPackageIFrame block={block} isEditing={true} iframeRef={iframeRef} />
           </div>
         ) : (

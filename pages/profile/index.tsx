@@ -1,23 +1,17 @@
 import usePageTitle from '../../hooks/usePageTitle';
 import useHeaderButtons from '../../hooks/useHeaderButtons';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import ProfileForm from '../../components/profile/ProfileForm';
 import ProfileMenu from '../../components/profile/ProfileMenu';
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to Dashboard</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../components/common/ButtonBack';
 
 const ProfilePage = () => {
 
   usePageTitle({ title: `Profile` })
 
-  useHeaderButtons([
-    [<BackButton />, '/']
-  ])
+  useHeaderButtons({
+    id: "backToDashboard",
+    component: <ButtonBack text="Back to dashboard" action="/" />
+  });
 
   return (
     <div className='flex'>

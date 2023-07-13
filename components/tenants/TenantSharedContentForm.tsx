@@ -8,6 +8,7 @@ import { useRouter } from '../../utils/router';
 import useShareContentItems from '../../hooks/tenants/useShareContentItems';
 import useGetSharedContentItems from '../../hooks/tenants/useGetSharedContentItems';
 import useRevokeShareContentItems from '../../hooks/tenants/useRevokeShareContentItems';
+import { disableSubmitOnEnterKey } from '../../utils/forms';
 
 interface TenantSharedContentFormValues {
   id?: string | string[]
@@ -75,6 +76,7 @@ const TenantSharedContentForm = () => {
     <form
       className='h-full w-full flex flex-col space-y-4'
       onSubmit={rhfHandleSubmit(onSubmit)}
+      onKeyDown={disableSubmitOnEnterKey}
     >
       <SharedCoursesInput control={control} />
       <SharedResourcesInput control={control} />

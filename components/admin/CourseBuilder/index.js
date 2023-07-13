@@ -25,7 +25,7 @@ import "tippy.js/dist/tippy.css";
 import "./style.scss";
 import PostContext from "./postContext";
 import SaveButton from "./components/SaveButton";
-
+import getJWT from "./utils/getToken";
 import { UPDATE_JSON_CONTENT } from "./graphql/mutations/UPDATE_JSON_CONTENT";
 import { GET_COURSE_DATA } from "./graphql/queries/GET_COURSE_DATA";
 import Builder from "./components/Builder";
@@ -41,7 +41,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
+  const token = getJWT();
   // return the headers to the context so httpLink can read them
   return {
     headers: {

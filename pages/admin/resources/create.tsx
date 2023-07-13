@@ -3,19 +3,14 @@ import useCreateResource from '../../../hooks/resources/useCreateResource'
 import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import ResourceForm from '../../../components/resources/ResourceForm'
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to Resource Library</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack';
 
 const CreateResourcePage = () => {
-
-  useHeaderButtons([
-    [<BackButton />, '/admin/resources']
-  ])
+    
+  useHeaderButtons({
+    id: 'backToResources',
+    component: <ButtonBack text='Back to Resource Library' action='/admin/resources' />,
+  })
 
   const { createResource } = useCreateResource()
 

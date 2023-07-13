@@ -1,5 +1,3 @@
-import { useReactiveVar } from "@apollo/client"
-import { currentContentItemVar } from "../../graphql/cache"
 import { useCallback, useEffect, useMemo } from "react";
 import usePageTitle from "../../hooks/usePageTitle";
 import DocumentItem from "../common/ContentEditor/blocks/DocumentBlock/DocumentItem";
@@ -28,16 +26,8 @@ const ResourceView = ({id}) => {
   const resourceEdge = resources?.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node
 
-  const currentContentItem = useReactiveVar(currentContentItemVar)
   usePageTitle({ title: resource?.title ? `Resource Library: ${resource.title}` : 'Resource Library' })
 
-  useEffect(() => {
-    currentContentItemVar({
-      ...currentContentItem,
-      id
-    })
-  },[id])
-  
   const createDescriptionMarkup = useCallback(() => {
     return {__html: resource?.content?.description};
   },[resource])
@@ -66,10 +56,10 @@ const ResourceView = ({id}) => {
 
   const markComplete = useCallback(() => {
     updateUserContentStatus({
-      contentItemId: id,
-      score: 100,
+      contentItemId: resource.id,
+      progress: 100,
       status: 'completed'
-    }, resource.id)
+    })
     router.push({
       pathname: `/pathway`,
       query: { pid }

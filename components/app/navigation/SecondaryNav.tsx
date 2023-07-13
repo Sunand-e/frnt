@@ -1,8 +1,9 @@
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TenantContext } from '../../../context/TenantContext'
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
+import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function SecondaryNav({showSecondary, primaryNavItem, pageNavState}) {
 
@@ -33,7 +34,7 @@ export default function SecondaryNav({showSecondary, primaryNavItem, pageNavStat
   },[primaryNavItem, tenant, isSuperAdmin])
 
   return (
-    <div id="secondaryNav" className={`z-10 bg-main bg-opacity-20 transition-width ${showSecondary ? 'w-56' : 'w-0'}`}>
+    <div id="secondaryNav" className={`z-10 bg-main bg-opacity-10 transition-width ${showSecondary ? 'w-56' : 'w-0'}`}>
       <div className={`sticky z-20 top-0 flex flex-col relative`}>
         { showSecondary && (
           <h3 className="h-18 px-4 bg-main bg-opacity-70 text-white flex items-center text-white">

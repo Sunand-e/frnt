@@ -1,7 +1,7 @@
 import { FC } from "react"
 // import { useReactiveVar } from '@apollo/client';
 
-import { pageTitleVar, navStateVar, viewVar } from "../../../graphql/cache";
+import { pageTitleVar, navStateVar } from "../../../graphql/cache";
 import EasyEdit, {Types} from 'react-easy-edit';
 import { useReactiveVar } from "@apollo/client";
 import {Cancel} from '@styled-icons/material-rounded/Cancel'
@@ -9,14 +9,16 @@ import {Save} from '@styled-icons/material-rounded/Save'
 import navStructureUser from "../../../navStructureUser";
 import navStructureAdmin from "../../../navStructureAdmin";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useViewStore } from "../../../hooks/useViewStore";
 
 const PageTitle : FC = () => {
   
-  const view = useReactiveVar(viewVar)
   const navState = useReactiveVar(navStateVar)
   const pageTitle = useReactiveVar(pageTitleVar)
 
-  const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
+  const isAdminView = useViewStore(state => state.isAdminView)
+
+  const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const topLevelItem = navStructure?.find(topLevelItem => topLevelItem.name === navState?.topLevel)
   const secondaryLevelItem = topLevelItem?.subPages?.find(item => item.name === navState?.secondary)
   const currentItem = secondaryLevelItem ?? topLevelItem

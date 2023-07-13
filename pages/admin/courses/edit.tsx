@@ -1,17 +1,14 @@
-import usePageTitle from '../../../hooks/usePageTitle'
 import CourseEditor from '../../../components/courses/CourseEditor'
 import { useRouter } from '../../../utils/router'
 import EditorLayout from '../../../layouts/EditorLayout'
-import { viewVar } from '../../../graphql/cache'
-import { useEffect } from 'react'
-import {Gear} from '@styled-icons/fa-solid/Gear'
-import useCourse from '../../../hooks/courses/useCourse'
-import CourseForm from '../../../components/courses/CourseForm'
-import { useSaveContentButton } from '../../../components/common/ContentEditor/useSaveContentButton'
+import { headerButtonsVar } from '../../../graphql/cache'
+import { useEffect, useLayoutEffect } from 'react'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
-import { closeModal, handleModal } from '../../../stores/modalStore'
+import Button from '../../../components/common/Button'
+import { useViewStore } from '../../../hooks/useViewStore'
+import useHeaderButtons from '../../../hooks/useHeaderButtons'
 
 const AdminCoursesEdit = () => {
   /*
@@ -19,57 +16,32 @@ const AdminCoursesEdit = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id } = router.query
+  const { id, cid: contentId } = router.query
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
-  const { updateCourse } = useCourse(id)
-  
-
   useEffect(() => {
-    const view = {
+    useViewStore.setState({
       isSlimNav: true,
-      showSecondary: false,
-      ...viewVar()
-    }
-    viewVar(view)
-    return () => {
-      const view = viewVar()
-      // delete view.isSlimNav
-      delete view.showSecondary
-      const newView = { ...view, isSlimNav: true }
-      viewVar(newView)
-    }
+      showSecondaryNav: false,
+    })
   },[])
-
-  const onSettingsSubmit = ({content, ...values}) => {
-    updateCourse({
-      content: { description: content }, 
-      ...values
-    })
-    closeModal()
-  }
-
-  const openCourseSettings = () => {
-    handleModal({
-      title: `Course settings`,
-      size: 'lg',
-      content: <CourseForm course={course} isModal={true} onSubmit={onSettingsSubmit} submitButtonText="Save settings" />
+  
+  const previewCourse = () => {
+    router.push({
+      pathname: `/course`,
+      query: {
+        id,
+        ...(contentId && {cid: contentId})
+      }
     })
   }
 
-  usePageTitle({ 
-    title: `Course${course?.title ? ': ' : ''}`, 
-    editable:  course?.title || '', 
-    onEdit: title => updateCourse({title}),
-    after: (
-      <div className='p-2 ml-2 cursor-pointer' onClick={openCourseSettings}>
-        <Gear size="18"  />
-      </div>
-    )
+  useHeaderButtons({
+    id: 'viewCourse',
+    order:8,
+    component: <Button onClick={previewCourse}>View course</Button>
   })
-
-  useSaveContentButton()
   
   return (
     <>

@@ -1,14 +1,13 @@
-import classNames from 'classnames'
-import { currentContentItemVar } from "../../graphql/cache"
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import styles from './SidebarItem.module.scss'
 import { forwardRef, useEffect, useMemo, useState } from "react"
-import { lessonTypes } from "../courses/lessonTypes"
-import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
+import { moduleTypes } from "../courses/moduleTypes"
+import { gql, useFragment_experimental } from '@apollo/client'
 import SidebarItemProgress from './SidebarItemProgress'
 import { filterDeletedCourseItems, getItemStructureFromSections } from './CourseStructureEditor/utilities'
 import { useRouter } from '../../utils/router'
 import useGetUserCourse from '../../hooks/users/useGetUserCourse'
+import ListItem from '../common/DndList/ListItem'
+import { ContentTitleAndTypeFragment } from '../../graphql/queries/allQueries'
 
 const SidebarItem = forwardRef<HTMLLIElement, any>(({
   editing=false,
@@ -23,24 +22,17 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
 }, ref) => {
 
   const router = useRouter()
-  const { id: courseId } = router.query
+  const { id: courseId, cid: currentId } = router.query
 
   const { courseEdge } = useGetUserCourse(courseId)
   const course = courseEdge?.node
 
   const { complete, data, missing } = useFragment_experimental({
-    fragment: gql`
-      fragment ContentTitleAndTypeFragment on ContentItem {
-        id
-        title
-        contentType
-      }
-    `,
+    fragment: ContentTitleAndTypeFragment,
     from: { id, __typename: "ContentItem", },
   });
 
   const [title, setTitle] = useState('Untitled Lesson')
-  const [contentType, setContentType] = useState('text')
 
   useEffect(() => {
     if(complete) {
@@ -57,66 +49,41 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
             break;
           }
         }
-        setTitle(`Untitled Lesson`)
+        const label = moduleTypes[type]?.label
+        setTitle(`Untitled ${label || 'module'}`)
         // setTitle(`Lesson ${lessonNumber}`)
       } else {    
         setTitle(data.title)
       }
-      data.contentType && setContentType(data.contentType)
     }
   },[data,complete])
 
-  const currentContentItem = useReactiveVar(currentContentItemVar)
+  const type = data.contentType || data.itemType
+  const icon = type ? moduleTypes[type]?.icon : null
 
-  // console.log('data')
-  // console.log(data)
-  // console.log('title')
-  // console.log(title)
-  // console.log(id)
-  // console.log('contentType')
-  // console.log(contentType)
-  const IconComponent = contentType ? lessonTypes[contentType]?.icon : null
+  const active = currentId === id
 
-  const bg = (currentContentItem.id === id) ? `text-main bg-main/[.1]` : `bg-transparent`
+  const after = editing ? (
+    <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
+      <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/>
+    </div>
+  ) : <SidebarItemProgress id={id} />
 
   return (
-    <li
-      className={classNames(
-        styles.Wrapper,
-        bg,
-        `flex hover:bg-main hover:bg-opacity-5 text-main-secondary`,
-        liClassName
-      )}
-      style={liStyle}
+    <ListItem
+      onSelect={() => onSelect(id)}
+      icon={icon}
+      active={active}
+      onDelete={onDelete}
+      title={title}
+      after={after}
+      listeners={listeners}
+      divStyle={divStyle}
+      divClassName={divClassName}      
+      liStyle={liStyle}
+      liClassName={liClassName}
       ref={ref}
-    >
-      <div
-        className={`
-          flex items-center w-full px-4 py-2
-          ${divClassName}
-        `}
-        style={divStyle}
-        // data-cypress="draggable-item"
-        {...listeners}
-        tabIndex={0}
-      >
-        <div className="min-w-0 flex-1 flex items-center group cursor-pointer" onClick={() => onSelect(id)}>
-          {/* <Link href={`/admin/courses/edit?id=${courseId}&cid=${item.id}`}> */}
-            <a className={`flex py-1 space-x-2`}>
-              { IconComponent && <IconComponent className="h-5 w-5 flex-0"/> }
-              <span className="min-w-0 flex-1 text-sm font-medium break-words">
-                { title || 'Untitled lesson'}
-              </span>
-            </a>
-          {/* </Link> */}
-          {editing ? (
-            <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block">
-              <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/>
-            </div>
-          ) : <SidebarItemProgress id={id} /> }
-        </div>
-      </div>
-    </li>
+    />
   )
 })
 

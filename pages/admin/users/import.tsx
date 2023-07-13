@@ -1,23 +1,16 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import UserImportForm from '../../../components/users/UserImportForm';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import BulkImportsTable from '../../../components/bulkImports/BulkImportsTable';
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack';
 
 const AdminUsersImport = () => {
 
   usePageTitle({ title: 'Import users' })
   
-  useHeaderButtons([
-    [<BackButton />, '/admin/users'],
-  ])
+  useHeaderButtons({
+    id: "backToUsers",
+    component: <ButtonBack text="Back to user list" action="/admin/users" />
+  });
 
   return (
     <>

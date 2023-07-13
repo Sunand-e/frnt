@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client"
 import { GetResources } from "../../graphql/queries/__generated__/GetResources";
 import { CreateResource, CreateResourceVariables } from "../../graphql/mutations/resource/__generated__/CreateResource";
 import { useEffect, useState } from "react";
+import { contentItemDefaults } from "../contentItems/contentItemDefaults";
 
 
 function useCreateResource() {
@@ -39,8 +40,7 @@ function useCreateResource() {
   }, [createResourceResponse.data])
 
   const createResource = (values, cb = null) => {
-    console.log('values')
-    console.log(values)
+
     createResourceMutation({
       variables: { 
         ...values
@@ -49,28 +49,12 @@ function useCreateResource() {
         createResource: {
           __typename: 'CreateResourcePayload',
           resource: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: `tmp-${Math.floor(Math.random() * 10000)}`,
-            title: values.title || '',
-            settings: {},
-            createdAt: '',
-            updatedAt: '',
-            content: {},
-            shared: false,
-            contentType: null,
-            itemType: 'resource',
-            mediaItem: null,
-            icon: null,
-            prerequisites: null,
-            _deleted: false,
-            users: { totalCount: 0 },
-            audio: null,
-            document: null,
             ...values,
-            tags: {
-              edges: []
-            },
-            image: null,
+            itemType: 'resource',
+            tags: contentItemDefaults.tags,
+            title: values.title || ''
           },
           message: ''
         }

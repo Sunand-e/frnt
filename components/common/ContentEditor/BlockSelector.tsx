@@ -1,72 +1,96 @@
-import blocktypes from './blocktypes'
+import blocktypes, { BlockType } from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
-import PackageSelectModal from './blocks/PackageBlock/PackageSelectModal'
-import { CSSProperties, StyleHTMLAttributes, useContext } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { CSSProperties } from 'react';
+import { v4 as uuidv4, v4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
-
-interface block {
-  type: string,
-  id: string,
-  children?: block[]
-  properties?: {[key: string]: any}
-  widths?: {[key: string]: any}
-}
+import PackageLibrary from '../../packages/PackageLibrary';
+import { Block, useBlockStore } from './useBlockStore';
 
 interface BlockSelectorProps {
-  block?,
+  block?: Block,
   replace?: boolean, 
   exclude?: any[],
   className?: string,
+  blockButtonClassName?: string,
   onSelect?:()=>void,
-  style: CSSProperties
+  style?: CSSProperties
 }
 const BlockSelector = ({
   block=null, 
   replace=false, 
   exclude=[], 
   className='',
+  blockButtonClassName='',
   onSelect = ():void => null,
   style={}
 }: BlockSelectorProps) => {
 
   const { blocks, addBlock } = useBlockEditor(block)
+  const sidebarFieldsRegenKey = useBlockStore(state => state.sidebarFieldsRegenKey)
 
-  const handleAddVideo = (newBlock) => {
+  // const {isOver, setNodeRef} = useDroppable({
+  //   id: 'blockSelector',
+  // });
+
+  const handleVideoSelect = (url) => {
+    const videoBlock = {
+      type: 'video',
+      id: uuidv4(),
+      properties: {
+        url,
+        paddingTop: '30px',
+        paddingBottom: '30px',
+      }
+    }
+    addBlock(videoBlock, replace)
+    closeModal()
+  }
+
+  const handleAddVideo = () => {
     handleModal({
       title: `Add video`,
       size: 'md',
       content: (
-        <VideoUrlSelect onVideoSelect={(url) => {
-          const videoBlock = {
-            ...newBlock,
-            properties: {
-              ...newBlock.properties,
-              url
-            }
-          }
-          addBlock(videoBlock, replace)
-        }} />
+        <VideoUrlSelect onVideoSelect={handleVideoSelect} />
       )
     })
   }
 
-
+  const handlePackageSelect = (scormPackage) => {
+    const newBlock = {
+      type: 'package',
+      id: uuidv4(),
+      properties: {
+        url: scormPackage.launchUrl,
+        moduleId: scormPackage.id,
+        title: scormPackage.title,
+        paddingTop: '30px',
+        paddingBottom: '30px',
+      }
+    }
+    addBlock(newBlock)
+    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
+    closeModal()
+  }
   
-  const handleSelectType = (type) => {
-    const newBlock: block = {
+  const handleSelectType = (type: BlockType) => {
+
+    let newBlock: Block = {
       type: type.name,
       id: uuidv4(),
-      properties: {}
+      properties: {
+        paddingTop: '30px',
+        paddingBottom: '30px',
+      }
     }
     onSelect?.()
     switch(type.name) {
       case 'package': {
         handleModal({
           title: `Choose package`,
-          content: <PackageSelectModal block={block} />,
+          content: <PackageLibrary onItemSelect={handlePackageSelect} />,
           size: 'lg'
         })
         break;
@@ -76,6 +100,23 @@ const BlockSelector = ({
         break;
       }
       case 'text': {
+        addBlock(newBlock, replace)
+        break;
+      }
+      case 'question': {
+        newBlock.properties = {
+          id: uuidv4(),
+          question: {
+            content: ''
+          },
+          answers: [
+            {
+              id: uuidv4(),
+              content: '',
+              correct: true
+            }
+          ]
+        }
         addBlock(newBlock, replace)
         break;
       }
@@ -117,16 +158,26 @@ const BlockSelector = ({
         type={type}
         isDisabled={isDisabled}
         onSelect={handleSelectType}
+        className={blockButtonClassName}
       />
     )
   })
 
   return (
-    <div style={style} className={`flex flex-col text-center text-main-secondary ${className}`}>
-      <div 
-        className="mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm">
-        { BlockTypeButtons }
-      </div>
+    <div style={style} key={sidebarFieldsRegenKey} className={className}>
+      { BlockTypeButtons }
+{/*       
+      {createPortal(
+        <DragOverlay dropAnimation={dropAnimation}>
+          <BlockTypeButton
+            type={blocktypes['text']}
+            isDisabled={false}
+            onSelect={handleSelectType}
+            className={blockButtonClassName}
+          />
+        </DragOverlay>,
+        document.body
+      )} */}
     </div>
   )
 };

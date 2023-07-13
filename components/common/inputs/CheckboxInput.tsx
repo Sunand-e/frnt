@@ -1,12 +1,13 @@
 const CheckboxInput = ({
   label,
   inputAttrs,
+  labelClassName='',
   placeholder: placeholder = ''
 }) => {
 
   return (
     <label className="flex w-full justify-between">
-      <span className="text-gray-700">{ label }</span>
+      <span className={`text-gray-700 ${labelClassName}`}>{ label }</span>
       <input 
         type="checkbox"
         className="

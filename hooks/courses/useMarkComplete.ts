@@ -3,19 +3,19 @@ import useUpdateUserContentStatus from "../users/useUpdateUserContentStatus"
 import { useReactiveVar } from "@apollo/client"
 import { markCompleteDisabledVar } from "../../graphql/cache"
 
-const useMarkComplete = (id, courseId) => {
+const useMarkComplete = (id) => {
   
   const { updateUserContentStatus } = useUpdateUserContentStatus()
 
   const disabled = useReactiveVar(markCompleteDisabledVar)
 
-  const markComplete = useCallback(() => {
+  const markComplete = useCallback(({progress = null}) => {
     updateUserContentStatus({
       contentItemId: id,
-      score: 100,
-      status: 'completed'
-    }, courseId)
-  }, [id, courseId])
+      status: 'completed',
+      ...(progress && { progress } )
+    })
+  }, [id])
   
   return {
     disabled,

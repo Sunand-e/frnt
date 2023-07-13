@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: ScormModuleFragment
+// GraphQL fragment: ScormPackageFragment
 // ====================================================
 
-export interface ScormModuleFragment {
+export interface ScormPackageFragment {
   __typename: "ScormModule";
   id: string;
   createdAt: any;

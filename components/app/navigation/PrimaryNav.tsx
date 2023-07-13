@@ -3,51 +3,24 @@ import navStructureUser from '../../../navStructureUser'
 import navStructureAdmin from '../../../navStructureAdmin'
 import { forwardRef, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
-import { viewVar } from '../../../graphql/cache';
-import { useReactiveVar } from '@apollo/client';
 import { PrimaryNavItem } from './PrimaryNavItem';
-import useWindowSize from '@rooks/use-window-size';
 import NavFooter from "./NavFooter";
 import { TenantContext } from '../../../context/TenantContext';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import { useViewStore } from '../../../hooks/useViewStore';
 
 const PrimaryNav = ({isSlim, pageNavState}) => {
 
-  /*
-    If we need to use js to change the positioning of
-    the 'Settings' menu item, we can use the following code, to set a boolean,
-    'showSettingsAtBottomOfScreen'.
-  */
-  const { innerHeight } = useWindowSize();
-
   const ref = useRef(null)
-
-  // const [showSettingsAtBottomOfScreen, setShowSettingsAtBottomOfScreen] = useState(true);
-
-  useEffect(() => {
-    // do the calculation here
-    // if(innerHeight < ref?.current.clientHeight) {
-    //   setShowSettingsAtBottomOfScreen(false)
-    // } else {
-    //   setShowSettingsAtBottomOfScreen(true)
-    // }
-
-  },[innerHeight])
-  /*
-   This is the end of the 'optional' code block
-  */
-
-  const view = useReactiveVar(viewVar);
-
-  const { userType } = useUserHasCapability()
-
   const tenant = useContext(TenantContext)
+  const isAdminView = useViewStore(state => state.isAdminView)
+  const { userType } = useUserHasCapability()
 
   const isSuperAdmin = useMemo(() => {
     return userType ? userType === 'SuperAdmin' : false;
   },[userType])
 
-  const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
+  const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
       if(item.requireEnabledFeatures) {
@@ -67,13 +40,12 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   logoImage = tenant?.logo_white ?? defaultLogo
   if(isSlim) {
     logoImage = tenant?.logo_square_white ?? logoImage
-  } 
-
+  }
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16 slim-nav' : 'w-64'} flex flex-col h-full`}>
       <div ref={ref} className="sticky z-30 top-0 flex flex-col justify-between h-full overflow-auto">
         <div className={"prim-list-content"}>
-          <div className={`h-18 ${view.isAdmin ? 'bg-main-secondary' : 'bg-main'} flex justify-center items-center px-2 py-4`}>
+          <div className={`h-18 ${isAdminView ? 'bg-main-secondary' : 'bg-main'} flex justify-center items-center px-2 py-4`}>
             <img 
               src={logoImage}
               className="w-auto max-h-full"

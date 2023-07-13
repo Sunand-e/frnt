@@ -2,23 +2,33 @@ import { gql, useMutation } from '@apollo/client';
 import { CreateLesson, CreateLessonVariables } from '../../graphql/mutations/lesson/__generated__/CreateLesson';
 import { CREATE_LESSON } from '../../graphql/mutations/lesson/CREATE_LESSON';
 import { SectionChildrenFragmentFragment } from '../../graphql/generated';
-export const SectionChildrenFragment = gql`
-  fragment SectionChildrenFragment on ContentItem {
-    children {
-      __typename
-      id
-      _deleted @client
-    }
-  }
-`
+import { SectionChildrenFragment } from '../../graphql/queries/allQueries';
+import { GET_USER_COURSE } from '../../graphql/queries/users';
+import useGetCurrentUser from '../users/useGetCurrentUser';
+import { userContentEdgeDefaults } from '../users/userContentEdgeDefaults';
+import { contentItemDefaults } from '../contentItems/contentItemDefaults';
 
 function useCreateLesson(sectionId) {
+
+  const { user } = useGetCurrentUser()
 
   const [createLessonMutation, createLessonResponse] = useMutation<CreateLesson, CreateLessonVariables>(
     CREATE_LESSON,
     {
       update(cache, { data: { createLesson } } ) {
 
+        // Fetch the cached to-do item with ID 5
+        const data = cache.readFragment({
+          id: `ContentItem:${sectionId}`, // The value of the to-do item's cache ID
+          fragment: gql`
+            fragment ParentsFragment on ContentItem {
+              parents {
+                id
+              }
+            }
+          `,
+        });
+        
         cache.updateFragment<SectionChildrenFragmentFragment>({
           id:`ContentItem:${sectionId}`,
           fragment: SectionChildrenFragment
@@ -26,17 +36,57 @@ function useCreateLesson(sectionId) {
           children: [
             // ...data.children.filter(child => child._deleted === false),
             ...data.children,
-            createLesson.lesson
+            {
+              ...createLesson.lesson,
+            }
           ],
         }))
+
+        for(const parent of data.parents) {
+          cache.updateQuery({
+            query: GET_USER_COURSE,
+            variables: {
+              courseFilter: {
+                courseId: parent.id
+              },
+              lessonSectionFilter: {
+                courseId: parent.id
+              }
+            }
+          }, (data) => {
+
+            const newEdge = {
+              ...userContentEdgeDefaults,
+              userId: user.id,            
+              node: {
+                ...userContentEdgeDefaults.node,
+                ...createLesson.lesson
+              }
+            }
+
+            const newData = {
+              ...data,
+              lessons: {
+                ...data.lessons,
+                edges: [
+                  ...data.lessons.edges,
+                  newEdge
+                ],
+                totalCount: data.lessons.totalCount + 1
+              },
+            }
+            
+            return newData;
+          });
+        }
       },
     }
   );
 
-  const createLesson = (values) => {
+  const createLesson = async (values) => {
     console.log('values')
     console.log(values)
-    createLessonMutation({
+    const newLesson = await createLessonMutation({
       variables: {
         ...values,
         parentIds: [sectionId]
@@ -45,35 +95,17 @@ function useCreateLesson(sectionId) {
         createLesson: {
           __typename: 'CreateLessonPayload',
           lesson: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: 'temp-' + Math.floor(Math.random() * 10000),
-            title: '',
-            createdAt: '',
-            updatedAt: '',
-            content: {},
-            contentType: 'text',
             itemType: 'lesson',
-            image: null,
-            icon: null,
-            prerequisites: null,
-            _deleted: false,
-            settings: '',
-            shared: false,
-            mediaItem: null,
-            users: {
-              __typename: 'ContentUserConnection',
-              totalCount: 0
-            },
-            tags: [],
-            order: 99999999,
+            contentType: 'text',
             ...values
           },
           message: ''
         }
       }
-    }).catch(res => {
-      // TODO: do something if there is an error!!
     })
+    return newLesson
   }
 
   return {

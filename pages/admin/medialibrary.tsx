@@ -6,12 +6,13 @@ import useHeaderButtons from "../../hooks/useHeaderButtons";
 import MediaUploader from '../../components/media/MediaUploader';
 import MediaPreview from '../../components/media/MediaPreview';
 import { handleModal } from '../../stores/modalStore';
+import { Button } from '@mantine/core';
 
-const UploadButton = () => (
-  <>
+const UploadButton = ({onClick}) => (
+  <Button onClick={onClick}>
     <span className='hidden lg:block'>Upload files</span>
-    <span className='block lg:hidden'><Upload  width="20" /></span>
-  </>
+    <span className='block lg:hidden'><Upload width="20" /></span>
+  </Button>
 )
 
 const MediaLibraryPage = () => {
@@ -33,9 +34,10 @@ const MediaLibraryPage = () => {
     })
   }
 
-  useHeaderButtons([
-    [<UploadButton />, () => handleUploadModal() ]
-  ])
+  useHeaderButtons({
+    id:'uploadMedia',
+    component: <UploadButton onClick={handleUploadModal} />
+  })
 
   return (
     <>

@@ -5,13 +5,13 @@ import { gql } from "@apollo/client"
 //     $attempt: Int!,
 //     $data: JSON!,
 //     $contentItemId: ID!, 
-//     $scormModuleId: ID!
+//     $scormPackageId: ID!
 //   ) {
 //     createUserScoAttempt(input: {
 //       attempt: $attempt,
 //       data: $data,
 //       contentItemId: $contentItemId,
-//       scormModuleId: $scormModuleId
+//       scormPackageId: $scormPackageId
 //     }) {
 //       id
 //       data
@@ -23,13 +23,13 @@ export const UPSERT_SCO_ATTEMPT = gql`
     $data: JSON!,
     $attempt: Int!,
     $contentItemId: ID!,
-    $scormModuleId: ID!
+    $scormPackageId: ID!
   ) {
     upsertScoAttempt(input: {
       data: $data,
       attempt: $attempt,
       contentItemId: $contentItemId,
-      scormModuleId: $scormModuleId
+      scormPackageId: $scormPackageId
     }) {
       id
       data
@@ -55,11 +55,11 @@ export const UPSERT_SCO_ATTEMPT = gql`
 export const GET_LATEST_SCO_ATTEMPT = gql`
   query GetLatestScoAttempt(
     $courseId: ID!,
-    $scormModuleId: ID!,
+    $scormPackageId: ID!,
   ) {
     latestScoAttempt(
       courseId: $courseId,
-      scormModuleId: $scormModuleId
+      scormPackageId: $scormPackageId
     ) {
       id
       data

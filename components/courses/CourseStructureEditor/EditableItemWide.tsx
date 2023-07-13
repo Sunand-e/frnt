@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import DeleteLessonModal from "../DeleteLessonModal"
 import styles from '../SidebarItem.module.scss'
 import { ContentFragment as ContentFragmentType } from '../../../graphql/queries/__generated__/ContentFragment';
 import cache from "../../../graphql/cache"
@@ -10,6 +9,8 @@ import { useRouter } from "next/router";
 import Button from "../../common/Button"
 
 import dayjs from 'dayjs'
+import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson';
+import useConfirmDelete from '../../../hooks/useConfirmDelete';
 const EditableItemWide = ({
   dragOverlay,
   dragging,
@@ -31,15 +32,14 @@ const EditableItemWide = ({
     fragment: ContentFragment,
     fragmentName: 'ContentFragment',
   })
-
-  const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
-  
-  const handleDelete = () => {
-    handleModal({
-      title: `Delete lesson`,
-      content: <DeleteLessonModal lessonId={id} />
-    })
+  const { deleteLesson } = useDeleteLesson(id)
+  const { confirmDelete } = useConfirmDelete({
+    itemType: 'lesson',
+    name: item.title,
+    onConfirm: deleteLesson
   }
+  )
+  const updatedDate = dayjs(item.updatedAt).format('MMMM D, YYYY [at] h:mm A')
 
   const handleSelect = () => {
     router.push({
@@ -106,7 +106,7 @@ const EditableItemWide = ({
 
           <div className="ml-auto flex space-x-2">
             {/* <Button onClick={() => router.push(`/admin/lesson?id=${item.id}&courseId=${course.id}`)}>Edit</Button> */}
-            <Button onClick={handleDelete}>Delete</Button>
+            <Button onClick={confirmDelete}>Delete</Button>
           </div>
         </div>
       </div>

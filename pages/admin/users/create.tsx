@@ -1,30 +1,23 @@
-import usePageTitle from '../../../hooks/usePageTitle';
-import UserForm from '../../../components/users/UserForm'
-import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import { useRouter } from 'next/router';
-import useGetUsers from '../../../hooks/users/useGetUsers';
 import axios from 'axios';
-import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
-import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import { GET_USERS } from '../../../graphql/queries/users';
+import { useRouter } from 'next/router';
+import ButtonBack from '../../../components/common/ButtonBack';
+import UserForm from '../../../components/users/UserForm';
 import cache from '../../../graphql/cache';
-
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import { GET_USERS } from '../../../graphql/queries/users';
+import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import usePageTitle from '../../../hooks/usePageTitle';
+import useGetUsers from '../../../hooks/users/useGetUsers';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import getJWT from '../../../utils/getToken';
 
 const AdminCreateUser = () => {
   
   usePageTitle({ title: 'Add new user' })
   
-  useHeaderButtons([
-    [<BackButton />, '/admin/users'],
-  ])
+  useHeaderButtons({
+    id: "backToUsers",
+    component: <ButtonBack text="Back to user list" action="/admin/users" />
+  });
   
   const router = useRouter()
   const endpoint = "/api/v1/users/"
@@ -48,7 +41,7 @@ const AdminCreateUser = () => {
 
   const handleSubmit = ({profile_image, firstName, lastName, ...values}) => {
     console.log(values)
-    const token = localStorage.getItem('token');
+    const token = getJWT();
     
     const data = {
       user: {
@@ -65,12 +58,7 @@ const AdminCreateUser = () => {
         'Authorization': `Bearer ${token}`,
       },
       data
-    }).then (response => {      
-      // Roles are already applied in the REST API call, no need to trigger mutation 
-      // updateUserTenantRoles({
-      //   userId: data.data.id,
-      //   roleIds: values.roles
-      // })
+    }).then (response => {
       refetchUsers()
       
       if(response.data.user?.id) {
@@ -84,9 +72,7 @@ const AdminCreateUser = () => {
   }
 
   return (
-    <>
-      <UserForm onSubmit={handleSubmit}  />
-    </>
+    <UserForm onSubmit={handleSubmit}  />
   )
 }
 

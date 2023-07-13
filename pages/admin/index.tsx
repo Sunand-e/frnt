@@ -1,6 +1,8 @@
 import usePageTitle from '../../hooks/usePageTitle';
 import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
 import {Users} from '@styled-icons/fa-solid/Users';
+import {Group2} from "@styled-icons/remix-fill/Group2";
+import {Library} from "@styled-icons/ionicons-solid/Library"
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
@@ -10,9 +12,8 @@ import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 import { useQuery } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
-import { headerButtonsVar } from '../../graphql/cache';
-import Button from '../../components/common/Button';
 import ButtonLink from '../../components/common/ButtonLink';
+import useHeaderButtons from '../../hooks/useHeaderButtons';
 
 const AdminDashboardPage = () => {
   
@@ -20,14 +21,10 @@ const AdminDashboardPage = () => {
 
   usePageTitle({ title: 'Admin Dashboard' })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
-        <ButtonLink href={'/'}>User View</ButtonLink>
-      </>
-    )
-  },[])
+  useHeaderButtons([{
+    id: 'userView',
+    component: <ButtonLink href={'/'}>User View</ButtonLink>
+  }])
   
   const cards = useMemo(() => ([
     {
@@ -49,14 +46,14 @@ const AdminDashboardPage = () => {
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
-      IconComponent: GraduationCap,
+      IconComponent: Group2,
       href: "admin/users/groups"
     },
     {
       name: 'allResources',
       label: 'Total resources',
       value: data?.resources.totalCount,
-      IconComponent: Users,
+      IconComponent: Library,
       href: "admin/resources"
     },
   ]),[data])

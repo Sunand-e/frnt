@@ -16,7 +16,7 @@ const rejectStyle: CSSProperties = {
 export interface FileDropzoneProps {
   accept;
   dropZoneContent;
-  onClick;
+  onClick?;
   onDrop;
   multiple;
 }
@@ -30,9 +30,10 @@ const FileDropzone = ({
 }) => {
   
   const handleDrop = (acceptedFiles, fileRejections, event) => {
+    console.log('runtings')
     onDrop(acceptedFiles, fileRejections, event)
   }
-
+  
   const {
     acceptedFiles,
     getRootProps,

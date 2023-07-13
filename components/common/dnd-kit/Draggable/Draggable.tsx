@@ -44,6 +44,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
   ) {
     return (
       <div
+      data-drag-handle
         className={classNames(
           styles.Draggable,
           dragOverlay && styles.dragOverlay,

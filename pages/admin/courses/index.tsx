@@ -3,17 +3,9 @@ import { Notices } from '../../../components/common/Notices'
 import CoursesTable from '../../../components/courses/CoursesTable/CoursesTable'
 import { useContext, useEffect } from 'react'
 import usePageTitle from '../../../hooks/usePageTitle'
-import {Add} from "@styled-icons/fluentui-system-filled/Add";
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
-
-
-const AddButton = () => (
-  <>
-    <span className='hidden lg:block'>Create new course</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
-  </>
-)
+import ButtonAdd from '../../../components/common/ButtonAdd'
 
 const AdminCourses = () => {
 
@@ -22,30 +14,39 @@ const AdminCourses = () => {
   })
 
   const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const showCreateButton = userHasCapability([
+    'CreateCourse',
+  ])
+  
+  useHeaderButtons([
+    ...(showCreateButton ? [{
+      id: 'createCourse',
+      component: <ButtonAdd action='/admin/courses/create' text='Create new course' />
+    }] : []),
+  ])
+
   const ready = !!userCapabilityArray.length || userType === 'SuperAdmin'
   const router = useRouter()
   
   useEffect(() => {
     if(ready) {
-      if(!userHasCapability('UpdateUser')) {
+      if(!userHasCapability('UpdateCourse')) {
         router.push('/')
       }
     }
   },[ready])
 
 
-  useHeaderButtons([
-    // [<AddButton />, '/admin/courses/create']
-  ])
+  // useHeaderButtons(
+    // <ButtonAdd action='/admin/courses/create' text='Create new course' />
+  // )
 
 
   return (
-    (ready && (
     <>
       <Notices />
       <CoursesTable />
     </>
-    ))
   )
 }
 
