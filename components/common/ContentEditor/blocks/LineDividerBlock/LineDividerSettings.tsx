@@ -14,9 +14,6 @@ export const LineDividerSettings = ({block}) => {
     const height = e.target.value
     
     updateBlockProperties(block, {height})
-    console.log('height')
-    console.log(height)
-    console.log(block)
   }
   
   return (

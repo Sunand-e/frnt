@@ -20,7 +20,7 @@ const CoursePage = () => {
   const { id, cid: contentId, completed } = router.query
   const { userHasCapability } = useUserHasCapability()
   const showEditButton = userHasCapability([
-    'UpdateRole',
+    'UpdateCourse',
   ])
     
   const { user } = useGetCurrentUser();

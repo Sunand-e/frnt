@@ -117,6 +117,9 @@ export default ({ editor }) => {
     {
       type: 'line-height'
     },
+    // {
+    //   type: 'newline'
+    // },
     {
       type: 'color'
     },
@@ -138,12 +141,12 @@ export default ({ editor }) => {
       action: () => editor.chain().focus().toggleTaskList().run(),
       isActive: () => editor.isActive('taskList'),
     },
-    {
-      icon: 'code-box-line',
-      title: 'Code Block',
-      action: () => editor.chain().focus().toggleCodeBlock().run(),
-      isActive: () => editor.isActive('codeBlock'),
-    },
+    // {
+    //   icon: 'code-box-line',
+    //   title: 'Code Block',
+    //   action: () => editor.chain().focus().toggleCodeBlock().run(),
+    //   isActive: () => editor.isActive('codeBlock'),
+    // },
     {
       type: 'divider',
     },
@@ -179,11 +182,11 @@ export default ({ editor }) => {
     {
       type: 'divider',
     },
-    {
-      icon: 'text-wrap',
-      title: 'Hard Break',
-      action: () => editor.chain().focus().setHardBreak().run(),
-    },
+    // {
+    //   icon: 'text-wrap',
+    //   title: 'Hard Break',
+    //   action: () => editor.chain().focus().setHardBreak().run(),
+    // },
     {
       icon: 'format-clear',
       title: 'Clear Format',
@@ -211,6 +214,8 @@ export default ({ editor }) => {
         <Fragment key={index}>
           { item.type === 'divider' ? (
             <div className={styles.divider} />
+          ) : item.type === 'newline' ? (
+            <div className="basis-full" />
           ) : item.type === 'font-size' ? (
               <FontSizeSelect onChange={changeFontSize} />
           ) : item.type === 'line-height' ? (
