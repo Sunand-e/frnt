@@ -97,7 +97,6 @@ a {
   }
 }
 
-
 .tippy-box[data-theme~='memberhub-block-menu'] {
 
   background-color: white;
@@ -127,6 +126,17 @@ a {
   &[data-placement^=bottom] .tippy-arrow:before {
     border-bottom-color: white;
   }
+}
+
+.tippy-box [class*=header] {
+  align-items: center;
+  // border-bottom: 2px solid;
+  // @apply border-main;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  padding: 0.25rem;
+  // max-width: 450px;
 }
 
 #debug_panel {

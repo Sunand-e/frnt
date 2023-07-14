@@ -59,16 +59,15 @@ module.exports = {
         'max-h': 'max-height'
       },
       backgroundOpacity: ['hover', 'active', 'focus'],
-    },
-    typography: ({ theme }) => ({
-      DEFAULT: { // this is for prose class
-        css: {
-          p: {
-            color: theme('colors.secondary'), // change global color scheme
+
+      typography: ({ theme }) => ({
+        DEFAULT: { // this is for default prose class
+          css: {
+            '--tw-prose-bullets': rgbaStringFunction('main'), // Not working??
           },
         },
-      },
-    }),
+      }),
+    },
   },
   variants: {
     extend: {

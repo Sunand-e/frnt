@@ -26,12 +26,9 @@ const BlockContainer = ({
   const isActive = activeBlockId === block.id
   
   useEffect(() => {
-    if(!isColumn && index !== blocks.length -1) {
-      setShowFooter(true)
-    } else {
-      setShowFooter(false)
-    }
-  },[blocks])
+    // if(!isColumn && index !== blocks.length -1) {
+    setShowFooter(!isColumn)
+  },[isColumn])
 
   const isLastColumn = parent && index === parent.children.length - 1
 
