@@ -1,7 +1,7 @@
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMountStatus } from "../../../hooks/useMountStatus";
 import BlockContainer from "./BlockContainer";
 import { useBlockStore } from "./useBlockStore";
@@ -11,6 +11,8 @@ const SortableBlock = ({id, index}) => {
   // const draggingRowHeight = useBlockStore(state => state.draggingRowHeight)
   const activeDragItem = useBlockStore(state => state.activeDragItem)
   const lastAddedItemId = useBlockStore(state => state.lastAddedItemId)
+
+  const sortableBlockRef = useRef<HTMLDivElement>(null)
 
   const {
     setNodeRef, node, attributes, listeners, isDragging, isSorting, over, overIndex, transform, transition,
@@ -37,23 +39,28 @@ const SortableBlock = ({id, index}) => {
     }
   },[lastAddedItemId])
 
+  const zIndex = 9999-index
   const style = {
     transform: CSS.Translate.toString(transform),
     transition: transition,
-    zIndex: 9999-index,
-    position: 'relative'
+    position: 'relative',
+    zIndex
     // ...(isDragging && { height: draggingRowHeight } ) 
-  };
- 
+  }
+
   return (
     <div
       style={style}
       // ref={disabled ? undefined : setNodeRef}
       className={id === activeDragItem?.id ? 'invisible' : ''}
-      ref={setNodeRef}
+      ref={node => {
+        setNodeRef(node)
+        sortableBlockRef.current = node
+        sortableBlockRef.zIndex = zIndex
+      }}
       {...attributes}
     >
-      <BlockContainer id={id} dragListeners={listeners} />
+      <BlockContainer containerRef={sortableBlockRef} id={id} dragListeners={listeners} />
     </div>
   )
 }

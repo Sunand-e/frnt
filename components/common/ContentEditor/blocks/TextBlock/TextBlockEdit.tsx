@@ -3,7 +3,7 @@ import React, { useMemo, FunctionComponent, useEffect } from 'react';
 import useBlockEditor from '../../useBlockEditor';
 import Editor from '../../../inputs/Editor';
 
-export const TextBlockEdit: FunctionComponent = ({block}) => {
+export const TextBlockEdit: FunctionComponent = ({block, containerRef=null}) => {
   const { properties } = block
 
   const { debouncedUpdateBlock } = useBlockEditor()
@@ -23,10 +23,10 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
   useEffect(() => {
     !properties?.content && setTimeout(focus, 10);
   },[])
-
+  
   return (
     <>
-      <Editor onUpdate={handleChange} content={properties?.content} editorClass={'m-5'} />
+      <Editor containerRef={containerRef} onUpdate={handleChange} content={properties?.content} editorClass={'m-5'} />
     </>
   );
 }

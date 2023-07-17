@@ -12,6 +12,7 @@ const BlockContainer = ({
   isColumn = false,
   dragging = false,
   dragListeners = null,
+  containerRef=null,
   // onClick: handleClick, 
   handle = true,
 }) => {
@@ -82,7 +83,7 @@ const BlockContainer = ({
           />
 
         </span>
-        <BlockEdit id={id} />
+        <BlockEdit containerRef={containerRef} id={id} />
       </div>
       {
         showFooter && <BlockFooter block={block} />
