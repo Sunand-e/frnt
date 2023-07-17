@@ -14,28 +14,15 @@ import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
-import BlockSettings from './blocks/common/BlockSettings';
-import blocktypes from './blocktypes';
 import { shiftPosition, useBlockStore } from './useBlockStore';
-import { handleModal } from '../../../stores/modalStore';
 
 const BlockMenu = ({ block, className='', dragListeners }) => {
 
-  const blocks = useBlockStore(state => state.blocks)
-
-  const { addColumn, handleDeleteBlock } = useBlockEditor()
-  
+  const blocks = useBlockStore(state => state.blocks)  
   const isChild = !blocks.some(b => b.id === block.id)
-
   const index = blocks.findIndex(b => b.id === block.id)
 
-  const showSettings = () => {
-    handleModal({
-      title: `${blocktypes[block.type].text} settings`,
-      content: <BlockSettings block={block} />,
-      size: 'lg'
-    })
-  }
+  const { addColumn, handleDeleteBlock } = useBlockEditor()
 
   const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
     <button
@@ -110,6 +97,14 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
       return item.showOnBlocks ? item.showOnBlocks.includes(block.type) : true
     })
 
+  const itemTippyProps = {
+    interactive: true,
+    className: `text-white px-4 py-2 z-50`,
+    theme: 'memberhub-block-menu light',
+    arrow: true,
+    placement: 'bottom'
+  }
+
   const menuItems = blockMenuItems.map((menuItem, index) => {
 
     const IconComponent = menuItem.iconComponent
@@ -117,11 +112,7 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
     return (
       <Tippy
         key={index}
-        interactive={true}
-        className={`text-white px-4 py-2 z-50`}
-        theme={'memberhub-block-menu light'}
-        arrow={true}
-        placement={'top'}
+        { ...itemTippyProps }
         content={(
           <p className={`${menuItem.isDisabled?.() && 'text-gray-400'} whitespace-nowrap`}>
             {isChild ? menuItem.childText ?? menuItem.text : menuItem.text }

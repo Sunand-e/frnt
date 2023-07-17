@@ -10,7 +10,7 @@ import { FontSize } from '../ContentEditor/extensions/font-size'
 import { LineHeight } from '../ContentEditor/extensions/line-height'
 import { useRef, useState } from 'react'
 
-export default ({autofocus=true, editable=true, onUpdate=null, content=null,  editorClass=''}) => {
+export default ({autofocus=true, editable=true, onUpdate=null, content=null, containerRef=null, editorClass=''}) => {
 
   const editor = useEditor({
     editable,
@@ -50,47 +50,20 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null,  ed
     }),
     content
   })
-  
-  const [lastFocusedElement, setLastFocusedElement] = useState<Element>(null)
-  
-  const editorElementRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div ref={editorElementRef} className={styles.editor}>
+    <div className={styles.editor}>
       { editor && (
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,
-          // popperOptions: {
-          //   modifiers: [
-          //     {
-          //         name: 'preventOverflow',
-          //         options: {
-          //             boundary: editorElementRef.current
-          //         }
-          //     }
-          //   ],
-          // },
           maxWidth: 'none',
           theme: "memberhub-white",
-          // appendTo: () => document.body,
-          onShown: (instance) => {
-            // setLastFocusedElement(document.activeElement)
-            // console.log('SHOW')
-            // console.log(instance.popper)
-            // instance.popper.focus()
-            // instance.popper.querySelector('.tippy-box .editor__header').focus()
-            // console.log("instance.popper.querySelector('.tippy-box .editor__header')")
-            // console.log(instance.popper.querySelector('.tippy-box .editor__header button'))
-            // instance.popper.querySelector('.tippy-box .editor__header button').focus()
-            // console.log('document.activeElement')
-            // console.log(document.activeElement)
-            // console.log('instance')
-            // console.log(instance)
+          onShow: (instance) => {
+            console.log('show')
+            containerRef.current.style.zIndex = 99999
           },
           onHidden: (instance) => {
-            // alert('SHOW')
-            // console.log('HIDE')
-            // console.log(instance)
+            containerRef.current.style.zIndex = containerRef.zIndex
           }
         }}>
         <MenuBar editor={editor} />
