@@ -59,11 +59,14 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
           maxWidth: 'none',
           theme: "memberhub-white",
           onShow: (instance) => {
-            console.log('show')
-            containerRef.current.style.zIndex = 99999
+            if(containerRef) {
+              containerRef.current.style.zIndex = 99999
+            }
           },
           onHidden: (instance) => {
-            containerRef.current.style.zIndex = containerRef.zIndex
+            if(containerRef) {
+              containerRef.current.style.zIndex = containerRef.zIndex
+            }
           }
         }}>
         <MenuBar editor={editor} />
