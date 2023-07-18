@@ -3,7 +3,7 @@ import { useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful"
 import { useController } from "react-hook-form";
 
-const ColorPickerInput = ({label, name, control}) => {
+const ColorPickerInputLegacy = ({label, name, control}) => {
 
   // Get field object, which contains methods to update field's value, etc
   const { field } = useController({
@@ -52,4 +52,4 @@ const ColorPickerInput = ({label, name, control}) => {
   )
 }
 
-export default ColorPickerInput
+export default ColorPickerInputLegacy
