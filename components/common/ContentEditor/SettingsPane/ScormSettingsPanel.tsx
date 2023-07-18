@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form';
 import useGetScormPackages from "../../../../hooks/scormPackages/useGetScormPackages";
 import { useFragment_experimental } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
-import { Box } from "@styled-icons/boxicons-regular";
+import { Box } from "@styled-icons/boxicons-regular/Box";
 
 export const ScormSettingsPanel = () => {
 
