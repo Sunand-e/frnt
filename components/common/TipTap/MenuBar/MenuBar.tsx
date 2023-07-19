@@ -1,5 +1,5 @@
 import styles from './MenuBar.module.scss'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import MenuItem from './MenuItem'
 import FontSizeDropdown from '../../ContentEditor/blocks/common/FontSizeDropdown'
 import Select, { components, ContainerProps } from 'react-select';
@@ -11,6 +11,7 @@ const fontSizes = [
 
 const lineHeights = [
   0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8
+  // "100%", "115%", "150%", "200%", "250%", "300%"
 ]
 
 const lineHeightOptions = lineHeights.map(size => ({
@@ -18,7 +19,7 @@ const lineHeightOptions = lineHeights.map(size => ({
 }))
 
 const fontSizeOptions = fontSizes.map(size => ({
-  value: size,
+  value: `${size}px`,
   label: `${size}px`
 }))
 
@@ -40,34 +41,45 @@ const LineHeightControl = ({ children, ...props }) => (
   </components.Control>
 );
 
-const FontSizeSelect = ({onChange}) => (
-  <Select 
-    className='mr-1 text-main-secondary'
-    components={{ Control: FontSizeControl }}
-    isSearchable={false}
-    options={fontSizeOptions}
-    onChange={onChange}
-  />
-)
+const FontSizeSelect = ({value, onChange}) => {
+  return (
+    <Select 
+      value={value}
+      className='mr-1 text-main-secondary'
+      components={{ Control: FontSizeControl }}
+      isSearchable={false}
+      
+      options={fontSizeOptions}
+      onChange={onChange}
+    />
+  )
+}
 
-const LineHeightSelect = ({onChange}) => (
-  <Select 
-    className='mx-1 text-main-secondary'
-    components={{ Control: LineHeightControl }}
-    options={lineHeightOptions}
-    isSearchable={false}
-    onChange={onChange}
+const LineHeightSelect = ({value, onChange}) => {
+  console.log('value')
+  console.log(value)
+  return (
+    <Select 
+      value={value}
+      className='mx-1 text-main-secondary'
+      components={{ Control: LineHeightControl }}
+      options={lineHeightOptions}
+      isSearchable={false}
+      onChange={onChange}
 
-  />
-)
+    />
+  )
+}
 
 export default ({ editor }) => {
 
   const changeFontSize = option => {
-    editor.chain().focus().setFontSize(option.value+'px').run()
+    editor.chain().focus().setFontSize(option.value).run()
   }
   
   const changeLineHeight = option => {
+    console.log('option')
+    console.log(option)
     editor.chain().focus().setLineHeight(option.value).run()
   }
 
@@ -93,24 +105,24 @@ export default ({ editor }) => {
     {
       type: 'divider',
     },
-    {
-      icon: 'h-1',
-      title: 'Heading 1',
-      action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      isActive: () => editor.isActive('heading', { level: 1 }),
-    },
-    {
-      icon: 'h-2',
-      title: 'Heading 2',
-      action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      isActive: () => editor.isActive('heading', { level: 2 }),
-    },
-    {
-      icon: 'paragraph',
-      title: 'Paragraph',
-      action: () => editor.chain().focus().setParagraph().run(),
-      isActive: () => editor.isActive('paragraph'),
-    },
+    // {
+    //   icon: 'h-1',
+    //   title: 'Heading 1',
+    //   action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    //   isActive: () => editor.isActive('heading', { level: 1 }),
+    // },
+    // {
+    //   icon: 'h-2',
+    //   title: 'Heading 2',
+    //   action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    //   isActive: () => editor.isActive('heading', { level: 2 }),
+    // },
+    // {
+    //   icon: 'paragraph',
+    //   title: 'Paragraph',
+    //   action: () => editor.chain().focus().setParagraph().setMark("textStyle", { fontSize: null }).run(),
+    //   isActive: () => editor.isActive('paragraph'),
+    // },
     {
       type: 'font-size'
     },
@@ -135,12 +147,12 @@ export default ({ editor }) => {
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive('orderedList'),
     },
-    {
-      icon: 'list-check-2',
-      title: 'Task List',
-      action: () => editor.chain().focus().toggleTaskList().run(),
-      isActive: () => editor.isActive('taskList'),
-    },
+    // {
+    //   icon: 'list-check-2',
+    //   title: 'Task List',
+    //   action: () => editor.chain().focus().toggleTaskList().run(),
+    //   isActive: () => editor.isActive('taskList'),
+    // },
     // {
     //   icon: 'code-box-line',
     //   title: 'Code Block',
@@ -207,7 +219,8 @@ export default ({ editor }) => {
       action: () => editor.chain().focus().redo().run(),
     },
   ]
-
+  console.log('editor.getAttributeslineHeight')
+    console.log()
   return (
     <div className="editor__header">
       {items.map((item, index) => (
@@ -217,15 +230,24 @@ export default ({ editor }) => {
           ) : item.type === 'newline' ? (
             <div className="basis-full" />
           ) : item.type === 'font-size' ? (
-              <FontSizeSelect onChange={changeFontSize} />
+              <FontSizeSelect value={{ 
+                value: editor.getAttributes('textStyle').fontSize,
+                label: editor.getAttributes('textStyle').fontSize
+              }} onChange={changeFontSize} />
           ) : item.type === 'line-height' ? (
-              <LineHeightSelect onChange={changeLineHeight} />
+              <LineHeightSelect
+               value={{ 
+                value: editor.getAttributes('paragraph').lineHeight,
+                label: editor.getAttributes('paragraph').lineHeight
+              }}
+               onChange={changeLineHeight} />
+
           ) : item.type === 'color' ? (
             <input
               type="color"
               className='w-7 ml-2'
               onInput={event => editor.chain().focus().setColor(event.target.value).run()}
-              value={editor.getAttributes('textStyle').color}
+              value={editor.getAttributes('textStyle').color || '#374151'}
             />
           ) : (
               <MenuItem {...item} />
