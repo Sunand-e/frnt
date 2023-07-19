@@ -65,6 +65,7 @@
     "bulma": "^0.9.4",
     "bulma-helpers": "^0.4.3",
     "chroma-js": "^2.4.2",
+    "css.gg": "^2.1.1",
     "dayjs": "^1.11.6",
     "eslint-config-next": "^13.0.0",
     "faker": "^6.6.6",
