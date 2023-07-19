@@ -16,7 +16,7 @@ const ColorPicker = ({label=null, value, onChange}) => {
           strategy: 'fixed',
         }}
         content={
-          <div>
+          <div className="overflow-visible">
             <ColorPickerControl onChange={onChange} color={value} />
           </div>
         }

@@ -1,7 +1,9 @@
 import Tippy from "@tippyjs/react"
 import { useState } from "react";
 import { useController } from "react-hook-form";
-import { ColorPicker as ColorPickerIcon } from "@styled-icons/evaicons-solid/ColorPicker"
+// import { ColorPicker as ColorPickerIcon } from "@styled-icons/evaicons-solid/ColorPicker"
+import { ColorPicker as ColorPickerIcon } from "css.gg/icons/tsx/ColorPicker"
+
 import {
   ColorPicker,
   ColorPickerArea,
@@ -21,9 +23,7 @@ import {
 const ColorPickerControl = ({color, onChange}) => {
 
   const handleChange = ({value}) => onChange(value)
-
-  console.log('color')
-  console.log(color)
+  
   return (
     // <ColorPicker value={color} onChange={onChange}>
     // <ColorPicker value={color} onChange={handleChange}>
@@ -40,21 +40,48 @@ const ColorPickerControl = ({color, onChange}) => {
             </output>
             <ColorPickerArea xChannel={saturation} yChannel={lightness} className="h-[266px]">
               <ColorPickerAreaGradient className="h-full"/>
-              <ColorPickerAreaThumb />
+              <ColorPickerAreaThumb 
+                className="h-4 w-4"
+                style={{
+                  borderRadius: '100%',
+                  border: '2px solid white',
+                  boxShadow: 'black 0px 0px 0px 1px, black 0px 0px 0px 1px inset',
+                  outline: 'none',
+                  zIndex: 1
+                }}
+              />
             </ColorPickerArea>
-            <div className="flex flex-col space-y-4 p-4">
-              <div className="flex space-x-4">
+            <div className="flex flex-col space-y-4 pt-4 overflow-visible">
+              <div className="flex space-x-4  overflow-visible">
                 <ColorPickerEyeDropperTrigger><ColorPickerIcon className="w-8"/></ColorPickerEyeDropperTrigger>
                 
                 <div className="flex flex-col space-y-4 w-full">
                   <ColorPickerChannelSliderTrack channel={hue} className="h-3 rounded-full w-full">
-                    <ColorPickerChannelSliderBackground />
-                    <ColorPickerChannelSliderThumb className="h-3 w-3 rounded-full" />
+                    <ColorPickerChannelSliderBackground className="rounded-full" />
+                    <ColorPickerChannelSliderThumb
+                      className="h-3 w-3"
+                      style={{
+                        borderRadius: '100%',
+                        border: '2px solid white',
+                        transform: 'translate(-50%, -50%)',
+                        outline: 'none',
+                        boxShadow: 'black 0px 0px 0px 1px, black 0px 0px 0px 1px inset',
+                      }}
+                    />
                   </ColorPickerChannelSliderTrack>
         
                   <ColorPickerChannelSliderTrack channel="alpha" className="h-3 rounded-full">
-                    <ColorPickerChannelSliderBackground />
-                    <ColorPickerChannelSliderThumb />
+                    <ColorPickerChannelSliderBackground className="rounded-full" />
+                    <ColorPickerChannelSliderThumb 
+                      className="h-3 w-3"
+                      style={{
+                        borderRadius: '100%',
+                        border: '2px solid white',
+                        transform: 'translate(-50%, -50%)',
+                        outline: 'none',
+                        boxShadow: 'black 0px 0px 0px 1px, black 0px 0px 0px 1px inset',
+                      }}
+                    />
                   </ColorPickerChannelSliderTrack>
                 </div>
               </div>
