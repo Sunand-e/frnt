@@ -15,9 +15,6 @@
 # production
 /build
 
-# bundle analyzer
-/analyze
-
 # misc
 .DS_Store
 *.pem

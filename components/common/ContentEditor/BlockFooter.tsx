@@ -1,4 +1,4 @@
-import { PlusCircle } from '@styled-icons/boxicons-regular/PlusCircle';
+import { PlusCircle } from '@styled-icons/boxicons-regular';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import LineWithIcon from '../../common/LineWithIcon'
 import BlockSelector from './BlockSelector';

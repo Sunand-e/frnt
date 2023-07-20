@@ -7,9 +7,7 @@ import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
 import UserActionsMenu from './UserActionsMenu';
 import useSendInvite from '../../hooks/useSendInvite';
-import { Check } from '@styled-icons/boxicons-regular/Check';
-import { CheckCircle } from '@styled-icons/boxicons-regular/CheckCircle';
-import { InfoCircle } from '@styled-icons/boxicons-regular/InfoCircle';
+import { Check, CheckCircle, InfoCircle } from '@styled-icons/boxicons-regular';
 import dayjs from "dayjs"
 import Tippy from '@tippyjs/react';
 var advancedFormat = require('dayjs/plugin/advancedFormat')

@@ -1,3 +1,4 @@
+import { TrashAlt } from '@styled-icons/boxicons-regular';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import { useQuizStore } from '../useQuizStore';
 

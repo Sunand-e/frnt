@@ -45,7 +45,7 @@ const UserImportAddToNewGroup = ({userIds}) => {
       <TextInput
         label="Group name"
         placeholder="Group name"
-        inputAttrs={register("name", { maxLength: 120 })}
+        inputAttrs={register("name", { maxLength: 20 })}
       />
       <Button type="submit">Create group</Button>
       </form>

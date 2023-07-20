@@ -1,31 +1,39 @@
 import Tippy from "@tippyjs/react"
-import ColorPickerControl from "../../../../../inputs/ColorPickerControl"
+import { HexAlphaColorPicker, HexColorInput, HexColorPicker } from "react-colorful"
 
 const ColorPicker = ({label=null, value, onChange}) => {
   return (
     <div className="text-sm font-medium text-secondary">
       { label && <label className="block mb-2">{label}</label> }
-      <div className="flex space-x-2 items-center">
+      <div className="flex space-x-4 items-center">
         <Tippy
-          className="bg-white text-main"
+          className="bg-white text-main pt-1"
           interactive={true}
           placement='right' // placement='right-start'
           theme="memberhub-white"
           trigger="click"
-          appendTo={document.body}
+          // appendTo={document.body}
           popperOptions={{
             strategy: 'fixed',
           }}
           content={
-            <div className="overflow-visible">
-              <ColorPickerControl onChange={onChange} color={value} />
+            <div>
+              <HexAlphaColorPicker color={value} onChange={onChange} />
+              <HexColorInput color={value} onChange={onChange} alpha />
             </div>
           }
           >
-            <div 
-              className="flex items-center w-12 h-8 border border-gray-400"
-              style={{backgroundColor: value}}
-            />
+          {/* <input 
+            onClick={(e) => e.preventDefault()}
+            className="flex items-center w-12 h-8"
+            type="color"
+            value={value}
+            readOnly={true}
+          /> */}
+          <div 
+            className="flex items-center w-12 h-8 border border-gray-400"
+            style={{backgroundColor: value}}
+          />
         </Tippy>
         { value && (
           <span 

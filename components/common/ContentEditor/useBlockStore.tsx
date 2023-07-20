@@ -21,7 +21,7 @@ type BlockState = {
   }
   setIsDirty: (isDirty: boolean) => void
   editBlocks: (blocks: Block[]) => void
-  setBlocks: (blocks: Block[], isDirty?: boolean) => void
+  setBlocks: (blocks: Block[]) => void
   insertBlock: (newBlock: Block, index?: number, parent?: Block | null, replace?: boolean) => void
   sidebarFieldsRegenKey: number
 }

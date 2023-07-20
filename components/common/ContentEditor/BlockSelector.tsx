@@ -7,7 +7,6 @@ import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
 import { Block, useBlockStore } from './useBlockStore';
-import MediaLibrary from '../../media/MediaLibrary';
 
 interface BlockSelectorProps {
   block?: Block,
@@ -76,22 +75,6 @@ const BlockSelector = ({
     closeModal()
   }
   
-  const handleImageSelect = (image) => {
-    const newBlock = {
-      type: 'image',
-      id: uuidv4(),
-      properties: {
-        url: image?.location,
-        mediaId: image?.id,
-        paddingTop: '30px',
-        paddingBottom: '30px',
-      }
-    }
-    addBlock(newBlock)
-    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
-    closeModal()
-  }
-  
   const handleSelectType = (type: BlockType) => {
 
     let newBlock: Block = {
@@ -108,14 +91,6 @@ const BlockSelector = ({
         handleModal({
           title: `Choose package`,
           content: <PackageLibrary onItemSelect={handlePackageSelect} />,
-          size: 'lg'
-        })
-        break;
-      }
-      case 'image': {
-        handleModal({
-          title: `Choose image`,
-          content: <MediaLibrary onItemSelect={handleImageSelect} typeFilter={['image']} />,
           size: 'lg'
         })
         break;

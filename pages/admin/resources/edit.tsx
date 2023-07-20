@@ -4,6 +4,7 @@ import useUpdateResource from '../../../hooks/resources/useUpdateResource'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import ResourceForm from '../../../components/resources/ResourceForm'
 import { ArrowBack } from '@styled-icons/boxicons-regular/ArrowBack'
+import { JsonInput } from '@mantine/core'
 import ButtonBack from '../../../components/common/ButtonBack'
 
 const AdminResourcesEdit = () => {
