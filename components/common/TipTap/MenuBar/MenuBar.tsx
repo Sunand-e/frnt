@@ -47,8 +47,7 @@ const FontSizeSelect = ({value, onChange}) => {
       value={value}
       className='mr-1 text-main-secondary'
       components={{ Control: FontSizeControl }}
-      isSearchable={false}
-      
+      // isSearchable={false}
       options={fontSizeOptions}
       onChange={onChange}
     />
@@ -56,8 +55,6 @@ const FontSizeSelect = ({value, onChange}) => {
 }
 
 const LineHeightSelect = ({value, onChange}) => {
-  console.log('value')
-  console.log(value)
   return (
     <Select 
       value={value}
@@ -66,7 +63,6 @@ const LineHeightSelect = ({value, onChange}) => {
       options={lineHeightOptions}
       isSearchable={false}
       onChange={onChange}
-
     />
   )
 }
