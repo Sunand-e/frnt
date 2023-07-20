@@ -3,7 +3,7 @@ import Button from '../common/Button';
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 // import UserRoleSelect from './inputs/UserRoleSelect';
-import ColorPickerInput from '../common/inputs/ColorPickerInput';
+import ColorPickerInputLegacy from '../common/inputs/ColorPickerInputLegacy';
 import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 import CheckboxInput from '../common/inputs/CheckboxInput';
@@ -120,12 +120,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         previewClassName="bg-black/40"
         initialValue={tenant?.logos.logo_square_white}
       />
-      <ColorPickerInput
+      <ColorPickerInputLegacy
         label="Primary brand colour"
         name="primaryBrandColor"
         control={control}
       />
-      <ColorPickerInput
+      <ColorPickerInputLegacy
         label="Secondary brand colour"
         name="secondaryBrandColor"
         control={control}
