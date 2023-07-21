@@ -40,7 +40,7 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
         types: ['textStyle'],
       }),
       LineHeight.configure({
-        types: ['heading", "paragraph'],
+        types: ['heading', 'paragraph'],
       })
     ],
     ...( !!onUpdate && {

@@ -86,20 +86,20 @@ const useBlockEditor = (block: Block = null) => {
           },
           ...blocks.slice(topLevelIndex + 1)
         ]
-        setBlocks(newBlocks)
+        setBlocks(newBlocks, true)
       }
 
     // if the block is NOT contained in a column, remove the block
     } else {
       newBlocks = blocks.filter(b => b.id !== block.id)
-      setBlocks(newBlocks)
+      setBlocks(newBlocks, true)
     }
   }
   
   const handleDeleteBlock = (block: Block) => {
     handleModal({
       title: `Delete block`,
-      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block, true)} block={block} />
+      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
     })
   }
 

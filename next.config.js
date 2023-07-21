@@ -22,17 +22,15 @@ module.exports = withBundleAnalyzer({
   // the basePath needs to be set if the app is accessed in a subdirectory of a domain.
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
 
-  experimental:{
-    transpilePackages: [
-      "@fullcalendar/common",
-      "@babel/preset-react",
-      "@fullcalendar/common",
-      "@fullcalendar/daygrid",
-      "@fullcalendar/interaction",
-      "@fullcalendar/react",
-      "@fullcalendar/timegrid"      
-    ]
-  },
+  transpilePackages: [
+    "@fullcalendar/common",
+    "@babel/preset-react",
+    "@fullcalendar/common",
+    "@fullcalendar/daygrid",
+    "@fullcalendar/interaction",
+    "@fullcalendar/react",
+    "@fullcalendar/timegrid"      
+  ],
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 
