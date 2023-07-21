@@ -6,6 +6,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 module.exports = withBundleAnalyzer({
+
+  output: 'export',
+
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
