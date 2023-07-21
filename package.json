@@ -5,7 +5,7 @@
   "scripts": {
     "analyzedev": "cross-env NODE_OPTIONS='--inspect' ANALYZE=true PORT=3001 node server.js",
     "dev": "cross-env NODE_ENV='development' NODE_OPTIONS='--inspect' PORT=3001 node server.js",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "export": "next export",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts",
@@ -81,7 +81,7 @@
     "js-video-url-parser": "^0.5.1",
     "lodash.shuffle": "^4.2.0",
     "material-design-icons": "^3.0.1",
-    "next": "^13.4.10",
+    "next": "^13.4.9",
     "next-transpile-modules": "^9.1.0",
     "pluralize": "^8.0.0",
     "re-resizable": "^6.9.9",
