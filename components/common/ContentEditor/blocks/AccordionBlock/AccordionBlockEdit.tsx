@@ -1,19 +1,12 @@
-import { FunctionComponent, useContext } from 'react'
+import { Accordion } from '../../../Accordion';
 import useBlockEditor from '../../useBlockEditor';
-// @styled-icons/bootstrap/FilePdf
-// @styled-icons/simple-icons/Microsoftexcel
-// @styled-icons/boxicons-solid/FileDoc
-
 const AccordionBlockEdit = ({block}) => {
 
   const { updateBlock } = useBlockEditor()
 
   return (
-    <>
-    Accordion Editor
-      { JSON.stringify(block,null,2) }
-    </>
-  )
+    <Accordion />
+  );
 }
 
 export default AccordionBlockEdit

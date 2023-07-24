@@ -57,6 +57,15 @@ import Spacer from './blocks/Spacer/Spacer'
 import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
 import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
 import QuestionBlock from './blocks/QuestionBlock/QuestionBlock'
+import TabsBlock from './blocks/TabsBlock/TabsBlock'
+import TabsBlockEdit from './blocks/TabsBlock/TabsBlockEdit'
+import { TabsSettings } from './blocks/TabsBlock/TabsSettings'
+import CarouselBlock from './blocks/CarouselBlock/CarouselBlock'
+import CarouselBlockEdit from './blocks/CarouselBlock/CarouselBlockEdit'
+import { CarouselSettings } from './blocks/CarouselBlock/CarouselBlockSettings'
+import FlipBoxesBlock from './blocks/FlipBoxesBlock/FlipBoxesBlock'
+import FlipBoxesBlockEdit from './blocks/FlipBoxesBlock/FlipBoxesBlockEdit'
+import { FlipBoxesSettings } from './blocks/FlipBoxesBlock/FlipBoxesSettings'
 
 export type BlockType = {
   name: string,
@@ -170,13 +179,38 @@ const blocktypes: BlockTypes = {
     icon: AddColumn,
     hideFromSelector: true,
   },
-  // accordion: {
-  //   text: 'Accordion',
-  //   component: AccordionBlock,
-  //   editComponent: AccordionBlockEdit,
-  //   settingsComponent: AccordionSettings,
-  //   icon: Expand
-  // },
+  accordion: {
+    name: 'Accordion',
+    text: 'Accordion',
+    component: AccordionBlock,
+    editComponent: AccordionBlockEdit,
+    settingsComponent: AccordionSettings,
+    icon: Expand
+  },
+  tabs: {
+    name: 'tabs',
+    text: 'Tabs',
+    component: TabsBlock,
+    editComponent: TabsBlockEdit,
+    settingsComponent: TabsSettings,
+    icon: Expand
+  },
+  carousel: {
+    name: 'carousel',
+    text: 'Carousel',
+    component: CarouselBlock,
+    editComponent: CarouselBlockEdit,
+    settingsComponent: CarouselSettings,
+    icon: Expand
+  },
+  flipboxes: {
+    name: 'flipboxes',
+    text: 'Flip Boxes',
+    component: FlipBoxesBlock,
+    editComponent: FlipBoxesBlockEdit,
+    settingsComponent: FlipBoxesSettings,
+    icon: Expand
+  },
   linedivider: {
     text: 'Line Divider',
     name: 'linedivider',

@@ -1,9 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
-import { IconButton } from '@/components/shared/IconButton'
-import { Stack } from '@/panda/jsx'
-import { carousel } from '@/panda/recipes'
+
 import {
-  Carousel,
+  Carousel as ArkCarousel,
   CarouselControl,
   CarouselIndicator,
   CarouselIndicatorGroup,
@@ -13,9 +10,10 @@ import {
   CarouselSlideGroup,
   CarouselViewport,
 } from '@ark-ui/react'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import Button from './Button'
+// import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
-export const DemoCarousel = () => {
+export const Carousel = () => {
   const images = [
     'https://tinyurl.com/5b6ka8jd',
     'https://tinyurl.com/7rmccdn5',
@@ -24,8 +22,8 @@ export const DemoCarousel = () => {
     'https://tinyurl.com/yp4rfum7',
   ]
   return (
-    <Carousel className={carousel()}>
-      <Stack gap="4">
+    <ArkCarousel className={''}>
+      <div className='grid gap-4'>
         <CarouselViewport>
           <CarouselSlideGroup>
             {images.map((image, index) => (
@@ -40,22 +38,10 @@ export const DemoCarousel = () => {
           </CarouselSlideGroup>
           <CarouselControl>
             <CarouselPrevSlideTrigger asChild>
-              <IconButton
-                variant="secondary"
-                size="sm"
-                borderRadius="full"
-                icon={<FiChevronLeft />}
-                aria-label="Previous Slide"
-              />
+              <Button> prev </Button>
             </CarouselPrevSlideTrigger>
             <CarouselNextSlideTrigger asChild>
-              <IconButton
-                variant="secondary"
-                size="sm"
-                borderRadius="full"
-                icon={<FiChevronRight />}
-                aria-label="Next Slide"
-              />
+              <Button> next </Button>
             </CarouselNextSlideTrigger>
           </CarouselControl>
           <CarouselIndicatorGroup>
@@ -66,7 +52,7 @@ export const DemoCarousel = () => {
             ))}
           </CarouselIndicatorGroup>
         </CarouselViewport>
-      </Stack>
-    </Carousel>
+      </div>
+    </ArkCarousel>
   )
 }
