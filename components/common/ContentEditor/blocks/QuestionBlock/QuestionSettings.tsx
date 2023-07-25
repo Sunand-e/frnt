@@ -19,8 +19,16 @@ export const QuestionSettings = ({block}) => {
   useEffect(() => {
     const subscription = watch((data) => {
       const newBlock = produce(block, draft => {
-        draft.properties.questionType = data.questionType,
-        draft.properties.settings = data.settings
+        draft.properties = {
+          ...block.properties,
+          questionType: data.questionType,
+          settings: {
+            ...block.properties.settings,
+            feedback: {
+              ...data.settings.feedback
+            }
+          }
+        }
       })
       updateBlock(newBlock)
     })
