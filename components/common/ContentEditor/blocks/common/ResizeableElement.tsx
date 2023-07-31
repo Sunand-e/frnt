@@ -13,7 +13,8 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
 
   const [width, setWidth] = useState( block.properties?.width || defaultWidth || 0)
   // const  [width, setWidth] = useState(0)
-  const { updateBlock, addBlock, getIndexAndParent } = useBlockEditor(block)
+  const { updateBlock } = useBlockStore()
+  const { addBlock, getIndexAndParent } = useBlockEditor(block)
 
   const { index, parent } = getIndexAndParent(block.id)
 

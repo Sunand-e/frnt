@@ -2,13 +2,14 @@ import { FunctionComponent } from 'react'
 import { closeModal } from '../../../../../stores/modalStore';
 import AudioSelector from '../../../inputs/AudioSelector';
 import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 // @styled-icons/bootstrap/FilePdf
 // @styled-icons/simple-icons/Microsoftexcel
 // @styled-icons/boxicons-solid/FileDoc
 
 const AudioBlockEdit: FunctionComponent = ({block}) => {
 
-  const { updateBlock } = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   const file = block?.properties?.file;
 

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { QuestionFormValues } from "../../../../quiz/questions/QuestionSettings";
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import TextAreaInput from "../../../inputs/TextAreaInput";
-import useBlockEditor from "../../useBlockEditor";
+import { useBlockStore } from "../../useBlockStore";
 
 export const QuestionSettings = ({block}) => {
 
@@ -14,7 +14,7 @@ export const QuestionSettings = ({block}) => {
   }});
 
   const watchFeedbackType = watch("settings.feedback.type")
-  const {updateBlock} = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   useEffect(() => {
     const subscription = watch((data) => {

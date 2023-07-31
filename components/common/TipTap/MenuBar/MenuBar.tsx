@@ -74,8 +74,6 @@ export default ({ editor }) => {
   }
   
   const changeLineHeight = option => {
-    console.log('option')
-    console.log(option)
     editor.chain().focus().setLineHeight(option.value).run()
   }
 
@@ -215,8 +213,7 @@ export default ({ editor }) => {
       action: () => editor.chain().focus().redo().run(),
     },
   ]
-  console.log('editor.getAttributeslineHeight')
-    console.log()
+  
   return (
     <div className="editor__header">
       {items.map((item, index) => (

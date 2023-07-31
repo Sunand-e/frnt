@@ -11,8 +11,9 @@ const SortableBlock = ({id, index}) => {
   // const draggingRowHeight = useBlockStore(state => state.draggingRowHeight)
   const activeDragItem = useBlockStore(state => state.activeDragItem)
   const lastAddedItemId = useBlockStore(state => state.lastAddedItemId)
-
-  const sortableBlockRef = useRef<HTMLDivElement>(null)
+  
+  const blockRefs = useBlockStore(state => state.blockRefs)
+  const zIndexes = useBlockStore(state => state.zIndexes)
 
   const {
     setNodeRef, node, attributes, listeners, isDragging, isSorting, over, overIndex, transform, transition,
@@ -53,14 +54,18 @@ const SortableBlock = ({id, index}) => {
       style={style}
       // ref={disabled ? undefined : setNodeRef}
       className={id === activeDragItem?.id ? 'invisible' : ''}
-      ref={node => {
-        setNodeRef(node)
-        sortableBlockRef.current = node
-        sortableBlockRef.zIndex = zIndex
+      ref={el => {
+        setNodeRef(el)
+        if(el) {
+          blockRefs.set(id, el)
+          zIndexes.set(id, `${zIndex}`)
+        } else {
+          blockRefs.delete(id)
+        }
       }}
       {...attributes}
     >
-      <BlockContainer containerRef={sortableBlockRef} id={id} dragListeners={listeners} />
+      <BlockContainer id={id} dragListeners={listeners} />
     </div>
   )
 }

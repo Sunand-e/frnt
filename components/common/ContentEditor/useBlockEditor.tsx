@@ -9,19 +9,9 @@ import { handleModal } from "../../../stores/modalStore";
 // 
 const useBlockEditor = (block: Block = null) => {
 
-  const { blocks, setBlocks, insertBlock } = useBlockStore()
-
-  const updateBlock = (block: Block, newBlock: Block = null) => {
-    const { index, parent } = getIndexAndParent(block.id)
-    // if(!isEqual(block, getBlock(block.id))) {
-      // if newblock is provided, replace the top level 
-
-      insertBlock(newBlock ?? block, index, parent, true)
-    // }
-  }
+  const { blocks, setBlocks, insertBlock, updateBlock } = useBlockStore()
 
   const updateBlockProperties = (block: Block, properties={}) => {
-    
     const updatedBlock = {
       ...block,
       properties: {
@@ -34,7 +24,6 @@ const useBlockEditor = (block: Block = null) => {
   }
 
   const addBlock = (newBlock: Block, replace=false, focus=true) => {
-    console.log('ADDDINGBLOCK')
     useBlockStore.setState({lastAddedItemId: newBlock.id});
     if(block) {
       if(replace) {

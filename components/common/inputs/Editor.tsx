@@ -8,9 +8,17 @@ import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
 import { FontSize } from '../ContentEditor/extensions/font-size'
 import { LineHeight } from '../ContentEditor/extensions/line-height'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-export default ({autofocus=true, editable=true, onUpdate=null, content=null, containerRef=null, editorClass=''}) => {
+export default ({
+  autofocus=true,
+  editable=true,
+  onUpdate=null,
+  onMenuHidden=null,
+  onMenuShow=null,
+  content=null,
+  editorClass='',
+}) => {
 
   const editor = useEditor({
     editable,
@@ -43,13 +51,15 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
         types: ['heading', 'paragraph'],
       })
     ],
-    ...( !!onUpdate && {
-      onUpdate: ({editor}) => {
-        onUpdate(editor.getJSON())
-      }
-    }),
     content
   })
+
+  useEffect(() => {
+    if(editor) {
+      editor.off("update");
+      editor.on("update", ({ editor: updatedEditor }) => onUpdate(updatedEditor.getJSON()));
+    }
+  }, [editor, onUpdate]);
 
   return (
     <div className={styles.editor}>
@@ -58,16 +68,8 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
           duration: 100,
           maxWidth: 'none',
           theme: "memberhub-white",
-          onShow: (instance) => {
-            if(containerRef) {
-              containerRef.current.style.zIndex = 99999
-            }
-          },
-          onHidden: (instance) => {
-            if(containerRef) {
-              containerRef.current.style.zIndex = containerRef.zIndex
-            }
-          }
+          ...(!!onMenuShow && {onShow: onMenuShow}),
+          ...(!!onMenuHidden && {onHidden: onMenuHidden}),
         }}>
         <MenuBar editor={editor} />
         </BubbleMenu>

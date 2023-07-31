@@ -1,8 +1,9 @@
 import { FlipBoxes } from '../../../FlipBoxes';
 import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 const FlipBoxesBlockEdit = ({block}) => {
 
-  const { updateBlock } = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   return (
     <FlipBoxes />

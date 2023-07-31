@@ -1,8 +1,9 @@
 import { Carousel } from '../../../Carousel';
 import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 const CarouselBlockEdit = ({block}) => {
 
-  const { updateBlock } = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   return (
     <Carousel />
