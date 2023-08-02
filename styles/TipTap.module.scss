@@ -2,7 +2,7 @@
 
 .editor :global {
   & .ProseMirror {
-    padding: 10px;
+    // padding: 10px;
     @apply outline-main;
     &:focus {
       // outline: none;
