@@ -17,7 +17,6 @@ const BlockContainer = ({
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
-  const blocks = useBlockStore(state => state.blocks)
   const activeBlockId = useBlockStore(state => state.activeBlockId)
 
   const block = getBlock(id)
@@ -70,8 +69,7 @@ const BlockContainer = ({
           }
         }}
       >
-        <span className={`absolute z-10 ${isLastColumn ? 'left-2' : 'right-2'} top-2`}>
-        {/* <span className={`absolute -right-14`}> */}
+        { (!parent || parent.type === 'column') && (
           <BlockMenu
             block={block}
             dragListeners={dragListeners}
@@ -80,8 +78,7 @@ const BlockContainer = ({
               ${!isColumn && 'bg-white rounded group-hover:flex'}
             `}
           />
-
-        </span>
+        )}
         <BlockEdit id={id} />
       </div>
       {

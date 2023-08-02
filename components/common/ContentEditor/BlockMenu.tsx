@@ -16,7 +16,7 @@ import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
 import { shiftPosition, useBlockStore } from './useBlockStore';
 
-const BlockMenu = ({ block, className='', dragListeners }) => {
+const BlockMenu = ({ block, position='right', className='', dragListeners }) => {
 
   const blocks = useBlockStore(state => state.blocks)  
   const isChild = !blocks.some(b => b.id === block.id)
@@ -110,78 +110,80 @@ const BlockMenu = ({ block, className='', dragListeners }) => {
     const IconComponent = menuItem.iconComponent
 
     return (
-      <Tippy
-        key={index}
-        { ...itemTippyProps }
-        content={(
-          <p className={`${menuItem.isDisabled?.() && 'text-gray-400'} whitespace-nowrap`}>
-            {isChild ? menuItem.childText ?? menuItem.text : menuItem.text }
-          </p>
-        )}
-      >
-        <div
-          {...(menuItem.name === 'drag-handle' && dragListeners)}
+      // <span className={`absolute z-10 ${position==='left' ? 'left-2' : 'right-2'} top-2`}>
+        <Tippy
+          key={index}
+          { ...itemTippyProps }
+          content={(
+            <p className={`${menuItem.isDisabled?.() && 'text-gray-400'} whitespace-nowrap`}>
+              {isChild ? menuItem.childText ?? menuItem.text : menuItem.text }
+            </p>
+          )}
         >
-          <StyledButton
-            className={`
-              ${menuItem.isDisabled?.() && 'text-gray-400'}
-              ${isChild && menuItem.childButtonClass}
-            `}
-            onClick={menuItem.onClick}
-            // onClick={!menuItem.isDisabled?.() && menuItem.onClick}
-            disabled={menuItem.isDisabled?.()}
-            >
-            <IconComponent size="18" />
-          </StyledButton>
-        </div>
-      </Tippy>
+          <div
+            {...(menuItem.name === 'drag-handle' && dragListeners)}
+          >
+            <StyledButton
+              className={`
+                ${menuItem.isDisabled?.() && 'text-gray-400'}
+                ${isChild && menuItem.childButtonClass}
+              `}
+              onClick={menuItem.onClick}
+              // onClick={!menuItem.isDisabled?.() && menuItem.onClick}
+              disabled={menuItem.isDisabled?.()}
+              >
+              <IconComponent size="18" />
+            </StyledButton>
+          </div>
+        </Tippy>
+      // </span>
     )
   })
 
-  if(!isChild) {
-    return (
-      <div className={`flex rounded bg-white text-gray-600 ${className}`}>
-        { menuItems }
-      </div>
-    )
-  }
-
   return (
-    <Tippy
-      interactive={true}
-      theme={'memberhub-block-menu'}
-      trigger="click"
-      arrow={false}
-      animation={`scale-extreme`}
-      placement={'bottom'}
-      content={(
-        <div className={`flex flex-col rounded`}>
+    <span className={`absolute z-10 ${position==='left' ? 'left-2' : 'right-2'} top-2`}>   
+      { !isChild ? (
+        <div className={`flex rounded bg-white text-gray-600 ${className}`}>
           { menuItems }
         </div>
-      )}
-      popperOptions={{
-        modifiers: [
-          {
-            name: 'flip',
-            options: {
-              fallbackPlacements: [],
-            },
-          },
-        ]    
-      }}
-    >
-      <div className={``}>
-        <StyledButton 
-          className={`
-            px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
-          `}
+      ) : (
+        <Tippy
+          interactive={true}
+          theme={'memberhub-block-menu'}
+          trigger="click"
+          arrow={false}
+          animation={`scale-extreme`}
+          placement={'bottom'}
+          content={(
+            <div className={`flex flex-col rounded`}>
+              { menuItems }
+            </div>
+          )}
+          popperOptions={{
+            modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]    
+          }}
         >
-        <MoreVert size="18" />
-        { block.index }
-        </StyledButton>
-      </div>
-    </Tippy>
-    /* {handle ? <Handle {...listeners} {...attributes} /> : null} */
+          <div className={``}>
+            <StyledButton 
+              className={`
+                px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
+              `}
+            >
+            <MoreVert size="18" />
+            { block.index }
+            </StyledButton>
+          </div>
+        </Tippy>
+        /* {handle ? <Handle {...listeners} {...attributes} /> : null} */
+      )}
+    </span>
   )
 }
 

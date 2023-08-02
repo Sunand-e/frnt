@@ -11,6 +11,9 @@ import {Expand} from '@styled-icons/material-twotone/Expand'
 import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
 import {Columns} from '@styled-icons/octicons/Columns'
 import {LineHorizontal1} from '@styled-icons/fluentui-system-filled/LineHorizontal1'
+import {Tabs} from '@styled-icons/fluentui-system-filled/Tabs'
+import {Carousel} from '@styled-icons/boxicons-regular/Carousel'
+import {Flip2Outline} from '@styled-icons/evaicons-outline/Flip2Outline'
 
 import TextBlock from './blocks/TextBlock/TextBlock'
 import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
@@ -66,6 +69,10 @@ import { CarouselSettings } from './blocks/CarouselBlock/CarouselBlockSettings'
 import FlipBoxesBlock from './blocks/FlipBoxesBlock/FlipBoxesBlock'
 import FlipBoxesBlockEdit from './blocks/FlipBoxesBlock/FlipBoxesBlockEdit'
 import { FlipBoxesSettings } from './blocks/FlipBoxesBlock/FlipBoxesSettings'
+import TextAndImageBlock from './blocks/TextAndImageBlock/TextAndImageBlock'
+import TextAndImageBlockEdit from './blocks/TextAndImageBlock/TextAndImageBlockEdit'
+import TextAndImageSettings from './blocks/TextAndImageBlock/TextAndImageSettings'
+
 
 export type BlockType = {
   name: string,
@@ -179,6 +186,15 @@ const blocktypes: BlockTypes = {
     icon: AddColumn,
     hideFromSelector: true,
   },
+  textAndImage: {
+    name: 'combo-block',
+    text: 'Text and Image',
+    component: TextAndImageBlock,
+    editComponent: TextAndImageBlockEdit,
+    settingsComponent: TextAndImageSettings,
+    icon: Expand,
+    hideFromSelector: true,
+  },
   accordion: {
     name: 'Accordion',
     text: 'Accordion',
@@ -193,7 +209,7 @@ const blocktypes: BlockTypes = {
     component: TabsBlock,
     editComponent: TabsBlockEdit,
     settingsComponent: TabsSettings,
-    icon: Expand
+    icon: Tabs
   },
   carousel: {
     name: 'carousel',
@@ -201,7 +217,7 @@ const blocktypes: BlockTypes = {
     component: CarouselBlock,
     editComponent: CarouselBlockEdit,
     settingsComponent: CarouselSettings,
-    icon: Expand
+    icon: Carousel
   },
   flipboxes: {
     name: 'flipboxes',
@@ -209,7 +225,7 @@ const blocktypes: BlockTypes = {
     component: FlipBoxesBlock,
     editComponent: FlipBoxesBlockEdit,
     settingsComponent: FlipBoxesSettings,
-    icon: Expand
+    icon: Flip2Outline
   },
   linedivider: {
     text: 'Line Divider',

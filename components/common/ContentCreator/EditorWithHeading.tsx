@@ -9,7 +9,7 @@ const CustomDocument = Document.extend({
   content: 'heading block*',
 })
 
-const Editor = () => {
+const EditorWithHeading = () => {
   const editor = useEditor({
     extensions: [
       CustomDocument,
@@ -44,4 +44,4 @@ const Editor = () => {
   )
 };
 
-export default Editor
+export default EditorWithHeading

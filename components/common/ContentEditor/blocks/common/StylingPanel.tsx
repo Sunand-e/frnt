@@ -6,7 +6,6 @@ import PaddingSelect from "./settings/inputs/PaddingSelect"
 const StylingPanel = ({block, children = null}) => {
 
   const { updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
-  const { parent } = getIndexAndParent(block?.id)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`

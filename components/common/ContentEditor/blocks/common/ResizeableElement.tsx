@@ -4,7 +4,7 @@ import useBlockEditor from '../../useBlockEditor';
 import { useEffect, useState } from 'react';
 import { useBlockStore } from '../../useBlockStore';
 
-export const ResizeableElement = ({block, defaultWidth, children}) => {
+export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
   const align = 'center'
   const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group-hover:opacity-100 `
@@ -53,9 +53,9 @@ export const ResizeableElement = ({block, defaultWidth, children}) => {
         >
           <Resizable
             // @ts-ignore
-            className={`mx-auto`}
+            className={`mx-auto min-w-[100px]`}
             size={{
-              width: isNaN(width) ? width : width + 'px',
+              width: isNaN(width) ? width : (width + 'px'),
               height: '100%'
             }}
             // maxWidth="100%"

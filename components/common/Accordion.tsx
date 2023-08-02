@@ -3,8 +3,9 @@ import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import { useState } from 'react';
 import Editor from './inputs/Editor';
 import styles from './Accordion.module.scss'
+import BlockContainer from './ContentEditor/BlockContainer';
 
-export const Accordion = () => {
+export const Accordion = ({blockId}) => {
   const items = ['React', 'Solid', 'Vue']
 const [val, setVal] = useState('bbb')
   return (
@@ -33,9 +34,10 @@ const [val, setVal] = useState('bbb')
                 </button>
               </AccordionTrigger>
               <AccordionContent>
-              <Editor
-                onUpdate={null}
-                content="Editable text using TipTap here"
+              <BlockContainer
+                key={childBlock.id}
+                isColumn={true}
+                id={childBlock.id}
               />
               </AccordionContent>
             </>

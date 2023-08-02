@@ -11,16 +11,11 @@ export const ColumnsBlockEdit = ({id, block}) => {
   const [widths,setWidths] = useState(block.widths)
   
   const columns = block.children?.map((childBlock, index) => (
-    <div key={childBlock.id}>
-      <BlockContainer
-        isColumn={true} 
-        id={childBlock.id}
-        // block={{
-        //   ...childBlock,
-        //   parent: id
-        // }}
-      />
-    </div>
+    <BlockContainer
+      key={childBlock.id}
+      isColumn={true}
+      id={childBlock.id}
+    />
   ))
   let gridColsClass
   

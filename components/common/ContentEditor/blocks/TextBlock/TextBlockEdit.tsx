@@ -49,7 +49,7 @@ export const TextBlockEdit: FunctionComponent = ({id}) => {
         onMenuShow={onMenuShow}
         onMenuHidden={onMenuHidden}
         content={properties?.content}
-        editorClass={'m-5'}
+        editorClass={'my-2'}
       />
     </>
   );

@@ -1,12 +1,12 @@
 import blocktypes, { BlockType } from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
 import { CSSProperties } from 'react';
-import { v4 as uuidv4, v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
-import { Block, useBlockStore } from './useBlockStore';
+import { Block, createBlock, useBlockStore } from './useBlockStore';
 import MediaLibrary from '../../media/MediaLibrary';
 
 interface BlockSelectorProps {
@@ -36,15 +36,12 @@ const BlockSelector = ({
   // });
 
   const handleVideoSelect = (url) => {
-    const videoBlock = {
+    const videoBlock = createBlock({
       type: 'video',
-      id: uuidv4(),
       properties: {
         url,
-        paddingTop: '30px',
-        paddingBottom: '30px',
       }
-    }
+    })
     addBlock(videoBlock, replace)
     closeModal()
   }
@@ -60,33 +57,27 @@ const BlockSelector = ({
   }
 
   const handlePackageSelect = (scormPackage) => {
-    const newBlock = {
+    const newBlock = createBlock({
       type: 'package',
-      id: uuidv4(),
       properties: {
         url: scormPackage.launchUrl,
         moduleId: scormPackage.id,
         title: scormPackage.title,
-        paddingTop: '30px',
-        paddingBottom: '30px',
       }
-    }
+    })
     addBlock(newBlock)
     // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
   
   const handleImageSelect = (image) => {
-    const newBlock = {
+    const newBlock = createBlock({
       type: 'image',
-      id: uuidv4(),
       properties: {
         url: image?.location,
         mediaId: image?.id,
-        paddingTop: '30px',
-        paddingBottom: '30px',
       }
-    }
+    })
     addBlock(newBlock)
     // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
@@ -94,14 +85,10 @@ const BlockSelector = ({
   
   const handleSelectType = (type: BlockType) => {
 
-    let newBlock: Block = {
+    let newBlock: Block = createBlock({
       type: type.name,
-      id: uuidv4(),
-      properties: {
-        paddingTop: '30px',
-        paddingBottom: '30px',
-      }
-    }
+    })
+
     onSelect?.()
     switch(type.name) {
       case 'package': {
@@ -121,7 +108,7 @@ const BlockSelector = ({
         break;
       }
       case 'video': {
-        handleAddVideo(newBlock)
+        handleAddVideo()
         break;
       }
       case 'text': {
@@ -130,7 +117,9 @@ const BlockSelector = ({
       }
       case 'question': {
         newBlock.properties = {
-          id: uuidv4(),
+          id: uuidv4(),          
+          paddingTop: '0px',
+          paddingBottom: '0px',
           question: {
             content: ''
           },
@@ -151,6 +140,15 @@ const BlockSelector = ({
           { type: 'placeholder', id: uuidv4() }
         ]
         newBlock.widths = [6,6]
+        addBlock(newBlock, replace)
+        break;
+      }
+      case 'accordion':
+      case 'tabs':
+      case 'carousel': {
+        newBlock.children = [
+          { type: 'textAndImage', id: uuidv4() },
+        ]
         addBlock(newBlock, replace)
         break;
       }

@@ -2,14 +2,14 @@
 import React, { useMemo, FunctionComponent } from 'react';
 import Editor from '../../../inputs/Editor';
 
-export const TextBlock: FunctionComponent = ({block}) => {
+export const TextAndImageBlock: FunctionComponent = ({block}) => {
   const { properties } = block
 
   return (
     <>
-      <Editor editable={false} content={properties?.content} editorClass={'my-2'} />
+      <Editor editable={false} content={properties?.content} />
     </>
   );
 }
 
-export default TextBlock
+export default TextAndImageBlock

@@ -1,8 +1,10 @@
 import { Tabs } from '../../../Tabs';
 
-export const TabsBlock = ({block}) => {
+const TabsBlock = ({block}) => {
 
   return (
     <Tabs />
   );
 }
+
+export default TabsBlock;

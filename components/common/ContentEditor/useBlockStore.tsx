@@ -1,7 +1,8 @@
 import create from 'zustand'
 import { arrayMove } from "@dnd-kit/sortable";
-import { UniqueIdentifier } from '@dnd-kit/core';
+import { v4 as uuidv4 } from 'uuid';
 
+const blockTypesWithChildren = ['columns','tabs','accordion','carousel']
 export interface Block {
   type: string,
   id: string,
@@ -47,7 +48,7 @@ export const useBlockStore = create<BlockState>((set, get) => ({
     activeBlock: () => getBlock(get().activeBlockId),
     getBlock: (id) => {
 
-      const blocks = get().blocks  
+      const blocks = get().blocks
       let parent = null
     
       let index = blocks.findIndex(b => b.id === id)
@@ -55,7 +56,7 @@ export const useBlockStore = create<BlockState>((set, get) => ({
       let block
     
       if(index < 0) {
-        let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
+        let blocksWithChildren = blocks.filter(({type}) => blockTypesWithChildren.includes(type))
         parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
         if(!parent) {
           return null
@@ -143,7 +144,7 @@ export const getIndexAndParent = (id: string) => {
   let parent = null
   let index = blocks.findIndex(b => b.id === id)
   if(index < 0) {
-    let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
+    let blocksWithChildren = blocks.filter(({type}) => blockTypesWithChildren.includes(type))
     parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
     index = parent?.children.findIndex(b => b.id === id)
   }
@@ -155,13 +156,11 @@ export function getBlock(id: string): Block {
   const { blocks } = useBlockStore.getState()
   
   let parent = null
-
-  let index = blocks.findIndex(b => b.id === id)
-  
+  let index = blocks.findIndex(b => b.id === id)  
   let block
 
   if(index < 0) {
-    let blocksWithChildren = blocks.filter(({type}) => type === 'columns')
+    let blocksWithChildren = blocks.filter(({type}) => blockTypesWithChildren.includes(type))
     parent = blocksWithChildren.find(b => b.children?.some(child => child.id === id))
     if(!parent) {
       return null
@@ -177,3 +176,15 @@ export function getBlock(id: string): Block {
 export const setActiveDragItem = (item) => {
   useBlockStore.setState({activeDragItem: item });
 }
+
+export const createBlock = (properties) => ({
+  type: properties.type.name,
+  id: uuidv4(),
+  properties: {
+    paddingTop: '30px',
+    paddingBottom: '30px',
+    ...properties?.properties
+  },
+  ...properties
+})
+

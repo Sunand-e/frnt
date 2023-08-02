@@ -3,7 +3,6 @@ import { useBlockStore } from './useBlockStore';
 
 export const BlockEdit = ({ id, dragOverlay = false }) => {
 
-  // const block = getBlock(id)
   const block = useBlockStore(state => state.computed.getBlock(id))
   
   const { type } = block

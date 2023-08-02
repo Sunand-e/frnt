@@ -5,8 +5,6 @@ export const Block = ({ block, dragOverlay = false }) => {
 
   const { id, type } = block
   const BlockComponent = blocktypes[type]?.component
-
-  const { parent } = getIndexAndParent(block.id)
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `overlay-${id}` : id;
   return (
