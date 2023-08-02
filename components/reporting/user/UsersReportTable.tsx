@@ -1,12 +1,13 @@
 import { useQuery } from "@apollo/client";
 import React, { useCallback, useMemo } from "react";
-import { GET_USERS_COURSES } from "../../../graphql/queries/users";
+// import { GET_USERS_COURSES } from "../../../graphql/queries/users";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { User } from "@styled-icons/fa-solid/User";
 import ReportTable, { filterActive } from "../ReportTable";
 import { useRouter } from "../../../utils/router";
 import { GetUsersCoursesQuery } from "../../../graphql/generated";
+import { GET_USERS_COURSES } from "../../../graphql/queries/GET_USERS_COURSES";
 
 const UsersReportTable = () => {
   const {
