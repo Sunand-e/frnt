@@ -1,23 +1,32 @@
 import styles from '../../../styles/TipTap.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
+import { Node } from "@tiptap/core";
 import StarterKit from '@tiptap/starter-kit'
 import MenuBar from '../TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
-import { FontSize } from '../ContentEditor/extensions/font-size'
-import { LineHeight } from '../ContentEditor/extensions/line-height'
+import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
+import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
 import { useEffect, useRef, useState } from 'react'
+
+const OneLiner = Node.create({
+  name: "oneLiner",
+  topNode: true,
+  content: "block",
+});
 
 export default ({
   autofocus=true,
   editable=true,
-  onUpdate=null,
+  onUpdate=(instance) => false,
   onMenuHidden=null,
   onMenuShow=null,
+  isHeading=false,
   content=null,
   editorClass='',
+  placeholder='Enter text here...'
 }) => {
 
   const editor = useEditor({
@@ -25,18 +34,21 @@ export default ({
     autofocus,
     editorProps: {
       attributes: {
-        class: `${editorClass} prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none`,
+        class: `${editorClass} ${isHeading ? 'prose-lg lg:prose-xl' : 'prose-sm lg:prose-md'} prose p-1 max-w-none dark:prose-invert sm:prose-base focus:outline-none`,
       },
     },
-    extensions: [ 
-      StarterKit,
+    extensions: [
+      ...(isHeading ? [OneLiner] : []), 
+      StarterKit.configure({
+        ...(isHeading && { document: false }),
+      }),
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
             return 'Enter a heading.....'
           }
 
-          return 'Enter text here...'
+          return placeholder
         },
       }),
       TextStyle,
