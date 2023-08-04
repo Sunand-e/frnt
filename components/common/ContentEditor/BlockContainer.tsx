@@ -29,7 +29,7 @@ const BlockContainer = ({
     setShowFooter(!isColumn)
   },[isColumn])
 
-  const isLastColumn = parent && index === parent.children.length - 1
+  const isLastColumn = parent && parent.type === 'columns' && index === parent.children.length - 1
 
   return (
     <div 
@@ -69,10 +69,11 @@ const BlockContainer = ({
           }
         }}
       >
-        { (!parent || parent.type === 'column') && (
+        { (!parent || parent.type === 'columns') && (
           <BlockMenu
             block={block}
             dragListeners={dragListeners}
+            position={isLastColumn ? 'left' : 'right'}
             className={`
               ${!isActive && 'hidden'}
               ${!isColumn && 'bg-white rounded group-hover:flex'}

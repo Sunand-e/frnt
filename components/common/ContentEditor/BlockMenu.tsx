@@ -143,7 +143,7 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
   return (
     <span className={`absolute z-10 ${position==='left' ? 'left-2' : 'right-2'} top-2`}>   
       { !isChild ? (
-        <div className={`flex rounded bg-white text-gray-600 ${className}`}>
+        <div className={`flex shadow-md rounded bg-white text-gray-600 ${className}`}>
           { menuItems }
         </div>
       ) : (
@@ -173,7 +173,7 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
           <div className={``}>
             <StyledButton 
               className={`
-                px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
+                shadow-md rounded-full px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
               `}
             >
             <MoreVert size="18" />

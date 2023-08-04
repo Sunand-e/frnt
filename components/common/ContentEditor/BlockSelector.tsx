@@ -78,7 +78,7 @@ const BlockSelector = ({
         mediaId: image?.id,
       }
     })
-    addBlock(newBlock)
+    addBlock(newBlock, replace)
     // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
