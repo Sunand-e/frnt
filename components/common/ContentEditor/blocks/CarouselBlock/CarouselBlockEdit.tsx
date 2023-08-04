@@ -38,7 +38,7 @@ const CarouselBlockEdit = ({id}) => {
         <CarouselViewport className='relative max-w-full overflow-hidden'>
           <CarouselSlideGroup className='relative'>
             {block.children.map((child, index) => (
-              <CarouselSlide key={index} index={index} className="">
+              <CarouselSlide key={index} index={index} className="px-10">
                 <BlockContainer
                   key={child.id}
                   isColumn={true}

@@ -60,7 +60,7 @@ const useBlockEditor = (block: Block = null) => {
 
 
       // If there are only two cols, replce the block with a placeholder.
-      if(parent.children.length === 2) {
+      if(parent.type === 'columns' && parent.children.length === 2) {
         const newBlock = createPlaceholderBlock()
         updateBlock(block, newBlock)
       // otherwise, remove the block from the column
@@ -175,7 +175,8 @@ const useBlockEditor = (block: Block = null) => {
     updateBlockProperties,
     getIndexAndParent,
     debouncedUpdateBlock,
-    handleDeleteBlock
+    handleDeleteBlock,
+    deleteBlock,
   }
 };
 

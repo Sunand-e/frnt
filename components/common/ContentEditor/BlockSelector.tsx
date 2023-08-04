@@ -136,8 +136,8 @@ const BlockSelector = ({
       }
       case 'columns': {
         newBlock.children = [
-          { type: 'placeholder', id: uuidv4() },
-          { type: 'placeholder', id: uuidv4() }
+          createBlock({ type: 'placeholder'}),
+          createBlock({ type: 'placeholder'}),
         ]
         newBlock.widths = [6,6]
         addBlock(newBlock, replace)
@@ -147,7 +147,7 @@ const BlockSelector = ({
       case 'tabs':
       case 'carousel': {
         newBlock.children = [
-          { type: 'textAndImage', id: uuidv4() },
+          createBlock({ type: 'textAndImage'})
         ]
         addBlock(newBlock, replace)
         break;
