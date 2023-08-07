@@ -1,7 +1,7 @@
 import { Accordion as ArkAccordion, AccordionContent, AccordionItem, AccordionTrigger, Editable, EditableArea, EditableInput, EditablePreview } from '@ark-ui/react'
 import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import { createBlock, useBlockStore } from '../../useBlockStore';
+import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore';
 import styles from '../../../Accordion.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import BlockContainer from '../../BlockContainer';
@@ -12,8 +12,10 @@ import { useState } from 'react';
 const AccordionItemEdit = ({item, index}) => {
 
   const {debouncedUpdateBlock, deleteBlock} = useBlockEditor()
-
   const [headingText, setHeadingText] = useState(item.heading)
+
+  const { parent } = getIndexAndParent(item.id)
+
   const onChangeHeading = (value) => {
     setHeadingText(value)
     debouncedUpdateBlock({
@@ -52,10 +54,12 @@ const AccordionItemEdit = ({item, index}) => {
                   </EditableArea>
                 </Editable>
                 <div className="flex space-x-2 items-center">
-                  <Trash
-                    className={`w-6 cursor-pointer !hidden group-hover/item-trigger:!block text-red-800`}
-                    onClick={() => deleteBlock(item)}
-                  />
+                  { parent.children.length > 1 && (
+                    <Trash
+                      className={`w-6 cursor-pointer !hidden group-hover/item-trigger:!block text-red-800`}
+                      onClick={() => deleteBlock(item)}
+                    />
+                  )}
                   <AccordionIcon isOpen={isOpen} />
                 </div>
               </button>

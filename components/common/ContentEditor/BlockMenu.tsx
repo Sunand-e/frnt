@@ -15,6 +15,7 @@ import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
 import { shiftPosition, useBlockStore } from './useBlockStore';
+import classNames from '../../../utils/classNames';
 
 const BlockMenu = ({ block, position='right', className='', dragListeners }) => {
 
@@ -22,7 +23,7 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
   const isChild = !blocks.some(b => b.id === block.id)
   const index = blocks.findIndex(b => b.id === block.id)
 
-  const { addColumn, handleDeleteBlock } = useBlockEditor()
+  const { addColumn, addTextAndImageChild, handleDeleteBlock } = useBlockEditor()
 
   const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
     <button
@@ -50,6 +51,14 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
     //   iconComponent: Gear,
     //   onClick: showSettings
     // },
+    
+    {
+      name: 'delete',
+      text: 'Delete block',
+      iconComponent: Trash,
+      onClick: (e) => handleDeleteBlock(block),
+      hideOnColumnBlocks: true
+    },
     {
       name: 'move-up',
       text: 'Move up',
@@ -82,12 +91,30 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
       hideOnChild: true
     },
     {
-      name: 'delete',
-      text: 'Delete block',
-      iconComponent: Trash,
-      onClick: (e) => handleDeleteBlock(block),
-      hideOnColumnBlocks: true
+      name: 'add-tab',
+      text: 'Add tab',
+      iconComponent: AddColumn,
+      onClick: () => {
+        addTextAndImageChild(block)
+      },
+      isDisabled: () => (
+        block.children?.length > 7
+      ),
+      showOnBlocks: ['tabs'],
     },
+    {
+      name: 'add-panel',
+      text: 'Add panel',
+      iconComponent: AddColumn,
+      onClick: () => {
+        addTextAndImageChild(block)
+      },
+      isDisabled: () => (
+        block.children?.length > 9
+      ),
+      showOnBlocks: ['carousel', 'accordion'],
+    },
+
   ]
 
   let blockMenuItems = (isChild ? 
@@ -142,47 +169,44 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
 
   return (
     <span className={`absolute z-10 ${position==='left' ? 'left-2' : 'right-2'} top-2`}>   
-      { !isChild ? (
-        <div className={`flex shadow-md rounded bg-white text-gray-600 ${className}`}>
-          { menuItems }
-        </div>
-      ) : (
-        <Tippy
-          interactive={true}
-          theme={'memberhub-block-menu'}
-          trigger="click"
-          arrow={false}
-          animation={`scale-extreme`}
-          placement={'bottom'}
-          content={(
-            <div className={`flex flex-col rounded`}>
-              { menuItems }
-            </div>
-          )}
-          popperOptions={{
-            modifiers: [
-              {
-                name: 'flip',
-                options: {
-                  fallbackPlacements: [],
-                },
-              },
-            ]    
-          }}
-        >
-          <div className={``}>
-            <StyledButton 
-              className={`
-                shadow-md rounded-full px-4 bg-opacity-5 hover:bg-opacity-20 ${isChild ? 'bg-opacity-60 bg-white px-2 py-1' : 'bg-main'}
-              `}
-            >
-            <MoreVert size="18" />
-            { block.index }
-            </StyledButton>
+      <Tippy
+        interactive={true}
+        theme={'memberhub-block-menu'}
+        trigger="click"
+        arrow={false}
+        animation={`scale-extreme`}
+        placement={'left'}
+        content={(
+          <div className={`flex rounded`}>
+            { menuItems }
           </div>
-        </Tippy>
-        /* {handle ? <Handle {...listeners} {...attributes} /> : null} */
-      )}
+        )}
+        popperOptions={{
+          modifiers: [
+            {
+              name: 'flip',
+              options: {
+                fallbackPlacements: [],
+              },
+            },
+          ]    
+        }}
+      >
+        <div className={``}>
+          <StyledButton 
+            className={classNames(
+              `shadow-md rounded-full px-4 bg-opacity-5 hover:bg-opacity-20`,
+              isChild ? 'bg-opacity-60 bg-white px-2 py-2' : 'bg-main',
+              // 'bg-main',
+              className
+            )}
+          >
+          <MoreVert size="18" />
+          { block.index }
+          </StyledButton>
+        </div>
+      </Tippy>
+      {/* {handle ? <Handle {...listeners} {...attributes} /> : null} */}
     </span>
   )
 }

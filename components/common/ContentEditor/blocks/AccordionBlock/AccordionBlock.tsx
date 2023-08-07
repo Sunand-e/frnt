@@ -1,27 +1,65 @@
-import { Accordion } from '@mantine/core';
+import { Accordion as ArkAccordion, AccordionContent, AccordionItem, AccordionTrigger, Editable, EditableArea, EditableInput, EditablePreview } from '@ark-ui/react'
+import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
+import { createBlock, useBlockStore } from '../../useBlockStore';
+import styles from '../../../Accordion.module.scss';
+import { Block } from '../../Block';
 
-export const AccordionBlock = ({block}) => {
+const AccordionItemView = ({item, index}) => {
 
   return (
-    <div className="">
-      <Accordion defaultValue="customization">
-      <Accordion.Item value="customization">
-        <Accordion.Control>Customization</Accordion.Control>
-        <Accordion.Panel>Colors, fonts, shadows and many other parts are customizable to fit your design needs</Accordion.Panel>
-      </Accordion.Item>
+    <AccordionItem key={item.id} value={item.id} className={styles.item}>
+      {({ isOpen }) => {
+        return (
+          <>
+            <AccordionTrigger 
+              asChild
+              className={`${styles.trigger}
+              data-[state=open]:bg-main/10
+              group/item-trigger
+              flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800
+              `}
+            >
+              <button>
+              <span className="w-full">{item.heading || `Panel ${index+1}`}</span>
+                <AccordionIcon isOpen={isOpen} />
+              </button>
+            </AccordionTrigger>
+            <AccordionContent className='p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+              <Block block={item} />
+            </AccordionContent>
+          </>
+        )
+      }}
+    </AccordionItem>
+  )
+}
 
-      <Accordion.Item value="flexibility">
-        <Accordion.Control>Flexibility</Accordion.Control>
-        <Accordion.Panel>Configure components appearance and behavior with vast amount of settings or overwrite any part of component styles</Accordion.Panel>
-      </Accordion.Item>
 
-      <Accordion.Item value="focus-ring">
-        <Accordion.Control>No annoying focus ring</Accordion.Control>
-        <Accordion.Panel>With new :focus-visible pseudo-class focus ring appears only when user navigates with keyboard</Accordion.Panel>
-      </Accordion.Item>
-    </Accordion>
-    </div>
-  );
+const AccordionBlock = ({id}) => {
+
+  const block = useBlockStore(state => state.computed.getBlock(id))
+
+  return (
+    <>
+    <ArkAccordion 
+    collapsible={true}
+    defaultValue={block.children[0].id}
+    className={`${styles.accordion} divide-y border-b-2 mb-4 flex flex-col w-full bg-white border border-gray-200`}>
+      {block.children.map((child, index) => (
+        <AccordionItemView key={child.id} item={child} index={index} />
+      ))}
+    </ArkAccordion>
+    </>
+  )
+}
+
+const AccordionIcon = (props: { isOpen: boolean }) => {
+  const iconStyles = {
+    transform: props.isOpen ? 'rotate(-180deg)' : undefined,
+    transition: 'transform 0.2s',
+    transformOrigin: 'center',
+  }
+  return <ChevronDownIcon className='w-8' style={iconStyles} />
 }
 
 export default AccordionBlock

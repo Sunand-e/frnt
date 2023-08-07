@@ -100,7 +100,8 @@ a {
 .tippy-box[data-theme~='memberhub-block-menu'] {
 
   background-color: white;
-  @apply text-grey-dark;
+  
+  @apply text-grey-dark shadow-md;
 
   .tippy-content {
     padding:0;

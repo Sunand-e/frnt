@@ -1,7 +1,7 @@
 import { useDebouncedCallback } from 'use-debounce';
 import DeleteContentBlockModal from "./DeleteContentBlockModal";
 import { v4 as uuidv4 } from 'uuid';
-import {useBlockStore, getIndexAndParent, shiftPosition, getBlock, Block} from './useBlockStore';
+import {useBlockStore, getIndexAndParent, shiftPosition, getBlock, Block, createBlock} from './useBlockStore';
 import { handleModal } from "../../../stores/modalStore";
 // import isEqual from 'lodash/isEqual';
 
@@ -136,6 +136,18 @@ const useBlockEditor = (block: Block = null) => {
     updateBlock(block, newTopLevelBlock)
   }
 
+  const addTextAndImageChild = (block: Block) => {
+    let newTopLevelBlock
+    newTopLevelBlock = {
+      ...block,
+      children: [
+        ...block.children,
+        createBlock({type: 'textAndImage'})
+      ]
+    }
+    updateBlock(block, newTopLevelBlock)
+  }
+
   // const addColumn = block => {
   //   let newTopLevelBlock
   //   if(block.type === 'columns') {
@@ -168,6 +180,7 @@ const useBlockEditor = (block: Block = null) => {
   return {
     blocks,
     addColumn,
+    addTextAndImageChild,
     shiftPosition,
     insertBlock,
     addBlock,

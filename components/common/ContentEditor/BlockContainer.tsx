@@ -6,6 +6,7 @@ import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
 import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
 import { showBlocksPanel, useEditorViewStore } from './useEditorViewStore';
+import classNames from '../../../utils/classNames';
 
 const BlockContainer = ({
   id,
@@ -74,10 +75,11 @@ const BlockContainer = ({
             block={block}
             dragListeners={dragListeners}
             position={isLastColumn ? 'left' : 'right'}
-            className={`
-              ${!isActive && 'hidden'}
-              ${!isColumn && 'bg-white rounded group-hover:flex'}
-            `}
+            className={classNames(
+              // 'bg-white rounded group-hover:flex',
+              !isActive && 'hidden',
+              !isColumn && 'bg-white rounded group-hover:flex'
+            )}
           />
         )}
         <BlockEdit id={id} />
