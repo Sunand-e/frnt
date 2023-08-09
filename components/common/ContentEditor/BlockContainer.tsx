@@ -34,7 +34,9 @@ const BlockContainer = ({
 
   return (
     <div 
-      className={`relative group flex flex-col h-full ${parent ? '' : ''}`}
+      className={classNames(
+        `relative group flex flex-col h-full`,
+      )}
       style={{
         backgroundColor: block?.properties?.bgColor,
         color: block?.properties?.textColor || 'inherit'
@@ -44,11 +46,12 @@ const BlockContainer = ({
       { JSON.stringify(parent,null,2) }
       </pre> */}
       <div
-        className={`
-          ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
-          ${parent?.id ? 'px-4' : ''}
-          relative flex flex-col items-center
-        `}
+        className={classNames(
+          isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main',
+          parent?.id ? 'px-4' : '',
+          'relative flex flex-col items-center',
+          isActive && 'rounded-md border-dashed border-main/60 border-2',
+        )}
         style={{
           paddingTop: block?.properties?.paddingTop,
           paddingBottom: block?.properties?.paddingBottom,

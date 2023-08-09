@@ -41,7 +41,7 @@ const QuestionBlock = ({ block: b }) => {
         question={block.properties}
       />
       { status === 'unanswered' ? (
-        <Button className="mt-2" onClick={submitAnswer}>Submit</Button>
+        <Button className="mt-2 ml-4" onClick={submitAnswer}>Submit</Button>
       ) : block.properties.settings?.feedback !== 'off' && (
         <FeedbackContainer status={status} question={block.properties}>
           <></>

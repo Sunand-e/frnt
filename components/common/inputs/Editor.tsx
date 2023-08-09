@@ -10,6 +10,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
 import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
 import { useEffect, useRef, useState } from 'react'
+import classNames from '../../../utils/classNames';
 
 const OneLiner = Node.create({
   name: "oneLiner",
@@ -17,10 +18,10 @@ const OneLiner = Node.create({
   content: "block",
 });
 
-export default ({
+const Editor = ({
   autofocus=true,
   editable=true,
-  onUpdate=(instance) => false,
+  onUpdate=(instance) => null,
   onMenuHidden=null,
   onMenuShow=null,
   isHeading=false,
@@ -34,7 +35,11 @@ export default ({
     autofocus,
     editorProps: {
       attributes: {
-        class: `${editorClass} ${isHeading ? 'prose-lg lg:prose-xl' : 'prose-sm lg:prose-md'} prose p-1 max-w-none dark:prose-invert sm:prose-base focus:outline-none`,
+        class: classNames(
+          editorClass,
+          isHeading ? 'prose-lg lg:prose-xl' : 'prose-sm lg:prose-md',
+          'rounded-md prose p-1 max-w-none dark:prose-invert sm:prose-base focus:outline-none',
+        )
       },
     },
     extensions: [
@@ -101,3 +106,5 @@ export default ({
     </div>
   )
 }
+
+export default Editor

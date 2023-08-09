@@ -33,11 +33,11 @@ const LessonView = () => {
           <Block block={block} key={block.id} />
           ))}
       </div>
-      <div className={`flex flex-col items-center mt-8`}>
+      <div className={`flex flex-col items-center pt-8 pb-14`}>
         <PrevNextButtons
           showPrevious={false}
         />
-      </div>
+      </div>s
     </>
   )
 }

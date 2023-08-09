@@ -1,6 +1,7 @@
 import { TrashAlt } from '@styled-icons/boxicons-regular/TrashAlt';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Editor from '../../common/inputs/Editor';
 import { useQuizStore } from '../useQuizStore';
 import OptionEditor from './OptionEditor'
 
@@ -14,11 +15,11 @@ const OptionContainer = ({option, disabled=false, question=null, onChange, onSel
   const isEditMode = useQuizStore(state => state.isEditMode)
 
   const handleChange = useCallback((content) => {
-    onChange && onChange(option, content)
+    if(onChange) onChange(option, content)
   },[onChange])
 
   return (
-    <div key={option.id} className="w-full flex items-center mb-2 hover:bg-main hover:bg-opacity-5">
+    <div key={option.id} className="w-full flex items-center py-1 hover:bg-main hover:bg-opacity-5">
       <div className="w-full flex items-center space-x-4 group/option px-4">
         <ConditionalLabelWrapper isEditMode={isEditMode}>
           { question.questionType === 'multi' ? (
@@ -26,10 +27,11 @@ const OptionContainer = ({option, disabled=false, question=null, onChange, onSel
           ) : (
             <input type="radio" checked={selected} disabled={disabled} onChange={onSelectedChange} id={`option${option.id}`} name={`options-${question.id}`} value={option.id} className="h-5 w-5 text-main focus:ring-main border-gray-300 rounded-full" />
           )}          
-          <OptionEditor
-            id={option.id}
+          <Editor
             content={contentRef.current} 
-            onChange={handleChange}
+            onUpdate={handleChange}
+            placeholder='Enter answer text...'
+            editable={isEditMode}
           />
         </ConditionalLabelWrapper>
         { isEditMode && onRemove && (

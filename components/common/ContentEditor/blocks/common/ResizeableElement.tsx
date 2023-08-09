@@ -7,8 +7,8 @@ import { useBlockStore } from '../../useBlockStore';
 export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
   const align = 'center'
-  const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group-hover:opacity-100 `
-  const handleAfterClasses = `after:flex after:bg-gray-400 after:w-2 after:h-24 after:rounded`
+  const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group/handle group-hover:opacity-100 `
+  const handleAfterClasses = `after:flex after:bg-gray-400 after:w-2 after:h-24 after:rounded  group-hover/handle:border-2 border-main`
   const handleClasses = `${handleElementClasses} ${handleAfterClasses}`
 
   const [width, setWidth] = useState( block.properties?.width || defaultWidth || 0)
@@ -69,12 +69,12 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
             handleComponent={{
               left: (
                 <ResizeableHandle
-                  className={`${handleClasses} -left-3 -ml-3 pl-3`}
+                  className={`${handleClasses} left-3 -ml-3 pl-3`}
                 />
               ),
               right: (
                 <ResizeableHandle
-                  className={`${handleClasses} items-end -right-3 -mr-3 pr-3`}
+                  className={`${handleClasses} items-end right-3 -mr-3 pr-3`}
                 />
               ),
             }}

@@ -27,7 +27,7 @@ const ImageSelect = ({
     <div className={classNames(`relative`, className)}>
       <img
       onLoad={onLoad}
-        className={`block max-w-full px-1 w-full borderRadius[3px] object-cover boxShadow[0 0 0 1px rgb(59,130,249)]`}
+        className={`block max-w-full w-full borderRadius[3px] object-cover boxShadow[0 0 0 1px rgb(59,130,249)]`}
         src={src || placeholder || '/images/placeholder-image.png'}
       />
       <div className={`absolute w-full h-full top-0 left-0 flex items-center justify-center ${showButton ? '' : 'opacity-0 hover:opacity-100'}`}>
