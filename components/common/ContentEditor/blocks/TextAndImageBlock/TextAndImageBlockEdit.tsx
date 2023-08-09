@@ -60,6 +60,7 @@ export const TextAndImageBlockEdit = ({id}) => {
         onMenuShow={onMenuShow}
         onMenuHidden={onMenuHidden}
         content={block.content}
+        autofocus={false}
         editorClass={'mb-4'}
       />
       <ResizeableElement

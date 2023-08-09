@@ -1,13 +1,13 @@
 import { TabIndicator, TabList, TabTrigger, Tabs as ArkTabs, type TabsProps, TabContent, Editable, EditableArea, EditableInput, EditablePreview } from '@ark-ui/react'
 import { useState } from 'react';
 import classNames from '../../../../../utils/classNames';
-import { Tabs } from '../../../Tabs';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import BlockContainer from '../../BlockContainer';
 import useBlockEditor from '../../useBlockEditor';
 import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore';
+import Button from '../../../Button';
 
-const TabItemTrigger = ({item, index}) => {
+const TabItemTrigger = ({item, index, onDelete}) => {
   
   const {debouncedUpdateBlock, deleteBlock} = useBlockEditor()
   const [headingText, setHeadingText] = useState(item.heading)
@@ -19,11 +19,6 @@ const TabItemTrigger = ({item, index}) => {
       ...item,
       heading: value
     })
-  }
-
-  const handleDelete = (e) => {
-    e.preventDefault()
-    deleteBlock(item)
   }
 
   return (
@@ -51,7 +46,7 @@ const TabItemTrigger = ({item, index}) => {
           <div className={`absolute flex items-center h-full top-0 right-0 mr-2 p-2 hidden group-hover/item-trigger:flex`}>
             <Trash
               className={`w-5 cursor-pointer text-red-800`}
-              onClick={handleDelete}
+              onClick={() => onDelete(item, index)}
             />
           </div>
         )}
@@ -63,24 +58,62 @@ const TabItemTrigger = ({item, index}) => {
 
 const TabsBlockEdit = ({id}) => {
 
+  const {deleteBlock} = useBlockEditor()
   const block = useBlockStore(state => state.computed.getBlock(id))
+  const updateBlock = useBlockStore(state => state.updateBlock)
+  const [value, setValue] = useState<string | null>(block.children[0]?.id)
+
+  const addNewItem = () => {
+    const newTab = createBlock({ type: 'textAndImage' })
+    setValue(newTab.id)
+    const newBlock = {
+      ...block,
+      children: [
+        ...block.children,
+        newTab,
+      ]
+    }
+    updateBlock(newBlock)
+  }
+
+  const handleDelete = (item) => {
+    if(item.id === value) {
+      let itemIndex = block.children.findIndex(c => c.id === item.id)
+      const newIndex = itemIndex === 0 ? 1 : itemIndex-1
+      setValue(block.children[newIndex].id)
+    }
+    deleteBlock(item)
+  }
 
   return (
-    <ArkTabs className={'bg-white rounded-lg shadow'} defaultValue="react" activationMode='manual'>
-      <TabList className="flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
-        { block.children.map((child, index) => <TabItemTrigger item={child} index={index} /> )}
-        <TabIndicator />
-      </TabList>
-      { block.children.map((child, index) => (
-        <TabContent value={child.id}>
-          <BlockContainer
-            key={child.id}
-            isColumn={true}
-            id={child.id}
-          />
-        </TabContent>
-      ))}
-    </ArkTabs>
+    <>
+      <ArkTabs
+        className={'bg-white rounded-lg shadow mb-4'}
+        value={value}
+        onChange={(e) => setValue(e.value)}
+        activationMode='manual'
+      >
+        <TabList className="flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
+          { block.children.map((child, index) => <TabItemTrigger onDelete={handleDelete} item={child} index={index} /> )}
+          <TabIndicator />
+        </TabList>
+        { block.children.map((child, index) => (
+          <TabContent value={child.id}>
+            <BlockContainer
+              key={child.id}
+              isColumn={true}
+              id={child.id}
+            />
+          </TabContent>
+        ))}
+      </ArkTabs>
+      <div className='flex justify-center'>
+        <Button size='lg' className='' onClick={addNewItem}>
+          Add new tab
+        </Button>
+      </div>
+
+    </>
   )
 }
 

@@ -10,42 +10,106 @@ import {
   CarouselSlideGroup,
   CarouselViewport,
 } from '@ark-ui/react'
+import { useState } from 'react'
 import Button from '../../../Button'
 import BlockContainer from '../../BlockContainer'
-import { createBlock, useBlockStore } from '../../useBlockStore'
+import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore'
+import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import useBlockEditor from '../../useBlockEditor'
+import Tippy from '@tippyjs/react'
+import classNames from '../../../../../utils/classNames'
 
 // import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
+const CarouselTrashButton = ({onDelete}) => {
+  
+  const tippyProps = {
+    interactive: true,
+    className: `text-white px-4 py-2 z-50`,
+    theme: 'memberhub-block-menu light',
+    arrow: true,
+  }
+  return (
+    <Tippy
+      { ...tippyProps }
+      content={(
+        <p className={`whitespace-nowrap`}>Remove panel</p>
+      )}
+    >
+      <Trash
+        className={`w-5 cursor-pointer text-red-800`}
+        onClick={onDelete}
+      />
+    </Tippy>
+  )
+}
+
+const CarouselItemEdit = ({item, index, onDelete}) => {
+
+  const {parent} = getIndexAndParent(item.id)
+
+  return (
+    <CarouselSlide key={index} index={index} className="px-16 relative group/item-trigger">
+      <BlockContainer
+        key={item.id}
+        isColumn={true}
+        id={item.id}
+      />
+      { parent.children.length > 1 && (
+        <div className={`absolute flex items-center top-0 right-16 mr-2 p-2  group-hover/item-trigger:flex`}>
+          <CarouselTrashButton item={item} onDelete={() => onDelete(item)} />
+        </div>
+      )}
+    </CarouselSlide>
+  )
+}
+
+
 const CarouselBlockEdit = ({id}) => {
 
+  const {deleteBlock} = useBlockEditor()
   const block = useBlockStore(state => state.computed.getBlock(id))
   const updateBlock = useBlockStore(state => state.updateBlock)
+  // const [value, setValue] = useState<string | null>(block.children[0]?.id)
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const handleSlideChange = (details) => {
+    setCurrentIndex(details.index)
+  }
 
   const addNewItem = () => {
+    const newTab = createBlock({ type: 'textAndImage' })
+    setCurrentIndex(block.children.length)
     const newBlock = {
       ...block,
       children: [
         ...block.children,
-        createBlock({ type: 'textAndImage' }),
+        newTab,
       ]
     }
     updateBlock(newBlock)
   }
+  
+  const handleDelete = (item) => {
+    if(item.id === block.children[currentIndex].id) {
+      let itemIndex = block.children.findIndex(c => c.id === item.id)
+      const newIndex = itemIndex === 0 ? 1 : itemIndex-1
+      setCurrentIndex(newIndex)
+    }
+    deleteBlock(item)
+  }
 
   return (
-    <ArkCarousel className={'relative max-w-full'}>
+    <ArkCarousel
+      className={'relative max-w-full'}
+      index={currentIndex}
+      onSlideChange={handleSlideChange}
+    >
       <div className='grid gap-4 relative max-w-full'>
         <CarouselViewport className='relative max-w-full overflow-hidden'>
           <CarouselSlideGroup className='relative'>
-            {block.children.map((child, index) => (
-              <CarouselSlide key={index} index={index} className="px-10">
-                <BlockContainer
-                  key={child.id}
-                  isColumn={true}
-                  id={child.id}
-                />
-              </CarouselSlide>
-            ))}
+            { block.children.map((child, index) => <CarouselItemEdit onDelete={handleDelete} item={child} index={index} /> )}
           </CarouselSlideGroup>
           <CarouselControl>
             <CarouselPrevSlideTrigger asChild>
@@ -65,11 +129,19 @@ const CarouselBlockEdit = ({id}) => {
               </button>
             </CarouselNextSlideTrigger>
           </CarouselControl>
-          <CarouselIndicatorGroup className='flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2'>
+          {/* <CarouselIndicatorGroup className='flex absolute -bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2'> */}
+          <CarouselIndicatorGroup className='flex justify-center z-30 space-x-3'>
             {block.children.map((child, index) => (
-              <CarouselIndicator key={index} index={index}>
-                <span>Goto {index + 1}</span>
-              </CarouselIndicator>
+              <CarouselIndicator 
+                aria-label={`Goto ${index + 1}`}
+                className={classNames(
+                  'bg-main/50 w-3 h-3 rounded-full border-2 box-content border-white',
+                  'hover:border-main',
+                  'data-[current]:border-main data-[current]:bg-main'
+                )}
+                key={index}
+                index={index}
+              />              
             ))}
           </CarouselIndicatorGroup>
         </CarouselViewport>  
