@@ -1,6 +1,6 @@
-import { TrashAlt } from '@styled-icons/boxicons-regular/TrashAlt';
+
 import { useCallback, useMemo, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import Editor from '../../common/inputs/Editor';
 import { useQuizStore } from '../useQuizStore';
 import OptionEditor from './OptionEditor'
@@ -35,8 +35,12 @@ const OptionContainer = ({option, disabled=false, question=null, onChange, onSel
           />
         </ConditionalLabelWrapper>
         { isEditMode && onRemove && (
-          <button onClick={() => onRemove(option)} className="text-red-500 opacity-0 group-hover/option:opacity-100 hover:text-red-600">
-            <TrashAlt size={20} />
+          <button onClick={() => onRemove(option)}
+            className="opacity-0 group-hover/option:opacity-100 hover:text-red-600">
+            <Trash
+              className={`w-5 text-red-800`}
+              
+            />
           </button>
         )}
       </div>
