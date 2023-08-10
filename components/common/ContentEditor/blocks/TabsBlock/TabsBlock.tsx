@@ -31,7 +31,10 @@ const TabsBlock = ({id}) => {
   const block = useBlockStore(state => state.computed.getBlock(id))
 
   return (
-    <ArkTabs className={'bg-white rounded-lg shadow'} defaultValue="react">
+    <ArkTabs
+      className={'bg-white rounded-lg shadow'}
+      defaultValue={block.children?.[0]?.id}
+    >
       <TabList className="flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
         { block.children.map((child, index) => <TabItemTrigger item={child} index={index} /> )}
         <TabIndicator />
