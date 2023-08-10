@@ -86,6 +86,7 @@ const BlockSelector = ({
   const handleSelectType = (type: BlockType) => {
 
     let newBlock: Block = createBlock({
+      ...type.defaultProperties,
       type: type.name,
     })
 
@@ -112,6 +113,10 @@ const BlockSelector = ({
         break;
       }
       case 'text': {
+        addBlock(newBlock, replace)
+        break;
+      }
+      case 'heading': {
         addBlock(newBlock, replace)
         break;
       }

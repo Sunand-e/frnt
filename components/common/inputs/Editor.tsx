@@ -7,6 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
+import FontFamily from '@tiptap/extension-font-family'
 import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
 import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
 import { useEffect, useRef, useState } from 'react'
@@ -27,6 +28,7 @@ const Editor = ({
   isHeading=false,
   content=null,
   editorClass='',
+  
   placeholder='Enter text here...'
 }) => {
 
@@ -57,6 +59,9 @@ const Editor = ({
         },
       }),
       TextStyle,
+      FontFamily.configure({
+        types: ['textStyle'],
+      }),
       Color,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -83,12 +88,13 @@ const Editor = ({
       { editor && (
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,
+          interactive: true,
           maxWidth: 'none',
           theme: "memberhub-white",
           ...(!!onMenuShow && {onShow: onMenuShow}),
           ...(!!onMenuHidden && {onHidden: onMenuHidden}),
         }}>
-        <MenuBar editor={editor} />
+        <MenuBar editor={editor} isHeading={isHeading} />
         </BubbleMenu>
       )}
       {/* <AnimatePresence>

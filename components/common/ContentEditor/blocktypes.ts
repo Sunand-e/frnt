@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
+import {Heading} from '@styled-icons/remix-editor/Heading'
+
 import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
@@ -16,7 +18,7 @@ import {Carousel} from '@styled-icons/boxicons-regular/Carousel'
 import {Flip2Outline} from '@styled-icons/evaicons-outline/Flip2Outline'
 
 import TextBlock from './blocks/TextBlock/TextBlock'
-import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
+import HeadingBlock from './blocks/HeadingBlock/HeadingBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
 import ImageBlock from './blocks/ImageBlock/ImageBlock'
 import VideoBlock from './blocks/VideoBlock/VideoBlock'
@@ -29,7 +31,7 @@ import AccordionBlock from './blocks/AccordionBlock/AccordionBlock'
 import LineDividerBlock from './blocks/LineDividerBlock/LineDividerBlock'
 
 import TextBlockEdit from './blocks/TextBlock/TextBlockEdit'
-import HeaderBlockEdit from './blocks/HeaderBlock/HeaderBlock'
+import HeadingBlockEdit from './blocks/HeadingBlock/HeadingBlockEdit'
 import ListBlockEdit from './blocks/ListBlock/ListBlockEdit'
 import ImageBlockEdit from './blocks/ImageBlock/ImageBlockEdit'
 import VideoBlockEdit from './blocks/VideoBlock/VideoBlockEdit'
@@ -42,7 +44,7 @@ import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
 import LineDividerBlockEdit from './blocks/LineDividerBlock/LineDividerBlockEdit'
 
 import TextSettings from './blocks/TextBlock/TextSettings'
-import HeaderSettings from './blocks/HeaderBlock/HeaderSettings'
+import HeadingSettings from './blocks/HeadingBlock/HeadingSettings'
 import ListSettings from './blocks/ListBlock/ListSettings'
 import ImageSettings from './blocks/ImageBlock/ImageSettings'
 import VideoSettings from './blocks/VideoBlock/VideoSettings'
@@ -81,6 +83,7 @@ export type BlockType = {
   editComponent: React.FC<any>,
   settingsComponent: React.FC<any>,
   icon: React.FC<any>,
+  defaultProperties?: any,
   hideFromSelector?: boolean
 }
 
@@ -89,14 +92,20 @@ export type BlockTypes = {
 }
 
 const blocktypes: BlockTypes = {
-  // header: {
-  //   text: 'Header',
-  //   component: HeaderBlock,
-  //   editComponent: HeaderBlockEdit,
-  //   settingsComponent: HeaderSettings,
-  //   icon: Text,
-  //   hideFromSelector: true,
-  // },
+  heading: {
+    name: 'heading',
+    text: 'Heading',
+    component: HeadingBlock,
+    editComponent: HeadingBlockEdit,
+    settingsComponent: HeadingSettings,
+    icon: Heading,
+    defaultProperties: {
+      properties: {
+        paddingBottom: '0px',
+      }
+    }
+    // hideFromSelector: true,
+  },
   spacer: {
     name: 'spacer',
     text: 'Drag',
