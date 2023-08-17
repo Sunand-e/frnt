@@ -8,7 +8,6 @@ type ImageSelectInputProps = {
   src?: string;
   origImage?;
   onSelect?;
-  isModal?: boolean;
   label?: string;
   placeholder?: string;
   buttonText?: string;

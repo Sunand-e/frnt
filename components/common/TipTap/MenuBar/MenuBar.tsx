@@ -1,128 +1,9 @@
-import styles from './MenuBar.module.scss'
-import React, { Fragment, useState } from 'react'
-import MenuItem from './MenuItem'
-import FontSizeDropdown from '../../ContentEditor/blocks/common/FontSizeDropdown'
-import Select, { components, ContainerProps } from 'react-select';
-import { FontSize } from '@styled-icons/boxicons-regular/FontSize'
-import remixiconUrl from './remixicon.symbol.svg'
-import {TextFont} from '@styled-icons/fluentui-system-filled/TextFont'
-import useLazyFontLoad from '../../../../hooks/useLazyFontLoad';
-
-const googleFonts = [
-  { name: 'Be Vietnam' },
-  { name: 'Cormorant' },
-  { name: 'DM Sans' },
-  { name: 'Inter' },
-  { name: 'Lato' },
-  { name: 'Lora' },
-  { name: 'Lustria' },
-  { name: 'Maitree' },
-  { name: 'Maven Pro' },
-  { name: 'Merriweather' },
-  { name: 'Montserrat' },
-  { name: 'Open Sans' },
-  { name: 'Oswald' },
-  { name: 'Poppins' },
-  { name: 'Raleway' },
-  { name: 'Roboto' },
-  { name: 'Roboto Slab' },
-];
-
-const lineHeights = [
-  0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5
-  // "100%", "115%", "150%", "200%", "250%", "300%"
-]
-const FontFamilyOptions = googleFonts.map(font => ({
-  value: font.name, label: font.name
-}))
-
-const lineHeightOptions = lineHeights.map(size => ({
-  value: size, label: size
-}))
-
-const FontSizeControl = ({ children, ...props }) => (
-  <components.Control {...props}>
-    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
-      <use xlinkHref={`${remixiconUrl}#ri-font-size`} />
-    </svg>
-    {children}
-  </components.Control>
-);
-
-const FontFamilyControl = ({ children, ...props }) => (
-  <components.Control {...props}>
-    <TextFont className="remix w-5 h-6 ml-1 fill-main-secondary" />
-    {children}
-  </components.Control>
-);
-
-const LineHeightControl = ({ children, ...props }) => (
-  <components.Control {...props}>
-    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
-      <use xlinkHref={`${remixiconUrl}#ri-line-height`} />
-    </svg>
-    {children}
-  </components.Control>
-);
-
-  
-const defaultFontSizes = [
-  10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52
-]
-
-const headingFontSizes = [
-  20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72
-]
-
-const FontSizeSelect = ({value, onChange, isHeading}) => {
-
-  const sizes = isHeading ? headingFontSizes : defaultFontSizes
-
-  const fontSizeOptions = sizes.map(size => ({
-    value: `${size}px`,
-    label: `${size}px`
-  }))
-
-  return (
-    <Select 
-      value={value}
-      className='mr-1 text-main-secondary'
-      components={{ Control: FontSizeControl }}
-      // isSearchable={false}
-      options={fontSizeOptions}
-      onChange={onChange}
-    />
-  )
-}
-
-const FontFamilySelect = ({value, onChange}) => {
-
-  useLazyFontLoad({font: `${value.value}`})
-
-  return (
-    <Select 
-      value={value}
-      className='mx-1 text-main-secondary'
-      components={{ Control: FontFamilyControl }}
-      options={FontFamilyOptions}
-      isSearchable={false}
-      onChange={onChange}
-    />
-  )
-}
-
-const LineHeightSelect = ({value, onChange}) => {
-  return (
-    <Select 
-      value={value}
-      className='mx-1 text-main-secondary'
-      components={{ Control: LineHeightControl }}
-      options={lineHeightOptions}
-      isSearchable={false}
-      onChange={onChange}
-    />
-  )
-}
+import { Fragment } from 'react';
+import FontFamilySelect from './FontFamilySelect';
+import FontSizeSelect from './FontSizeSelect';
+import LineHeightSelect from './LineHeightSelect';
+import styles from './MenuBar.module.scss';
+import MenuItem from './MenuItem';
 
 export default ({ editor, isHeading=false }) => {
 
@@ -278,13 +159,17 @@ export default ({ editor, isHeading=false }) => {
     },
   ]
 
-  let fontFamily = editor.getAttributes('textStyle').fontFamily
-  if(fontFamily) {
-    if(fontFamily.charAt(0) === "'" && fontFamily.charAt(fontFamily.length-1) === "'") {
-      fontFamily = fontFamily.substring(1, fontFamily.length-1);
-    }
-  }
+  let fontFamily = editor.getAttributes('textStyle').fontFamily?.replace(/['"]+/g, '')
+  let color = editor.getAttributes('textStyle').color
 
+  if(fontFamily) {
+    // console.log('fontFamily')
+    // console.log(fontFamily)
+    // if(fontFamily.charAt(0) === "'" && fontFamily.charAt(fontFamily.length-1) === "'") {
+    //   fontFamily = fontFamily.substring(1, fontFamily.length-1);
+    // }
+  }
+  
   return (
     <div className="editor__header">
       {items.map((item, index) => (
@@ -303,10 +188,7 @@ export default ({ editor, isHeading=false }) => {
               isHeading={isHeading}
             />
           ) : item.type === 'font-family' ? (
-            <FontFamilySelect value={{ 
-              value: fontFamily,
-              label: fontFamily
-            }} onChange={setFontFamily} />
+            <FontFamilySelect value={fontFamily} onChange={setFontFamily} />
           ) : item.type === 'line-height' ? (
             <LineHeightSelect value={{ 
               value: editor.getAttributes('paragraph').lineHeight,
