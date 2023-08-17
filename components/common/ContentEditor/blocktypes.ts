@@ -1,19 +1,19 @@
 import styled from 'styled-components'
-import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
+import {TextT} from '@styled-icons/fluentui-system-regular/TextT'
 import {Heading} from '@styled-icons/remix-editor/Heading'
 
-import {Box} from '@styled-icons/fluentui-system-filled/Box'
-import {Video} from '@styled-icons/fluentui-system-filled/Video'
-import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {Box} from '@styled-icons/fluentui-system-regular/Box'
+import {Video} from '@styled-icons/fluentui-system-regular/Video'
+import {Speaker2} from '@styled-icons/fluentui-system-regular/Speaker2'
 import {QuestionMarkCircle} from '@styled-icons/heroicons-outline/QuestionMarkCircle'
-import {List} from '@styled-icons/fluentui-system-filled/List'
-import {Image} from '@styled-icons/fluentui-system-filled/Image'
-import {Document} from '@styled-icons/fluentui-system-filled/Document'
+import {List} from '@styled-icons/fluentui-system-regular/List'
+import {Image} from '@styled-icons/fluentui-system-regular/Image'
+import {Document} from '@styled-icons/fluentui-system-regular/Document'
 import {Expand} from '@styled-icons/material-twotone/Expand'
 import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
 import {Columns} from '@styled-icons/octicons/Columns'
-import {LineHorizontal1} from '@styled-icons/fluentui-system-filled/LineHorizontal1'
-import {Tabs} from '@styled-icons/fluentui-system-filled/Tabs'
+import {LineHorizontal1} from '@styled-icons/fluentui-system-regular/LineHorizontal1'
+import {Tabs} from '@styled-icons/fluentui-system-regular/Tabs'
 import {Carousel} from '@styled-icons/boxicons-regular/Carousel'
 import {Flip2Outline} from '@styled-icons/evaicons-outline/Flip2Outline'
 
@@ -228,14 +228,14 @@ const blocktypes: BlockTypes = {
     settingsComponent: CarouselSettings,
     icon: Carousel
   },
-  flipboxes: {
-    name: 'flipboxes',
-    text: 'Flip Boxes',
-    component: FlipBoxesBlock,
-    editComponent: FlipBoxesBlockEdit,
-    settingsComponent: FlipBoxesSettings,
-    icon: Flip2Outline
-  },
+  // flipboxes: {
+  //   name: 'flipboxes',
+  //   text: 'Flip Boxes',
+  //   component: FlipBoxesBlock,
+  //   editComponent: FlipBoxesBlockEdit,
+  //   settingsComponent: FlipBoxesSettings,
+  //   icon: Flip2Outline
+  // },
   linedivider: {
     text: 'Line Divider',
     name: 'linedivider',
