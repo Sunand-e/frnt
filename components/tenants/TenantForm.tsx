@@ -34,7 +34,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
   const endpoint = "/api/v1/tenant/update"
   const method = "PUT"
 
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     additionalParams: { tenant_id: tenant?.id },
     method
   })
@@ -48,10 +48,10 @@ const TenantForm = ({tenant=null, onSubmit}) => {
   const handleSubmit = async (data) => {
 
     await Promise.all([
-      data.logo instanceof File && (await uploadFileAndNotify(data.logo, 'logo_image', endpoint)),
-      data.whiteLogo instanceof File && (await uploadFileAndNotify(data.whiteLogo, 'logo_white_image', endpoint)),
-      data.squareLogo instanceof File && (await uploadFileAndNotify(data.squareLogo, 'logo_square_image', endpoint)),
-      data.squareWhiteLogo instanceof File && (await uploadFileAndNotify(data.squareWhiteLogo, 'logo_square_white_image', endpoint))
+      data.logo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_image: data.logo})),
+      data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
+      data.squareLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_image: data.squareLogo})),
+      data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo}))
     ]).then(res => {
       console.log('resresresresresresresresresres')
       console.log(res)

@@ -23,7 +23,7 @@ const AdminCreateUser = () => {
   const endpoint = "/api/v1/users/"
   const { refetchUsers } = useGetUsers()
 
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT",
     refetchQuery: GET_USERS,
     onComplete: (response) => {
@@ -64,7 +64,7 @@ const AdminCreateUser = () => {
       if(response.data.user?.id) {
         if(profile_image) {
           const imageEndpoint = `/api/v1/users/${response.data.user?.id}/update_profile_image`
-          profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
+          profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
         }
       }
       router.push('/admin/users')

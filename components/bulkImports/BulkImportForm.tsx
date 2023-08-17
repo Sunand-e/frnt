@@ -19,7 +19,7 @@ const BulkImportForm = ({bulkImport=null, onSubmit}) => {
   const endpoint = "/api/v1/bulkImport/update"
   const method = "PUT"
 
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     additionalParams: { bulkImport_id: bulkImport?.id },
     method
   })
