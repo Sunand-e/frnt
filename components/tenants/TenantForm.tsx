@@ -7,6 +7,7 @@ import ColorPickerInputLegacy from '../common/inputs/ColorPickerInputLegacy';
 import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 import CheckboxInput from '../common/inputs/CheckboxInput';
+import FontFamilySelectInput from '../common/inputs/FontFamilySelectInput';
 
 interface TenantFormValues {
   id?: string
@@ -16,6 +17,14 @@ interface TenantFormValues {
   profileImage: string
   primaryBrandColor: string
   secondaryBrandColor: string
+  styles: {
+    headings: {
+      font: string
+    }
+    body: {
+      font: string
+    }
+  }
   pathwaysEnabled: boolean
 }
 
@@ -26,11 +35,10 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     name: tenant?.name,
     url: tenant?.url,
     id: tenant?.id,
-    primaryBrandColor: tenant?.settings?.primaryBrandColor,
-    secondaryBrandColor: tenant?.settings?.secondaryBrandColor,
     pathwaysEnabled: tenant?.settings?.pathways?.enabled,
   }
-
+console.log('defaultValues')
+console.log(defaultValues)
   const endpoint = "/api/v1/tenant/update"
   const method = "PUT"
 
@@ -46,7 +54,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
   const formVals = watch()
 
   const handleSubmit = async (data) => {
-
+    console.log('data')
+    console.log(data)
     await Promise.all([
       data.logo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_image: data.logo})),
       data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
@@ -55,6 +64,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     ]).then(res => {
       console.log('resresresresresresresresresres')
       console.log(res)
+
       onSubmit(data)
     }
     )
@@ -122,12 +132,22 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       />
       <ColorPickerInputLegacy
         label="Primary brand colour"
-        name="primaryBrandColor"
+        name="settings.primaryBrandColor"
         control={control}
       />
       <ColorPickerInputLegacy
         label="Secondary brand colour"
-        name="secondaryBrandColor"
+        name="settings.secondaryBrandColor"
+        control={control}
+      />
+      <FontFamilySelectInput
+        label="Headings font"
+        name="settings.styles.headings.font"
+        control={control}
+      />
+      <FontFamilySelectInput
+        label="Body font"
+        name="settings.styles.body.font"
         control={control}
       />
       <hr></hr>

@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import FontFamilySelect from './FontFamilySelect';
+import FontFamilySelect from '../../inputs/FontFamilySelect';
 import FontSizeSelect from './FontSizeSelect';
 import LineHeightSelect from './LineHeightSelect';
 import styles from './MenuBar.module.scss';
@@ -31,6 +31,12 @@ export default ({ editor, isHeading=false }) => {
       title: 'Italic',
       action: () => editor.chain().focus().toggleItalic().run(),
       isActive: () => editor.isActive('italic'),
+    },
+    {
+      icon: 'underline',
+      title: 'Underline',
+      action: () => editor.chain().focus().toggleUnderline().run(),
+      isActive: () => editor.isActive('underline'),
     },
     {
       icon: 'strikethrough',

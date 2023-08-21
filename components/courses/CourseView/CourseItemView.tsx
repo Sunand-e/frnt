@@ -4,6 +4,7 @@ import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
 import ModuleView from './ModuleView'
+import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
 
 const CourseItemView = () => {
 
@@ -11,6 +12,9 @@ const CourseItemView = () => {
   const { id, cid: contentId } = router.query
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
+
+  useLazyFontLoad(course?.settings.fonts?.headings?.name)
+  useLazyFontLoad(course?.settings.fonts?.body?.name)
 
   useEffect(() => {
     // If there is a course but no item provided, show the first item
@@ -28,9 +32,22 @@ const CourseItemView = () => {
     }
   },[id, course?.id])
 
+  const fontCssVars = {
+    ...(course.settings.fonts?.headings?.name && {
+      "--course-headings-font": `'${course.settings.fonts?.headings?.name}'`,
+    }),
+    ...(course.settings.fonts?.body?.name && {
+      "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
+    })
+  }
   return (
     course ? (
-      <ModuleView />
+      <div
+        id="course_view"
+        style={fontCssVars as React.CSSProperties }
+      >
+        <ModuleView />
+      </div>
     ) : (
       <LoadingSpinner text={(
         <>

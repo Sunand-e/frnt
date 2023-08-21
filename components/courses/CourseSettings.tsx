@@ -11,6 +11,7 @@ import TipTapInput from '../common/inputs/TipTapInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
 import { AnimatePresence, motion } from "framer-motion";
 import ScoreFromModuleIdsInput from './inputs/ScoreFromModuleIdsInput';
+import FontFamilySelect from '../common/inputs/FontFamilySelect';
 
 interface CourseSettingsFormValues {
   title: string
@@ -77,6 +78,23 @@ const CourseSettings = ({options={}}) => {
     return () => subscription.unsubscribe()
 
   },[watch, updateCourse])
+
+  const updateFont = (font, target) => {
+    if(!['headings', 'body'].includes(target)) {
+      return false;
+    }
+    const fontData = { name: font.value, type: font.type }  
+    updateCourse({
+      settings: {
+        ...course.settings,
+        fonts: {
+          ...course.settings.fonts,
+          [target]: fontData,
+        }
+      }
+    })
+  }
+
 
   const isScored = watch('settings.isScored');
 
@@ -157,6 +175,20 @@ const CourseSettings = ({options={}}) => {
         labelClassName='text-sm font-medium'
         inputAttrs={register("settings.hasCertificate")}
       />
+      <label>
+        <span className="text-gray-700 text-sm font-medium">Headings font</span>
+        <FontFamilySelect
+          value={course.settings.fonts?.headings?.name}
+          onChange={font => updateFont(font, 'headings')}
+        />
+      </label>
+      <label>
+        <span className="text-gray-700 text-sm font-medium">Body font</span>
+        <FontFamilySelect
+          value={course.settings.fonts?.body?.name}
+          onChange={font => updateFont(font, 'body')}
+        />
+      </label>
     </div>
   )
 }

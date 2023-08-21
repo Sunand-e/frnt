@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { createContext, useEffect, useState } from 'react'
 import baseTheme from '../themes/base';
-import { applyTheme, createTheme } from '../themes/utils';
+import { applyTheme, createTheme, lazyLoadFont } from '../themes/utils';
 
 
 export interface Tenant {
@@ -33,14 +33,17 @@ const TenantContextProvider = ({children}) => {
         location.reload()
       }
       
-      // Examine the text in the response
       response.json().then(function(data) {
         const theme = createTheme({
           main: data.primaryBrandColor || '#444',
-          secondary: data.secondaryBrandColor || '#999'
+          secondary: data.secondaryBrandColor || '#999',
+          font_body: data.styles?.body?.font?.value,
+          font_headings: data.styles?.headings?.font?.value
         });
         applyTheme(theme)
         setTenant(data)
+        lazyLoadFont(data.styles?.body?.font, data.custom_fonts)
+        lazyLoadFont(data.styles?.headings?.font, data.custom_fonts)
       });
     })
     .catch(function(err) {

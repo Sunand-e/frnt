@@ -1,8 +1,8 @@
 import { TextFont } from '@styled-icons/fluentui-system-filled/TextFont';
 import { useContext } from 'react';
 import Select, { components } from 'react-select';
-import { TenantContext } from '../../../../context/TenantContext';
-import useLazyFontLoad from '../../../../hooks/useLazyFontLoad';
+import { TenantContext } from '../../../context/TenantContext';
+import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
 
 const googleFonts = [
   { name: 'Be Vietnam' },
@@ -37,8 +37,8 @@ const FontFamilyControl = ({ children, ...props }) => (
 
 const FontFamilySelect = ({value, onChange}) => {
   
-  const {fonts} = useContext(TenantContext)
-  const customFontOptions = fonts ? fonts.map(font => ({
+  const {customFonts} = useContext(TenantContext)
+  const customFontOptions = customFonts ? fonts.map(font => ({
     value: font.name,
     label: font.name,
     type: 'custom'
@@ -71,6 +71,8 @@ console.log(selectedOption)
   return (
     <Select 
       value={selectedOption}
+      menuPortalTarget={document.body}
+      menuPlacement={'auto'}
       className='mx-1 min-w-[160px] text-main-secondary'
       components={{ Control: FontFamilyControl }}
       options={options}

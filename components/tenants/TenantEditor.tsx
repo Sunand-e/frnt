@@ -21,8 +21,6 @@ const TenantEditor = () => {
       ...formValues,
       settings: {
         ...formValues.settings,
-        ...(formValues.primaryBrandColor && {...{primaryBrandColor: formValues.primaryBrandColor}}),
-        ...(formValues.secondaryBrandColor && {...{secondaryBrandColor: formValues.secondaryBrandColor}}),
         pathways: {
           ...formValues.settings?.pathways,
           enabled: formValues.pathwaysEnabled

@@ -43,7 +43,7 @@ export const HeadingBlockEdit: FunctionComponent = ({id}) => {
   }
 
   return (
-    <>
+    <h3>
       <Editor
         onUpdate={handleChange}
         isHeading={true}
@@ -53,7 +53,7 @@ export const HeadingBlockEdit: FunctionComponent = ({id}) => {
         editorClass={'my-2'}
         placeholder={"Enter heading here..."}
       />
-    </>
+    </h3>
   );
 }
 
