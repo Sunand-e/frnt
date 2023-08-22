@@ -8,6 +8,9 @@ export const sidebarBlockButtonClassName = `
   space-y-2 p-2 text-center
   bg-white rounded-lg
   shadow shadow-lg
+  hover:shadow-xl
+  hover:scale-[1.1]
+  focus:scale-[1.1]
 `
 
 export const sidebarPanels = [
