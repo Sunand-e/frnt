@@ -16,7 +16,6 @@ export const TextAndImageBlockEdit = ({id}) => {
   const { debouncedUpdateBlock } = useBlockEditor()
   const updateBlock = useBlockStore(state => state.updateBlock)
   const blockRef = useBlockStore(state => state.blockRefs.get(id))
-  const zIndex = useBlockStore(state => state.zIndexes.get(id))
 
   const handleContentChange = (newValue) => {
     debouncedUpdateBlock({
@@ -29,15 +28,20 @@ export const TextAndImageBlockEdit = ({id}) => {
     !block.content && setTimeout(focus, 10);
   },[])
    
+  // Temporary(!!!) z-index fix for textAndImage blocks inside a carousel;
   const onMenuShow = (instance) => {
     if(blockRef) {
-      blockRef.style.zIndex = '99999'
+      const closestCarouselViewport = blockRef.closest('[data-scope="carousel"][data-part="viewport"]')
+      const carouselControls = closestCarouselViewport.querySelector('[data-part="previous-trigger"]')
+      carouselControls.style.zIndex = '0'
     }
   }
-
+  
   const onMenuHidden = (instance) => {
     if(blockRef) {
-      blockRef.style.zIndex = zIndex
+      const closestCarouselViewport = blockRef.closest('[data-scope="carousel"][data-part="viewport"]')
+      const carouselControls = closestCarouselViewport.querySelector('[data-part="previous-trigger"]')
+      carouselControls.style.removeProperty('z-index')
     }
   }
 
