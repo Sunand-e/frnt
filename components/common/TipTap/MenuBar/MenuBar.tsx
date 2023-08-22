@@ -38,12 +38,12 @@ export default ({ editor, isHeading=false }) => {
       action: () => editor.chain().focus().toggleUnderline().run(),
       isActive: () => editor.isActive('underline'),
     },
-    {
-      icon: 'strikethrough',
-      title: 'Strike',
-      action: () => editor.chain().focus().toggleStrike().run(),
-      isActive: () => editor.isActive('strike'),
-    },
+    // {
+    //   icon: 'strikethrough',
+    //   title: 'Strike',
+    //   action: () => editor.chain().focus().toggleStrike().run(),
+    //   isActive: () => editor.isActive('strike'),
+    // },
     {
       type: 'divider',
     },
@@ -65,9 +65,9 @@ export default ({ editor, isHeading=false }) => {
     //   action: () => editor.chain().focus().setParagraph().setMark("textStyle", { fontSize: null }).run(),
     //   isActive: () => editor.isActive('paragraph'),
     // },
-    {
-      type: 'font-family'
-    },
+    // {
+    //   type: 'font-family'
+    // },
     {
       type: 'font-size'
     },
