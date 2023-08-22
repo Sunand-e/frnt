@@ -47,9 +47,21 @@ const CarouselTrashButton = ({onDelete}) => {
 const CarouselItemEdit = ({item, index, onDelete}) => {
 
   const {parent} = getIndexAndParent(item.id)
-
+  const blockRefs = useBlockStore(state => state.blockRefs)
+  
   return (
-    <CarouselSlide key={index} index={index} className="px-16 relative group/item-trigger">
+    <CarouselSlide
+      key={index}
+      index={index}
+      className="px-16 relative group/item-trigger"
+      ref={el => {
+        if(el) {
+          blockRefs.set(item.id, el)
+        } else {
+          blockRefs.delete(item.id)
+        }
+      }}
+    >
       <BlockContainer
         key={item.id}
         isColumn={true}
