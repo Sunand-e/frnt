@@ -8,6 +8,7 @@ import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
 import FontFamily from '@tiptap/extension-font-family'
+import Underline from '@tiptap/extension-underline'
 import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
 import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
 import { useEffect, useRef, useState } from 'react'
@@ -62,6 +63,7 @@ const Editor = ({
       FontFamily.configure({
         types: ['textStyle'],
       }),
+      Underline,
       Color,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -89,6 +91,7 @@ const Editor = ({
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,
           interactive: true,
+          placement: 'bottom',
           maxWidth: 'none',
           theme: "memberhub-white",
           ...(!!onMenuShow && {onShow: onMenuShow}),
