@@ -181,8 +181,8 @@ export const createBlock = (properties) => ({
   type: properties.type.name,
   id: uuidv4(),
   properties: {
-    paddingTop: '30px',
-    paddingBottom: '30px',
+    paddingTop: '20px',
+    paddingBottom: '20px',
     ...properties?.properties
   },
   ...properties
