@@ -18,7 +18,7 @@ const QuestionBlockEdit = ({ block: b }) => {
   };
 
   return (
-    <div className='p-8'>
+    <div className='p-8 shadow-md bg-white'>
       <QuestionEditor onUpdate={handleUpdateQuestion} question={block.properties} />
     </div>
   );

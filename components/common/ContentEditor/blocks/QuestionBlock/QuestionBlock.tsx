@@ -34,7 +34,7 @@ const QuestionBlock = ({ block: b }) => {
   }
 
   return (
-    <div className='p-8'>
+    <div className='p-8 shadow-lg bg-white'>
       <QuestionContainer 
         onOptionSelect={handleOptionSelect}
         selectedOptionIds={attemptOptionIds}

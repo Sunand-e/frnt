@@ -56,7 +56,7 @@ const AccordionItemEdit = ({item, index}) => {
                 <div className="flex space-x-2 items-center">
                   { parent.children.length > 1 && (
                     <Trash
-                      className={`w-6 cursor-pointer !hidden group-hover/item-trigger:!block text-red-800`}
+                      className={`w-5 cursor-pointer !hidden group-hover/item-trigger:!block text-red-800`}
                       onClick={() => deleteBlock(item)}
                     />
                   )}
