@@ -37,7 +37,7 @@ const LessonView = () => {
         <PrevNextButtons
           showPrevious={false}
         />
-      </div>s
+      </div>
     </>
   )
 }
