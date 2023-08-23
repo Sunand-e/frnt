@@ -32,23 +32,18 @@ const BlockContainer = ({
 
   const isLastColumn = parent && parent.type === 'columns' && index === parent.children.length - 1
 
-  let bgStyleString = ''
+  let bgImageCssString = ''
   if(block.style?.bgImageEnabled) {
     if(block?.style?.overlayColor) {
-      bgStyleString = `
+      bgImageCssString = `
         linear-gradient(
           ${block?.style?.overlayColor}, 
           ${block?.style?.overlayColor}
         ),
       `
     }
-    bgStyleString += `url(${block?.style?.bgImage?.location})`
-  } else {
-    bgStyleString = block.style?.bgColor
+    bgImageCssString += `url(${block?.style?.bgImage?.location})`
   }
-  
-  console.log('bgStyleString')
-  console.log(bgStyleString)
 
   return (
     <div 
@@ -58,7 +53,7 @@ const BlockContainer = ({
       style={{
         backgroundColor: block.style?.bgColor,
         ...(block.style?.bgImageEnabled && { 
-          backgroundImage: bgStyleString
+          backgroundImage: bgImageCssString
         }),
         backgroundPosition: block?.style?.backgroundPosition || 'center',
         backgroundSize: 'cover',
