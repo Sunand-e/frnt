@@ -11,6 +11,7 @@ type ImageSelectInputProps = {
   label?: string;
   placeholder?: string;
   buttonText?: string;
+  valueAsObject?: boolean;
   isButtonAlwaysVisible?: boolean;
   name?: string;
   className?: string;
@@ -24,6 +25,7 @@ const ImageSelectInput = ({
   origImage,
   onSelect,
   className='',
+  valueAsObject=false,
   isButtonAlwaysVisible=true
 }: ImageSelectInputProps) => {
 
@@ -35,9 +37,10 @@ const ImageSelectInput = ({
   const [image, setImage] = useState(origImage);
 
   const handleSelect = image => {
-    field.onChange(image?.id || null)
+    const value = valueAsObject ? image : image?.id
+    field.onChange(value)
     setImage(image)
-    onSelect ? onSelect(image) : closeModal()
+    onSelect ? onSelect(value) : closeModal()
   }
 
   return (

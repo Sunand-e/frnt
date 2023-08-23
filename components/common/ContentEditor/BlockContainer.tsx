@@ -32,19 +32,39 @@ const BlockContainer = ({
 
   const isLastColumn = parent && parent.type === 'columns' && index === parent.children.length - 1
 
+  let bgStyleString = ''
+  if(block.style?.bgImageEnabled) {
+    if(block?.style?.overlayColor) {
+      bgStyleString = `
+        linear-gradient(
+          ${block?.style?.overlayColor}, 
+          ${block?.style?.overlayColor}
+        ),
+      `
+    }
+    bgStyleString += `url(${block?.style?.bgImage?.location})`
+  } else {
+    bgStyleString = block.style?.bgColor
+  }
+  
+  console.log('bgStyleString')
+  console.log(bgStyleString)
+
   return (
     <div 
       className={classNames(
         `relative group flex flex-col h-full`,
       )}
       style={{
-        backgroundColor: block?.properties?.bgColor,
-        color: block?.properties?.textColor || 'inherit'
+        backgroundColor: block.style?.bgColor,
+        ...(block.style?.bgImageEnabled && { 
+          backgroundImage: bgStyleString
+        }),
+        backgroundPosition: block?.style?.backgroundPosition || 'center',
+        backgroundSize: 'cover',
+        color: block?.style?.textColor || 'inherit'
       }}
     >
-      {/* <pre>
-      { JSON.stringify(parent,null,2) }
-      </pre> */}
       <div
         className={classNames(
           isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main',

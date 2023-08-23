@@ -8,6 +8,7 @@ export interface Block {
   id: string,
   children?: Block[]
   properties?: {[key: string]: any}
+  style?: {[key: string]: any}
   widths?: {[key: string]: any}
 }
 

@@ -2,7 +2,7 @@ const CheckboxInput = ({
   label,
   inputAttrs,
   labelClassName='',
-  placeholder: placeholder = ''
+  placeholder = ''
 }) => {
 
   return (

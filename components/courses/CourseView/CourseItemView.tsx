@@ -32,7 +32,7 @@ const CourseItemView = () => {
     }
   },[id, course?.id])
 
-  const fontCssVars = {
+  const courseFontCssVars = {
     ...(course.settings.fonts?.headings?.name && {
       "--course-headings-font": `'${course.settings.fonts?.headings?.name}'`,
     }),
@@ -40,11 +40,12 @@ const CourseItemView = () => {
       "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
     })
   }
+
   return (
     course ? (
       <div
         id="course_view"
-        style={fontCssVars as React.CSSProperties }
+        style={courseFontCssVars as React.CSSProperties }
       >
         <ModuleView />
       </div>

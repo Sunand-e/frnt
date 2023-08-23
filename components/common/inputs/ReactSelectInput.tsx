@@ -1,11 +1,15 @@
 import Select from "react-select";
 import { Control, useController } from "react-hook-form";
+import { StylesConfig, StylesProps } from "react-select/dist/declarations/src/styles";
+import classNames from "../../../utils/classNames";
 
 type ReactSelectInputProps = {
   control?: Control
   name?: string
   label?: string
   isMulti?: boolean
+  slim?: boolean
+  styles?: StylesConfig
   options?
   className?
   onChange?
@@ -17,6 +21,7 @@ const ReactSelectInput = ({
   label,
   onChange,
   className,
+  slim=false,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -38,15 +43,37 @@ const ReactSelectInput = ({
         ? onChange(val)
         : field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
     },
-    className: `${props?.className} w-full`,
-    isSearchable: false
+    className: classNames(
+      className,
+      // slim ? 'w-auto': 'w-full',
+      slim ? 'w-full': 'w-full',
+    ),
+    isSearchable: false,
+    styles: {
+      ...(slim && {
+        dropdownIndicator: (provided, state) => {
+          return {
+            ...provided,
+            padding: '0px',
+            paddingLeft: '3px',
+            paddingTop: '0px',
+            paddingRight: '3px',
+            paddingDown: '0px',
+          };
+        }
+      }),
+      ...props.styles
+    }
   }
   return (
     <>
       { label
         ? (
-          <label className={`block ${className}`}>
-            <span className="text-sm font-medium text-secondary">{ label }</span>
+          <label className={classNames(
+            slim ? 'flex items-center justify-between space-x-2' : 'block',
+          )}>
+            
+            <span className="text-sm font-medium text-secondary min-w-fit">{ label }</span>
             <Select {...selectProps} />
           </label>
         )

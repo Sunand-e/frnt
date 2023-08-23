@@ -17,11 +17,15 @@ export function createTheme({
   font_headings=null,
   font_body=null
 }) {
+  let darkColorVars = {}
+  for(let p=5; p<100; p=p+5) {
+    darkColorVars["--theme-dark-"+String(p).padStart(2, '0')] = darken(chroma(main), p/100).rgb().join(', ')
+  }
   return {
+    ...darkColorVars,
     "--theme-main": chroma(main).rgb().join(', '),
     "--theme-secondary": chroma(secondary).rgb().join(', '),
     "--theme-superlight": lighten(chroma(main), 0.68).rgb().join(', '),
-    "--theme-dark-05": darken(chroma(main), 0.05).rgb().join(', '),
     "--theme-font-body": font_body,
     "--theme-font-headings": font_headings
   };

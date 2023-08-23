@@ -83,7 +83,8 @@ export type BlockType = {
   editComponent: React.FC<any>,
   settingsComponent: React.FC<any>,
   icon: React.FC<any>,
-  defaultProperties?: any,
+  defaultProperties?: any,  
+  canHaveBgImage?: boolean,
   hideFromSelector?: boolean
 }
 
@@ -99,6 +100,7 @@ const blocktypes: BlockTypes = {
     editComponent: HeadingBlockEdit,
     settingsComponent: HeadingSettings,
     icon: Heading,
+    canHaveBgImage: true,
     defaultProperties: {
       properties: {
         paddingBottom: '0px',
@@ -122,6 +124,7 @@ const blocktypes: BlockTypes = {
     editComponent: TextBlockEdit,
     settingsComponent: TextSettings,
     icon: TextT,
+    canHaveBgImage: true
   },
   // list: {
   //   text: 'List',

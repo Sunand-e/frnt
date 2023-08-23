@@ -54,9 +54,6 @@ const FontFamilySelect = ({value, onChange}) => {
   })
   
   useLazyFontLoad(selectedOption)
-  
-console.log('selectedOption')
-console.log(selectedOption)
 
   const options = [
     ...(customFontOptions && [{

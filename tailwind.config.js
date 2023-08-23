@@ -3,6 +3,12 @@ const rgbaStringFunction = (colorName) => ({opacityValue}) => {
   return `rgba(var(--theme-${colorName}), ${opacity})`
 }
 
+let darkColorFns = {}
+for(let p=5; p<100; p=p+5) {
+  let string = "dark-"+String(p).padStart(2, '0')
+  darkColorFns[string] = rgbaStringFunction(string)
+}
+
 module.exports = {
   content: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   mode: 'jit', // or 'media' or 'class'
@@ -16,9 +22,9 @@ module.exports = {
           superlight: '#EDF3FE'
         },
         main: {
+          ...darkColorFns,
           DEFAULT: rgbaStringFunction('main'),
           dark: rgbaStringFunction('dark'),
-          'dark-05': rgbaStringFunction('dark-05'),
           secondary: rgbaStringFunction('secondary'),
           superlight: rgbaStringFunction('superlight'),
           'lighten-test': rgbaStringFunction('lighten-test'),
