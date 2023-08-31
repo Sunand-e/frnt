@@ -4,6 +4,8 @@ import { useController } from "react-hook-form"
 const ColorPickerInput = ({
   name,
   control,
+  clearOrReset='clear',
+  defaultValue='',
   label=null
 }) => {
   
@@ -18,6 +20,8 @@ const ColorPickerInput = ({
       label={label}
       value={field.value}
       onChange={field.onChange}
+      clearOrReset={clearOrReset}
+      defaultValue={defaultValue}
     />
   )
 }

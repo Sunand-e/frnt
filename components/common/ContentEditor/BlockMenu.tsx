@@ -30,7 +30,7 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-3 py-3 flex align-left items-center rounded hover:bg-main-secondary hover:bg-opacity-5 justify-center
+        px-3 py-3 flex align-left items-center rounded justify-center
         ${className}
       `}
     >
@@ -195,8 +195,8 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
         <div className={``}>
           <StyledButton 
             className={classNames(
-              `shadow-md rounded-full px-4 bg-opacity-5 hover:bg-opacity-20`,
-              isChild ? 'bg-opacity-60 bg-white px-2 py-2' : 'bg-main',
+              `shadow-md rounded-full px-4 bg-white hover:bg-opacity-70`,
+              isChild && 'px-2 py-2',
               // 'bg-main',
               className
             )}

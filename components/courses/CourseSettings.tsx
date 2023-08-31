@@ -12,6 +12,9 @@ import TagSelectInput from '../tags/inputs/TagSelectInput';
 import { AnimatePresence, motion } from "framer-motion";
 import ScoreFromModuleIdsInput from './inputs/ScoreFromModuleIdsInput';
 import FontFamilySelect from '../common/inputs/FontFamilySelect';
+import ColorPickerInput from '../common/ContentEditor/blocks/common/settings/inputs/ColorPickerInput';
+import ReactSelectInput from '../common/inputs/ReactSelectInput';
+import { SwitchInput } from '../common/inputs/SwitchInput';
 
 interface CourseSettingsFormValues {
   title: string
@@ -25,6 +28,13 @@ interface CourseSettingsFormValues {
     hasCertificate: JSON
     passMark: Number
     scoreFromModuleIds: Array<string>
+    frontPage: {
+      enabled: boolean
+      bgImageEnabled: boolean
+      overlayColor: string
+      bgColor: string
+      backgroundPosition: string
+    }
   }
   tags: [any]
   accessType: string
@@ -50,6 +60,13 @@ const CourseSettings = ({options={}}) => {
   const { sections, ...cachedValues } = course
   const defaultValues = {
     ...cachedValues,
+    settings: {
+      ...cachedValues.settings,
+      frontPage: {
+        overlayColor: 'rgba(0,0,0,0.5)',
+        ...cachedValues.settings?.frontPage
+      }
+    },
     tags: course?.tags?.edges.map(({node}) => {
       const {__typename, image, order, ...value} = node
       return value
@@ -90,14 +107,21 @@ const CourseSettings = ({options={}}) => {
         fonts: {
           ...course.settings.fonts,
           [target]: fontData,
+        },
+        frontPage: {
+          ...course.settings.frontPage,
+          [target]: fontData,
         }
       }
     })
   }
 
-
-  const isScored = watch('settings.isScored');
-
+  const [isScored, fpEnabled, fpBgImageEnabled] = watch([
+    'settings.isScored',
+    'settings.frontPage.enabled',
+    'settings.frontPage.bgImageEnabled'
+  ]);
+  
   return (
     <div className={`flex flex-col space-y-3 pb-2`}>
       <TextInput
@@ -122,18 +146,62 @@ const CourseSettings = ({options={}}) => {
           // inputAttrs={register("image", { required: true })}
         />
       </div>
+      <SwitchInput
+        name={'settings.frontPage.enabled'}
+        control={control}
+        label={'Show course front page'}
+      />
+      { fpEnabled && (
+        <>
+          <SwitchInput
+            name={'settings.frontPage.bgImageEnabled'}
+            control={control}
+            label={'Front page background image'}
+          />
+          { fpBgImageEnabled ? (
+            <>
+              <ColorPickerInput
+                label="Overlay color"
+                name='settings.frontPage.overlayColor'
+                clearOrReset='reset'
+                defaultValue='rgba(0,0,0,0.5)'
+                control={control}
+              />
+              <ReactSelectInput
+                control={control}
+                menuPlacement={'auto'}
+                slim={true}
+                className={'text-sm'}
+                name={'settings.frontPage.backgroundPosition'}
+                label="Background position"
+                options={[
+                  { label: 'Center', value: 'center' },
+                  { label: 'Top', value: 'top' },
+                  { label: 'Bottom', value: 'bottom' }
+                ]}
+              />
+            </>
+          ) : (
+            <ColorPickerInput
+              label="Front page background color"
+              name='settings.frontPage.bgColor'
+              control={control}
+            />  
+          )}
+        </>
+      )}
       <TagSelectInput
         control={control}
         tagType="category"
         label="Categories"
         // onChange={(tags) => updateCourse({tags})}
       />
-      <TipTapInput
+      {/* <TipTapInput
         label={`Description`}
         name='content.description'
         control={control}
         content={course?.content?.description}
-      />
+      /> */}
       <CheckboxInput
         label="Scored course"
         labelClassName='text-sm font-medium'

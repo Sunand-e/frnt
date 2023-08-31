@@ -7,11 +7,11 @@ import { useBlockStore } from '../../useBlockStore';
 export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
   const align = 'center'
-  const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group/handle group-hover:opacity-100 `
-  const handleAfterClasses = `after:flex after:bg-gray-400 after:w-2 after:h-24 after:rounded  group-hover/handle:border-2 border-main`
+  const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group-hover:opacity-100 `
+  const handleAfterClasses = `after:flex after:bg-gray-400 group-hover/handle:after:bg-white after:w-2 after:h-24 after:rounded`
   const handleClasses = `${handleElementClasses} ${handleAfterClasses}`
 
-  const [width, setWidth] = useState( block.properties?.width || defaultWidth || 0)
+  const [width, setWidth] = useState( block.style?.width || defaultWidth || 0)
   // const  [width, setWidth] = useState(0)
   const { updateBlock } = useBlockStore()
   const { addBlock, getIndexAndParent } = useBlockEditor(block)
@@ -28,8 +28,8 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
     setWidth(width)
     const updatedBlock = {
       ...block,
-      properties: {
-        ...block.properties,
+      style: {
+        ...block.style,
         width: width
       }
     }
@@ -53,7 +53,7 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
         >
           <Resizable
             // @ts-ignore
-            className={`mx-auto min-w-[100px]`}
+            className={`mx-auto min-w-[100px] group/handle`}
             size={{
               width: isNaN(width) ? width : (width + 'px'),
               height: '100%'

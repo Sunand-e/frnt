@@ -20,6 +20,7 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { filterDeletedCourseItems, getItemStructureFromSections } from "./utilities";
 import { useEditorViewStore } from "../../common/ContentEditor/useEditorViewStore";
 import { CourseFragmentFragment, SectionFragmentFragment } from "../../../graphql/generated";
+import { SidebarCoursePageItem } from "../SidebarCoursePageItem";
 
 const CourseStructureEditor = ({renderItem}) => {
 
@@ -105,6 +106,7 @@ const CourseStructureEditor = ({renderItem}) => {
     <>
     { course && (
     <div>
+      { course.settings.frontPage?.enabled && <SidebarCoursePageItem /> }
       <MultipleContainers 
         vertical
         items={items}

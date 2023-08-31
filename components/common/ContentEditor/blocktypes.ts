@@ -74,6 +74,9 @@ import { FlipBoxesSettings } from './blocks/FlipBoxesBlock/FlipBoxesSettings'
 import TextAndImageBlock from './blocks/TextAndImageBlock/TextAndImageBlock'
 import TextAndImageBlockEdit from './blocks/TextAndImageBlock/TextAndImageBlockEdit'
 import TextAndImageSettings from './blocks/TextAndImageBlock/TextAndImageSettings'
+import TextOnImageBlock from './blocks/TextOnImageBlock/TextOnImageBlock'
+import TextOnImageBlockEdit from './blocks/TextOnImageBlock/TextOnImageBlockEdit'
+import TextOnImageSettings from './blocks/TextOnImageBlock/TextOnImageSettings'
 
 
 export type BlockType = {
@@ -85,6 +88,7 @@ export type BlockType = {
   icon: React.FC<any>,
   defaultProperties?: any,  
   canHaveBgImage?: boolean,
+  alwaysHasBgImage?: boolean,
   hideFromSelector?: boolean
 }
 
@@ -100,7 +104,6 @@ const blocktypes: BlockTypes = {
     editComponent: HeadingBlockEdit,
     settingsComponent: HeadingSettings,
     icon: Heading,
-    canHaveBgImage: true,
     defaultProperties: {
       properties: {
         paddingBottom: '0px',
@@ -123,8 +126,17 @@ const blocktypes: BlockTypes = {
     component: TextBlock,
     editComponent: TextBlockEdit,
     settingsComponent: TextSettings,
-    icon: TextT,
-    canHaveBgImage: true
+    icon: TextT
+  },
+  textOnImage: {
+    text: 'Text on image',
+    name: 'textOnImage',
+    canHaveBgImage: true,
+    alwaysHasBgImage: true,
+    component: TextOnImageBlock,
+    editComponent: TextOnImageBlockEdit,
+    settingsComponent: TextOnImageSettings,
+    icon: Image,
   },
   // list: {
   //   text: 'List',
@@ -199,7 +211,7 @@ const blocktypes: BlockTypes = {
     hideFromSelector: true,
   },
   textAndImage: {
-    name: 'combo-block',
+    name: 'textAndImage',
     text: 'Text and Image',
     component: TextAndImageBlock,
     editComponent: TextAndImageBlockEdit,
@@ -208,7 +220,7 @@ const blocktypes: BlockTypes = {
     hideFromSelector: true,
   },
   accordion: {
-    name: 'Accordion',
+    name: 'accordion',
     text: 'Accordion',
     component: AccordionBlock,
     editComponent: AccordionBlockEdit,

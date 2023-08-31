@@ -2,6 +2,7 @@ import BlockSelector from "../BlockSelector";
 import CourseStructureEditor from "../../../courses/CourseStructureEditor/CourseStructureEditor";
 import SidebarEditableItem from "../../../courses/CourseStructureEditor/SidebarEditableItem";
 import QuizStructureEditor from "../../../quiz/QuizStructureEditor/QuizStructureEditor";
+import { SidebarCoursePageItem } from "../../../courses/SidebarCoursePageItem";
 
 export const sidebarBlockButtonClassName = `
   aspect-square flex flex-col justify-center items-center 

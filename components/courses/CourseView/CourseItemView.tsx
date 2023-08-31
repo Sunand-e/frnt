@@ -5,6 +5,7 @@ import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
 import ModuleView from './ModuleView'
 import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
+import CourseFrontPageView from '../CourseFrontPageView';
 
 const CourseItemView = () => {
 
@@ -18,7 +19,7 @@ const CourseItemView = () => {
 
   useEffect(() => {
     // If there is a course but no item provided, show the first item
-    if(course && !contentId) {
+    if(course && !contentId && !course.settings.frontPage?.enabled) {
       const firstItemInCourse = course.sections?.find(
         (section) => section.children?.length
       )?.children[0]
@@ -33,10 +34,10 @@ const CourseItemView = () => {
   },[id, course?.id])
 
   const courseFontCssVars = {
-    ...(course.settings.fonts?.headings?.name && {
+    ...(course?.settings.fonts?.headings?.name && {
       "--course-headings-font": `'${course.settings.fonts?.headings?.name}'`,
     }),
-    ...(course.settings.fonts?.body?.name && {
+    ...(course?.settings.fonts?.body?.name && {
       "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
     })
   }
@@ -47,7 +48,12 @@ const CourseItemView = () => {
         id="course_view"
         style={courseFontCssVars as React.CSSProperties }
       >
-        <ModuleView />
+        { course.settings.frontPage?.enabled && !contentId && (
+          <CourseFrontPageView />
+        )}
+        { contentId && (
+          <ModuleView />
+        )}
       </div>
     ) : (
       <LoadingSpinner text={(

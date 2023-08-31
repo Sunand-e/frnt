@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { TenantContext } from "../../../../../context/TenantContext";
 import ImageSelectInput from "../../../inputs/ImageSelectInput";
 import ReactSelectInput from "../../../inputs/ReactSelectInput";
 import { SwitchInput } from "../../../inputs/SwitchInput";
@@ -31,7 +33,7 @@ const StylingPanel = ({block, children = null}) => {
   });
 
   watch((data, { name, type }) => {
-    console.log(data, name, type)
+    // console.log(data, name, type)
     const updatedBlock = {
       ...block,
       style: {
@@ -64,14 +66,18 @@ const StylingPanel = ({block, children = null}) => {
           />
         </div>
       </div>
-      <SwitchInput
-        name={'bgImageEnabled'}
-        control={control}
-        label={'Background image?'}
-      />
-      { bgImageEnabled ? (
+
+      { blockType.canHaveBgImage && !blockType.alwaysHasBgImage && (
+        <SwitchInput
+          name={'bgImageEnabled'}
+          control={control}
+          label={'Background image?'}
+        />
+      )}
+      { (bgImageEnabled || blockType.alwaysHasBgImage) && (
         <>
           <ImageSelectInput
+          placeholder="/images/image-block-placeholder.jpg"
             name="bgImage"
             control={control}
             buttonText={'Choose image'}
@@ -79,11 +85,12 @@ const StylingPanel = ({block, children = null}) => {
             origImage={defaultValues.bgImage}
           />
           <ColorPickerInput
+            defaultValue="rgba(0,0,0,0.5)"
             label="Overlay color"
             name='overlayColor'
             control={control}
           />
-          <ReactSelectInput
+          {/* <ReactSelectInput
             control={control}
             menuPlacement={'auto'}
             slim={true}
@@ -95,16 +102,16 @@ const StylingPanel = ({block, children = null}) => {
               { label: 'Top', value: 'top' },
               { label: 'Bottom', value: 'bottom' }
             ]}
-          />
+          /> */}
         </>
-      ) : (
+      )}
+      { !blockType.alwaysHasBgImage && !bgImageEnabled && (
         <ColorPickerInput
           label="Background color"
           name='bgColor'
           control={control}
         />  
       )}
-
     </div>
   )
 }

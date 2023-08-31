@@ -3,7 +3,13 @@ import classNames from "../../../../../../../utils/classNames";
 import ColorPickerControl from "../../../../../inputs/ColorPickerControl"
 import noBgCross from './noBgCross.svg';
 
-const ColorPicker = ({label=null, value, onChange}) => {
+const ColorPicker = ({
+  label=null, 
+  value, 
+  defaultValue='',
+  clearOrReset='clear',
+  onChange
+}) => {
 
   // This is for 'no bg' cross:
   const svgCross = () => (
@@ -22,7 +28,7 @@ const ColorPicker = ({label=null, value, onChange}) => {
             onClick={() => onChange('')}
             className="text-main"
           >
-            clear
+            {clearOrReset}
           </span>
         )}
         <Tippy
@@ -43,7 +49,8 @@ const ColorPicker = ({label=null, value, onChange}) => {
           >
             <button 
               className={classNames(
-                `w-11 h-6 bg-gray-200
+                !defaultValue && 'bg-gray-200',
+                `w-11 h-6
                 relative
                 ring-2
                 focus:ring-4 
@@ -51,7 +58,7 @@ const ColorPicker = ({label=null, value, onChange}) => {
                 rounded-full peer dark:bg-gray-700 
                 flex items-center w-12 h-8 `
               )}
-              style={{backgroundColor: value}}
+              style={{backgroundColor: value || defaultValue}}
             />
         </Tippy>
       </div>

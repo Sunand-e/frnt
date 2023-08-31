@@ -65,11 +65,49 @@ module.exports = {
         'max-h': 'max-height'
       },
       backgroundOpacity: ['hover', 'active', 'focus'],
-
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
       typography: ({ theme }) => ({
         DEFAULT: { // this is for default prose class
           css: {
             '--tw-prose-bullets': rgbaStringFunction('main'), // Not working??
+          },
+        },
+        white: {
+          css: {
+            '--tw-prose-body': 'white',
+            '--tw-prose-headings': 'white',
+            '--tw-prose-lead': 'white',
+            '--tw-prose-links': 'white',
+            '--tw-prose-bold': 'white',
+            '--tw-prose-counters': 'white',
+            '--tw-prose-bullets': 'white',
+            '--tw-prose-hr': 'white',
+            '--tw-prose-quotes': 'white',
+            '--tw-prose-quote-borders': 'white',
+            '--tw-prose-captions': 'white',
+            '--tw-prose-code': 'white',
+            '--tw-prose-pre-code': 'white',
+            '--tw-prose-pre-bg': 'white',
+            '--tw-prose-th-borders': 'white',
+            '--tw-prose-td-borders': 'white',
+            '--tw-prose-invert-body': 'white',
+            '--tw-prose-invert-headings': theme('colors.white'),
+            '--tw-prose-invert-lead': 'white',
+            '--tw-prose-invert-links': theme('colors.white'),
+            '--tw-prose-invert-bold': theme('colors.white'),
+            '--tw-prose-invert-counters': 'white',
+            '--tw-prose-invert-bullets': 'white',
+            '--tw-prose-invert-hr': 'white',
+            '--tw-prose-invert-quotes': 'white',
+            '--tw-prose-invert-quote-borders': 'white',
+            '--tw-prose-invert-captions': 'white',
+            '--tw-prose-invert-code': theme('colors.white'),
+            '--tw-prose-invert-pre-code': 'white',
+            '--tw-prose-invert-pre-bg': 'rgb(0 0 0 / 50%)',
+            '--tw-prose-invert-th-borders': 'white',
+            '--tw-prose-invert-td-borders': 'white',
           },
         },
       }),

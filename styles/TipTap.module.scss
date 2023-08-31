@@ -14,8 +14,8 @@
 
     // & [class*=is-editor-empty]:first-child::before {
     & [class*=is-editor-empty]:first-child::before {
-      color: #333;
-      opacity: 0.5;
+      // color: #333;
+      opacity: 0.75;
       content: attr(data-placeholder);
       float: left;
       height: 0;

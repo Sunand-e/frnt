@@ -6,9 +6,10 @@ import useGetUserCourse from "../../../hooks/users/useGetUserCourse"
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import Button from "../../common/Button"
 import useMarkComplete from "../../../hooks/courses/useMarkComplete"
-import { useCallback } from "react"
+import { useCallback, useEffect, useLayoutEffect } from "react"
 import usePreviousAndNextIds from "./usePreviousAndNextIds"
 import PrevNextButtons from "./PrevNextButtons"
+import { useEditorViewStore } from "../../common/ContentEditor/useEditorViewStore"
 
 const LessonView = () => {
 
@@ -26,6 +27,11 @@ const LessonView = () => {
     title: lesson ? (lesson.node.title || 'Untitled lesson') : ''
   })
 
+  useEffect(() => {
+    useEditorViewStore.setState({
+      activeSidebarPanel: 'blocks'
+    })
+  }, [id])
   return (
     <>
       <div className="w-full flex flex-col">

@@ -7,6 +7,7 @@ import { BlockEdit } from './BlockEdit'
 import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
 import { showBlocksPanel, useEditorViewStore } from './useEditorViewStore';
 import classNames from '../../../utils/classNames';
+import blocktypes from './blocktypes';
 
 const BlockContainer = ({
   id,
@@ -22,7 +23,6 @@ const BlockContainer = ({
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
-  
   const isActive = activeBlockId === block.id
   
   useEffect(() => {
@@ -33,16 +33,17 @@ const BlockContainer = ({
   const isLastColumn = parent && parent.type === 'columns' && index === parent.children.length - 1
 
   let bgImageCssString = ''
-  if(block.style?.bgImageEnabled) {
-    if(block?.style?.overlayColor) {
+  if(block.style?.bgImageEnabled || block.type === 'textOnImage') {
+    // if(block?.style?.overlayColor) {
+    const overlayColor = block?.style?.overlayColor || 'rgba(0,0,0,0.5)'
       bgImageCssString = `
         linear-gradient(
-          ${block?.style?.overlayColor}, 
-          ${block?.style?.overlayColor}
+          ${overlayColor}, 
+          ${overlayColor}
         ),
       `
-    }
-    bgImageCssString += `url(${block?.style?.bgImage?.location})`
+    // }
+    bgImageCssString += `url(${block?.style?.bgImage?.location || '/images/image-block-placeholder.jpg'})`
   }
 
   return (
@@ -52,7 +53,7 @@ const BlockContainer = ({
       )}
       style={{
         backgroundColor: block.style?.bgColor,
-        ...(block.style?.bgImageEnabled && { 
+        ...((block.style?.bgImageEnabled || block.type === 'textOnImage') && { 
           backgroundImage: bgImageCssString
         }),
         backgroundPosition: block?.style?.backgroundPosition || 'center',

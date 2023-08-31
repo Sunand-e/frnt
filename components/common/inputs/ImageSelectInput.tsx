@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Control, useController } from "react-hook-form";
 import { closeModal } from "../../../stores/modalStore";
+import classNames from "../../../utils/classNames";
 import ImageSelectFromLibrary from "../ContentEditor/ImageSelectFromLibrary";
 
 type ImageSelectInputProps = { 
@@ -46,7 +47,7 @@ const ImageSelectInput = ({
   return (
     <>
       <ImageSelectFromLibrary
-        className={className}
+        className={classNames(className)}
         placeholder={placeholder}
         src={image?.location}
         buttonText={buttonText}
