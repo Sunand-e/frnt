@@ -70,12 +70,16 @@ const BlockSelector = ({
     closeModal()
   }
   
-  const handleImageSelect = (image) => {
+  const handleAddImageBlock = () => {
     const newBlock = createBlock({
       type: 'image',
-      properties: {
-        url: image?.location,
-        mediaId: image?.id,
+      // properties: {
+      //   url: image?.location,
+      //   mediaId: image?.id,
+      // },
+      style: {
+        paddingTop: '30px',
+        paddingBottom: '30px',
       }
     })
     addBlock(newBlock, replace)
@@ -101,11 +105,12 @@ const BlockSelector = ({
         break;
       }
       case 'image': {
-        handleModal({
-          title: `Choose image`,
-          content: <MediaLibrary onItemSelect={handleImageSelect} typeFilter={['image']} />,
-          size: 'lg'
-        })
+        handleAddImageBlock()
+        // handleModal({
+        //   title: `Choose image`,
+        //   content: <MediaLibrary onItemSelect={handleAddImageBlock} typeFilter={['image']} />,
+        //   size: 'lg'
+        // })
         break;
       }
       case 'video': {
@@ -122,9 +127,7 @@ const BlockSelector = ({
       }
       case 'question': {
         newBlock.properties = {
-          id: uuidv4(),          
-          paddingTop: '0px',
-          paddingBottom: '0px',
+          id: uuidv4(),
           question: {
             content: ''
           },
@@ -136,6 +139,12 @@ const BlockSelector = ({
             }
           ]
         }
+
+        newBlock.style = {
+          paddingTop: '0px',
+          paddingBottom: '0px',
+        }
+
         addBlock(newBlock, replace)
         break;
       }
