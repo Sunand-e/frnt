@@ -13,7 +13,7 @@ type ImageSelectProps = {
 }
 
 const ImageSelect = ({
-  placeholder, 
+  placeholder='/images/image-block-placeholder.jpg', 
   src,
   buttonText,
   onClick,
@@ -31,7 +31,7 @@ const ImageSelect = ({
           // imgClasses,
           `block max-w-full h-full w-full borderRadius[3px] object-cover object-center boxShadow[0 0 0 1px rgb(59,130,249)]`
         )}        
-        src={src || placeholder || '/images/placeholder-image.png'}
+        src={src || placeholder}
       />
       <div className={`absolute w-full h-full top-0 left-0 flex items-center justify-center ${showButton ? '' : 'opacity-0 hover:opacity-100'}`}>
         <a className="cursor-pointer bg-main-secondary bg-opacity-60 text-white py-1 px-4 rounded hover:bg-opacity-90" onClick={onClick}>{buttonText ?? 'Choose image'}</a>
