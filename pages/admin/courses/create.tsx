@@ -44,8 +44,6 @@ const AdminCourseSetup = () => {
         const cachedData = cache.readQuery<GetCurrentUser>({
           query: GET_CURRENT_USER
         })
-        console.log('cachedData')
-        console.log(cachedData)
 
         cache.writeQuery({
           query: GET_CURRENT_USER,
@@ -90,7 +88,13 @@ const AdminCourseSetup = () => {
       variables: { 
         title,
         imageId,
-        settings,
+        settings: {
+          ...settings,
+          frontPage: {
+            enabled: true,
+            ...settings.frontPage
+          }
+        },
         tags,
         content: {
           description: content
@@ -122,6 +126,11 @@ const AdminCourseSetup = () => {
               order: 9999999999,
             }],
             users: null,
+            settings: {
+              frontPage: {
+                enabled: true
+              }
+            }
           },
           message: ''
         }
