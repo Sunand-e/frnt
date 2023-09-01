@@ -4,11 +4,19 @@ import SortableBlock from "./SortableBlock";
 import { useDroppable } from "@dnd-kit/core";
 import { showBlocksPanel, useEditorViewStore } from "./useEditorViewStore";
 import BlockSelector from "./BlockSelector";
+import { useEffect } from "react";
 
 const BlockCanvas = () => {
 
   const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
-  
+  const blockRef = useBlockStore(state => state.blockRefs.get(state.activeBlockId))
+
+  useEffect(() => {
+    blockRef && blockRef.scrollIntoView({
+      behavior: 'smooth'
+    })
+  },[blockRef])
+
   const {
     setNodeRef,
   } = useDroppable({
