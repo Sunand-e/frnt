@@ -13,7 +13,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import ScoreFromModuleIdsInput from './inputs/ScoreFromModuleIdsInput';
 import FontFamilySelect from '../common/inputs/FontFamilySelect';
 import ColorPickerInput from '../common/ContentEditor/blocks/common/settings/inputs/ColorPickerInput';
-import ReactSelectInput from '../common/inputs/ReactSelectInput';
 import { SwitchInput } from '../common/inputs/SwitchInput';
 
 interface CourseSettingsFormValues {
@@ -167,7 +166,7 @@ const CourseSettings = ({options={}}) => {
                 defaultValue='rgba(0,0,0,0.5)'
                 control={control}
               />
-              <ReactSelectInput
+              {/* <ReactSelectInput
                 control={control}
                 menuPlacement={'auto'}
                 slim={true}
@@ -179,7 +178,7 @@ const CourseSettings = ({options={}}) => {
                   { label: 'Top', value: 'top' },
                   { label: 'Bottom', value: 'bottom' }
                 ]}
-              />
+              /> */}
             </>
           ) : (
             <ColorPickerInput

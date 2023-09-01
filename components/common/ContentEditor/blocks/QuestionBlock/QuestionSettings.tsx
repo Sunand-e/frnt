@@ -9,8 +9,16 @@ import { useBlockStore } from "../../useBlockStore";
 export const QuestionSettings = ({block}) => {
 
   const { register, watch, control } = useForm<QuestionFormValues>({defaultValues: {
-    settings: block.properties.settings,
-    questionType: block.properties.questionType,
+    questionType: 'single',
+    ...block.properties,
+    settings: {
+      ...block.properties.settings,
+      feedback: {
+        type: 'single',
+        ...block.properties.settings?.feedback,
+      }
+    },
+    
   }});
 
   const watchFeedbackType = watch("settings.feedback.type")
