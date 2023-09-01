@@ -10,7 +10,7 @@ export const ImageSettings = ({block}) => {
   const { updateBlock, updateBlockProperties } = useBlockEditor(block)
 
   const defaultValues = {
-    imageSize: 'default',
+    imageSize: block.imageSize || 'default',
     style: {
       width: '50%'
     }
@@ -51,8 +51,7 @@ export const ImageSettings = ({block}) => {
     <>
       <ImageSelectFromLibrary
         label="Image file"
-        placeholder="image"
-        src={block.properties.url}
+        src={block.properties?.url}
         buttonText="Select image"
         isButtonAlwaysVisible={true}
         className="h-36 overflow-hidden"

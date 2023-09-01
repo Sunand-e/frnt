@@ -6,6 +6,7 @@ import { useBlockStore } from '../../useBlockStore';
 import ResizeableElement from '../common/ResizeableElement';
 import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 import { closeModal } from '../../../../../stores/modalStore';
+import classNames from '../../../../../utils/classNames';
 
 export const TextAndImageBlockEdit = ({id}) => {
   // const block = useBlockStore(state => state.getBlock(id))
@@ -58,24 +59,32 @@ export const TextAndImageBlockEdit = ({id}) => {
     closeModal()
   }
   return (
-    <>
-      <Editor
-        onUpdate={handleContentChange}
-        onMenuShow={onMenuShow}
-        onMenuHidden={onMenuHidden}
-        content={block.content}
-        autofocus={false}
-        editorClass={'mb-4'}
-      />
-      <ResizeableElement
-        block={block}
-      >
-        <ImageSelectFromLibrary
-          src={block.properties?.url}
-          onSelect={selectImage}
+    <div className='flex flex-col space-y-4'>
+      <pre>
+      { JSON.stringify(block.editorSettings?.defaultAlignment,null,2) }
+      </pre>
+      { block.properties?.showText !== false && (
+        <Editor
+          onUpdate={handleContentChange}
+          onMenuShow={onMenuShow}
+          onMenuHidden={onMenuHidden}
+          content={block.content}
+          autofocus={false}
+          defaultAlignment={block.editorSettings?.defaultAlignment}
         />
-      </ResizeableElement> 
-    </>
+      )}
+
+      { block.properties?.showImage !== false && (
+        <ResizeableElement
+          block={block}
+        >
+          <ImageSelectFromLibrary
+            src={block.properties?.url}
+            onSelect={selectImage}
+          />
+        </ResizeableElement>
+      )}
+    </div>
   );
 }
 

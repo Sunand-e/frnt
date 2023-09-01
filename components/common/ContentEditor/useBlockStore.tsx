@@ -9,6 +9,9 @@ export interface Block {
   children?: Block[]
   properties?: {[key: string]: any}
   style?: {[key: string]: any}
+  editorSettings?: {
+    defaultAlignment: string
+  }
   widths?: {[key: string]: any}
 }
 
@@ -182,8 +185,8 @@ export const createBlock = (properties) => ({
   type: properties.type.name,
   id: uuidv4(),
   style: {
-    paddingTop: '20px',
-    paddingBottom: '20px',
+    paddingTop: '30px',
+    paddingBottom: '30px',
     ...properties?.style
   },
   ...properties

@@ -89,6 +89,7 @@ export type BlockType = {
   defaultProperties?: any,  
   canHaveBgImage?: boolean,
   alwaysHasBgImage?: boolean,
+  editorOptions?
   hideFromSelector?: boolean
 }
 
@@ -218,6 +219,9 @@ const blocktypes: BlockTypes = {
     settingsComponent: TextAndImageSettings,
     icon: Expand,
     hideFromSelector: true,
+    editorOptions: {
+      defaultAlignment: 'left'
+    }
   },
   accordion: {
     name: 'accordion',

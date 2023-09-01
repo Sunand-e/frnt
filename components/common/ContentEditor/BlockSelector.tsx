@@ -163,6 +163,11 @@ const BlockSelector = ({
         newBlock.children = [
           createBlock({ type: 'textAndImage'})
         ]
+        if(type.name === 'tabs') {
+          newBlock.children[0].editorSettings = {
+            defaultAlignment: 'center'
+          }
+        }
         addBlock(newBlock, replace)
         break;
       }

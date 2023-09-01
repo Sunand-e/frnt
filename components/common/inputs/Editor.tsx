@@ -29,7 +29,7 @@ const Editor = ({
   isHeading=false,
   content=null,
   editorClass='',
-  
+  defaultAlignment='left',
   placeholder='Enter text here...'
 }) => {
 
@@ -67,6 +67,7 @@ const Editor = ({
       Color,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
+        defaultAlignment
       }),
       FontSize.configure({
         types: ['textStyle'],
@@ -87,6 +88,9 @@ const Editor = ({
 
   return (
     <div className={styles.editor}>
+      <pre>
+      { JSON.stringify(defaultAlignment,null,2) }
+      </pre>
       { editor && (
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,

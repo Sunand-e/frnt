@@ -24,33 +24,35 @@ const TabItemTrigger = ({item, index, onDelete}) => {
   return (
     <TabTrigger
       className={classNames(
+        index === 0 ? '' : '',
+        'font-font-medium text-xl',
         'data-[selected]:text-gray-900 text-gray-500 hover:text-gray-700',
-        index === 0 ? 'rounded-l-lg' : '',
-        'group/item-trigger relative min-w-0 flex-1 overflow-hidden bg-white text-center text-sm font-medium hover:bg-main/10 focus:z-10'
+        'data-[selected]:bg-white bg-gray-200',
+        'group/item-trigger relative min-w-0 flex-1 overflow-hidden text-center text-sm font-medium hover:bg-main/10 focus:z-10'
       )}
       value={item.id}
     >
-      <Editable 
-        value={headingText || ''}
-        placeholder={`Tab ${index+1}`}
-        autoResize={true}
-        selectOnFocus={false}
-        onChange={({value}) => onChangeHeading(value)}
-      >
-        {/* <EditableLabel>What is {item}?</EditableLabel> */}
-        <EditableArea>
-          <EditableInput className="w-full p-4"/>
-          <EditablePreview className="w-full p-4"/>
-        </EditableArea>
-        { parent.children.length > 1 && (
-          <div className={`absolute flex items-center h-full top-0 right-0 mr-2 p-2 hidden group-hover/item-trigger:flex`}>
-            <Trash
-              className={`w-5 cursor-pointer text-red-800`}
-              onClick={() => onDelete(item, index)}
-            />
-          </div>
-        )}
-      </Editable>
+        <Editable 
+          value={headingText || ''}
+          placeholder={`Tab ${index+1}`}
+          autoResize={true}
+          selectOnFocus={false}
+          onChange={({value}) => onChangeHeading(value)}
+        >
+          {/* <EditableLabel>What is {item}?</EditableLabel> */}
+          <EditableArea>
+            <EditableInput className="w-full p-4"/>
+            <EditablePreview className="w-full p-4"/>
+          </EditableArea>
+          { parent.children.length > 1 && (
+            <div className={`absolute flex items-center h-full top-0 right-0 mr-2 p-2 hidden group-hover/item-trigger:flex`}>
+              <Trash
+                className={`w-5 cursor-pointer text-red-800`}
+                onClick={() => onDelete(item, index)}
+              />
+            </div>
+          )}
+        </Editable>
     {/* <EditableLabel>What is {item}?</EditableLabel> */}
     </TabTrigger>
   )
@@ -64,7 +66,12 @@ const TabsBlockEdit = ({id}) => {
   const [value, setValue] = useState<string | null>(block.children[0]?.id)
 
   const addNewItem = () => {
-    const newTab = createBlock({ type: 'textAndImage' })
+    const newTab = createBlock({ 
+      type: 'textAndImage',
+      editorSettings: {
+        defaultAlignment: 'center'
+      }
+    })
     setValue(newTab.id)
     const newBlock = {
       ...block,
@@ -88,17 +95,20 @@ const TabsBlockEdit = ({id}) => {
   return (
     <>
       <ArkTabs
-        className={'bg-white rounded-lg shadow mb-4'}
+        className={'bg-white shadow-lg mb-4'}
         value={value}
         onChange={(e) => setValue(e.value)}
         activationMode='manual'
       >
-        <TabList className="flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
+        <TabList className="flex divide-x-2 divide-white" aria-label="Tabs">
           { block.children.map((child, index) => <TabItemTrigger onDelete={handleDelete} item={child} index={index} /> )}
           <TabIndicator />
         </TabList>
         { block.children.map((child, index) => (
-          <TabContent value={child.id}>
+          <TabContent
+            value={child.id} 
+            className='text-center dark:bg-gray-900 px-4'
+          >
             <BlockContainer
               key={child.id}
               isColumn={true}

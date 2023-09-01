@@ -39,7 +39,9 @@ const DocumentBlockEdit: FunctionComponent = ({block}) => {
   }
 
   return (
-    <DocumentSelector onSelect={selectFile} onRemove={handleRemove} file={file} />
+    <>
+      <DocumentSelector onSelect={selectFile} onRemove={handleRemove} file={file} />
+    </>
   ) 
 
 }

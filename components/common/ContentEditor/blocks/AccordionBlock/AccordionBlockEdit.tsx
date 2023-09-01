@@ -8,6 +8,7 @@ import BlockContainer from '../../BlockContainer';
 import useBlockEditor from '../../useBlockEditor';
 import Button from '../../../Button';
 import { useState } from 'react';
+import classNames from '../../../../../utils/classNames';
 
 const AccordionItemEdit = ({item, index}) => {
 
@@ -25,17 +26,23 @@ const AccordionItemEdit = ({item, index}) => {
   }
 
   return (
-    <AccordionItem key={item.id} value={item.id} className={styles.item}>
+    <AccordionItem key={item.id} value={item.id} className={classNames(
+      styles.item,
+      'data-[state=open]:border-l-4 border-l-main'
+    )}>
       {({ isOpen }) => {
         return (
           <>
             <AccordionTrigger 
               asChild
-              className={`${styles.trigger}
-              data-[state=open]:bg-main/10
-              group/item-trigger
-              flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800
-              `}
+              className={classNames(
+                styles.trigger,
+                // 'rounded-md',
+                'group/item-trigger',
+                'flex items-center justify-between w-full',
+                'p-5 px-8 font-medium text-left text-gray-700',
+                'dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800',
+        )}
             >
               <button>
                 <Editable 
@@ -45,6 +52,7 @@ const AccordionItemEdit = ({item, index}) => {
                   placeholder={`Panel ${index+1}`}
                   onChange={({value}) => onChangeHeading(value)}
                   autoResize={true}
+                  className={'text-xl'}
                   selectOnFocus={false}
                 >
                   {/* <EditableLabel>What is {item}?</EditableLabel> */}
@@ -64,7 +72,7 @@ const AccordionItemEdit = ({item, index}) => {
                 </div>
               </button>
             </AccordionTrigger>
-            <AccordionContent className='p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+            <AccordionContent className='dark:bg-gray-900 px-4'>
               <BlockContainer
                 key={item.id}
                 isColumn={true}
@@ -100,7 +108,7 @@ const AccordionBlockEdit = ({id}) => {
     <ArkAccordion 
     collapsible={true}
     defaultValue={block.children[0].id}
-    className={`${styles.accordion} divide-y border-b-2 mb-4 flex flex-col w-full bg-white border border-gray-200`}>
+    className={`${styles.accordion} divide-y shadow-lg border-b-2 mb-4 flex flex-col w-full bg-white border border-gray-200`}>
       {block.children.map((child, index) => (
         <AccordionItemEdit key={child.id} item={child} index={index} />
       ))}
