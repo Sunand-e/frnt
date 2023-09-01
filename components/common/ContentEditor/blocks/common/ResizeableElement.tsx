@@ -3,12 +3,32 @@ import { ResizeableHandle } from './ResizeableHandle'
 import useBlockEditor from '../../useBlockEditor';
 import { useEffect, useState } from 'react';
 import { useBlockStore } from '../../useBlockStore';
+import classNames from '../../../../../utils/classNames';
 
 export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
+  const activeBlockId = useBlockStore(state => state.activeBlockId)
+  const isActive = activeBlockId === block.id
+
   const align = 'center'
-  const handleElementClasses = `flex flex-col justify-center absolute select-none w-6 h-full top-0 z-10 opacity-0 group-hover:opacity-100 `
-  const handleAfterClasses = `after:flex after:bg-gray-400 group-hover/handle:after:bg-white after:w-2 after:h-24 after:rounded`
+  const handleElementClasses = classNames(
+    'flex flex-col justify-center',
+    'absolute select-none',
+    'w-6 h-full top-0 z-10',
+    isActive ? 'opacity-100' : 'opacity-0',
+    'group-hover:opacity-100'
+  )
+
+  const handleAfterClasses = classNames(
+    'after:flex',
+    'after:w-2',
+    'after:h-24',
+    'after:shadow-lg',
+    'after:rounded',
+    'after:bg-gray-400',
+    'group-hover/handle:after:bg-white ',
+    
+  )
   const handleClasses = `${handleElementClasses} ${handleAfterClasses}`
 
   const [width, setWidth] = useState( block.style?.width || defaultWidth || 0)
