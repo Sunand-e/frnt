@@ -16,11 +16,11 @@ interface StylingFormValues {
 const StylingPanel = ({block, children = null}) => {
 
   const blockType = blocktypes[block.type]
-  const { updateBlock, updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
+  const { updateBlock, updateBlockStyles, getIndexAndParent } = useBlockEditor(block)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`
-    updateBlockProperties(block, {[paddingProperty]: value})
+    updateBlockStyles(block, {[paddingProperty]: value})
   }
   
   const defaultValues = {
@@ -55,13 +55,13 @@ const StylingPanel = ({block, children = null}) => {
           <PaddingSelect
             side='top'
             onSelect={data => selectPadding(data.value, 'top')}
-            selected={block.properties.paddingTop}
+            selected={block.style?.paddingTop}
             label="Top"
             />  
           <PaddingSelect 
             side='bottom'
             onSelect={data => selectPadding(data.value, 'bottom')}
-            selected={block.properties.paddingBottom}
+            selected={block.style?.paddingBottom}
             label="Bottom"
           />
         </div>

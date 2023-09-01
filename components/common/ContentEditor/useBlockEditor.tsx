@@ -23,6 +23,18 @@ const useBlockEditor = (block: Block = null) => {
     return updatedBlock
   }
 
+  const updateBlockStyles = (block: Block, style={}) => {
+    const updatedBlock = {
+      ...block,
+      style: {
+        ...block.style,
+        ...style
+      }
+    }
+    updateBlock(updatedBlock)
+    return updatedBlock
+  }
+
   const addBlock = (newBlock: Block, replace=false, focus=true) => {
     useBlockStore.setState({lastAddedItemId: newBlock.id});
     if(block) {
@@ -186,6 +198,7 @@ const useBlockEditor = (block: Block = null) => {
     addBlock,
     updateBlock,
     updateBlockProperties,
+    updateBlockStyles,
     getIndexAndParent,
     debouncedUpdateBlock,
     handleDeleteBlock,

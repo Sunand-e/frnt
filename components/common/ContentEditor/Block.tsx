@@ -36,12 +36,12 @@ export const Block = ({ block, dragOverlay = false }) => {
       backgroundPosition: block?.style?.backgroundPosition || 'center',
       backgroundSize: 'cover',
       color: block?.style?.textColor || 'inherit',
-      // backgroundColor: block?.properties?.bgColor,
-      paddingTop: block?.properties?.paddingTop,
-      paddingBottom: block?.properties?.paddingBottom,
-      paddingLeft: block?.properties?.paddingLeft,
-      paddingRight: block?.properties?.paddingRight,
-      // color: block?.properties?.textColor || 'inherit'
+      // backgroundColor: block?.style?.bgColor,
+      paddingTop: block?.style?.paddingTop,
+      paddingBottom: block?.style?.paddingBottom,
+      paddingLeft: block?.style?.paddingLeft,
+      paddingRight: block?.style?.paddingRight,
+      // color: block?.style?.textColor || 'inherit'
     }}>
       <div className='w-full max-w-screen-lg'>
         { BlockComponent && <BlockComponent id={blockId} block={block} /> }

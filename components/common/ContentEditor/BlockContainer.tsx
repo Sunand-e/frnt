@@ -66,13 +66,13 @@ const BlockContainer = ({
           isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main',
           parent?.id ? 'px-4' : '',
           'relative flex flex-col items-center',
-          isActive && 'rounded-md border-dashed border-main/60 border-2',
+          isActive && 'rounded-md border-dashed border-main/60 border-2 group/active-block',
         )}
         style={{
-          paddingTop: block?.properties?.paddingTop,
-          paddingBottom: block?.properties?.paddingBottom,
-          paddingLeft: block?.properties?.paddingLeft,
-          paddingRight: block?.properties?.paddingRight,
+          paddingTop: block?.style?.paddingTop,
+          paddingBottom: block?.style?.paddingBottom,
+          paddingLeft: block?.style?.paddingLeft,
+          paddingRight: block?.style?.paddingRight,
         }}
         onClick={(e) => {
           if(block.type === 'placeholder') {
