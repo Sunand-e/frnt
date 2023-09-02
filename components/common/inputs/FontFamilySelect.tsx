@@ -5,28 +5,27 @@ import { TenantContext } from '../../../context/TenantContext';
 import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
 
 const googleFonts = [
-  { name: 'Be Vietnam' },
-  { name: 'Cormorant' },
-  { name: 'DM Sans' },
-  { name: 'Inter' },
-  { name: 'Lato' },
-  { name: 'Lora' },
-  { name: 'Lustria' },
-  { name: 'Maitree' },
-  { name: 'Maven Pro' },
-  { name: 'Merriweather' },
-  { name: 'Montserrat' },
-  { name: 'Open Sans' },
-  { name: 'Oswald' },
-  { name: 'Poppins' },
-  { name: 'Raleway' },
-  { name: 'Roboto' },
-  { name: 'Roboto Slab' },
+  // 'Avenir', 
+  // 'Gill Sans', 
+  'Be Vietnam', 'Bebas Neue', 'Cormorant', 'DM Sans',
+  'Inter', 'Lato', 'Lora', 'Lustria',
+  'Maven Pro', 'Merriweather', 'Montserrat', 'Open Sans', 'Oswald',
+  'Poppins', 'Raleway', 'Roboto', 'Roboto Slab', 'Rockwell', 'Ubuntu'
 ];
 
-const defaultFontOptions = googleFonts.map(font => ({
-  value: font.name, label: font.name, type: 'google'
-}))
+const websafeFonts = [
+  "Arial", "Arial Black", "Courier New", "Georgia", "Helvetica",
+  "Impact", "Times New Roman", "Trebuchet MS", "Verdana"
+]
+
+const createFontOption = (name, type) => ({
+  value: name, label: name, type
+})
+
+const defaultFontOptions = [
+  ...googleFonts.map(name => createFontOption(name, 'google')),
+  ...websafeFonts.map(name => createFontOption(name, 'websafe'))
+]
 
 const FontFamilyControl = ({ children, ...props }) => (
   <components.Control {...props}>
@@ -38,6 +37,7 @@ const FontFamilyControl = ({ children, ...props }) => (
 const FontFamilySelect = ({value, onChange}) => {
   
   const {customFonts} = useContext(TenantContext)
+  
   const customFontOptions = customFonts ? fonts.map(font => ({
     value: font.name,
     label: font.name,
