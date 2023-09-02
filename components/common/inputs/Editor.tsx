@@ -88,9 +88,6 @@ const Editor = ({
 
   return (
     <div className={styles.editor}>
-      <pre>
-      { JSON.stringify(defaultAlignment,null,2) }
-      </pre>
       { editor && (
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,
