@@ -1,5 +1,4 @@
 import blocktypes from './blocktypes';
-import { getIndexAndParent } from './useBlockStore';
 
 export const Block = ({ block, dragOverlay = false }) => {
 

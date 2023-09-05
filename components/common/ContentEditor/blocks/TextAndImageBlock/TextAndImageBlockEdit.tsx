@@ -1,18 +1,15 @@
-import React, { useMemo, FunctionComponent, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
-import useBlockEditor from '../../useBlockEditor';
+import { closeModal } from '../../../../../stores/modalStore';
 import Editor from '../../../inputs/Editor';
+import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
+import useBlockEditor from '../../useBlockEditor';
 import { useBlockStore } from '../../useBlockStore';
 import ResizeableElement from '../common/ResizeableElement';
-import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
-import { closeModal } from '../../../../../stores/modalStore';
-import classNames from '../../../../../utils/classNames';
 
 export const TextAndImageBlockEdit = ({id}) => {
   // const block = useBlockStore(state => state.getBlock(id))
   const block = useBlockStore(state => state.computed.getBlock(id))
-
-  const { properties } = block
   
   const { debouncedUpdateBlock } = useBlockEditor()
   const updateBlock = useBlockStore(state => state.updateBlock)
@@ -60,9 +57,6 @@ export const TextAndImageBlockEdit = ({id}) => {
   }
   return (
     <div className='flex flex-col space-y-4'>
-      <pre>
-      { JSON.stringify(block.editorSettings?.defaultAlignment,null,2) }
-      </pre>
       { block.properties?.showText !== false && (
         <Editor
           onUpdate={handleContentChange}

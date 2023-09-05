@@ -17,9 +17,7 @@ export interface QuestionFormValues {
 
 export const QuestionSettings = ({idd}) => {
   const question = useQuizStore(state => state.computed.activeQuestion())
-  
-  console.log('question')
-  console.log(question)
+
   const { register, watch, control } = useForm<QuestionFormValues>({
     defaultValues: {
       ...question,

@@ -7,12 +7,10 @@ import { v4 as uuidv4 } from 'uuid';
 import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 import { closeModal } from '../../../../../stores/modalStore';
 import classNames from '../../../../../utils/classNames';
-import { getIndexAndParent } from '../../useBlockStore';
+import { getIndexAndParent, updateBlockProperties } from '../../useBlockStore';
 import { ConditionalWrapper } from '../../../ConditionalWrapper';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
-
-  const { updateBlockProperties } = useBlockEditor()
 
   const { parent } = getIndexAndParent(block.id)
 

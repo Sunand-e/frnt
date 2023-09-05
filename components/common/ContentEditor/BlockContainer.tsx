@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import BlockMenu from './BlockMenu'
-import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
@@ -14,16 +13,17 @@ const BlockContainer = ({
   isColumn = false,
   dragging = false,
   dragListeners = null,
+  isActive=false,
   // onClick: handleClick, 
   handle = true,
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
-  const activeBlockId = useBlockStore(state => state.activeBlockId)
+  // const activeBlockId = useBlockStore(state => state.activeBlockId)
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
-  const isActive = activeBlockId === block.id
+  // const isActive = activeBlockId === block.id
   
   useEffect(() => {
     // if(!isColumn && index !== blocks.length -1) {

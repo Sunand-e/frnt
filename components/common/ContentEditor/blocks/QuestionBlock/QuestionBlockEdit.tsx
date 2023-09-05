@@ -1,13 +1,12 @@
-import useBlockEditor from '../../useBlockEditor';
-import { produce } from 'immer'
-import { getBlock, useBlockStore } from '../../useBlockStore';
+import { produce } from 'immer';
 import QuestionEditor from '../../../../quiz/questions/QuestionEditor';
+import { getBlock, useBlockStore } from '../../useBlockStore';
 
 const QuestionBlockEdit = ({ block: b }) => {
 
   const block = getBlock(b.id)
 
-  const { updateBlock } = useBlockStore()
+  const { updateBlock } = useBlockStore(state => state.updateBlock)
 
   const handleUpdateQuestion = (question) => {
 

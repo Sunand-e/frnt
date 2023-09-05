@@ -19,11 +19,13 @@ import classNames from '../../../utils/classNames';
 
 const BlockMenu = ({ block, position='right', className='', dragListeners }) => {
 
+  const addColumn = useBlockStore(state => state.addColumn)
+  const addTextAndImageChild = useBlockStore(state => state.addTextAndImageChild)  
   const blocks = useBlockStore(state => state.blocks)  
   const isChild = !blocks.some(b => b.id === block.id)
   const index = blocks.findIndex(b => b.id === block.id)
 
-  const { addColumn, addTextAndImageChild, handleDeleteBlock } = useBlockEditor()
+  const { handleDeleteBlock } = useBlockEditor()
 
   const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
     <button

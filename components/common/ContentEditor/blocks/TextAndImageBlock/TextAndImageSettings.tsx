@@ -5,11 +5,10 @@ import ReactSelect from "../../../inputs/ReactSelect"
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import ImageSelectFromLibrary from "../../ImageSelectFromLibrary"
 import useBlockEditor from "../../useBlockEditor"
+import { updateBlockProperties, useBlockStore } from "../../useBlockStore"
 import StylingPanel from "../common/StylingPanel"
 
 export const TextAndImageSettings = ({block}) => {
-
-  const { updateBlock, updateBlockProperties } = useBlockEditor(block)
 
   const setShowSettings = ({value}) => {
     let showText = true

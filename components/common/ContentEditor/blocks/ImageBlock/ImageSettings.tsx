@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import NumberPropertyInput from "../../../inputs/NumberPropertyInput"
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import ImageSelectFromLibrary from "../../ImageSelectFromLibrary"
-import useBlockEditor from "../../useBlockEditor"
+import { updateBlockProperties, useBlockStore } from "../../useBlockStore"
 
 export const ImageSettings = ({block}) => {
 
-  const { updateBlock, updateBlockProperties } = useBlockEditor(block)
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const defaultValues = {
     imageSize: block.imageSize || 'default',

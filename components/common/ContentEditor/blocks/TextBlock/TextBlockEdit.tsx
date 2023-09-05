@@ -1,7 +1,7 @@
-import React, { useMemo, FunctionComponent, useEffect, useCallback } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 
-import useBlockEditor from '../../useBlockEditor';
 import Editor from '../../../inputs/Editor';
+import useBlockEditor from '../../useBlockEditor';
 import { useBlockStore } from '../../useBlockStore';
 
 export const TextBlockEdit: FunctionComponent = ({id}) => {
@@ -15,7 +15,7 @@ export const TextBlockEdit: FunctionComponent = ({id}) => {
   const blockRef = useBlockStore(state => state.blockRefs.get(id))
   const zIndex = useBlockStore(state => state.zIndexes.get(id))
 
-  const handleChange = (newValue) => {
+  const handleChange = useCallback((newValue) => {
     const updatedBlock = {
       ...block,
       properties: {
@@ -24,23 +24,19 @@ export const TextBlockEdit: FunctionComponent = ({id}) => {
       }
     }
     debouncedUpdateBlock(updatedBlock)
-  }
-
-  useEffect(() => {
-    !properties?.content && setTimeout(focus, 10);
-  },[])
-   
-  const onMenuShow = (instance) => {
+  },[block, debouncedUpdateBlock])
+  
+  const onMenuShow = useCallback((instance) => {
     if(blockRef) {
       blockRef.style.zIndex = '99999'
     }
-  }
+  },[blockRef])
 
-  const onMenuHidden = (instance) => {
+  const onMenuHidden = useCallback((instance) => {
     if(blockRef) {
       blockRef.style.zIndex = zIndex
     }
-  }
+  },[blockRef])
 
   return (
     <>

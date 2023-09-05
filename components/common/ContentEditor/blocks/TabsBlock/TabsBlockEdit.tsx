@@ -4,12 +4,12 @@ import classNames from '../../../../../utils/classNames';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import BlockContainer from '../../BlockContainer';
 import useBlockEditor from '../../useBlockEditor';
-import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore';
+import { createBlock, deleteBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore';
 import Button from '../../../Button';
 
 const TabItemTrigger = ({item, index, onDelete}) => {
-  
-  const {debouncedUpdateBlock, deleteBlock} = useBlockEditor()
+
+  const {debouncedUpdateBlock} = useBlockEditor()
   const [headingText, setHeadingText] = useState(item.heading)
   const {parent} = getIndexAndParent(item.id)
 
@@ -60,7 +60,6 @@ const TabItemTrigger = ({item, index, onDelete}) => {
 
 const TabsBlockEdit = ({id}) => {
 
-  const {deleteBlock} = useBlockEditor()
   const block = useBlockStore(state => state.computed.getBlock(id))
   const updateBlock = useBlockStore(state => state.updateBlock)
   const [value, setValue] = useState<string | null>(block.children[0]?.id)

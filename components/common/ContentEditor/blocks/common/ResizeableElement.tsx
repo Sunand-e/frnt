@@ -1,9 +1,8 @@
 import { Resizable } from 're-resizable';
-import { ResizeableHandle } from './ResizeableHandle'
-import useBlockEditor from '../../useBlockEditor';
-import { useEffect, useState } from 'react';
-import { useBlockStore } from '../../useBlockStore';
+import { useState } from 'react';
 import classNames from '../../../../../utils/classNames';
+import { getIndexAndParent, useBlockStore } from '../../useBlockStore';
+import { ResizeableHandle } from './ResizeableHandle';
 
 export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
@@ -33,9 +32,7 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
   const [width, setWidth] = useState( block.style?.width || defaultWidth || 0)
   // const  [width, setWidth] = useState(0)
-  const { updateBlock } = useBlockStore()
-  const { addBlock, getIndexAndParent } = useBlockEditor(block)
-
+  const updateBlock = useBlockStore(state => state.updateBlock)
   const { index, parent } = getIndexAndParent(block.id)
 
   const isColumn = parent?.type === 'columns'

@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { TenantContext } from "../../../../../context/TenantContext";
 import ImageSelectInput from "../../../inputs/ImageSelectInput";
-import ReactSelectInput from "../../../inputs/ReactSelectInput";
 import { SwitchInput } from "../../../inputs/SwitchInput";
 import blocktypes from "../../blocktypes";
-import useBlockEditor from "../../useBlockEditor";
+import { updateBlockStyles, useBlockStore } from "../../useBlockStore";
 import ColorPickerInput from "./settings/inputs/ColorPickerInput";
-import PaddingSelect from "./settings/inputs/PaddingSelect"
+import PaddingSelect from "./settings/inputs/PaddingSelect";
 
 interface StylingFormValues {
   bgImageEnabled: boolean
@@ -16,7 +13,7 @@ interface StylingFormValues {
 const StylingPanel = ({block, children = null}) => {
 
   const blockType = blocktypes[block.type]
-  const { updateBlock, updateBlockStyles, getIndexAndParent } = useBlockEditor(block)
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`

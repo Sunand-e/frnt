@@ -15,7 +15,7 @@ export const HeadingBlockEdit: FunctionComponent = ({id}) => {
   const blockRef = useBlockStore(state => state.blockRefs.get(id))
   const zIndex = useBlockStore(state => state.zIndexes.get(id))
 
-  const handleChange = (newValue) => {
+  const handleChange = useCallback(newValue => {
     const updatedBlock = {
       ...block,
       properties: {
@@ -24,23 +24,19 @@ export const HeadingBlockEdit: FunctionComponent = ({id}) => {
       }
     }
     debouncedUpdateBlock(updatedBlock)
-  }
-
-  useEffect(() => {
-    !properties?.content && setTimeout(focus, 10);
-  },[])
+  },[block, debouncedUpdateBlock])
    
-  const onMenuShow = (instance) => {
+  const onMenuShow = useCallback((instance) => {
     if(blockRef) {
       blockRef.style.zIndex = '99999'
     }
-  }
+  },[blockRef])
 
-  const onMenuHidden = (instance) => {
+  const onMenuHidden = useCallback((instance) => {
     if(blockRef) {
       blockRef.style.zIndex = zIndex
     }
-  }
+  },[blockRef])
 
   return (
     <h3>

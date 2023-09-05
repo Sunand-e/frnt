@@ -6,7 +6,7 @@ import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
-import { Block, createBlock, useBlockStore } from './useBlockStore';
+import { addBlock, Block, createBlock, useBlockStore } from './useBlockStore';
 import MediaLibrary from '../../media/MediaLibrary';
 
 interface BlockSelectorProps {
@@ -28,7 +28,7 @@ const BlockSelector = ({
   style={}
 }: BlockSelectorProps) => {
 
-  const { blocks, addBlock } = useBlockEditor(block)
+  const blocks = useBlockStore(state => state.blocks)
   const sidebarFieldsRegenKey = useBlockStore(state => state.sidebarFieldsRegenKey)
 
   // const {isOver, setNodeRef} = useDroppable({
@@ -42,7 +42,7 @@ const BlockSelector = ({
         url,
       }
     })
-    addBlock(videoBlock, replace)
+    addBlock(videoBlock, replace, block)
     closeModal()
   }
 
@@ -65,7 +65,7 @@ const BlockSelector = ({
         title: scormPackage.title,
       }
     })
-    addBlock(newBlock)
+    addBlock(newBlock, replace, block)
     // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
@@ -82,7 +82,7 @@ const BlockSelector = ({
         paddingBottom: '30px',
       }
     })
-    addBlock(newBlock, replace)
+    addBlock(newBlock, replace, block)
     // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
@@ -118,11 +118,11 @@ const BlockSelector = ({
         break;
       }
       case 'text': {
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
         break;
       }
       case 'heading': {
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
         break;
       }
       case 'question': {
@@ -145,7 +145,7 @@ const BlockSelector = ({
           paddingBottom: '0px',
         }
 
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
         break;
       }
       case 'columns': {
@@ -154,7 +154,7 @@ const BlockSelector = ({
           createBlock({ type: 'placeholder'}),
         ]
         newBlock.widths = [6,6]
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
         break;
       }
       case 'accordion':
@@ -168,11 +168,11 @@ const BlockSelector = ({
             defaultAlignment: 'center'
           }
         }
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
         break;
       }
       default: {
-        addBlock(newBlock, replace)
+        addBlock(newBlock, replace, block)
       }
     }
   }

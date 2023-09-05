@@ -13,9 +13,8 @@ import {
 import { useState } from 'react'
 import Button from '../../../Button'
 import BlockContainer from '../../BlockContainer'
-import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore'
+import { createBlock, deleteBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import useBlockEditor from '../../useBlockEditor'
 import Tippy from '@tippyjs/react'
 import classNames from '../../../../../utils/classNames'
 
@@ -79,7 +78,6 @@ const CarouselItemEdit = ({item, index, onDelete}) => {
 
 const CarouselBlockEdit = ({id}) => {
 
-  const {deleteBlock} = useBlockEditor()
   const block = useBlockStore(state => state.computed.getBlock(id))
   const updateBlock = useBlockStore(state => state.updateBlock)
   // const [value, setValue] = useState<string | null>(block.children[0]?.id)

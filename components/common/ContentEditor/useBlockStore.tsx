@@ -32,6 +32,7 @@ type BlockState = {
   setBlocks: (blocks: Block[], isDirty?: boolean) => void
   insertBlock: (newBlock: Block, index?: number, parent?: Block | null, replace?: boolean) => void
   updateBlock: (block: Block, newBlock?: Block) => void
+  // deleteBlock: (block: Block) => void
   // setBlockRef: (blockId: string, ref: HTMLElement) => void
   sidebarFieldsRegenKey: number
 }
@@ -115,6 +116,8 @@ export const useBlockStore = create<BlockState>((set, get) => ({
       isDirty: true
     }
   }),
+
+
 }))
 
 
@@ -192,3 +195,133 @@ export const createBlock = (properties) => ({
   ...properties
 })
 
+
+export const addBlock = (newBlock: Block, replace=false, atBlock=null) => {
+  useBlockStore.setState({lastAddedItemId: newBlock.id});
+  const { updateBlock, blocks, insertBlock } = useBlockStore.getState()
+  if(atBlock) {
+    if(replace) {
+      updateBlock(atBlock, newBlock)
+    } else {
+      const { index, parent } = getIndexAndParent(atBlock.id)
+      insertBlock(newBlock, index + 1, parent, replace)
+    }
+  } else {
+    insertBlock(newBlock, blocks.length, null, replace)
+  }
+}
+
+export const updateBlockProperties = (block: Block, properties={}) => {
+  const { updateBlock } = useBlockStore.getState()
+
+  const updatedBlock = {
+    ...block,
+    properties: {
+      ...block.properties,
+      ...properties
+    }
+  }
+  updateBlock(updatedBlock)
+  return updatedBlock
+}
+
+export const updateBlockStyles = (block: Block, style={}) => {
+  const { updateBlock } = useBlockStore.getState()
+  const updatedBlock = {
+    ...block,
+    style: {
+      ...block.style,
+      ...style
+    }
+  }
+  updateBlock(updatedBlock)
+  return updatedBlock
+}
+
+export const deleteBlock = (block: Block) => {
+  const { blocks, updateBlock, setBlocks } = useBlockStore.getState()
+
+  const { index, parent } = getIndexAndParent(block.id)
+
+  let newBlocks
+  // if the block is contained in a column:
+  if(parent) {
+    
+    // if we're only leaving one block, replace columns with that block.
+    // This causes issues when we have stateful components, eg. RTEs. 
+    // See: https://www.reddit.com/r/reactjs/comments/gp7yld/reparenting_is_now_possible_with_react/
+    // if(parent.children.length === 2) {
+    //   const newBlock = parent.children.find(b => b.id !== block.id)
+    //   updateBlock(parent, newBlock)
+
+
+    // If there are only two cols, replce the block with a placeholder.
+    if(parent.type === 'columns' && parent.children.length === 2) {
+      const newBlock = createBlock({type: 'placeholder'})
+      updateBlock(block, newBlock)
+    // otherwise, remove the block from the column
+    } else {
+
+      const topLevelIndex = blocks.findIndex(block => block.id === parent.id)
+    
+      newBlocks = [
+        ...blocks.slice(0, topLevelIndex),
+        {
+          ...parent,
+          children: parent.children.filter(b => b.id !== block.id)
+        },
+        ...blocks.slice(topLevelIndex + 1)
+      ]
+      setBlocks(newBlocks, true)
+    }
+
+  // if the block is NOT contained in a column, remove the block
+  } else {
+    newBlocks = blocks.filter(b => b.id !== block.id)
+    setBlocks(newBlocks, true)
+  }
+}
+  
+export const addColumn = (block: Block) => {
+  const { updateBlock } = useBlockStore.getState()
+  let newTopLevelBlock
+  if(block.type === 'columns') {
+    let currentColumnCount = block.children.length
+    let newColWidth = 12 / (currentColumnCount + 1)
+    const widths = Array(currentColumnCount + 1).fill(newColWidth)
+
+    newTopLevelBlock = {
+      ...block,
+      widths,
+      children: [
+        ...block.children,
+        createBlock({type: 'placeholder'})
+      ]
+    }
+  }
+  // // This was for if we wanted to convert a regular block to columns;
+  // else {
+  //   newTopLevelBlock = {
+  //     ...createColumnsBlock(),
+  //     widths: [6,6],
+  //     children: [
+  //       block,
+  //       createPlaceholderBlock()
+  //     ]
+  //   }
+  // }
+  updateBlock(block, newTopLevelBlock)
+}
+
+export const addTextAndImageChild = (block: Block) => {
+  const { updateBlock } = useBlockStore.getState()
+  let newTopLevelBlock
+  newTopLevelBlock = {
+    ...block,
+    children: [
+      ...block.children,
+      createBlock({type: 'textAndImage'})
+    ]
+  }
+  updateBlock(block, newTopLevelBlock)
+}
