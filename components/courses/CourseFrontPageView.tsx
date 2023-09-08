@@ -34,7 +34,9 @@ const CourseFrontPageView = () => {
     ['completed', 'Review course']
   ])
 
-  const buttonText = statusButtonTextMap.get(courseEdge.status)
+  const buttonText = statusButtonTextMap.get(courseEdge.status || 'not_started')
+  console.log('courseEdge')
+  console.log(courseEdge)
   let bgImageCssString = "";
   if (course.settings.frontPage?.bgImageEnabled) {
     const overlayColor = course.settings.frontPage?.overlayColor || 'rgba(0,0,0,0.5)'
@@ -50,9 +52,9 @@ const CourseFrontPageView = () => {
   return (
     <div className="flex flex-col items-center">
       <div
-        className="w-full min-h-[25rem] flex flex-col items-center justify-center text-white space-y-8"
+        className="w-full min-h-[25rem] flex flex-col items-center justify-center text-white space-y-8 bg-main-secondary"
         style={{
-          backgroundColor: course?.settings.frontPage?.bgColor || "blue",
+          ...(course?.settings.frontPage?.bgColor && {backgroundColor: course?.settings.frontPage?.bgColor}),
           ...(course?.settings.frontPage?.bgImageEnabled && {
             backgroundImage: bgImageCssString,
           }),
