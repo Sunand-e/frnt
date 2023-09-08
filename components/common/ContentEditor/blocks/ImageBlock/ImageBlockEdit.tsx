@@ -1,14 +1,12 @@
 import {
-  FunctionComponent, useContext,
+  FunctionComponent
 } from 'react';
-import ResizeableElement from '../common/ResizeableElement';
-import useBlockEditor from '../../useBlockEditor';
-import { v4 as uuidv4 } from 'uuid';
-import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 import { closeModal } from '../../../../../stores/modalStore';
 import classNames from '../../../../../utils/classNames';
-import { getIndexAndParent, updateBlockProperties } from '../../useBlockStore';
 import { ConditionalWrapper } from '../../../ConditionalWrapper';
+import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
+import { getIndexAndParent, updateBlockProperties } from '../../useBlockStore';
+import ResizeableElement from '../common/ResizeableElement';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
@@ -30,7 +28,6 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
   }
 
   const  defaultWidth = '50%';
-
   return (
     <ConditionalWrapper
       condition={block.imageSize !== 'custom'}
@@ -55,7 +52,7 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
           onSelect={selectImage}
           className={classNames(
             // NO CLASSNAME IF CUSTOM SIZED
-            block.imageSize === 'fullwidth' && 'h-full max-h-[30rem]',
+            block.imageSize === 'fullwidth' && 'max-h-[30rem] h-[30rem]',
             (block.imageSize === 'default' || block.imageSize === undefined) ? 'max-w-[50%]' : 'w-full'
           )}
         />

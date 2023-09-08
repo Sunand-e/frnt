@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import NumberPropertyInput from "../../../inputs/NumberPropertyInput"
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import ImageSelectFromLibrary from "../../ImageSelectFromLibrary"
-import { updateBlockProperties, useBlockStore } from "../../useBlockStore"
+import { updateBlockProperties, updateBlockStyles, useBlockStore } from "../../useBlockStore"
 
 export const ImageSettings = ({block}) => {
 
@@ -16,19 +16,18 @@ export const ImageSettings = ({block}) => {
     }
   }
 
-  const { control, watch, register, setValue } = useForm({
+  const { control, watch } = useForm({
     defaultValues,
   });
 
-  useEffect(() => {
-    if(block.style?.width) {
-      setValue('style.width', block.style.width)
-    }
+  // useEffect(() => {
+  //   if(block.style?.width) {
+  //     setValue('style.width', block.style.width)
+  //   }
 
-  },[block.style?.width])
+  // },[block.style?.width])
 
   watch((data, { name, type }) => {
-    console.log(data, name, type)
     const updatedBlock = {
       ...block,
       [name]: data[name]
@@ -36,6 +35,13 @@ export const ImageSettings = ({block}) => {
     updatedBlock.displayType = (data.imageSize === 'fullwidth') ? 'fullwidth' : 'normal'
     updateBlock(updatedBlock)
   })
+
+  const handleChangeWidth = e => {
+    // alert(e.target.value)
+    updateBlockStyles(block, {
+      width: e.target.value
+    })
+  }
 
   const setImage = image => {
     updateBlockProperties(block, {
@@ -72,7 +78,10 @@ export const ImageSettings = ({block}) => {
       />
       { (imageSize === 'custom') && (
         <NumberPropertyInput
-          inputAttrs={register('style.width')}
+          inputAttrs={{
+            value: block.style?.width,
+            onChange: handleChangeWidth
+          }}
           unit={'px'}
           className={'text-sm'}
           label="Image width"

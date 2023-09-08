@@ -26,8 +26,8 @@ const TabItemTrigger = ({item, index, onDelete}) => {
       className={classNames(
         index === 0 ? '' : '',
         'font-font-medium text-xl',
-        'data-[selected]:text-gray-900 text-gray-500 hover:text-gray-700',
-        'data-[selected]:bg-white bg-gray-200',
+        'data-[selected]:text-gray-900 text-gray-500 hover:text-gray-700 border-gray-200 ',
+        'data-[selected]:bg-white data-[selected]:border border-l-0 border-t data-[selected]:border-b-0  border-t-2   bg-gray-200',
         'group/item-trigger relative min-w-0 flex-1 overflow-hidden text-center text-sm font-medium hover:bg-main/10 focus:z-10'
       )}
       value={item.id}
@@ -94,7 +94,7 @@ const TabsBlockEdit = ({id}) => {
   return (
     <>
       <ArkTabs
-        className={'bg-white shadow-lg mb-4'}
+        className={'bg-white shadow-lg border border-gray-200 border-t-0 mb-4'}
         value={value}
         onChange={(e) => setValue(e.value)}
         activationMode='manual'
@@ -106,7 +106,7 @@ const TabsBlockEdit = ({id}) => {
         { block.children.map((child, index) => (
           <TabContent
             value={child.id} 
-            className='text-center dark:bg-gray-900 px-4'
+            className='text-center dark:bg-gray-900 bg-white px-4'
           >
             <BlockContainer
               key={child.id}

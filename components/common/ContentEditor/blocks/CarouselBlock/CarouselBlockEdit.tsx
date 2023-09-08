@@ -52,7 +52,7 @@ const CarouselItemEdit = ({item, index, onDelete}) => {
     <CarouselSlide
       key={index}
       index={index}
-      className="px-16 relative group/item-trigger"
+      className="px-20 relative group/item-trigger flex flex-col justify-center"
       ref={el => {
         if(el) {
           blockRefs.set(item.id, el)
@@ -61,16 +61,18 @@ const CarouselItemEdit = ({item, index, onDelete}) => {
         }
       }}
     >
+      <div className='bg-white shadow-lg border border-gray-200 relative mb-4 px-4'>
       <BlockContainer
         key={item.id}
         isColumn={true}
         id={item.id}
       />
       { parent.children.length > 1 && (
-        <div className={`absolute flex items-center top-0 right-16 mr-2 p-2  group-hover/item-trigger:flex`}>
+        <div className={`absolute flex items-center top-0 right-0 m-3 p-2  group-hover/item-trigger:flex`}>
           <CarouselTrashButton item={item} onDelete={() => onDelete(item)} />
         </div>
       )}
+      </div>
     </CarouselSlide>
   )
 }
@@ -117,13 +119,13 @@ const CarouselBlockEdit = ({id}) => {
       onSlideChange={handleSlideChange}
     >
       <div className='grid gap-4 relative max-w-full'>
-        <CarouselViewport className='relative max-w-full overflow-hidden'>
+        <CarouselViewport className='relative max-w-full overflow-x-hidden'>
           <CarouselSlideGroup className='relative'>
             { block.children.map((child, index) => <CarouselItemEdit onDelete={handleDelete} item={child} index={index} /> )}
           </CarouselSlideGroup>
           <CarouselControl>
             <CarouselPrevSlideTrigger asChild>
-              <button type="button" className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+              <button type="button" className="flex absolute -top-2 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
                 <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-main/30 dark:bg-gray-800/30 group-hover:bg-main dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                   <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                   <span className="hidden">Previous</span>
@@ -131,7 +133,7 @@ const CarouselBlockEdit = ({id}) => {
               </button>
             </CarouselPrevSlideTrigger>
             <CarouselNextSlideTrigger asChild>
-              <button type="button" className="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+              <button type="button" className="flex absolute -top-2 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
                 <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-main/30 dark:bg-gray-800/30 group-hover:bg-main dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                   <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                   <span className="hidden">Previous</span>
@@ -139,8 +141,10 @@ const CarouselBlockEdit = ({id}) => {
               </button>
             </CarouselNextSlideTrigger>
           </CarouselControl>
-          {/* <CarouselIndicatorGroup className='flex absolute -bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2'> */}
-          <CarouselIndicatorGroup className='flex justify-center z-30 space-x-3'>
+
+        </CarouselViewport>  
+                  {/* <CarouselIndicatorGroup className='flex absolute -bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2'> */}
+                  <CarouselIndicatorGroup className='flex justify-center z-30 mb-4 space-x-3'>
             {block.children.map((child, index) => (
               <CarouselIndicator 
                 aria-label={`Goto ${index + 1}`}
@@ -154,7 +158,6 @@ const CarouselBlockEdit = ({id}) => {
               />              
             ))}
           </CarouselIndicatorGroup>
-        </CarouselViewport>  
         <div className='flex justify-center'>
           <Button size='lg' className='' onClick={addNewItem}>
             Add carousel item

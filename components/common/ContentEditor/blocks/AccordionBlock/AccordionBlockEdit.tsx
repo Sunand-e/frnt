@@ -27,12 +27,13 @@ const AccordionItemEdit = ({item, index}) => {
 
   return (
     <AccordionItem key={item.id} value={item.id} className={classNames(
-      styles.item,
-      'data-[state=open]:border-l-4 border-l-main'
+      styles.item
     )}>
       {({ isOpen }) => {
         return (
-          <>
+          <div className={classNames(
+            isOpen && 'border-l-main border-l-4'
+          )}>
             <AccordionTrigger 
               asChild
               className={classNames(
@@ -72,14 +73,14 @@ const AccordionItemEdit = ({item, index}) => {
                 </div>
               </button>
             </AccordionTrigger>
-            <AccordionContent className='dark:bg-gray-900 px-4'>
+            <AccordionContent className='px-4'>
               <BlockContainer
                 key={item.id}
                 isColumn={true}
                 id={item.id}
               />
             </AccordionContent>
-          </>
+          </div>
         )
       }}
     </AccordionItem>
@@ -108,7 +109,7 @@ const AccordionBlockEdit = ({id}) => {
     <ArkAccordion 
     collapsible={true}
     defaultValue={block.children[0].id}
-    className={`${styles.accordion} divide-y shadow-lg border-b-2 mb-4 flex flex-col w-full bg-white border border-gray-200`}>
+    className={`${styles.accordion} divide-y shadow-lg mb-4 flex flex-col w-full bg-white border border-gray-200`}>
       {block.children.map((child, index) => (
         <AccordionItemEdit key={child.id} item={child} index={index} />
       ))}

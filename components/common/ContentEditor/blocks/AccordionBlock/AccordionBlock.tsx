@@ -3,6 +3,7 @@ import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import { createBlock, useBlockStore } from '../../useBlockStore';
 import styles from '../../../Accordion.module.scss';
 import { Block } from '../../Block';
+import classNames from '../../../../../utils/classNames';
 
 const AccordionItemView = ({item, index}) => {
 
@@ -10,24 +11,28 @@ const AccordionItemView = ({item, index}) => {
     <AccordionItem key={item.id} value={item.id} className={styles.item}>
       {({ isOpen }) => {
         return (
-          <>
+          <div className={classNames(
+            isOpen && 'border-l-main border-l-4'
+          )}>
             <AccordionTrigger 
               asChild
-              className={`${styles.trigger}
-              data-[state=open]:bg-main/10
-              group/item-trigger
-              flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800
-              `}
+              className={classNames(
+                styles.trigger,
+                'group/item-trigger',
+                'flex items-center justify-between w-full',
+                'p-5 px-8 font-medium text-left text-gray-700',
+                'dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800',
+              )}
             >
               <button>
-              <span className="w-full">{item.heading || `Panel ${index+1}`}</span>
+                <span className="w-full text-xl">{item.heading || `Panel ${index+1}`}</span>
                 <AccordionIcon isOpen={isOpen} />
               </button>
             </AccordionTrigger>
-            <AccordionContent className='p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+            <AccordionContent className='px-4'>
               <Block block={item} />
             </AccordionContent>
-          </>
+          </div>
         )
       }}
     </AccordionItem>
@@ -44,7 +49,10 @@ const AccordionBlock = ({id}) => {
     <ArkAccordion 
     collapsible={true}
     defaultValue={block.children[0].id}
-    className={`${styles.accordion} divide-y border-b-2 mb-4 flex flex-col w-full bg-white border border-gray-200`}>
+    className={classNames(
+      styles.accordion,
+      'divide-y shadow-lg flex flex-col w-full bg-white border border-gray-200'
+    )}>
       {block.children.map((child, index) => (
         <AccordionItemView key={child.id} item={child} index={index} />
       ))}

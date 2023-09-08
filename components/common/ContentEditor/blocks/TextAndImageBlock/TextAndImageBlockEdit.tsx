@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 
 import { closeModal } from '../../../../../stores/modalStore';
+import classNames from '../../../../../utils/classNames';
+import { ConditionalWrapper } from '../../../ConditionalWrapper';
 import Editor from '../../../inputs/Editor';
 import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 import useBlockEditor from '../../useBlockEditor';
@@ -14,6 +16,8 @@ export const TextAndImageBlockEdit = ({id}) => {
   const { debouncedUpdateBlock } = useBlockEditor()
   const updateBlock = useBlockStore(state => state.updateBlock)
   const blockRef = useBlockStore(state => state.blockRefs.get(id))
+
+  const  defaultWidth = '50%';
 
   const handleContentChange = (newValue) => {
     debouncedUpdateBlock({
@@ -69,14 +73,35 @@ export const TextAndImageBlockEdit = ({id}) => {
       )}
 
       { block.properties?.showImage !== false && (
-        <ResizeableElement
-          block={block}
+        <ConditionalWrapper
+        condition={block.imageSize !== 'custom'}
+        wrapper={children => (
+          <div className='flex justify-center'>{children}</div>
+        )}
+      >
+        <ConditionalWrapper
+          condition={block.imageSize === 'custom'}
+          wrapper={children => (
+            <ResizeableElement
+              block={block}
+              defaultWidth={defaultWidth}
+            >
+              {children}
+            </ResizeableElement>
+          
+          )}
         >
           <ImageSelectFromLibrary
             src={block.properties?.url}
             onSelect={selectImage}
+            className={classNames(
+              // NO CLASSNAME IF CUSTOM SIZED
+              block.imageSize === 'fullwidth' && 'h-full max-h-[30rem]',
+              (block.imageSize === 'default' || block.imageSize === undefined) ? 'max-w-[50%]' : 'w-full'
+            )}
           />
-        </ResizeableElement>
+        </ConditionalWrapper>
+      </ConditionalWrapper>
       )}
     </div>
   );
