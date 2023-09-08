@@ -36,7 +36,7 @@ const TabsBlock = ({id}) => {
       className={'bg-white shadow-lg border border-gray-200 border-t-0'}
       defaultValue={block.children?.[0]?.id}
     >
-      <TabList className="flex divide-x-2" aria-label="Tabs">
+      <TabList className="flex divide-x" aria-label="Tabs">
         { block.children.map((child, index) => <TabItemTrigger item={child} index={index} /> )}
         {/* <TabIndicator /> */}
       </TabList>

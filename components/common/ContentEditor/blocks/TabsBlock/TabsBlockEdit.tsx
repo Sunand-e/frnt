@@ -26,8 +26,8 @@ const TabItemTrigger = ({item, index, onDelete}) => {
       className={classNames(
         index === 0 ? '' : '',
         'font-font-medium text-xl',
-        'data-[selected]:text-gray-900 text-gray-500 hover:text-gray-700 border-gray-200 ',
-        'data-[selected]:bg-white data-[selected]:border border-l-0 border-t data-[selected]:border-b-0  border-t-2   bg-gray-200',
+        'data-[selected]:text-gray-900 text-gray-500 hover:text-gray-700 border-gray-200 border-x-white last:border-r-gray-200',
+        'data-[selected]:bg-white border-t data-[selected]:border-b-0 border-l-0 bg-gray-200',
         'group/item-trigger relative min-w-0 flex-1 overflow-hidden text-center text-sm font-medium hover:bg-main/10 focus:z-10'
       )}
       value={item.id}
@@ -99,7 +99,7 @@ const TabsBlockEdit = ({id}) => {
         onChange={(e) => setValue(e.value)}
         activationMode='manual'
       >
-        <TabList className="flex divide-x-2 divide-white" aria-label="Tabs">
+        <TabList className="flex divide-x" aria-label="Tabs">
           { block.children.map((child, index) => <TabItemTrigger onDelete={handleDelete} item={child} index={index} /> )}
           <TabIndicator />
         </TabList>
