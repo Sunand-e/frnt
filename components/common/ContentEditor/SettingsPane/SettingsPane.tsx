@@ -13,7 +13,7 @@ import { moduleTypes } from "../../../courses/moduleTypes";
 import QuestionSettings from "../../../quiz/questions/QuestionSettings";
 import { useQuizStore } from "../../../quiz/useQuizStore";
 import blocktypes from "../blocktypes";
-import { useBlockStore } from "../useBlockStore";
+import { getIndexAndParent, useBlockStore } from "../useBlockStore";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { BlockSettingsPanel } from "./BlockSettingsPanel";
 import { LessonSettingsPanel } from "./LessonSettingsPanel";
@@ -68,30 +68,51 @@ export const SettingsPane = () => {
     }
   }
 
-  const panels = useMemo(() => [
-    {
-      name: 'course',
-      title: "Course settings",
-      content: <CourseSettings />
-    },
-    ...( !!moduleType && [{
-      name: 'module',
-      title: modulePanelTitle,
-      content: <ModulePanel key={contentId} />
-    }] || []),
-    ...( !!activeBlock && [{
-      name: 'block',
-      title: `${blocktypes[activeBlock.type].text} block settings`,
-      content: <BlockSettingsPanel key={activeBlock.id} />
-    }] || []),
-    ...( moduleTypeName === 'quiz' && activeQuestion && [{
-    // ...( activeQuestion && [{
-      name: 'question',
-      title: "Question settings",
-      // content: <>{moduleTypeName}</>
-      content: <QuestionSettings key={activeQuestion.id} idd={activeQuestion.id} />
-    }] || [])
-  ],[moduleType,activeBlock, activeQuestion?.id, contentId])
+  const panels = useMemo(() => {
+    let blockname
+    if(activeBlock) {
+      blockname = blocktypes[activeBlock.type].text + ' block'
+      const { parent } = getIndexAndParent(activeBlock.id)
+      if(parent) {
+        switch(parent.type) {
+          case 'tabs':
+            blockname = 'Tab item'
+            break;
+          case 'carousel':
+            blockname = 'Carousel item'
+            break;
+          case 'accordion':
+            blockname = 'Accordion item'
+            break;
+        }
+      }
+    }
+
+    return [
+      {
+        name: 'course',
+        title: "Course settings",
+        content: <CourseSettings />
+      },
+      ...( !!moduleType && [{
+        name: 'module',
+        title: modulePanelTitle,
+        content: <ModulePanel key={contentId} />
+      }] || []),
+      ...( !!activeBlock && [{
+        name: 'block',
+        title: `${blockname} settings`,
+        content: <BlockSettingsPanel key={activeBlock.id} />
+      }] || []),
+      ...( moduleTypeName === 'quiz' && activeQuestion && [{
+      // ...( activeQuestion && [{
+        name: 'question',
+        title: "Question settings",
+        // content: <>{moduleTypeName}</>
+        content: <QuestionSettings key={activeQuestion.id} idd={activeQuestion.id} />
+      }] || [])
+    ]
+  },[moduleType,activeBlock, activeQuestion?.id, contentId])
   
   return (
     <div className="flex-none w-[300px] fixed right-0 overflow-auto h-[calc(100vh-108px)] bg-main/10 shadow-md px-3 flex flex-col">
