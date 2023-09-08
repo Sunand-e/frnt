@@ -30,13 +30,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: var(--theme-font-body), -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+  font-family: var(--theme-font-body, -apple-system), BlinkMacSystemFont, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     color:#333;
     line-height:1.8;
   overflow: hidden;
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--theme-font-headings), -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+    font-family: var(--theme-font-headings, -apple-system), BlinkMacSystemFont, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
   }
 }
