@@ -40,6 +40,7 @@ const ReactSelectInput = ({
     ...props,
     label,
     value,
+    slim,
     onChange: val => {
       onChange && onChange(val)
       field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
