@@ -32,7 +32,7 @@ const DocumentSelector = ({file, onSelect, onRemove}) => {
   return (
     <>
       { file ? (
-        <DocumentItem file={file} onRemove={onRemove} />
+        <DocumentItem file={file} onRemove={onRemove} viewButton={true} />
       ) : (
         <div className='text-center'>
                     {/* <FileDropzoneV2
