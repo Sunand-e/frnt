@@ -60,4 +60,4 @@ const SortableBlock = ({id, index, isActive}) => {
   )
 }
 
-export default React.memo(SortableBlock)
+export default SortableBlock

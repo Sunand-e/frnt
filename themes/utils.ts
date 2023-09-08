@@ -18,11 +18,15 @@ export function createTheme({
   font_body=null
 }) {
   let darkColorVars = {}
+  let lightnessColorVars = {}
   for(let p=5; p<100; p=p+5) {
     darkColorVars["--theme-dark-"+String(p).padStart(2, '0')] = darken(chroma(main), p/100).rgb().join(', ')
+    lightnessColorVars["--theme-lightness-"+String(p).padStart(2, '0')] = chroma(main).set("hsl.l", p/100).rgb().join(', ')
   }
   return {
     ...darkColorVars,
+    ...lightnessColorVars,
+    "--theme-lightness-99": chroma(main).set("hsl.l", 99/100).rgb().join(', '),
     "--theme-main": chroma(main).rgb().join(', '),
     "--theme-secondary": chroma(secondary).rgb().join(', '),
     "--theme-superlight": lighten(chroma(main), 0.68).rgb().join(', '),
@@ -36,19 +40,16 @@ export const rgbaStringFunction = (colorName) => ({opacityValue}) => {
 }
 
 export const lazyLoadFont = (font, custom_fonts) => {
-  console.log('font')
-  console.log(font)
-  console.log('custom_fonts')
-  console.log(custom_fonts)
   if(font && custom_fonts) {
+    const name = font.value || font.name
     if(font.type === 'google') {
-      const stylesheetId = `google-font-${font.value.replace(' ', '_')}`
+      const stylesheetId = `google-font-${name.replace(' ', '_')}`
       var existingStylesheet = document.getElementById(stylesheetId);
       if (!existingStylesheet) {
         const link = document.createElement('link');
         link.id = stylesheetId;
         link.rel = 'stylesheet';
-        link.href = `https://fonts.googleapis.com/css2?family=${font.value.replace(' ', '+')}&display=swap`;
+        link.href = `https://fonts.googleapis.com/css2?family=${name.replace(' ', '+')}&display=swap`;
         document.head.appendChild(link);
       }
     }
@@ -56,15 +57,14 @@ export const lazyLoadFont = (font, custom_fonts) => {
 
       let isfontFaceInDocument = false;
       for (const fontFace of document.fonts.values()) {
-        if (fontFace.family === font.value) {
+        if (fontFace.family === name) {
           isfontFaceInDocument = true;
           break;
         }
       }
 
       if(!isfontFaceInDocument) {
-        alert('dooo')
-        const fontStyles = custom_fonts.find(f => f.name === font.value).fonts
+        const fontStyles = custom_fonts.find(f => f.name === name).fonts
         fontStyles.forEach(font => {
           const fontFace = new FontFace(font.name, `url(${font.file_path})`, {
             ...(font.style === 'italic' && {style: "italic"}),

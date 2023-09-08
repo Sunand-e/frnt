@@ -4,10 +4,16 @@ const rgbaStringFunction = (colorName) => ({opacityValue}) => {
 }
 
 let darkColorFns = {}
+let lightnessColorFns = {}
 for(let p=5; p<100; p=p+5) {
   let string = "dark-"+String(p).padStart(2, '0')
   darkColorFns[string] = rgbaStringFunction(string)
+  string = "lightness-"+String(p).padStart(2, '0')
+  lightnessColorFns[string] = rgbaStringFunction(string)
 }
+
+string = "lightness-99"
+lightnessColorFns[string] = rgbaStringFunction(string)
 
 module.exports = {
   content: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
@@ -23,6 +29,7 @@ module.exports = {
         },
         main: {
           ...darkColorFns,
+          ...lightnessColorFns,
           DEFAULT: rgbaStringFunction('main'),
           dark: rgbaStringFunction('dark'),
           secondary: rgbaStringFunction('secondary'),

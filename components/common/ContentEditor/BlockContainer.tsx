@@ -13,17 +13,15 @@ const BlockContainer = ({
   isColumn = false,
   dragging = false,
   dragListeners = null,
-  isActive=false,
   // onClick: handleClick, 
   handle = true,
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
-  // const activeBlockId = useBlockStore(state => state.activeBlockId)
+  const isActive = useBlockStore(state => state.activeBlockId === id)
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
-  // const isActive = activeBlockId === block.id
   
   useEffect(() => {
     // if(!isColumn && index !== blocks.length -1) {

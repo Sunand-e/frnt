@@ -14,8 +14,8 @@ const CourseItemView = () => {
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
 
-  useLazyFontLoad(course?.settings.fonts?.headings?.name)
-  useLazyFontLoad(course?.settings.fonts?.body?.name)
+  useLazyFontLoad(course?.settings.fonts?.headings)
+  useLazyFontLoad(course?.settings.fonts?.body)
 
   useEffect(() => {
     // If there is a course but no item provided, show the first item
@@ -47,6 +47,7 @@ const CourseItemView = () => {
       <div
         id="course_view"
         style={courseFontCssVars as React.CSSProperties }
+        className='bg-main-lightness-99'
       >
         { course.settings.frontPage?.enabled && !contentId && (
           <CourseFrontPageView />

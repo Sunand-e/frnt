@@ -39,7 +39,7 @@ const BlockCanvas = () => {
   // console.log(blockIds)
   return (
     <div
-      className="h-full w-full"
+      className="min-h-full w-full bg-main-lightness-99"
       onClick={showBlocksPanel}
       // ref={setNodeRef}
     >
@@ -59,7 +59,7 @@ const BlockCanvas = () => {
       ) : (
         <div className="pb-24">
           { blockIds.map((id, index) => {
-            return <SortableBlock isActive={activeBlockId === id} key={id} id={id} index={id} />
+            return <SortableBlock key={id} id={id} index={id} />
           })}
           {/* <BlockSelector
             className={`mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm`}
@@ -77,5 +77,4 @@ const BlockCanvas = () => {
   );
 };
 
-BlockCanvas.whyDidYouRender = true
 export default BlockCanvas
