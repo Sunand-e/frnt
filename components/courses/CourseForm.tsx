@@ -8,6 +8,7 @@ import TagSelectInput from '../tags/inputs/TagSelectInput';
 import CheckboxInput from '../common/inputs/CheckboxInput';
 import RTEInput from '../common/inputs/RTEInput';
 import { handleModal } from '../../stores/modalStore';
+import TipTapInput from '../common/inputs/TipTapInput';
 
 interface CourseFormValues {
   title: string
@@ -47,7 +48,7 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
             label="Course name"
             placeholder="Untitled course"
             inputAttrs={register("title", {
-              required:"Course name is required"
+              // required:"Course name is required"
             })}
           />
           {errors.title && (<small className="text-danger text-red-500">{errors.title.message}</small>)}
@@ -89,12 +90,20 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
         </div>
         { showDescription && (
           <div className="w-1/2 flex flex-col">
-            <RTEInput
+            <TipTapInput
+              placeholder={'Enter description here...'}
+              editorClasses={'min-h-[20em]'}
+              label={`Description`}
+              name='description'
+              control={control}
+              content={course?.content?.description}
+            />
+            {/* <RTEInput
               initialValue={course?.content?.description}
               label="Description"
               name="content"
               control={control}
-            />
+            /> */}
           </div>
         )}
       </div>
