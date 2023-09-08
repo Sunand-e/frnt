@@ -1,3 +1,4 @@
+import classNames from '../../../utils/classNames';
 import blocktypes from './blocktypes';
 
 export const Block = ({ block, dragOverlay = false }) => {
@@ -7,6 +8,7 @@ export const Block = ({ block, dragOverlay = false }) => {
   // create seperate ID for drag overlays
   const blockId = dragOverlay ? `overlay-${id}` : id;
 
+  const displayType = block.displayType || 'normal'
   let bgImageCssString = ''
   if(block.style?.bgImageEnabled || block.type === 'textOnImage') {
     // if(block?.style?.overlayColor) {
@@ -42,7 +44,10 @@ export const Block = ({ block, dragOverlay = false }) => {
       paddingRight: block?.style?.paddingRight,
       // color: block?.style?.textColor || 'inherit'
     }}>
-      <div className='w-full max-w-screen-lg'>
+      <div className={classNames(
+        'w-full',
+        displayType !== 'fullwidth' && 'max-w-screen-lg'
+      )}>
         { BlockComponent && <BlockComponent id={blockId} block={block} /> }
       </div>
     </div>
