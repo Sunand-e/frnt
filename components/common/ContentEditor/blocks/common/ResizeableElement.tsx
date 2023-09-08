@@ -1,13 +1,13 @@
 import { Resizable } from 're-resizable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from '../../../../../utils/classNames';
 import { getIndexAndParent, useBlockStore } from '../../useBlockStore';
 import { ResizeableHandle } from './ResizeableHandle';
 
 export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
 
-  const activeBlockId = useBlockStore(state => state.activeBlockId)
-  const isActive = activeBlockId === block.id
+  const isActive = useBlockStore(state => state.activeBlockId === block.id)
+  // const isActive = activeBlockId === block.id
 
   const align = 'center'
   const handleElementClasses = classNames(
@@ -40,6 +40,10 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
       // console.log(parent.widths[index])
   }
   
+  useEffect(() => {
+    setWidth(block.style.width)
+  }, [block.style.width])
+
   const handleResize = (e, direction, ref) => {
     const width = ref.offsetWidth
     setWidth(width)
