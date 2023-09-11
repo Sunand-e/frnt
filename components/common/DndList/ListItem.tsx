@@ -3,9 +3,7 @@ import styles from './ListItem.module.scss'
 import { forwardRef } from "react"
 
 const ListItem = forwardRef<HTMLLIElement, any>(({
-  editing=false,
   listeners,
-  id,
   liClassName,
   liStyle,
   divStyle,
@@ -42,7 +40,7 @@ const ListItem = forwardRef<HTMLLIElement, any>(({
         {...listeners}
         tabIndex={0}
       >
-        <div className="min-w-0 flex-1 flex items-center group cursor-pointer" onClick={() => onSelect(id)}>
+        <div className="min-w-0 flex-1 flex items-center group cursor-pointer" onClick={onSelect}>
           <>
           <a className={`flex py-1 space-x-2`}>
             { IconComponent && <IconComponent className="h-5 w-5 flex-0"/> }

@@ -34,14 +34,14 @@ const QuestionBlock = ({ block: b }) => {
   }
 
   return (
-    <div className='p-8'>
+    <div className='p-8 shadow-lg bg-white'>
       <QuestionContainer 
         onOptionSelect={handleOptionSelect}
         selectedOptionIds={attemptOptionIds}
         question={block.properties}
       />
       { status === 'unanswered' ? (
-        <Button className="mt-2" onClick={submitAnswer}>Submit</Button>
+        <Button className="mt-2 ml-4" onClick={submitAnswer}>Submit</Button>
       ) : block.properties.settings?.feedback !== 'off' && (
         <FeedbackContainer status={status} question={block.properties}>
           <></>

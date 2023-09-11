@@ -36,7 +36,7 @@ const QuestionContainer = ({
       </div>
       
       { isEditMode && (
-        <div className='flex uppercase text-xs space-x-2 text-main opacity-80'>
+        <div className='flex uppercase text-xs space-x-2 text-main opacity-80 mb-1'>
           <span>Correct?</span>
         </div>
       )}

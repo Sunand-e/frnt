@@ -4,23 +4,39 @@ import { useForm } from "react-hook-form";
 import { QuestionFormValues } from "../../../../quiz/questions/QuestionSettings";
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import TextAreaInput from "../../../inputs/TextAreaInput";
-import useBlockEditor from "../../useBlockEditor";
+import { useBlockStore } from "../../useBlockStore";
 
 export const QuestionSettings = ({block}) => {
 
   const { register, watch, control } = useForm<QuestionFormValues>({defaultValues: {
-    settings: block.properties.settings,
-    questionType: block.properties.questionType,
+    questionType: 'single',
+    ...block.properties,
+    settings: {
+      ...block.properties.settings,
+      feedback: {
+        type: 'single',
+        ...block.properties.settings?.feedback,
+      }
+    },
+    
   }});
 
   const watchFeedbackType = watch("settings.feedback.type")
-  const {updateBlock} = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   useEffect(() => {
     const subscription = watch((data) => {
       const newBlock = produce(block, draft => {
-        draft.properties.questionType = data.questionType,
-        draft.properties.settings = data.settings
+        draft.properties = {
+          ...block.properties,
+          questionType: data.questionType,
+          settings: {
+            ...block.properties.settings,
+            feedback: {
+              ...data.settings.feedback
+            }
+          }
+        }
       })
       updateBlock(newBlock)
     })

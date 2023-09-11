@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Control, useController } from "react-hook-form";
 import { closeModal } from "../../../stores/modalStore";
+import classNames from "../../../utils/classNames";
 import ImageSelectFromLibrary from "../ContentEditor/ImageSelectFromLibrary";
 
 type ImageSelectInputProps = { 
@@ -8,10 +9,10 @@ type ImageSelectInputProps = {
   src?: string;
   origImage?;
   onSelect?;
-  isModal?: boolean;
   label?: string;
   placeholder?: string;
   buttonText?: string;
+  valueAsObject?: boolean;
   isButtonAlwaysVisible?: boolean;
   name?: string;
   className?: string;
@@ -25,6 +26,7 @@ const ImageSelectInput = ({
   origImage,
   onSelect,
   className='',
+  valueAsObject=false,
   isButtonAlwaysVisible=true
 }: ImageSelectInputProps) => {
 
@@ -36,15 +38,16 @@ const ImageSelectInput = ({
   const [image, setImage] = useState(origImage);
 
   const handleSelect = image => {
-    field.onChange(image?.id || null)
+    const value = valueAsObject ? image : image?.id
+    field.onChange(value)
     setImage(image)
-    onSelect ? onSelect(image) : closeModal()
+    onSelect ? onSelect(value) : closeModal()
   }
 
   return (
     <>
       <ImageSelectFromLibrary
-        className={className}
+        className={classNames(className)}
         placeholder={placeholder}
         src={image?.location}
         buttonText={buttonText}

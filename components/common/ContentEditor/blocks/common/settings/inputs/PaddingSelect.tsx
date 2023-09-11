@@ -38,7 +38,6 @@ const PaddingSelect = ({side, onSelect, selected, label, styles={}}) => {
       control: (provided, state) => ({
         ...provided,
         // minWidth: "240px"
-
       }),
     },
   }

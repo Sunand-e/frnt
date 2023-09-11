@@ -1,15 +1,21 @@
-import React, { useMemo, FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 
-import useBlockEditor from '../../useBlockEditor';
 import Editor from '../../../inputs/Editor';
+import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 
-export const TextBlockEdit: FunctionComponent = ({block, containerRef=null}) => {
+export const TextBlockEdit: FunctionComponent = ({id}) => {
+  // const block = useBlockStore(state => state.getBlock(id))
+  const block = useBlockStore(state => state.computed.getBlock(id))
+
   const { properties } = block
-
+  
   const { debouncedUpdateBlock } = useBlockEditor()
 
-  const handleChange = (newValue) => {
-    document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(newValue,null,2)+'</pre>'
+  const blockRef = useBlockStore(state => state.blockRefs.get(id))
+  const zIndex = useBlockStore(state => state.zIndexes.get(id))
+
+  const handleChange = useCallback((newValue) => {
     const updatedBlock = {
       ...block,
       properties: {
@@ -17,16 +23,30 @@ export const TextBlockEdit: FunctionComponent = ({block, containerRef=null}) => 
         content: newValue
       }
     }
-    debouncedUpdateBlock(updatedBlock)// return false
-  }
-
-  useEffect(() => {
-    !properties?.content && setTimeout(focus, 10);
-  },[])
+    debouncedUpdateBlock(updatedBlock)
+  },[block, debouncedUpdateBlock])
   
+  const onMenuShow = useCallback((instance) => {
+    if(blockRef) {
+      blockRef.style.zIndex = '99999'
+    }
+  },[blockRef])
+
+  const onMenuHidden = useCallback((instance) => {
+    if(blockRef) {
+      blockRef.style.zIndex = zIndex
+    }
+  },[blockRef])
+
   return (
     <>
-      <Editor containerRef={containerRef} onUpdate={handleChange} content={properties?.content} editorClass={'m-5'} />
+      <Editor
+        onUpdate={handleChange}
+        onMenuShow={onMenuShow}
+        onMenuHidden={onMenuHidden}
+        content={properties?.content}
+        editorClass={'my-2'}
+      />
     </>
   );
 }

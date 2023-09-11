@@ -14,13 +14,13 @@ const FileUploader = ({
   additionalParams={},
 }) => {
 
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     refetchQuery,
     additionalParams
   })
 
   const handleDrop = useCallback((acceptedFiles) => {
-    const uploadPromises = acceptedFiles.map(file => uploadFileAndNotify(file,fileParameterName,endpoint))
+    const uploadPromises = acceptedFiles.map(file => uploadFilesAndNotify(endpoint, {[fileParameterName]: file}))
 
     Promise.all(uploadPromises).then((data) => {
       onAllUploadsComplete(data)

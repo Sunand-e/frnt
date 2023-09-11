@@ -26,7 +26,7 @@ const AdminUsersEdit = () => {
   const { userHasCapability } = useUserHasCapability()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT"
   })
 
@@ -51,7 +51,7 @@ const AdminUsersEdit = () => {
     }
     if(profile_image) {
       const imageEndpoint = `/api/v1/users/${id}/update_profile_image`
-      profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
+      profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
     }
     router.push('/admin/users')
   }

@@ -13,6 +13,7 @@ import { getIconFromFilename } from '../../../utils/getIconFromFilename';
 import useGetThumbnail from '../items/useGetThumbnail';
 import { resourceTypes } from '../../resources/resourceTypes';
 import startCase from 'lodash/startCase';
+import Editor from '../inputs/Editor';
 
 const ContentIdAndOrderFragment = gql`
   fragment ContentIdAndOrderFragment on ContentItem {
@@ -84,10 +85,12 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       ...(type.name === 'resource' ? [{
           header: "Description",
           width: '100',
-          cell: ({ cell }) => {
-            const html = cell.row.original.content?.description?.replace(/<\/?[^>]+(>|$)/g, "") || null;
-            return <span className="text-left" dangerouslySetInnerHTML={{ __html: html }}></span>
-          }
+          cell: ({ cell }) => (
+            <Editor
+              content={cell.row.original.content?.description}
+              editable={false}
+            />  
+          )
         }] : []
       ),
       {

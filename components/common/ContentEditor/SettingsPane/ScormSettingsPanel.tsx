@@ -1,30 +1,13 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { ScormPackage } from "../../../../graphql/generated";
-import useUpdateCourse from "../../../../hooks/courses/useUpdateCourse";
-import { useLessonContentFragment } from "../../../../hooks/lessons/useLessonContentFragment";
-import useUpdateLesson from "../../../../hooks/lessons/useUpdateLesson";
-import useGetUserCourse from "../../../../hooks/users/useGetUserCourse";
 import { closeModal, handleModal } from "../../../../stores/modalStore";
-import { useRouter } from "../../../../utils/router";
-import CourseForm from "../../../courses/CourseForm";
-import { moduleTypes } from "../../../courses/moduleTypes";
 import PackageLibrary from "../../../packages/PackageLibrary";
-import TextInput from "../../inputs/TextInput";
-import useBlockEditor from "../useBlockEditor";
 import { useBlockStore } from "../useBlockStore";
-
-import { useForm } from 'react-hook-form';
-import useGetScormPackages from "../../../../hooks/scormPackages/useGetScormPackages";
-import { useFragment_experimental } from "@apollo/client";
-import { LessonFragment } from "../../../../graphql/queries/allQueries";
 import { Box } from "@styled-icons/boxicons-regular/Box";
 
 export const ScormSettingsPanel = () => {
 
   const { blocks } = useBlockStore()
-  const { updateBlock } = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   const scormPackageBlock = blocks.find(
     block => block.type === 'package'

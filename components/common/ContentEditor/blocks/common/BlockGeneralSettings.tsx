@@ -4,41 +4,16 @@ import FourNumberInput from "../../../inputs/FourNumberInput"
 import NumberPropertyInput from "../../../inputs/NumberPropertyInput"
 import blocktypes from "../../blocktypes"
 import useBlockEditor from "../../useBlockEditor"
+import { getIndexAndParent, useBlockStore } from "../../useBlockStore"
 // import SettingsPanel from "./SettingsPanel"
 import StylingPanel from "./StylingPanel"
 
 const BlockGeneralSettings = ({block}) => {
 
+  const {parent} = getIndexAndParent(block.id)
   return (
     <>
-      {/* <span className="text-sm font-medium text-secondary">Padding</span>
-      <div className={`flex w-full items-center space-x-4 mb-2`}>
-        <NumberPropertyInput 
-          label="Top"
-          step={1}
-          unit="px"
-        />
-        <NumberPropertyInput
-          label="Bottom"
-          step={1}
-          unit="px"
-        />
-      </div>
-
-      <div className={`flex w-full items-center space-x-4`}>
-        <NumberPropertyInput 
-          label="Left"
-          step={1}
-          unit="px"
-        />
-        <NumberPropertyInput
-          label="Right"
-          step={1}
-          unit="px"
-        />
-      </div> */}
-      
-      <StylingPanel block={block} />
+      { (!parent || parent.type === 'columns') && <StylingPanel block={block} /> }
     </>
   )
 }

@@ -35,7 +35,7 @@ const ResourceView = ({id}) => {
   let resourceComponent = useMemo(() => {
     switch(resource?.contentType) {
       case 'document': {
-        return <DocumentItem pdfPreview={true} file={resource.document} />
+        return <DocumentItem pdfPreview={true} file={resource.document} removeable={true} />
       }
       case 'video':
         return <VideoItem url={resource.content?.url} />

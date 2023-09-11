@@ -7,7 +7,7 @@ export const TextBlock: FunctionComponent = ({block}) => {
 
   return (
     <>
-      <Editor editable={false} content={properties?.content} editorClass={'m-5'} />
+      <Editor editable={false} content={properties?.content} editorClass={'my-2'} />
     </>
   );
 }

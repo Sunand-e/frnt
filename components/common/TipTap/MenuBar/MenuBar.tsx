@@ -1,81 +1,21 @@
-import styles from './MenuBar.module.scss'
-import React, { Fragment, useState } from 'react'
-import MenuItem from './MenuItem'
-import FontSizeDropdown from '../../ContentEditor/blocks/common/FontSizeDropdown'
-import Select, { components, ContainerProps } from 'react-select';
-import { FontSize } from '@styled-icons/boxicons-regular/FontSize'
-import remixiconUrl from './remixicon.symbol.svg'
-const fontSizes = [
-  10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52
-]
+import { Fragment } from 'react';
+import FontFamilySelect from '../../inputs/FontFamilySelect';
+import FontSizeSelect from './FontSizeSelect';
+import LineHeightSelect from './LineHeightSelect';
+import styles from './MenuBar.module.scss';
+import MenuItem from './MenuItem';
 
-const lineHeights = [
-  0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8
-  // "100%", "115%", "150%", "200%", "250%", "300%"
-]
+export default ({ editor, isHeading=false }) => {
 
-const lineHeightOptions = lineHeights.map(size => ({
-  value: size, label: size
-}))
-
-const fontSizeOptions = fontSizes.map(size => ({
-  value: `${size}px`,
-  label: `${size}px`
-}))
-
-const FontSizeControl = ({ children, ...props }) => (
-  <components.Control {...props}>
-    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
-      <use xlinkHref={`${remixiconUrl}#ri-font-size`} />
-    </svg>
-    {children}
-  </components.Control>
-);
-
-const LineHeightControl = ({ children, ...props }) => (
-  <components.Control {...props}>
-    <svg className="remix w-5 h-6 ml-1 fill-main-secondary">
-      <use xlinkHref={`${remixiconUrl}#ri-line-height`} />
-    </svg>
-    {children}
-  </components.Control>
-);
-
-const FontSizeSelect = ({value, onChange}) => {
-  return (
-    <Select 
-      value={value}
-      className='mr-1 text-main-secondary'
-      components={{ Control: FontSizeControl }}
-      // isSearchable={false}
-      options={fontSizeOptions}
-      onChange={onChange}
-    />
-  )
-}
-
-const LineHeightSelect = ({value, onChange}) => {
-  return (
-    <Select 
-      value={value}
-      className='mx-1 text-main-secondary'
-      components={{ Control: LineHeightControl }}
-      options={lineHeightOptions}
-      isSearchable={false}
-      onChange={onChange}
-    />
-  )
-}
-
-export default ({ editor }) => {
-
+  const setFontFamily = option => {
+    editor.commands.setFontFamily(`'${option.value}'`)
+  }
+  
   const changeFontSize = option => {
     editor.chain().focus().setFontSize(option.value).run()
   }
   
   const changeLineHeight = option => {
-    console.log('option')
-    console.log(option)
     editor.chain().focus().setLineHeight(option.value).run()
   }
 
@@ -93,11 +33,17 @@ export default ({ editor }) => {
       isActive: () => editor.isActive('italic'),
     },
     {
-      icon: 'strikethrough',
-      title: 'Strike',
-      action: () => editor.chain().focus().toggleStrike().run(),
-      isActive: () => editor.isActive('strike'),
+      icon: 'underline',
+      title: 'Underline',
+      action: () => editor.chain().focus().toggleUnderline().run(),
+      isActive: () => editor.isActive('underline'),
     },
+    // {
+    //   icon: 'strikethrough',
+    //   title: 'Strike',
+    //   action: () => editor.chain().focus().toggleStrike().run(),
+    //   isActive: () => editor.isActive('strike'),
+    // },
     {
       type: 'divider',
     },
@@ -118,6 +64,9 @@ export default ({ editor }) => {
     //   title: 'Paragraph',
     //   action: () => editor.chain().focus().setParagraph().setMark("textStyle", { fontSize: null }).run(),
     //   isActive: () => editor.isActive('paragraph'),
+    // },
+    // {
+    //   type: 'font-family'
     // },
     {
       type: 'font-size'
@@ -215,8 +164,18 @@ export default ({ editor }) => {
       action: () => editor.chain().focus().redo().run(),
     },
   ]
-  console.log('editor.getAttributeslineHeight')
-    console.log()
+
+  let fontFamily = editor.getAttributes('textStyle').fontFamily?.replace(/['"]+/g, '')
+  let color = editor.getAttributes('textStyle').color
+
+  if(fontFamily) {
+    // console.log('fontFamily')
+    // console.log(fontFamily)
+    // if(fontFamily.charAt(0) === "'" && fontFamily.charAt(fontFamily.length-1) === "'") {
+    //   fontFamily = fontFamily.substring(1, fontFamily.length-1);
+    // }
+  }
+  
   return (
     <div className="editor__header">
       {items.map((item, index) => (
@@ -226,24 +185,27 @@ export default ({ editor }) => {
           ) : item.type === 'newline' ? (
             <div className="basis-full" />
           ) : item.type === 'font-size' ? (
-              <FontSizeSelect value={{ 
+            <FontSizeSelect
+              value={{ 
                 value: editor.getAttributes('textStyle').fontSize,
                 label: editor.getAttributes('textStyle').fontSize
-              }} onChange={changeFontSize} />
-          ) : item.type === 'line-height' ? (
-              <LineHeightSelect
-               value={{ 
-                value: editor.getAttributes('paragraph').lineHeight,
-                label: editor.getAttributes('paragraph').lineHeight
               }}
-               onChange={changeLineHeight} />
-
+              onChange={changeFontSize}
+              isHeading={isHeading}
+            />
+          ) : item.type === 'font-family' ? (
+            <FontFamilySelect value={fontFamily} onChange={setFontFamily} />
+          ) : item.type === 'line-height' ? (
+            <LineHeightSelect value={{ 
+              value: editor.getAttributes('paragraph').lineHeight,
+              label: editor.getAttributes('paragraph').lineHeight
+            }} onChange={changeLineHeight} />
           ) : item.type === 'color' ? (
             <input
               type="color"
               className='w-7 ml-2'
               onInput={event => editor.chain().focus().setColor(event.target.value).run()}
-              value={editor.getAttributes('textStyle').color || '#374151'}
+              value={editor.getAttributes('textStyle').color || '#333333'}
             />
           ) : (
               <MenuItem {...item} />

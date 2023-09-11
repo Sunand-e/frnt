@@ -11,6 +11,7 @@ export default ({
     <button
       className={`${styles['menu-item']} text-main-secondary hover:text-white hover:bg-main-secondary active:text-white active:bg-main-secondary  ${isActive && isActive() ? 'bg-main-secondary/30 is-active' : ''}`}
       onClick={action}
+      type='button'
       // title={title}
     >
       <svg className="remix w-6">

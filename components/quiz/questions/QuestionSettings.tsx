@@ -16,9 +16,19 @@ export interface QuestionFormValues {
 }
 
 export const QuestionSettings = ({idd}) => {
-
   const question = useQuizStore(state => state.computed.activeQuestion())
-  const { register, watch, control } = useForm<QuestionFormValues>({defaultValues: question});
+
+  const { register, watch, control } = useForm<QuestionFormValues>({
+    defaultValues: {
+      ...question,
+      settings: {
+        ...question.settings,
+        feedback: {
+          ...question.settings?.feedback,
+        }
+      }
+    }
+  });
   const watchFeedbackType = watch("settings.feedback.type")
 
   useEffect(() => {

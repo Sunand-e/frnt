@@ -1,6 +1,9 @@
 import useGetTenant from "../../hooks/tenants/useGetTenant"
 import useUpdateTenant from "../../hooks/tenants/useUpdateTenant"
+import { handleModal } from "../../stores/modalStore"
 import { useRouter } from "../../utils/router"
+import Button from "../common/Button"
+import TenantFontsForm from "./TenantFontsForm"
 import TenantForm from "./TenantForm"
 import TenantSharedContentForm from "./TenantSharedContentForm"
 
@@ -18,8 +21,6 @@ const TenantEditor = () => {
       ...formValues,
       settings: {
         ...formValues.settings,
-        ...(formValues.primaryBrandColor && {...{primaryBrandColor: formValues.primaryBrandColor}}),
-        ...(formValues.secondaryBrandColor && {...{secondaryBrandColor: formValues.secondaryBrandColor}}),
         pathways: {
           ...formValues.settings?.pathways,
           enabled: formValues.pathwaysEnabled
@@ -31,9 +32,23 @@ const TenantEditor = () => {
     router.push('/admin/tenants')
   }
 
+  const openFontModal = () => {
+    handleModal({
+      title: 'Upload a custom font',
+      content: (
+        <TenantFontsForm
+          tenant={tenant}
+        />
+      )
+    })
+  }
+
   return (
     <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
-      <TenantForm tenant={tenant} onSubmit={handleSubmit} />
+      <div className="w-full max-w-sm">
+        <TenantForm tenant={tenant} onSubmit={handleSubmit} />
+        <Button onClick={openFontModal}>Upload fonts</Button>
+      </div>
       <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
         <TenantSharedContentForm />
       </div>

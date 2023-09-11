@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { closeModal, handleModal } from '../../../../../stores/modalStore';
 import Button from '../../../Button'
 import BlockSelector from '../../BlockSelector';
@@ -20,7 +19,7 @@ const PlaceholderBlockEdit = ({block}) => {
           className={'flex flex-wrap justify-center items-center space-x-3'}
           block={block}
           replace={true}
-          exclude={['columns','package']}
+          exclude={['columns','tabs','carousel','package']}
           onSelect={closeModal}
         />
       )

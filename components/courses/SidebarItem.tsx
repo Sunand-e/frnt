@@ -71,7 +71,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
 
   return (
     <ListItem
-      onSelect={() => onSelect(id)}
+      onSelect={onSelect}
       icon={icon}
       active={active}
       onDelete={onDelete}

@@ -37,7 +37,6 @@ import { SortableItem } from './SortableItem';
 import isEqual from "lodash/isEqual";
 import { SidebarSection } from '../SidebarSection';
 import NewItemButton from './NewItemButton';
-import SidebarItem from '../SidebarItem';
 import SidebarEditableItem from './SidebarEditableItem';
 
 const dropAnimation: DropAnimation = {

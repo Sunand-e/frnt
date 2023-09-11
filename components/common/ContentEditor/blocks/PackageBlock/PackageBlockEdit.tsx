@@ -6,15 +6,14 @@ import useBlockEditor from '../../useBlockEditor';
 import PackageLibrary from '../../../../packages/PackageLibrary';
 import useFullscreen from '@rooks/use-fullscreen';
 import { closeModal, handleModal } from '../../../../../stores/modalStore';
+import { useBlockStore } from '../../useBlockStore';
 
 const DynamicPackageIFrame = dynamic(
   () => import('./PackageIFrame'),
   { ssr: false }
 )
 
-export const PackageBlockEdit = ({
-  block
-}) => {
+export const PackageBlockEdit = ({ block }) => {
   const  defaultWidth = '100%'
   const iframeRef : MutableRefObject<HTMLIFrameElement> = useRef();
   
@@ -23,8 +22,7 @@ export const PackageBlockEdit = ({
     request,
   } = useFullscreen()
   
-  const { updateBlock, addBlock } = useBlockEditor(block)
-  
+  const { updateBlock } = useBlockStore()
    
   const handlePackageSelect = (scormPackage) => {
     updateBlock({

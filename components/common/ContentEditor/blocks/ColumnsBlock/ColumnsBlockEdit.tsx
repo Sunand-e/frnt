@@ -5,27 +5,17 @@ import React, {
 } from 'react';
 import { Container, Section, Bar, Resizer } from 'react-simple-resizer';
 import BlockContainer from '../../BlockContainer';
-import useBlockEditor from '../../useBlockEditor';
 
 export const ColumnsBlockEdit = ({id, block}) => {
 
   const [widths,setWidths] = useState(block.widths)
-
-  const { updateBlock } = useBlockEditor(block)
-
-  const containerRef = useRef<any>()
   
   const columns = block.children?.map((childBlock, index) => (
-    <div key={childBlock.id}>
-      <BlockContainer
-        isColumn={true} 
-        id={childBlock.id}
-        // block={{
-        //   ...childBlock,
-        //   parent: id
-        // }}
-      />
-    </div>
+    <BlockContainer
+      key={childBlock.id}
+      isColumn={true}
+      id={childBlock.id}
+    />
   ))
   let gridColsClass
   

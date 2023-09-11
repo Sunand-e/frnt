@@ -1,5 +1,5 @@
 import {FileEarmarkFill} from '@styled-icons/bootstrap/FileEarmarkFill'
-import {FilePdf} from '@styled-icons/bootstrap/FilePdf'
+import {FilePdf} from '@styled-icons/boxicons-solid/FilePdf'
 import {Microsoftpowerpoint} from '@styled-icons/simple-icons/Microsoftpowerpoint'
 import {Microsoftexcel} from '@styled-icons/simple-icons/Microsoftexcel'
 import {FileDoc} from '@styled-icons/boxicons-solid/FileDoc'

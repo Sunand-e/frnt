@@ -27,10 +27,8 @@ const ColorPickerControl = ({color, onChange}) => {
   return (
     // <ColorPicker value={color} onChange={onChange}>
     // <ColorPicker value={color} onChange={handleChange}>
-    <ColorPicker defaultValue="rgba(0, 181, 59, 0.5)" onChange={handleChange}>
+    <ColorPicker defaultValue="rgba(0, 0, 0, 0.5)" onChange={handleChange}>
       {(api) => {
-        console.log('api.value')
-        console.log(api)
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels
         return (

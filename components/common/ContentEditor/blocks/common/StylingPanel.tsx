@@ -1,21 +1,47 @@
-import { useState } from "react";
-import useBlockEditor from "../../useBlockEditor";
-import ColorPicker from "./settings/inputs/ColorPicker";
-import PaddingSelect from "./settings/inputs/PaddingSelect"
+import { useForm } from "react-hook-form";
+import ImageSelectInput from "../../../inputs/ImageSelectInput";
+import { SwitchInput } from "../../../inputs/SwitchInput";
+import blocktypes from "../../blocktypes";
+import { updateBlockStyles, useBlockStore } from "../../useBlockStore";
+import ColorPickerInput from "./settings/inputs/ColorPickerInput";
+import PaddingSelect from "./settings/inputs/PaddingSelect";
+
+interface StylingFormValues {
+  bgImageEnabled: boolean
+}
 
 const StylingPanel = ({block, children = null}) => {
 
-  const { updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
-  const { parent } = getIndexAndParent(block?.id)
+  const blockType = blocktypes[block.type]
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`
-    updateBlockProperties(block, {[paddingProperty]: value})
+    updateBlockStyles(block, {[paddingProperty]: value})
   }
   
-  const updateBgColor = value => {
-    updateBlockProperties(block, {bgColor: value})
+  const defaultValues = {
+    backgroundPosition: 'center',
+    ...block.style
   }
+
+  const { control, watch } = useForm<StylingFormValues>({
+    defaultValues
+  });
+
+  watch((data, { name, type }) => {
+    // console.log(data, name, type)
+    const updatedBlock = {
+      ...block,
+      style: {
+        ...block.style,
+        [name]: data[name]
+      }
+    }
+    updateBlock(updatedBlock)
+  })
+
+  const { bgImageEnabled } = watch()
 
   return (
     <div className="flex flex-col space-y-3">
@@ -26,23 +52,63 @@ const StylingPanel = ({block, children = null}) => {
           <PaddingSelect
             side='top'
             onSelect={data => selectPadding(data.value, 'top')}
-            // selected='none'
-            selected={block.properties.paddingTop}
+            selected={block.style?.paddingTop}
             label="Top"
             />  
           <PaddingSelect 
             side='bottom'
             onSelect={data => selectPadding(data.value, 'bottom')}
-            selected={block.properties.paddingBottom}
+            selected={block.style?.paddingBottom}
             label="Bottom"
           />
         </div>
       </div>
-      <ColorPicker
-        label="Background color"
-        onChange={updateBgColor}
-        value={block?.properties?.bgColor}
-      />
+
+      { blockType.canHaveBgImage && !blockType.alwaysHasBgImage && (
+        <SwitchInput
+          name={'bgImageEnabled'}
+          control={control}
+          label={'Background image?'}
+        />
+      )}
+      { (bgImageEnabled || blockType.alwaysHasBgImage) && (
+        <>
+          <ImageSelectInput
+          placeholder="/images/image-block-placeholder.jpg"
+            name="bgImage"
+            control={control}
+            buttonText={'Choose image'}
+            valueAsObject={true}
+            origImage={defaultValues.bgImage}
+          />
+          <ColorPickerInput
+            defaultValue="rgba(0,0,0,0.5)"
+            label="Overlay color"
+            name='overlayColor'
+            control={control}
+          />
+          {/* <ReactSelectInput
+            control={control}
+            menuPlacement={'auto'}
+            slim={true}
+            className={'text-sm'}
+            name={'backgroundPosition'}
+            label="Background position"
+            options={[
+              { label: 'Center', value: 'center' },
+              { label: 'Top', value: 'top' },
+              { label: 'Bottom', value: 'bottom' }
+            ]}
+          /> */}
+        </>
+      )}
+      { !blockType.alwaysHasBgImage && !bgImageEnabled && (
+        <ColorPickerInput
+          label="Background color"
+          name='bgColor'
+          control={control}
+        />  
+      )}
     </div>
   )
 }

@@ -6,12 +6,13 @@ import React, {
 import { Container, Section, Bar, Resizer } from 'react-simple-resizer';
 import BlockContainer from '../../BlockContainer';
 import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 
 export const ColumnsBlockEdit = ({id, block}) => {
 
   const [widths,setWidths] = useState(block.widths)
 
-  const { updateBlock } = useBlockEditor(block)
+  const { updateBlock } = useBlockStore()
 
   const containerRef = useRef<any>()
   

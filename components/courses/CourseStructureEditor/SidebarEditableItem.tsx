@@ -64,8 +64,10 @@ const SidebarEditableItem = ({
     confirmDelete()
   }
   
-  const handleSelect = (id) => {
-    useEditorViewStore.setState({activeSettingsPanel: 'module'})
+  const handleSelect = () => {
+    useEditorViewStore.setState({
+      activeSettingsPanel: 'module',
+    })
     // useBlockStore.setState({activeBlockId: null})
 
     router.push({

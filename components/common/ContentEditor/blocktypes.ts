@@ -1,19 +1,24 @@
 import styled from 'styled-components'
-import {TextT} from '@styled-icons/fluentui-system-filled/TextT'
-import {Box} from '@styled-icons/fluentui-system-filled/Box'
-import {Video} from '@styled-icons/fluentui-system-filled/Video'
-import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
+import {TextT} from '@styled-icons/fluentui-system-regular/TextT'
+import {Heading} from '@styled-icons/remix-editor/Heading'
+
+import {Box} from '@styled-icons/fluentui-system-regular/Box'
+import {Video} from '@styled-icons/fluentui-system-regular/Video'
+import {Speaker2} from '@styled-icons/fluentui-system-regular/Speaker2'
 import {QuestionMarkCircle} from '@styled-icons/heroicons-outline/QuestionMarkCircle'
-import {List} from '@styled-icons/fluentui-system-filled/List'
-import {Image} from '@styled-icons/fluentui-system-filled/Image'
-import {Document} from '@styled-icons/fluentui-system-filled/Document'
+import {List} from '@styled-icons/fluentui-system-regular/List'
+import {Image} from '@styled-icons/fluentui-system-regular/Image'
+import {Document} from '@styled-icons/fluentui-system-regular/Document'
 import {Expand} from '@styled-icons/material-twotone/Expand'
 import {SplitHorizontal} from '@styled-icons/fluentui-system-regular/SplitHorizontal'
 import {Columns} from '@styled-icons/octicons/Columns'
-import {LineHorizontal1} from '@styled-icons/fluentui-system-filled/LineHorizontal1'
+import {LineHorizontal1} from '@styled-icons/fluentui-system-regular/LineHorizontal1'
+import {Tabs} from '@styled-icons/fluentui-system-regular/Tabs'
+import {Carousel} from '@styled-icons/boxicons-regular/Carousel'
+import {Flip2Outline} from '@styled-icons/evaicons-outline/Flip2Outline'
 
 import TextBlock from './blocks/TextBlock/TextBlock'
-import HeaderBlock from './blocks/HeaderBlock/HeaderBlock'
+import HeadingBlock from './blocks/HeadingBlock/HeadingBlock'
 import ListBlock from './blocks/ListBlock/ListBlock'
 import ImageBlock from './blocks/ImageBlock/ImageBlock'
 import VideoBlock from './blocks/VideoBlock/VideoBlock'
@@ -26,7 +31,7 @@ import AccordionBlock from './blocks/AccordionBlock/AccordionBlock'
 import LineDividerBlock from './blocks/LineDividerBlock/LineDividerBlock'
 
 import TextBlockEdit from './blocks/TextBlock/TextBlockEdit'
-import HeaderBlockEdit from './blocks/HeaderBlock/HeaderBlock'
+import HeadingBlockEdit from './blocks/HeadingBlock/HeadingBlockEdit'
 import ListBlockEdit from './blocks/ListBlock/ListBlockEdit'
 import ImageBlockEdit from './blocks/ImageBlock/ImageBlockEdit'
 import VideoBlockEdit from './blocks/VideoBlock/VideoBlockEdit'
@@ -39,7 +44,7 @@ import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
 import LineDividerBlockEdit from './blocks/LineDividerBlock/LineDividerBlockEdit'
 
 import TextSettings from './blocks/TextBlock/TextSettings'
-import HeaderSettings from './blocks/HeaderBlock/HeaderSettings'
+import HeadingSettings from './blocks/HeadingBlock/HeadingSettings'
 import ListSettings from './blocks/ListBlock/ListSettings'
 import ImageSettings from './blocks/ImageBlock/ImageSettings'
 import VideoSettings from './blocks/VideoBlock/VideoSettings'
@@ -57,6 +62,22 @@ import Spacer from './blocks/Spacer/Spacer'
 import QuestionBlockEdit from './blocks/QuestionBlock/QuestionBlockEdit'
 import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
 import QuestionBlock from './blocks/QuestionBlock/QuestionBlock'
+import TabsBlock from './blocks/TabsBlock/TabsBlock'
+import TabsBlockEdit from './blocks/TabsBlock/TabsBlockEdit'
+import { TabsSettings } from './blocks/TabsBlock/TabsSettings'
+import CarouselBlock from './blocks/CarouselBlock/CarouselBlock'
+import CarouselBlockEdit from './blocks/CarouselBlock/CarouselBlockEdit'
+import { CarouselSettings } from './blocks/CarouselBlock/CarouselBlockSettings'
+import FlipBoxesBlock from './blocks/FlipBoxesBlock/FlipBoxesBlock'
+import FlipBoxesBlockEdit from './blocks/FlipBoxesBlock/FlipBoxesBlockEdit'
+import { FlipBoxesSettings } from './blocks/FlipBoxesBlock/FlipBoxesSettings'
+import TextAndImageBlock from './blocks/TextAndImageBlock/TextAndImageBlock'
+import TextAndImageBlockEdit from './blocks/TextAndImageBlock/TextAndImageBlockEdit'
+import TextAndImageSettings from './blocks/TextAndImageBlock/TextAndImageSettings'
+import TextOnImageBlock from './blocks/TextOnImageBlock/TextOnImageBlock'
+import TextOnImageBlockEdit from './blocks/TextOnImageBlock/TextOnImageBlockEdit'
+import TextOnImageSettings from './blocks/TextOnImageBlock/TextOnImageSettings'
+
 
 export type BlockType = {
   name: string,
@@ -65,6 +86,10 @@ export type BlockType = {
   editComponent: React.FC<any>,
   settingsComponent: React.FC<any>,
   icon: React.FC<any>,
+  defaultProperties?: any,  
+  canHaveBgImage?: boolean,
+  alwaysHasBgImage?: boolean,
+  editorOptions?
   hideFromSelector?: boolean
 }
 
@@ -73,14 +98,20 @@ export type BlockTypes = {
 }
 
 const blocktypes: BlockTypes = {
-  // header: {
-  //   text: 'Header',
-  //   component: HeaderBlock,
-  //   editComponent: HeaderBlockEdit,
-  //   settingsComponent: HeaderSettings,
-  //   icon: Text,
-  //   hideFromSelector: true,
-  // },
+  heading: {
+    name: 'heading',
+    text: 'Heading',
+    component: HeadingBlock,
+    editComponent: HeadingBlockEdit,
+    settingsComponent: HeadingSettings,
+    icon: Heading,
+    defaultProperties: {
+      properties: {
+        paddingBottom: '0px',
+      }
+    }
+    // hideFromSelector: true,
+  },
   spacer: {
     name: 'spacer',
     text: 'Drag',
@@ -96,7 +127,17 @@ const blocktypes: BlockTypes = {
     component: TextBlock,
     editComponent: TextBlockEdit,
     settingsComponent: TextSettings,
-    icon: TextT,
+    icon: TextT
+  },
+  textOnImage: {
+    text: 'Text on image',
+    name: 'textOnImage',
+    canHaveBgImage: true,
+    alwaysHasBgImage: true,
+    component: TextOnImageBlock,
+    editComponent: TextOnImageBlockEdit,
+    settingsComponent: TextOnImageSettings,
+    icon: Image,
   },
   // list: {
   //   text: 'List',
@@ -170,12 +211,49 @@ const blocktypes: BlockTypes = {
     icon: AddColumn,
     hideFromSelector: true,
   },
-  // accordion: {
-  //   text: 'Accordion',
-  //   component: AccordionBlock,
-  //   editComponent: AccordionBlockEdit,
-  //   settingsComponent: AccordionSettings,
-  //   icon: Expand
+  textAndImage: {
+    name: 'textAndImage',
+    text: 'Text and Image',
+    component: TextAndImageBlock,
+    editComponent: TextAndImageBlockEdit,
+    settingsComponent: TextAndImageSettings,
+    icon: Expand,
+    hideFromSelector: true,
+    editorOptions: {
+      defaultAlignment: 'left'
+    }
+  },
+  accordion: {
+    name: 'accordion',
+    text: 'Accordion',
+    component: AccordionBlock,
+    editComponent: AccordionBlockEdit,
+    settingsComponent: AccordionSettings,
+    icon: Expand
+  },
+  tabs: {
+    name: 'tabs',
+    text: 'Tabs',
+    component: TabsBlock,
+    editComponent: TabsBlockEdit,
+    settingsComponent: TabsSettings,
+    icon: Tabs
+  },
+  carousel: {
+    name: 'carousel',
+    text: 'Carousel',
+    component: CarouselBlock,
+    editComponent: CarouselBlockEdit,
+    settingsComponent: CarouselSettings,
+    icon: Carousel
+  },
+  // flipboxes: {
+  //   name: 'flipboxes',
+  //   text: 'Flip Boxes',
+  //   component: FlipBoxesBlock,
+  //   editComponent: FlipBoxesBlockEdit,
+  //   settingsComponent: FlipBoxesSettings,
+  //   icon: Flip2Outline
   // },
   linedivider: {
     text: 'Line Divider',

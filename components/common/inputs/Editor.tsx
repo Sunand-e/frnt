@@ -1,40 +1,73 @@
 import styles from '../../../styles/TipTap.module.scss'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
+import { Node } from "@tiptap/core";
 import StarterKit from '@tiptap/starter-kit'
 import MenuBar from '../TipTap/MenuBar/MenuBar'
 import Placeholder from '@tiptap/extension-placeholder'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
-import { FontSize } from '../ContentEditor/extensions/font-size'
-import { LineHeight } from '../ContentEditor/extensions/line-height'
-import { useRef, useState } from 'react'
+import FontFamily from '@tiptap/extension-font-family'
+import Underline from '@tiptap/extension-underline'
+import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
+import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
+import { useEffect, useRef, useState } from 'react'
+import classNames from '../../../utils/classNames';
 
-export default ({autofocus=true, editable=true, onUpdate=null, content=null, containerRef=null, editorClass=''}) => {
+const OneLiner = Node.create({
+  name: "oneLiner",
+  topNode: true,
+  content: "block",
+});
+
+const Editor = ({
+  autofocus=true,
+  editable=true,
+  onUpdate=(instance) => null,
+  onMenuHidden=null,
+  onMenuShow=null,
+  isHeading=false,
+  content=null,
+  editorClass='',
+  defaultAlignment='left',
+  placeholder='Enter text here...'
+}) => {
 
   const editor = useEditor({
     editable,
     autofocus,
     editorProps: {
       attributes: {
-        class: `${editorClass} prose max-w-none dark:prose-invert prose-sm sm:prose-base lg:prose-md focus:outline-none`,
+        class: classNames(
+          editorClass,
+          isHeading ? 'prose-lg lg:prose-xl' : 'prose-sm lg:prose-md',
+          'rounded-md prose p-1 max-w-none dark:prose-invert sm:prose-base focus:outline-none',
+        )
       },
     },
-    extensions: [ 
-      StarterKit,
+    extensions: [
+      ...(isHeading ? [OneLiner] : []), 
+      StarterKit.configure({
+        ...(isHeading && { document: false }),
+      }),
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
             return 'Enter a heading.....'
           }
 
-          return 'Enter text here...'
+          return placeholder
         },
       }),
       TextStyle,
+      FontFamily.configure({
+        types: ['textStyle'],
+      }),
+      Underline,
       Color,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
+        defaultAlignment
       }),
       FontSize.configure({
         types: ['textStyle'],
@@ -43,33 +76,29 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
         types: ['heading', 'paragraph'],
       })
     ],
-    ...( !!onUpdate && {
-      onUpdate: ({editor}) => {
-        onUpdate(editor.getJSON())
-      }
-    }),
     content
   })
+
+  useEffect(() => {
+    if(editor) {
+      editor.off("update");
+      editor.on("update", ({ editor: updatedEditor }) => onUpdate(updatedEditor.getJSON()));
+    }
+  }, [editor, onUpdate]);
 
   return (
     <div className={styles.editor}>
       { editor && (
         <BubbleMenu editor={editor} tippyOptions={{ 
           duration: 100,
+          interactive: true,
+          placement: 'bottom',
           maxWidth: 'none',
           theme: "memberhub-white",
-          onShow: (instance) => {
-            if(containerRef) {
-              containerRef.current.style.zIndex = 99999
-            }
-          },
-          onHidden: (instance) => {
-            if(containerRef) {
-              containerRef.current.style.zIndex = containerRef.zIndex
-            }
-          }
+          ...(!!onMenuShow && {onShow: onMenuShow}),
+          ...(!!onMenuHidden && {onHidden: onMenuHidden}),
         }}>
-        <MenuBar editor={editor} />
+        <MenuBar editor={editor} isHeading={isHeading} />
         </BubbleMenu>
       )}
       {/* <AnimatePresence>
@@ -87,3 +116,5 @@ export default ({autofocus=true, editable=true, onUpdate=null, content=null, con
     </div>
   )
 }
+
+export default Editor
