@@ -47,7 +47,7 @@ const CourseItemView = () => {
       <div
         id="course_view"
         style={courseFontCssVars as React.CSSProperties }
-        className='bg-main-lightness-99'
+        className='bg-main-lightness-99 h-full'
       >
         { course.settings.frontPage?.enabled && !contentId && (
           <CourseFrontPageView />
