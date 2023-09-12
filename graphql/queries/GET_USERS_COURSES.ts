@@ -9,6 +9,7 @@ export const GET_USERS_COURSES = gql`
           ...UserFragment
           courses {
             edges {
+              userId
               node {
                 id
               }
