@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "../../../utils/router";
-import { User } from "styled-icons/fa-solid";
+import { User } from "@styled-icons/fa-solid/User";
 import dayjs from "dayjs";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable from "../ReportTable";
@@ -32,8 +32,8 @@ const LessonUsersReportTable = () => {
               createdAt
               updatedAt
               score
+              progress
               visits
-              completed
             }
             totalCount
           }

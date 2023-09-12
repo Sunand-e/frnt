@@ -1,25 +1,16 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usePageTitle from '../../../hooks/usePageTitle'
 import EventsListTable from '../../../components/events/EventsListTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
 import EventFilters from "../../../components/events/EventFilters";
-import {Add} from "@styled-icons/fluentui-system-filled/Add";
+import ButtonAdd from '../../../components/common/ButtonAdd'
 
-
-const AddButton = () => (
-  <>
-    <span className='hidden lg:block'>Create new event</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
-  </>
-)
-
-  const AdminEvents = () => {
+const AdminEvents = () => {
 
   usePageTitle({ title: 'All Events' })
-  useHeaderButtons([
-    [<AddButton />, '/admin/events/create'],
-  ])
+  useHeaderButtons({
+    id: 'createEvent',
+    component: <ButtonAdd action='/admin/events/create' text='Create new event' />
+  })
   return (
     <>
       <EventFilters />

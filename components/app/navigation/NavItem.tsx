@@ -7,12 +7,14 @@ import navStructureAdmin from '../navStructureAdmin'
 import { NavContext } from '../navContext'
 
 import Tippy from '@tippyjs/react';
+import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function NavItem({navState, admin}) {
 
   const navStructure = admin ? navStructureAdmin : navStructureUser;
 
   const router = useRouter()
+  const isAdminView = useViewStore(state => state.isAdminView)
 
   // If the 'topLevel' property of navState is empty, create the default navstate.
   const pageNavState = navState?.topLevel ? navState : {
@@ -51,9 +53,9 @@ export default function NavItem({navState, admin}) {
     </li>
   )
 
-  const showSecondary = topNavItem?.subPages?.length > 0
+  const showSecondaryNav = topNavItem?.subPages?.length > 0
 
-  if(showSecondary) {
+  if(showSecondaryNav) {
     return (
       <Tippy
         className="bg-main text-white p-2 cursor-pointer w-60"
@@ -67,7 +69,7 @@ export default function NavItem({navState, admin}) {
         content={
           <ul className="flex flex-col">
             <li onClick={() => {}}>Log out</li>
-            <li onClick={() => {}}>{`${view.isAdmin ? 'User' : 'Admin'} View`}</li>
+            <li onClick={() => {}}>{`${isAdminView ? 'User' : 'Admin'} View`}</li>
           </ul>
         }
       >

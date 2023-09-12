@@ -2,6 +2,7 @@ import {
   InMemoryCache,
   makeVar,
 } from '@apollo/client'
+import getJWT from '../utils/getToken'
 import possibleTypes from './possibleTypes.json'
 
 const typePolicies = {
@@ -20,14 +21,25 @@ const typePolicies = {
       return `UserContentEdge:${object.userId}:${object.node.id}`
     }
   },
+  ContentItem: {
+    fields: {
+      children: {
+        merge(existing, incoming) {
+          return incoming
+        }
+      },
+      questions: {
+        merge(existing, incoming) {
+          return incoming
+        }
+      }
+    },
+  },
 }
 
 export const navStateVar = makeVar({
   topLevel: '',
   secondary: ''
-})
-export const viewVar = makeVar({
-  isAdmin:false
 })
 export const pageTitleVar = makeVar({
   title: null,
@@ -36,12 +48,7 @@ export const pageTitleVar = makeVar({
   after: null,
   onEdit: () => false
 })
-export const currentContentItemVar = makeVar({
-  type: null,
-  id: null,
-  title: null,
-  updateFunction: (values) => null
-})
+
 export const currentCourseItemIdVar = makeVar(null)
 
 export const courseNavigationVar = makeVar(
@@ -52,7 +59,6 @@ export const courseNavigationVar = makeVar(
 )
 
 export const markCompleteDisabledVar = makeVar(true)
-export const activeContentBlockVar = makeVar(null)
 export const mediaItemsVar = makeVar([])
 export const allContentVar = makeVar([])
 export const latestContentVar = makeVar([])
@@ -69,7 +75,8 @@ export const headerButtonsVar = makeVar(<></>)
 
 
 // Initializes to true if localStorage includes a 'token', false otherwise
-export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!localStorage.getItem('token') || null)
+export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!getJWT() || null)
+// export const actAsUserVar = makeVar<string>(localStorage.getItem('actAsToken') || null)
 
 const cache = new InMemoryCache({
   possibleTypes,

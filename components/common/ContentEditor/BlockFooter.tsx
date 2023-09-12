@@ -1,46 +1,47 @@
-import React, { useRef, useState } from 'react'
-import { activeContentBlockVar } from '../../../graphql/cache'
-import BlockSelector from './BlockSelector'
-import { useReactiveVar } from '@apollo/client'
+import { PlusCircle } from '@styled-icons/boxicons-regular/PlusCircle';
+import { closeModal, handleModal } from '../../../stores/modalStore';
 import LineWithIcon from '../../common/LineWithIcon'
-import useOutsideClick from '../../../hooks/useOutsideClick'
-import { motion, AnimatePresence } from "framer-motion"
+import BlockSelector from './BlockSelector';
 
 const BlockFooter = ({block}) => {
-  const isActive = useReactiveVar(activeContentBlockVar) === block.id
 
-  const outsideClickRef = useRef(null);
-  
-  const [ showBlockSelector, setShowBlockSelector ] = useState(false);
-
-  useOutsideClick(outsideClickRef, () => setShowBlockSelector(false));
+  const blockButtonClassName = `
+    flex flex-none justify-center items-center
+    space-x-2 p-3 text-center text-main
+    bg-white rounded-lg
+    shadow shadow-lg
+    mb-3
+  `
+  const handleAddBlock = () => {
+    handleModal({
+      title: `Choose a block`,
+      content: (
+        <BlockSelector
+          blockButtonClassName={blockButtonClassName}
+          className={'flex flex-wrap justify-center items-center space-x-3'}
+          block={block}
+          // exclude={['columns','package']}
+          onSelect={closeModal}
+        />
+      )
+    })  
+  }
 
   return (
     <>
       <div
-        className={`text-main opacity-0 max-w-screen-lg self-center group-hover:opacity-100 w-full ${showBlockSelector && 'opacity-100'}`}
-        onClick={() => setShowBlockSelector(!showBlockSelector)}
+        className={`z-32 absolute flex justify-center -bottom-5 text-main opacity-0 group-hover:opacity-100 w-full`}
+        // onClick={() => setShowBlockSelector(!showBlockSelector)}
         >
-        <LineWithIcon />
-      </div>
-      <div ref={outsideClickRef} className={`${showBlockSelector ? 'max-h-24' : 'max-h-0'} transition-max-h w-full duration-1000 ease-out overflow-hidden`}>
-      {/* <div ref={outsideClickRef} className={`w-full overflow-hidden pb-2`}> */}
-        {/* { showBlockSelector && */}
-        <AnimatePresence>
-        { showBlockSelector &&
-          <motion.div
-            // initial={{ opacity: 0, height: 0 }}
-            // animate={{ opacity: 1, height: 'auto' }}
-            // exit={{ opacity: 0, height: 0 }}
-          >
-            <BlockSelector 
-              style={{}} 
-              block={block}
-              onSelect={() => setShowBlockSelector(false)}
-            />
-          </motion.div>
-        }
-        </AnimatePresence>
+          {/* <div
+            className='w-10 p-1 bg-white/80 rounded-full'
+            style={{pointerEvents: 'all'}}
+            >dsa</div> */}
+          <PlusCircle
+            onClick={handleAddBlock}
+            className='w-9 h-9 px-0.5 bg-white/80 rounded-full'
+            style={{pointerEvents: 'all'}}
+          />
       </div>
     </>
   );

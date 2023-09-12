@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import getJWT from '../utils/getToken';
 
 const useSendInvite = () => {
 
@@ -8,7 +10,7 @@ const useSendInvite = () => {
   const [token, setToken] = useState('')
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(getJWT())
   },[])
 
   const sendInvite = useCallback(async (userIds) => {
@@ -24,6 +26,13 @@ const useSendInvite = () => {
     }).then(data => {  
       console.log('then....')
       console.log(data)
+      if(data.status === 200 && userIds?.length > 0) {
+        toast(`${ userIds.length > 1 ? `${userIds.length} invitations` : 'Invitation'} sent.`, {
+          toastId: 'changesSaved',
+          hideProgressBar: true,
+          autoClose: 2500
+        })
+      }
     })
   },[token])
 

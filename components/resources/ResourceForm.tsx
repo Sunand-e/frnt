@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { resourceTypes } from './resourceTypes';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
+import TipTapInput from '../common/inputs/TipTapInput';
 
 interface ResourceFormValues {
   title: string
@@ -43,7 +44,7 @@ const router = useRouter()
       const {__typename, image, ...value} = node
       return value
     }) || [],
-    image: resource?.image
+    image: resource?.image || null
   }
 
   const { watch, register, setValue, handleSubmit: rhfHandleSubmit, control, setFocus, formState: { errors } } = useForm<ResourceFormValues>({
@@ -124,7 +125,15 @@ const router = useRouter()
         tagType="category"
         label="Categories"
       />
-      <RTEInput initialValue={resource?.content?.description} label="Description" name="description" control={control}/>
+      
+      <TipTapInput
+        placeholder={'Enter description here...'}
+        label={`Description`}
+        name='description'
+        control={control}
+        content={resource?.content?.description}
+      />
+      {/* <RTEInput initialValue={resource?.content?.description} label="Description" name="description" control={control}/> */}
       { resourceValue ? (
         <ResourcePreview control={control} onRemove={() => setValue('resourceValue', null)} />
       ) : (

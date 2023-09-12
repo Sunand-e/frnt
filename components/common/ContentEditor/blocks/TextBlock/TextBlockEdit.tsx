@@ -1,15 +1,21 @@
+import { FunctionComponent, useCallback } from 'react';
 
-import React, { useMemo, FunctionComponent, useEffect } from 'react';
-
+import Editor from '../../../inputs/Editor';
 import useBlockEditor from '../../useBlockEditor';
+import { useBlockStore } from '../../useBlockStore';
 
-export const TextBlockEdit: FunctionComponent = ({block}) => {
+export const TextBlockEdit: FunctionComponent = ({id}) => {
+  // const block = useBlockStore(state => state.getBlock(id))
+  const block = useBlockStore(state => state.computed.getBlock(id))
+
   const { properties } = block
-
+  
   const { debouncedUpdateBlock } = useBlockEditor()
 
-  const handleChange = (newValue) => {
-    document.querySelector('#debug_panel').innerHTML = '<pre>'+JSON.stringify(newValue,null,2)+'</pre>'
+  const blockRef = useBlockStore(state => state.blockRefs.get(id))
+  const zIndex = useBlockStore(state => state.zIndexes.get(id))
+
+  const handleChange = useCallback((newValue) => {
     const updatedBlock = {
       ...block,
       properties: {
@@ -17,24 +23,30 @@ export const TextBlockEdit: FunctionComponent = ({block}) => {
         content: newValue
       }
     }
-    debouncedUpdateBlock(updatedBlock)// return false
-  }
+    debouncedUpdateBlock(updatedBlock)
+  },[block, debouncedUpdateBlock])
+  
+  const onMenuShow = useCallback((instance) => {
+    if(blockRef) {
+      blockRef.style.zIndex = '99999'
+    }
+  },[blockRef])
 
-  useEffect(() => {
-    !properties?.content && setTimeout(focus, 10);
-  },[])
-
-  const focus = () => {
-    // const editor = getPlateEditorRef(block.id)
-    // if(editor) {
-    //   Transforms.select(editor, Editor.end(editor, []));
-    //   ReactEditor.focus(editor);  
-    // }
-  }
+  const onMenuHidden = useCallback((instance) => {
+    if(blockRef) {
+      blockRef.style.zIndex = zIndex
+    }
+  },[blockRef])
 
   return (
     <>
-      {/* <TipTap /> */}
+      <Editor
+        onUpdate={handleChange}
+        onMenuShow={onMenuShow}
+        onMenuHidden={onMenuHidden}
+        content={properties?.content}
+        editorClass={'my-2'}
+      />
     </>
   );
 }

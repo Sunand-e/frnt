@@ -1,46 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
-import {Tick} from '@styled-icons/typicons/Tick'
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import {ArrowSmLeft} from '@styled-icons/heroicons-solid/ArrowSmLeft'
-import {ExitToApp} from '@styled-icons/material/ExitToApp'
-import useGetCourse from "../../../hooks/courses/useGetCourse";
-import useUpdateUserContentStatus from "../../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
-import { useReactiveVar } from "@apollo/client";
-import { currentContentItemVar } from "../../../graphql/cache";
-import useGetUserCourse from "../../../hooks/users/useGetUserCourse";
 import useMarkComplete from "../../../hooks/courses/useMarkComplete";
+import usePreviousAndNextIds from "./usePreviousAndNextIds";
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse';
+import { useCallback } from 'react';
+import cache from '../../../graphql/cache';
 
-const PrevNextButtons = () => {
-
-  const router = useRouter()
-  const { id: courseId } = router.query
-  const { id } = useReactiveVar(currentContentItemVar)
-  const { courses, lessons } = useGetUserCourse(courseId)
-  const course = courses?.edges[0]?.node
-  const lessonEdge = lessons?.edges.find(edge => (
-    edge.node.id === id
-  ))
+const PrevNextButtons = ({
+  showPrevious=true, 
+  showNext=true,
+  onClickNext=null,
+}) => {
   
-const { markComplete, disabled } = useMarkComplete(id, courseId)
-
-  const [prevNextIds, setPrevNextIds] = useState([]);
-
-  useEffect(() => {
-    const orderedLessonIds = course?.sections.reduce((arr, section) => {
-      return [...arr, ...section.lessons.map(lesson => lesson.id)]
-    }, []);
-
-    if(orderedLessonIds) {
-      let prevId = orderedLessonIds[orderedLessonIds.indexOf(id) - 1]
-      let nextId = orderedLessonIds[orderedLessonIds.indexOf(id) + 1]
-      setPrevNextIds([prevId,nextId])
-    }
-  }, [id, course])
-
-
-  const goToLesson = id => {
+  const router = useRouter()
+  
+  const { completed, id: courseId, cid: moduleId } = router.query
+  
+  const { courses, modules } = useGetUserCourse(courseId)
+  const courseEdge = courses?.edges[0]
+  const moduleEdge = modules.edges.find(edge => edge.node.id === moduleId )
+  
+  const { prev, next, last } = usePreviousAndNextIds()
+  console.log('{ prev, next }')
+  console.log({ prev, next })
+  const goTo = id => {
     router.push({
       pathname: `/course`,
       query: {
@@ -50,38 +35,79 @@ const { markComplete, disabled } = useMarkComplete(id, courseId)
     })
   }
 
-  const handleMarkComplete = useCallback(() => {
-    markComplete()
-    !!prevNextIds[1] && goToLesson(prevNextIds[1])
-  }, [markComplete, prevNextIds])
+  
+  const { markComplete } = useMarkComplete(moduleId)
+
+  
+  const handleClickNext = useCallback(() => {
+  
+    !!onClickNext && onClickNext()
+
+    if(moduleEdge?.status !== 'completed') {
+      markComplete({progress:100})
+    }
+    
+    if(next) {
+      goTo(next)
+    } else {
+      cache.evict({ fieldName: "certificates" });
+      
+      router.push({
+        pathname: `/course`,
+        query: {
+          ...router.query,
+          cid: null,
+          completed: 1
+        }
+      })
+    } 
+  }, [moduleEdge, markComplete, next])
+
+  const allExceptLast = modules.edges.filter(edge => edge.node.id !== moduleId )
+  const allExceptLastCompleted = allExceptLast.every(edge => edge.status === 'completed')
+
+  let isCurrentCompleted = false;
+  if(moduleEdge?.node.contentType === 'standard_lesson' || moduleEdge?.status === 'completed') {
+    isCurrentCompleted = true;
+  }
+
+  const showNextButton = (
+    showNext && moduleId && (
+      next || (
+        allExceptLastCompleted && isCurrentCompleted
+      )
+    )
+  )
+
+  const showPrevButton = showPrevious && prev
 
   return (
     // <div className="mt-3 mb-8 w-full flex max-w-screen-lg self-center space-x-2">
     <>
-    { prevNextIds[0] && (
-      <Button onClick={() => goToLesson(prevNextIds[0])}>
+    { showPrevButton && (
+      <Button onClick={() => goTo(prev)}>
         <span className='flex items-center xl:space-x-2'>
           <span className="hidden xl:block">Previous</span>
           <ArrowSmLeft className='h-8'/>
         </span>
       </Button>
     )}
-    { prevNextIds[1] && (
-      <Button onClick={() => goToLesson(prevNextIds[1])}>
+    { showNextButton && (
+      <Button onClick={handleClickNext}>
         <span className='flex items-center xl:space-x-2'>
         <span className="hidden xl:block">Next</span>
           <ArrowSmRight className='h-8'/>
         </span>
       </Button>
     )}
-    { (lessonEdge?.status !== 'completed') && (
+    {/* { (module?.itemType!== 'quiz' && moduleEdge?.status !== 'completed') && (
       <Button disabled={disabled} onClick={handleMarkComplete}>
-        <span className='flex items-center space-x-2'>
-          <span>Mark Complete</span>
+        <span className='flex items-center xl:space-x-2'>
+          <span className="hidden xl:block">Mark Complete</span>
           <Tick className='h-8'/>
         </span>
       </Button>
-    )}
+    )} */}
   </>
   )
 }

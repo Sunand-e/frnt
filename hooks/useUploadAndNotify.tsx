@@ -4,6 +4,7 @@ import { client } from '../graphql/client';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Dot } from '../components/common/misc/Dot';
+import getJWT from '../utils/getToken';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any};
@@ -19,10 +20,10 @@ const useUploadAndNotify = ({
   onComplete=null,
 } : UseUploadAndNotifyProps) => {
   
-  const token = localStorage.getItem('token');
-  const [dismissed, setDismissed] = useState(false);
+  const token = getJWT();
 
-  const uploadFileAndNotify = useCallback(async (file, fileParameterName, endpoint) => {
+  const uploadFilesAndNotify = useCallback(async (endpoint, fileParams, params={}) => {
+
     const toastId = uuidv4()
 
     const data = new FormData()
@@ -30,9 +31,15 @@ const useUploadAndNotify = ({
     for(const param in additionalParams) {
       data.append(param, additionalParams[param])
     }
-    
-    data.append(fileParameterName, file, file.name)
 
+    for(const param in params) {
+      data.append(param, params[param])
+    }
+    
+    for(const param in fileParams) {
+      data.append(param, fileParams[param], fileParams[param].name)
+    }
+    
     return await axios.request({
       method,
       url: endpoint,
@@ -69,9 +76,20 @@ const useUploadAndNotify = ({
 
       }
     }).then(response => {
-      
+      let filenames = []
+      for(const param in fileParams) {
+        filenames.push(fileParams[param].name)
+      }
+      console.log('filenames')
+      console.log(filenames)
       const text = (
-        <>Uploaded <span className='font-bold'>{file.name}</span>.</>
+        <>
+          Uploaded: 
+          {filenames.map((filename, index) => (
+            <> <span className='font-bold'>{filename}</span>{index < filenames.length-1 && ', '}</>
+          ))}
+          .
+        </>
       )
       
       if(toast.isActive(toastId)) {
@@ -99,7 +117,7 @@ const useUploadAndNotify = ({
   },[method])
 
   return {
-    uploadFileAndNotify
+    uploadFilesAndNotify
   }
 }
 

@@ -14,7 +14,7 @@ const VideoItem = ({url, onRemove=null}) => {
           <Trash className={`w-4 cursor-pointer`} onClick={handleRemove}/>
         </div>
       )}
-      <div className="aspect-w-16 aspect-h-9 px-1 mb-4 ">          
+      <div className="aspect-video px-1 mb-4 ">          
         <iframe
           src={url} 
           width="640" 

@@ -1,4 +1,11 @@
 /* ./styles/globals.css */
+:root {
+  --course-body-font: -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --course-headings-font: -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
 @tailwind base;
 
 @layer base {
@@ -23,12 +30,18 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+  font-family: var(--theme-font-body, -apple-system), BlinkMacSystemFont, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     color:#333;
     line-height:1.8;
   overflow: hidden;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--theme-font-headings, -apple-system), BlinkMacSystemFont, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
+  }
 }
+
+
 html {
   height: 100%;
 }
@@ -97,11 +110,11 @@ a {
   }
 }
 
-
 .tippy-box[data-theme~='memberhub-block-menu'] {
 
   background-color: white;
-  @apply text-grey-dark;
+  
+  @apply text-grey-dark shadow-md;
 
   .tippy-content {
     padding:0;
@@ -129,6 +142,17 @@ a {
   }
 }
 
+.tippy-box [class*=header] {
+  align-items: center;
+  // border-bottom: 2px solid;
+  // @apply border-main;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  padding: 0.25rem;
+  // max-width: 450px;
+}
+
 #debug_panel {
   display: block;
   display: none;
@@ -142,7 +166,7 @@ a {
   color:#fff;
 }
 #sidebar,.main-right-block{
-  height: calc(100vh - 48px);
+  height: calc(100vh - 36px);
 }
 .dialog-panel-menu{
   #sidebar{
@@ -155,4 +179,12 @@ a {
 
 .multilevel-select.react-dropdown-tree-select .dropdown .dropdown-content {
   position: relative;
+}
+
+#course_editor,
+#course_view {
+  font-family: var(--course-body-font);
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--course-headings-font);
+  }
 }

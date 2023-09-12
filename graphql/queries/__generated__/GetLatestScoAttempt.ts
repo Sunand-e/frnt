@@ -22,5 +22,5 @@ export interface GetLatestScoAttempt {
 
 export interface GetLatestScoAttemptVariables {
   courseId: string;
-  scormModuleId: string;
+  scormPackageId: string;
 }

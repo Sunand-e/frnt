@@ -1,12 +1,12 @@
 import useLogout from '../../../hooks/useLogout';
-import useView from '../../../hooks/useView';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
-import { User } from 'styled-icons/fa-solid';
+import { User } from '@styled-icons/fa-solid/User';
 import Link from 'next/link';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import MenuComponent from '../../common/menus/MenuComponent';
 import { Menu } from '@headlessui/react';
+import { useViewStore } from '../../../hooks/useViewStore';
 
 const ProfileWidget = () => {
   const { logout } = useLogout()
@@ -16,7 +16,7 @@ const ProfileWidget = () => {
     e.target.blur()
   }
 
-  const { view } = useView()
+  const isAdminView = useViewStore(state => state.isAdminView)
 
   // const { loading, error, data, refetch } = useQuery<GetUser>(GET_USER);
   const { loading, error, user } = useGetCurrentUser()
@@ -31,9 +31,8 @@ const ProfileWidget = () => {
       // 'UpdateResource',
       'GetUsers',
     ]) ? [{ 
-      label: `${view.isAdmin ? 'User' : 'Admin'} View`, 
-      href: view.isAdmin ? '/' : '/admin', 
-      // onClick: toggleIsAdmin
+      label: `${isAdminView ? 'User' : 'Admin'} View`, 
+      href: isAdminView ? '/' : '/admin',
     }] : []),
     { label: 'Log out', onClick: handleLogoutClick }
   ]

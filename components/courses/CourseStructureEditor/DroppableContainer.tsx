@@ -9,32 +9,45 @@ import {
 
 import {SidebarSection} from '../SidebarSection'
 import NewItemButton from './NewItemButton'
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
-  args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;
+  defaultAnimateLayoutChanges({...args, wasDragging: true});
 
 export function DroppableContainer({
-  renderContainer, children, columns = 1, disabled, id, items, style, ...props
+  children,
+  columns = 1,
+  disabled,
+  id,
+  items,
+  style,
+  ...props
 }: ContainerProps & {
-
-  renderContainer?: ReactElement;
   disabled?: boolean;
-  id: string;
-  items: string[];
+  id: UniqueIdentifier;
+  items: UniqueIdentifier[];
   style?: React.CSSProperties;
 }) {
   const {
-    active, attributes, isDragging, listeners, over, setNodeRef, transition, transform,
+    active,
+    attributes,
+    isDragging,
+    listeners,
+    over,
+    setNodeRef,
+    transition,
+    transform,
   } = useSortable({
     id,
     data: {
-      type: "container",
+      type: 'container',
+      children: items,
     },
     animateLayoutChanges,
   });
   const isOverContainer = over
-    ? (id === over.id && active?.data.current?.type !== "container") ||
-    items.includes(over.id)
+    ? (id === over.id && active?.data.current?.type !== 'container') ||
+      items.includes(over.id)
     : false;
 
   return (

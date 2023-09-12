@@ -9,7 +9,7 @@ import {
   Table as TableType
 } from '@tanstack/react-table'
 import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { FileExport } from 'styled-icons/fa-solid';
+import { FileExport } from '@styled-icons/fa-solid/FileExport';
 import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
 import ReportFilters from '../../reporting/ReportFilters';
@@ -70,9 +70,14 @@ const Table = () => {
 
   const handleRowSelectionChange = (updater) => store.setState(state => ({
     rowSelection: typeof updater === 'function' ? updater(state.rowSelection) : updater,
-    selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    // selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
   }))
 
+  useEffect(() => {
+    store.setState(state => ({
+      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    }))
+  },[rowSelection])
 
   const columns = [
     ...(isReorderable ? [{

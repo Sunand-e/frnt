@@ -1,31 +1,34 @@
 import usePageTitle from '../../../hooks/usePageTitle';
 import UsersTable from '../../../components/users/UsersTable'
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import {Add} from '@styled-icons/fluentui-system-filled/Add';
-import {AddCircle} from '@styled-icons/fluentui-system-regular/AddCircle';
 import {Import} from '@styled-icons/boxicons-regular/Import';
+import { useRouter } from 'next/router';
+import Button from '../../../components/common/Button';
+import ButtonAdd from '../../../components/common/ButtonAdd';
 
-const AddButton = () => (
-  <>
-    <span className='hidden lg:block'>Create new user</span>
-    <span className='block lg:hidden'><Add  width="20" /></span>
-  </>
-)
-
-const ImportUserButton = () => (
-  <>
-    <p className='hidden lg:block'>Import users</p>
-    <span className='block lg:hidden'><Import  width="20" /></span>
-  </>
-)
+const ImportUserButton = () => {
+  const router = useRouter()
+  return (
+    <Button onClick={() => router.push('/admin/users/import')}>
+      <p className='hidden lg:block'>Import users</p>
+      <span className='block lg:hidden'><Import width="20" /></span>
+    </Button>
+  )
+}
 
 const AdminUsers = () => {
 
   usePageTitle({ title: 'Users' })
   
   useHeaderButtons([
-    [<AddButton />, '/admin/users/create'],
-    [<ImportUserButton />, '/admin/users/import']
+    {
+      id: 'createUser',
+      component: <ButtonAdd action='/admin/users/create' text='Create new user' />
+    },
+    {
+      id: 'importUsers',
+      component: <ImportUserButton />
+    }
   ])
 
   return (

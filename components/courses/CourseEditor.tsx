@@ -1,13 +1,9 @@
-
-import { useReactiveVar } from "@apollo/client"
 import { useRouter } from '../../utils/router'
-import LessonEditor from "./LessonEditor"
-import SelectNewCourseItem from "./SelectNewCourseItem"
-import useCourse from "../../hooks/courses/useCourse"
+import ModuleEditor from "./ModuleEditor"
 import { useEffect } from "react"
-import { currentContentItemVar } from "../../graphql/cache"
-import useUpdateLesson from "../../hooks/lessons/useUpdateLesson"
 import useGetUserCourse from "../../hooks/users/useGetUserCourse"
+import { SettingsPane } from "../common/ContentEditor/SettingsPane"
+import CourseFrontPageEditor from './CourseFrontPageEditor'
 
 const CourseEditor = () => {
 
@@ -15,57 +11,52 @@ const CourseEditor = () => {
   const { id, cid: contentId } = router.query
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
-
-  const currentContentItem = useReactiveVar(currentContentItemVar)
-  
-  const { updateLesson } = useUpdateLesson(contentId)
   
   useEffect(() => {
     // If there is a course but no item provided, show the first item
-    if(course && !contentId) {
+    if(course && !contentId && !course.settings.frontPage?.enabled) {
       const firstItemInCourse = course?.sections.find(
-        (section) => section.lessons?.length
-      )?.lessons[0]
+        (section) => section.children?.filter(module => module._deleted !== true).length
+      )?.children.find(module => module._deleted !== true)
       
       if(firstItemInCourse) {
-        currentContentItemVar({
-          id: firstItemInCourse.id,
-          type:'lesson',
-          title: firstItemInCourse.title,
-          updateFunction: updateLesson(firstItemInCourse.id)
-        })
+        router.push({query: {
+          ...router.query,
+          cid: firstItemInCourse.id
+        }})
       }
-    } else {
-      currentContentItemVar({
-        id: contentId,
-        type:'lesson',
-        title: '',
-        updateFunction: updateLesson(contentId)
-      })
-    }
-  },[id, contentId])
 
-  
-  // useEffect(() => {
-  //   headerButtonsVar(
-  //     <>
-  //       <Button onClick={() => router.push(`/admin/courses/edit?id=${cid}`)}>Cancel</Button>
-  //       <Button>Preview lesson</Button>
-  //       <Button>Publish</Button>
-  //     </>
-  //   )
-  // },[])
+    }
+  },[id, contentId, course.settings.frontPage?.enabled])
+
+  const courseFontCssVars = {
+    ...(course.settings.fonts?.headings?.name && {
+      "--course-headings-font": `'${course.settings.fonts?.headings?.name}'`,
+    }),
+    ...(course.settings.fonts?.body?.name && {
+      "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
+    })
+  }
 
   return (
-    <>
-      { currentContentItem.id ? (
-        <LessonEditor />
-      ) :
-        <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
-          <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first lesson" />
-        </div>
-      }
-    </>
+    <div className="h-full">
+      <div 
+        className="fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)] lg:ml-[260px] mr-[300px] left-0 lg:left-16 right-0"
+        style={courseFontCssVars as React.CSSProperties }
+        id="course_editor"
+      >
+        { course.settings.frontPage?.enabled && !contentId && (
+          <CourseFrontPageEditor />
+        )}
+        { contentId && (
+          <ModuleEditor key={contentId} />
+          // <div className='mx-auto my-0 space-y-4 h-full self-center flex flex-col justify-center items-center w-full max-w-sm'>
+          //   <SelectNewCourseItem sectionId={course.sections[0]?.id} placeholder="Create your first course module" />
+          // </div>
+        )}
+      </div>
+      <SettingsPane />
+    </div>
   )
 }
 export default CourseEditor

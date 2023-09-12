@@ -40,24 +40,15 @@ export const ContentFragment = gql`
       id
     }
     itemType
-    document {
-      id
-      mediaType
-      location
-      fileName
-    }
-    audio {
-      id
-      mediaType
-      location
-      fileName
-    }
     prerequisites
     settings
     title
     updatedAt
     users {
       totalCount
+    }
+    parents {
+      id
     }
     tags {
       edges {
@@ -72,28 +63,72 @@ export const ContentFragment = gql`
 export const ResourceFragment = gql`
   fragment ResourceFragment on ContentItem {
     ...ContentFragment
+    document {
+      id
+      mediaType
+      location
+      fileName
+    }
+    audio {
+      id
+      mediaType
+      location
+      fileName
+    }
   }
   ${ContentFragment}
 `
 
 export const LessonFragment = gql`
-fragment LessonFragment on ContentItem {
-  ...ContentFragment
-}
-${ContentFragment}
-`
-export const SectionFragment = gql`
-  fragment SectionFragment on ContentItem {
+  fragment LessonFragment on ContentItem {
     ...ContentFragment
-    # parents {
-    #   id
-    # }
-    children {
-      ...ContentFragment
-    }
   }
   ${ContentFragment}
 `
+
+export const QuestionFragment = gql`
+  fragment QuestionFragment on Question {
+    answers
+    content
+    createdAt
+    updatedAt
+    settings
+    id
+    questionType
+    order
+  }
+`
+
+export const QuizFragment = gql`
+  fragment QuizFragment on ContentItem {
+    ...ContentFragment
+    questions {
+      ...QuestionFragment
+    }
+  }
+  ${QuestionFragment}
+  ${ContentFragment}
+`
+
+export const SectionChildrenFragment = gql`
+  fragment SectionChildrenFragment on ContentItem {
+    children {
+      __typename
+      id
+      _deleted @client
+    }
+  }
+`
+
+export const SectionFragment = gql`
+  fragment SectionFragment on ContentItem {
+    ...ContentFragment
+    ...SectionChildrenFragment
+  }
+  ${ContentFragment}
+  ${SectionChildrenFragment}
+`
+
 export const CourseFragment = gql`
   fragment CourseFragment on ContentItem {
     ...ContentFragment
@@ -114,6 +149,14 @@ export const PathwayFragment = gql`
   ${ContentFragment}
   ${CourseFragment}
 `
+export const ContentTitleAndTypeFragment = gql`
+  fragment ContentTitleAndTypeFragment on ContentItem {
+    id
+    title
+    contentType
+    itemType
+  }
+`
 
 export const GET_COURSE = gql`
   query GetCourse($id: ID!) {
@@ -121,9 +164,6 @@ export const GET_COURSE = gql`
       ...CourseFragment
       sections {
         ...SectionFragment
-        children {
-          ...ContentFragment
-        }
       }
     }
   }
@@ -255,22 +295,10 @@ export const GET_PATHWAYS = gql`
 export const GET_QUIZ = gql`
   query GetQuiz($id: ID!) {
     quiz(id: $id) {
-      title
-      updatedAt
-      prerequisites
-      id
-      itemType
-      content
-      createdAt
-      questions {
-        answers
-        content
-        createdAt
-        id
-        questionType
-      }
+      ...QuizFragment
     }
   }
+  ${QuizFragment}
 `
 
 export const GET_QUIZZES = gql`
@@ -278,22 +306,10 @@ export const GET_QUIZZES = gql`
     quizzes {
       edges {
         node {
-          title
-          updatedAt
-          prerequisites
-          id
-          itemType
-          content
-          createdAt
-          questions {
-            answers
-            content
-            createdAt
-            id
-            questionType
-          }
+          ...QuizFragment
         }
       }
     }
   }
+  ${QuizFragment}
 `

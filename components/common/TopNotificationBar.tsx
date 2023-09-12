@@ -1,13 +1,11 @@
-import { useReactiveVar } from "@apollo/client";
-import Link from "next/link"
-import { viewVar } from '../../graphql/cache';
+import { useViewStore } from "../../hooks/useViewStore"
 
 const TopNotificationBar = () => {
   
-  const view = useReactiveVar(viewVar);
-  
+  const isAdminView = useViewStore(state => state.isAdminView)
+
   return (
-    <div className={`py-2 ${!view.isAdmin ? 'bg-main-secondary' : 'bg-main'}`}>
+    <div className={`py-2 ${!isAdminView ? 'bg-main-secondary' : 'bg-main'}`}>
       <div className="relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex justify-center items-center">
           <div className="text-sm font-medium text-white">

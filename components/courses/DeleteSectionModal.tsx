@@ -1,46 +1,58 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { gql, useMutation, useReactiveVar } from '@apollo/client';
 import React, { useContext } from 'react';
 import { SectionFragment } from "../../graphql/queries/allQueries";
 import { DeleteSection, DeleteSectionVariables } from '../../graphql/mutations/section/__generated__/DeleteSection';
 import { DELETE_SECTION } from '../../graphql/mutations/section/DELETE_SECTION';
 import Button from '../common/Button';
 import { closeModal, handleModal } from '../../stores/modalStore';
+import { useEditorViewStore } from '../common/ContentEditor/useEditorViewStore';
+import { useRouter } from '../../utils/router';
 
-const DeleteSectionModal = ({sectionId}) => {
+const DeleteSectionModal = ({id}) => {
   
+  const router = useRouter()
+
+  const { cid: moduleId } = router.query
+  const items = useEditorViewStore(state => state.items)
+
   const [deleteSection, deleteSectionResponse] = useMutation<DeleteSection, DeleteSectionVariables>(
     DELETE_SECTION,
     {
       update(cache, { data: { deleteSection } } ) {
 
-        
-        // We get a single item.
-        const section = cache.readFragment({
-          id: `ContentItem:${sectionId}`,
-          fragment: SectionFragment,
-          fragmentName: 'SectionFragment',
-          // optimistic: true,
-        });
-        // Then, we update it.
-        if (section) {
-          cache.writeFragment({
-            id: `ContentItem:${sectionId}`,
-            fragment: SectionFragment,
-            fragmentName: 'SectionFragment',
-            data: {
-              ...section,
-              _deleted: true
-            },
-          });
-        }
+        cache.updateFragment({
+          id: `ContentItem:${id}`,
+          fragment: gql`
+            fragment DeletedContentFragment on ContentItem {
+              _deleted @client
+            }
+          `
+        }, (data) => ({ _deleted: true }))
       },
     }
   );
 
-  const handleDeleteSection = (value) => {
+  const handleDeleteSection = (id) => {
+
+    // if(items[id].includes(moduleId)) {
+    //   const sectionIds = Object.values(items).flat()
+    //   const flatItemsArray = Object.values(items).flat()
+    //   const prevItemIndex = Math.max(flatItemsArray.indexOf(id) - 1)
+    //   const prevItemId = flatItemsArray[prevItemIndex]
+  
+    //   router.push({
+    //     pathname: `/admin/courses/edit`,
+    //     query: {
+    //       ...router.query,
+    //       cid: prevItemId
+    //     }
+    //   })
+    // }
+
+
     deleteSection({
       variables: {
-        id: value
+        id
       },
       
       optimisticResponse: {
@@ -58,7 +70,7 @@ const DeleteSectionModal = ({sectionId}) => {
             image: null,
             icon: null,
             prerequisites: null,
-            _deleted: false,
+            _deleted: true,
           },
           message: ''
         }
@@ -72,7 +84,7 @@ const DeleteSectionModal = ({sectionId}) => {
   return (
     <>
     <p>Are you sure you want to delete this section?</p>
-    <Button onClick={() => handleDeleteSection(sectionId)}>Delete section</Button>
+    <Button onClick={() => handleDeleteSection(id)}>Delete section</Button>
     </>
   );
 }

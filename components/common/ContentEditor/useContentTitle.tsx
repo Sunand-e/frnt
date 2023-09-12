@@ -1,21 +1,10 @@
-import cache, { currentContentItemVar } from "../../../graphql/cache";
-import { ContentFragment } from "../../../graphql/queries/allQueries";
-import { useCallback, useEffect, useState } from "react";
-import { ContentFragment as ContentFragmentType } from "../../../graphql/queries/__generated__/ContentFragment";
+import { useEffect, useState } from "react";
 import { gql, useFragment_experimental, useReactiveVar } from "@apollo/client";
+import { ContentTitleFragment } from "../../courses/SidebarSection";
 
-const ContentTitleFragment = gql`
-  fragment ContentTitleFragment on ContentItem {
-    title
-  }
-`
-
-export const useContentTitle = () => {
-
-  const { id } = useReactiveVar(currentContentItemVar)
+export const useContentTitle = (id) => {
 
   const [title, setTitle] = useState('')
-
 
   const { complete, data } = useFragment_experimental({
     fragment: ContentTitleFragment,

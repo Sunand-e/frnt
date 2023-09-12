@@ -6,6 +6,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 module.exports = withBundleAnalyzer({
+
+  output: 'export',
+
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -22,20 +25,30 @@ module.exports = withBundleAnalyzer({
   // the basePath needs to be set if the app is accessed in a subdirectory of a domain.
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
 
-  experimental:{
-    transpilePackages: [
-      "@fullcalendar/common",
-      "@babel/preset-react",
-      "@fullcalendar/common",
-      "@fullcalendar/daygrid",
-      "@fullcalendar/interaction",
-      "@fullcalendar/react",
-      "@fullcalendar/timegrid"      
-    ]
-  },
+  transpilePackages: [
+    "@fullcalendar/common",
+    "@babel/preset-react",
+    "@fullcalendar/common",
+    "@fullcalendar/daygrid",
+    "@fullcalendar/interaction",
+    "@fullcalendar/react",
+    "@fullcalendar/timegrid"      
+  ],
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 
+    config.module.rules.push({
+      test: /\.(svg|png|jpe?g|gif|mp4)$/i,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next',
+            name: 'static/media/[name].[hash].[ext]',
+          },
+        },
+      ],
+    })
     // config.resolve.alias.canvas = false
     
     // fix for Plate which uses 'fs' in cosmiconfig package

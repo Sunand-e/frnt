@@ -37,12 +37,12 @@ export default function CourseTabs({gridClasses=''}) {
 
   return (
     <>
-    <ContentStatusTabs 
-      gridClasses={gridClasses} 
-      options={options} 
-      loading={loading} 
-      content={courses}
+      <ContentStatusTabs 
+        gridClasses={gridClasses} 
+        options={options} 
+        loading={loading} 
+        content={courses}
       />
-      </>
+    </>
   )
 }

@@ -1,7 +1,5 @@
-import {
-  CheckCircleIcon,
-  BuildingOfficeIcon
-} from '@heroicons/react/20/solid'
+import CheckCircleIcon from '@heroicons/react/20/solid/CheckCircleIcon'
+import BuildingOfficeIcon from '@heroicons/react/20/solid/BuildingOfficeIcon'
 import {User} from '@styled-icons/fa-solid/User'
 import { useContext } from 'react';
 import { TenantContext } from '../../context/TenantContext';

@@ -2,8 +2,10 @@ import { useCallback } from 'react'
 import { useMutation } from "@apollo/client"
 
 import { UpdateUserContentStatus, UpdateUserContentStatusVariables } from "../../graphql/mutations/user/__generated__/UpdateUserContentStatus";
-import { UPDATE_USER_CONTENT_STATUS } from "../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
+import { UPDATE_USER_CONTENT_STATUS, UserContentStatusFragment } from "../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
 import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
+import cache from '../../graphql/cache';
+import { userContentEdgeDefaults } from './userContentEdgeDefaults';
 
 function useUpdateUserContentStatus() {
 
@@ -13,44 +15,47 @@ function useUpdateUserContentStatus() {
 
   const { user } = useGetCurrentUser()
 
-  const updateUserContentStatus = useCallback((values, contentItemId=null) => {
-    
-    updateUserContentStatusMutation({
-      variables: {
-        ...values
-      },
+  const updateUserContentStatus = useCallback((values) => {
+    if(values.contentItemId && user) {
 
-      optimisticResponse: {
-        updateUserContentStatus:{
-          userContents:{
-            edges:[{
-              userId: user?.id,
-              status: "in_progress",
-              score: 71,
-              updatedAt: "2022-10-18T21:38:36Z",
-              firstVisited: "2022-10-18T21:38:36Z",
-              lastVisited: "2022-10-18T21:38:36Z",
-              completed:null,
-              properties:{},
-              node:{
-                id: values.contentItemId || contentItemId,
-                itemType:"section",
-                __typename:"ContentItem"
-              },
-              ...values,              
-              __typename:"UserContentEdge"
-            }],
-            __typename:"UserContentConnection"
-          },
-          __typename:"UserContentStatusUpdatePayload"
+      const cachedContentStatus = cache.readFragment({
+        fragment: UserContentStatusFragment,
+        fragmentName: 'UserContentStatusFragment',
+        id: `UserContentEdge:${user.id}:${values.contentItemId}`
+      },true);
+
+      updateUserContentStatusMutation({
+        variables: {
+          ...values
+        },
+
+        optimisticResponse: {
+          updateUserContentStatus:{
+            userContents:{
+              edges:[{
+                ...userContentEdgeDefaults,
+                userId: user?.id,
+                node:{
+                  ...userContentEdgeDefaults.node,
+                  id: values.contentItemId,
+                  __typename:"ContentItem"
+                },
+                ...(cachedContentStatus),
+                ...values,
+                __typename:"UserContentEdge"
+              }],
+              __typename:"UserContentConnection"
+            },
+            __typename:"UserContentStatusUpdatePayload"
+          }
         }
-      }
-    }).then(res => {
-      console.log('response')
-      console.log(res)
-    }).catch(res => {
-      // TODO: do something if there is an error!!
-    })
+      }).then(res => {
+        // console.log('response')
+        // console.log(res)
+      }).catch(res => {
+        // TODO: do something if there is an error!!
+      })
+    }
   },[user])
 
   return {

@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client"
 import { CREATE_COURSE } from "../../graphql/mutations/course/CREATE_COURSE";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { CreateCourse, CreateCourseVariables } from "../../graphql/mutations/course/__generated__/CreateCourse";
+import { contentItemDefaults } from "../contentItems/contentItemDefaults";
 
 
 function useCreateCourse(cb) {
@@ -36,13 +37,10 @@ function useCreateCourse(cb) {
         createCourse: {
           __typename: 'CreateCoursePayload',
           course: {
-            __typename: 'ContentItem',
+            ...contentItemDefaults,
             id: Math.floor(Math.random() * 10000) + '',
             title: values.title,
-            mediaItem: null,
-            createdAt: '',
-            updatedAt: '',
-            _deleted: false,
+            order: 99999999999,
             ...values,
             tags: {
               edges: []

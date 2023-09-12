@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { Item } from '../../common/dnd-kit';
-import { SortableItemProps, useMountStatus } from './MultipleContainers';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import { useMountStatus } from '../../../hooks/useMountStatus';
+
+interface SortableItemProps {
+  containerId?: UniqueIdentifier;
+  id: UniqueIdentifier;
+  index: number;
+  handle?: boolean;
+  disabled?: boolean;
+  style?(args: any): React.CSSProperties;
+  renderItem(): React.ReactElement;
+  wrapperStyle?({index}: {index: number}): React.CSSProperties;
+}
 
 export function SortableItem({
-  disabled, id, index, handle, renderItem, style, containerId, getIndex, wrapperStyle,
+  disabled, id, index, handle, renderItem, wrapperStyle,
 }: SortableItemProps) {
   const {
     setNodeRef, listeners, isDragging, isSorting, over, overIndex, transform, transition,
@@ -24,14 +36,6 @@ export function SortableItem({
       index={index}
       wrapperStyle={wrapperStyle({ index })}
       style={{
-        ...style({
-          index,
-          id: id,
-          isDragging,
-          isSorting,
-          overIndex: over ? getIndex(over.id) : overIndex,
-          containerId,
-        }),
         opacity: isDragging ? 0.5 : undefined,
       }}
       transition={transition}

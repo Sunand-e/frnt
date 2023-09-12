@@ -1,13 +1,13 @@
 const SelectInput = ({
-  label,
-  inputAttrs,
-  options,
+  label = "",
+  inputAttrs = {},
+  options = [],
   placeholder: placeholder = ''
 }) => {
 
   return (
     <label className="block">
-      <span className="text-sm font-medium text-gray-700">{ label }</span>
+      { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
       <select
         className="
           block
@@ -20,9 +20,9 @@ const SelectInput = ({
         "
         { ...inputAttrs }
       >
-        { options?.map(value => (
-          <option key={value} value={value}>
-            {value}
+        { options?.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

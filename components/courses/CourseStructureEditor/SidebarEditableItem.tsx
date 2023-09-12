@@ -1,10 +1,14 @@
 import classNames from 'classnames'
-import DeleteLessonModal from "../DeleteLessonModal"
 import SidebarItem from "../SidebarItem"
 import styles from '../SidebarItem.module.scss'
-import { useContext } from "react"
 import { useRouter } from 'next/router'
-import { handleModal } from '../../../stores/modalStore'
+import useDeleteLesson from '../../../hooks/lessons/useDeleteLesson'
+import useConfirmDelete from '../../../hooks/useConfirmDelete'
+import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore'
+import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
+import { ContentTitleAndTypeFragment } from '../../../graphql/queries/allQueries'
+import { useFragment_experimental } from '@apollo/client'
+import { moduleTypes } from '../moduleTypes'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -21,24 +25,55 @@ const SidebarEditableItem = ({
 }) => {
 
   const router = useRouter()
+  const { cid: contentId } = router.query
+
+  const { deleteLesson } = useDeleteLesson(id)
+  const items = useEditorViewStore(state => state.items)
+
+  const { complete, data, missing } = useFragment_experimental({
+    fragment: ContentTitleAndTypeFragment,
+    from: { id, __typename: "ContentItem", },
+  });
+
+  const moduleTypeName = data ? data.itemType === 'quiz' ? 'quiz' : data.contentType : null
+  const moduleTypeString = moduleTypeName && moduleTypes[moduleTypeName].lowercase
+  const { confirmDelete } = useConfirmDelete({
+    // itemType: 'lesson',
+    itemType: moduleTypeString,
+    name: data?.title,
+    onConfirm: () => {
+      if(contentId === id) {
+        const flatItemsArray = Object.values(items).flat()
+        const prevItemIndex = flatItemsArray.indexOf(id) - 1
+        const prevItemId = flatItemsArray[prevItemIndex]
+
+        prevItemId && router.push({
+          pathname: `/admin/courses/edit`,
+          query: {
+            ...router.query,
+            cid: prevItemId
+          }
+        })
+      }
+      deleteLesson()
+    }
+  })
 
   const handleDelete = (e) => {
     e.stopPropagation()
-    handleDeleteModal(id)
-  }
-  
-  const handleDeleteModal = (id) => {
-    handleModal({
-      title: `Delete lesson`,
-      content: <DeleteLessonModal lessonId={id} />
-    })
+    confirmDelete()
   }
   
   const handleSelect = () => {
+    useEditorViewStore.setState({
+      activeSettingsPanel: 'module',
+    })
+    // useBlockStore.setState({activeBlockId: null})
+
     router.push({
       pathname: `/admin/courses/edit`,
       query: {
-        ...router.query,
+        id: router.query.id,
         cid: id
       }
     })

@@ -3,6 +3,7 @@ import { headerButtonsVar } from '../graphql/cache'
 import { useEffect } from 'react'
 import Button from '../components/common/Button'
 import ResourceView from '../components/resources/ResourceView'
+import useHeaderButtons from '../hooks/useHeaderButtons'
 
 const ResourcePage = () => {
   /*
@@ -10,7 +11,7 @@ const ResourcePage = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
   */
   const router = useRouter()
-  const { id, showEdit=false } = router.query
+  const { id, showEdit } = router.query
 
   const editItem = () => {
     router.push({
@@ -21,14 +22,13 @@ const ResourcePage = () => {
     })
   }
 
-  useEffect(() => {
+  const headerButton = showEdit && {
+    id: 'saveResource',
+    component: <Button onClick={editItem}>Edit resource</Button>
+  }
 
-    headerButtonsVar(
-      <>
-        {showEdit && <Button onClick={editItem}>Edit Item</Button> }
-      </>
-    )
-  },[showEdit])
+  useHeaderButtons(headerButton)
+
   return (
     <>
     <ResourceView id={id} />

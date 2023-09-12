@@ -5,13 +5,14 @@ import MediaLibrary from '../../../../media/MediaLibrary'
 import useBlockEditor from '../../useBlockEditor';
 import DocumentItem from './DocumentItem';
 import { closeModal } from '../../../../../stores/modalStore';
+import { useBlockStore } from '../../useBlockStore';
 // @styled-icons/bootstrap/FilePdf
 // @styled-icons/simple-icons/Microsoftexcel
 // @styled-icons/boxicons-solid/FileDoc
 
 const DocumentBlockEdit: FunctionComponent = ({block}) => {
   
-  const { updateBlock } = useBlockEditor()
+  const { updateBlock } = useBlockStore()
 
   const file = block?.properties?.file;
 
@@ -38,7 +39,9 @@ const DocumentBlockEdit: FunctionComponent = ({block}) => {
   }
 
   return (
-    <DocumentSelector onSelect={selectFile} onRemove={handleRemove} file={file} />
+    <>
+      <DocumentSelector onSelect={selectFile} onRemove={handleRemove} file={file} />
+    </>
   ) 
 
 }

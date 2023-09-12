@@ -12,8 +12,19 @@ const Categories = () => {
   const router = useRouter()
   const { search, category } = router.query
   
-  const { tags, courses, resources, pathways } = useGetCurrentUser()
+  const { tags, courses, resources, pathways, loading } = useGetCurrentUser()
 
+  const [ searching, setSearching ] = useState(false)
+
+  useEffect(() => {
+    setSearching(!!(search || category))
+    if(search || category) {
+      router.push({
+        query: {search, category}
+      })
+    }
+  },[search, category])
+  
   // const {loading, error, data: { courses: courses} = {} } = useQuery(gql`
   //   query GetCategories {
   //     courses {
@@ -30,7 +41,7 @@ const Categories = () => {
   })
 
   const filterNodesByCategory = (nodes) => {
-    if(category) {
+    if(category && nodes) {
       return nodes.filter(node => {
         const isSelectedCategory = tag => {
           return tag.tagType === 'category' && tag.label === category
@@ -38,7 +49,7 @@ const Categories = () => {
         return node.tags && node.tags.edges.some(({node}) => isSelectedCategory(node));   
       });
     } else {
-      return nodes
+      return nodes || []
     }    
   }
 
@@ -46,33 +57,20 @@ const Categories = () => {
   const resourceNodes = useMemo(() => getNodes(resources), [resources])
   const pathwayNodes = useMemo(() => getNodes(pathways), [pathways])
 
-
-  const [ searching, setSearching ] = useState(false)
-
-  useEffect(() => {
-    setSearching(!!(search || category))
-    if(search || category) {
-      router.push({
-        query: {search, category}
-      })
-    }
-  },[search, category])
-  
-
   return (
     <div className="flex flex-col items-stretch grow">
       { !!tags && <CategoryFilters /> }
-      { !courses && <LoadingSpinner text={(
-        <>
-          Loading categories
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} /> }
-      {
-      // If user is searching, only show search results
-       
+      { loading ? (
+        <LoadingSpinner text={(
+          <>
+            Loading categories
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+          </>
+        )} />
+      ) : (
+      // If user is searching, only show search results       
         searching ? (
           filterNodesByCategory(courseNodes)?.length
           || filterNodesByCategory(resourceNodes)?.length
@@ -88,7 +86,7 @@ const Categories = () => {
         ) : (
           <CategoriesCollection />            
         )
-      }
+      )}
     </div>
   )
 }

@@ -1,75 +1,114 @@
-import { useState } from "react";
-import useBlockEditor from "../../useBlockEditor";
-import ColorPicker from "./settings/inputs/ColorPicker";
-import PaddingSelect from "./settings/inputs/PaddingSelect"
+import { useForm } from "react-hook-form";
+import ImageSelectInput from "../../../inputs/ImageSelectInput";
+import { SwitchInput } from "../../../inputs/SwitchInput";
+import blocktypes from "../../blocktypes";
+import { updateBlockStyles, useBlockStore } from "../../useBlockStore";
+import ColorPickerInput from "./settings/inputs/ColorPickerInput";
+import PaddingSelect from "./settings/inputs/PaddingSelect";
 
-const StylingPanel = ({block: origBlock, children = null}) => {
+interface StylingFormValues {
+  bgImageEnabled: boolean
+}
 
-  const [block, setBlock] = useState(origBlock)
+const StylingPanel = ({block, children = null}) => {
 
-  const { updateBlockProperties, getIndexAndParent } = useBlockEditor(block)
-  const { parent } = getIndexAndParent(block?.id)
+  const blockType = blocktypes[block.type]
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const selectPadding = (value, side) => {
     const paddingProperty = `padding${side[0].toUpperCase() + side.substring(1)}`
-    setBlock(updateBlockProperties(block, {[paddingProperty]: value}))
+    updateBlockStyles(block, {[paddingProperty]: value})
   }
   
-  const updateBgColor = value => {
-    setBlock(updateBlockProperties(block, {bgColor: value}))
-  }
-  
-  const updateTextColor = value => {
-    setBlock(updateBlockProperties(block, {textColor: value}))
+  const defaultValues = {
+    backgroundPosition: 'center',
+    ...block.style
   }
 
+  const { control, watch } = useForm<StylingFormValues>({
+    defaultValues
+  });
+
+  watch((data, { name, type }) => {
+    // console.log(data, name, type)
+    const updatedBlock = {
+      ...block,
+      style: {
+        ...block.style,
+        [name]: data[name]
+      }
+    }
+    updateBlock(updatedBlock)
+  })
+
+  const { bgImageEnabled } = watch()
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex space-x-4">
-        { !parent ? (
-          <>
-            <PaddingSelect
-              side='top'
-              onSelect={data => selectPadding(data.value, 'top')}
-              selected='none'
-              label="Padding Top"
+    <div className="flex flex-col space-y-3">
+      <div id="block_padding_settings" className="">
+        <label className="text-sm font-medium text-secondary mb-2 block">Padding</label>
+        {/* { !parent ? ( */}
+        <div className={`flex w-full items-center space-x-4 mb-2`}>
+          <PaddingSelect
+            side='top'
+            onSelect={data => selectPadding(data.value, 'top')}
+            selected={block.style?.paddingTop}
+            label="Top"
             />  
-            <PaddingSelect 
-              side='bottom'
-              onSelect={data => selectPadding(data.value, 'bottom')}
-              selected='none'
-              label="Padding Bottom"
-              />
-            </>
-          ) : (
-            <>
-              <PaddingSelect
-                side='left'
-                onSelect={data => selectPadding(data.value, 'left')}
-                selected='none'
-                label="Padding Left"
-              />
-              <PaddingSelect 
-                side='right'
-                onSelect={data => selectPadding(data.value, 'right')}
-                selected='none'
-                label="Padding Right"
-              />
-            </>
-          )
-        }
+          <PaddingSelect 
+            side='bottom'
+            onSelect={data => selectPadding(data.value, 'bottom')}
+            selected={block.style?.paddingBottom}
+            label="Bottom"
+          />
+        </div>
       </div>
-      <ColorPicker
-        label="Background Color"
-        onChange={updateBgColor}
-        value={block?.properties?.bgColor}
-      />
-      <ColorPicker
-        label="Default Text Color"
-        onChange={updateTextColor}
-        value={block?.properties?.textColor}
-      />
+
+      { blockType.canHaveBgImage && !blockType.alwaysHasBgImage && (
+        <SwitchInput
+          name={'bgImageEnabled'}
+          control={control}
+          label={'Background image?'}
+        />
+      )}
+      { (bgImageEnabled || blockType.alwaysHasBgImage) && (
+        <>
+          <ImageSelectInput
+          placeholder="/images/image-block-placeholder.jpg"
+            name="bgImage"
+            control={control}
+            buttonText={'Choose image'}
+            valueAsObject={true}
+            origImage={defaultValues.bgImage}
+          />
+          <ColorPickerInput
+            defaultValue="rgba(0,0,0,0.5)"
+            label="Overlay color"
+            name='overlayColor'
+            control={control}
+          />
+          {/* <ReactSelectInput
+            control={control}
+            menuPlacement={'auto'}
+            slim={true}
+            className={'text-sm'}
+            name={'backgroundPosition'}
+            label="Background position"
+            options={[
+              { label: 'Center', value: 'center' },
+              { label: 'Top', value: 'top' },
+              { label: 'Bottom', value: 'bottom' }
+            ]}
+          /> */}
+        </>
+      )}
+      { !blockType.alwaysHasBgImage && !bgImageEnabled && (
+        <ColorPickerInput
+          label="Background color"
+          name='bgColor'
+          control={control}
+        />  
+      )}
     </div>
   )
 }

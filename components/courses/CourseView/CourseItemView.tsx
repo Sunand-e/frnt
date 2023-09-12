@@ -1,28 +1,28 @@
 import { useRouter } from '../../../utils/router'
-import LessonView from "./LessonView"
-import useBlockEditor from '../../common/ContentEditor/useBlockEditor'
 import { useEffect } from 'react'
-import { useReactiveVar } from '@apollo/client'
-import { currentContentItemVar } from '../../../graphql/cache'
 import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import LoadingSpinner from '../../common/LoadingSpinner'
 import { Dot } from '../../common/misc/Dot';
+import ModuleView from './ModuleView'
+import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
+import CourseFrontPageView from '../CourseFrontPageView';
 
 const CourseItemView = () => {
-
-  const currentContentItem = useReactiveVar(currentContentItemVar) 
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
   const { courses } = useGetUserCourse(id)
   const course = courses?.edges[0]?.node
 
+  useLazyFontLoad(course?.settings.fonts?.headings)
+  useLazyFontLoad(course?.settings.fonts?.body)
+
   useEffect(() => {
     // If there is a course but no item provided, show the first item
-    if(course && !contentId) {
+    if(course && !contentId && !course.settings.frontPage?.enabled) {
       const firstItemInCourse = course.sections?.find(
-        (section) => section.lessons?.length
-      )?.lessons[0]
+        (section) => section.children?.length
+      )?.children[0]
       
       if(firstItemInCourse) {
         router.push({query: {
@@ -33,21 +33,33 @@ const CourseItemView = () => {
     }
   },[id, course?.id])
 
-  useEffect(() => {
-    currentContentItemVar({
-      ...currentContentItem,
-      type: 'lesson',
-      id: contentId
+  const courseFontCssVars = {
+    ...(course?.settings.fonts?.headings?.name && {
+      "--course-headings-font": `'${course.settings.fonts?.headings?.name}'`,
+    }),
+    ...(course?.settings.fonts?.body?.name && {
+      "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
     })
-  },[id, contentId])
-  
+  }
+
   return (
     course ? (
-      <LessonView />
+      <div
+        id="course_view"
+        style={courseFontCssVars as React.CSSProperties }
+        className='bg-main-lightness-99 h-full'
+      >
+        { course.settings.frontPage?.enabled && !contentId && (
+          <CourseFrontPageView />
+        )}
+        { contentId && (
+          <ModuleView />
+        )}
+      </div>
     ) : (
       <LoadingSpinner text={(
         <>
-          Loading your course
+          Loading course module
           <Dot>.</Dot>
           <Dot>.</Dot>
           <Dot>.</Dot>

@@ -32,16 +32,10 @@ const ImageDropzone = ({
     />
   )
 
-  const accept = [
-    'image/jpeg',
-    'image/pjpeg',
-    'image/jpeg',
-    'image/pjpeg',
-    'image/png',
-    'image/gif',
-    'image/svg+xml'
-  ]
-  
+  const accept = {
+    'image/*': ['.jpeg','.pjpeg','.jpeg','.pjpeg','.png','.gif','.svg']
+  }
+
   const handleDrop = (acceptedFiles, fileRejections, event) => {
     const file = acceptedFiles[0]
     // const fileWithPreview = Object.assign(file, {

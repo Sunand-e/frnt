@@ -1,72 +1,104 @@
 import React, { useEffect, useState } from 'react'
-import { activeContentBlockVar } from '../../../graphql/cache'
 import BlockMenu from './BlockMenu'
-import useBlockEditor from './useBlockEditor'
 import BlockFooter from './BlockFooter'
 import { useReactiveVar } from "@apollo/client";
 import { BlockEdit } from './BlockEdit'
 import { getBlock, getIndexAndParent, useBlockStore } from './useBlockStore'
+import { showBlocksPanel, useEditorViewStore } from './useEditorViewStore';
+import classNames from '../../../utils/classNames';
+import blocktypes from './blocktypes';
 
 const BlockContainer = ({
   id,
   isColumn = false,
   dragging = false,
+  dragListeners = null,
   // onClick: handleClick, 
   handle = true,
 }) => {
 
   const [ showFooter, setShowFooter ]  = useState(false)
-  const blocks = useBlockStore(state => state.blocks)
-  const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
+  const isActive = useBlockStore(state => state.activeBlockId === id)
 
   const block = getBlock(id)
   const { index, parent } = getIndexAndParent(id)
-  const isActive = useReactiveVar(activeContentBlockVar) === id
   
   useEffect(() => {
-    if(!isColumn && index !== blocks.length -1) {
-      setShowFooter(true)
-    } else {
-      setShowFooter(false)
-    }
-  },[blocks])
+    // if(!isColumn && index !== blocks.length -1) {
+    setShowFooter(!isColumn)
+  },[isColumn])
+
+  const isLastColumn = parent && parent.type === 'columns' && index === parent.children.length - 1
+
+  let bgImageCssString = ''
+  if(block.style?.bgImageEnabled || block.type === 'textOnImage') {
+    // if(block?.style?.overlayColor) {
+    const overlayColor = block?.style?.overlayColor || 'rgba(0,0,0,0.5)'
+      bgImageCssString = `
+        linear-gradient(
+          ${overlayColor}, 
+          ${overlayColor}
+        ),
+      `
+    // }
+    bgImageCssString += `url(${block?.style?.bgImage?.location || '/images/image-block-placeholder.jpg'})`
+  }
 
   return (
     <div 
-      className={`group flex flex-col h-full ${parent ? '' : '-mx-16'}`}
+      className={classNames(
+        `relative group flex flex-col h-full`,
+      )}
       style={{
-        backgroundColor: block?.properties?.bgColor,
-        color: block?.properties?.textColor || 'inherit'
+        backgroundColor: block.style?.bgColor,
+        ...((block.style?.bgImageEnabled || block.type === 'textOnImage') && { 
+          backgroundImage: bgImageCssString
+        }),
+        backgroundPosition: block?.style?.backgroundPosition || 'center',
+        backgroundSize: 'cover',
+        color: block?.style?.textColor || 'inherit'
       }}
     >
       <div
-        className={`
-          ${isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main'}
-          ${parent?.id ? 'px-4' : ''}
-          relative flex flex-col items-center
-        `}
+        className={classNames(
+          isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main',
+          parent?.id ? 'px-4' : '',
+          'relative flex flex-col items-center',
+          isActive && 'rounded-md border-dashed border-main/60 border-2 group/active-block',
+        )}
         style={{
-          paddingTop: block?.properties?.paddingTop,
-          paddingBottom: block?.properties?.paddingBottom,
-          paddingLeft: block?.properties?.paddingLeft,
-          paddingRight: block?.properties?.paddingRight,
+          paddingTop: block?.style?.paddingTop,
+          paddingBottom: block?.style?.paddingBottom,
+          paddingLeft: block?.style?.paddingLeft,
+          paddingRight: block?.style?.paddingRight,
         }}
-        onClick={() => {
-          // alert(id)
-          activeContentBlockVar(id)
+        onClick={(e) => {
+          if(block.type === 'placeholder') {
+
+          } else {
+            e.stopPropagation()
+            showBlocksPanel()
+            useBlockStore.setState({
+              activeBlockId: block.id
+            })
+            useEditorViewStore.setState({
+              activeSettingsPanel: 'block'
+            })
+          }
         }}
       >
-        <span className={`absolute z-10 right-2 top-2`}>
-        {/* <span className={`absolute -right-14`}> */}
+        { (!parent || parent.type === 'columns') && (
           <BlockMenu
             block={block}
-            className={`
-              ${!isActive && 'block'}
-              ${!isColumn && 'bg-white rounded hidden group-hover:block'}
-            `}
+            dragListeners={dragListeners}
+            position={isLastColumn ? 'left' : 'right'}
+            className={classNames(
+              // 'bg-white rounded group-hover:flex',
+              !isActive && 'hidden',
+              !isColumn && 'bg-white rounded group-hover:flex'
+            )}
           />
-
-        </span>
+        )}
         <BlockEdit id={id} />
       </div>
       {
@@ -76,4 +108,4 @@ const BlockContainer = ({
   );
 }
 
-export default React.memo(BlockContainer)
+export default BlockContainer

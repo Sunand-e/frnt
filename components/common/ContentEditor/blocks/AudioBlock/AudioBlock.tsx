@@ -1,21 +1,15 @@
 import {
-  FunctionComponent, useEffect, useState
+  FunctionComponent
 } from 'react';
+import AudioPlayer from '../../../audio/AudioPlayer';
 // import urlParser from "js-audio-url-parser";
 
 export const AudioBlock: FunctionComponent = ({block}) => {
 
+  const url = block?.properties?.file?.location
+
   return (
-    <div className="aspect-w-16 aspect-h-9 px-1">
-      <iframe 
-        src={block?.properties?.url} 
-        width="640" 
-        height="360" 
-        frameBorder="0" 
-        allow="autoplay; fullscreen; picture-in-picture" 
-        allowFullScreen
-      />
-    </div>
+    <AudioPlayer url={url} />
   );
 }
 

@@ -1,11 +1,18 @@
 export const VideoBlock = ({block}) => {
 
+  const width = block?.properties?.width || '50%';
+
   return (
-    <div className="aspect-w-16 aspect-h-9 px-1">
+    <div 
+      className="aspect-video px-1 mx-auto"
+      style={{width}}
+    >
+
       <iframe 
         src={block?.properties?.url} 
-        width="640" 
-        height="360" 
+        className="w-full h-full"
+        // width="640"
+        // height="360" 
         frameBorder="0" 
         allow="autoplay; fullscreen; picture-in-picture" 
         allowFullScreen

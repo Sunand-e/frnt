@@ -1,0 +1,65 @@
+name: Deploy to Amazon ECS (local export)
+
+on:
+  push:
+    branches: [ export ]
+  pull_request:
+    branches: [ export ]
+
+env:
+  ECS_TASK_DEFINITION: .aws/learning-platform-nginx-task-definition.json
+  CONTAINER_NAME: learning-platform-nginx
+
+jobs:
+  deploy:
+    name: Deploy locally exported build to production 
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read # This is required for actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::111547225120:role/ExampleGithubRole
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPO_NAME }}
+          # IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
+        run: |
+          # Build a docker container and push it to ECR 
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/nginx/Dockerfile .
+          echo "Pushing image to ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@97587c9d45a4930bf0e3da8dd2feb2a463cf4a3a
+
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+          # image: 111547225120.dkr.ecr.eu-west-2.amazonaws.com/elp/learning-platform-nginx
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ secrets.AWS_ECS_SERVICE }}
+          cluster: ${{ secrets.AWS_ECS_CLUSTER }}
+          wait-for-service-stability: true

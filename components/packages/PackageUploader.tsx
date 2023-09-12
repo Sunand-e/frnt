@@ -1,9 +1,9 @@
-import { GET_SCORM_MODULES } from "../../graphql/queries/scormModules";
+import { GET_SCORM_PACKAGES } from "../../graphql/queries/scormPackages";
 import FileUploader from "../common/FileUploader"
 
 const PackageUploader = () => {
 
-  const refetchQuery = GET_SCORM_MODULES
+  const refetchQuery = GET_SCORM_PACKAGES
   const endpoint = "/uploads/upload_scorm"
   const dropZoneContent = (
     <p>Drag and drop a SCORM zip archive here, or click this box to select from your computer</p>

@@ -119,8 +119,6 @@ type TableProviderProps = React.PropsWithChildren<TableProps>
 function TableProvider({ children, tableProps }: TableProviderProps) {
 
   const tableStoreProps = useMemo(() => {
-    console.log('chanignigtableprops')
-    console.log(tableProps)
     return tableProps
   },[
     tableProps.isReorderable,
@@ -129,7 +127,6 @@ function TableProvider({ children, tableProps }: TableProviderProps) {
 
   const storeRef = useRef<TableStore>()
   if (!storeRef.current) {
-    console.log("There's not a current ref to the store")
     storeRef.current = createTableStore(tableStoreProps)
   } else {
     storeRef.current.setState(s => tableStoreProps)

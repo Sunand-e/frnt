@@ -1,5 +1,5 @@
 import { Menu } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import MenuComponent from './MenuComponent';
 
@@ -27,7 +27,7 @@ const ActionsMenu = ({menuItems, buttonText='Actions', align='right'}) => {
   return (
     <MenuComponent 
       align={align}
-      menuItems={menuItems}
+      menuItems={filteredMenuItems}
       button={button}
     />
   )

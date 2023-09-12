@@ -7,7 +7,7 @@
 // GraphQL query operation: GetScormModules
 // ====================================================
 
-export interface GetScormModules_scormModules {
+export interface GetScormModules_scormPackages {
   __typename: "ScormModule";
   id: string;
   createdAt: any;
@@ -24,7 +24,7 @@ export interface GetScormModules {
   /**
    * Get List of SCORM modules present in current Tenant
    */
-  scormModules: GetScormModules_scormModules[];
+  scormPackages: GetScormModules_scormPackages[];
 }
 
 export interface GetScormModulesVariables {

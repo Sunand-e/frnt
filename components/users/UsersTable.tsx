@@ -2,18 +2,43 @@ import { useQuery } from '@apollo/client';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../common/tables/Table';
 import { GET_USERS } from '../../graphql/queries/users';
-import { GetUsers } from '../../graphql/queries/__generated__/GetUsers';
+import { GetUsers, GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
 import UserActionsMenu from './UserActionsMenu';
 import useSendInvite from '../../hooks/useSendInvite';
+import { Check } from '@styled-icons/boxicons-regular/Check';
+import { CheckCircle } from '@styled-icons/boxicons-regular/CheckCircle';
+import { InfoCircle } from '@styled-icons/boxicons-regular/InfoCircle';
+import dayjs from "dayjs"
+import Tippy from '@tippyjs/react';
+var advancedFormat = require('dayjs/plugin/advancedFormat')
+dayjs.extend(advancedFormat)
+
+const UserStatusCell = ({
+  iconComponent: IconComponent,
+  iconClass,
+  tooltip,
+  text,
+}) => (
+  <Tippy
+    content={tooltip}
+    theme={'memberhub-white'}
+    
+  >
+    <div className="flex space-x-2 items-center justify-center">
+      <IconComponent className={`${iconClass} w-6 `} />
+      <span>{text}</span>
+    </div>
+  </Tippy>
+) 
 
 const UsersTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
+  const tableData = useMemo<GetUsers_users_edges_node[]>(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
 
   const editUrl = '/admin/users/edit'
 
@@ -35,7 +60,7 @@ const UsersTable = () => {
       },
       {
         header: "Groups",
-        accessorFn: row => row.groups.edges.map(edge => edge.node.name).join(', '),
+        accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
         cell: ({ cell }) => {
           return cell.getValue() || '-'
         }
@@ -47,6 +72,55 @@ const UsersTable = () => {
           return cell.row.original.roles.filter(
             role => role.name !== 'User'
           ).map(role => role.name).join(', ') || '-'
+        }
+      },
+      {
+        header: "Status",
+        id: 'status',
+        accessorFn: (row) => {
+          if(!row.invitationSentAt) {
+            return "uninvited"
+          }
+          if(row.invitationAcceptedAt) {
+            return "active"
+          }
+          return "invited"
+        },
+        cell: ({ cell }) => {
+          let props
+          switch(cell.getValue()) {
+            case 'uninvited': {
+              let dateString = dayjs(cell.row.original.createdAt).format('Do MMMM YYYY [at] h:mm A')
+              props = {
+                iconComponent: InfoCircle,
+                iconClass: 'fill-gray-500',
+                tooltip: `Created: ${dateString}`,
+                text: 'Not yet invited'
+              }
+              break;
+            }
+            case 'invited': {
+              let dateString = dayjs(cell.row.original.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')
+              props = {
+                iconComponent: InfoCircle,
+                iconClass: 'fill-yellow-500',
+                tooltip: `Invited: ${dateString}`,
+                text: 'Invited'
+              }
+              break;
+            }
+            case 'active': {
+              let dateString = dayjs(cell.row.original.currentSignInAt).format('Do MMMM YYYY [at] h:mm A')
+              props = {
+                iconComponent: CheckCircle,
+                iconClass: 'fill-green-500',
+                tooltip: `Last signed in: ${dateString}`,
+                text: 'Active'
+              }
+              break;
+            }
+          }
+          return <UserStatusCell {...props} />
         }
       },
       {
@@ -64,11 +138,11 @@ const UsersTable = () => {
   const bulkActions = [
     {
       label: 'Send invites to selected users',
-      onClick: (ids: Array<string>) => sendInvite(ids)
+      onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
     },
     {
       label: <span className="text-red-500">Delete users</span>,
-      onClick: () => console.log('test'),
+      onClick: (ids: Array<string>) => console.log('test'),
     },
   ]
 

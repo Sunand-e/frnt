@@ -16,7 +16,7 @@ const rejectStyle: CSSProperties = {
 export interface FileDropzoneProps {
   accept;
   dropZoneContent;
-  onClick;
+  onClick?;
   onDrop;
   multiple;
 }
@@ -30,9 +30,10 @@ const FileDropzone = ({
 }) => {
   
   const handleDrop = (acceptedFiles, fileRejections, event) => {
+    console.log('runtings')
     onDrop(acceptedFiles, fileRejections, event)
   }
-
+  
   const {
     acceptedFiles,
     getRootProps,
@@ -57,7 +58,7 @@ const FileDropzone = ({
   ]);
   
   return (
-    <div className="container mb-4">
+    <div className="container">
       <div {...getRootProps({
         style,
         className: "flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md",

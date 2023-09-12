@@ -1,0 +1,47 @@
+
+import Document from '@tiptap/extension-document'
+import Placeholder from '@tiptap/extension-placeholder'
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import ReactComponent from './extension'
+
+const CustomDocument = Document.extend({
+  content: 'heading block*',
+})
+
+const EditorWithHeading = () => {
+  const editor = useEditor({
+    extensions: [
+      CustomDocument,
+      StarterKit.configure({
+        document: false,
+      }),
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          if (node.type.name === 'heading') {
+            return 'What’s the title?'
+          }
+
+          return 'Can you add some further context?'
+        },
+      }),
+      ReactComponent,
+
+    ],
+    content: `
+      <h1>
+        It’ll always have a heading …
+      </h1>
+      <react-component count="0"></react-component>
+      <p>
+        … if you pass a custom document. That’s the beauty of having full control over the schema.
+      </p>
+    `,
+  })
+
+  return (
+    <EditorContent editor={editor} />
+  )
+};
+
+export default EditorWithHeading

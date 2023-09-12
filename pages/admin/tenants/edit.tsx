@@ -2,18 +2,8 @@ import usePageTitle from '../../../hooks/usePageTitle';
 import { useRouter } from '../../../utils/router';
 import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import useGetTenant from '../../../hooks/tenants/useGetTenant';
-import useUpdateTenant from '../../../hooks/tenants/useUpdateTenant';
-import TenantForm from '../../../components/tenants/TenantForm';
 import TenantEditor from '../../../components/tenants/TenantEditor';
-import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
-
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to tenants list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import ButtonBack from '../../../components/common/ButtonBack';
 
 const AdminTenantsEdit = () => {
   
@@ -24,9 +14,10 @@ const AdminTenantsEdit = () => {
 
   usePageTitle({ title: `Edit Tenant${tenant ? `: ${tenant.name}` : ''}` })
 
-  useHeaderButtons([
-    [<BackButton />, '/admin/tenants']
-  ])
+  useHeaderButtons({
+    id: "backToTenants",
+    component: <ButtonBack text="Back to tenant list" action="/admin/tenants" />
+  });
 
   return (
     <>

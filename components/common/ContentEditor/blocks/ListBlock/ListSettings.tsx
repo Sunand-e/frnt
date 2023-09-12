@@ -1,7 +1,7 @@
 export const ListSettings = ({block}) => {
 
   return (
-    <>List settings panel</>
+    <></>
   )
 }
 

@@ -1,11 +1,16 @@
 import Select from "react-select";
 import { Control, useController } from "react-hook-form";
+import { StylesConfig, StylesProps } from "react-select/dist/declarations/src/styles";
+import classNames from "../../../utils/classNames";
+import ReactSelect from "./ReactSelect";
 
 type ReactSelectInputProps = {
   control?: Control
   name?: string
   label?: string
   isMulti?: boolean
+  slim?: boolean
+  styles?: StylesConfig
   options?
   className?
   onChange?
@@ -16,6 +21,9 @@ const ReactSelectInput = ({
   name,
   label,
   onChange,
+  className,
+  slim=false,
+  styles=null,
   ...props
 }: ReactSelectInputProps) => {
 
@@ -28,25 +36,21 @@ const ReactSelectInput = ({
     ? props.options.filter(c => field.value?.includes(c.value))
     : props.options.find(c => c.value === field.value)
 
-  const selectProps = {
+  const reactSelectProps = {
     ...props,
-    // placeholder={<span className="text-main-secondary">{placeholder}</span>}
+    label,
     value,
+    slim,
     onChange: val => {
-      onChange
-        ? onChange(val)
-        : field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
+      onChange && onChange(val)
+      field.onChange(Array.isArray(val) ? val.map(c => c.value) : val.value)
     },
-    className: `${props?.className} w-full`,
-    isSearchable: false
+    className,
+    styles
   }
+
   return (
-    <>
-      { label
-        ? <label>{label}<Select {...selectProps} /></label>
-        : <Select {...selectProps} />
-      }
-    </>
+    <ReactSelect {...reactSelectProps} />
   )
 }
 

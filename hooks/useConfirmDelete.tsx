@@ -1,7 +1,7 @@
 import Button from '../components/common/Button';
 import { closeModal, handleModal } from '../stores/modalStore';
 
-const useConfirmDelete = ({itemType, name, onConfirm, autoClose=true, onExit=null}) => {
+const useConfirmDelete = ({itemType, name=null, onConfirm, autoClose=true, onExit=null}) => {
 
   const handleDelete = () => {
     onConfirm()

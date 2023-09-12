@@ -1,13 +1,10 @@
 import usePageTitle from '../../hooks/usePageTitle';
-import { GraduationCap } from 'styled-icons/entypo';
-import { Users } from 'styled-icons/fa-solid';
+import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
+import {Users} from '@styled-icons/fa-solid/Users';
+import {Group2} from "@styled-icons/remix-fill/Group2";
+import {Library} from "@styled-icons/ionicons-solid/Library"
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
-
-import {
-  CashIcon,
-  ChevronRightIcon
-} from '@heroicons/react/20/solid'
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
@@ -15,9 +12,8 @@ import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 import { useQuery } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
-import { headerButtonsVar } from '../../graphql/cache';
-import Button from '../../components/common/Button';
 import ButtonLink from '../../components/common/ButtonLink';
+import useHeaderButtons from '../../hooks/useHeaderButtons';
 
 const AdminDashboardPage = () => {
   
@@ -25,14 +21,10 @@ const AdminDashboardPage = () => {
 
   usePageTitle({ title: 'Admin Dashboard' })
 
-  useEffect(() => {
-    headerButtonsVar(
-      <>
-        {/* <Button onClick={handleLogoutClick}>Log out</Button> */}
-        <ButtonLink href={'/'}>User View</ButtonLink>
-      </>
-    )
-  },[])
+  useHeaderButtons([{
+    id: 'userView',
+    component: <ButtonLink href={'/'}>User View</ButtonLink>
+  }])
   
   const cards = useMemo(() => ([
     {
@@ -54,14 +46,14 @@ const AdminDashboardPage = () => {
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
-      IconComponent: GraduationCap,
+      IconComponent: Group2,
       href: "admin/users/groups"
     },
     {
       name: 'allResources',
       label: 'Total resources',
       value: data?.resources.totalCount,
-      IconComponent: Users,
+      IconComponent: Library,
       href: "admin/resources"
     },
   ]),[data])
@@ -76,33 +68,8 @@ const AdminDashboardPage = () => {
     return classes.filter(Boolean).join(' ')
   }
 
-  const people = [
-    {
-      name: 'Leonard Krasner',
-      handle: 'leonardkrasner',
-      imageUrl:
-          'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Floyd Miles',
-      handle: 'floydmiles',
-      imageUrl:
-          'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Emily Selman',
-      handle: 'emilyselman',
-      imageUrl:
-          'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Kristin Watson',
-      handle: 'kristinwatson',
-      imageUrl:
-          'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  ]
-
+  console.log('cards')
+  console.log(cards)
 
   return (
     // <>
@@ -138,7 +105,7 @@ const AdminDashboardPage = () => {
                     <a href={transaction.href} className="block px-4 py-4 bg-white hover:bg-gray-50">
                         <span className="flex items-center space-x-4">
                           <span className="flex-1 flex space-x-2 truncate">
-                            <CashIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <BanknotesIcon className="shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                             <span className="flex flex-col text-gray-500 text-sm truncate">
                               <span className="truncate">{transaction.name}</span>
                               <span>
@@ -211,7 +178,7 @@ const AdminDashboardPage = () => {
                             <td className="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                               <div className="flex">
                                 <a href={transaction.href} className="group inline-flex space-x-2 truncate text-sm">
-                                  <CashIcon
+                                  <BanknotesIcon
                                       className="shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                       aria-hidden="true"
                                   />

@@ -3,21 +3,18 @@ import navStructureUser from '../../../navStructureUser'
 import navStructureAdmin from '../../../navStructureAdmin'
 import PrimaryNav from './PrimaryNav'
 import SecondaryNav from './SecondaryNav'
-import { viewVar } from '../../../graphql/cache'
-import { useReactiveVar } from '@apollo/client'
 import {Dialog, Transition} from "@headlessui/react";
-import {Bars3CenterLeftIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import Bars3CenterLeftIcon from "@heroicons/react/24/outline/Bars3CenterLeftIcon";
+import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
+import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function NavContainer({navState, sidebarComponent}) {
 
-  const view = useReactiveVar(viewVar)
-  
-  // useEffect(() => {
-  //   console.log('viewChanged')
-  //   console.log(view)
-  // },[view])
+  const isAdminView = useViewStore(state => state.isAdminView)
+  const isSlimNav = useViewStore(state => state.isSlimNav)
+  const showSecondaryNav = useViewStore(state => state.showSecondaryNav)
 
-  const navStructure = view.isAdmin ? navStructureAdmin : navStructureUser;
+  const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
 
   // If the 'topLevel' property of navState is empty, create the default navstate.
   const pageNavState = navState?.topLevel ? navState : {
@@ -29,12 +26,11 @@ export default function NavContainer({navState, sidebarComponent}) {
     item => item.name === pageNavState.topLevel
   )
 
-  const showSecondary = view.hasOwnProperty('showSecondary') 
-    ? view.showSecondary 
-    : primaryNavItem?.subPages?.length > 0
+  const showSecondary = !sidebarComponent && (showSecondaryNav || primaryNavItem?.subPages?.length > 0)
+  const isSlim = showSecondary || sidebarComponent
 
-  const isSlimNav = view?.isSlimNav || showSecondary
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
 <>
   <button
@@ -48,13 +44,13 @@ export default function NavContainer({navState, sidebarComponent}) {
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
           <Transition.Child
-              as={Fragment}
-              enter="transition-opacity ease-linear duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+            as={Fragment}
+            enter="transition-opacity ease-linear duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-linear duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
           </Transition.Child>
@@ -94,14 +90,13 @@ export default function NavContainer({navState, sidebarComponent}) {
                     id="sidebar"
                     className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-full bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
                 >
-                  <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState}/>
+                  <PrimaryNav isSlim={isSlim} pageNavState={pageNavState}/>
                   <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
                   { sidebarComponent && (
                     <div className="sticky top-18 h-[calc(100vh)] w-[300px] bg-main bg-opacity-10 flex flex-col px-3 py-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
                       { sidebarComponent }
                     </div>
                   )}
-                  {/*<NavFooter isSlim={isSlimNav} />*/}
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -118,14 +113,13 @@ export default function NavContainer({navState, sidebarComponent}) {
       id="sidebar"
       className={`shadow-md font-text-base bg-red  inset-0 flex-none flex h-18 bg-opacity-25 lg:bg-white lg:h-auto lg:overflow-y-visible lg:pt-0`}
     >
-      <PrimaryNav isSlim={isSlimNav} pageNavState={pageNavState} />
+      <PrimaryNav isSlim={isSlim} pageNavState={pageNavState} />
       <SecondaryNav showSecondary={showSecondary} primaryNavItem={primaryNavItem} pageNavState={pageNavState} />
       { sidebarComponent && (
-        <div className="sticky top-18 h-[calc(100vh-48px)] w-[300px] bg-main bg-opacity-10 flex flex-col scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
+        <div className="sticky top-18 h-[calc(100vh-36px)] w-[260px]  bg-main bg-opacity-10 flex flex-col justify-stretch scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto">
           { sidebarComponent }
         </div>
       )}
-      {/*<NavFooter isSlim={isSlimNav} />*/}
     </div>
         </div>
 </>

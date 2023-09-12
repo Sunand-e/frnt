@@ -8,19 +8,14 @@ import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRo
 import UserGroups from '../../../components/users/groups/UserGroups';
 import UserCourses from '../../../components/users/courses/UserCourses';
 import UserResources from '../../../components/users/resources/UserResources';
-import {ArrowBack} from '@styled-icons/boxicons-regular/ArrowBack';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
 import UserPathways from '../../../components/users/pathways/UserPathways';
-
-const BackButton = () => (
-  <>
-    <span className='hidden lg:block'>Back to user list</span>
-    <span className='block lg:hidden'><ArrowBack  width="20" /></span>
-  </>
-)
+import getJWT from '../../../utils/getToken';
+import ButtonBack from '../../../components/common/ButtonBack';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 
 const AdminUsersEdit = () => {
   
@@ -28,23 +23,23 @@ const AdminUsersEdit = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
+  const { userHasCapability } = useUserHasCapability()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
-  const { uploadFileAndNotify } = useUploadAndNotify({
+  const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT"
   })
 
   const handleSubmit = ({profile_image, invite, ...values}) => {
 
-    const token = localStorage.getItem('token');
+    const token = getJWT();
 
-    updateUser(values, () => updateUserTenantRoles({
+    updateUser(values, () => userHasCapability('UpdateUserTenantRoles') && updateUserTenantRoles({
       userId: id,
       roleIds: values.role_ids
     }))
 
     if(invite) {
-      
       axios.request({
         method: "post", 
         url: '/api/v1/users/send_invitation',
@@ -52,25 +47,21 @@ const AdminUsersEdit = () => {
           'Authorization': `Bearer ${token}`,
         },
         data: { emails: [values.email] }
-      }).then (response => {      
-        // Roles are already applied in the REST API call, no need to trigger mutation 
-        // updateUserTenantRoles({
-        //   userId: data.data.id,
-        //   roleIds: values.roles
-        // })
       })
     }
     if(profile_image) {
       const imageEndpoint = `/api/v1/users/${id}/update_profile_image`
-      profile_image instanceof File && uploadFileAndNotify(profile_image, 'profile_image', imageEndpoint)
+      profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
     }
     router.push('/admin/users')
   }
+
   usePageTitle({ title: `Edit User${user ? `: ${user.fullName}` : ''}` })
 
-  useHeaderButtons([
-    [<BackButton />, '/admin/users']
-  ])
+  useHeaderButtons({
+    id: "backToUsers",
+    component: <ButtonBack text="Back to user list" action="/admin/users" />
+  });
 
   return (
     <>

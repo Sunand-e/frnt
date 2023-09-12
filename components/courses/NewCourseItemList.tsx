@@ -1,44 +1,79 @@
 import { useEffect } from "react";
-import { currentContentItemVar } from "../../graphql/cache";
+import { v4 as uuidv4 } from "uuid";
 import useCreateLesson from "../../hooks/lessons/useCreateLesson";
-import useUpdateLesson from "../../hooks/lessons/useUpdateLesson";
-import { lessonTypes } from "./lessonTypes";
+import useCreateQuiz from "../../hooks/quizzes/useCreateQuiz";
+import { closeModal, handleModal } from "../../stores/modalStore";
+import { useRouter } from "../../utils/router";
+import PackageLibrary from "../packages/PackageLibrary";
+import { moduleTypes } from "./moduleTypes";
 import NewCourseItem from "./NewCourseItem";
 
 const NewCourseItemList = ({
   sectionId, 
   onSelect = () => null
 }) => {
-  
-  const { createLesson, lesson } = useCreateLesson(sectionId)
-  const { updateLesson } = useUpdateLesson()
 
-  const handleItemClick = (lessonType) => {
-    createLesson({
-      content: lessonTypes[lessonType].getDefaultContent(), 
-      contentType: lessonType
+  const router = useRouter()
+
+  const navigateToItem = (id) => {
+    router.push({query: {
+      ...router.query,
+      cid: id
+    }})
+  }
+  const { createLesson, lesson } = useCreateLesson(sectionId)
+  const { createQuiz, quiz } = useCreateQuiz(sectionId)
+
+  const handlePackageSelect = async (scormPackage) => {
+    const newLesson = await createLesson({
+      contentType: 'scorm_assessment',
+      content: {
+        blocks: [
+          {
+            type: 'package',
+            id: uuidv4(),
+            properties: {
+              url: scormPackage.launchUrl,
+              moduleId: scormPackage.id,
+              title: scormPackage.title,
+            }
+          }
+        ],
+      },
     })
+    navigateToItem(newLesson.data.createLesson.lesson.id)
+    closeModal()
+  }
+  
+  const handleItemClick = async (moduleType) => {
+    if(moduleType === 'scorm_assessment') {
+      handleModal({
+        title: `Choose package`,
+        content: <PackageLibrary onItemSelect={handlePackageSelect} />,
+        size: 'lg'
+      })
+    } else if(moduleType === 'quiz') {
+      const newQuiz = await createQuiz({
+        content: moduleTypes[moduleType].defaultContent || {blocks:[]},
+      })
+      navigateToItem(newQuiz.data.createQuiz.quiz.id)
+    } else {
+      const newLesson = await createLesson({
+        content: moduleTypes[moduleType].defaultContent || {blocks:[]}, 
+        contentType: moduleType
+      })
+      navigateToItem(newLesson.data.createLesson.lesson.id)
+    }
     onSelect()
   }
-    
-  useEffect(() => {
-    if(lesson) {
-      currentContentItemVar({
-        title: lesson.title,
-        type: 'lesson',
-        id: lesson.id,
-        updateFunction: updateLesson(lesson.id)
-      })
-    }
-  },[lesson])
-
-  const items = Object.keys(lessonTypes).map(key => {
-    return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={lessonTypes[key].label} IconComponent={lessonTypes[key].icon} />
+  
+  const items = Object.keys(moduleTypes).map(key => {
+    return <NewCourseItem key={key} onClick={() => handleItemClick(key)} label={moduleTypes[key].label} IconComponent={moduleTypes[key].icon} />
   })
 
   return (
     <div>
-      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-secondary font-semibold">Choose a lesson type...</p>
+      <p className="-mx-2 -mt-2 mb-1 p-3 bg-main/10 text-main-secondary font-semibold">Choose a module type...</p>
       {items}
     </div>
   )

@@ -50,6 +50,7 @@ const COURSES_REPORT_QUERY = gql`
             totalCount
             edges {
               score
+              progress
               status
               node {
                 id

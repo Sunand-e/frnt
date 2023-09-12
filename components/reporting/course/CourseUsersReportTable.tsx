@@ -1,17 +1,12 @@
 import React, { useMemo } from "react";
-import Table from "../../common/tables/Table";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import useGetCourseUsers from "../../../hooks/courses/useGetCourseUsers";
 import { useRouter } from "../../../utils/router";
-import LoadingSpinner from "../../common/LoadingSpinner";
-import { Dot } from "../../common/misc/Dot";
 import dayjs from "dayjs";
-import { User } from "styled-icons/fa-solid";
+import { User } from "@styled-icons/fa-solid/User";
 import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import Button from "../../common/Button";
-import Link from "next/link";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
@@ -64,25 +59,9 @@ const CourseUsersReportTable = () => {
           return <ItemWithImage {...cellProps} />;
         },
       },
-      // {
-      //   header: "JSON",
-      //   cell: ({ cell }) => (
-      //     <pre className='text-left'>
-      //       {JSON.stringify(cell.row.original.node,null,2)}
-      //     </pre>
-      //   ),
-      //   className: 'text-left'
-      // },
-      {
-        id: "status",
-        header: "Course status",
-        accessorKey: "status",
-      },
-      {
-        id: "score",
-        header: "Score",
-        accessorKey: "score",
-      },
+      { ...commonTableCols.status },
+      { ...commonTableCols.progress },
+      { ...commonTableCols.score },
       {
         ...commonTableCols.createdAt,
         header: "First access",

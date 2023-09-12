@@ -1,11 +1,47 @@
+import { useDraggable } from '@dnd-kit/core';
 import { v4 as uuidv4 } from 'uuid';
-import blocktypes from './blocktypes';
+import blocktypes, { BlockType } from './blocktypes';
+import { useRef, useState } from 'react';
 
-const BlockTypeButton = ({onSelect, type, isDisabled}) => {
+
+type BlockTypeButtonProps = {
+  onSelect?: (event: any) => void,
+  type: BlockType,
+  className: string,
+  isDisabled: boolean
+}
+
+const BlockTypeButton = ({
+  onSelect, 
+  type, 
+  className, 
+  isDisabled=false
+} : BlockTypeButtonProps) => {
+
   
+  const id = useRef(uuidv4())
+  
+  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    // id: `tmp-${id.current}`,
+    disabled:true,
+    id: id.current,
+    data: {
+      type,
+      fromSidebar: true
+    }
+  });
+
   return (
-    <button onClick={() => onSelect(type)} disabled={isDisabled} className={`${isDisabled && 'text-gray-500 cursor-not-allowed'} flex items-center space-x-2 p-2 text-center bg-white rounded-lg shadow shadow-lg`}>
-      <type.icon className="h-10" />
+    <button 
+      onClick={() => onSelect(type)} 
+      disabled={isDisabled} 
+      className={`${isDisabled && 'text-gray-500 cursor-not-allowed'} ${className} h-full`}
+      ref={setNodeRef}
+      // style={style}
+      {...listeners}
+      {...attributes}
+    >
+      <type.icon className="h-8" />
       <span>{type.text}</span>
     </button>
   )

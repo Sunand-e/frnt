@@ -1,9 +1,7 @@
-import useBlockEditor from '../../useBlockEditor';
+import { updateBlockProperties } from '../../useBlockStore';
 import ColorPicker from '../common/settings/inputs/ColorPicker';
 
 export const LineDividerSettings = ({block}) => {
-
-  const { updateBlockProperties } = useBlockEditor()
 
   const selectColor = (color) => {
     updateBlockProperties(block, {color})
@@ -14,9 +12,6 @@ export const LineDividerSettings = ({block}) => {
     const height = e.target.value
     
     updateBlockProperties(block, {height})
-    console.log('height')
-    console.log(height)
-    console.log(block)
   }
   
   return (

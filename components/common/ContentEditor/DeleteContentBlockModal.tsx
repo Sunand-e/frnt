@@ -1,7 +1,10 @@
 import { closeModal } from '../../../stores/modalStore';
 import Button from '../Button';
+import blocktypes from './blocktypes';
 
 const DeleteContentBlockModal = ({block, onDelete: handleDeleteBlock}) => {
+
+  const typeName = blocktypes[block.type].text.toLowerCase()
 
   const deleteBlockAndCloseModal = (e) => {
     handleDeleteBlock()
@@ -10,8 +13,8 @@ const DeleteContentBlockModal = ({block, onDelete: handleDeleteBlock}) => {
 
   return (
     <>
-      <p>Are you sure you want to delete this {block.type} block?</p>
-      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${block.type} block`}</Button>
+      <p className='mb-2'>Are you sure you want to delete this <strong>{typeName}</strong> block?</p>
+      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${typeName} block`}</Button>
     </>
   );
 }

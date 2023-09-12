@@ -1,6 +1,6 @@
 import { UpdateSection, UpdateSectionVariables } from "../../graphql/mutations/section/__generated__/UpdateSection";
 import { UPDATE_SECTION } from "../../graphql/mutations/section/UPDATE_SECTION"
-import { GET_SECTION, SectionFragment } from "../../graphql/queries/allQueries"
+import { ContentFragment, GET_SECTION, SectionFragment } from "../../graphql/queries/allQueries"
 import { useMutation, useQuery } from "@apollo/client"
 import cache from "../../graphql/cache";
 
@@ -8,7 +8,10 @@ function  useUpdateSection(id = null) {
 
 
   const [updateSectionMutation, updateSectionResponse] = useMutation<UpdateSection, UpdateSectionVariables>(
-    UPDATE_SECTION
+    UPDATE_SECTION,
+    {
+      
+    }
   );
 
   const updateSection = (values, cb = null) => {
@@ -19,24 +22,42 @@ function  useUpdateSection(id = null) {
       id: `ContentItem:${sectionId}`,
       fragment: SectionFragment,
       fragmentName: 'SectionFragment',
-      // optimistic: true,
+      optimistic: true,
     });
-    
-    const variables = {
-      ...values
-    }
 
+    let children
+    
+    if(values.childrenIds) {
+      children = values.childrenIds.map(
+        id => cache.readFragment({
+          id: `ContentItem:${id}`,
+          fragment: ContentFragment,
+          fragmentName: 'ContentFragment',
+          optimistic: true,
+        })
+      // ).filter(child => !!child)
+      )
+    }
     updateSectionMutation({
       variables: {
-        id,
-        ...variables
+        id: sectionId,
+        ...values
+      },
+      update(cache, response, request) {
+        // console.log('section')
+        // console.log(section)
+        // console.log('response')
+        // console.log(response)
+        // console.log('request')
+        // console.log(request)
       },
       optimisticResponse: {
         updateSection: {
           __typename: 'UpdateSectionPayload',
           section: {
             ...section,
-            ...variables
+            ...values,
+            ...(children && { children })
           },
         }
       },
