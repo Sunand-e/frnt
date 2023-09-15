@@ -1,4 +1,5 @@
 import { StyledIcon } from '@styled-icons/styled-icon';
+import Button from '../Button';
 interface BoxContainerProps {
   title: string,
   button: {
@@ -13,13 +14,12 @@ const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: 
 
   const HeaderButton = () => {
     return (
-      <a 
-        href="#" 
+      <Button
         onClick={button?.onClick}
         className={` text-main hover:text-main-secondary`}
       >
         {button?.text}
-      </a>
+      </Button>
     )
   }
 
