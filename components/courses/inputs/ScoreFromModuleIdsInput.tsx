@@ -51,11 +51,13 @@ const ScoreFromModuleIdsInput = ({control, label}) => {
   }
   return (
     <>
-      { scoredModules.length > 0 && (
+      { scoredModules.length > 0 ? (
         <label className={`block z-40`}>
-        { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
-        <Select {...selectProps} />
-      </label>
+          { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
+          <Select {...selectProps} />
+        </label>
+      ) : (
+        <p className="text-sm font-medium text-red-800 leading-5">You must include a scored module (e.g. a quiz or a SCORM module) in the course to enable course scoring.</p>
       )}
     </>
   )
