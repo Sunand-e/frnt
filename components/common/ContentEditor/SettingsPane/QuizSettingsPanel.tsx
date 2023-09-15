@@ -10,6 +10,7 @@ import RadioButtonsInput from "../../inputs/RadioButtonsInput";
 import TextInput from "../../inputs/TextInput";
 import FileDropzone from "../../FileDropzone";
 import { v4 as uuidv4 } from "uuid";
+import { AICreateQuizForm } from "../../../quiz/AICreateQuizForm";
 
 interface QuizFormValues {
   settings: {
@@ -112,6 +113,12 @@ export const QuizSettingsPanel = () => {
     reader.readAsText(file);
   }
 
+  const handleResponse = (data) => {
+    console.log('handleResponse (body)')
+    const questionsJson = JSON.parse(data.response)
+    addQuestionsFromSimpleJSON(questionsJson)
+  }
+
   return (
     <div className="pt-3 p-1 flex-col space-y-3">
       <TextInput
@@ -140,7 +147,11 @@ export const QuizSettingsPanel = () => {
           }
         ]}
       />
-      { userHasCapability('ImportQuestionsFromFile') && (
+      { useUserHasCapability('AICreateQuiz') && (
+        <AICreateQuizForm onResponse={handleResponse} />
+      )}
+
+      {/* { userHasCapability('ImportQuestionsFromFile') && (
       <div>
         <span className="text-sm font-medium text-secondary">Import questions</span>
         <FileDropzone
@@ -151,7 +162,7 @@ export const QuizSettingsPanel = () => {
           onDrop={handleDropQuestionsJsonFile}
         />
       </div>
-      )}
+      )} */}
     </div>
   )
 }
