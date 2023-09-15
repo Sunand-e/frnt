@@ -15,9 +15,9 @@ const UserRoleSelect = ({control, roleType}) => {
 
   const options = roles && roles.filter(
     role => role.roleType === roleType
-  ).filter(
-    role => role.name !== 'User'
-  ).map(role => {
+  ).filter(role => (
+    role.name !== 'User' && role.name !== 'Instructor' && role.name !== 'Resource Creator'
+  )).map(role => {
     return {
       value: role.id,
       label: role.name
