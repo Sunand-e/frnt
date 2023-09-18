@@ -151,7 +151,7 @@ export const QuizSettingsPanel = () => {
         <AICreateQuizForm onResponse={handleResponse} />
       )}
 
-      {/* { userHasCapability('ImportQuestionsFromFile') && (
+      { userHasCapability('ImportQuestionsFromFile') && (
       <div>
         <span className="text-sm font-medium text-secondary">Import questions</span>
         <FileDropzone
@@ -162,7 +162,7 @@ export const QuizSettingsPanel = () => {
           onDrop={handleDropQuestionsJsonFile}
         />
       </div>
-      )} */}
+      )}
     </div>
   )
 }
