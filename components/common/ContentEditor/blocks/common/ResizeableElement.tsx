@@ -41,8 +41,8 @@ export const ResizeableElement = ({block, defaultWidth = '50%', children}) => {
   }
   
   useEffect(() => {
-    setWidth(block.style.width)
-  }, [block.style.width])
+    setWidth(block.style?.width)
+  }, [block.style?.width])
 
   const handleResize = (e, direction, ref) => {
     const width = ref.offsetWidth
