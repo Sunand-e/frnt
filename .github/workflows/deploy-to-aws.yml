@@ -1,11 +1,6 @@
 name: Deploy to Amazon ECS - Production
 
-on:
-  push:
-    branches: [ deploy ]
-  pull_request:
-    branches: [ deploy ]
-  workflow_dispatch
+on: workflow_dispatch
 
 env:
   ECS_TASK_DEFINITION: .aws/learning-platform-nginx-task-definition.json
