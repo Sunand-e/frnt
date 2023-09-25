@@ -14,10 +14,6 @@ function useCreateUserQuestionAttempt({quizAttemptId}) {
           fragment: UserQuizAttemptFragment,
           fragmentName: 'UserQuizAttemptFragment'
         }, (data) => {
-          console.log('data')
-          console.log(data)
-          console.log('createUserQuestionAttempt')
-          console.log(createUserQuestionAttempt)
           return ({
             ...data,
             userQuestionAttempts: [
@@ -26,7 +22,7 @@ function useCreateUserQuestionAttempt({quizAttemptId}) {
             ]
           })
         })
-      },
+      }
     }
   );
 
@@ -35,6 +31,27 @@ function useCreateUserQuestionAttempt({quizAttemptId}) {
       variables: {
         ...values,
       },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        createUserQuestionAttempt: {
+          __typename: 'CreateUserQuestionAttemptPayload',
+          userQuestionAttempt: {
+            __typename: 'UserQuestionAttempt',
+            id: 'temp',
+            question: {
+              id: values.questionId
+            },
+            createdAt: '',
+            updatedAt: '',
+            answers: [],
+            score: 0,
+            status: 'unanswered',
+            userQuizAttempt: {
+              id: values.userQuizAttemptId
+            }
+          }
+        }
+      }
     })
   }
 

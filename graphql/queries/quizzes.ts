@@ -10,12 +10,12 @@ export const UserQuizAttemptFragment = gql`
     completedAt
     status
     score
-    contentItem {
-      id
-    }
-    user {
-      id
-    }
+    # contentItem {
+    #   id
+    # }
+    # user {
+    #   id
+    # }
     userQuestionAttempts {
       ...UserQuestionAttemptFragment
     }

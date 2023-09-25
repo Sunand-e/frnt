@@ -12,12 +12,13 @@ export const UserQuestionAttemptFragment = gql`
     }
     status
     userQuizAttempt {
-      contentItem {
-        id
-      }
-      user {
-        id
-      }
+      id
+      # contentItem {
+      #   id
+      # }
+      # user {
+      #   id
+      # }
     }
   }
 `

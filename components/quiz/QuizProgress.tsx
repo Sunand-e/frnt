@@ -9,7 +9,6 @@ function QuizProgress() {
   
   const {loading, data, error} = useGetLatestQuizAttempt({quizId})
 
-  const activeQuestionId = useQuizStore(state => state.activeQuestionId)
   const questions = useQuizStore(state => state.questions)
   const questionAttempts = data?.latestUserQuizAttempt?.userQuestionAttempts || []
   const orderedQuestionAttempts = questions.map(q => {

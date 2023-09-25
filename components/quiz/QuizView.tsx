@@ -26,7 +26,6 @@ function QuizView() {
 
   const { loading, data, error } = useGetLatestQuizAttempt({quizId})
   // const [quizAttempt, setQuizAttempt] = useState<UserQuizAttempt>()
-  
 
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
@@ -53,11 +52,11 @@ function QuizView() {
       const attemptedQuestionIds = data.latestUserQuizAttempt.userQuestionAttempts.map(
         attempt => attempt.question.id
       );
+      const remainingQuestions = quiz.questions.filter(q => !attemptedQuestionIds.includes(q.id))
+      const randomQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)]
+    
       useQuizStore.setState({
-        activeQuestionId: quiz.questions.find(q => {
-          // Find the first question that has not been attempted
-          return !attemptedQuestionIds.includes(q.id);
-        })?.id,
+        activeQuestionId: randomQuestion?.id,
         isEditMode: false
       });
     }

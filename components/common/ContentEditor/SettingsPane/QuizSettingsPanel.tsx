@@ -11,12 +11,15 @@ import TextInput from "../../inputs/TextInput";
 import FileDropzone from "../../FileDropzone";
 import { v4 as uuidv4 } from "uuid";
 import { AICreateQuizForm } from "../../../quiz/AICreateQuizForm";
+import { SwitchInput } from "../../inputs/SwitchInput";
 
 interface QuizFormValues {
   settings: {
     feedback?: string
     passMark?: number
+    questionCount?: number
     hasCertificate?: boolean
+    limitQuestions?: boolean
   }
 }
 
@@ -33,11 +36,14 @@ export const QuizSettingsPanel = () => {
   });
   
   const questions = useQuizStore(state => state.questions)
-
+  console.log('questions')
+  console.log(questions)
   const { register, watch, control } = useForm<QuizFormValues>({defaultValues: {
     ...quiz,
     settings: {
-      passMark:80,
+      passMark: 80,
+      limitQuestions: false,
+      questionCount: questions.length,
       feedback: 'afterQuestion',
       ...quiz.settings
     }
@@ -54,8 +60,9 @@ export const QuizSettingsPanel = () => {
 
   },[watch])
 
-  const addQuestionsFromSimpleJSON = (json) => {
+  const limitQuestions = watch('settings.limitQuestions')
 
+  const addQuestionsFromSimpleJSON = (json) => {
     const newQuestions = json.map(question => ({
       id: uuidv4(),
       questionType: "single",
@@ -132,6 +139,34 @@ export const QuizSettingsPanel = () => {
           max: 100
         }}
       />
+      { !!questions.length && (
+        <>
+          <SwitchInput
+            name={'settings.limitQuestions'}
+            control={control}
+            label={'Limit number of questions'}
+          />
+          { limitQuestions && (
+            <TextInput
+              label="Number of questions to show"
+              type="number"
+              inputAttrs={{
+                ...register("settings.questionCount", {
+                  valueAsNumber: true
+                }),
+                min: 1,
+                max: questions.length
+              }}
+            />
+          )}
+        </>
+      )}
+
+      {/* <SwitchInput
+        name={'settings.randomiseQuestions'}
+        control={control}
+        label={'Randomise order of questions'}
+      /> */}
       <RadioButtonsInput
         label="Show feedback" 
         className="text-sm"

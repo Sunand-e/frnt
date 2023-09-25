@@ -1,5 +1,5 @@
 import { useFragment_experimental, useQuery } from "@apollo/client";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import useCreateUserQuestionAttempt from "../../../hooks/questions/useCreateUserQuestionAttempt";
 import { useRouter } from "../../../utils/router";
 import Button from "../../common/Button";
@@ -32,9 +32,31 @@ function QuestionView({question, onFinishQuiz}) {
 
   const [status, setStatus] = useState('unanswered')
 
-  const currentQuestionIndex = questions.findIndex(q => q.id === question.id)
-  const nextQuestion = questions[currentQuestionIndex + 1]
-  const isLastQuestion = currentQuestionIndex + 1 === questions.length
+  // const currentQuestionIndex = questions.findIndex(q => q.id === question.id)
+  // const nextQuestion = questions[currentQuestionIndex + 1]
+  // const isLastQuestion = currentQuestionIndex + 1 === questions.length
+  const totalQuestions = quiz.settings.limitQuestions ? quiz.settings.questionCount : questions.length
+  const questionAttempts = attemptQueryData.latestUserQuizAttempt.userQuestionAttempts
+
+  const attemptedQuestionIds = questionAttempts.map(attempt => attempt.question.id)
+  const questionIds = questions.map(q => q.id)
+
+  const remainingQuestions = questions.filter(q => {
+    return !attemptedQuestionIds.includes(q.id)
+  })
+  const isLastQuestion = useMemo(() => (
+    questionAttempts.length === totalQuestions
+  ),[question, questionAttempts, totalQuestions])
+  
+  const nextRandomQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)]
+  const nextQuestion = totalQuestions > questionAttempts.length ? nextRandomQuestion : null
+
+  // Get the question number from the number of UserQuestionAttempts
+  const questionNum = useMemo(() => (
+    attemptQueryData.latestUserQuizAttempt.userQuestionAttempts.length + 1
+  ), [question])
+
+
 
   const submitDisabled = attemptOptionIds.length === 0
 
@@ -87,17 +109,17 @@ function QuestionView({question, onFinishQuiz}) {
       <h3 className="mb-3 text-gray-400">
         {'Question '}
         <span className="font-bold">
-          {questions.findIndex(q => q.id === question.id) + 1}
+          {/* {questions.findIndex(q => q.id === question.id) + 1} */}
+          { questionNum }
         </span>
         {' of '}
         <span className="font-bold">
-          {questions.length}
+          { quiz.settings.limitQuestions ? quiz.settings.questionCount : questions.length }
         </span>
       </h3>
-      
       <QuestionContainer
         disabled={status!=='unanswered'}
-        question={question}              
+        question={question}
         onOptionSelect={handleOptionSelect}
         selectedOptionIds={attemptOptionIds}
       />

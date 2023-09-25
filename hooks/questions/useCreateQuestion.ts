@@ -16,10 +16,6 @@ function useCreateQuestion(quizId) {
           fragment: QuizFragment,
           fragmentName: `QuizFragment`
         }, (data) =>  {
-          console.log('data')
-          console.log(data)
-          console.log('quizId')
-          console.log(quizId)
           return ({
           ...data,
           questions: [
