@@ -10,19 +10,18 @@ import {
   CarouselSlideGroup,
   CarouselViewport,
 } from '@ark-ui/react'
-import BlockContainer from '../../BlockContainer'
 import { useBlockStore } from '../../useBlockStore'
 import classNames from '../../../../../utils/classNames'
+import { Block } from '../../Block'
 
 const CarouselItem = ({item, index}) => {
 
   return (
     <CarouselSlide key={index} index={index} className="px-20 relative group/item-trigger flex flex-col justify-center">
       <div className='bg-white shadow-lg border border-gray-200 relative mb-4 px-4'>
-        <BlockContainer
+        <Block
           key={item.id}
-          isColumn={true}
-          id={item.id}
+          block={item}
         />
       </div>
     </CarouselSlide>
