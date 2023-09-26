@@ -59,7 +59,7 @@ const BlockCanvas = () => {
       ) : (
         <div className="pb-24">
           { blockIds.map((id, index) => {
-            return <SortableBlock key={id} id={id} index={id} />
+            return <SortableBlock key={id} id={id} index={index} />
           })}
           {/* <BlockSelector
             className={`mb-4 flex flex-wrap gap-4 justify-center align-center items-center sm:grid-cols-3 lg:grid-cols-6 text-sm`}
