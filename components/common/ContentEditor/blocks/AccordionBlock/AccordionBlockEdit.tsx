@@ -1,7 +1,7 @@
 import { Accordion as ArkAccordion, AccordionContent, AccordionItem, AccordionTrigger, Editable, EditableArea, EditableInput, EditablePreview } from '@ark-ui/react'
 import ChevronDownIcon from '@heroicons/react/20/solid/ChevronDownIcon';
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
-import { createBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore';
+import { createBlock, getIndexAndParent, handleDeleteBlock, useBlockStore } from '../../useBlockStore';
 import styles from '../../../Accordion.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import BlockContainer from '../../BlockContainer';
@@ -12,7 +12,7 @@ import classNames from '../../../../../utils/classNames';
 
 const AccordionItemEdit = ({item, index}) => {
 
-  const {debouncedUpdateBlock, deleteBlock} = useBlockEditor()
+  const {debouncedUpdateBlock} = useBlockEditor()
   const [headingText, setHeadingText] = useState(item.heading)
 
   const { parent } = getIndexAndParent(item.id)
@@ -32,6 +32,7 @@ const AccordionItemEdit = ({item, index}) => {
       {({ isOpen }) => {
         return (
           <div className={classNames(
+            'group/accordion-panel',
             isOpen && 'border-l-main border-l-4'
           )}>
             <AccordionTrigger 
@@ -65,8 +66,8 @@ const AccordionItemEdit = ({item, index}) => {
                 <div className="flex space-x-2 items-center">
                   { parent.children.length > 1 && (
                     <Trash
-                      className={`w-5 cursor-pointer !hidden group-hover/item-trigger:!block text-red-800`}
-                      onClick={() => deleteBlock(item)}
+                      className={`w-5 cursor-pointer !hidden group-hover/accordion-panel:!block text-red-800`}
+                      onClick={() => handleDeleteBlock(item, 'Accordion Panel')}
                     />
                   )}
                   <AccordionIcon isOpen={isOpen} />

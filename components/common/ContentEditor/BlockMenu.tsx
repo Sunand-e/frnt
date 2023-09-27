@@ -14,18 +14,15 @@ import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
-import { shiftPosition, useBlockStore } from './useBlockStore';
+import { addColumn, addTextAndImageChild, handleDeleteBlock, shiftPosition, useBlockStore } from './useBlockStore';
 import classNames from '../../../utils/classNames';
 
 const BlockMenu = ({ block, position='right', className='', dragListeners }) => {
 
-  const addColumn = useBlockStore(state => state.addColumn)
-  const addTextAndImageChild = useBlockStore(state => state.addTextAndImageChild)  
   const blocks = useBlockStore(state => state.blocks)  
   const isChild = !blocks.some(b => b.id === block.id)
   const index = blocks.findIndex(b => b.id === block.id)
 
-  const { handleDeleteBlock } = useBlockEditor()
 
   const StyledButton = ({onClick = (e) => {}, className='', disabled=false, children}) => (
     <button

@@ -2,19 +2,19 @@ import { closeModal } from '../../../stores/modalStore';
 import Button from '../Button';
 import blocktypes from './blocktypes';
 
-const DeleteContentBlockModal = ({block, onDelete: handleDeleteBlock}) => {
+const DeleteContentBlockModal = ({block, onDelete, typeLabel=null}) => {
 
-  const typeName = blocktypes[block.type].text.toLowerCase()
+  const typeName = (typeLabel || `${blocktypes[block.type].text} block`).toLowerCase()
 
   const deleteBlockAndCloseModal = (e) => {
-    handleDeleteBlock()
+    onDelete()
     closeModal()
   }
 
   return (
     <>
-      <p className='mb-2'>Are you sure you want to delete this <strong>{typeName}</strong> block?</p>
-      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${typeName} block`}</Button>
+      <p className='mb-2'>Are you sure you want to delete this <strong>{typeName}</strong>?</p>
+      <Button onClick={deleteBlockAndCloseModal}>{`Delete ${typeName}`}</Button>
     </>
   );
 }

@@ -14,16 +14,8 @@ const useBlockEditor = (block: Block = null) => {
     updateBlock(block);
   }, 300)
 
-  const handleDeleteBlock = (block: Block) => {
-    handleModal({
-      title: `Delete block`,
-      content: <DeleteContentBlockModal onDelete={() => deleteBlock(block)} block={block} />
-    })
-  }
-
   return {
     debouncedUpdateBlock,
-    handleDeleteBlock,
   }
 };
 
