@@ -2,11 +2,11 @@ import LineDivider from '../../../dividers/LineDivider';
 
 const LineDividerBlockEdit = ({block}) => {
 
-  const properties = block.properties
+  const style = block.style
 
   return (
     <>
-      <LineDivider properties={properties} />
+      <LineDivider style={style} />
     </>
   )
 }

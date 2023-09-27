@@ -1,10 +1,10 @@
-const LineDivider = ({properties}) => (
+const LineDivider = ({style}) => (
   <div className="relative flex py-5 items-center">
     <div 
       className='flex-grow border-t border-gray-400'
       style={{
-        ...(properties.color && {borderColor: properties.color}),
-        ...(properties.height && {borderWidth: properties.height}),
+        ...(style.color && {borderColor: style.color}),
+        ...(style.height && {borderWidth: style.height}),
       }}
     />
   </div>
