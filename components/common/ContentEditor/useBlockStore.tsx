@@ -189,12 +189,12 @@ export const setActiveDragItem = (item) => {
 export const createBlock = (properties) => ({
   type: properties.type.name,
   id: uuidv4(),
+  ...properties,
   style: {
     paddingTop: '30px',
     paddingBottom: '30px',
     ...properties?.style
   },
-  ...properties
 })
 
 

@@ -89,12 +89,13 @@ const BlockSelector = ({
   
   const handleSelectType = (type: BlockType) => {
 
+    onSelect?.()
+
     let newBlock: Block = createBlock({
       ...type.defaultProperties,
       type: type.name,
     })
 
-    onSelect?.()
     switch(type.name) {
       case 'package': {
         handleModal({
@@ -106,11 +107,6 @@ const BlockSelector = ({
       }
       case 'image': {
         handleAddImageBlock()
-        // handleModal({
-        //   title: `Choose image`,
-        //   content: <MediaLibrary onItemSelect={handleAddImageBlock} typeFilter={['image']} />,
-        //   size: 'lg'
-        // })
         break;
       }
       case 'video': {
@@ -118,11 +114,9 @@ const BlockSelector = ({
         break;
       }
       case 'text': {
-        addBlock(newBlock, replace, block)
         break;
       }
       case 'heading': {
-        addBlock(newBlock, replace, block)
         break;
       }
       case 'question': {
@@ -144,8 +138,6 @@ const BlockSelector = ({
           paddingTop: '0px',
           paddingBottom: '0px',
         }
-
-        addBlock(newBlock, replace, block)
         break;
       }
       case 'columns': {
@@ -154,27 +146,40 @@ const BlockSelector = ({
           createBlock({ type: 'placeholder'}),
         ]
         newBlock.widths = [6,6]
-        addBlock(newBlock, replace, block)
         break;
       }
-      case 'accordion':
-      case 'tabs':
+      case 'accordion': {
+        newBlock.children = [
+          createBlock({ 
+            type: 'textAndImage',
+            style: {
+              paddingTop: '0px'
+            }
+          })
+        ]
+        break;
+      }
+      case 'tabs': {
+        newBlock.children = [
+          createBlock({ 
+            type: 'textAndImage',
+            editorSettings: {
+              defaultAlignment: 'center'
+            }
+          })
+        ]
+        break;
+      }
       case 'carousel': {
         newBlock.children = [
           createBlock({ type: 'textAndImage'})
         ]
-        if(type.name === 'tabs') {
-          newBlock.children[0].editorSettings = {
-            defaultAlignment: 'center'
-          }
-        }
-        addBlock(newBlock, replace, block)
         break;
       }
       default: {
-        addBlock(newBlock, replace, block)
       }
     }
+    addBlock(newBlock, replace, block)
   }
 
   let blockButtons = []

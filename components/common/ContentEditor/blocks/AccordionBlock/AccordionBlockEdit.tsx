@@ -99,7 +99,12 @@ const AccordionBlockEdit = ({id}) => {
       ...block,
       children: [
         ...block.children,
-        createBlock({ type: 'textAndImage' }),
+        createBlock({ 
+          type: 'textAndImage',
+          style: {
+            paddingTop: '0px',
+          }
+        }),
       ]
     }
     updateBlock(newBlock)
