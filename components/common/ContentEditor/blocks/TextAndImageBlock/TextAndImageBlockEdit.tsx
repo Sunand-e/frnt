@@ -34,16 +34,20 @@ export const TextAndImageBlockEdit = ({id}) => {
   const onMenuShow = (instance) => {
     if(blockRef) {
       const closestCarouselViewport = blockRef.closest('[data-scope="carousel"][data-part="viewport"]')
-      const carouselControls = closestCarouselViewport.querySelector('[data-part="previous-trigger"]')
+      const carouselControls = closestCarouselViewport.querySelector('[data-part="control"]')
+      const carouselSlideGroup = closestCarouselViewport.querySelector('[data-part="slide-group"]')
       carouselControls.style.zIndex = '0'
+      carouselSlideGroup.style.zIndex = '1'
     }
   }
   
   const onMenuHidden = (instance) => {
     if(blockRef) {
       const closestCarouselViewport = blockRef.closest('[data-scope="carousel"][data-part="viewport"]')
-      const carouselControls = closestCarouselViewport.querySelector('[data-part="previous-trigger"]')
+      const carouselControls = closestCarouselViewport.querySelector('[data-part="control"]')
+      const carouselSlideGroup = closestCarouselViewport.querySelector('[data-part="slide-group"]')
       carouselControls.style.removeProperty('z-index')
+      carouselSlideGroup.style.removeProperty('z-index')
     }
   }
 

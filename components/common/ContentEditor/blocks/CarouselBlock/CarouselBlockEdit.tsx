@@ -13,7 +13,7 @@ import {
 import { useState } from 'react'
 import Button from '../../../Button'
 import BlockContainer from '../../BlockContainer'
-import { createBlock, deleteBlock, getIndexAndParent, useBlockStore } from '../../useBlockStore'
+import { createBlock, deleteBlock, getIndexAndParent, handleDeleteBlock, useBlockStore } from '../../useBlockStore'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import Tippy from '@tippyjs/react'
 import classNames from '../../../../../utils/classNames'
@@ -32,7 +32,7 @@ const CarouselTrashButton = ({onDelete}) => {
     <Tippy
       { ...tippyProps }
       content={(
-        <p className={`whitespace-nowrap`}>Remove panel</p>
+        <p className={`whitespace-nowrap`}>Remove item</p>
       )}
     >
       <Trash
@@ -104,12 +104,16 @@ const CarouselBlockEdit = ({id}) => {
   }
   
   const handleDelete = (item) => {
-    if(item.id === block.children[currentIndex].id) {
-      let itemIndex = block.children.findIndex(c => c.id === item.id)
-      const newIndex = itemIndex === 0 ? 1 : itemIndex-1
-      setCurrentIndex(newIndex)
+    
+    const goToPreviousExistingItem = () => {
+      if(item.id === block.children[currentIndex].id) {
+        let itemIndex = block.children.findIndex(c => c.id === item.id)
+        // const newIndex = itemIndex === 0 ? 1 : itemIndex-1
+        const newIndex = itemIndex === block.children.length - 1 ? itemIndex-1 : itemIndex
+        setCurrentIndex(newIndex)
+      }
     }
-    deleteBlock(item)
+    handleDeleteBlock(item, 'Carousel item', goToPreviousExistingItem)
   }
 
   return (
@@ -125,7 +129,7 @@ const CarouselBlockEdit = ({id}) => {
           </CarouselSlideGroup>
           <CarouselControl>
             <CarouselPrevSlideTrigger asChild>
-              <button type="button" className="flex absolute -top-2 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+              <button type="button" className="flex absolute -top-2 left-0 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
                 <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-main/30 dark:bg-gray-800/30 group-hover:bg-main dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                   <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                   <span className="hidden">Previous</span>
@@ -133,7 +137,7 @@ const CarouselBlockEdit = ({id}) => {
               </button>
             </CarouselPrevSlideTrigger>
             <CarouselNextSlideTrigger asChild>
-              <button type="button" className="flex absolute -top-2 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+              <button type="button" className="flex absolute -top-2 right-0 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
                 <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-main/30 dark:bg-gray-800/30 group-hover:bg-main dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                   <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                   <span className="hidden">Previous</span>

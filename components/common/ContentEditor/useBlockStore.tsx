@@ -1,6 +1,8 @@
 import create from 'zustand'
 import { arrayMove } from "@dnd-kit/sortable";
 import { v4 as uuidv4 } from 'uuid';
+import { handleModal } from '../../../stores/modalStore';
+import DeleteContentBlockModal from './DeleteContentBlockModal';
 
 const blockTypesWithChildren = ['columns','tabs','accordion','carousel']
 export interface Block {
@@ -324,4 +326,16 @@ export const addTextAndImageChild = (block: Block) => {
     ]
   }
   updateBlock(block, newTopLevelBlock)
+}
+
+export const handleDeleteBlock = (block: Block, typeLabel: String, onDelete: () => void = null) => {
+
+  const handleDelete = () => {
+    deleteBlock(block)
+    onDelete && onDelete()
+  }
+  handleModal({
+    title: `Delete block`,
+    content: <DeleteContentBlockModal typeLabel={typeLabel} onDelete={handleDelete} block={block} />
+  })
 }
