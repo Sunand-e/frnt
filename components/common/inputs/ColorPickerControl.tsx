@@ -27,7 +27,8 @@ const ColorPickerControl = ({color, onChange}) => {
   return (
     // <ColorPicker value={color} onChange={onChange}>
     // <ColorPicker value={color} onChange={handleChange}>
-    <ColorPicker defaultValue="rgba(0, 0, 0, 0.5)" onChange={handleChange}>
+    // <ColorPicker defaultValue="rgba(0, 0, 0, 0.5)" onChange={handleChange}>
+    <ColorPicker defaultValue={color || 'rgba(0, 0, 0, 1)'} onChange={handleChange}>
       {(api) => {
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels
@@ -49,7 +50,7 @@ const ColorPickerControl = ({color, onChange}) => {
                 }}
               />
             </ColorPickerArea>
-            <div className="flex flex-col space-y-4 pt-4 overflow-visible">
+            <div className="flex flex-col space-y-2 pt-4 overflow-visible">
               <div className="flex space-x-4  overflow-visible">
                 <ColorPickerEyeDropperTrigger><ColorPickerIcon className="w-8"/></ColorPickerEyeDropperTrigger>
                 
@@ -83,15 +84,21 @@ const ColorPickerControl = ({color, onChange}) => {
                   </ColorPickerChannelSliderTrack>
                 </div>
               </div>
-              <div className="flex space-x-4">
-                <ColorPickerChannelInput
-                  className={`px-3 p-1.5 block w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
-                  channel="hex"
-                />
-                <ColorPickerChannelInput
-                  className={`px-3 p-1.5 block w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
-                  channel="alpha"
-                />
+              <div className="flex space-x-4 text-grey-dark mx-1">
+                <label className="flex flex-col items-center">
+                  <span>Hex Color</span>
+                  <ColorPickerChannelInput
+                    className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
+                    channel="hex"
+                    />
+                </label>
+                <label className="flex flex-col items-center">
+                  <span>Alpha</span>
+                  <ColorPickerChannelInput
+                    className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
+                    channel="alpha"
+                  />
+                </label>
               </div>
             </div>
   
