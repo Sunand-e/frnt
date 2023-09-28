@@ -48,7 +48,8 @@ const AccordionBlock = ({id}) => {
     <>
     <ArkAccordion 
     collapsible={true}
-    defaultValue={block.children[0].id}
+    // defaultValue={block.children[0].id}
+    defaultValue={null}
     className={classNames(
       styles.accordion,
       'divide-y shadow-lg flex flex-col w-full bg-white border border-gray-200'
