@@ -70,22 +70,6 @@ const BlockSelector = ({
     closeModal()
   }
   
-  const handleAddImageBlock = () => {
-    const newBlock = createBlock({
-      type: 'image',
-      // properties: {
-      //   url: image?.location,
-      //   mediaId: image?.id,
-      // },
-      style: {
-        paddingTop: '30px',
-        paddingBottom: '30px',
-      }
-    })
-    addBlock(newBlock, replace, block)
-    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
-    closeModal()
-  }
   
   const handleSelectType = (type: BlockType) => {
 
@@ -106,7 +90,10 @@ const BlockSelector = ({
         break;
       }
       case 'image': {
-        handleAddImageBlock()
+        newBlock.style = {
+          paddingTop: '30px',
+          paddingBottom: '30px',
+        }
         break;
       }
       case 'video': {
@@ -179,7 +166,10 @@ const BlockSelector = ({
       default: {
       }
     }
-    addBlock(newBlock, replace, block)
+
+    if(!['package', 'video'].includes(type.name)) {
+      addBlock(newBlock, replace, block)
+    }
   }
 
   let blockButtons = []
