@@ -8,7 +8,8 @@ const ColorPicker = ({
   value, 
   defaultValue='',
   clearOrReset='clear',
-  onChange
+  onChange,
+  showAlpha=true
 }) => {
 
   // This is for 'no bg' cross:
@@ -43,7 +44,7 @@ const ColorPicker = ({
           }}
           content={
             <div className="overflow-visible">
-              <ColorPickerControl onChange={onChange} color={value} />
+              <ColorPickerControl onChange={onChange} color={value} showAlpha={showAlpha} />
             </div>
           }
           >

@@ -6,7 +6,8 @@ const ColorPickerInput = ({
   control,
   clearOrReset='clear',
   defaultValue='',
-  label=null
+  label=null,
+  showAlpha=true
 }) => {
   
   const {

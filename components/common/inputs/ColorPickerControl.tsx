@@ -20,7 +20,7 @@ import {
   ColorPickerSwatchGroup,
 } from '@ark-ui/react/color-picker'
 
-const ColorPickerControl = ({color, onChange}) => {
+const ColorPickerControl = ({color, onChange, showAlpha=true}) => {
 
   const handleChange = ({value}) => onChange(value)
   
@@ -85,20 +85,22 @@ const ColorPickerControl = ({color, onChange}) => {
                 </div>
               </div>
               <div className="flex space-x-4 text-grey-dark mx-1">
-                <label className="flex flex-col items-center">
+                <label className="flex flex-col items-center w-full">
                   <span>Hex Color</span>
                   <ColorPickerChannelInput
                     className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
                     channel="hex"
                     />
                 </label>
-                <label className="flex flex-col items-center">
-                  <span>Alpha</span>
-                  <ColorPickerChannelInput
-                    className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
-                    channel="alpha"
-                  />
-                </label>
+                { showAlpha && (
+                  <label className="flex flex-col items-center">
+                    <span>Alpha</span>
+                    <ColorPickerChannelInput
+                      className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
+                      channel="alpha"
+                    />
+                  </label>
+                )}
               </div>
             </div>
   
