@@ -40,7 +40,7 @@ const Editor = ({
       attributes: {
         class: classNames(
           editorClass,
-          isHeading ? 'prose-lg lg:prose-xl' : 'prose-sm lg:prose-md',
+          isHeading ? 'prose-lg lg:prose-xl prose-p:text-[1.9rem]' : 'prose-sm lg:prose-md',
           'rounded-md prose p-1 max-w-none dark:prose-invert sm:prose-base focus:outline-none',
         )
       },
