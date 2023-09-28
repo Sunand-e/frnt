@@ -42,7 +42,7 @@ const AccordionItemEdit = ({item, index}) => {
                 // 'rounded-md',
                 'group/item-trigger',
                 'flex items-center justify-between w-full',
-                'p-5 px-8 font-medium text-left text-gray-700',
+                'p-5 px-6 font-medium text-left text-gray-700',
                 'dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800',
         )}
             >
@@ -114,7 +114,7 @@ const AccordionBlockEdit = ({id}) => {
     <>
     <ArkAccordion 
     collapsible={true}
-    defaultValue={block.children[0].id}
+    // defaultValue={block.children[0].id}
     className={`${styles.accordion} divide-y shadow-lg mb-4 flex flex-col w-full bg-white border border-gray-200`}>
       {block.children.map((child, index) => (
         <AccordionItemEdit key={child.id} item={child} index={index} />
