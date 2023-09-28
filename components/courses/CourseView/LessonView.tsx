@@ -6,14 +6,19 @@ import useGetUserCourse from "../../../hooks/users/useGetUserCourse"
 import {ArrowSmRight} from '@styled-icons/heroicons-solid/ArrowSmRight'
 import Button from "../../common/Button"
 import useMarkComplete from "../../../hooks/courses/useMarkComplete"
-import { useCallback, useEffect, useLayoutEffect } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
 import usePreviousAndNextIds from "./usePreviousAndNextIds"
 import PrevNextButtons from "./PrevNextButtons"
 import { useEditorViewStore } from "../../common/ContentEditor/useEditorViewStore"
+import { getScrollParent } from "../../../utils/getScrollParent"
 
 const LessonView = () => {
 
   const blocks = useBlockStore(state => state.blocks)
+  const canvasRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+  }, [])
 
   const router = useRouter()
   const { id, cid: lessonId } = router.query
@@ -31,10 +36,12 @@ const LessonView = () => {
     useEditorViewStore.setState({
       activeSidebarPanel: 'blocks'
     })
+    canvasRef.current?.scrollIntoView()
   }, [id])
+
   return (
     <>
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col" ref={canvasRef}>
         {blocks && blocks.map(block => (
           <Block block={block} key={block.id} />
           ))}

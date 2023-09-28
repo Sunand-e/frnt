@@ -6,6 +6,7 @@ import { Dot } from '../../common/misc/Dot';
 import ModuleView from './ModuleView'
 import useLazyFontLoad from '../../../hooks/useLazyFontLoad';
 import CourseFrontPageView from '../CourseFrontPageView';
+import classNames from '../../../utils/classNames';
 
 const CourseItemView = () => {
 
@@ -47,7 +48,11 @@ const CourseItemView = () => {
       <div
         id="course_view"
         style={courseFontCssVars as React.CSSProperties }
-        className='bg-main-lightness-99 h-full'
+        className={classNames(
+          'bg-main-lightness-99 h-full overflow-y-scroll',
+          'fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)]',
+          'lg:ml-[260px] left-0 lg:left-16 right-0'
+        )}
       >
         { course.settings.frontPage?.enabled && !contentId && (
           <CourseFrontPageView />

@@ -37,12 +37,12 @@ export default function CourseLayout( {page, navState} ) {
         </div>
       )}
     >
-      <div className="w-full h-[calc(100vh-108px)] mx-auto bg-white">
-        <div className="lg:flex h-full">
+      <div className="w-full mx-auto bg-white">
+        <div className="lg:flex">
           <div id="content-wrapper" className="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible flex h-full">
             <ToastContainer />
 
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center h-[calc(100vh-108px)] overflow-auto">
               <div className="min-w-0 w-full flex-auto">
                 {page}
               </div>
