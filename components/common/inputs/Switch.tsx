@@ -1,4 +1,4 @@
-import { Switch as ArkSwitch, SwitchControl, SwitchInput, SwitchLabel, SwitchThumb } from "@ark-ui/react"
+import { Switch as ArkSwitch, SwitchControl, SwitchLabel, SwitchThumb } from "@ark-ui/react"
 import { useState } from "react"
 
 export const Switch = ({
@@ -14,7 +14,6 @@ export const Switch = ({
     >
       { label && <SwitchLabel className="text-sm font-medium text-gray-700">{label}</SwitchLabel> }
       <div className="relative flex items-center cursor-pointer mr-1">
-        <SwitchInput className="sr-only peer"/>
         <SwitchControl className={`
           w-11 h-6 bg-gray-200
           relative
