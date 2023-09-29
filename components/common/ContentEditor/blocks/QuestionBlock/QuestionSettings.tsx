@@ -22,7 +22,7 @@ export const QuestionSettings = ({block}) => {
   }});
 
   const watchFeedbackType = watch("settings.feedback.type")
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   useEffect(() => {
     const subscription = watch((data) => {

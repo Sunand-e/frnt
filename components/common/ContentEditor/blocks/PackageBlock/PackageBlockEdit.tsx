@@ -22,7 +22,7 @@ export const PackageBlockEdit = ({ block }) => {
     request,
   } = useFullscreen()
   
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
    
   const handlePackageSelect = (scormPackage) => {
     updateBlock({

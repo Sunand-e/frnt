@@ -7,7 +7,7 @@ import { Box } from "@styled-icons/boxicons-regular/Box";
 export const ScormSettingsPanel = () => {
 
   const { blocks } = useBlockStore()
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const scormPackageBlock = blocks.find(
     block => block.type === 'package'

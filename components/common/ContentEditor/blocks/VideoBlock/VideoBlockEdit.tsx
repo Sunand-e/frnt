@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export const VideoBlockEdit = ({block}) => {
 
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const  defaultWidth = '50%';
 

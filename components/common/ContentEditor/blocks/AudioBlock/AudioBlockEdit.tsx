@@ -9,7 +9,7 @@ import { useBlockStore } from '../../useBlockStore';
 
 const AudioBlockEdit: FunctionComponent = ({block}) => {
 
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const file = block?.properties?.file;
 

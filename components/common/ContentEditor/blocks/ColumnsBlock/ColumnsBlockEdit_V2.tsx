@@ -12,7 +12,7 @@ export const ColumnsBlockEdit = ({id, block}) => {
 
   const [widths,setWidths] = useState(block.widths)
 
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const containerRef = useRef<any>()
   

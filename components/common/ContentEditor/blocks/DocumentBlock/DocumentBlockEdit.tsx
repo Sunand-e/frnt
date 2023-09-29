@@ -12,7 +12,7 @@ import { useBlockStore } from '../../useBlockStore';
 
 const DocumentBlockEdit: FunctionComponent = ({block}) => {
   
-  const { updateBlock } = useBlockStore()
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const file = block?.properties?.file;
 

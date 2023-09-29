@@ -6,7 +6,7 @@ const QuestionBlockEdit = ({ block: b }) => {
 
   const block = getBlock(b.id)
 
-  const { updateBlock } = useBlockStore(state => state.updateBlock)
+  const updateBlock = useBlockStore(state => state.updateBlock)
 
   const handleUpdateQuestion = (question) => {
 
