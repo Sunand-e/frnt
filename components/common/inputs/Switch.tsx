@@ -19,15 +19,15 @@ export const Switch = ({
           relative
           ring-2
           ring-main-dark-30/50
-          peer-focus:ring-4 
-          peer-focus:outline-none peer-focus:ring-4 
-          peer-focus:ring-main/30 
-          dark:peer-focus:ring-main
+          focus:ring-4 
+          focus:outline-none focus:ring-4 
+          focus:ring-main/30 
+          dark:focus:ring-main
           rounded-full peer dark:bg-gray-700 
-          peer-checked:ring-main/30 
-          peer-checked:after:translate-x-full 
-          peer-checked:after:border-white 
-          peer-checked:bg-main
+          data-[state=checked]:ring-main/30 
+          data-[state=checked]:after:translate-x-full 
+          data-[state=checked]:after:border-white 
+          data-[state=checked]:bg-main
           after:content-[''] 
           after:absolute 
           after:top-[2px] after:left-[2px] 

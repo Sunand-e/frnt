@@ -20,15 +20,12 @@ import {
   ColorPickerSwatchGroup,
 } from '@ark-ui/react/color-picker'
 
-const ColorPickerControl = ({color, onChange, showAlpha=true}) => {
+const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
 
   const handleChange = ({value}) => onChange(value)
   
   return (
-    // <ColorPicker value={color} onChange={onChange}>
-    // <ColorPicker value={color} onChange={handleChange}>
-    // <ColorPicker defaultValue="rgba(0, 0, 0, 0.5)" onChange={handleChange}>
-    <ColorPicker defaultValue={color || 'rgba(0, 0, 0, 1)'} onChange={handleChange}>
+    <ColorPicker defaultValue={color || 'hsla(0, 0%, 0%, 1)'} onChange={handleChange}>
       {(api) => {
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels

@@ -165,6 +165,7 @@ const CourseSettings = ({options={}}) => {
                 clearOrReset='reset'
                 defaultValue='rgba(0,0,0,0.5)'
                 control={control}
+                showAlpha={true}
               />
               {/* <ReactSelectInput
                 control={control}

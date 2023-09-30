@@ -9,7 +9,7 @@ const ColorPicker = ({
   defaultValue='',
   clearOrReset='clear',
   onChange,
-  showAlpha=true
+  showAlpha=false
 }) => {
 
   // This is for 'no bg' cross:

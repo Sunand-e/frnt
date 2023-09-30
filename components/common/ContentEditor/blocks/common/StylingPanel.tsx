@@ -86,6 +86,7 @@ const StylingPanel = ({block, children = null}) => {
             label="Overlay color"
             name='overlayColor'
             control={control}
+            showAlpha={true}
           />
           {/* <ReactSelectInput
             control={control}
