@@ -22,6 +22,7 @@ import {
 
 const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
 
+  const [swatches, setSwatches] = useState([])
   const handleChange = ({value}) => onChange(value)
   
   return (
@@ -30,7 +31,7 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels
         return (
-          <ColorPickerContent className="rounded-lg w-[266px] overflow-hidden">
+          <ColorPickerContent className="rounded-lg w-[266px] mb-1">
             <output>
               <ColorPickerSwatch value={api.value} readOnly />
             </output>
@@ -65,20 +66,21 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                       }}
                     />
                   </ColorPickerChannelSliderTrack>
-        
-                  <ColorPickerChannelSliderTrack channel="alpha" className="h-3 rounded-full">
-                    <ColorPickerChannelSliderBackground className="rounded-full" />
-                    <ColorPickerChannelSliderThumb 
-                      className="h-3 w-3"
-                      style={{
-                        borderRadius: '100%',
-                        border: '2px solid white',
-                        transform: 'translate(-50%, -50%)',
-                        outline: 'none',
-                        boxShadow: 'black 0px 0px 0px 1px, black 0px 0px 0px 1px inset',
-                      }}
-                    />
-                  </ColorPickerChannelSliderTrack>
+                  { showAlpha && (
+                    <ColorPickerChannelSliderTrack channel="alpha" className="h-3 rounded-full">
+                      <ColorPickerChannelSliderBackground className="rounded-full" />
+                      <ColorPickerChannelSliderThumb 
+                        className="h-3 w-3"
+                        style={{
+                          borderRadius: '100%',
+                          border: '2px solid white',
+                          transform: 'translate(-50%, -50%)',
+                          outline: 'none',
+                          boxShadow: 'black 0px 0px 0px 1px, black 0px 0px 0px 1px inset',
+                        }}
+                      />
+                    </ColorPickerChannelSliderTrack>
+                  )}
                 </div>
               </div>
               <div className="flex space-x-4 text-grey-dark mx-1">
@@ -100,16 +102,16 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                 )}
               </div>
             </div>
-  
-            <ColorPickerSwatchGroup>
-              <ColorPickerSwatch value="#123123">
-                <ColorPickerSwatchBackground />
-              </ColorPickerSwatch>
-              <ColorPickerSwatch value="#ff1321">
-                <ColorPickerSwatchBackground />
-              </ColorPickerSwatch>
-            </ColorPickerSwatchGroup>
-  
+            { !!swatches.length && (
+              <ColorPickerSwatchGroup>
+                <ColorPickerSwatch value="#123123">
+                  <ColorPickerSwatchBackground />
+                </ColorPickerSwatch>
+                <ColorPickerSwatch value="#ff1321">
+                  <ColorPickerSwatchBackground />
+                </ColorPickerSwatch>
+              </ColorPickerSwatchGroup>
+            )}    
           </ColorPickerContent>
         )
       }}
