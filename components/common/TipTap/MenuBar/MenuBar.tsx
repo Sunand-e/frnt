@@ -202,17 +202,17 @@ export default ({ editor, isHeading=false }) => {
               label: editor.getAttributes('paragraph').lineHeight
             }} onChange={changeLineHeight} />
           ) : item.type === 'color' ? (
-            // <input
-            //   type="color"
-            //   className='w-7 ml-2'
-            //   onInput={event => editor.chain().focus().setColor(event.target.value).run()}
-            //   value={editor.getAttributes('textStyle').color || '#333333'}
-            // />
-            <ColorPicker
-              onChange={value => editor.chain().focus().setColor(value).run()}
+            <input
+              type="color"
+              className='w-7 ml-2'
+              onInput={event => editor.chain().focus().setColor(event.target.value).run()}
               value={editor.getAttributes('textStyle').color || '#333333'}
-              showAlpha={false}
             />
+            // <ColorPicker
+            //   onChange={value => editor.chain().focus().setColor(value).run()}
+            //   value={editor.getAttributes('textStyle').color || '#333333'}
+            //   showAlpha={false}
+            // />
           ) : (
               <MenuItem {...item} />
           )}
