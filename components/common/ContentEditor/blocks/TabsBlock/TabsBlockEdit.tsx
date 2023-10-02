@@ -69,6 +69,9 @@ const TabsBlockEdit = ({id}) => {
       type: 'textAndImage',
       editorSettings: {
         defaultAlignment: 'center'
+      },
+      style: {
+        paddingTop: '20px'
       }
     })
     setValue(newTab.id)

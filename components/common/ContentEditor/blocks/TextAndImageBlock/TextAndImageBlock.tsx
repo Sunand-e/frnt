@@ -10,7 +10,11 @@ export const TextAndImageBlock: FunctionComponent = ({ block }) => {
     <>
       <pre>{/* { JSON.stringify(block.content,null,2) } */}</pre>
       {block.properties?.showText !== false && (
-        <Editor editable={false} content={block.content} />
+        <Editor
+          editable={false}
+          content={block.content} 
+          defaultAlignment={block.editorSettings?.defaultAlignment}
+        />
       )}
       {block.properties?.showImage !== false && (
         <Image

@@ -152,7 +152,11 @@ const BlockSelector = ({
             type: 'textAndImage',
             editorSettings: {
               defaultAlignment: 'center'
+            },
+            style: {
+              paddingTop: '20px'
             }
+
           })
         ]
         break;

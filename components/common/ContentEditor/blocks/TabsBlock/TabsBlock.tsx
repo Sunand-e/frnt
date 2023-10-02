@@ -41,7 +41,10 @@ const TabsBlock = ({id}) => {
         {/* <TabIndicator /> */}
       </TabList>
       { block.children.map((child, index) => (
-        <TabContent value={child.id}>
+        <TabContent
+          value={child.id} 
+          className='text-center dark:bg-gray-900 bg-white px-4'
+        >
           <Block block={child} />
         </TabContent>
       ))}
