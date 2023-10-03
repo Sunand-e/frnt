@@ -14,7 +14,7 @@ const AccordionItemView = ({item, index}) => {
           <div className={classNames(
             isOpen && 'border-l-main border-l-4'
           )}>
-            {/* <AccordionTrigger 
+            <AccordionTrigger 
               asChild
               className={classNames(
                 styles.trigger,
@@ -28,7 +28,7 @@ const AccordionItemView = ({item, index}) => {
                 <span className="w-full text-xl">{item.heading || `Panel ${index+1}`}</span>
                 <AccordionIcon isOpen={isOpen} />
               </button>
-            </AccordionTrigger> */}
+            </AccordionTrigger>
             <AccordionContent className='px-4'>
               <Block block={item} />
             </AccordionContent>
@@ -43,8 +43,7 @@ const AccordionItemView = ({item, index}) => {
 const AccordionBlock = ({id}) => {
 
   const block = useBlockStore(state => state.computed.getBlock(id))
-console.log('block')
-console.log(block)
+
   return (
     <>
     <ArkAccordion 
