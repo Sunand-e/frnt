@@ -17,9 +17,6 @@ const LessonView = () => {
   const blocks = useBlockStore(state => state.blocks)
   const canvasRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-  }, [])
-
   const router = useRouter()
   const { id, cid: lessonId } = router.query
   const { lessons } = useGetUserCourse(id)
