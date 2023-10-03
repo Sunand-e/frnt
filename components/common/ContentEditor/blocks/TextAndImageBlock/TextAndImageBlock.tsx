@@ -7,12 +7,14 @@ export const TextAndImageBlock: FunctionComponent = ({ block }) => {
   const width = block?.properties?.width || "50%";
 
   return (
-    <>
-      <pre>{/* { JSON.stringify(block.content,null,2) } */}</pre>
+    <div className="flex flex-col space-y-7">
       {block.properties?.showText !== false && (
         <Editor
           editable={false}
-          content={block.content} 
+          content={block.content}
+          editorClass={classNames(
+            'p-0'
+          )}
           defaultAlignment={block.editorSettings?.defaultAlignment}
         />
       )}
@@ -20,6 +22,7 @@ export const TextAndImageBlock: FunctionComponent = ({ block }) => {
         <Image
           style={{ ...(block.imageSize === "custom" && { width }) }}
           className={classNames(
+            'px-0',
             block.imageSize === "fullwidth" && "max-h-[30rem] h-[30rem]",
             block.imageSize === "default" || block.imageSize === undefined
               ? "max-w-[50%]"
@@ -28,7 +31,7 @@ export const TextAndImageBlock: FunctionComponent = ({ block }) => {
           src={block.properties?.url ?? "/images/image-block-placeholder.jpg"}
         />
       )}
-    </>
+    </div>
   );
 };
 

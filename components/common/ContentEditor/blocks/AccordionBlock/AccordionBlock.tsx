@@ -29,7 +29,7 @@ const AccordionItemView = ({item, index}) => {
                 <AccordionIcon isOpen={isOpen} />
               </button>
             </AccordionTrigger>
-            <AccordionContent className='px-4'>
+            <AccordionContent className='px-8'>
               <Block block={item} />
             </AccordionContent>
           </div>

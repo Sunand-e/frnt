@@ -42,7 +42,7 @@ const AccordionItemEdit = ({item, index}) => {
                 // 'rounded-md',
                 'group/item-trigger',
                 'flex items-center justify-between w-full',
-                'p-5 px-6 font-medium text-left text-gray-700',
+                'p-4 px-8 font-medium text-left text-gray-700',
                 'dark:text-gray-400 hover:bg-main/10 dark:hover:bg-gray-800',
         )}
             >

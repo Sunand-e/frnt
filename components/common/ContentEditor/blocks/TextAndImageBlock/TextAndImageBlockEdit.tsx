@@ -76,7 +76,7 @@ export const TextAndImageBlockEdit = ({ id }) => {
     closeModal();
   };
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-7">
       {block.properties?.showText !== false && (
         <Editor
           onUpdate={handleContentChange}
@@ -85,6 +85,9 @@ export const TextAndImageBlockEdit = ({ id }) => {
           content={block.content}
           autofocus={false}
           defaultAlignment={block.editorSettings?.defaultAlignment}
+          editorClass={classNames(
+            'p-0'
+          )}
         />
       )}
 
