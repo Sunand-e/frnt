@@ -176,7 +176,7 @@ const TableStructure = ({table}: TableStructureProps) => {
                     </tr>
                   ))}
                 </thead>
-                <tbody className="bg-white">
+                <tbody className="bg-white relative">
                   {
                     isReorderableActive ? (
                       <SortableContext items={items} strategy={verticalListSortingStrategy}>
@@ -185,7 +185,7 @@ const TableStructure = ({table}: TableStructureProps) => {
                       ))}
                     </SortableContext>
                     ) : rows.map((row) => (
-                      <TableRow style={{}} row={row} key={row.original.id} onRowClick={onRowClick} />
+                      <TableRow row={row} key={row.original.id} onRowClick={onRowClick} />
                     ))
                   }
                 </tbody>
