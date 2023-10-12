@@ -17,7 +17,9 @@ export const userContentEdgeDefaults = {
   properties:{},
   roles: [],
   node: {
-    groupsEnrolled: [],
+    groupsEnrolled: {
+      edges: []
+    },
     parents: [],
   }
 }
