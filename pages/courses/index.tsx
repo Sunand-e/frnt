@@ -1,12 +1,16 @@
 import usePageTitle from "../../hooks/usePageTitle";
 import CourseTabs from '../../components/dashboard/CourseTabs';
+import Filters from "../../components/common/Filters";
 
 const Courses = () => {
 
   usePageTitle({ title: 'My Courses' })
 
   return (
-    <CourseTabs />
+    <>
+      <Filters hasSearch={false} />
+      <CourseTabs />
+    </>
   )
 }
 
