@@ -51,6 +51,7 @@ const AdminCourseSetup = () => {
             ...cachedData,
             courses: {
               ...cachedData?.courses,
+              totalCount: cachedData?.courses.totalCount + 1,
               edges: [
                 {
                   ...userContentEdgeDefaults,
