@@ -96,10 +96,12 @@ const typesWithDeleted = ['ContentItem', 'ScormPackage', 'Group', 'Role', 'User'
 const resolvers = typesWithDeleted.reduce((accumulator, value) => {
   return {
     ...accumulator, 
-    [value]: { _deleted: item => Boolean(item._deleted) }
+    [value]: { 
+      _deleted: item => Boolean(item._deleted),
+      _isOptimistic: item => Boolean(item._isOptimistic)
+    }
   }
-}, {})
-
+}, {}) 
  
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link,

@@ -56,6 +56,7 @@ export const ContentFragment = gql`
       }
     }
     _deleted @client
+    _isOptimistic @client
   }
   ${ContentItemTagEdgeFragment}
 `
@@ -155,6 +156,9 @@ export const ContentTitleAndTypeFragment = gql`
     title
     contentType
     itemType
+    parents {
+      id
+    }
   }
 `
 

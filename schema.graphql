@@ -1,5 +1,6 @@
 extend type ContentItem {
   _deleted: Boolean!
+  _isOptimistic: Boolean!
 }
 extend type Question {
   _deleted: Boolean!
