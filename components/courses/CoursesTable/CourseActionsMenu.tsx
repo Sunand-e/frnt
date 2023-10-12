@@ -1,6 +1,7 @@
 import ActionsMenu from "../../common/menus/ActionsMenu"
 import useDeleteCourse from "../../../hooks/courses/useDeleteCourse"
 import useConfirmDelete from "../../../hooks/useConfirmDelete"
+import useDuplicateCourse from "../../../hooks/courses/useDuplicateCourse"
 
 const CourseActionsMenu = ({content: course}) => {
 
@@ -8,6 +9,7 @@ const CourseActionsMenu = ({content: course}) => {
   const editHref = course?.id && `${editUrl}?id=${course.id}`
   
   const { deleteCourse } = useDeleteCourse()
+  const { duplicateCourse } = useDuplicateCourse()
   const { confirmDelete } = useConfirmDelete({
     itemType: 'course',
     name: course.title,
@@ -19,6 +21,11 @@ const CourseActionsMenu = ({content: course}) => {
       label: 'Edit course', 
       href: editHref,
       capability: 'UpdateCourse'
+    },
+    {
+      label: 'Clone course',
+      onClick: () => duplicateCourse(course.id),
+      capability: 'CreateCourse'
     },
     {
       label: <span className="text-red-500">Delete course</span>,
