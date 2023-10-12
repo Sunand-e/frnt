@@ -1,33 +1,24 @@
-import { useState, useEffect, useContext } from 'react'
-import { useRouter } from '../../../utils/router';
-import SearchResults from './SearchResults';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import useGetTags from '../../../hooks/tags/useGetTags';
-import ResourceLibraryFilters from './ResourceLibraryFilters';
-import useGetResources from '../../../hooks/resources/useGetResources';
+import { useEffect } from 'react';
 import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
+import { useRouter } from '../../../utils/router';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import ResourceLibraryFilters from './ResourceLibraryFilters';
+import SearchResults from './SearchResults';
 
 const ResourceLibrary = () => {
   
   const router = useRouter()
   const { search, category } = router.query
 
-  // const { tags } = useGetTags()
   const { tags, resources } = useGetCurrentUser()
 
-  // const { resources } = useGetResources()
   const resourceNodes = resources?.edges?.map(
     edge => edge.node
   ).filter(
     node => !node._deleted
   ).sort((a,b) => b.order - a.order) || []
-  
-  const [ searching, setSearching ] = useState(false)
 
   useEffect(() => {
-    setSearching(!!(search || category))
-    // setFilters({search, type, category})
-    // alert(JSON.stringify({search, type, category},null,2))
     router.push({
       query: {
         ...router.query,
@@ -37,23 +28,14 @@ const ResourceLibrary = () => {
     })
   },[search, category])
 
-  // useEffect(() => {
-  //   setSearching(!!(filters.search || filters.category))
-  // },[filters])
-
 
   return (
     <div className="flex flex-col items-stretch grow">
       { tags && <ResourceLibraryFilters /> }
       { !resources && <LoadingSpinner text="Loading resources..."/> }
-
-      {
-      // If user is searching, only show search results
-      resources && resourceNodes && (
-          <SearchResults items={resourceNodes} />
-        )
-        
-      }
+      { resources && resourceNodes && (
+        <SearchResults items={resourceNodes} />
+      )}
     </div>
   )
 }
