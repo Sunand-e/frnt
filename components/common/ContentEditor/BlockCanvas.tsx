@@ -4,16 +4,15 @@ import SortableBlock from "./SortableBlock";
 import { useDroppable } from "@dnd-kit/core";
 import { showBlocksPanel, useEditorViewStore } from "./useEditorViewStore";
 import BlockSelector from "./BlockSelector";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 const BlockCanvas = () => {
 
   const blocks = useBlockStore(state => state.blocks)
   const blockIds = blocks.map(block => block.id)
-  // const blockIds = useBlockStore(state => state.blocks.map(block => block.id))
-  const activeBlockId = useBlockStore(state => state.activeBlockId)
-  const blockRef = useBlockStore(state => state.blockRefs.get(state.activeBlockId))
+  const activeBlockRef = useBlockStore(state => state.blockRefs.get(state.activeBlockId))
   const lastAddedItemId = useBlockStore(state => state.lastAddedItemId)
+  const canvasRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
       useBlockStore.setState({activeBlockId: lastAddedItemId})
@@ -21,10 +20,14 @@ const BlockCanvas = () => {
   },[lastAddedItemId])
 
   useEffect(() => {
-    blockRef && blockRef.scrollIntoView({
+    activeBlockRef && activeBlockRef.scrollIntoView({
       behavior: 'smooth',
     })
-  },[blockRef])
+  },[activeBlockRef])
+
+  useEffect(() => {
+    canvasRef.current?.scrollIntoView()
+  }, [])
 
   // const {
   //   setNodeRef,
@@ -39,6 +42,7 @@ const BlockCanvas = () => {
   // console.log(blockIds)
   return (
     <div
+      ref={canvasRef}
       className="min-h-full w-full bg-main-lightness-99"
       onClick={showBlocksPanel}
       // ref={setNodeRef}
