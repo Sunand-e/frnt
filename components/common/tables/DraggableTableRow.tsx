@@ -25,7 +25,7 @@ const DraggableTableRow = ({row, onRowClick, draggingRowHeight}) => {
 
   const style = {
     // ...table?.options.meta?.getRowStyles(row)
-    opacity: row.original._isOptimistic ? 0.5 : 1,
+    opacity: row.original._isOptimistic ? 0.25 : 1,
     transform: CSS.Transform.toString(transform),
     transition: transition,
     ...(isDragging && { height: draggingRowHeight } ),

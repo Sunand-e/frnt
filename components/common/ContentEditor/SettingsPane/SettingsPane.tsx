@@ -57,8 +57,6 @@ export const SettingsPane = () => {
   }
 
   const ModulePanel = () => {
-    console.log('moduleTypeName')
-    console.log(moduleTypeName)
     if(moduleTypeName === 'scorm_assessment') {
       return <ScormSettingsPanel />
     } else if(moduleTypeName === 'quiz') {
