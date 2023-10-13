@@ -19,7 +19,7 @@ const PlaceholderBlockEdit = ({block}) => {
           className={'flex flex-wrap justify-center items-center space-x-3'}
           block={block}
           replace={true}
-          exclude={['columns','tabs','carousel','package']}
+          exclude={['columns','tabs','carousel','package','accordion']}
           onSelect={closeModal}
         />
       )
