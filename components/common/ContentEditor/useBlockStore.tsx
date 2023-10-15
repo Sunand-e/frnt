@@ -213,6 +213,35 @@ export const addBlock = (newBlock: Block, replace=false, atBlock=null) => {
   }
 }
 
+
+function cloneBlockWithNewIds(block) {
+  // Create a new block to store the cloned data
+  const clonedBlock = { ...block };
+
+  // Check if the block has an 'id' property and generate a new ID
+  if (clonedBlock.hasOwnProperty('id')) {
+    clonedBlock.id = uuidv4();
+  }
+
+  // If the block has 'children' and it's an array, recursively clone each child
+  if (clonedBlock.hasOwnProperty('children') && Array.isArray(clonedBlock.children)) {
+    clonedBlock.children = clonedBlock.children.map(child => cloneBlockWithNewIds(child));
+  }
+
+  return clonedBlock;
+}
+
+
+export const duplicateBlock = (block: Block) => {
+
+  const { insertBlock } = useBlockStore.getState()
+  const { index } = getIndexAndParent(block.id)
+  const clonedBlock = cloneBlockWithNewIds(block)
+  insertBlock(clonedBlock, index + 1)
+  useBlockStore.setState({lastAddedItemId: clonedBlock.id});
+}
+
+
 export const updateBlockProperties = (block: Block, properties={}) => {
   const { updateBlock } = useBlockStore.getState()
 
@@ -328,7 +357,7 @@ export const addTextAndImageChild = (block: Block) => {
   updateBlock(block, newTopLevelBlock)
 }
 
-export const handleDeleteBlock = (block: Block, typeLabel: String, onDelete: () => void = null) => {
+export const handleDeleteBlock = (block: Block, typeLabel?: String, onDelete: () => void = null) => {
 
   const handleDelete = () => {
     deleteBlock(block)

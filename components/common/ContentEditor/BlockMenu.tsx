@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 
 import {MoreVert} from '@styled-icons/material/MoreVert'
 import {Trash} from '@styled-icons/heroicons-outline/Trash'
+import {Duplicate} from '@styled-icons/ionicons-solid/Duplicate'
 import {Gear} from '@styled-icons/fa-solid/Gear'
 import {ArrowUpward} from '@styled-icons/evaicons-solid/ArrowUpward'
 import {ArrowDownward} from '@styled-icons/evaicons-solid/ArrowDownward'
@@ -14,7 +15,7 @@ import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-away-extreme.css';
 import AddColumn from './Icons/AddColumn';
 import useBlockEditor from './useBlockEditor';
-import { addColumn, addTextAndImageChild, handleDeleteBlock, shiftPosition, useBlockStore } from './useBlockStore';
+import { addColumn, addTextAndImageChild, duplicateBlock, handleDeleteBlock, shiftPosition, useBlockStore } from './useBlockStore';
 import classNames from '../../../utils/classNames';
 
 const BlockMenu = ({ block, position='right', className='', dragListeners }) => {
@@ -50,7 +51,13 @@ const BlockMenu = ({ block, position='right', className='', dragListeners }) => 
     //   iconComponent: Gear,
     //   onClick: showSettings
     // },
-    
+    {
+      name: 'duplicate',
+      text: 'Duplicate block',
+      iconComponent: Duplicate,
+      onClick: (e) => duplicateBlock(block),
+      hideOnColumnBlocks: true
+    },
     {
       name: 'delete',
       text: 'Delete block',
