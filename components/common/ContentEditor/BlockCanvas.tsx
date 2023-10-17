@@ -5,6 +5,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { showBlocksPanel, useEditorViewStore } from "./useEditorViewStore";
 import BlockSelector from "./BlockSelector";
 import React, { useEffect, useMemo, useRef } from "react";
+import { useIsFirstRender } from "../../../hooks/useIsFirstRender";
 
 const BlockCanvas = () => {
 
@@ -14,9 +15,13 @@ const BlockCanvas = () => {
   const lastAddedItemId = useBlockStore(state => state.lastAddedItemId)
   const canvasRef = useRef<HTMLDivElement>(null)
 
+  const isFirstRender = useIsFirstRender()
+
   useEffect(() => {
-      useBlockStore.setState({activeBlockId: lastAddedItemId})
+    useBlockStore.setState({activeBlockId: lastAddedItemId})
+    if(!isFirstRender) {
       useEditorViewStore.setState({activeSettingsPanel: 'block'})
+    }
   },[lastAddedItemId])
 
   useEffect(() => {

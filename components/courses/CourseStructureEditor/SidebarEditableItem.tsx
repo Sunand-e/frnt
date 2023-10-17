@@ -9,6 +9,7 @@ import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
 import { ContentTitleAndTypeFragment } from '../../../graphql/queries/allQueries'
 import { useFragment_experimental } from '@apollo/client'
 import { moduleTypes } from '../moduleTypes'
+import useDuplicateLesson from '../../../hooks/lessons/useDuplicateLesson'
 
 const SidebarEditableItem = ({
   dragOverlay,
@@ -28,6 +29,8 @@ const SidebarEditableItem = ({
   const { cid: contentId } = router.query
 
   const { deleteLesson } = useDeleteLesson(id)
+  const { duplicateLesson } = useDuplicateLesson()
+
   const items = useEditorViewStore(state => state.items)
 
   const { complete, data, missing } = useFragment_experimental({
@@ -64,6 +67,11 @@ const SidebarEditableItem = ({
     confirmDelete()
   }
   
+  const handleDuplicate = (e) => {
+    e.stopPropagation()
+    duplicateLesson(id, data.parents[0].id)    
+  }
+  
   const handleSelect = () => {
     useEditorViewStore.setState({
       activeSettingsPanel: 'module',
@@ -82,7 +90,8 @@ const SidebarEditableItem = ({
   const liClassName = classNames(
     fadeIn && styles.fadeIn,
     sorting && styles.sorting,
-    dragOverlay && styles.dragOverlay
+    dragOverlay && styles.dragOverlay,
+    'hover:z-50'
   )
 
   const liStyle = {
@@ -119,6 +128,7 @@ const SidebarEditableItem = ({
       divClassName={divClassName}
       onSelect={handleSelect}
       onDelete={handleDelete}
+      onDuplicate={handleDuplicate}
     />
   )
 }
