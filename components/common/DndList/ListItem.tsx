@@ -12,7 +12,8 @@ const ListItem = forwardRef<HTMLLIElement, any>(({
   after,
   title,
   onSelect,
-  active
+  active,
+  setIsMenuOpen
 }, ref) => {
 
   const IconComponent = icon
@@ -20,6 +21,11 @@ const ListItem = forwardRef<HTMLLIElement, any>(({
   const bg = active ? `text-main bg-main/[.1]` : `bg-transparent`
   return (
     <li
+      { ...(!!setIsMenuOpen && {
+        onMouseLeave: () => {
+          setIsMenuOpen(false)
+        }
+      })}
       className={classNames(
         styles.Wrapper,
         bg,

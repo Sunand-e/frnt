@@ -40,6 +40,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   });
 
   const [title, setTitle] = useState('Untitled Lesson')
+  const [isMenuOpen, setIsMenuOpen] = useState('Untitled Lesson')
 
   useEffect(() => {
     if(complete) {
@@ -81,10 +82,15 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
     }
   ]
 
+  const menuProps = {
+    actions,
+    isOpen: isMenuOpen,
+    setIsOpen: setIsMenuOpen
+  }
 
   const after = editing ? (
     <div className="ml-auto h-7 flex space-x-2 hidden group-hover:block absolute right-2" onClick={e => e.stopPropagation()}>
-      <SidebarItemMenu actions={actions} />
+      <SidebarItemMenu {...menuProps} />
       {/* <Duplicate className={`w-4 cursor-pointer`} onClick={(onDuplicate)}/> */}
       {/* <Trash className={`w-4 cursor-pointer`} onClick={onDelete}/> */}
     </div>
@@ -103,6 +109,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
       divClassName={divClassName}      
       liStyle={liStyle}
       liClassName={liClassName}
+      setIsMenuOpen={setIsMenuOpen}
       ref={ref}
     />
   )

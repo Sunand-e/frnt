@@ -4,9 +4,9 @@ import { Menu, MenuItem } from '../common/floating-ui/DropdownMenu';
 import { useRef, useState } from 'react';
 
 
-const SidebarItemMenu = ({ actions, position='right', className='' }) => {
+const SidebarItemMenu = ({ actions, isOpen, setIsOpen, position='right', className='' }) => {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [] = useState(false);
   const arrowRef = useRef(null);
 
   const {refs, floatingStyles, context} = useFloating({
@@ -28,9 +28,7 @@ const SidebarItemMenu = ({ actions, position='right', className='' }) => {
   ]);
   return (
     <>
-    <div className={`p-1`} ref={refs.setReference} {...getReferenceProps({
-      onMouseLeave: () => setIsOpen(false)
-    })}>
+    <div className={`p-1`} ref={refs.setReference} {...getReferenceProps()}>
       <MoreHorizontal className='group-hover:shadow-md w-6 rounded-full bg-white text-main-secondary' />
       {isOpen && (
       <>
@@ -42,8 +40,13 @@ const SidebarItemMenu = ({ actions, position='right', className='' }) => {
           {...getFloatingProps()}
         >
           { actions.map((menuItem, index) => (
-            <li key={index} className="rounded-md whitespace-nowrap p-2 hover:bg-gray-100">
-              {menuItem.label}
+            <li key={index}>
+              <button
+                className="rounded-md whitespace-nowrap p-2 hover:bg-gray-100"
+                onClick={menuItem.onClick}
+              >
+                {menuItem.label}
+              </button>
             </li>
           ))}
         </ul>
