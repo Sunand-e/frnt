@@ -28,7 +28,7 @@ const SidebarItemMenu = ({ actions, isOpen, setIsOpen, position='right', classNa
   ]);
   return (
     <>
-    <div className={`p-1`} ref={refs.setReference} {...getReferenceProps()}>
+    <div ref={refs.setReference} {...getReferenceProps()}>
       <MoreHorizontal className='group-hover:shadow-md w-6 rounded-full bg-white text-main-secondary' />
       {isOpen && (
       <>

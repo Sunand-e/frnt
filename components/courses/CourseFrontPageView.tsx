@@ -35,8 +35,6 @@ const CourseFrontPageView = () => {
   ])
 
   const buttonText = statusButtonTextMap.get(courseEdge.status || 'not_started')
-  console.log('courseEdge')
-  console.log(courseEdge)
   let bgImageCssString = "";
   if (course.settings.frontPage?.bgImageEnabled) {
     const overlayColor = course.settings.frontPage?.overlayColor || 'rgba(0,0,0,0.5)'

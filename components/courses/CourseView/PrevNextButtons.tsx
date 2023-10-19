@@ -23,8 +23,6 @@ const PrevNextButtons = ({
   const moduleEdge = modules.edges.find(edge => edge.node.id === moduleId )
   
   const { prev, next, last } = usePreviousAndNextIds()
-  console.log('{ prev, next }')
-  console.log({ prev, next })
   const goTo = id => {
     router.push({
       pathname: `/course`,
