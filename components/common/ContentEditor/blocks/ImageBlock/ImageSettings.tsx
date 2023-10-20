@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import NumberPropertyInput from "../../../inputs/NumberPropertyInput"
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
+import { Switch } from "../../../inputs/Switch"
 import ImageSelectFromLibrary from "../../ImageSelectFromLibrary"
 import { updateBlockProperties, updateBlockStyles, useBlockStore } from "../../useBlockStore"
 
@@ -51,6 +52,11 @@ export const ImageSettings = ({block}) => {
     })
   }
   
+  const setShowCaption = value => {
+    updateBlockProperties(block, {
+      showCaption: value
+    })
+  }
   const { imageSize } = watch()
 
   return (
@@ -87,6 +93,22 @@ export const ImageSettings = ({block}) => {
           label="Image width"
         />
       )}
+      { (imageSize === 'custom') && (
+        <NumberPropertyInput
+          inputAttrs={{
+            value: block.style?.width,
+            onChange: handleChangeWidth
+          }}
+          unit={'px'}
+          className={'text-sm'}
+          label="Image width"
+        />
+      )}
+      <Switch
+        label={'Show caption?'}
+        value={block.properties?.showCaption}
+        onChange={setShowCaption}
+      />
     </>
   );
 }

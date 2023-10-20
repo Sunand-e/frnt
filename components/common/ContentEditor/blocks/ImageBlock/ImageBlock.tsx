@@ -1,6 +1,3 @@
-import {
-  FunctionComponent
-} from 'react';
 import classNames from '../../../../../utils/classNames';
 import Image from '../../../image/Image';
 
@@ -18,6 +15,11 @@ export const ImageBlock = ({block}) => {
       )}
       src={block.properties?.url ?? '/images/image-block-placeholder.jpg'}
     />
+    { block.properties?.showCaption && block.properties?.captionText && (
+      <p className={'text-sm block text-center p-3 text-gray-500'}>
+        { block.properties.captionText }
+      </p>
+    )}
     </>
   );
 }
