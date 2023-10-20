@@ -125,7 +125,7 @@ const CarouselBlockEdit = ({id}) => {
       <div className='grid gap-4 relative max-w-full'>
         <CarouselViewport className='relative max-w-full overflow-x-hidden'>
           <CarouselSlideGroup className='relative'>
-            { block.children.map((child, index) => <CarouselItemEdit onDelete={handleDelete} item={child} index={index} /> )}
+            { block.children.map((child, index) => <CarouselItemEdit onDelete={handleDelete} item={child} key={index} index={index} /> )}
           </CarouselSlideGroup>
           <CarouselControl>
             <CarouselPrevSlideTrigger asChild>
