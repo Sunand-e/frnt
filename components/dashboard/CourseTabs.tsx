@@ -29,20 +29,6 @@ export default function CourseTabs({gridClasses=''}) {
   
   const options = {
     typeName: 'course',
-    tabs: {
-      in_progress: {
-        readMoreLabel: 'Continue course',
-        noItemsText: 'No courses are currently in progress'
-      },
-      not_started: {
-        readMoreLabel: 'Start course',
-        noItemsText: 'No courses found'
-      },
-      completed: {
-        readMoreLabel: 'Review course',
-        noItemsText: 'You have not completed any courses'
-      }
-    },
     items: {
       getHref: item => `/course?id=${item.id}`,
     }

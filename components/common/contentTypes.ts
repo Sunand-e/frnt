@@ -8,7 +8,21 @@ export const contentTypes = {
     plural: 'courses',
     label: "Course",
     icon: GraduationCap,
-    editUrl: 'admin/courses/edit'
+    editUrl: 'admin/courses/edit',
+    statusStrings: {
+      not_started: {
+        readMoreLabel: 'Start course',
+        noItemsText: 'No courses found'
+      },
+      in_progress: {
+        readMoreLabel: 'Continue course',
+        noItemsText: 'No courses are currently in progress'
+      },
+      completed: {
+        readMoreLabel: 'Review course',
+        noItemsText: 'You have not completed any courses'
+      }
+    }
   },
   pathway: {
     name: 'pathway',

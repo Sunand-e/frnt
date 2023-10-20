@@ -21,6 +21,7 @@ export default function CategoriesCollection() {
             options={{
               maxItems: 120,
               itemOptions: {
+                getReadMoreLabel: () => 'View category items',
                 getHref: item => `/categories?category=${encodeURIComponent(item.label)}`
               }
             }}

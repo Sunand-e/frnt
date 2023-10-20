@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import CertificatesTable from "../certificates/CertificatesTable"
 import Tabs from "./containers/Tabs"
+import { contentTypes } from "./contentTypes"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
@@ -19,23 +20,23 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
       name: 'in_progress',
       title: 'In progress',
       contents: content?.filter(item => item.status === 'in_progress'),
-      readMoreLabel: options?.tabs?.in_progress?.readMoreLabel || 'Continue',
-      noItemsText: options?.tabs?.in_progress?.noItemsText || 'No contents are currently in progress'
+      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Continue',
+      noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No contents are currently in progress'
     },
     {
       name: 'not_started',
       title: 'Not started',
       contents: content?.filter(item => !item.status || item.status === 'not_started'),
-      readMoreLabel: options?.tabs?.not_started?.readMoreLabel || 'Start',
-      noItemsText: options?.tabs?.not_started?.noItemsText || 'No new content found'
+      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Start',
+      noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No new content found'
     },
     {
       name: 'completed',
       title: 'Completed',
       href: '#',
       contents: content?.filter(item => item.status === 'completed'),
-      readMoreLabel: options?.tabs?.completed?.readMoreLabel || 'View item',
-      noItemsText: options?.tabs?.completed?.noItemsText || 'You have not completed any items'
+      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'View item',
+      noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'You have not completed any items'
     },
   ]
 
@@ -60,10 +61,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     ... options?.typeName === 'course' ? [{
       href: '#',
       name: 'certificates',
-      title: 'Certificates',
-      contents: content?.filter(item => item.status === 'in_progress'),
-      readMoreLabel: options?.tabs?.in_progress?.readMoreLabel || 'Continue',
-      noItemsText: options?.tabs?.in_progress?.noItemsText || 'No contents are currently in progress'
+      title: 'Certificates'
     }] : []
   ]
 

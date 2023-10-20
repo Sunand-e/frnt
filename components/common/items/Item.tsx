@@ -3,16 +3,35 @@ import ButtonLink from "../../common/ButtonLink";
 import { resourceTypes } from "../../resources/resourceTypes";
 import ProgressBar from "../ProgressBar";
 import styles from './Item.module.scss'
-
+import { UserContentStatusFragment } from "../../../graphql/mutations/user/UPDATE_USER_CONTENT_STATUS";
 import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
 import Tippy from "@tippyjs/react";
 import useGetThumbnail from "./useGetThumbnail";
+import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
+import { useFragment_experimental } from "@apollo/client";
+import { contentTypes } from "../contentTypes";
 
 export default function Item({ item, options }) {
 
+  const {user} = useGetCurrentUser()
+
+  const { complete, data } = useFragment_experimental({
+    fragment: UserContentStatusFragment,
+    fragmentName: 'UserContentStatusFragment',
+    from: `UserContentEdge:${user.id}:${item.id}`
+  });
 
   const { src } = useGetThumbnail(item)
-  const buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
+  let buttonText = options?.getReadMoreLabel?.(item) || item.buttonText || 'Read more';
+  
+  if(item.itemType === 'course') {
+    let status = data.status || 'not_started'
+    buttonText = contentTypes[item.itemType]?.statusStrings?.[status]?.readMoreLabel || 'Go to course'
+  }
+  
+  if(item.itemType === 'resource') {
+    buttonText = resourceTypes[item.contentType]?.readMoreLabel || buttonText
+  }
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
   const href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?id=${item.id}`
