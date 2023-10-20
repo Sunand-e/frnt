@@ -14,10 +14,7 @@ const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: 
 
   const HeaderButton = () => {
     return (
-      <Button
-        onClick={button?.onClick}
-        className={` text-main hover:text-main-secondary`}
-      >
+      <Button onClick={button?.onClick}>
         {button?.text}
       </Button>
     )
