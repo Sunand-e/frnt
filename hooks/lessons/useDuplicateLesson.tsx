@@ -64,13 +64,15 @@ function useDuplicateLesson() {
           id:`ContentItem:${parentId}`,
           fragment: SectionChildrenFragment
         }, (data) => {
+
+          const index = data.children.findIndex(child => child.id === lesson.id) + 1
+
           return ({
             children: [
               // ...data.children.filter(child => child._deleted === false),
-              ...data.children,
-              {
-                ...duplicateLesson.contentItem,
-              }
+              ...data.children.slice(0, index),
+              duplicateLesson.contentItem,
+              ...data.children.slice(index)
             ],
           })
         })
