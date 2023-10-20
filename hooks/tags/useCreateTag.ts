@@ -13,6 +13,7 @@ function useCreateTag() {
     {
       // refetchQueries: [GET_TAGS],
       update(cache, { data: { createTag } } ) {
+
         const cachedData = cache.readQuery<GetTags>({
           query: GET_TAGS
         })
@@ -43,6 +44,7 @@ function useCreateTag() {
             __typename: 'Tag',
             id: `tmp-${Math.floor(Math.random() * 10000)}`,
             image: null,
+            order: 999999,
             ...values
           },
         }
