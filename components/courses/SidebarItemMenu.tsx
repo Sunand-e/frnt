@@ -1,6 +1,5 @@
 import { MoreHorizontal } from '@styled-icons/fluentui-system-filled/MoreHorizontal';
 import {arrow, FloatingArrow, FloatingPortal, hide, useClick, useDismiss, useFloating, useHover, useInteractions} from '@floating-ui/react';
-import { Menu, MenuItem } from '../common/floating-ui/DropdownMenu';
 import { useRef, useState } from 'react';
 
 
@@ -42,7 +41,7 @@ const SidebarItemMenu = ({ actions, isOpen, setIsOpen, position='right', classNa
           { actions.map((menuItem, index) => (
             <li key={index}>
               <button
-                className="rounded-md whitespace-nowrap p-2 hover:bg-gray-100"
+                className="w-full text-left rounded-md whitespace-nowrap p-2 hover:bg-gray-100"
                 onClick={menuItem.onClick}
               >
                 {menuItem.label}
