@@ -7,12 +7,14 @@ import classNames from '../../../../../utils/classNames';
 import { ConditionalWrapper } from '../../../ConditionalWrapper';
 import ImageSelectFromLibrary from '../../ImageSelectFromLibrary';
 import useBlockEditor from '../../useBlockEditor';
-import { getIndexAndParent, updateBlockProperties } from '../../useBlockStore';
+import { getIndexAndParent, updateBlockProperties, useBlockStore } from '../../useBlockStore';
 import ResizeableElement from '../common/ResizeableElement';
 
 export const ImageBlockEdit: FunctionComponent = ({block}) => {
 
   const { parent } = getIndexAndParent(block.id)
+  const isChild = useBlockStore(state => !state.blocks.some(b => b.id === block.id))
+
   const {debouncedUpdateBlock} = useBlockEditor()
   const [captionText, setCaptionText] = useState(block.properties?.captionText)
 
@@ -36,14 +38,22 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
     closeModal()
   }
 
-  let imageSize = 'default'
-  if(parent?.type === 'columns') {
-    imageSize = 'fullwidth'
-  } else {
-    imageSize = block.imageSize
-  }
-
   const  defaultWidth = '50%';
+  
+  let imageClasses = ''
+  if(parent?.type === 'columns') {
+    imageClasses += 'w-full'
+  } else {
+    if(block.imageSize === 'fullwidth') {
+      imageClasses += 'max-h-[30rem] h-[30rem]'
+    }
+    if(block.imageSize === 'default' || block.imageSize === undefined) {
+      imageClasses += 'max-w-[50%]'
+    } else {
+      imageClasses += 'w-full'
+    }
+  }
+  
   return (
     <>
       <ConditionalWrapper
@@ -68,9 +78,7 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
             src={block.properties?.url}
             onSelect={selectImage}
             className={classNames(
-              // NO CLASSNAME IF CUSTOM SIZED
-              block.imageSize === 'fullwidth' && 'max-h-[30rem] h-[30rem]',
-              (block.imageSize === 'default' || block.imageSize === undefined) ? 'max-w-[50%]' : 'w-full'
+              imageClasses
             )}
           />
         </ConditionalWrapper>

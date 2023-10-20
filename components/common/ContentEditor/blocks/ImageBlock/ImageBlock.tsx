@@ -1,17 +1,33 @@
 import classNames from '../../../../../utils/classNames';
 import Image from '../../../image/Image';
+import { getIndexAndParent, useBlockStore } from '../../useBlockStore';
 
 export const ImageBlock = ({block}) => {
 
+  const { parent } = getIndexAndParent(block.id)
+
   const width = block.style?.width || '50%';
-  (block.imageSize === 'default' || block.imageSize === undefined) ? 'max-w-[50%]' : 'w-full'
+
+  let imageClasses = ''
+  if(parent?.type === 'columns') {
+    imageClasses += 'w-full'
+  } else {
+    if(block.imageSize === 'fullwidth') {
+      imageClasses += 'max-h-[30rem] h-[30rem]'
+    }
+    if(block.imageSize === 'default' || block.imageSize === undefined) {
+      imageClasses += 'max-w-[50%]'
+    } else {
+      imageClasses += 'w-full'
+    }
+  }
+  
   return (
     <>
     <Image
       style={{...(block.imageSize === 'custom' && {width})}}
       className={classNames(
-        block.imageSize === 'fullwidth' && 'max-h-[30rem] h-[30rem]',
-        (block.imageSize === 'default' || block.imageSize === undefined) ? 'max-w-[50%]' : 'w-full'
+        imageClasses
       )}
       src={block.properties?.url ?? '/images/image-block-placeholder.jpg'}
     />

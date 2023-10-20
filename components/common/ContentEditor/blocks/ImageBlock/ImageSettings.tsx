@@ -4,11 +4,12 @@ import NumberPropertyInput from "../../../inputs/NumberPropertyInput"
 import ReactSelectInput from "../../../inputs/ReactSelectInput"
 import { Switch } from "../../../inputs/Switch"
 import ImageSelectFromLibrary from "../../ImageSelectFromLibrary"
-import { updateBlockProperties, updateBlockStyles, useBlockStore } from "../../useBlockStore"
+import { getIndexAndParent, updateBlockProperties, updateBlockStyles, useBlockStore } from "../../useBlockStore"
 
 export const ImageSettings = ({block}) => {
 
   const updateBlock = useBlockStore(state => state.updateBlock)
+  const { parent } = getIndexAndParent(block.id)
 
   const defaultValues = {
     imageSize: block.imageSize || 'default',
@@ -78,21 +79,10 @@ export const ImageSettings = ({block}) => {
         label="Image size"
         options={[
           { label: 'Default', value: 'default' },
+          ...(parent?.type !== 'columns' ? [{ label: 'Full width', value: 'fullwidth'}] : []),
           { label: 'Custom width', value: 'custom' },
-          { label: 'Full width', value: 'fullwidth' }
         ]}
       />
-      { (imageSize === 'custom') && (
-        <NumberPropertyInput
-          inputAttrs={{
-            value: block.style?.width,
-            onChange: handleChangeWidth
-          }}
-          unit={'px'}
-          className={'text-sm'}
-          label="Image width"
-        />
-      )}
       { (imageSize === 'custom') && (
         <NumberPropertyInput
           inputAttrs={{
