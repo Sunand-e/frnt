@@ -72,7 +72,7 @@ const TableActions = ({table }: { table: Table<any> }) => {
         <div className="relative ml-0 w-full mt-5 md:w-auto md:mt-0 sm:mt-0">
           <Select
             name="types"
-            className='absolute z-0'
+            className='absolute'
             styles={{
               menu: (base) => ({
                 ...base,
