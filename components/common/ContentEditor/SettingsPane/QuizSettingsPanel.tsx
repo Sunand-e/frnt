@@ -182,7 +182,7 @@ export const QuizSettingsPanel = () => {
           }
         ]}
       />
-      { useUserHasCapability('AICreateQuiz') && (
+      { userHasCapability('AICreateQuiz') && (
         <AICreateQuizForm onResponse={handleResponse} />
       )}
 
