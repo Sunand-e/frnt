@@ -7,6 +7,7 @@ type EditorViewState = {
   activeSidebarPanel: string,
   visibleSidebarPanels: Array<string>,
   activeModuleType: string
+  isDraggingSidebar: boolean
   items: StructureItems
 }
 
@@ -17,6 +18,7 @@ export const useEditorViewStore = create<EditorViewState>(set => ({
   visibleSidebarPanels: ['structure'],
   activeModuleType: null,
   activeModuleId: null,
+  isDraggingSidebar: false,
   items: null
 }))
 

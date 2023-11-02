@@ -38,6 +38,7 @@ import isEqual from "lodash/isEqual";
 import { SidebarSection } from '../SidebarSection';
 import NewItemButton from './NewItemButton';
 import SidebarEditableItem from './SidebarEditableItem';
+import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore';
 
 const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
@@ -233,6 +234,8 @@ export function MultipleContainers({
   };
 
   const onDragCancel = () => {
+    useEditorViewStore.setState({isDraggingSidebar: false})
+
     if (clonedItems.current) {
       // Reset items to their original state in case items have been
       // Dragged across containers
@@ -259,6 +262,7 @@ export function MultipleContainers({
         },
       }}
       onDragStart={({active}) => {
+        useEditorViewStore.setState({isDraggingSidebar: true})
         setActiveId(active.id);
         clonedItems.current = items;
         isDragging.current = true;
@@ -323,6 +327,7 @@ export function MultipleContainers({
       onDragEnd={({active, over}) => {
 
         let newItems = items;
+        useEditorViewStore.setState({isDraggingSidebar: false})
 
         if (active.id in items && over?.id) {
           const activeIndex = containerIds.indexOf(active.id);

@@ -1,12 +1,14 @@
 import { MoreHorizontal } from '@styled-icons/fluentui-system-filled/MoreHorizontal';
 import {arrow, FloatingArrow, FloatingPortal, hide, useClick, useDismiss, useFloating, useHover, useInteractions} from '@floating-ui/react';
 import { useRef, useState } from 'react';
+import { useEditorViewStore } from '../common/ContentEditor/useEditorViewStore';
 
 
 const SidebarItemMenu = ({ actions, isOpen, setIsOpen, position='right', className='' }) => {
 
   const [] = useState(false);
   const arrowRef = useRef(null);
+  const isDraggingSidebar = useEditorViewStore(state => state.isDraggingSidebar)
 
   const {refs, floatingStyles, context} = useFloating({
     open: isOpen,
@@ -25,7 +27,7 @@ const SidebarItemMenu = ({ actions, isOpen, setIsOpen, position='right', classNa
     click,
     dismiss
   ]);
-  return (
+  return !isDraggingSidebar && (
     <>
     <div ref={refs.setReference} {...getReferenceProps()}>
       <MoreHorizontal className='group-hover:shadow-md w-6 rounded-full bg-white text-main-secondary' />
