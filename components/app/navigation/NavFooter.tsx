@@ -13,7 +13,7 @@ const NavFooter = ({children=null, isSlim}) => {
           'UpdateUser',
           'UpdateCourse',
           'UpdateResource',
-          'GetUsers',
+          // 'GetUsers',
         ]) && (
           <AdminViewSwitch />
         )}
