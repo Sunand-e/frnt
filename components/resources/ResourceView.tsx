@@ -15,6 +15,7 @@ import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from '../common/misc/Dot';
 import ResourceActionButton from "./ResourceActionButton";
+import Editor from "../common/inputs/Editor";
 
 const ResourceView = ({id}) => {
 
@@ -28,10 +29,6 @@ const ResourceView = ({id}) => {
 
   usePageTitle({ title: resource?.title ? `Resource Library: ${resource.title}` : 'Resource Library' })
 
-  const createDescriptionMarkup = useCallback(() => {
-    return {__html: resource?.content?.description};
-  },[resource])
-  
   let resourceComponent = useMemo(() => {
     switch(resource?.contentType) {
       case 'document': {
@@ -73,9 +70,11 @@ const ResourceView = ({id}) => {
           <h1 className="mt-3 mb-8">
             { resource.title }
           </h1>
-
-          <div className="mt-3 mb-8" dangerouslySetInnerHTML={createDescriptionMarkup()} />
-          
+          <Editor
+            editorClass="mt-3 mb-8"
+            content={resource?.content?.description}
+            editable={false}
+          />
           { resourceComponent }
           <div className="mt-10 flex flex-col md:flex-row space-x-4 self-center">
             { !!resource && showActionButton && (
