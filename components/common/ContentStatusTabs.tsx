@@ -5,7 +5,7 @@ import { contentTypes } from "./contentTypes"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
-export default function ContentStatusTabs({content=[], options=null, gridClasses='', loading=false}) {
+export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false}) {
 
   const defaultOptions = { 
     // subHeading: 'Courses and workshops that were recently released',
@@ -19,6 +19,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     {
       name: 'in_progress',
       title: 'In progress',
+      countField: 'inProgressCount',
       contents: content?.filter(item => item.status === 'in_progress'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Continue',
       noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No contents are currently in progress'
@@ -26,6 +27,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     {
       name: 'not_started',
       title: 'Not started',
+      countField: 'notStartedCount',
       contents: content?.filter(item => !item.status || item.status === 'not_started'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Start',
       noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No new content found'
@@ -33,6 +35,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
     {
       name: 'completed',
       title: 'Completed',
+      countField: 'completedCount',
       href: '#',
       contents: content?.filter(item => item.status === 'completed'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'View item',
@@ -43,7 +46,7 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
   const [activeTab, setActiveTab] = useState('')
 
   const visibleContentPanels = contentPanels.filter(({name, contents}) => {
-    return !(name === 'in_progress' && !contents?.length)
+    return !(name === 'in_progress' && !connection?.inProgressCount)
   })
   
   const { 
@@ -52,9 +55,11 @@ export default function ContentStatusTabs({content=[], options=null, gridClasses
 
   const tabs = [
     ...visibleContentPanels.map(({contents, ...panel}) => {
+
       return {
         ...panel,
-        count: contents?.length || 0,
+        // count: contents?.length || 0,
+        count: connection?.[panel.countField],
         href: '#'
       }
     }),

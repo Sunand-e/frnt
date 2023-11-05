@@ -38,6 +38,7 @@ export default function CourseTabs({gridClasses=''}) {
   return (
     <>
       <ContentStatusTabs 
+        connection={courseConnection}
         gridClasses={gridClasses} 
         options={options} 
         loading={loading} 

@@ -127,6 +127,9 @@ export const UserContentEdgeFragment = gql`
 export const UserContentConnectionFragment = gql`
   fragment UserContentConnectionFragment on UserContentConnection {
     totalCount
+    notStartedCount
+    inProgressCount
+    completedCount
     edges {
       ...UserContentEdgeFragment
     }
@@ -145,7 +148,7 @@ export const UserCoursesFragment = gql`
 
 export const CurrentUserCoursesFragment = gql`
   fragment CurrentUserCoursesFragment on Query {
-    courses {
+    courses(first:$limitContents) {
       ...UserContentConnectionFragment
     }
   }
@@ -163,7 +166,7 @@ export const UserPathwaysFragment = gql`
 
 export const CurrentUserPathwaysFragment = gql`
   fragment CurrentUserPathwaysFragment on Query {
-    pathways {
+    pathways(first:$limitContents) {
       ...UserContentConnectionFragment
       edges {
         node {
@@ -197,7 +200,7 @@ export const UserResourcesFragment = gql`
 
 export const CurrentUserResourcesFragment = gql`
   fragment CurrentUserResourcesFragment on Query {
-    resources {
+    resources(first:$limitContents) {
       ...UserContentConnectionFragment
       edges {
         node {
@@ -290,7 +293,7 @@ export const GET_USER = gql`
 `
 
 export const GET_CURRENT_USER = gql`
-  query GetCurrentUser($id: ID) {
+  query GetCurrentUser($id: ID, $limitContents: Int) {
     user(id: $id) {
       ...CurrentUserFragment
       ...UserGroupsFragment

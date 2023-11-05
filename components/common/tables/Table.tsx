@@ -6,7 +6,8 @@ import {
   SortingState,
   ColumnResizeMode,
   ColumnDef,
-  Table as TableType
+  Table as TableType,
+  getPaginationRowModel
 } from '@tanstack/react-table'
 import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { FileExport } from '@styled-icons/fa-solid/FileExport';
@@ -20,6 +21,7 @@ import TableActions from './TableActions';
 import { TableContext, TableProps, TableProvider, useTableContext } from './tableContext';
 import TableStructure from './TableStructure';
 import Tippy from '@tippyjs/react';
+import TablePagination from './TablePagination';
 
 
 const TableWithProvider = (props: TableProps) => {
@@ -205,7 +207,7 @@ const Table = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     // debugTable: true,
   });
 
@@ -265,6 +267,8 @@ const Table = () => {
       )}
 
       <TableStructure table={table} />
+      <TablePagination table={table} />
+      
     </>
   );
 }

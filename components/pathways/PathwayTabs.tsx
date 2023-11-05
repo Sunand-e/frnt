@@ -34,7 +34,8 @@ export default function PathwayTabs({gridClasses=''}) {
     }
   }
   return (
-    <ContentStatusTabs 
+    <ContentStatusTabs
+      connection={pathwayConnection}
       gridClasses={gridClasses} 
       options={options} 
       loading={loading}
