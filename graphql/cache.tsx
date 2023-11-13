@@ -4,8 +4,15 @@ import {
 } from '@apollo/client'
 import getJWT from '../utils/getToken'
 import possibleTypes from './possibleTypes.json'
+import { relayStylePagination } from "@apollo/client/utilities";
 
 const typePolicies = {
+  
+  Query: {
+    fields: {
+      courses: relayStylePagination(),
+    },
+  },
   Group: {
     merge: true,
   },

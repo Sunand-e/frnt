@@ -5,9 +5,9 @@ import { GET_CURRENT_USER } from "../../graphql/queries/users";
 
 function useGetCurrentUser(id=null) {
 
-  const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+  const { loading, error, data, fetchMore } = useQuery(GET_CURRENT_USER, {
     variables: {
-      limitContents: 11
+      limitContents:10
     }
   });
 
@@ -22,6 +22,7 @@ function useGetCurrentUser(id=null) {
     tags: data?.tags,
     groups: data?.user?.groups,
     loading, 
+    fetchMore,
     error
   }
 }

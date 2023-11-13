@@ -299,16 +299,12 @@ export const GET_CURRENT_USER = gql`
       ...UserGroupsFragment
       ...UserCapabilitiesFragment
     }
-    ...CurrentUserPathwaysFragment
-    ...CurrentUserResourcesFragment
     ...CurrentUserCoursesFragment
     tags {
       ...TagFragment
     }
   }
   ${CurrentUserFragment}
-  ${CurrentUserResourcesFragment}
-  ${CurrentUserPathwaysFragment}
   ${CurrentUserCoursesFragment}
   ${UserGroupsFragment}
   ${UserCapabilitiesFragment}

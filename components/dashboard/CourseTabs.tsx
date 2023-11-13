@@ -7,7 +7,7 @@ export default function CourseTabs({gridClasses=''}) {
   const router = useRouter()
   const { search, category, type } = router.query
 
-  const { courses: courseConnection, tags, loading, error } = useGetCurrentUser()
+  const { courses: courseConnection, tags, loading, error, fetchMore } = useGetCurrentUser()
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -38,6 +38,7 @@ export default function CourseTabs({gridClasses=''}) {
   return (
     <>
       <ContentStatusTabs 
+        fetchMore={fetchMore}
         connection={courseConnection}
         gridClasses={gridClasses} 
         options={options} 

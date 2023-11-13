@@ -5,7 +5,7 @@ import { contentTypes } from "./contentTypes"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
-export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false}) {
+export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false, fetchMore}) {
 
   const defaultOptions = { 
     // subHeading: 'Courses and workshops that were recently released',
@@ -84,7 +84,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
                 items={filteredCourses || []}
                 gridClasses={gridClasses}
                 noItemsText={noItemsText}
-
+                fetchMore={fetchMore}
                 options={{
                   ...defaultOptions,
                   itemOptions: {
