@@ -3,6 +3,8 @@ import dayjs from 'dayjs';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 import CertificateBg from './CertificateBg';
+import { CertificateSvg } from './CertificateSvg';
+import { certificateSvgXml } from './certificateSvgXml';
 
 const CertificatePdf = ({user, certificate, colors}) => {
 
@@ -45,13 +47,13 @@ const CertificatePdf = ({user, certificate, colors}) => {
     <Document>
       <Page size="A4" orientation='landscape' style={styles.page}>
         <View style={styles.pageBackground}>
-          <CertificateBg colors={colors} />
+          <CertificateSvg svgXml={certificateSvgXml(colors)} />
         </View>
           <View style={styles.section}>
             <Text style={{
-              marginTop: 150
+              marginTop: 290
             }}>
-              This certificate has been awardeded to:
+              This certificate has been awarded to:
             </Text>
             <Text style={{
               fontSize: 28,
