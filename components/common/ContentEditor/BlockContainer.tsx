@@ -55,7 +55,7 @@ const BlockContainer = ({
           backgroundImage: bgImageCssString
         }),
         backgroundPosition: block?.style?.backgroundPosition || 'center',
-        backgroundSize: 'cover',
+        backgroundSize: block?.style?.backgroundSize || 'cover',
         color: block?.style?.textColor || 'inherit'
       }}
     >

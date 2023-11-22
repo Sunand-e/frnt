@@ -1,5 +1,4 @@
 import classNames from '../../../../../utils/classNames';
-import Image from '../../../image/Image';
 import { getIndexAndParent, useBlockStore } from '../../useBlockStore';
 
 export const ImageBlock = ({block}) => {
@@ -24,7 +23,7 @@ export const ImageBlock = ({block}) => {
   
   return (
     <>
-    <Image
+    <img
       style={{...(block.imageSize === 'custom' && {width})}}
       className={classNames(
         imageClasses
