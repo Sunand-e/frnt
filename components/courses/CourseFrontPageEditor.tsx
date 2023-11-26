@@ -71,7 +71,7 @@ const CourseFrontPageEditor = () => {
   return (
     <div className="flex flex-col items-center">
       <div
-        className="w-full min-h-[25rem] flex flex-col items-center justify-center text-white space-y-8 bg-main-secondary"
+        className="w-full min-h-[25rem] flex flex-col items-center justify-center text-white space-y-8 px-6 bg-main-secondary"
         style={{
           ...(course?.settings.frontPage?.bgColor && {backgroundColor: course?.settings.frontPage?.bgColor}),
           ...(course?.settings.frontPage?.bgImageEnabled && {
@@ -88,12 +88,14 @@ const CourseFrontPageEditor = () => {
           <Button onClick={handleGoToModules}>{buttonText}</Button>
         </div>
       </div>
-      <div className='h-full w-full max-w-screen-lg pt-8 pb-14'>
-        <Editor
-          onUpdate={handleDescriptionChange}
-          content={course?.content?.description}
-          editorClass={"my-2"}
-        />
+      <div className='flex justify-center h-full w-full pt-8 pb-14 px-6'>
+        <div className='w-full max-w-screen-lg'>
+          <Editor
+            onUpdate={handleDescriptionChange}
+            content={course?.content?.description}
+            editorClass={"my-2"}
+          />
+        </div>
       </div>
     </div>
   );
