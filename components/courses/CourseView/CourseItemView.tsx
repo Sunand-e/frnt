@@ -12,24 +12,37 @@ const CourseItemView = () => {
 
   const router = useRouter()
   const { id, cid: contentId } = router.query
-  const { courses } = useGetUserCourse(id)
-  const course = courses?.edges[0]?.node
+  const { courses, modules } = useGetUserCourse(id)
+  const courseEdge = courses?.edges[0]
+  const course = courseEdge?.node
+  
+  const moduleEdge = modules?.edges.find(edge => (
+    edge.node.id === contentId
+  ))
 
   useLazyFontLoad(course?.settings.fonts?.headings)
   useLazyFontLoad(course?.settings.fonts?.body)
-
+  
   useEffect(() => {
-    // If there is a course but no item provided, show the first item
-    if(course && !contentId && !course.settings.frontPage?.enabled) {
-      const firstItemInCourse = course.sections?.find(
-        (section) => section.children?.length
-      )?.children[0]
-      
-      if(firstItemInCourse) {
+    // If there is a course but no item provided, show the first item or the last visited item
+    if(course && !contentId) {
+  
+      if(courseEdge?.properties.lastVisitedLesson) {
         router.push({query: {
           ...router.query,
-          cid: firstItemInCourse.id
+          cid: courseEdge?.properties.lastVisitedLesson
         }})
+      } else if(!course.settings.frontPage?.enabled) {
+        const firstItemInCourse = course.sections?.find(
+          (section) => section.children?.length
+        )?.children[0]
+      
+        if(firstItemInCourse) {
+          router.push({query: {
+            ...router.query,
+            cid: firstItemInCourse.id
+          }})
+        }
       }
     }
   },[id, course?.id])
@@ -42,15 +55,16 @@ const CourseItemView = () => {
       "--course-body-font": `'${course.settings.fonts?.body?.name}'`,
     })
   }
-
+  
   return (
     course ? (
       <div
         id="course_view"
         style={courseFontCssVars as React.CSSProperties }
         className={classNames(
-          'bg-main-lightness-99 h-full overflow-y-scroll',
-          'fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)]',
+          'bg-main-lightness-99 h-full',
+          moduleEdge?.node.contentType === 'scorm_assessment' ? 'overflow-y-hidden' : 'overflow-y-auto',
+          'fixed overflow-x-hidden h-[calc(100vh-108px)]',
           'lg:ml-[260px] left-0 lg:left-16 right-0'
         )}
       >
