@@ -41,7 +41,7 @@ const CourseEditor = () => {
   return (
     <div className="h-full">
       <div 
-        className="fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)] lg:ml-[260px] mr-[300px] left-0 lg:left-16 right-0"
+        className="fixed overflow-y-auto overflow-x-hidden h-[calc(100vh-108px)] lg:ml-[256px] mr-[300px] left-0 lg:left-16 right-0"
         style={courseFontCssVars as React.CSSProperties }
         id="course_editor"
       >

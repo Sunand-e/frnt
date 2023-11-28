@@ -65,7 +65,7 @@ const CourseItemView = () => {
           'bg-main-lightness-99 h-full',
           moduleEdge?.node.contentType === 'scorm_assessment' ? 'overflow-y-hidden' : 'overflow-y-auto',
           'fixed overflow-x-hidden h-[calc(100vh-108px)]',
-          'lg:ml-[260px] left-0 lg:left-16 right-0'
+          'lg:ml-[256px] left-0 lg:left-16 right-0'
         )}
       >
         { course.settings.frontPage?.enabled && !contentId && (

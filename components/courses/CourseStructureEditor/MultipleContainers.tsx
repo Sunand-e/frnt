@@ -385,6 +385,7 @@ export function MultipleContainers({
       modifiers={modifiers}
     >
       <div
+      className='flex flex-col space-y-3'
         style={{
           boxSizing: 'border-box',
           gridAutoFlow: vertical ? 'row' : 'column',
