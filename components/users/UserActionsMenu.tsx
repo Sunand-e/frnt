@@ -5,6 +5,7 @@ import getJWT from "../../utils/getToken"
 import { client } from "../../graphql/client"
 import { useRouter } from "next/router"
 import { useCallback } from "react"
+import useSendInvite from "../../hooks/useSendInvite"
 
 const useRequestSwitchUser = ({user}) => {
 
@@ -56,6 +57,8 @@ const UserActionsMenu = ({user}) => {
     onConfirm: () => deleteUser(user.id)
   })
 
+  const { sendInvite } = useSendInvite()
+
   const { requestSwitchUser } = useRequestSwitchUser({user})
   const menuItems = [
     { 
@@ -67,6 +70,10 @@ const UserActionsMenu = ({user}) => {
       label: 'Act as user',
       capability: 'ActAsAnyUser',
       onClick: requestSwitchUser
+    },
+    {
+      label: 'Send invitation',
+      onClick: () => sendInvite(user.id)
     },
     {
       label: <span className="text-red-500">Delete user</span>, 

@@ -19,7 +19,7 @@ const GroupActionsMenu = ({group}) => {
 
   const handleSendInvitations = () => {
     handleModal({
-      title: `Send invites to group`,
+      title: `Send invitations to group`,
       content: <SendGroupInvitesModal group={group} />
     })
   }
@@ -31,7 +31,7 @@ const GroupActionsMenu = ({group}) => {
       capability: 'UpdateGroup'
     },
     {
-      label: 'Send user invites', 
+      label: 'Send user invitations', 
       onClick: handleSendInvitations,
     },
     { 

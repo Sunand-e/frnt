@@ -13,7 +13,8 @@ const useSendInvite = () => {
     setToken(getJWT())
   },[])
 
-  const sendInvite = useCallback(async (userIds) => {
+  const sendInvite = useCallback(async (uids) => {
+    const userIds = Array.isArray(uids) ? uids : [uids];
     await axios.request({
       method: "post", 
       url: endpoint,
