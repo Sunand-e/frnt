@@ -1,7 +1,9 @@
-import Select, { components } from 'react-select'
+import Select, { components, MenuProps } from 'react-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 
 import IconOption from "../../common/inputs/react-select/IconOption";
+import Button from '../Button';
+import { useState } from 'react';
 
 const customStyles = {
   option: (provided, state) => {
@@ -16,6 +18,10 @@ const customStyles = {
     ...provided,
     zIndex: 3000,
   }),
+  menu: (provided, state) => ({
+    ...provided,
+    margin: 0,
+  }),
   input: (provided, state) => ({
     ...provided,
     boxShadow: 'none',
@@ -28,8 +34,9 @@ const Input = props => (
      inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
+const ContentSelectCategorised = ({availableContent, onChange, typeName, showCloseMenuButton = false}) => {
 
+  const [open, setOpen] = useState(false);
   
   const tags = availableContent.reduce((tagArr,course,index, array) => {
     return [
@@ -37,6 +44,21 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
         ...course.tags.edges.filter(({node}) => !tagArr.some(t => t.id === node.id))
     ]
   }, [])
+  
+  const CloseMenuButtonMenuComponent = (
+    props
+  ) => (
+    <>
+      <div className={`bg-white mt-1 flex flex-col w-full items-end`}>
+        <Button size='sm' onClick={() => setOpen(false)}>Close options</Button>
+      </div>
+      <components.Menu
+        {...props}
+      >
+        {props.children}
+      </components.Menu>
+    </>
+  );
   
   let uniqueContent = []
   const categorisedContentData = tags.map(tag => {
@@ -79,6 +101,9 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
     <>
     <Select
       placeholder={<span className="text-main-secondary">Choose {typeName}s...</span>}
+      menuIsOpen={open}
+      onMenuOpen={() => setOpen(true)}
+      onMenuClose={() => setOpen(false)}
       options={selectOptions}
       styles={customStyles}
       components={{ Option: IconOption, Input }}
@@ -89,6 +114,7 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
       closeMenuOnSelect={false}
       menuPortalTarget={document.body}
       menuPlacement={'auto'}
+      components={{ Menu: CloseMenuButtonMenuComponent }}
     />
     </>
   )
