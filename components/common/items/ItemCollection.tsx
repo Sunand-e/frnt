@@ -1,6 +1,7 @@
 import ItemGrid from "./ItemGrid"
 import Button from "../Button"
 import { MouseEventHandler } from "react";
+import ItemGridTest from "./ItemGridTest";
 
 interface ItemCollectionProps {
   className?: string
@@ -39,7 +40,9 @@ export default function ItemCollection({items, options, fetchMore, viewAll, grid
           </div>
         }
       </div>
-      {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses}></ItemGrid>}
+      {/* {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses} />} */}
+      {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGridTest options={gridOptions} items={gridItems} />}
+      {/* {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGridTest />} */}
       { fetchMore && <Button onClick={fetchMore}>Load more</Button>}
     </div>
   )
