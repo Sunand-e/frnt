@@ -35,7 +35,12 @@ const AddTagToContent = ({tag, content, typeName='item'}) => {
       {
         availableContent?.length ? (
           <div>
-            <ContentSelectCategorised availableContent={availableContent} onChange={handleChange} typeName={typeName} />
+            <ContentSelectCategorised
+              availableContent={availableContent}
+              onChange={handleChange}
+              typeName={typeName}
+              menuTopMargin={selectedContentIds.length ? 60 : 0}
+            />
             {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
             { !!selectedContentIds.length && (
               <Button onClick={handleAddTagToContent}><>

@@ -18,10 +18,6 @@ const customStyles = {
     ...provided,
     zIndex: 3000,
   }),
-  menu: (provided, state) => ({
-    ...provided,
-    margin: 0,
-  }),
   input: (provided, state) => ({
     ...provided,
     boxShadow: 'none',
@@ -34,7 +30,7 @@ const Input = props => (
      inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const ContentSelectCategorised = ({availableContent, onChange, typeName, showCloseMenuButton = false}) => {
+const ContentSelectCategorised = ({availableContent, onChange, typeName, menuTopMargin=0}) => {
 
   const [open, setOpen] = useState(false);
   
@@ -79,9 +75,6 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, showClo
       })),
     })
   })
-  
-  console.log('categorisedContentData')
-  console.log(categorisedContentData)
 
   const selectOptions = [
     ...categorisedContentData,
@@ -105,7 +98,13 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, showClo
       onMenuOpen={() => setOpen(true)}
       onMenuClose={() => setOpen(false)}
       options={selectOptions}
-      styles={customStyles}
+      styles={{
+        ...customStyles,              
+        menu: (provided, state) => ({
+          ...provided,
+          marginTop: menuTopMargin,
+        }),
+      }}
       components={{ Option: IconOption, Input }}
       onChange={onChange}
       className={`w-full mb-4`}
@@ -114,7 +113,6 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, showClo
       closeMenuOnSelect={false}
       menuPortalTarget={document.body}
       menuPlacement={'auto'}
-      components={{ Menu: CloseMenuButtonMenuComponent }}
     />
     </>
   )
