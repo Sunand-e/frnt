@@ -58,7 +58,7 @@ const UserActionsMenu = ({user}) => {
   })
 
   const { sendInvite } = useSendInvite()
-
+  
   const { requestSwitchUser } = useRequestSwitchUser({user})
   const menuItems = [
     { 
@@ -71,10 +71,10 @@ const UserActionsMenu = ({user}) => {
       capability: 'ActAsAnyUser',
       onClick: requestSwitchUser
     },
-    {
-      label: 'Send invitation',
-      onClick: () => sendInvite(user.id)
-    },
+    ...(!user.invitationAcceptedAt ? [{
+        label: 'Send invitation',
+        onClick: () => sendInvite(user.id)
+    }] : []),
     {
       label: <span className="text-red-500">Delete user</span>, 
       capability: 'DeleteUser',
