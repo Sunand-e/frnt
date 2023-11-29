@@ -42,7 +42,9 @@ const PrevNextButtons = ({
     !!onClickNext && onClickNext()
 
     if(moduleEdge?.status !== 'completed') {
-      markComplete({progress:100})
+      if(moduleEdge?.node.contentType !== 'scorm_assessment') {
+        markComplete({progress:100})
+      }
     }
     
     if(next) {
