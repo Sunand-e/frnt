@@ -62,7 +62,8 @@ const BlockContainer = ({
       <div
         className={classNames(
           isColumn ? 'h-full' : 'group-hover:bg-opacity-5 hover:bg-main',
-          parent?.id ? 'px-6' : block.type !== 'columns' && 'px-6',
+          parent?.id && 'px-6',
+          block.type !== 'columns' && !(block.type === 'image' && block.imageSize === 'fullwidth') && 'px-6',
           'relative flex flex-col items-center',
           isActive && 'rounded-md border-dashed border-main/60 border-2 group/active-block',
         )}

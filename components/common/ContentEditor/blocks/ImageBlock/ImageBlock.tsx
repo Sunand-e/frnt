@@ -1,4 +1,5 @@
 import classNames from '../../../../../utils/classNames';
+import Image from '../../../image/Image';
 import { getIndexAndParent, useBlockStore } from '../../useBlockStore';
 
 export const ImageBlock = ({block}) => {
@@ -12,7 +13,7 @@ export const ImageBlock = ({block}) => {
     imageClasses += 'w-full'
   } else {
     if(block.imageSize === 'fullwidth') {
-      imageClasses += 'max-h-[30rem] h-[30rem]'
+      imageClasses += 'max-h-[30rem] h-[30rem] object-cover'
     }
     if(block.imageSize === 'default' || block.imageSize === undefined) {
       imageClasses += ' max-w-[50%]'
