@@ -48,9 +48,9 @@ export const ImageBlockEdit: FunctionComponent = ({block}) => {
       imageClasses += 'max-h-[30rem] h-[30rem]'
     }
     if(block.imageSize === 'default' || block.imageSize === undefined) {
-      imageClasses += 'max-w-[50%]'
+      imageClasses += ' max-w-[50%]'
     } else {
-      imageClasses += 'w-full'
+      imageClasses += ' w-full'
     }
   }
   
