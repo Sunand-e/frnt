@@ -11,7 +11,7 @@ interface ButtonProps {
   disabled?: boolean
 }
 
-const Button = ({onClick, disabled=false, type="button", displayType="normal", size, className, children}: ButtonProps) => {
+const Button = ({ref, onClick, disabled=false, type="button", displayType="normal", size, className, children}: ButtonProps) => {
   let bgColorClass = 'bg-main group-hover:bg-opacity-80 transition-colors duration-1000'
   switch(displayType) {
     case 'alert': {
@@ -21,6 +21,7 @@ const Button = ({onClick, disabled=false, type="button", displayType="normal", s
   
   return (
     <button 
+      ref={ref}
       type={type}
       disabled={disabled}
       className={`

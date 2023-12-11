@@ -34,7 +34,7 @@ export const SidebarCoursePageItem = ({
   return (
     <button
       className={classNames(
-        'bg-white rounded-md mb-2 flex items-center text-sm w-full px-4 py-3',
+        'bg-white rounded-md flex items-center text-sm w-full px-4 py-3',
         'space-x-2 text-left',
         'hover:bg-transparent',
         !contentId ? 'text-main' : 'text-main-secondary'

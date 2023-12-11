@@ -1,7 +1,9 @@
-import Select, { components } from 'react-select'
+import Select, { components, MenuProps } from 'react-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 
 import IconOption from "../../common/inputs/react-select/IconOption";
+import Button from '../Button';
+import { useState } from 'react';
 
 const customStyles = {
   option: (provided, state) => {
@@ -28,8 +30,9 @@ const Input = props => (
      inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
+const ContentSelectCategorised = ({availableContent, onChange, typeName, menuTopMargin=0}) => {
 
+  const [open, setOpen] = useState(false);
   
   const tags = availableContent.reduce((tagArr,course,index, array) => {
     return [
@@ -37,6 +40,21 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
         ...course.tags.edges.filter(({node}) => !tagArr.some(t => t.id === node.id))
     ]
   }, [])
+  
+  const CloseMenuButtonMenuComponent = (
+    props
+  ) => (
+    <>
+      <div className={`bg-white mt-1 flex flex-col w-full items-end`}>
+        <Button size='sm' onClick={() => setOpen(false)}>Close options</Button>
+      </div>
+      <components.Menu
+        {...props}
+      >
+        {props.children}
+      </components.Menu>
+    </>
+  );
   
   let uniqueContent = []
   const categorisedContentData = tags.map(tag => {
@@ -57,9 +75,6 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
       })),
     })
   })
-  
-  console.log('categorisedContentData')
-  console.log(categorisedContentData)
 
   const selectOptions = [
     ...categorisedContentData,
@@ -79,8 +94,17 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName}) => {
     <>
     <Select
       placeholder={<span className="text-main-secondary">Choose {typeName}s...</span>}
+      menuIsOpen={open}
+      onMenuOpen={() => setOpen(true)}
+      onMenuClose={() => setOpen(false)}
       options={selectOptions}
-      styles={customStyles}
+      styles={{
+        ...customStyles,              
+        menu: (provided, state) => ({
+          ...provided,
+          marginTop: menuTopMargin,
+        }),
+      }}
       components={{ Option: IconOption, Input }}
       onChange={onChange}
       className={`w-full mb-4`}

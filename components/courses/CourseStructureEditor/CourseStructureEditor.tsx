@@ -105,7 +105,7 @@ const CourseStructureEditor = ({renderItem}) => {
   return (
     <>
     { course && (
-    <div>
+    <div className="flex flex-col space-y-3">
       { course.settings.frontPage?.enabled && <SidebarCoursePageItem /> }
       <MultipleContainers 
         vertical

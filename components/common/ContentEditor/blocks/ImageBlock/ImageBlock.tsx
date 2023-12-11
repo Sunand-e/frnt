@@ -13,18 +13,18 @@ export const ImageBlock = ({block}) => {
     imageClasses += 'w-full'
   } else {
     if(block.imageSize === 'fullwidth') {
-      imageClasses += 'max-h-[30rem] h-[30rem]'
+      imageClasses += 'max-h-[30rem] h-[30rem] object-cover'
     }
     if(block.imageSize === 'default' || block.imageSize === undefined) {
-      imageClasses += 'max-w-[50%]'
+      imageClasses += ' max-w-[50%]'
     } else {
-      imageClasses += 'w-full'
+      imageClasses += ' w-full'
     }
   }
   
   return (
     <>
-    <Image
+    <img
       style={{...(block.imageSize === 'custom' && {width})}}
       className={classNames(
         imageClasses

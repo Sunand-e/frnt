@@ -137,13 +137,13 @@ const UsersTable = () => {
 
   const bulkActions = [
     {
-      label: 'Send invites to selected users',
+      label: 'Send invitations to selected users',
       onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
     },
-    {
-      label: <span className="text-red-500">Delete users</span>,
-      onClick: (ids: Array<string>) => console.log('test'),
-    },
+    // {
+    //   label: <span className="text-red-500">Delete users</span>,
+    //   onClick: (ids: Array<string>) => console.log('test'),
+    // },
   ]
 
   const tableProps = {

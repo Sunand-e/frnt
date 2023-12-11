@@ -121,6 +121,7 @@ export const UserContentEdgeFragment = gql`
     score
     progress
     visits
+    properties
   }
   ${ContentFragment}
 `

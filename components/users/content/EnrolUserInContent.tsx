@@ -27,16 +27,16 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
 
   const defaultRole = roles?.find(role => role.name === 'Learner')
 
-  const [selectedCourseIds, setSelectedCourseIds] = useState([])
+  const [selectedContentIds, setSelectedContentIds] = useState([])
 
   const handleChange = (items, actionMeta) => {
-    setSelectedCourseIds(items.map(item => item.value))
+    setSelectedContentIds(items.map(item => item.value))
   }
 
   const handleEnrol = (e) => {
     enrolUsersInContent({
       userIds: [user.id],
-      contentItemIds: selectedCourseIds,
+      contentItemIds: selectedContentIds,
       roleId: defaultRole?.id
     }, () => {
       closeModal()
@@ -48,15 +48,20 @@ const EnrolUserInContent = ({user, content, assignedContent, typeName='item'}) =
       {
         availableContent?.length ? (
           <div>
-            <ContentSelectCategorised availableContent={availableContent} onChange={handleChange} typeName={typeName} />
+            <ContentSelectCategorised
+              availableContent={availableContent}
+              onChange={handleChange}
+              typeName={typeName}
+              menuTopMargin={selectedContentIds.length ? 60 : 0}
+            />
             {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
-            { !!selectedCourseIds.length && !!defaultRole?.id && (
-              <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedCourseIds.length} ${typeName}s`}</Button>
+            { !!selectedContentIds.length && !!defaultRole?.id && (
+              <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedContentIds.length} ${typeName}s`}</Button>
             )}
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            No courses available for enrolment
+            No {typeName}s available for enrolment
             <Button onClick={closeModal}>OK</Button>
           </div>
         )

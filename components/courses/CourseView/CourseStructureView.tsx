@@ -28,9 +28,9 @@ const CourseStructureView = () => {
   return (
     <>
       { filteredCourse && (
-        <div>
-          { course.settings.frontPage?.enabled && <div className="p-4 pb-2"><SidebarCoursePageItem /></div> }
-          <ul className="px-4">
+        <div className="p-3">
+          { course.settings.frontPage?.enabled && <div className="mb-3"><SidebarCoursePageItem /></div> }
+          <ul>
             { filteredCourse.sections.filter(section => section.children.length).map((section, index) => (
               <SidebarSection key={index} id={section.id}>
                 { section.children.map((item, index) => (

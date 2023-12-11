@@ -14,9 +14,9 @@ const SendGroupInvitesModal = ({group}) => {
 
   return (
     <>
-      <p>This will send an invite to all of <span className='font-bold'>{group.name}</span>'s inactive users.</p>
+      <p>This will send an invitation email to all of <span className='font-bold'>{group.name}</span>'s inactive users.</p>
       <p className="font-bold mb-2">This action cannot be undone.</p>
-      <Button onClick={sendGroupInvites}>Send invites</Button>
+      <Button onClick={sendGroupInvites}>Send invitation</Button>
     </>
   );
 }

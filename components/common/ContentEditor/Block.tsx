@@ -35,7 +35,7 @@ export const Block = ({ block, dragOverlay = false }) => {
         backgroundImage: bgImageCssString
       }),
       backgroundPosition: block?.style?.backgroundPosition || 'center',
-      backgroundSize: 'cover',
+      backgroundSize: block?.style?.backgroundSize || 'cover',
       color: block?.style?.textColor || 'inherit',
       // backgroundColor: block?.style?.bgColor,
       paddingTop: block?.style?.paddingTop,

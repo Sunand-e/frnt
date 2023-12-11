@@ -33,14 +33,11 @@ const ModuleView = () => {
 
   useEffect(() => {
     if(module) {
-      setBlocks(module.node.content.blocks)
-      const currentStatus = module.status
-      if(currentStatus !== 'completed') {
-        updateUserContentStatus({
-          contentItemId: moduleId,
-          status: 'in_progress'
-        })
-      }
+      setBlocks(module.node.content.blocks)      
+      updateUserContentStatus({
+        contentItemId: moduleId,
+        ...(module.status !== 'completed' && {status: 'in_progress'})
+      })
     }
   },[moduleId])
 

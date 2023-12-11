@@ -120,6 +120,7 @@
     "sizeme": "^1.0.2",
     "styled-components": "^5.3.6",
     "styled-icons": "^10.46.0",
+    "svg-parser": "^2.0.4",
     "tailwindcss-nested-groups": "^1.2.4",
     "twin.macro": "^2.8.2",
     "use-debounce": "^8.0.4",
