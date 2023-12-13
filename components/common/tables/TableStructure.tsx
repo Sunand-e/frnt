@@ -180,9 +180,6 @@ const TableStructure = ({ table }: TableStructureProps) => {
                                   onClick: header.column.getToggleSortingHandler(),
                                 }}
                               >
-                                <div className="absolute">
-                                { !!index && tHeadHeight}
-                                </div>
                                 <div>
                                   {flexRender(
                                     header.column.columnDef.header,
