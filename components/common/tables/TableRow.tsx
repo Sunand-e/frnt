@@ -3,14 +3,18 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DragHandle } from "./DragHandle";
 import TableCell from "./TableCell";
+import classNames from "../../../utils/classNames";
 
-const TableRow = ({row, style, onRowClick}) => {
+const TableRow = ({trRef, row, style, onRowClick, dataIndex}) => {
 
   return (
     <tr
-      className={'group'}
+      ref={trRef}
+      className={classNames('group h-[75px]')}
       style={style}
-      onClick={onRowClick ? (event) => onRowClick(row.original, event) : undefined}>
+      onClick={onRowClick ? (event) => onRowClick(row.original, event) : undefined}
+      data-index={dataIndex}
+    >
       {
         row.getVisibleCells().map((cell, index) => {
           let cellStyle = {}

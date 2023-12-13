@@ -58,9 +58,9 @@ const TagsTable = () => {
         header: "Item count",
         cell: ({ cell }) => {
           const allItemEdges = [
-            ...courses?.edges,
-            ...resources?.edges,
-            ...pathways?.edges
+            ...(courses?.edges || []),
+            ...(resources?.edges || []),
+            ...(pathways?.edges || []),
           ]
           const catItemCount = allItemEdges.filter(
             edge => edge.node.tags.edges.map(

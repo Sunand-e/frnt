@@ -14,6 +14,7 @@ import useGetThumbnail from '../items/useGetThumbnail';
 import { resourceTypes } from '../../resources/resourceTypes';
 import startCase from 'lodash/startCase';
 import Editor from '../inputs/Editor';
+import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
 
 const ContentIdAndOrderFragment = gql`
   fragment ContentIdAndOrderFragment on ContentItem {
@@ -86,10 +87,9 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
           header: "Description",
           width: '100',
           cell: ({ cell }) => (
-            <Editor
-              content={cell.row.original.content?.description}
-              editable={false}
-            />  
+            <span className='line-clamp-2'>
+              { extractTextNodesFromTipTapDoc(cell.row.original.content?.description) }
+            </span>
           )
         }] : []
       ),
@@ -112,6 +112,11 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
             node.tagType === 'category'
           )).map(({node}) => node.label).join(', ') || '-'
         },
+        cell: ({ cell }) => (
+          <span className='line-clamp-2'>
+            { cell.renderValue() }
+          </span>
+        )
       },
       {
         width: 300,

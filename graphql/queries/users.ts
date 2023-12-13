@@ -149,7 +149,7 @@ export const UserCoursesFragment = gql`
 
 export const CurrentUserCoursesFragment = gql`
   fragment CurrentUserCoursesFragment on Query {
-    courses(first:$limitContents) {
+    courses {
       ...UserContentConnectionFragment
     }
   }
@@ -300,12 +300,16 @@ export const GET_CURRENT_USER = gql`
       ...UserGroupsFragment
       ...UserCapabilitiesFragment
     }
+    ...CurrentUserPathwaysFragment
+    ...CurrentUserResourcesFragment
     ...CurrentUserCoursesFragment
     tags {
       ...TagFragment
     }
   }
   ${CurrentUserFragment}
+  ${CurrentUserResourcesFragment}
+  ${CurrentUserPathwaysFragment}
   ${CurrentUserCoursesFragment}
   ${UserGroupsFragment}
   ${UserCapabilitiesFragment}

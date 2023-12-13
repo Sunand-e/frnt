@@ -7,7 +7,7 @@ function useGetCurrentUser(id=null) {
 
   const { loading, error, data, fetchMore } = useQuery(GET_CURRENT_USER, {
     variables: {
-      limitContents:10
+      // limitContents:10
     }
   });
 

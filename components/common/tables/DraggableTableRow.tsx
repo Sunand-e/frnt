@@ -1,12 +1,14 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { useViewStore } from "../../../hooks/useViewStore";
 import TableCell from "./TableCell";
 import { useTableContext } from "./tableContext";
 import TableRowOverlay from "./TableRowOverlay";
 
-const DraggableTableRow = ({row, onRowClick, draggingRowHeight}) => {
+const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, virtualRow, translateY=0, virtualizer}) => {
   
+  const mainScrollableRef = useViewStore(s => s.mainScrollableRef)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
 
   const id = getReorderableItemIdFromRow(row)
@@ -22,13 +24,50 @@ const DraggableTableRow = ({row, onRowClick, draggingRowHeight}) => {
   } = useSortable({
     id
   });
+  
+  const totalTranslateY = translateY + (transform?.y || 0)
 
+  const prevTranslateYRef = useRef<number>();
+
+  const prevTranslateY = prevTranslateYRef.current;
+
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  mainScrollableRef
+  useEffect(() => {
+    
+    let timer = null;
+    
+    const handleScroll = function() {
+      if(!isScrolling) {
+        setIsScrolling(true)
+      }
+      if(timer !== null) {
+          clearTimeout(timer);        
+      }
+      timer = setTimeout(function() {
+        setIsScrolling(false)
+      }, 150);
+  }
+
+    mainScrollableRef.current.addEventListener('scroll', handleScroll, false);
+    // Add event listener for the scroll event
+    // mainScrollableRef.current.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      mainScrollableRef.current.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  
   const style = {
-    // ...table?.options.meta?.getRowStyles(row)
     opacity: row.original._isOptimistic ? 0.25 : 1,
-    transform: CSS.Transform.toString(transform),
-    transition: transition,
+    transform: `translateY(${totalTranslateY}px)`,
     ...(isDragging && { height: draggingRowHeight } ),
+    ...(!isScrolling && { transition } ),
+    height: 73
+    
   };
 
   return (
@@ -39,23 +78,21 @@ const DraggableTableRow = ({row, onRowClick, draggingRowHeight}) => {
       <tr
         {...attributes}
         {...listeners}
+        ref={setNodeRef}
         className={'group'}
         style={style}
-        ref={setNodeRef}
         key={id} 
-        onClick={(!row.original._isOptimistic && onRowClick) ? (event) => onRowClick(row.original, event) : undefined}>
+        onClick={(!row.original._isOptimistic && onRowClick) ? (event) => onRowClick(row.original, event) : undefined}
+      >
+        {/* {pkey} */}
         {isDragging ? (
           <td className="border-b border-gray-200" colSpan={row._getAllVisibleCells().length}>&nbsp;</td>
         ) : (
           row.getVisibleCells().map((cell, index) => {
-            let cellStyle: CSSProperties = {
-              // textAlign: 'center'
-            }
             return ( 
               <TableCell
                 cell={cell} 
-                key={index} 
-                style={cellStyle}
+                key={index}
                 index={index}
               />
             )

@@ -53,7 +53,16 @@ const ItemWithImage = ({
           )}
         </div>
         <div className="ml-4">
-          <div className="font-medium text-gray-900">{title}</div>
+          <div 
+            className="font-medium text-gray-900"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+            }}
+            >{title}</div>
           { secondary && <div className="text-gray-500">{secondary}</div> }
         </div>
       </div>

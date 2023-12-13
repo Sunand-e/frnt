@@ -10,7 +10,7 @@ const typePolicies = {
   
   Query: {
     fields: {
-      courses: relayStylePagination(),
+      // courses: relayStylePagination(),
     },
   },
   Group: {

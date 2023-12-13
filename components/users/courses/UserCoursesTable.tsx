@@ -59,7 +59,7 @@ const UserCoursesTable = () => {
         cell: ({ cell }) => {
           const values = cell.row.original;
           return (
-            <div className="text-center">
+            <div className="text-center line-clamp-2">
               { cell.row.original.groups.edges.length ? (
                 <>
                   Assigned via group:
