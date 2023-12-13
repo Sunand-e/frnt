@@ -1,4 +1,5 @@
 import Link from "next/link"
+import classNames from "../../../utils/classNames";
 
 const roundedMap = new Map([
   ['none', 'rounded-none'],
@@ -54,15 +55,11 @@ const ItemWithImage = ({
         </div>
         <div className="ml-4">
           <div 
-            className="font-medium text-gray-900"
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-            }}
-            >{title}</div>
+            className={classNames(
+              "font-medium text-gray-900",
+              secondary ? 'line-clamp-1' : 'line-clamp-2'
+            )}
+          >{title}</div>
           { secondary && <div className="text-gray-500">{secondary}</div> }
         </div>
       </div>
