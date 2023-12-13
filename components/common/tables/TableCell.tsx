@@ -1,5 +1,5 @@
 import { Cell, flexRender } from "@tanstack/react-table"
-import { CSSProperties } from "react"
+import { CSSProperties, memo, useEffect } from "react"
 import { useTableContext } from "./tableContext"
 interface TableCellProps {
   cell: Cell<any,any>
@@ -7,8 +7,8 @@ interface TableCellProps {
   index: number
 }
 
-const TableCell = ({cell, index, style}:TableCellProps) => {
-  
+const TableCell = memo(({cell, index}:TableCellProps) => {
+
   const dataCellOffset = useTableContext(s => (
     Number(s.isReorderable) + Number(!!s.bulkActions.length)
   ))
@@ -16,6 +16,7 @@ const TableCell = ({cell, index, style}:TableCellProps) => {
   const defaultStyles: CSSProperties = {
     padding: '1rem 1.5rem',
     textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
+    maxHeight: 75
   }
 
   return (
@@ -24,7 +25,7 @@ const TableCell = ({cell, index, style}:TableCellProps) => {
       style={{
         ...defaultStyles,
         ...cell.column.columnDef.style,
-        ...style,
+        // ...style,
       }}
     >
       {flexRender(
@@ -33,5 +34,5 @@ const TableCell = ({cell, index, style}:TableCellProps) => {
       )}
     </td>
   )
-}
+})
 export default TableCell
