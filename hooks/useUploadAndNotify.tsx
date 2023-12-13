@@ -36,9 +36,18 @@ const useUploadAndNotify = ({
       data.append(param, params[param])
     }
     
+    let filenames = []
+
     for(const param in fileParams) {
       data.append(param, fileParams[param], fileParams[param].name)
+      filenames.push(fileParams[param].name)
     }
+
+    const filenamesSpan = <>
+      {filenames.map((filename, index) => (
+        <><span className='font-bold'>{filename}</span>{index < filenames.length-1 && ', '}</>
+      ))}
+    </>
     
     return await axios.request({
       method,
@@ -49,13 +58,12 @@ const useUploadAndNotify = ({
       data, 
       onUploadProgress: (p) => {
         const progress = p.loaded / p.total
-        console.log('progress...' + progress)
         // check if we already displayed a toast
         if(progress === 1) {
         } else {
           const text = <>
-            Uploading 
-            <span className='font-bold'> {file.name}
+            Uploading { filenamesSpan }
+            <span className='font-bold'> 
               <Dot>.</Dot>
               <Dot>.</Dot>
               <Dot>.</Dot>
@@ -76,19 +84,10 @@ const useUploadAndNotify = ({
 
       }
     }).then(response => {
-      let filenames = []
-      for(const param in fileParams) {
-        filenames.push(fileParams[param].name)
-      }
-      console.log('filenames')
-      console.log(filenames)
+
       const text = (
         <>
-          Uploaded: 
-          {filenames.map((filename, index) => (
-            <> <span className='font-bold'>{filename}</span>{index < filenames.length-1 && ', '}</>
-          ))}
-          .
+          Uploaded: { filenamesSpan }.
         </>
       )
       
