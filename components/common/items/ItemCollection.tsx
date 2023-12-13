@@ -1,7 +1,6 @@
 import ItemGrid from "./ItemGrid"
 import Button from "../Button"
 import { MouseEventHandler } from "react";
-import ItemGridTest from "./ItemGridTest";
 
 interface ItemCollectionProps {
   className?: string
@@ -19,12 +18,10 @@ export default function ItemCollection({items, options, fetchMore, viewAll, grid
     ...options,
   }
 
-  // const subHeading = options.subHeading || 'Subheading'
-
   const gridItems = gridOptions.maxItems ? items.slice(0, gridOptions.maxItems) : items;
-  // alert(JSON.stringify())
+  
   return (
-    <div className="mb-8 bg-white shadow rounded-md p-6">
+    <div className="mb-8 bg-white shadow rounded-md p-3">
       <div className="collectionHeader flex justify-between">
         
         <div className="collectionHeaderLeft">
@@ -40,10 +37,8 @@ export default function ItemCollection({items, options, fetchMore, viewAll, grid
           </div>
         }
       </div>
-      {/* {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} gridClasses={gridClasses} />} */}
-      {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGridTest options={gridOptions} items={gridItems} />}
-      {/* {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGridTest />} */}
-      { fetchMore && <Button onClick={fetchMore}>Load more</Button>}
+      {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} />}
+      {/* { fetchMore && <Button onClick={fetchMore}>Load more</Button>} */}
     </div>
   )
 }
