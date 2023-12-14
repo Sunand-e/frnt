@@ -1,15 +1,15 @@
 diff --git a/node_modules/@dnd-kit/core/dist/components/DragOverlay/DragOverlay.d.ts b/node_modules/@dnd-kit/core/dist/components/DragOverlay/DragOverlay.d.ts
-index fd92e1e..4dff359 100644
+index fd92e1e..60551a3 100644
 --- a/node_modules/@dnd-kit/core/dist/components/DragOverlay/DragOverlay.d.ts
 +++ b/node_modules/@dnd-kit/core/dist/components/DragOverlay/DragOverlay.d.ts
 @@ -7,5 +7,6 @@ export interface Props extends Pick<PositionedOverlayProps, 'adjustScale' | 'chi
      modifiers?: Modifiers;
      wrapperElement?: keyof JSX.IntrinsicElements;
      zIndex?: number;
-+    scrollIntoViewIfNeeded?: boolean
++    shouldScrollIntoView?: boolean
  }
 -export declare const DragOverlay: React.MemoExoticComponent<({ adjustScale, children, dropAnimation: dropAnimationConfig, style, transition, modifiers, wrapperElement, className, zIndex, }: Props) => JSX.Element>;
-+export declare const DragOverlay: React.MemoExoticComponent<({ adjustScale, children, dropAnimation: dropAnimationConfig, style, transition, modifiers, wrapperElement, className, zIndex, scrollIntoViewIfNeeded, }: Props) => JSX.Element>;
++export declare const DragOverlay: React.MemoExoticComponent<({ adjustScale, children, dropAnimation: dropAnimationConfig, style, transition, modifiers, wrapperElement, className, zIndex, shouldScrollIntoView, }: Props) => JSX.Element>;
 diff --git a/node_modules/@dnd-kit/core/dist/core.cjs.development.js b/node_modules/@dnd-kit/core/dist/core.cjs.development.js
 index a9282a8..9af84c5 100644
 --- a/node_modules/@dnd-kit/core/dist/core.cjs.development.js
