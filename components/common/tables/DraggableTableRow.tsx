@@ -64,9 +64,10 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
   const style = {
     opacity: row.original._isOptimistic ? 0.25 : 1,
     transform: `translateY(${totalTranslateY}px)`,
+    height: 73,
+    zIndex: 9999 - index,
     ...(isDragging && { height: draggingRowHeight } ),
     ...(!isScrolling && { transition } ),
-    height: 73
     
   };
 
@@ -79,7 +80,7 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
         {...attributes}
         {...listeners}
         ref={setNodeRef}
-        className={'group'}
+        className={'group relative'}
         style={style}
         key={id} 
         onClick={(!row.original._isOptimistic && onRowClick) ? (event) => onRowClick(row.original, event) : undefined}
