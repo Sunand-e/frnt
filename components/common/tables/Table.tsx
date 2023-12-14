@@ -187,7 +187,7 @@ const Table = () => {
 
   const table: TableType<any> = useReactTable({
     initialState: {
-      // columnVisibility: {order: false},
+      columnVisibility: {order: false},
     },
     state: {
       sorting,
