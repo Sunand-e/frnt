@@ -250,7 +250,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
               </table>
               {createPortal(
                 <DragOverlay
-                  scrollIntoViewIfNeeded={true}
+                  shouldScrollIntoView={false}
                 >
                   {activeId && (
                     <div>
