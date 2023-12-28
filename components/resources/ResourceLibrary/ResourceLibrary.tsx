@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
+import useGetResources from '../../../hooks/resources/useGetResources';
+import useGetTags from '../../../hooks/tags/useGetTags';
 import { useRouter } from '../../../utils/router';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import ResourceLibraryFilters from './ResourceLibraryFilters';
@@ -10,7 +11,8 @@ const ResourceLibrary = () => {
   const router = useRouter()
   const { search, category } = router.query
 
-  const { tags, resources } = useGetCurrentUser()
+  const { resources } = useGetResources()
+  const { tags } = useGetTags()
 
   const resourceNodes = resources?.edges?.map(
     edge => edge.node
