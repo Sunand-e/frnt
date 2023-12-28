@@ -13,14 +13,8 @@ function useGetCurrentUser(id=null) {
 
   return { 
     user: data?.user, 
-    pathways: data?.pathways, 
     courses: data?.courses, 
-    lessons: data?.lessons, 
-    sections: data?.sections, 
-    contentItems: data?.contentItems, 
-    resources: data?.resources, 
     tags: data?.tags,
-    groups: data?.user?.groups,
     loading, 
     fetchMore,
     error

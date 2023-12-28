@@ -1,7 +1,7 @@
 
 import { useQuery } from "@apollo/client"
 import { GetUserQuery, GetUserQueryVariables, InputMaybe } from "../../graphql/generated";
-import { GET_USER } from "../../graphql/queries/users";
+import { GET_USER } from "../../graphql/queries/userDetails";
 
 function useGetUser(id: InputMaybe<string> = null) {
 

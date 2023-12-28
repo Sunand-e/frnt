@@ -18,7 +18,7 @@ export default function Item({ item, options }) {
   const { complete, data } = useFragment_experimental({
     fragment: UserContentStatusFragment,
     fragmentName: 'UserContentStatusFragment',
-    from: `UserContentEdge:${user.id}:${item.id}`
+    from: `UserContentEdge:${user?.id}:${item.id}`
   });
 
   const { src } = useGetThumbnail(item)
@@ -95,7 +95,7 @@ export default function Item({ item, options }) {
       <div className="p-4 pt-4 grow flex flex-col">
         {/* <h2 className="text-lg text-main-secondary mb-2 border-blue border-2 bg-white top-5 font-bold p-1 px-5"> */}
         <div className="flex space-x-2 items-start justify-between">
-          <h2 className="text-xl text-main-secondary font-semibold mb-2 flex justify-between w-full">
+          <h2 className="text-xl text-main-secondary font-semibold mb-2 flex justify-between w-full line-clamp-4">
             {itemTitle}
             {itemInfoContent && (
               <Tippy

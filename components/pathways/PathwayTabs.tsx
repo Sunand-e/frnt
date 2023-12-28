@@ -1,9 +1,11 @@
+import useGetPathways from "../../hooks/pathways/useGetPathways";
 import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
+import useGetUserPathways from "../../hooks/users/useGetUserPathways";
 import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function PathwayTabs({gridClasses=''}) {
   
-  const { pathways: pathwayConnection, loading } = useGetCurrentUser()
+  const { pathways: pathwayConnection, loading } = useGetUserPathways()
 
   const pathways = pathwayConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;

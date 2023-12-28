@@ -63,13 +63,14 @@ export const UserContentEdgeFragment = gql`
   fragment UserContentEdgeFragment on UserContentEdge {
     userId
     node {
+      ...ContentFragment
       id
       title
       order
       content
       contentType
       itemType
-      ...ContentFragment
+      order
     }
     status
     lastVisited
@@ -233,14 +234,24 @@ export const GET_CURRENT_USER = gql`
       ...CurrentUserFragment
       ...UserCapabilitiesFragment
     }
-    tags {
-      ...TagFragment
+    # _courses: courses(first:$limitContents, where:{status: "in_progress"}) {
+    #   ...UserContentConnectionFragment
+    #   totalCount
+    # }
+    # courses(first:$limitContents, where:{status: "not_started"}) {
+    #   ...UserContentConnectionFragment
+    #   totalCount
+    # }
+    courses {
+      ...UserContentConnectionFragment
+      totalCount
     }
   }
-  ${TagFragment}
   ${CurrentUserFragment}
   ${UserCapabilitiesFragment}
+  ${UserContentConnectionFragment}
 `
+
 
 export const GET_USER_CAPABILITIES = gql`
   query GetUserCapabilities {

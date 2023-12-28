@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { TenantContext } from '../../context/TenantContext';
 import {gql, useQuery} from "@apollo/client";
 import dayjs from 'dayjs';
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 
 const USER_WELCOME_DATA = gql`
   query GetUserWelcome {
@@ -32,7 +33,8 @@ if (am_pm === 'AM') {
 
 const WelcomeUserPanel = () => {
 
-  const { loading, error, data } = useQuery(USER_WELCOME_DATA);
+  // const { loading, error, data } = useQuery(USER_WELCOME_DATA);
+  const { loading, error, user } = useGetCurrentUser();
   const tenant = useContext(TenantContext)
 tenant
   return (
@@ -42,10 +44,10 @@ tenant
           <div className="flex-1 min-w-0">
             {/* Profile */}
             <div className="flex items-center">
-              { data?.user?.profileImageUrl ? (
+              { user?.profileImageUrl ? (
                 <img
                   className="h-16 w-16 rounded-full hidden sm:block object-cover"
-                  src={data.user.profileImageUrl}
+                  src={user.profileImageUrl}
                   alt=""
                   />
               ): (
@@ -60,7 +62,7 @@ tenant
                   /> */}
                   <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                     {/*Good morning, {data?.user?.fullName || error?.message}*/}
-                    Welcome, { data?.user?.fullName }
+                    Welcome, { user?.fullName }
                   </h1>
                 </div>
                 <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">

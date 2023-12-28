@@ -44,21 +44,9 @@ export const ContentFragment = gql`
     settings
     title
     updatedAt
-    users {
-      totalCount
-    }
-    parents {
-      id
-    }
-    tags {
-      edges {
-        ...ContentItemTagEdgeFragment
-      }
-    }
     _deleted @client
     _isOptimistic @client
   }
-  ${ContentItemTagEdgeFragment}
 `
 
 export const ResourceFragment = gql`

@@ -16,12 +16,12 @@ function useUserHasCapability() {
     return user ? [
       ...(user?.roles && [...getCapsFromRoleArr(user.roles)]),
       
-      ...(courses?.edges && [...courses.edges.reduce((array, courseEdge) => {
-        return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
-      }, [])]),
-      ...(user.groups?.edges && [...user.groups.edges.reduce((array, groupEdge) => {
-        return [...array, ...getCapsFromRoleArr(groupEdge.roles)]
-      }, [])]),
+      // ...(courses?.edges && [...courses.edges.reduce((array, courseEdge) => {
+      //   return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
+      // }, [])]),
+      // ...(user.groups?.edges && [...user.groups.edges.reduce((array, groupEdge) => {
+      //   return [...array, ...getCapsFromRoleArr(groupEdge.roles)]
+      // }, [])]),
     ] : []
   },[user])
 

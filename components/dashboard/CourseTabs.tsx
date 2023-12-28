@@ -1,3 +1,4 @@
+import useGetCourses from "../../hooks/courses/useGetCourses"
 import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import { useRouter } from "../../utils/router"
 import ContentStatusTabs from "../common/ContentStatusTabs"
@@ -7,7 +8,8 @@ export default function CourseTabs({gridClasses=''}) {
   const router = useRouter()
   const { search, category, type } = router.query
 
-  const { courses: courseConnection, tags, loading, error, fetchMore } = useGetCurrentUser()
+  // const { courses: courseConnection, tags, loading, error, fetchMore } = useGetCurrentUser()
+  const { courses: courseConnection, loading, error } = useGetCourses()
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -38,7 +40,7 @@ export default function CourseTabs({gridClasses=''}) {
   return (
     <>
       <ContentStatusTabs 
-        fetchMore={fetchMore}
+        fetchMore={null}
         connection={courseConnection}
         gridClasses={gridClasses} 
         options={options} 

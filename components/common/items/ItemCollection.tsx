@@ -38,7 +38,9 @@ export default function ItemCollection({items, options, fetchMore, viewAll, grid
         }
       </div>
       {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} />}
-      {/* { fetchMore && <Button onClick={fetchMore}>Load more</Button>} */}
+      { fetchMore && <Button onClick={() => {
+        fetchMore({variables: {limitContents: null}})
+      }}>Load more</Button>}
     </div>
   )
 }
