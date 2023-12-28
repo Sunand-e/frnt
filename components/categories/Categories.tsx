@@ -6,57 +6,16 @@ import CategoryFilters from './CategoryFilters';
 import CategoriesCollection from './CategoriesCollection';
 import { Dot } from '../common/misc/Dot';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useGetTags from '../../hooks/tags/useGetTags';
+import Category from './Category';
 
 const Categories = () => {
   
   const router = useRouter()
-  const { search, category } = router.query
+  const { category } = router.query
   
-  const { tags, courses, resources, pathways, loading } = useGetCurrentUser()
-
-  const [ searching, setSearching ] = useState(false)
-
-  useEffect(() => {
-    setSearching(!!(search || category))
-    if(search || category) {
-      router.push({
-        query: {search, category}
-      })
-    }
-  },[search, category])
+  const { tags, loading } = useGetTags()
   
-  // const {loading, error, data: { courses: courses} = {} } = useQuery(gql`
-  //   query GetCategories {
-  //     courses {
-  //       title
-  //     }
-  //   }
-  // `, {
-  //   onCompleted: () => {
-  //   }
-  // })
-
-  const getNodes = items => items?.edges?.map(edge => edge.node).filter(node => {
-      return !node._deleted
-  })
-
-  const filterNodesByCategory = (nodes) => {
-    if(category && nodes) {
-      return nodes.filter(node => {
-        const isSelectedCategory = tag => {
-          return tag.tagType === 'category' && tag.label === category
-        }
-        return node.tags && node.tags.edges.some(({node}) => isSelectedCategory(node));   
-      });
-    } else {
-      return nodes || []
-    }    
-  }
-
-  const courseNodes = useMemo(() => getNodes(courses), [courses])
-  const resourceNodes = useMemo(() => getNodes(resources), [resources])
-  const pathwayNodes = useMemo(() => getNodes(pathways), [pathways])
-
   return (
     <div className="flex flex-col items-stretch grow">
       { !!tags && <CategoryFilters /> }
@@ -70,22 +29,7 @@ const Categories = () => {
           </>
         )} />
       ) : (
-      // If user is searching, only show search results       
-        searching ? (
-          filterNodesByCategory(courseNodes)?.length
-          || filterNodesByCategory(resourceNodes)?.length
-          || filterNodesByCategory(pathwayNodes)?.length ? (
-            <>
-              { !!filterNodesByCategory(courseNodes)?.length && <SearchResults items={courseNodes} itemType='course' /> }
-              { !!filterNodesByCategory(resourceNodes)?.length && <SearchResults items={resourceNodes} itemType='resource' /> }
-              { !!filterNodesByCategory(pathwayNodes)?.length && <SearchResults items={pathwayNodes} itemType='pathway' /> }
-            </>
-          ) : (
-            search ? <h3>Sorry, no items match your search.</h3> : <h3>You have not yet been assigned materials in this category.</h3>
-          )
-        ) : (
-          <CategoriesCollection />            
-        )
+        category ? <Category /> : <CategoriesCollection />
       )}
     </div>
   )
