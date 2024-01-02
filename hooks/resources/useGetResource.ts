@@ -8,9 +8,8 @@ function useGetResource(id=null) {
   const { loading, error, data: {resource} = {} } = useQuery(
     GET_RESOURCE,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

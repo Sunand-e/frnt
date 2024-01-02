@@ -7,9 +7,8 @@ function useGetTag(id) {
   const { loading, error, data: {tag} = {} } = useQuery(
     GET_TAG,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

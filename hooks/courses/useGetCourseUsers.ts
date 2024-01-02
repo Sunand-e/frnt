@@ -7,9 +7,8 @@ function useGetCourseUsers(id) {
   const {loading, error, data } = useQuery<GetCourseUsers>(
     GET_COURSE_USERS,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

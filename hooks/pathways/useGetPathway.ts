@@ -7,9 +7,8 @@ function useGetPathway(id=null) {
   const { loading, error, data: { pathway: pathway} = {} } = useQuery<GetPathway>(
     GET_PATHWAY,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

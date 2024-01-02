@@ -8,7 +8,10 @@ function useGetUserCourseLessons(id) {
 
   const {loading, error, data } = useQuery<GetCourseUsers>(
     GET_USER_COURSE_LESSONS,
-    { variables: { id } }
+    {
+      variables: { id },
+      skip: !id
+    }
   );
 
   const users = data?.course?.users.edges.map(userEdge => {

@@ -7,7 +7,8 @@ function useGetBulkImport(id=null) {
   const { loading, error, data: {bulkImport} = {} } = useQuery(
     GET_BULK_IMPORT,
     {
-      variables: id ? { id } : null
+      variables: { id },
+      skip: !id
     }
   );
 

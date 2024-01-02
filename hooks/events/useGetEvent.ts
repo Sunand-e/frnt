@@ -1,19 +1,18 @@
 
-import { GET_GROUP } from "../../graphql/queries/groups"
 import { useQuery } from "@apollo/client"
+import { GET_EVENT } from "../../graphql/queries/events";
 
 function useGetEvent(id) {
 
-  const { loading, error, data: {group} = {} } = useQuery(
-    GET_GROUP,
+  const { loading, error, data: {event} = {} } = useQuery(
+    GET_EVENT,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 
-  return { group, loading, error }
+  return { event, loading, error }
 }
 
 export default useGetEvent

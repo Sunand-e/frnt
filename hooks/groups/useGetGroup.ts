@@ -7,9 +7,8 @@ function useGetGroup(id) {
   const { loading, error, data: {group} = {} } = useQuery(
     GET_GROUP,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

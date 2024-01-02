@@ -5,9 +5,8 @@ function useGetQuiz(id) {
   const { loading, error, data: {quiz} = {} } = useQuery(
     GET_QUIZ,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

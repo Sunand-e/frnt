@@ -7,9 +7,8 @@ function useGetRole(id) {
   const { loading, error, data: {role} = {} } = useQuery(
     GET_ROLE,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

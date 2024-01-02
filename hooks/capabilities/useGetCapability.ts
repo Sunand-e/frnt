@@ -7,9 +7,8 @@ function useGetCapability(id) {
   const { loading, error, data: {capability} = {} } = useQuery(
     GET_CAPABILITY,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

@@ -5,9 +5,8 @@ function useGetLesson(id) {
   const { loading, error, data: {lesson} = {} } = useQuery(
     GET_LESSON,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 

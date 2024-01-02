@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { TagFragment } from "../../graphql/queries/tags";
 import { GET_CURRENT_USER } from "../../graphql/queries/users";
 
-function useGetCurrentUser(id=null) {
+function useGetCurrentUser() {
 
   const { loading, error, data, fetchMore } = useQuery(GET_CURRENT_USER, {
     variables: {
