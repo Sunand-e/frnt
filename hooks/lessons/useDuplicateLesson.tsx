@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { DuplicateLesson, DuplicateLessonVariables } from "../../graphql/mutations/course/__generated__/DuplicateLesson";
-import { GET_CURRENT_USER, GET_USER_COURSE } from "../../graphql/queries/users";
-import { ContentFragment, GET_COURSES, SectionChildrenFragment } from "../../graphql/queries/allQueries";
+import { GET_USER_COURSE } from "../../graphql/queries/users";
+import { ContentFragment, SectionChildrenFragment } from "../../graphql/queries/allQueries";
 import cache from "../../graphql/cache"
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";
 import { DUPLICATE_LESSON } from "../../graphql/mutations/lesson/DUPLICATE_LESSON";

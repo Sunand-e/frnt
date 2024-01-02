@@ -10,19 +10,19 @@ import Button from "../common/Button";
 import {Tick} from '@styled-icons/typicons/Tick'
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
 import { useRouter } from "../../utils/router";
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from '../common/misc/Dot';
 import ResourceActionButton from "./ResourceActionButton";
 import Editor from "../common/inputs/Editor";
+import useGetResources from "../../hooks/resources/useGetResources";
 
 const ResourceView = ({id}) => {
 
   const router = useRouter()
   const { pid } = router.query;
 
-  const { loading, error, resources } = useGetCurrentUser()
+  const { loading, error, resources } = useGetResources()
 
   const resourceEdge = resources?.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node

@@ -1,11 +1,9 @@
 import { useEffect, useMemo } from "react";
 import Select from "react-select";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import useGetUsers from "../../../hooks/users/useGetUsers";
 
 const UserSelect = ({onSelect, selected}) => {
 
-  // const { user } = useGetCurrentUser()
   const { users: userConnection } = useGetUsers()
   const users = userConnection?.edges.map(userEdge => userEdge.node)
   

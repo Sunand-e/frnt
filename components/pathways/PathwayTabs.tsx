@@ -1,5 +1,4 @@
 import useGetPathways from "../../hooks/pathways/useGetPathways";
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import useGetUserPathways from "../../hooks/users/useGetUserPathways";
 import ContentStatusTabs from "../common/ContentStatusTabs"
 

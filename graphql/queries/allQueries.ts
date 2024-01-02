@@ -163,50 +163,6 @@ export const GET_COURSE = gql`
   ${SectionFragment}
   ${ContentFragment}
 `
-export const GET_COURSES = gql`
-  query GetCourses {
-    courses {
-      edges {
-        node {
-          ...CourseFragment
-        }
-      }
-    }
-  }
-  ${CourseFragment}
-`
-export const GET_COURSES_BASIC = gql`
-  query GetCoursesBasic {
-    courses {
-      edges {
-        node {
-          content
-          contentType
-          createdAt
-          settings
-          image {
-            location
-            id
-            altText
-            properties
-            title
-          }
-          id
-          icon {
-            provider
-            properties
-            id
-          }
-          itemType
-          prerequisites
-          settings
-          title
-          updatedAt
-        }
-      }
-    }
-  }
-`
 
 export const GET_SECTION = gql`
   query GetSection($id: ID!) {
@@ -216,6 +172,7 @@ export const GET_SECTION = gql`
   }
   ${SectionFragment}
 `
+
 export const GET_SECTIONS = gql`
   query GetSections {
     sections {

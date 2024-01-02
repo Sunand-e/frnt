@@ -1,8 +1,10 @@
 import cache from '../../graphql/cache';
 import { TagFragmentFragment } from '../../graphql/generated';
 import { TagFragment } from '../../graphql/queries/tags';
+import useGetCourses from '../../hooks/courses/useGetCourses';
+import useGetPathways from '../../hooks/pathways/useGetPathways';
+import useGetResources from '../../hooks/resources/useGetResources';
 import useUpdateTag from '../../hooks/tags/useUpdateTag';
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useRouter } from '../../utils/router';
 import { contentTypes } from '../common/contentTypes';
 import TagContent from './content/TagContent';
@@ -13,7 +15,9 @@ const EditTagForm = () => {
   const router = useRouter()
   const { id } = router.query
 
-  const { courses, resources, pathways } = useGetCurrentUser()
+  const { courses } = useGetCourses()
+  const { resources } = useGetResources()
+  const { pathways } = useGetPathways()
   
   const tag = cache.readFragment<TagFragmentFragment>({
     id:`Tag:${id}`,

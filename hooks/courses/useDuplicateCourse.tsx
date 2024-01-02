@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { DUPLICATE_COURSE } from "../../graphql/mutations/course/DUPLICATE_COURSE";
 import { DuplicateCourse, DuplicateCourseVariables } from "../../graphql/mutations/course/__generated__/DuplicateCourse";
 import { GET_CURRENT_USER } from "../../graphql/queries/users";
-import { ContentFragment, GET_COURSES } from "../../graphql/queries/allQueries";
+import { ContentFragment } from "../../graphql/queries/allQueries";
 import cache from "../../graphql/cache"
 import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";

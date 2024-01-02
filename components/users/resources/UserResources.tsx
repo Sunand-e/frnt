@@ -4,10 +4,10 @@ import { useContext } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import UserResourcesTable from "./UserResourcesTable";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import useGetUserResources from "../../../hooks/users/useGetUserResources";
 import EnrolUserInContent from "../content/EnrolUserInContent";
 import { handleModal } from "../../../stores/modalStore";
+import useGetResources from "../../../hooks/resources/useGetResources";
 
 const UserResources = () => {
   
@@ -15,7 +15,7 @@ const UserResources = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
-  const { resources } = useGetCurrentUser()
+  const { resources } = useGetResources()
   const { resources: assignedResources } = useGetUserResources(user.id)
 
   const button = {

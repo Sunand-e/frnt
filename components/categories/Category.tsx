@@ -14,7 +14,6 @@ const Category = () => {
   const router = useRouter()
   const { search, category } = router.query
   
-  // const { tags, courses, resources, pathways, loading } = useGetCurrentUser()
   const { tags, loading: loadingTags } = useGetTags()
   const { courses, loading: loadingCourses } = useGetCourses()
   const { resources, loading: loadingResources } = useGetResources()

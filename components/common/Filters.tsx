@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import Select from "react-select";
 import useGetTags from "../../hooks/tags/useGetTags";
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import { useRouter } from "../../utils/router";
 
 interface UrlFilterQuery {
@@ -18,8 +16,7 @@ export default function Filters({
   const router = useRouter();
   const { search, type, category }: UrlFilterQuery = router.query;
 
-  // const { tags } = useGetTags()
-  const { tags } = useGetCurrentUser();
+  const { tags } = useGetTags()
 
   const onFilterChange = (filterType, option) => {
     router.push({

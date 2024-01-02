@@ -9,7 +9,6 @@ const GroupSelect = ({onSelect, selected='all'}) => {
     id: 'all',
   }
   
-  // const { user } = useGetCurrentUser()
   const { groups: groupConnection } = useGetGroups()
   const groups = groupConnection?.edges.map(groupEdge => groupEdge.node)
   groups && groups.unshift(defaultOption)

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { UserContentConnectionFragment, UserContentEdgeFragment, UserContentFragment } from './users';
+import { UserContentConnectionFragment, UserContentFragment } from './users';
 
 export const CertificateFragment = gql`
   fragment CertificateFragment on Certificate {

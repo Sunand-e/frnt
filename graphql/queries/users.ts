@@ -25,26 +25,6 @@ export const UserFragment = gql`
   }
 `
 
-export const CurrentUserFragment = gql`
-  fragment CurrentUserFragment on User {
-    createdAt
-    email
-    firstName
-    fullName
-    id
-    lastName
-    status
-    updatedAt
-    userType
-    profileImageUrl
-    roles {
-      id
-      name
-      roleType
-    }
-  }
-`
-
 export const UserContentFragment = gql`
   fragment UserContentFragment on UserContent {
     status
@@ -57,20 +37,12 @@ export const UserContentFragment = gql`
     score
     progress
     visits
+    properties
   }
 `
 export const UserContentEdgeFragment = gql`
   fragment UserContentEdgeFragment on UserContentEdge {
     userId
-    node {
-      id
-      title
-      order
-      content
-      contentType
-      itemType
-      ...ContentFragment
-    }
     status
     lastVisited
     firstVisited
@@ -82,6 +54,16 @@ export const UserContentEdgeFragment = gql`
     progress
     visits
     properties
+
+    node {
+      id
+      title
+      order
+      content
+      contentType
+      itemType
+      ...ContentFragment
+    }
   }
   ${ContentFragment}
 `
@@ -191,6 +173,7 @@ export const UserCapabilitiesFragment = gql`
 export const UserGroupsFragment = gql`
   fragment UserGroupsFragment on User {
     groups {
+      totalCount
       edges {
         node {
           id
@@ -230,15 +213,11 @@ export const GET_USER = gql`
 export const GET_CURRENT_USER = gql`
   query GetCurrentUser($id: ID) {
     user(id: $id) {
-      ...CurrentUserFragment
+      ...UserFragment
       ...UserCapabilitiesFragment
     }
-    tags {
-      ...TagFragment
-    }
   }
-  ${TagFragment}
-  ${CurrentUserFragment}
+  ${UserFragment}
   ${UserCapabilitiesFragment}
 `
 
@@ -330,45 +309,6 @@ export const GET_USER_RESOURCES = gql`
   }
   ${UserContentConnectionFragment}
 `
-
-export const GET_USERS_COURSES = gql`
-  query GetUsersCourses {
-    users {
-      edges {
-        node {
-          ...UserFragment
-          courses {
-            ...UserContentConnectionFragment
-          }
-          groups {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-    groups {
-      edges {
-        node {
-          id
-          assignedCourses {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${UserFragment}
-  ${UserContentConnectionFragment}
-`
-
 
 export const GET_USER_COURSE = gql`
   query GetUserCourse($courseFilter: JSON, $lessonSectionFilter: JSON) {

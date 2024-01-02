@@ -4,12 +4,12 @@ import GroupSelect from "../groups/inputs/GroupSelect";
 import TagSelect from "../tags/inputs/TagSelect";
 import CourseSelect from "../courses/inputs/CourseSelect";
 import UserSelect from "../users/inputs/UserSelect";
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useGetGroups from '../../hooks/groups/useGetGroups';
 
 const ReportFilters = ({filters=[]}) => {
 
   const router = useRouter()
-  const { tags, courses, pathways, lessons, resources, groups } = useGetCurrentUser();
+  const { groups } = useGetGroups();
 
   const { 
     user: userId, 

@@ -1,6 +1,6 @@
 
 import { useQuery } from "@apollo/client"
-import { GET_COURSES } from "../../graphql/queries/newQueries/GET_COURSES";
+import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 
 function useGetCourses() {

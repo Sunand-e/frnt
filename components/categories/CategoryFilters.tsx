@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Select, { components } from 'react-select'
 import useGetTags from '../../hooks/tags/useGetTags';
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useRouter } from '../../utils/router';
 
 export default function CategoryFilters({hasSearch=true, hasCategories=true, hasType=true}) {
@@ -9,7 +8,7 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
   const router = useRouter()
   const { search, category } = router.query
 
-  const { tags } = useGetCurrentUser()
+  const { tags } = useGetTags()
 
   const onFilterChange = (type, option) => {
     router.push({query: {

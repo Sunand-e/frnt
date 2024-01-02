@@ -1,6 +1,4 @@
-import { GET_COURSES_BASIC } from "../../graphql/queries/allQueries"
 import { useQuery } from "@apollo/client"
-import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { GET_COURSE_USERS } from "../../graphql/queries/courses/courseUsers";
 import { GetCourseUsers } from "../../graphql/queries/courses/__generated__/GetCourseUsers";
 

@@ -4,10 +4,10 @@ import { useContext } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import UserPathwaysTable from "./UserPathwaysTable";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import useGetUserPathways from "../../../hooks/users/useGetUserPathways";
 import EnrolUserInContent from "../content/EnrolUserInContent";
 import { handleModal } from "../../../stores/modalStore";
+import useGetPathways from "../../../hooks/pathways/useGetPathways";
 
 const UserPathways = () => {
   
@@ -15,7 +15,7 @@ const UserPathways = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
-  const { pathways } = useGetCurrentUser()
+  const { pathways } = useGetPathways()
   const { pathways: assignedPathways } = useGetUserPathways(user.id)
 
   const button = {

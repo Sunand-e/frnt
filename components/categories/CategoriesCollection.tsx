@@ -1,10 +1,7 @@
 import useGetTags from "../../hooks/tags/useGetTags"
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import ItemCollection from "../common/items/ItemCollection"
 
 export default function CategoriesCollection() {
-
-  // const { tags, loading, error } = useGetCurrentUser()
 
   const { tags, loading, error } = useGetTags()
 

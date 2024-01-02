@@ -1,10 +1,10 @@
 
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useGetResources from '../../hooks/resources/useGetResources';
 import SelectContentTable from './SelectContentTable';
 
 const SelectResourcesTable = ({onRowClick}) => {
 
-  const { resources: resourceConnection, loading, error } = useGetCurrentUser()
+  const { resources: resourceConnection, loading, error } = useGetResources()
   const resources = resourceConnection?.edges.map(edge => edge.node)
 
   return (

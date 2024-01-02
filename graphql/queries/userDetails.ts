@@ -1,65 +1,10 @@
 import { gql } from '@apollo/client';
 import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
 import { TagFragment } from './tags';
+import { UserContentEdgeFragment, UserFragment, UserGroupsFragment } from './users';
 
-export const UserFragment = gql`
-  fragment UserFragment on User {
-    createdAt
-    email
-    firstName
-    fullName
-    id
-    lastName
-    status
-    updatedAt
-    userType
-    profileImageUrl
-    invitationSentAt
-    invitationAcceptedAt
-    currentSignInAt
-    roles {
-      id
-      name
-      roleType
-    }
-  }
-`
-export const UserContentFragment = gql`
-  fragment UserContentFragment on UserContentEdge {
-    status
-    lastVisited
-    firstVisited
-    createdAt
-    updatedAt
-    completedAt
-    passedAt
-    score
-    progress
-    visits
-    properties
-  }
-`
-
-export const UserContentEdgeFragment = gql`
-  fragment UserContentEdgeFragment on UserContentEdge {
-    userId
-    node {
-      ...ContentFragment
-      id
-      title
-      order
-      content
-      contentType
-      itemType
-      order
-    }
-    ...UserContentFragment
-  }
-  ${ContentFragment}
-  ${UserContentFragment}
-`
-export const UserContentConnectionFragment = gql`
-  fragment UserContentConnectionFragment on UserContentConnection {
+export const UserContentGroupsConnectionFragment = gql`
+  fragment UserContentGroupsConnectionFragment on UserContentConnection {
     totalCount
     notStartedCount
     inProgressCount
@@ -91,10 +36,10 @@ export const UserContentConnectionFragment = gql`
   ${UserContentEdgeFragment}
 `
 
-export const UserCoursesDetailedFragment = gql`
-  fragment UserCoursesDetailedFragment on User {
+export const UserCoursesGroupsFragment = gql`
+  fragment UserCoursesGroupsFragment on User {
     courses {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
       edges {
       ...UserContentEdgeFragment
         groups {
@@ -111,23 +56,23 @@ export const UserCoursesDetailedFragment = gql`
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
 
-export const UserPathwaysFragment = gql`
-  fragment UserPathwaysFragment on User {
+export const UserPathwaysGroupsFragment = gql`
+  fragment UserPathwaysGroupsFragment on User {
     pathways {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
-export const UserResourcesFragment = gql`
-  fragment UserResourcesFragment on User {
+export const UserResourcesGroupsFragment = gql`
+  fragment UserResourcesGroupsFragment on User {
     resources {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
       edges {
         node {
           ...ResourceFragment
@@ -136,7 +81,7 @@ export const UserResourcesFragment = gql`
     }
   }
   ${ResourceFragment}
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
 export const UserCapabilitiesFragment = gql`
@@ -153,43 +98,20 @@ export const UserCapabilitiesFragment = gql`
   }
 `
 
-export const UserGroupsFragment = gql`
-  fragment UserGroupsFragment on User {
-    groups {
-      totalCount
-      edges {
-        node {
-          id
-          name
-        }
-        roles {
-          id
-          name
-          roleType          
-          capabilities {
-            id
-            name
-          }      
-        }
-      }
-    }
-  }
-`
-
 export const GET_USER = gql`
   query GetUser($id: ID) {
     user(id: $id) {
       ...UserFragment
-      ...UserPathwaysFragment
-      ...UserCoursesDetailedFragment
-      ...UserResourcesFragment
+      ...UserPathwaysGroupsFragment
+      ...UserCoursesGroupsFragment
+      ...UserResourcesGroupsFragment
       ...UserGroupsFragment
     }
   }
   ${UserFragment}
-  ${UserPathwaysFragment}
-  ${UserCoursesDetailedFragment}
-  ${UserResourcesFragment}
+  ${UserPathwaysGroupsFragment}
+  ${UserCoursesGroupsFragment}
+  ${UserResourcesGroupsFragment}
   ${UserGroupsFragment}
 `
 
@@ -265,43 +187,43 @@ export const GET_USER_COURSES = gql`
   query GetUserCourses($id: ID) {
     user(id: $id) {
       courses {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
 export const GET_USER_PATHWAYS = gql`
   query GetUserPathways($id: ID) {
     user(id: $id) {
       pathways {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
 export const GET_USER_RESOURCES = gql`
   query GetUserResources($id: ID) {
     user(id: $id) {
       resources {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
-export const GET_USERS_COURSES = gql`
-  query GetUsersCourses {
+export const GET_USERS_COURSES_GROUPS = gql`
+  query GetUsersCoursesGroups {
     users {
       edges {
         node {
           ...UserFragment
           courses {
-            ...UserContentConnectionFragment
+            ...UserContentGroupsConnectionFragment
           }
           groups {
             edges {
@@ -329,7 +251,7 @@ export const GET_USERS_COURSES = gql`
     }
   }
   ${UserFragment}
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `
 
 
@@ -339,7 +261,7 @@ export const GET_USER_COURSE = gql`
       id
     }
     courses(where: $courseFilter) {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
       edges {
         node {
           id
@@ -361,7 +283,7 @@ export const GET_USER_COURSE = gql`
       }
     }
     pathways {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
       edges {
         node {
           id
@@ -372,13 +294,13 @@ export const GET_USER_COURSE = gql`
       }
     }
     sections(where: $lessonSectionFilter) {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
     }
     lessons(where: $lessonSectionFilter) {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
     }
     quizzes(where: $lessonSectionFilter) {
-      ...UserContentConnectionFragment
+      ...UserContentGroupsConnectionFragment
       edges {
         node {
           ...QuizFragment
@@ -386,7 +308,7 @@ export const GET_USER_COURSE = gql`
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
   ${CourseFragment}
   ${QuizFragment}
 `
@@ -396,7 +318,7 @@ export const GET_USER_PATHWAY = gql`
     user {
       id
       pathways(where: $pathwayFilter) {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
         edges {
           node {
             id
@@ -407,12 +329,12 @@ export const GET_USER_PATHWAY = gql`
         }
       }
       courses(where: $courseResourceFilter) {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
       }
       resources(where: $courseResourceFilter) {
-        ...UserContentConnectionFragment
+        ...UserContentGroupsConnectionFragment
       }
     }
   }
-  ${UserContentConnectionFragment}
+  ${UserContentGroupsConnectionFragment}
 `

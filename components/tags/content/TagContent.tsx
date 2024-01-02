@@ -1,7 +1,6 @@
 import BoxContainer from "../../common/containers/BoxContainer";
 import TagContentTable from "./TagContentTable";
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import AddTagToContent from "../content/AddTagToContent";
 import { handleModal } from "../../../stores/modalStore";
 

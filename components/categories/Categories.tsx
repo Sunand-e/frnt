@@ -5,7 +5,6 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import CategoryFilters from './CategoryFilters';
 import CategoriesCollection from './CategoriesCollection';
 import { Dot } from '../common/misc/Dot';
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import useGetTags from '../../hooks/tags/useGetTags';
 import Category from './Category';
 

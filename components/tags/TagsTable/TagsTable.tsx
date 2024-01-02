@@ -12,12 +12,16 @@ import cache from '../../../graphql/cache';
 import { TagFragmentFragment } from '../../../graphql/generated';
 import { REORDER_TAGS } from '../../../graphql/mutations/tag/REORDER_TAGS';
 import { GET_CURRENT_USER } from '../../../graphql/queries/users';
+import useGetTags from '../../../hooks/tags/useGetTags';
+import useGetResources from '../../../hooks/resources/useGetResources';
+import useGetCourses from '../../../hooks/courses/useGetCourses';
 
 const TagsTable = () => {
 
-  const { tags, loading, error, courses, resources, pathways } = useGetCurrentUser()
-  // const [tags, setTags] = useState([]);
-
+  const { tags, loading, error } = useGetTags()
+  const { courses, loading: loadingCourses } = useGetCourses()
+  const { resources, loading: loadingResources } = useGetResources()
+  
   const editUrl = '/admin/tags/edit'
 
   const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
@@ -59,9 +63,9 @@ const TagsTable = () => {
         cell: ({ cell }) => {
           const allItemEdges = [
             ...(courses?.edges || []),
-            ...(resources?.edges || []),
-            ...(pathways?.edges || []),
           ]
+          console.log('allItemEdges')
+          console.log(allItemEdges)
           const catItemCount = allItemEdges.filter(
             edge => edge.node.tags.edges.map(
               ({node}) => node.id
@@ -79,7 +83,8 @@ const TagsTable = () => {
         cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
       }
     ],
-    [courses, resources, pathways]
+    [courses]
+    // [courses, resources, pathways]
   );
 
   const tableProps = {

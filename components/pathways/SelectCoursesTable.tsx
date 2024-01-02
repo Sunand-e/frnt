@@ -1,9 +1,9 @@
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useGetCourses from '../../hooks/courses/useGetCourses';
 import SelectContentTable from './SelectContentTable';
 
 const SelectCoursesTable = ({onRowClick}) => {
 
-  const { courses: courseConnection, loading, error } = useGetCurrentUser()
+  const { courses: courseConnection, loading, error } = useGetCourses()
 
   const courses = courseConnection?.edges.map(edge => edge.node)
 

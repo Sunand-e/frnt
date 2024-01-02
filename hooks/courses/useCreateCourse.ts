@@ -1,6 +1,6 @@
-import { GET_COURSES } from "../../graphql/queries/allQueries"
 import { useMutation } from "@apollo/client"
 import { CREATE_COURSE } from "../../graphql/mutations/course/CREATE_COURSE";
+import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { CreateCourse, CreateCourseVariables } from "../../graphql/mutations/course/__generated__/CreateCourse";
 import { contentItemDefaults } from "../contentItems/contentItemDefaults";
