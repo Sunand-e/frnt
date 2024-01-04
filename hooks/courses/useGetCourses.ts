@@ -5,12 +5,13 @@ import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 
 function useGetCourses() {
 
-  const {loading, error, data: { courses: courses} = {} } = useQuery<GetCourses>(
+  // const {loading, error, data: { courses: courses} = {} } = useQuery<GetCourses>(
+  const {loading, error, data } = useQuery<GetCourses>(
     GET_COURSES
   );
 
   return {
-    courses,
+    courses: data?.courses,
     loading,
     error
   }

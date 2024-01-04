@@ -10,7 +10,8 @@ function useUpdateUser(id = null) {
     {
       variables: {
         id
-      }
+      },
+      skip: !id
     }
   );
 

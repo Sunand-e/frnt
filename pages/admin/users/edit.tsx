@@ -65,7 +65,16 @@ const AdminUsersEdit = () => {
 
   return (
     <>
-      { user ? (
+      { loading ? (
+        <LoadingSpinner text={(
+          <>
+            Loading user details
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+          </>
+        )} />
+      ) : !!user && (
         <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
           {/* <pre>
           { JSON.stringify(id,null,2) }
@@ -79,15 +88,6 @@ const AdminUsersEdit = () => {
             <UserPathways />
           </div>
         </div>
-      ) : (
-        <LoadingSpinner text={(
-          <>
-            Loading user details
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-          </>
-        )} />
       )}
     </>
   )

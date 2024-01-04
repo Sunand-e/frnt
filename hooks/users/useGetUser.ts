@@ -8,10 +8,8 @@ function useGetUser(id: InputMaybe<string> = null) {
   const { loading, error, data: {user} = {} } = useQuery<GetUserQuery, GetUserQueryVariables>(
     GET_USER,
     {
-      
-      fetchPolicy: "cache-and-network",
-      nextFetchPolicy: "cache-first",
-      variables: id ? { id } : undefined
+      variables: { id },
+      skip: !id
     }
   );
 

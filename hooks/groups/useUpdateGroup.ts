@@ -9,9 +9,8 @@ function useUpdateGroup(id = null) {
   const { loading, error, data  } = useQuery<GetGroup>(
     GET_GROUP,
     {
-      variables: {
-        id
-      }
+      variables: { id },
+      skip: !id
     }
   );
 
