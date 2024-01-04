@@ -15,12 +15,14 @@ import { GET_CURRENT_USER } from '../../../graphql/queries/users';
 import useGetTags from '../../../hooks/tags/useGetTags';
 import useGetResources from '../../../hooks/resources/useGetResources';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
+import useGetPathways from '../../../hooks/pathways/useGetPathways';
 
 const TagsTable = () => {
 
   const { tags, loading, error } = useGetTags()
   const { courses, loading: loadingCourses } = useGetCourses()
   const { resources, loading: loadingResources } = useGetResources()
+  const { pathways, loading: loadingPathways } = useGetPathways()
   
   const editUrl = '/admin/tags/edit'
 
@@ -34,10 +36,10 @@ const TagsTable = () => {
   const tableData = useMemo(
     () => {
       return tags?.filter(item => !item._deleted).sort((a,b) => b.order - a.order) || []
-    }, [tags]
+    }, [tags, courses, resources, pathways]
   );
-
-   const tableCols = useMemo(
+  
+  const tableCols = useMemo(
     () => [
       {
         header: "Category Name",
@@ -64,8 +66,6 @@ const TagsTable = () => {
           const allItemEdges = [
             ...(courses?.edges || []),
           ]
-          console.log('allItemEdges')
-          console.log(allItemEdges)
           const catItemCount = allItemEdges.filter(
             edge => edge.node.tags.edges.map(
               ({node}) => node.id
