@@ -16,6 +16,9 @@ const typePolicies = {
   Group: {
     merge: true,
   },
+  GroupConnection: {
+    merge: true,
+  },
   Tag: {
     merge: true,
   },
