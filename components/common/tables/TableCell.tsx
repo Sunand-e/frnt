@@ -3,11 +3,11 @@ import { CSSProperties, memo, useEffect } from "react"
 import { useTableContext } from "./tableContext"
 interface TableCellProps {
   cell: Cell<any,any>
-  style: CSSProperties
+  width: number
   index: number
 }
 
-const TableCell = memo(({cell, index}:TableCellProps) => {
+const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
 
   const dataCellOffset = useTableContext(s => (
     Number(s.isReorderable) + Number(!!s.bulkActions.length)
@@ -25,7 +25,7 @@ const TableCell = memo(({cell, index}:TableCellProps) => {
       style={{
         ...defaultStyles,
         ...cell.column.columnDef.style,
-        // ...style,
+        ...(width && { width }),
       }}
     >
       {flexRender(

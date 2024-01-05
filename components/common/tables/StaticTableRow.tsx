@@ -16,9 +16,7 @@ export const StaticTableRow = ({ row, colWidths, setDraggingRowHeight }) => {
           cell={cell}
           key={i}
           index={i}
-          style={{
-            ...(colWidths && {width: colWidths[i]})
-          }}
+          { ...(colWidths && {width: colWidths[i]}) }
         />
       ))}
     </tr>
