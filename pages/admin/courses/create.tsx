@@ -6,7 +6,6 @@ import { useMutation } from '@apollo/client'
 import { CREATE_COURSE } from '../../../graphql/mutations/course/CREATE_COURSE'
 import LoadingSpinner from '../../../components/common/LoadingSpinner'
 import CourseForm from '../../../components/courses/CourseForm'
-import { GET_CURRENT_USER } from '../../../graphql/queries/users'
 import { GetCurrentUser } from '../../../graphql/queries/__generated__/GetCurrentUser'
 import dayjs from 'dayjs'
 import { closeModal, handleModal } from '../../../stores/modalStore'
@@ -15,6 +14,7 @@ import { Dot } from '../../../components/common/misc/Dot';
 import { contentItemDefaults } from '../../../hooks/contentItems/contentItemDefaults';
 import { CreateCourseMutation, CreateCourseMutationVariables } from '../../../graphql/generated';
 import { userContentEdgeDefaults } from '../../../hooks/users/userContentEdgeDefaults';
+import { GET_COURSES } from '../../../graphql/queries/courses/courses';
 
 const AdminCourseSetup = () => {
   /*
@@ -39,11 +39,11 @@ const AdminCourseSetup = () => {
       // This runs twice - once after the optimistic response, and again after the server response.
       update(cache, { data: { createCourse } } ) {
         const cachedData = cache.readQuery<GetCurrentUser>({
-          query: GET_CURRENT_USER
+          query: GET_COURSES
         })
 
         cache.writeQuery({
-          query: GET_CURRENT_USER,
+          query: GET_COURSES,
           data: {
             ...cachedData,
             courses: {

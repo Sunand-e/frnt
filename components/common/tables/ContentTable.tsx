@@ -152,7 +152,7 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       update(cache, response, request) {
         
         const cachedData = cache.readQuery<GetCurrentUserQuery>({
-          query: GET_CURRENT_USER
+          query: type.gqlGetQuery
         },true)
         if(cachedData) {
           const newData = {
@@ -178,7 +178,7 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
             }
           }
           
-          cache.updateQuery({ query: GET_CURRENT_USER}, (data) => ({
+          cache.updateQuery({ query: type.gqlGetQuery }, (data) => ({
             ...data,
             ...newData
           }))

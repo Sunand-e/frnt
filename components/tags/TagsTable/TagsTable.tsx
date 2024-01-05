@@ -129,7 +129,7 @@ const TagsTable = () => {
               }
             })
           }
-          cache.updateQuery({ query: GET_CURRENT_USER, optimistic: true}, (data) => ({
+          cache.updateQuery({ query: GET_TAGS, optimistic: true}, (data) => ({
             ...data,
             ...newData
           }))

@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client";
 import { DUPLICATE_COURSE } from "../../graphql/mutations/course/DUPLICATE_COURSE";
 import { DuplicateCourse, DuplicateCourseVariables } from "../../graphql/mutations/course/__generated__/DuplicateCourse";
-import { GET_CURRENT_USER } from "../../graphql/queries/users";
 import { ContentFragment } from "../../graphql/queries/allQueries";
 import cache from "../../graphql/cache"
 import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";
+import { GET_COURSES } from "../../graphql/queries/courses/courses";
 
 function useDuplicateCourse() {
 
@@ -38,7 +38,7 @@ function useDuplicateCourse() {
 
       update(cache, { data: { duplicateCourse } }) {
         const cachedData = cache.readQuery<GetCurrentUser>({
-          query: GET_CURRENT_USER
+          query: GET_COURSES
         })
 
         cache.modify({
@@ -62,7 +62,7 @@ function useDuplicateCourse() {
         console.log('duplicateCourse')
         console.log(duplicateCourse)
         cache.writeQuery({
-          query: GET_CURRENT_USER,
+          query: GET_COURSES,
           data: {
             ...cachedData,
             courses: {

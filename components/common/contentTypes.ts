@@ -1,5 +1,7 @@
 import { VideoPersonCall } from '@styled-icons/fluentui-system-filled/VideoPersonCall'
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
+import { GET_COURSES } from '../../graphql/queries/courses/courses'
+import { GET_PATHWAYS, GET_RESOURCES } from '../../graphql/queries/allQueries'
 
 export const contentTypes = {
   course: {
@@ -9,6 +11,7 @@ export const contentTypes = {
     label: "Course",
     icon: GraduationCap,
     editUrl: 'admin/courses/edit',
+    gqlGetQuery: GET_COURSES,
     statusStrings: {
       not_started: {
         readMoreLabel: 'Start course',
@@ -30,7 +33,8 @@ export const contentTypes = {
     plural: 'pathways',
     label: "Pathway",
     icon: GraduationCap,
-    editUrl: 'admin/pathways/edit'
+    editUrl: 'admin/pathways/edit',
+    gqlGetQuery: GET_PATHWAYS,
   },
   resource: {
     name: 'resource',
@@ -38,7 +42,8 @@ export const contentTypes = {
     plural: 'resources',
     label: "Resource",
     icon: GraduationCap,
-    editUrl: 'admin/resources/edit'
+    editUrl: 'admin/resources/edit',
+    gqlGetQuery: GET_RESOURCES,
   },
   virtual: {
     label: "Virtual Event",
