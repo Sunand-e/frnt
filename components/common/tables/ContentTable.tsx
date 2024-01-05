@@ -137,10 +137,13 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 
     const activeItem = cache.readFragment({
       id:`ContentItem:${active.id}`,
-      fragment: ContentFragment,
-      fragmentName: 'ContentFragment',
+      fragment: ContentIdAndOrderFragment,
     },true)
 
+    console.log('overItem')
+    console.log(overItem)
+    console.log('activeItem')
+    console.log(activeItem)
     const newOrder = overItem.order + Number(overItem.order > activeItem.order)
 
     reorderContentItemsMutation({
