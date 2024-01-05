@@ -15,6 +15,7 @@ import { contentItemDefaults } from '../../../hooks/contentItems/contentItemDefa
 import { CreateCourseMutation, CreateCourseMutationVariables } from '../../../graphql/generated';
 import { userContentEdgeDefaults } from '../../../hooks/users/userContentEdgeDefaults';
 import { GET_COURSES } from '../../../graphql/queries/courses/courses';
+import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
 
 const AdminCourseSetup = () => {
   /*
@@ -23,6 +24,7 @@ const AdminCourseSetup = () => {
   */
   const router = useRouter()
 
+  const { user } = useGetCurrentUser()
   usePageTitle({ 
     title: "Set up a new course"
   })
@@ -52,7 +54,7 @@ const AdminCourseSetup = () => {
               edges: [
                 {
                   ...userContentEdgeDefaults,
-                  userId: cachedData.user.id,
+                  userId: user.id,
                   node: createCourse.course,
 
                 },
