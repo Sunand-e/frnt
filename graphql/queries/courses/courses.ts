@@ -38,6 +38,8 @@ export const GET_COURSES = gql`
           }
           tags {
             edges {
+              order
+              contentItemId
               node {
                 id
                 label

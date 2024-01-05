@@ -31,6 +31,12 @@ const typePolicies = {
       return `UserContentEdge:${object.userId}:${object.node.id}`
     }
   },
+  ContentItemTagEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      return `ContentItemTagEdge:${object.contentItemId}:${object.node.id}`
+    }
+  },
   ContentItem: {
     fields: {
       children: {

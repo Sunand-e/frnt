@@ -8,7 +8,7 @@ import cache from "../../../graphql/cache";
 import { REORDER_TAG_CONTENT } from "../../../graphql/mutations/tag/REORDER_TAG_CONTENT";
 import { useMutation } from "@apollo/client";
 
-const TagContentTable = ({tag, contentType, content}) => {
+const TagContentTable = ({tag, contentType, data}) => {
 
   const [reorderTagContentMutation, reorderTagContentMutationResponse] = useMutation(
     REORDER_TAG_CONTENT
@@ -17,19 +17,6 @@ const TagContentTable = ({tag, contentType, content}) => {
   const getContentTagEdge = (contentEdge) => {
     return contentEdge.node.tags.edges.find(({node}) => node.id === tag.id)
   }
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo(
-    () => {
-      return content.edges.filter(edge => {
-        return (
-        !edge.node._deleted
-         && getContentTagEdge(edge)
-        )
-      }).sort((a,b) => getContentTagEdge(b).order - getContentTagEdge(a).order) || []
-    },
-    [tag,content]
-  );
   
   const tableCols = useMemo(() => {
     return [
@@ -46,15 +33,15 @@ const TagContentTable = ({tag, contentType, content}) => {
           )
         }
       },
-      // {
-      //   header: 'order',
-      //   accessorFn: row => {
-      //     return row.node.tags.edges.find(
-      //       ({node}) => node.id === tag.id
-      //     ).order
-      //   },
-      //   id: 'order',
-      // },
+      {
+        header: 'order',
+        accessorFn: row => {
+          return row.node.tags.edges.find(
+            ({node}) => node.id === tag.id
+          ).order
+        },
+        id: 'order',
+      },
       {
         header: "Actions",
         accessorKey: "actions",
@@ -64,16 +51,14 @@ const TagContentTable = ({tag, contentType, content}) => {
   }, []);
 
   const tableProps = {
-    tableData,
+    tableData: data,
     tableCols,
     showTop: false,
     isReorderable: true,
-    getReorderableItemIdFromRow: row => getContentTagEdge(row.original).id,
+    getReorderableItemIdFromRow: row => {
+      return `${row.original.node.id}:${tag.id}`
+    },
     onReorder: (active, over, newIndex, oldIndex) => {
-
-      const contentItemId = tableData.find(
-        userContentEdge => userContentEdge.node.tags.edges.some(edge => edge.id === active.id)
-      ).node.id
 
       const overEdge = cache.readFragment<ContentItemTagEdgeFragmentFragment>({
         id:`ContentItemTagEdge:${over.id}`,
@@ -90,15 +75,15 @@ const TagContentTable = ({tag, contentType, content}) => {
       reorderTagContentMutation({
         variables: {
           tagId: tag.id,
-          contentItemId,
+          contentItemId: active.id.split(":")[0],
           order: newOrder,
         },
 
         update(cache, response) {
-          for (let contentEdge of tableData) {
+          for (let contentEdge of data) {
             const contentTagEdge = getContentTagEdge(contentEdge)
             let order: number
-            if(contentTagEdge.id === activeEdge.id) {
+            if(contentTagEdge.contentItemId === activeEdge.contentItemId) {
               order = newOrder
             } else if(contentTagEdge.order >= newOrder) {
               order = contentTagEdge.order + 1
@@ -106,7 +91,7 @@ const TagContentTable = ({tag, contentType, content}) => {
               continue
             }
             cache.updateFragment({ 
-              id:`ContentItemTagEdge:${contentTagEdge.id}`,
+              id:`ContentItemTagEdge:${contentTagEdge.contentItemId}:${tag.id}`,
               fragment: ContentItemTagEdgeFragment,
               optimistic: true
             }, (data) => {

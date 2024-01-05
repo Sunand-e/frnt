@@ -3,8 +3,8 @@ import { UserFragment } from './users';
 
 export const ContentItemTagEdgeFragment = gql`
   fragment ContentItemTagEdgeFragment on ContentItemTagEdge {
-    id
     order
+    contentItemId
     node {
       id
       tagType
@@ -38,6 +38,17 @@ export const ContentFragment = gql`
       provider
       properties
       id
+    }
+    tags {
+      edges {
+        order
+        contentItemId
+        node {
+          id
+          label
+          tagType
+        }
+      }
     }
     itemType
     prerequisites
