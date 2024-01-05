@@ -20,6 +20,9 @@ export const UserContentGroupsConnectionFragment = gql`
           }
         }
       }
+      roles {
+        id
+      }
       groups {
         edges {
           roles {
@@ -113,48 +116,6 @@ export const GET_USER = gql`
   ${UserCoursesGroupsFragment}
   ${UserResourcesGroupsFragment}
   ${UserGroupsFragment}
-`
-
-export const GET_USER_CAPABILITIES = gql`
-  query GetUserCapabilities {
-    user {
-      id
-      userType
-      roles {
-        id
-        name
-        roleType
-        capabilities {
-          id
-          name
-        }
-      }
-      courses {
-        edges {
-          id
-          roles {
-            id
-            capabilities {
-              id
-              name
-            }
-          }
-        }
-      }
-      groups {
-        totalCount
-        edges {
-          roles {
-            id
-            capabilities {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
-  }
 `
 
 export const GET_USERS = gql`

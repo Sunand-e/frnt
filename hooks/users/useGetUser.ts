@@ -5,7 +5,7 @@ import { GET_USER } from "../../graphql/queries/userDetails";
 
 function useGetUser(id: InputMaybe<string> = null) {
 
-  const { loading, error, data: {user} = {} } = useQuery<GetUserQuery, GetUserQueryVariables>(
+  const { loading, error, data } = useQuery<GetUserQuery, GetUserQueryVariables>(
     GET_USER,
     {
       variables: { id },
@@ -13,7 +13,7 @@ function useGetUser(id: InputMaybe<string> = null) {
     }
   );
 
-  return { user, loading, error }
+  return { user: data?.user, loading, error }
 }
 
 export default useGetUser

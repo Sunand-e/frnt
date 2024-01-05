@@ -45,6 +45,7 @@ function useUpdateGroup(id = null) {
                 id
               }
             }
+            totalCount
           }
         }
       `,
