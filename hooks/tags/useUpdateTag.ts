@@ -10,7 +10,8 @@ function useUpdateTag(id = null) {
     {
       variables: {
         id
-      }
+      },
+      skip: !id
     }
   );
 
