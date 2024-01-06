@@ -145,7 +145,8 @@ const TableStructure = ({ table }: TableStructureProps) => {
       <div className="-my-2 overflow-y-visible sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
-            className="shadow overflow-y-hidden border-b border-gray-200 sm:rounded-lg bg-white"
+            className="shadow border-b border-gray-200 sm:rounded-lg bg-white"
+            // className="shadow overflow-y-hidden border-b border-gray-200 sm:rounded-lg bg-white"
             style={{ height: `${virtualizer.getTotalSize() + tHeadHeight + 5}px` }}
           >
             <MaybeDndContext
