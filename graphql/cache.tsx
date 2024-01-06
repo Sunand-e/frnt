@@ -25,6 +25,9 @@ const typePolicies = {
   UserContentConnection: {
     merge: true,
   },
+  ContentUserConnection: {
+    merge: true,
+  },
   UserContentEdge: {
     merge: true,
     keyFields: (object, context) => {
