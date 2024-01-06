@@ -7,6 +7,25 @@ import { useRouter } from "../../../utils/router";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
 
+const GET_GROUP_USERS = gql`
+  query GetGroupUsers {
+    groups {
+      edges {
+        node {
+          id
+          users {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
     courses {
@@ -60,28 +79,19 @@ const COURSES_REPORT_QUERY = gql`
         }
       }
     }
-    groups {
-      edges {
-        node {
-          id
-          users {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
   }
 `;
+
 const CoursesReportTable = () => {
   const {
     loading,
     error,
-    data: { courses: courses, groups: groups } = {},
+    data: { courses: courses } = {},
   } = useQuery(COURSES_REPORT_QUERY);
+  
+  const {
+    loading: loadingGroups, error: errorGroups, data: { groups: groups } = {},
+  } = useQuery(GET_GROUP_USERS);
 
   const router = useRouter()
 
