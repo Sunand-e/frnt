@@ -47,7 +47,7 @@ const AdminCoursesEdit = () => {
     <>
       { course ?
         <CourseEditor /> :
-        <LoadingSpinner text={(
+        <LoadingSpinner className='mt-12' text={(
           <>
             Loading your course
             <Dot>.</Dot>
