@@ -329,6 +329,9 @@ export const GET_USER_COURSE = gql`
             }
             _deleted @client
             children {
+              parents {
+                id
+              }
               title
               contentType
               itemType
