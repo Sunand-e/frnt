@@ -6,6 +6,7 @@ import ReportTable from "../ReportTable";
 import { useRouter } from "../../../utils/router";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
+import { GET_COURSES } from "../../../graphql/queries/courses/courses";
 
 const GET_GROUP_USERS = gql`
   query GetGroupUsers {
@@ -92,6 +93,10 @@ const CoursesReportTable = () => {
   const {
     loading: loadingGroups, error: errorGroups, data: { groups: groups } = {},
   } = useQuery(GET_GROUP_USERS);
+  
+  const {
+    loading: loadingCourses, error: errorCourses, data: { courses: courses2 } = {},
+  } = useQuery(GET_COURSES);
 
   const router = useRouter()
 
