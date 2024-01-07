@@ -76,10 +76,7 @@ const FileDropzoneV2 = ({
 
 
   const handleDrop = useCallback((acceptedFiles) => {
-    console.log('acceptedFiles')
-    console.log(acceptedFiles)
     uploadFilesAndNotify(endpoint, {file: acceptedFiles[0]}).then((data) => {
-      console.log(data)
       onUpload(data.file)
     })
     // onDrop(acceptedFiles)

@@ -40,7 +40,6 @@ const AdminCreateUser = () => {
 
 
   const handleSubmit = ({profile_image, firstName, lastName, ...values}) => {
-    console.log(values)
     const token = getJWT();
     
     const data = {

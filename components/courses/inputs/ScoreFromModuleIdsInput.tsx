@@ -38,9 +38,6 @@ const ScoreFromModuleIdsInput = ({control, label}) => {
     options: scoredModules,
     value: selectedModules,
     onChange: val => {
-      // console.log(val.map(v => v.value))
-      // field.onChange(val.map(v => v.value))
-      console.log(val.value)
       field.onChange([val.value])
     },
     getOptionValue: option => option.value ?? option.id,

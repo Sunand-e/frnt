@@ -31,7 +31,7 @@ const TableWithProvider = (props: TableProps) => {
 }
 
 const Table = () => {
-  // console.log('rerendertable')
+
   const store = useContext(TableContext)
 
   const exportFilename = useTableContext(s => s.exportFilename)

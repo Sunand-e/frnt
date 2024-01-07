@@ -17,12 +17,11 @@ const LoginForm = () => {
 
   // const [error, setError] = useState(null)
 const router = useRouter()
-  // const isLoggedIn = useReactiveVar(isLoggedInVar);
-    const { setError, register, handleSubmit, control, formState: { errors } } = useForm<UserLoginFormValues>({      });
-   // const onSubmit=(data) => console.log(data);
+
+const { setError, register, handleSubmit, control, formState: { errors } } = useForm<UserLoginFormValues>({      });
+
   const onSubmit = values => {
     const data = {
-      // remember_me: "1",
       remember_me: "0",
       ...values
     }
@@ -42,8 +41,6 @@ const router = useRouter()
           isLoggedInVar(true);
           router.push('/');
         } else if(result.error) {
-          console.log('result')
-          console.log(result)
           setError('password', {
             type: "server",
             message: 'Username or password is incorrect',
@@ -55,16 +52,12 @@ const router = useRouter()
       // instead of a catch() block so that we don't swallow
       // exceptions from actual bugs in components.
       (error) => {
-        console.log('ERROR:')
-        console.log(error)
         // this.setState({
         //   isLoaded: true,
         //   error
         // });
       }
     )
-      // console.log(data);
-      // console.log("log:" + " " + JSON.stringify(data))
   }
 
   return (

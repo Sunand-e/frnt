@@ -43,8 +43,6 @@ const BlockCanvas = () => {
   //     isContainer: true
   //   }
   // });
-  // console.log('blockIds')
-  // console.log(blockIds)
   return (
     <div
       ref={canvasRef}

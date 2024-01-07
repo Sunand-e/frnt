@@ -36,8 +36,6 @@ export const QuizSettingsPanel = () => {
   });
   
   const questions = useQuizStore(state => state.questions)
-  console.log('questions')
-  console.log(questions)
   const { register, watch, control } = useForm<QuizFormValues>({defaultValues: {
     ...quiz,
     settings: {
@@ -121,7 +119,7 @@ export const QuizSettingsPanel = () => {
   }
 
   const handleResponse = (data) => {
-    console.log('handleResponse (body)')
+    // console.log('handleResponse (body)')
     const questionsJson = JSON.parse(data.response)
     addQuestionsFromSimpleJSON(questionsJson)
   }

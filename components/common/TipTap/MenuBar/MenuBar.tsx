@@ -170,8 +170,6 @@ export default ({ editor, isHeading=false }) => {
   let color = editor.getAttributes('textStyle').color
 
   if(fontFamily) {
-    // console.log('fontFamily')
-    // console.log(fontFamily)
     // if(fontFamily.charAt(0) === "'" && fontFamily.charAt(fontFamily.length-1) === "'") {
     //   fontFamily = fontFamily.substring(1, fontFamily.length-1);
     // }

@@ -11,7 +11,6 @@ const MediaImageThumb = ({image}) => {
   useEffect(() => {
     if(inView && !loaded) {
       imgRef.current.src = imgRef.current.getAttribute('data-src');
-      console.log(imgRef.current)
       setLoaded(true)
     }
   },[inView])

@@ -2,8 +2,6 @@ export default function exportToCsv(filename, rows, headers=null) {
   const processRow = (row) => {
       let finalVal = '';
       for (var j = 0; j < row.length; j++) {
-        console.log('row[j]')
-        console.log(row[j])
           let innerValue = row[j] === null ? '' : row[j].toString();
           if (row[j] instanceof Date) {
               innerValue = row[j].toLocaleString();

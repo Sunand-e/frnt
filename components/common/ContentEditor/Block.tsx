@@ -23,9 +23,7 @@ export const Block = ({ block, dragOverlay = false }) => {
     // }
     bgImageCssString += `url(${block?.style?.bgImage?.location || '/images/image-block-placeholder.jpg'})`
   }
-  console.log({...((block.style?.bgImageEnabled || block.type === 'textOnImage') && { 
-    backgroundImage: bgImageCssString
-  })})
+
   return (
     // <div className="p-2 mb-4 bg-white rounded-lg shadow shadow-lg">
     <div className={`flex flex-col items-center`}

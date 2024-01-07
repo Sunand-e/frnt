@@ -10,7 +10,6 @@ export const VideoSelector = ({onAddVideo}) => {
   const [embedUrl, setEmbedUrl] = useState('')
 
   useEffect(() => {
-    console.log()
     const video = urlParser.parse(videoUrl);
     const newEmbedUrl = urlParser.create({
       videoInfo: video,

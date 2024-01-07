@@ -44,12 +44,6 @@ function useDuplicateCourse() {
         cache.modify({
           fields: {
             courses(cachedCourses, details) {
-              console.log('cachedCourses.totalCount')
-              console.log(cachedCourses.totalCount)
-              console.log({
-                ...cachedCourses,
-                totalCount: cachedCourses.totalCount + 1
-              })
               return {
                 ...cachedCourses,
                 totalCount: cachedCourses.totalCount + 1
@@ -59,8 +53,6 @@ function useDuplicateCourse() {
           /* broadcast: false // Include this to prevent automatic query refresh */
         });
         
-        console.log('duplicateCourse')
-        console.log(duplicateCourse)
         cache.writeQuery({
           query: GET_COURSES,
           data: {

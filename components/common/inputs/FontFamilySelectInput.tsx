@@ -12,8 +12,7 @@ const FontFamilySelectInput = ({name, control}: FontFamilySelectInputProps) => {
     control,
     name
   });
-  console.log('field.value')
-  console.log(field.value)
+  
   return (
     <FontFamilySelect
       value={field.value?.value}

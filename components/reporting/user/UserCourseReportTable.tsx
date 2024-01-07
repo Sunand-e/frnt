@@ -129,24 +129,7 @@ const UserCourseReportTable = () => {
   );
 
   const courseNode = data?.user?.courses?.edges?.[0].node;
-  console.log('courseNode')
-  console.log(courseNode)
-  // const titleBreadcrumbs = [
-  //   {
-  //     text: "Courses",
-  //     link: "/admin/reports",
-  //   },
-  //   ...(courseNode && data
-  //     ? [
-  //         {
-  //           text: courseNode?.title,
-  //           link: { query: { course: courseNode?.id } },
-  //         },
-  //         { text: data?.user?.fullName },
-  //       ]
-  //     : []),
-  // ];
-
+  
   return (
     <>
       <ReportTable

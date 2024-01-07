@@ -24,9 +24,6 @@ const EventsListTable = () => {
     return queryData?.events?.edges?.map(({node}) => node).filter(node => !node._deleted) || []
   }, [queryData]);
 
-  console.log('tableData')
-  console.log(tableData)
-
   const tableCols = useMemo(
     () => [
       {

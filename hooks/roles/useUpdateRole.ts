@@ -20,8 +20,6 @@ function useUpdateRole(id = null) {
 
   const updateRole = (values) => {
   // const updateRole = ({name=null, contentBlocks=null}) => {
-    console.log('values')
-    console.log(values)
     const variables = {
       ...values
     }

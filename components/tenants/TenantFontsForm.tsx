@@ -43,13 +43,10 @@ const TenantFontsForm = ({tenant=null}) => {
         ...(data.file_bold instanceof File && {file_bold: data.file_bold}),
         ...(data.file_italic instanceof File && {file_italic: data.file_italic})
       }
-      console.log('fileParams')
-      console.log(fileParams)
       try {
         const result = await uploadFilesAndNotify(endpoint, fileParams, {name: data.name});
-        console.log(result)
       } catch (error) {
-        console.error(error)
+        // console.error(error)
       }
     }
   }

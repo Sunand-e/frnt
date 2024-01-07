@@ -49,8 +49,8 @@ const ChangePasswordForm = () => {
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
-          console.log('ERROR:')
-          console.log(error)
+          // console.log('ERROR:')
+          // console.log(error)
           // this.setState({
           //   isLoaded: true,
           //   error

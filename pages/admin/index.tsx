@@ -69,9 +69,6 @@ const AdminDashboardPage = () => {
     return classes.filter(Boolean).join(' ')
   }
 
-  console.log('cards')
-  console.log(cards)
-
   return (
     // <>
     //   <AdminDashTopBoxes boxes={topBoxes} />

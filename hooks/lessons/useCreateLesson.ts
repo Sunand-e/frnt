@@ -84,8 +84,6 @@ function useCreateLesson(sectionId) {
   );
 
   const createLesson = async (values) => {
-    console.log('values')
-    console.log(values)
     const newLesson = await createLessonMutation({
       variables: {
         ...values,

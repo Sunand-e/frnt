@@ -101,12 +101,6 @@ const CourseStructure = ({course}) => {
     })
   }
 
-  // const handleOnWheel = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   console.log(e)
-  //   return false
-  // }
   return (
     <DragDropContext
       onDragEnd={onDragEnd}

@@ -18,10 +18,6 @@ const CapabilityReachEntry = ({cap, type, value='', containerClass='', onUpdate=
 
   const updateCapDetails = ({editor}) => {
     if(editor) {
-      console.log('editor')
-      console.log(editor)
-      console.log('cap.details[type]')
-      console.log(cap.details[type])
       const newVals = {
         id: cap.id,
         details: {

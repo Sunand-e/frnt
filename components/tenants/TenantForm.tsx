@@ -37,8 +37,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     id: tenant?.id,
     pathwaysEnabled: tenant?.settings?.pathways?.enabled,
   }
-console.log('defaultValues')
-console.log(defaultValues)
+  
   const endpoint = "/api/v1/tenant/update"
   const method = "PUT"
 
@@ -54,16 +53,12 @@ console.log(defaultValues)
   const formVals = watch()
 
   const handleSubmit = async (data) => {
-    console.log('data')
-    console.log(data)
     await Promise.all([
       data.logo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_image: data.logo})),
       data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
       data.squareLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_image: data.squareLogo})),
       data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo}))
     ]).then(res => {
-      console.log('resresresresresresresresresres')
-      console.log(res)
 
       onSubmit(data)
     }

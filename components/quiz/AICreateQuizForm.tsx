@@ -76,8 +76,6 @@ export const AICreateQuizForm = ({onResponse}) => {
   }
 
   const handleDropContentFile = async ([file]) => {
-    console.log('file')
-    console.log(file)
     var reader = new FileReader();
     reader.onload = function(e) {
       var contents = e.target.result as String;

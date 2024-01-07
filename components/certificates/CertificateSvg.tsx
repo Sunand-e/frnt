@@ -88,7 +88,6 @@ function svgToJSXWithRelPositioning(
   }
   const elementName = node.tagName;
   if (!elementName) {
-    console.log('NO TAG NAME: ', node);
     return null;
   }
   let componentProps;
@@ -111,7 +110,6 @@ function svgToJSXWithRelPositioning(
     } else {
       componentProps = node.properties;
     }
-    console.log(node, componentProps)
 
     if (node.properties.style) {
       componentProps = {

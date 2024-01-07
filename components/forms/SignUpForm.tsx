@@ -17,9 +17,7 @@ const SignUpForm = () => {
       ...data,
       invitation_token: token
     }
-    console.log('fetch........')
-    console.log('formData')
-    console.log(formData)
+
     await fetch(SIGN_UP_ENDPOINT, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -30,8 +28,7 @@ const SignUpForm = () => {
     .then(res => res.json())
     .then(
       (result) => {
-        console.log('result........')
-        console.log(result)
+
       }
     )
   }

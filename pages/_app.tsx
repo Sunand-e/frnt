@@ -65,8 +65,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
   // useRouteChange()
   useBeforeUnload()
 
-  console.log('caused a rerender');
-
   const loginLayout = (
     <LoginLayout
       navState={PageComponent.navState || {}}

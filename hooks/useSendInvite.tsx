@@ -24,9 +24,7 @@ const useSendInvite = () => {
       data: {
         user_ids: userIds
       },
-    }).then(data => {  
-      console.log('then....')
-      console.log(data)
+    }).then(data => {
       if(data.status === 200 && userIds?.length > 0) {
         toast(`${ userIds.length > 1 ? `${userIds.length} invitations` : 'Invitation'} sent.`, {
           toastId: 'changesSaved',

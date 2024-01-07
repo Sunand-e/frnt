@@ -20,9 +20,7 @@ function useUpdateTag(id = null) {
   );
 
   const updateTag = (values) => {
-  // const updateTag = ({name=null, contentBlocks=null}) => {
-    console.log('values')
-    console.log(values)
+    
     const variables = {
       ...values
     }

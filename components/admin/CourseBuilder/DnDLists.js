@@ -62,15 +62,11 @@ const DnDLists = ({items}) => {
   }
   
   const rowHeight = ({index, treeIndex, node, path}) => {
-    console.log('row');
-    console.log({index, treeIndex, node, path});
     return 70;
     // return path.length === 1 ? 28 : 70;
   }
   
   const generateNodeProps = (extendedNode) => {
-    // console.log('extendedNode');
-    // console.log(extendedNode);
     let className;
     if(extendedNode.parentNode) {
       className = 'text-base bg-white text-main rounded-3xl w-full p-4 cursor-pointer';

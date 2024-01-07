@@ -27,13 +27,6 @@ const RTEInput = ({
   
   const editorRef = useRef<Editor>();
   
-  useEffect(() => {
-    console.log('editorRef')
-    console.log(editorRef)
-    // editorRef.current.focus();
-  }, []);
-  
-
   const [value, setValue] = useState(initialValue)
 
   const { field } = useController({

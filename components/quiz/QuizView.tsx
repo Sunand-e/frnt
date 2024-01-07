@@ -67,18 +67,19 @@ function QuizView() {
 
   const finishQuiz = () => {
     if(data?.latestUserQuizAttempt) {
+      
       updateUserQuizAttempt({
         id: data.latestUserQuizAttempt.id,
         finished: true
       })
-      console.log('data.latestUserQuizAttempt')
-      console.log(data.latestUserQuizAttempt)
+
       updateUserContentStatus({
         contentItemId: quizId,
         progress: 100,
         // score: 100,
         status: 'completed'
       })
+      
     }
   }
   useEffect(() => {

@@ -57,7 +57,7 @@ type StructureProviderProps = React.PropsWithChildren<StructureProps>
 function StructureProvider({ children, ...props }: StructureProviderProps) {
   const storeRef = useRef<StructureStore>()
   if (!storeRef.current) {
-    console.log("There's not a current ref to the store")
+    // console.log("There's not a current ref to the store")
     storeRef.current = createStructureStore(props)
   } else {
     storeRef.current.setState(s => props)

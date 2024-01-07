@@ -27,7 +27,6 @@ const ImageDropzoneInput = ({
   });
 
   const handleDrop = (file) => {
-    console.log(file)
     field.onChange(file)
   }
 

@@ -1,12 +1,10 @@
 import { TabPanel as WPTabPanel } from '@wordpress/components';
  
 const onSelect = ( tabName ) => {
-    console.log( 'Selecting tab', tabName );
 };
 
 const TabPanel = ({className, children}) => {
 
-    console.log(children);
     // console.error('BOOOOOOOOOO');
     const tabs = React.Children.map(children, el => (
         {

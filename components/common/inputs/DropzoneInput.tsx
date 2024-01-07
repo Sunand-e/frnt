@@ -21,7 +21,7 @@ const DropzoneField = ({
 const Dropzone = ({ onChange, ...props }: { onChange: (...event: any[]) => void }) => {
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
-    console.log({ acceptedFiles });
+    // console.log({ acceptedFiles });
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (

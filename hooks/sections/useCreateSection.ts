@@ -19,8 +19,6 @@ const useCreateSection = ({courseId}) => {
     CREATE_SECTION,
     {
       update(cache, { data: { createSection } } ) {
-        console.log('createSection.section')
-        console.log(createSection.section)
         cache.updateFragment<CourseSectionsFragmentFragment>({
           id:`ContentItem:${courseId}`,
           fragment: CourseSectionsFragment,
@@ -31,8 +29,6 @@ const useCreateSection = ({courseId}) => {
             ...data.sections,
             createSection.section
           ]
-          console.log('sections')
-          console.log(sections)
           return {
             sections
           }

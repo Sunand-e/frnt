@@ -30,7 +30,6 @@ const StylingPanel = ({ block, children = null }) => {
   });
 
   watch((data, { name, type }) => {
-    // console.log(data, name, type)
     const updatedBlock = {
       ...block,
       style: {

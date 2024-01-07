@@ -35,8 +35,6 @@ const Category = () => {
   })
 
   const filterNodesByCategory = (nodes) => {
-    console.log('nodes')
-    console.log(nodes)
     if(category && nodes) {
       return nodes.filter(node => {
         const isSelectedCategory = tag => {
