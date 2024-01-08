@@ -58,6 +58,7 @@ const COURSES_REPORT_QUERY = gql`
           }
           tags {
             edges {
+              contentItemId
               id
               order
               node {
@@ -94,10 +95,6 @@ const CoursesReportTable = () => {
     loading: loadingGroups, error: errorGroups, data: { groups: groups } = {},
   } = useQuery(GET_GROUP_USERS);
   
-  const {
-    loading: loadingCourses, error: errorCourses, data: { courses: courses2 } = {},
-  } = useQuery(GET_COURSES);
-
   const router = useRouter()
 
   const { 
