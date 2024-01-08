@@ -41,10 +41,14 @@ function useCreateGroup() {
             id: Math.floor(Math.random() * 10000) + '',
             _deleted: false,
             image: null,
-            users: [],
+            users: {
+              totalCount: 0,
+              edges: []
+            },
             enrolledCourses: [],
             assignedCourses: [],
             assignedResources: [],
+            assignedPathways: [],
             createdAt: 0,
             updatedAt: 0,
             ...values
