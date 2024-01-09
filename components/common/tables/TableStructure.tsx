@@ -239,7 +239,9 @@ const TableStructure = ({ table }: TableStructureProps) => {
                           trRef={virtualizer.measureElement}
                           key={virtualRow.key}
                           style={{
-                            transform: `translateY(${virtualRow.start - index * virtualRow.size}px)`
+                            transform: `translateY(${virtualRow.start - index * virtualRow.size}px)`,
+                            position: 'relative',
+                            zIndex: 9999 - index,
                           }}
                           row={row}
                           onRowClick={onRowClick}
