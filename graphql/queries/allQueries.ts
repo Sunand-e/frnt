@@ -217,8 +217,8 @@ export const GET_RESOURCE = gql`
 `
 
 export const GET_RESOURCES = gql`
-  query GetResources($after: String) {
-    resources(first:10 after: $after) {
+  query GetResources {
+    resources {
       edges {
         cursor
         node {
