@@ -109,7 +109,8 @@ export const UserPathwaysFragment = gql`
 
 export const CurrentUserPathwaysFragment = gql`
   fragment CurrentUserPathwaysFragment on Query {
-    pathways(first:$limitContents) {
+    # pathways(first:$limitContents) {
+    pathways {
       ...UserContentConnectionFragment
       edges {
         node {
@@ -143,7 +144,7 @@ export const UserResourcesFragment = gql`
 
 export const CurrentUserResourcesFragment = gql`
   fragment CurrentUserResourcesFragment on Query {
-    resources(first:$limitContents) {
+    resources {
       ...UserContentConnectionFragment
       edges {
         node {
