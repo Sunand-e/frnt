@@ -109,7 +109,6 @@ export const UserPathwaysFragment = gql`
 
 export const CurrentUserPathwaysFragment = gql`
   fragment CurrentUserPathwaysFragment on Query {
-    # pathways(first:$limitContents) {
     pathways {
       ...UserContentConnectionFragment
       edges {
