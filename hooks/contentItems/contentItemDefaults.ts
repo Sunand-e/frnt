@@ -13,7 +13,7 @@ export const contentItemDefaults: ContentItem = {
   icon: null,
   prerequisites: null,
   _deleted: false,
-  settings: '',
+  settings: {},
   shared: false,
   mediaItem: null,
   parents: [],
