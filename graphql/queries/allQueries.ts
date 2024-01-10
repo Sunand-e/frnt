@@ -82,6 +82,9 @@ export const ResourceFragment = gql`
 export const LessonFragment = gql`
   fragment LessonFragment on ContentItem {
     ...ContentFragment
+    parents {
+      id
+    }
   }
   ${ContentFragment}
 `
