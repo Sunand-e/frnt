@@ -97,6 +97,7 @@ function useCreateLesson(sectionId) {
             id: 'temp-' + Math.floor(Math.random() * 10000),
             itemType: 'lesson',
             contentType: 'text',
+            _isOptimistic: true,
             ...values
           },
           message: ''
