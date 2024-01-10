@@ -82,36 +82,36 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
                   if(isSlim) {
                     return (
-                        <Tippy
-                            key={index}
-                            className="bg-main text-white p-2 cursor-pointer whitespace-nowrap"
-                            interactive={true}
-                            hideOnClick={false}
-                            placement='right'
-                            theme="memberhub"
+                        // <Tippy
+                        //     key={index}
+                        //     className="bg-main text-white p-2 cursor-pointer whitespace-nowrap"
+                        //     interactive={true}
+                        //     hideOnClick={false}
+                        //     placement='right'
+                        //     theme="memberhub"
 
-                            // placement='right-start'
-                            // placement='right-end'
-                            // theme='light'
-                            content = {item.title}
-                            // content={
-                            //   <>
-                            //     <ul className="flex flex-col">
-                            //       {
-                            //         item.subPages?.map((item, index) => (
-                            //           <li key={index} onClick={() => {}}>
-                            //             <Link href={item.urlPath}>
-                            //               {item.title}
-                            //             </Link>
-                            //           </li>
-                            //         ))
-                            //       }
-                            //     </ul>
-                            //   </>
-                            // }
-                        >
-                          <ThisWillWork item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
-                        </Tippy>
+                        //     // placement='right-start'
+                        //     // placement='right-end'
+                        //     // theme='light'
+                        //     content = {item.title}
+                        //     // content={
+                        //     //   <>
+                        //     //     <ul className="flex flex-col">
+                        //     //       {
+                        //     //         item.subPages?.map((item, index) => (
+                        //     //           <li key={index} onClick={() => {}}>
+                        //     //             <Link href={item.urlPath}>
+                        //     //               {item.title}
+                        //     //             </Link>
+                        //     //           </li>
+                        //     //         ))
+                        //     //       }
+                        //     //     </ul>
+                        //     //   </>
+                        //     // }
+                        // >
+                          <ThisWillWork key={index} item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
+                        // </Tippy>
                     )
                   } else {
                     return (
