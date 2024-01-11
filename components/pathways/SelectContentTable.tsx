@@ -67,6 +67,7 @@ const SelectContentTable = ({
     tableData,
     tableCols,
     selectable: true,
+    typeName,
     ...(isInModal && { scrollContainerRef: modalRef })
   }
 
@@ -77,7 +78,6 @@ const SelectContentTable = ({
           <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
           <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
         </div>
-        <p>Showing {tableData.length} {typeName || 'item'}s</p>
       </div>
 
       { loading && (
