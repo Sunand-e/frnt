@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react"
+import { createRef, FC, MutableRefObject, ReactNode } from "react"
 import create from "zustand"
 
 interface ModalState {
@@ -6,7 +6,8 @@ interface ModalState {
   modalTitle?: string | null,
   modalButtons?: ReactNode | null,
   modalContent?: ReactNode | null,
-  modalSize?: string | null
+  modalSize?: string | null,
+  modalRef: MutableRefObject<HTMLDivElement>
 } 
 
 export const useModalStore = create<ModalState>(set => ({
@@ -14,7 +15,8 @@ export const useModalStore = create<ModalState>(set => ({
   modalTitle: "",
   modalButtons: null,
   modalContent: null,
-  modalSize: null
+  modalSize: null,
+  modalRef: createRef(),
 }))
 
 

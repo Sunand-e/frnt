@@ -1,6 +1,6 @@
 import { Column, ColumnDef, SortingState, Table } from "@tanstack/react-table";
 import { createStore, useStore } from 'zustand'
-import { createContext, ReactNode, useContext, useMemo } from 'react'
+import { createContext, createRef, MutableRefObject, ReactNode, useContext, useMemo } from 'react'
 import { useRef } from 'react'
 
 export interface TableProps {
@@ -22,6 +22,7 @@ export interface TableProps {
   rowSelection?: any,
   selectedRowIds?: Array<string>,
   showTop?: boolean,
+  scrollContainerRef: MutableRefObject<HTMLDivElement>
   isExportable?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
@@ -76,6 +77,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     exportFilename: 'export',
     backButton: null,
     onFilterChange: null,
+    scrollContainerRef: createRef(),
     onRowClick: () => false,
     onRowSelect: (selection) => false,
     onReorder: null,
