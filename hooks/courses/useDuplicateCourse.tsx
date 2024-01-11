@@ -6,6 +6,7 @@ import cache from "../../graphql/cache"
 import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";
 import { GET_COURSES } from "../../graphql/queries/courses/courses";
+import { GET_CURRENT_USER } from "../../graphql/queries/users";
 
 function useDuplicateCourse() {
 
@@ -18,7 +19,11 @@ function useDuplicateCourse() {
       fragment: ContentFragment,
       fragmentName: 'ContentFragment',
     });
-
+    
+    const userData = cache.readQuery({
+      query: GET_CURRENT_USER      
+    });
+    
     duplicateCourseMutation({
       variables: { 
         id
@@ -37,6 +42,7 @@ function useDuplicateCourse() {
       },
 
       update(cache, { data: { duplicateCourse } }) {
+
         const cachedData = cache.readQuery<GetCurrentUser>({
           query: GET_COURSES
         })
@@ -63,7 +69,7 @@ function useDuplicateCourse() {
               edges: [
                 {
                   ...userContentEdgeDefaults,
-                  userId: cachedData.user.id,
+                  userId: userData.user.id,
                   node: {
                     ...course,
                     ...duplicateCourse.contentItem,
