@@ -23,6 +23,9 @@ export const GET_COURSES = gql`
           itemType
           shared
           prerequisites
+          settings
+          createdAt
+          updatedAt
           image {
             location
             id

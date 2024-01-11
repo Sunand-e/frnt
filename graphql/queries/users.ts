@@ -288,28 +288,6 @@ export const GET_USERS = gql`
   ${UserFragment}
 `
 
-export const GET_USER_PATHWAYS = gql`
-  query GetUserPathways($id: ID) {
-    user(id: $id) {
-      pathways {
-        ...UserContentConnectionFragment
-      }
-    }
-  }
-  ${UserContentConnectionFragment}
-`
-
-export const GET_USER_RESOURCES = gql`
-  query GetUserResources($id: ID) {
-    user(id: $id) {
-      resources {
-        ...UserContentConnectionFragment
-      }
-    }
-  }
-  ${UserContentConnectionFragment}
-`
-
 export const GET_USER_COURSE = gql`
   query GetUserCourse($courseFilter: JSON, $lessonSectionFilter: JSON) {
     user {
