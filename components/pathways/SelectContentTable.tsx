@@ -5,16 +5,19 @@ import TagSelect from '../tags/inputs/TagSelect';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { GraduationCap } from '@styled-icons/fa-solid/GraduationCap';
 import { usePathwayStore } from './usePathwayStore';
+import { useModalStore } from '../../stores/modalStore';
 
 const SelectContentTable = ({
   contentItems, 
   typeName, 
   onRowClick,
   loading,
-  error
+  error,
+  isInModal = false
 }) => {
 
   const items = usePathwayStore(state => state.items)
+  const { modalRef } = useModalStore()
   
   const [ categoryId, setCategoryId ] = useState(null)
 
@@ -30,7 +33,7 @@ const SelectContentTable = ({
       
       if(categoryId) {
         data = data?.filter(item => {
-          return item?.tags?.some(tag => tag.id === categoryId)
+          return item?.tags?.edges.some(edge => edge.node.id === categoryId)
         })
       }
 
@@ -63,7 +66,8 @@ const SelectContentTable = ({
   const tableProps = {
     tableData,
     tableCols,
-    selectable: true
+    selectable: true,
+    ...(isInModal && { scrollContainerRef: modalRef })
   }
 
   return (

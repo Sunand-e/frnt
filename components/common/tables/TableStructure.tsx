@@ -68,13 +68,16 @@ const TableStructure = ({ table }: TableStructureProps) => {
   //   setColWidths(ths.map(th => th.offsetWidth));
   // },[])
   
+  const scrollContainerRef = useTableContext(s => s.scrollContainerRef)
   const mainScrollableRef = useViewStore(state => state.mainScrollableRef)
+
+  const scrollContainer = scrollContainerRef.current || mainScrollableRef.current
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
   const tBodyRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   const virtualizer = useVirtualizer({
-    getScrollElement: () => mainScrollableRef.current,
+    getScrollElement: () => scrollContainer,
     // getScrollElement: () => tBodyRef.current,
     count: rows.length,
     estimateSize: () => 75,
