@@ -7,7 +7,7 @@ const ColorPickerInput = ({
   clearOrReset='clear',
   defaultValue='',
   label=null,
-  showAlpha=true
+  showAlpha=false
 }) => {
   
   const {
@@ -23,6 +23,7 @@ const ColorPickerInput = ({
       onChange={field.onChange}
       clearOrReset={clearOrReset}
       defaultValue={defaultValue}
+      showAlpha={showAlpha}
     />
   )
 }

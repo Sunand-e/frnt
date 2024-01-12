@@ -23,19 +23,22 @@ import {
 const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
 
   const [swatches, setSwatches] = useState([])
-  const handleChange = ({value}) => onChange(value)
+  const handleChange = ({value}) => {
+    onChange(value)
+  }
   
   return (
-    <ColorPicker defaultValue={color || 'hsla(0, 0%, 0%, 1)'} onChange={handleChange}>
+    <ColorPicker defaultValue={'hsla(0, 0%, 0%, 1)'} onChange={handleChange}>
       {(api) => {
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels
+        console.log(saturation, lightness)
         return (
           <ColorPickerContent className="rounded-lg w-[266px] mb-1">
             <output>
               <ColorPickerSwatch value={api.value} readOnly />
             </output>
-            <ColorPickerArea xChannel={saturation} yChannel={lightness} className="h-[266px]">
+            <ColorPicker.Area xChannel={saturation} yChannel={lightness} className="h-[266px]">
               <ColorPickerAreaGradient className="h-full"/>
               <ColorPickerAreaThumb 
                 className="h-4 w-4"
@@ -47,7 +50,7 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                   zIndex: 1
                 }}
               />
-            </ColorPickerArea>
+            </ColorPicker.Area>
             <div className="flex flex-col space-y-2 pt-4 overflow-visible">
               <div className="flex space-x-4  overflow-visible">
                 <ColorPickerEyeDropperTrigger><ColorPickerIcon className="w-8"/></ColorPickerEyeDropperTrigger>
