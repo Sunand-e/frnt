@@ -2,28 +2,23 @@ import { useMutation } from "@apollo/client"
 import { CREATE_PATHWAY } from "../../graphql/mutations/pathway/CREATE_PATHWAY";
 import { CreatePathway, CreatePathwayVariables } from "../../graphql/mutations/pathway/__generated__/CreatePathway";
 import { GET_PATHWAYS } from "../../graphql/queries/allQueries";
-import { GetPathways } from "../../graphql/queries/__generated__/GetPathways";
 import { contentItemDefaults } from "../contentItems/contentItemDefaults";
 import useGetCurrentUser from "../users/useGetCurrentUser";
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";
 
 function useCreatePathway() {
-  
+
   const { user } = useGetCurrentUser()
 
   const [createPathwayMutation, createPathwayResponse] = useMutation<CreatePathway, CreatePathwayVariables>(
     CREATE_PATHWAY,
     {
-      update(cache, { data: { createPathway } } ) {
-        console.log('createPathway')
-        console.log(createPathway)
+      update(cache, { data: { createPathway } }) {
         cache.updateQuery({ query: GET_PATHWAYS }, (data) => {
-          console.log('data')
-          console.log(data)
-          
+
           const newEdge = {
             ...userContentEdgeDefaults,
-            userId: user.id,            
+            userId: user.id,
             node: {
               ...contentItemDefaults,
               ...createPathway.pathway,
@@ -38,16 +33,15 @@ function useCreatePathway() {
               edges: [newEdge, ...data.pathways.edges]
             }
           }
-          console.log('newData')
-          console.log(newData)
           return newData
         }
-      )}
+        )
+      }
     }
   );
 
-  const createPathway = (values, cb=null) => {
-    createPathwayMutation({ 
+  const createPathway = (values, cb = null) => {
+    createPathwayMutation({
       variables: values,
       optimisticResponse: {
         createPathway: {
