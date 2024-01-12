@@ -12,6 +12,8 @@ import useCreatePathway from '../../../hooks/pathways/useCreatePathway'
 import useHeaderButtons from "../../../hooks/useHeaderButtons";
 import { closeModal, handleModal } from '../../../stores/modalStore'
 import ButtonBack from '../../../components/common/ButtonBack'
+import TagSelectInput from '../../../components/tags/inputs/TagSelectInput'
+import useGetPathways from '../../../hooks/pathways/useGetPathways'
 
 const AdminPathwaySetup = () => {
   /*
@@ -21,6 +23,7 @@ const AdminPathwaySetup = () => {
   const router = useRouter()
    
   const { createPathway } = useCreatePathway()
+  const { pathways } = useGetPathways()
 
   usePageTitle({ 
     title: "New pathway"
@@ -90,7 +93,12 @@ const AdminPathwaySetup = () => {
           name="imageId"
           // inputAttrs={register("image", { required: true })}
         />
-        <SelectInput
+        <TagSelectInput
+          control={control}
+          tagType="category"
+          label="Categories"
+        />
+        {/* <SelectInput
           label="Pathway access type"
           options={[
             {
@@ -107,20 +115,20 @@ const AdminPathwaySetup = () => {
             },
           ]}
           inputAttrs={register("accessType")}
-        />
-        <TextInput
+        /> */}
+        {/* <TextInput
           label="Pathway price"
           placeholder="Untitled pathway"
           inputAttrs={register("pathwayPrice")}
-        />
-        <CheckboxInput
+        /> */}
+        {/* <CheckboxInput
           label="Enable prerequisites"
           inputAttrs={register("enablePrerequisites")}
-        />
-        <CheckboxInput
+        /> */}
+        {/* <CheckboxInput
           label="Disable course progression"
           inputAttrs={register("disableProgression")}
-        />
+        /> */}
         <Button type="submit">Pathway Builder</Button>
         {/* <p className='text-lg font-bold mt-4'>Create your first pathway item:</p>
         <AddItemToPathwayForm sectionId={123} /> */}
