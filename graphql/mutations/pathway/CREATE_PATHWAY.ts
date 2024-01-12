@@ -28,6 +28,8 @@ export const CREATE_PATHWAY = gql`
     ) {
       pathway {
         id
+        title
+        itemType
       }
     }
   }
