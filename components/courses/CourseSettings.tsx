@@ -78,15 +78,16 @@ const CourseSettings = ({options={}}) => {
   useEffect(() => {
     const subscription = watch((data, options) => {
       if(options.type === 'change') {
+        const { image, ...saveData } = data
         switch(options.name) {
           case 'title':
           case 'content.description':
           case 'settings.passMark': {
-            debouncedUpdate(data)
+            debouncedUpdate(saveData)
             break;
           }
           default: {
-            updateCourse(data)
+            updateCourse(saveData)
           }
         }
       }
@@ -115,10 +116,11 @@ const CourseSettings = ({options={}}) => {
     })
   }
 
-  const [isScored, fpEnabled, fpBgImageEnabled] = watch([
+  const [isScored, fpEnabled, fpBgImageEnabled, fpOverlayColor] = watch([
     'settings.isScored',
     'settings.frontPage.enabled',
-    'settings.frontPage.bgImageEnabled'
+    'settings.frontPage.bgImageEnabled',
+    'settings.frontPage.overlayColor',
   ]);
   
   return (
@@ -159,11 +161,12 @@ const CourseSettings = ({options={}}) => {
           />
           { fpBgImageEnabled ? (
             <>
+            {fpOverlayColor}
               <ColorPickerInput
                 label="Overlay color"
                 name='settings.frontPage.overlayColor'
                 clearOrReset='reset'
-                defaultValue='rgba(0,0,0,0.5)'
+                defaultValue='hsla(0, 0%, 0%, 0.5)'
                 control={control}
                 showAlpha={true}
               />
