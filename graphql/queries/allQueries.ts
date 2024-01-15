@@ -223,6 +223,7 @@ export const GET_RESOURCES = gql`
     resources {
       edges {
         cursor
+        userId
         node {
           ...ResourceFragment
         }
@@ -246,6 +247,7 @@ export const GET_PATHWAYS = gql`
   query GetPathways {
     pathways {
       edges {
+        userId
         node {
           ...PathwayFragment
         }
@@ -268,6 +270,7 @@ export const GET_QUIZZES = gql`
   query GetQuizzes {
     quizzes {
       edges {
+        userId
         node {
           ...QuizFragment
         }
