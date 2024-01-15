@@ -1,10 +1,8 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
-import Table from "../../common/tables/Table";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
-import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent";
-import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
+import Table from "../../common/tables/Table";
 import UserPathwayActionsMenu from "./UserPathwayActionsMenu";
 
 const UserPathwaysTable = () => {
@@ -14,32 +12,6 @@ const UserPathwaysTable = () => {
 
   const { loading, error, user } = useGetUser(id)
 
-  const {enrolUsersInContent} = useEnrolUsersInContent()
-  const {unenrolUserFromContent} = useUnenrolUserFromContent()
-
-  const handleChangeRole = useCallback((content, role) => {
-    if(!user?.id) {
-      return false
-    }
-    enrolUsersInContent({
-      userIds: [user.id],
-      contentItemIds: [content.node.id],
-      roleId: role.id
-    })
-  }, [user])
-
-  const handleUnenrol = useCallback((content, role) => {
-    if(!user?.id) {
-      return false
-    }
-    unenrolUserFromContent({
-      userId: user.id,
-      contentItemId: content.node.id,
-    })
-  }, [user])
-
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
       return user?.pathways.edges.filter(edge => (
@@ -52,6 +24,7 @@ const UserPathwaysTable = () => {
     },
     [user]
   );
+
   const tableCols = useMemo(() => {
     return [
       {
@@ -67,16 +40,6 @@ const UserPathwaysTable = () => {
           )
         }
       },
-      // {
-      //   header: "Role",
-      //   cell: ({ cell }) => {
-      //     const content = cell.row.original;
-      //     const handleChange = role => handleChangeRole(content, role);
-      //     return (
-      //       <UserRoleSelectCell onChange={handleChange} cell={cell} roleType={'content_item_role'} />
-      //     )
-      //   }
-      // },
       {
         id: "AssignmentStatus",
         header: "Status",
