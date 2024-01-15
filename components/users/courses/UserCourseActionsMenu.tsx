@@ -4,22 +4,6 @@ import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUse
 
 const UserCourseActionsMenu = ({user, course}) => {
 
-  const reportsUrl = '/admin/courses/edit'
-  
-  
-  // const {enrolUsersInContent} = useEnrolUsersInContent()
-
-  // const handleChangeRole = useCallback((content, role) => {
-  //   if(!user?.id) {
-  //     return false
-  //   }
-  //   enrolUsersInContent({
-  //     userIds: [user.id],
-  //     contentItemIds: [content.node.id],
-  //     roleId: role.id
-  //   })
-  // }, [user])
-  
   const { unenrolUserFromContent } = useUnenrolUserFromContent()
   
   const handleUnenrol = useCallback((content, role) => {
@@ -43,7 +27,6 @@ const UserCourseActionsMenu = ({user, course}) => {
       },
       capability: 'EnrolUsersInContent'
     }]:[]),
-    // { title: 'Settings', href:'settings' },
   ]
   return (
     <ActionsMenu
