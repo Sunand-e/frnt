@@ -10,18 +10,24 @@ import useConfirmDelete from '../../../hooks/useConfirmDelete';
 
 const QuizStructureEditor = () => {
   const questions = useQuizStore(state => state.questions)
+
   const handleAddQuestion = () => {
     const id = uuidv4()
     const newQuestion: Question = {
       id,
       questionType: 'single',
       content: '',
-      answers: [],
-      settings: {}
+      answers: [
+        {
+          id: uuidv4(),
+          content: "",
+          correct: true,
+        }
+      ],
     }
-
+        
     useQuizStore.setState(state => ({
-      questions: [ ...state.questions, newQuestion],
+      questions: [...state.questions, newQuestion],
       activeQuestionId: id,
       isDirty: true
     }))
@@ -33,10 +39,10 @@ const QuizStructureEditor = () => {
     const { confirmDelete } = useConfirmDelete({
       itemType: 'question',
       onConfirm: () => {
-        useQuizStore.setState(({questions}) => ({
+        useQuizStore.setState(({ questions }) => ({
           questions: questions.filter(q => q.id !== question.id),
           isDirty: true
-        }))    
+        }))
       }
     })
     confirmDelete(question)
@@ -47,7 +53,7 @@ const QuizStructureEditor = () => {
     useEditorViewStore.setState({
       activeSettingsPanel: 'question',
     })
-    useQuizStore.setState({activeQuestionId: id})
+    useQuizStore.setState({ activeQuestionId: id })
   }
 
   function handleDragEnd(event) {
@@ -61,7 +67,7 @@ const QuizStructureEditor = () => {
       }))
     }
   }
-  
+
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
@@ -75,33 +81,32 @@ const QuizStructureEditor = () => {
 
   return questions && (
     <div className='h-full flex flex-col'>
-    <div
-      className="scrollbar-thin -mr-3 pr-3 scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto"
-    >
-      <DndContext
-        onDragEnd={handleDragEnd}
-        sensors={sensors}
-        modifiers={[restrictToVerticalAxis]}
+      <div
+        className="scrollbar-thin -mr-3 pr-3 scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-x-auto"
       >
-      <SortableContext items={questions} strategy={verticalListSortingStrategy}>
-      {questions.map((question, index) => (
-        <SortableQuestion
-          onSelect={handleSelect}
-          key={question.id}
-          question={question}
-          index={index}
-          onRemove={handleRemoveQuestion}
-        />
-      ))}
-      </SortableContext>
-    
-      </DndContext>
+        <DndContext
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
+          modifiers={[restrictToVerticalAxis]}
+        >
+          <SortableContext items={questions} strategy={verticalListSortingStrategy}>
+            {questions.map((question, index) => (
+              <SortableQuestion
+                onSelect={handleSelect}
+                key={question.id}
+                question={question}
+                index={index}
+                onRemove={handleRemoveQuestion}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      </div>
+
+      <button onClick={handleAddQuestion} className="text-main hover:font-bold p-3 pb-0 border-main border-t">
+        + Add question
+      </button>
     </div>
-    
-    <button onClick={handleAddQuestion} className="text-main hover:font-bold p-3 pb-0 border-main border-t">
-    + Add question
-  </button>
-  </div>
   )
 }
 
