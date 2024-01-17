@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
+import { UserQuizAttemptsFragment } from './quizzes';
 import { TagFragment } from './tags';
 
 export const UserFragment = gql`
@@ -341,6 +342,7 @@ export const GET_USER_COURSE = gql`
     quizzes(where: $lessonSectionFilter) {
       ...UserContentConnectionFragment
       edges {
+        ...UserQuizAttemptsFragment
         node {
           ...QuizFragment
         }
@@ -348,6 +350,7 @@ export const GET_USER_COURSE = gql`
     }
   }
   ${UserContentConnectionFragment}
+  ${UserQuizAttemptsFragment}
   ${CourseFragment}
   ${QuizFragment}
 `

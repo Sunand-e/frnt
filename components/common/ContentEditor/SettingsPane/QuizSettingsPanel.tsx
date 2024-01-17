@@ -150,8 +150,6 @@ export const QuizSettingsPanel = () => {
             label={'Limit number of questions'}
           />
           { limitQuestions && (
-            <>
-            {questions.length}
             <TextInput
               label="Number of questions to show"
               type="number"
@@ -163,7 +161,6 @@ export const QuizSettingsPanel = () => {
                 max: questions.length
               }}
             />
-            </>
           )}
         </>
       )}
@@ -174,7 +171,7 @@ export const QuizSettingsPanel = () => {
       />
       { limitAttempts && (
         <TextInput
-          label="Max. number of attempts"
+          label="Max. number of attempts:"
           type="number"
           inputAttrs={{
             ...register("settings.attemptLimit", {

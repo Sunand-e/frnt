@@ -105,6 +105,9 @@ export const QuestionFragment = gql`
 export const QuizFragment = gql`
   fragment QuizFragment on ContentItem {
     ...ContentFragment
+    parents {
+      id
+    }
     questions {
       ...QuestionFragment
     }
