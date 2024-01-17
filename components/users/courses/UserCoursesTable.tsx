@@ -1,9 +1,8 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
-import Table from "../../common/tables/Table";
 import { useRouter } from '../../../utils/router';
-import Button from "../../common/Button";
 import ItemWithImage from "../../common/cells/ItemWithImage";
+import Table from "../../common/tables/Table";
 import UserCourseActionsMenu from "./UserCourseActionsMenu";
 
 const UserCoursesTable = () => {
@@ -12,9 +11,20 @@ const UserCoursesTable = () => {
   const { id } = router.query
 
   const { loading, error, user } = useGetUser(id)
+  
+  // const {enrolUsersInContent} = useEnrolUsersInContent()
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
+  // const handleChangeRole = useCallback((content, role) => {
+  //   if(!user?.id) {
+  //     return false
+  //   }
+  //   enrolUsersInContent({
+  //     userIds: [user.id],
+  //     contentItemIds: [content.node.id],
+  //     roleId: role.id
+  //   })
+  // }, [user])
+  
   const tableData = useMemo(
     () => {
       return user?.courses.edges.filter(edge => (
@@ -32,7 +42,7 @@ const UserCoursesTable = () => {
     return [
       {
         header: "Course",
-        accessorFn: row => row.node.title, // accessor is the key in the data
+        accessorFn: row => row.node.title,
         cell: ({ cell }) => {
           const course = cell.row.original.node;
           return (

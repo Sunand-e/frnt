@@ -7,6 +7,7 @@ export const userContentEdgeDefaults = {
   visits: 0,
   completed: false,
   contentType: null,
+  itemType: null,
   groups: [],
   createdAt: null,
   updatedAt: null,

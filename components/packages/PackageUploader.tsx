@@ -8,7 +8,12 @@ const PackageUploader = () => {
   const dropZoneContent = (
     <p>Drag and drop a SCORM zip archive here, or click this box to select from your computer</p>
   )
-  const accept = [ 'application/zip', 'application/x-zip-compressed', 'multipart/x-zip' ]
+  const accept = {
+    'application/zip': ['.zip'],
+    'application/x-zip-compressed': ['.zip'],
+    'multipart/x-zip': ['.zip'],
+  };
+  
   const fileParameterName = 'document'
   const additionalParams = {
     content_type: 'scorm'

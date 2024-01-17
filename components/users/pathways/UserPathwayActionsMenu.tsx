@@ -27,7 +27,6 @@ const UserPathwayActionsMenu = ({user, pathway}) => {
       },
       capability: 'EnrolUsersInContent'
     }]:[]),
-    // { title: 'Settings', href:'settings' },
   ]
   return (
     <ActionsMenu

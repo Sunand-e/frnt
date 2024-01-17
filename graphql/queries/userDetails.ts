@@ -60,6 +60,7 @@ export const UserCoursesGroupsFragment = gql`
     }
   }
   ${UserContentGroupsConnectionFragment}
+  ${UserContentEdgeFragment}
 `
 
 
@@ -147,6 +148,7 @@ export const GET_USERS = gql`
 export const GET_USER_COURSES = gql`
   query GetUserCourses($id: ID) {
     user(id: $id) {
+      id
       courses {
         ...UserContentGroupsConnectionFragment
       }
@@ -158,6 +160,7 @@ export const GET_USER_COURSES = gql`
 export const GET_USER_PATHWAYS = gql`
   query GetUserPathways($id: ID) {
     user(id: $id) {
+      id
       pathways {
         ...UserContentGroupsConnectionFragment
       }
@@ -169,6 +172,7 @@ export const GET_USER_PATHWAYS = gql`
 export const GET_USER_RESOURCES = gql`
   query GetUserResources($id: ID) {
     user(id: $id) {
+      id
       resources {
         ...UserContentGroupsConnectionFragment
       }

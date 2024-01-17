@@ -3,22 +3,6 @@ import { useCallback } from "react"
 import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent"
 
 const UserResourceActionsMenu = ({user, resource}) => {
-
-  const reportsUrl = '/admin/resources/edit'
-  
-  
-  // const {enrolUsersInContent} = useEnrolUsersInContent()
-
-  // const handleChangeRole = useCallback((content, role) => {
-  //   if(!user?.id) {
-  //     return false
-  //   }
-  //   enrolUsersInContent({
-  //     userIds: [user.id],
-  //     contentItemIds: [content.node.id],
-  //     roleId: role.id
-  //   })
-  // }, [user])
   
   const { unenrolUserFromContent } = useUnenrolUserFromContent()
   
@@ -43,7 +27,6 @@ const UserResourceActionsMenu = ({user, resource}) => {
       },
       capability: 'EnrolUsersInContent'
     }]:[]),
-    // { title: 'Settings', href:'settings' },
   ]
   return (
     <ActionsMenu
