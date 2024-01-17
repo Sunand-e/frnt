@@ -30,9 +30,9 @@ const NewItemButton = ({container: containerId}) => {
         className={`text-main opacity-0 max-w-screen-lg items-center group-hover:opacity-100 w-full ${true && 'opacity-100'}`}
       >
         <div className={`
-          flex items-center py-2 h-10 justify-center
+          flex items-center py-2 h-12 justify-center
         `}>
-          <PlusCircle className={`px-4 w-14`} />
+          <PlusCircle className={`px-3 w-14`} />
         </div>
       </div>
     </Tippy>
