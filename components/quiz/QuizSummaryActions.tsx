@@ -3,6 +3,7 @@ import { RestartAlt } from '@styled-icons/material-rounded/RestartAlt';
 import { QuizFragment } from '../../graphql/queries/allQueries';
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
 import useGetUserQuizAttempts from '../../hooks/quizzes/useGetUserQuizAttempts';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { useRouter } from "../../utils/router";
 import Button from "../common/Button";
 
@@ -12,7 +13,8 @@ function QuizSummaryActions() {
   const { id, cid: quizId } = router.query
   
   const { createUserQuizAttempt } = useCreateUserQuizAttempt()
-  
+  const { userHasCapability } = useUserHasCapability()
+
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
@@ -30,7 +32,7 @@ function QuizSummaryActions() {
     })
   }
 
-  const disabled = limitAttempts && (attempts.length >= attemptLimit)
+  const disabled = limitAttempts && (attempts.length >= attemptLimit) && !userHasCapability('AttemptQuizzesIndefinitely')
   return (
     <div>
       { !disabled && (
