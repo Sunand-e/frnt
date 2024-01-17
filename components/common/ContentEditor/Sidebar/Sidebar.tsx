@@ -9,6 +9,7 @@ import { moduleTypes } from "../../../courses/moduleTypes";
 import CourseSidebarHeader from "../../../courses/CourseSidebarHeader";
 import { useEditorViewStore } from "../useEditorViewStore";
 import { sidebarPanels } from "./sidebarPanels";
+import classNames from "../../../../utils/classNames";
 
 const TabContainer = styled(motion.div)`
   overflow-y: hidden;
@@ -128,7 +129,10 @@ export const Sidebar = () => {
               <TabItem
                 key={panel}
                 // isActive={panel === activeSidebarPanel}
-                className={`${panel === activeSidebarPanel ? "text-main" : "text-main-secondary"}`}
+                className={classNames(
+                  `${panel === activeSidebarPanel ? "text-main" : "text-main-secondary"}`,
+                  'text-sm'
+                )}
                 whileHover={{ backgroundColor: "#f1f3f5" }}
                 transition={{ duration: 0.1 }}
                 whileTap={{ backgroundColor: "#e9ecef" }}
