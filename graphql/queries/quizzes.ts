@@ -10,17 +10,21 @@ export const UserQuizAttemptFragment = gql`
     completedAt
     status
     score
-    # contentItem {
-    #   id
-    # }
-    # user {
-    #   id
-    # }
     userQuestionAttempts {
       ...UserQuestionAttemptFragment
     }
   }
   ${UserQuestionAttemptFragment}
+`
+
+
+export const UserQuizAttemptsFragment = gql`
+  fragment UserQuizAttemptsFragment on UserContentEdge {
+    attempts {
+      ...UserQuizAttemptFragment
+    }
+  }
+  ${UserQuizAttemptFragment}
 `
 
 export const CREATE_USER_QUIZ_ATTEMPT = gql`
@@ -74,5 +78,25 @@ export const GET_LATEST_USER_QUIZ_ATTEMPT = gql`
       ...UserQuizAttemptFragment
     }
   }
+  ${UserQuizAttemptFragment}
+`
+
+export const GET_USER_QUIZ_ATTEMPTS = gql`
+  query GetUserQuizAttempts(
+    $where: JSON
+  ) {
+    quizzes(where: $where) {
+      edges {
+        node {
+          id
+        }
+        userId,
+        attempts {
+        ...UserQuizAttemptFragment
+        }
+      }
+    }
+  }
+  
   ${UserQuizAttemptFragment}
 `

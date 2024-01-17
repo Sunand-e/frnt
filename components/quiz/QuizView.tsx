@@ -1,19 +1,15 @@
-import { useFragment_experimental, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useFragment_experimental } from "@apollo/client";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
-import { useRouter } from "../../utils/router";
-import { useQuizStore } from "./useQuizStore"
-import QuestionView from "./questions/QuestionView";
-import QuizProgress from "./QuizProgress";
 import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt";
-import QuizSummary from "./QuizSummary";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
-import { AnimatePresence, motion } from "framer-motion";
-import { GetLatestUserQuizAttemptQuery, UserQuizAttempt } from "../../graphql/generated";
-import { GetLatestScoAttempt } from "../../graphql/queries/__generated__/GetLatestScoAttempt";
-import PrevNextButtons from "../courses/CourseView/PrevNextButtons";
+import { useRouter } from "../../utils/router";
+import QuestionView from "./questions/QuestionView";
+import QuizSummary from "./QuizSummary";
+import { useQuizStore } from "./useQuizStore";
 
 function QuizView() {
 
@@ -25,7 +21,6 @@ function QuizView() {
   const {updateUserContentStatus} = useUpdateUserContentStatus()
 
   const { loading, data, error } = useGetLatestQuizAttempt({quizId})
-  // const [quizAttempt, setQuizAttempt] = useState<UserQuizAttempt>()
 
   const { data: quiz } = useFragment_experimental({
     fragment: QuizFragment,
@@ -44,7 +39,7 @@ function QuizView() {
       }
     }
   }, [data, quizId]);
-
+  
   useEffect(() => {
     // Check if the quiz attempt is not set and the latestUserQuizAttempt data is available
     if (data?.latestUserQuizAttempt) {
@@ -76,7 +71,6 @@ function QuizView() {
       updateUserContentStatus({
         contentItemId: quizId,
         progress: 100,
-        // score: 100,
         status: 'completed'
       })
       

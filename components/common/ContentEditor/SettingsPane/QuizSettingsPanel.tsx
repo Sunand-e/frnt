@@ -20,6 +20,8 @@ interface QuizFormValues {
     questionCount?: number
     hasCertificate?: boolean
     limitQuestions?: boolean
+    attemptLimit?: number,
+    limitAttempts?: boolean,
   }
 }
 
@@ -41,7 +43,9 @@ export const QuizSettingsPanel = () => {
     settings: {
       passMark: 80,
       limitQuestions: false,
-      questionCount: questions.length,
+      attemptLimit: 3,
+      limitAttempts: false,
+      questionCount: questions.length || 10,
       feedback: 'afterQuestion',
       ...quiz.settings
     }
@@ -59,6 +63,7 @@ export const QuizSettingsPanel = () => {
   },[watch])
 
   const limitQuestions = watch('settings.limitQuestions')
+  const limitAttempts = watch('settings.limitAttempts')
 
   const addQuestionsFromSimpleJSON = (json) => {
     const newQuestions = json.map(question => ({
@@ -145,6 +150,8 @@ export const QuizSettingsPanel = () => {
             label={'Limit number of questions'}
           />
           { limitQuestions && (
+            <>
+            {questions.length}
             <TextInput
               label="Number of questions to show"
               type="number"
@@ -156,10 +163,27 @@ export const QuizSettingsPanel = () => {
                 max: questions.length
               }}
             />
+            </>
           )}
         </>
       )}
-
+      <SwitchInput
+        name={'settings.limitAttempts'}
+        control={control}
+        label={'Limit number of attempts'}
+      />
+      { limitAttempts && (
+        <TextInput
+          label="Max. number of attempts"
+          type="number"
+          inputAttrs={{
+            ...register("settings.attemptLimit", {
+              valueAsNumber: true
+            }),
+            min: 1
+          }}
+        />
+      )}
       {/* <SwitchInput
         name={'settings.randomiseQuestions'}
         control={control}
@@ -180,7 +204,7 @@ export const QuizSettingsPanel = () => {
           }
         ]}
       />
-      { userHasCapability('AICreateQuiz') && (
+      {/* { userHasCapability('AICreateQuiz') && (
         <AICreateQuizForm onResponse={handleResponse} />
       )}
 
@@ -195,7 +219,7 @@ export const QuizSettingsPanel = () => {
           onDrop={handleDropQuestionsJsonFile}
         />
       </div>
-      )}
+      )} */}
     </div>
   )
 }

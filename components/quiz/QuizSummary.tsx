@@ -7,6 +7,7 @@ import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttem
 import { useFragment_experimental } from "@apollo/client";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import PrevNextButtons from "../courses/CourseView/PrevNextButtons";
+import QuizSummaryActions from "./QuizSummaryActions";
 function QuizSummary() {
 
   const router = useRouter()
@@ -38,40 +39,33 @@ function QuizSummary() {
   }
 
   return (
-        <div className="max-w-screen-lg w-full text-center">
-          <h2 className="mb-6 text-main text-3xl">
-            {'Quiz complete'}
-          </h2>
-          {quizAttempt && (
-            <>
-              <h4 className="mb-3 text-main text-2xl">
-                { quizAttempt.status === 'passed' ? (
-                  'Congratulations, you passed!'
-                  ) : (
-                    <>
-                    You failed the quiz.
-                    { quiz.settings.passMark && `You need to score ${quiz.settings.passMark}% to pass.`}
-                    </>
-                  )
-                }
-              </h4>
-              <h4 className="mb-3 text-main text-xl">
-                Your score: <strong>{quizAttempt.score}%</strong>
-              </h4>
-            </>
-          )}
-          <div>
-            <Button onClick={startNewAttempt} className="mb-6">
-            <span className="flex items-center xl:space-x-2 ">
-              <RestartAlt width={26}/>
-              Start New Attempt
-            </span>
-            </Button>
-          </div>
-          <PrevNextButtons
-            showPrevious={false}
-          />
-      </div>
+    <div className="max-w-screen-lg w-full text-center">
+      <h2 className="mb-6 text-main text-3xl">
+        {'Quiz complete'}
+      </h2>
+      {quizAttempt && (
+        <>
+          <h4 className="mb-3 text-main text-2xl">
+            { quizAttempt.status === 'passed' ? (
+              'Congratulations, you passed!'
+              ) : (
+                <>
+                You failed the quiz.
+                { quiz.settings.passMark && `You need to score ${quiz.settings.passMark}% to pass.`}
+                </>
+              )
+            }
+          </h4>
+          <h4 className="mb-3 text-main text-xl">
+            Your score: <strong>{quizAttempt.score}%</strong>
+          </h4>
+        </>
+      )}
+      <QuizSummaryActions/>
+      <PrevNextButtons
+        showPrevious={false}
+      />
+    </div>
   )
 }
 
