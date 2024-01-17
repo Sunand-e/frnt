@@ -13,6 +13,7 @@ const OptionContainer = ({option, disabled=false, question=null, onChange, onSel
 
   const contentRef = useRef(option.content)
   const isEditMode = useQuizStore(state => state.isEditMode)
+  const isOnlyAnswer = question.answers.length === 1
 
   const handleChange = useCallback((content) => {
     if(onChange) onChange(option, content)
@@ -34,7 +35,7 @@ const OptionContainer = ({option, disabled=false, question=null, onChange, onSel
             editable={isEditMode}
           />
         </ConditionalLabelWrapper>
-        { isEditMode && onRemove && (
+        { isEditMode && !isOnlyAnswer && onRemove && (
           <button onClick={() => onRemove(option)}
             className="opacity-0 group-hover/option:opacity-100 hover:text-red-600">
             <Trash
