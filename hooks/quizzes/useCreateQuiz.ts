@@ -55,6 +55,7 @@ function useCreateQuiz(sectionId) {
 
             const newEdge = {
               ...userContentEdgeDefaults,
+              attempts: [],
               userId: user.id,            
               node: {
                 ...userContentEdgeDefaults.node,
@@ -88,8 +89,8 @@ function useCreateQuiz(sectionId) {
       variables: {
         ...values,
         settings: {
+          passMark: 80,
           ...values.settings,
-          passMark: 80
         },
         parentIds: [sectionId]
       },
@@ -101,6 +102,7 @@ function useCreateQuiz(sectionId) {
             id: 'temp-' + Math.floor(Math.random() * 10000),
             itemType: 'quiz',
             questions: [],
+            _isOptimistic: true,
             ...values
           },
           message: ''
