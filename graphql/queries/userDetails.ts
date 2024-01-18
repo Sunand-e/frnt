@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
 import { TagFragment } from './tags';
-import { UserContentEdgeFragment, UserFragment, UserGroupsFragment } from './users';
+import { UserContentEdgeFragment, UserFragment } from './users';
 
 export const UserContentGroupsConnectionFragment = gql`
   fragment UserContentGroupsConnectionFragment on UserContentConnection {
@@ -97,6 +97,29 @@ export const UserCapabilitiesFragment = gql`
       capabilities {
         id
         name
+      }
+    }
+  }
+`
+
+export const UserGroupsFragment = gql`
+  fragment UserGroupsFragment on User {
+    groups {
+      totalCount
+      edges {
+        node {
+          id
+          name
+        }
+        roles {
+          id
+          name
+          roleType          
+          capabilities {
+            id
+            name
+          }      
+        }
       }
     }
   }
@@ -216,90 +239,5 @@ export const GET_USERS_COURSES_GROUPS = gql`
     }
   }
   ${UserFragment}
-  ${UserContentGroupsConnectionFragment}
-`
-
-
-export const GET_USER_COURSE = gql`
-  query GetUserCourse($courseFilter: JSON, $lessonSectionFilter: JSON) {
-    user {
-      id
-    }
-    courses(where: $courseFilter) {
-      ...UserContentGroupsConnectionFragment
-      edges {
-        node {
-          id
-          ...CourseFragment
-          sections {
-            id
-            title
-            _deleted @client
-            children {
-              title
-              contentType
-              itemType
-              __typename
-              _deleted @client
-              id
-            }
-          }
-        }
-      }
-    }
-    pathways {
-      ...UserContentGroupsConnectionFragment
-      edges {
-        node {
-          id
-          children {
-            id
-          }
-        }
-      }
-    }
-    sections(where: $lessonSectionFilter) {
-      ...UserContentGroupsConnectionFragment
-    }
-    lessons(where: $lessonSectionFilter) {
-      ...UserContentGroupsConnectionFragment
-    }
-    quizzes(where: $lessonSectionFilter) {
-      ...UserContentGroupsConnectionFragment
-      edges {
-        node {
-          ...QuizFragment
-        }
-      }
-    }
-  }
-  ${UserContentGroupsConnectionFragment}
-  ${CourseFragment}
-  ${QuizFragment}
-`
-
-export const GET_USER_PATHWAY = gql`
-  query GetUserPathway($courseResourceFilter: JSON, $pathwayFilter: JSON) {
-    user {
-      id
-      pathways(where: $pathwayFilter) {
-        ...UserContentGroupsConnectionFragment
-        edges {
-          node {
-            id
-            children {
-              id
-            }
-          }
-        }
-      }
-      courses(where: $courseResourceFilter) {
-        ...UserContentGroupsConnectionFragment
-      }
-      resources(where: $courseResourceFilter) {
-        ...UserContentGroupsConnectionFragment
-      }
-    }
-  }
   ${UserContentGroupsConnectionFragment}
 `
