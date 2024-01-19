@@ -5,6 +5,7 @@ loadEnvConfig(process.cwd())
 
 const config: CodegenConfig = {
   overwrite: true,
+  verbose: true,
   schema: [
     {
       'http://127.0.0.1/graphql': {
