@@ -4,10 +4,12 @@ import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { CreateCourse, CreateCourseVariables } from "../../graphql/mutations/course/__generated__/CreateCourse";
 import { contentItemDefaults } from "../contentItems/contentItemDefaults";
+import useGetCurrentUser from "../users/useGetCurrentUser";
 
 
 function useCreateCourse(cb) {
   
+  const { user } = useGetCurrentUser()
   const [createCourseMutation, createCourseResponse] = useMutation<CreateCourse, CreateCourseVariables>(
     CREATE_COURSE,
     {
@@ -22,7 +24,13 @@ function useCreateCourse(cb) {
             ...cachedData,
             courses: {
               ...cachedData.courses,
-              edges: [{node: createCourse.course}, ...cachedData.courses.edges]
+              edges: [
+                {
+                  userId: user.id,
+                  node: createCourse.course
+                },
+                ...cachedData.courses.edges
+              ]
             },
           }
         })
