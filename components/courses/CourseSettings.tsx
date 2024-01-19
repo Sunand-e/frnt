@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import useUpdateCourse from '../../hooks/courses/useUpdateCourse';
@@ -14,6 +14,7 @@ import ScoreFromModuleIdsInput from './inputs/ScoreFromModuleIdsInput';
 import FontFamilySelect from '../common/inputs/FontFamilySelect';
 import ColorPickerInput from '../common/ContentEditor/blocks/common/settings/inputs/ColorPickerInput';
 import { SwitchInput } from '../common/inputs/SwitchInput';
+import { TenantContext } from '../../context/TenantContext';
 
 interface CourseSettingsFormValues {
   title: string
@@ -23,10 +24,11 @@ interface CourseSettingsFormValues {
     description: JSON
   }
   settings: {
-    isScored: Boolean
+    isScored: boolean
     hasCertificate: JSON
     passMark: Number
     scoreFromModuleIds: Array<string>
+    showSendFeedbackButton: boolean
     frontPage: {
       enabled: boolean
       bgImageEnabled: boolean
@@ -47,6 +49,7 @@ const CourseSettings = ({options={}}) => {
   const router = useRouter()
   const { id } = router.query
 
+  const tenant = useContext(TenantContext)
   const { courseEdge } = useGetUserCourse(id)
   const course = courseEdge?.node
 
@@ -260,6 +263,13 @@ const CourseSettings = ({options={}}) => {
           onChange={font => updateFont(font, 'body')}
         />
       </label>
+      { tenant?.courses?.showSendFeedbackButtonCourseSetting && (
+        <CheckboxInput
+          label="Show 'Send feedback' button"
+          labelClassName='text-sm font-medium'
+          inputAttrs={register("settings.showSendFeedbackButton")}
+        />
+      )}
     </div>
   )
 }

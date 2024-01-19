@@ -26,6 +26,8 @@ interface TenantFormValues {
     }
   }
   pathwaysEnabled: boolean
+  showSendFeedbackButtonCourseSetting: boolean
+  showSendCourseFeedbackButton: boolean
 }
 
 const TenantForm = ({tenant=null, onSubmit}) => {
@@ -36,6 +38,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     url: tenant?.url,
     id: tenant?.id,
     pathwaysEnabled: tenant?.settings?.pathways?.enabled,
+    showSendFeedbackButtonCourseSetting: tenant?.settings?.courses?.showSendFeedbackButtonCourseSetting,
+    showSendCourseFeedbackButton: tenant?.settings?.courses?.showSendCourseFeedbackButton,
   }
   
   const endpoint = "/api/v1/tenant/update"
@@ -147,11 +151,20 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       />
       <hr></hr>
       <h2>Feature settings</h2>
+      <h3>Courses</h3>
+      <CheckboxInput
+        label="Show 'Allow users to send course feedback' course setting"
+        inputAttrs={register("showSendFeedbackButtonCourseSetting")}
+      />
+      <CheckboxInput
+        label="Show 'Send feedback' button if course setting is set to 'on'"
+        inputAttrs={register("showSendCourseFeedbackButton")}
+      />
       <h3>Pathways</h3>
       <CheckboxInput
-          label="Enable pathways"
-          inputAttrs={register("pathwaysEnabled")}
-        />
+        label="Enable pathways"
+        inputAttrs={register("pathwaysEnabled")}
+      />
       <Button type="submit">Submit</Button>
     </form>
   );

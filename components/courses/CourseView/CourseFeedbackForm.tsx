@@ -63,13 +63,11 @@ const CourseFeedbackForm = ({modal=false}) => {
     const radioInputAnswers = radioInputs.map((input, index) => (
       ` - ${input.label}: ${input.options[data['radio'+index]] || '-'}`
     )).join('\n')
-    const message = ` - Organisation: ${data.org || '-'}\n` + 
-      `${radioInputAnswers}\n` +
-      ` - Topics which need more coverage: ${data.org || '-'}\n` +
-      ` - Improvements: ${data.org || '-'}`
-
-    console.log('message')
-    console.log(message)
+    const message = `Organisation: ${data.organisation || '-'}\n\n` + 
+      `${radioInputAnswers}\n\n` +
+      `Topics which need more coverage: ${data.additionalTopics || '-'}\n\n` +
+      `Improvements: ${data.improvements || '-'}\n\n` +
+      `Additional feedback: ${data.otherComments || '-'}`
 
     await sendCourseFeedback({
       courseId: id,
@@ -114,7 +112,7 @@ const CourseFeedbackForm = ({modal=false}) => {
           label="Are there any topic(s) you would have liked additional content for?"
           placeholder="List topics the topics which you think need more coverage"
           inputAttrs={register("additionalTopics")}
-          />
+        />
         <TextAreaInput
           className="w-full"
           labelClassName="font-bold"
@@ -122,7 +120,13 @@ const CourseFeedbackForm = ({modal=false}) => {
           placeholder="Tell us how we can improve"
           inputAttrs={register("improvements")}
         />
-        {errors.message && <span role="alert">{errors.message.message}</span>}
+        <TextAreaInput
+          className="w-full"
+          labelClassName="font-bold"
+          label="Any other comments?"
+          placeholder="Additional feedback"
+          inputAttrs={register("otherComments")}
+        />
         <Button type="submit" className="flex-none">SUBMIT</Button>
       </form>
     </>

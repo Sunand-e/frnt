@@ -13,7 +13,9 @@ const TenantContext = createContext<Tenant>({})
 // class TenantContextProvider extends Component {
 const TenantContextProvider = ({children}) => {
 
-  const [tenant, setTenant] = useState({})
+  const [tenant, setTenant] = useState({
+    settings: {}
+  })
 
   // After initial render, apply the theme
   useEffect(() => {
