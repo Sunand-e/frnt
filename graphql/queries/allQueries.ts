@@ -226,7 +226,6 @@ export const GET_RESOURCES = gql`
   query GetResources {
     resources {
       edges {
-        cursor
         userId
         node {
           ...ResourceFragment

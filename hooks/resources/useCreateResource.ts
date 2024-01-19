@@ -5,10 +5,12 @@ import { GetResources } from "../../graphql/queries/__generated__/GetResources";
 import { CreateResource, CreateResourceVariables } from "../../graphql/mutations/resource/__generated__/CreateResource";
 import { useEffect, useState } from "react";
 import { contentItemDefaults } from "../contentItems/contentItemDefaults";
+import useGetCurrentUser from "../users/useGetCurrentUser";
 
 
 function useCreateResource() {
 
+  const { user } = useGetCurrentUser()
   const [createResourceMutation, createResourceResponse] = useMutation<CreateResource, CreateResourceVariables>(
     CREATE_RESOURCE,
     {
@@ -24,8 +26,15 @@ function useCreateResource() {
             ...cachedData,
             resources: {
               ...cachedData.resources,
-              edges: [{node: createResource.resource}, ...cachedData.resources.edges]
-            }            
+              edges: [
+                {
+                  __typename: "UserContentEdge",
+                  userId: user.id,
+                  node: createResource.resource
+                },
+                ...cachedData.resources.edges
+              ]
+            }
           }
         })
       },
