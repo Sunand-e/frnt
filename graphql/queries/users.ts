@@ -68,6 +68,7 @@ export const UserContentEdgeFragment = gql`
   }
   ${ContentFragment}
 `
+
 export const UserContentConnectionFragment = gql`
   fragment UserContentConnectionFragment on UserContentConnection {
     totalCount
@@ -79,82 +80,6 @@ export const UserContentConnectionFragment = gql`
     }
   }
   ${UserContentEdgeFragment}
-`
-
-export const UserCoursesFragment = gql`
-  fragment UserCoursesFragment on User {
-    courses {
-      ...UserContentConnectionFragment
-    }
-  }
-  ${UserContentConnectionFragment}
-`
-
-export const CurrentUserCoursesFragment = gql`
-  fragment CurrentUserCoursesFragment on Query {
-    courses(first:$limitContents) {
-      ...UserContentConnectionFragment
-    }
-  }
-  ${UserContentConnectionFragment}
-`
-
-export const UserPathwaysFragment = gql`
-  fragment UserPathwaysFragment on User {
-    pathways {
-      ...UserContentConnectionFragment
-    }
-  }
-  ${UserContentConnectionFragment}
-`
-
-export const CurrentUserPathwaysFragment = gql`
-  fragment CurrentUserPathwaysFragment on Query {
-    pathways {
-      ...UserContentConnectionFragment
-      edges {
-        node {
-          children {
-            __typename
-            id
-            title
-          }
-        }
-      }
-    }
-  }
-  ${ContentFragment}
-  ${UserContentConnectionFragment}
-`
-
-export const UserResourcesFragment = gql`
-  fragment UserResourcesFragment on User {
-    resources {
-      ...UserContentConnectionFragment
-      edges {
-        node {
-          ...ResourceFragment
-        }
-      }
-    }
-  }
-  ${ResourceFragment}
-  ${UserContentConnectionFragment}
-`
-
-export const CurrentUserResourcesFragment = gql`
-  fragment CurrentUserResourcesFragment on Query {
-    resources {
-      ...UserContentConnectionFragment
-      edges {
-        node {
-          ...ResourceFragment
-        }
-      }
-    }
-  }
-  ${ResourceFragment}
-  ${UserContentConnectionFragment}
 `
 
 export const UserCapabilitiesFragment = gql`
@@ -169,46 +94,6 @@ export const UserCapabilitiesFragment = gql`
       }
     }
   }
-`
-
-export const UserGroupsFragment = gql`
-  fragment UserGroupsFragment on User {
-    groups {
-      totalCount
-      edges {
-        node {
-          id
-          name
-        }
-        roles {
-          id
-          name
-          roleType          
-          capabilities {
-            id
-            name
-          }      
-        }
-      }
-    }
-  }
-`
-
-export const GET_USER = gql`
-  query GetUser($id: ID) {
-    user(id: $id) {
-      ...UserFragment
-      ...UserPathwaysFragment
-      ...UserCoursesFragment
-      ...UserResourcesFragment
-      ...UserGroupsFragment
-    }
-  }
-  ${UserFragment}
-  ${UserPathwaysFragment}
-  ${UserCoursesFragment}
-  ${UserResourcesFragment}
-  ${UserGroupsFragment}
 `
 
 export const GET_CURRENT_USER = gql`

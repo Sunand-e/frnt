@@ -1,8 +1,11 @@
+import classNames from "../../../utils/classNames"
+
 interface TextAreaInputProps {
   label?: string
   inputAttrs?: any
   type?: string
   className?: string
+  labelClassName?: string
   placeholder?: string,
   onClick?: () => void
 }
@@ -10,13 +13,17 @@ const TextAreaInput = ({
   label='',
   inputAttrs = {},
   className='',
+  labelClassName='',
   placeholder: placeholder = '',
   onClick
 } : TextAreaInputProps ) => {
 
   return (
     <label className={`block ${className}`} onClick={onClick}>
-      { label && <span className="text-sm font-medium text-secondary">{ label }</span> }
+      { label && <span className={classNames(
+        "text-sm font-medium text-secondary",
+        labelClassName
+      )}>{ label }</span> }
       <textarea
         className="
           px-3

@@ -14,7 +14,6 @@ const TenantEditor = () => {
   
   const { tenant, loading, error } = useGetTenant(id)
   const { updateTenant } = useUpdateTenant(id)
-  // const { updateTenantTenantRoles } = useUpdateTenantTenantRoles()
 
   const handleSubmit = (formValues) => {
     const values = {
@@ -24,6 +23,11 @@ const TenantEditor = () => {
         pathways: {
           ...formValues.settings?.pathways,
           enabled: formValues.pathwaysEnabled
+        },
+        courses: {
+          ...formValues.settings?.courses,
+          showSendFeedbackButtonCourseSetting: formValues.showSendFeedbackButtonCourseSetting,
+          showSendCourseFeedbackButton: formValues.showSendCourseFeedbackButton
         }
       }
     }
