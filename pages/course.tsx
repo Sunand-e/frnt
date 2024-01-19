@@ -10,6 +10,8 @@ import useGetUserCourse from '../hooks/users/useGetUserCourse'
 import useUserHasCapability from '../hooks/users/useUserHasCapability'
 import { useViewStore } from '../hooks/useViewStore'
 import useHeaderButtons from '../hooks/useHeaderButtons'
+import { handleModal } from '../stores/modalStore'
+import CourseFeedbackForm from '../components/courses/CourseView/CourseFeedbackForm'
 
 const CoursePage = () => {
   /*
@@ -44,9 +46,25 @@ const CoursePage = () => {
     })
   }
 
+  const openCourseFeedbackFormInModal = () => {
+    handleModal({
+      size: 'lg',
+      title: "Course feedback form",
+      content: (
+        <CourseFeedbackForm modal={true} />
+      )
+    })
+  }
+  
+
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useHeaderButtons([
+    {
+      id: 'sendCourseFeedback',
+      component: <Button onClick={openCourseFeedbackFormInModal}>Send feedback</Button>,
+      order: 1
+    },
     ...(showEditButton ? [{
       id: 'editCourse',
       component: <Button onClick={editCourse}>Edit Course</Button>,

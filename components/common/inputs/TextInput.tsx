@@ -1,8 +1,11 @@
+import classNames from "../../../utils/classNames"
+
 interface TextInputProps {
   label?: string
   inputAttrs?: any
   type?: string
   className?: string
+  labelClassName?: string
   placeholder?: string,
   onClick?: () => void
 }
@@ -11,13 +14,17 @@ const TextInput = ({
   inputAttrs = {},
   type="text",
   className='',
+  labelClassName='',
   placeholder: placeholder = '',
   onClick
 } : TextInputProps ) => {
 
   return (
     <label className={`block ${className}`} onClick={onClick}>
-      { label && <span className="text-sm font-medium text-secondary">{ label }</span> }
+      { label && <span className={classNames(
+        "text-sm font-medium text-secondary",
+        labelClassName
+      )}>{ label }</span> }
       <input
         type={type}
         className="
