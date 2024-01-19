@@ -54,20 +54,20 @@ function useCreateResource() {
       variables: { 
         ...values
       },
-      optimisticResponse: {
-        createResource: {
-          __typename: 'CreateResourcePayload',
-          resource: {
-            ...contentItemDefaults,
-            id: `tmp-${Math.floor(Math.random() * 10000)}`,
-            ...values,
-            itemType: 'resource',
-            tags: contentItemDefaults.tags,
-            title: values.title || ''
-          },
-          message: ''
-        }
-      },
+      // optimisticResponse: {
+      //   createResource: {
+      //     __typename: 'CreateResourcePayload',
+      //     resource: {
+      //       ...contentItemDefaults,
+      //       id: `tmp-${Math.floor(Math.random() * 10000)}`,
+      //       ...values,
+      //       itemType: 'resource',
+      //       tags: contentItemDefaults.tags,
+      //       title: values.title || ''
+      //     },
+      //     message: ''
+      //   }
+      // },
       onCompleted: cb
       // refetchQueries: [{ query: GET_RESOURCE }]
     }).catch(res => {
