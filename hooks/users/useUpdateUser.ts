@@ -1,6 +1,6 @@
 import { UpdateUser, UpdateUserVariables } from "../../graphql/mutations/user/__generated__/UpdateUser";
 import { UPDATE_USER } from "../../graphql/mutations/user/UPDATE_USER"
-import { GET_USER } from "../../graphql/queries/users"
+import { GET_USER } from "../../graphql/queries/userDetails"
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
 
 function useUpdateUser(id = null) {
