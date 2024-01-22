@@ -49,7 +49,6 @@ function QuizView() {
       );
       const remainingQuestions = quiz.questions.filter(q => !attemptedQuestionIds.includes(q.id))
       const randomQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)]
-    
       useQuizStore.setState({
         activeQuestionId: randomQuestion?.id,
         isEditMode: false

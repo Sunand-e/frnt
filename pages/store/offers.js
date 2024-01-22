@@ -5,7 +5,7 @@ const Offers = () => {
   return (
     <>
       <Head>
-        <title>Offers | Membership Academy</title>
+        <title>Offers | Zanda360</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>

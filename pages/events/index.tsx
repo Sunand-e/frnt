@@ -9,7 +9,7 @@ const Events = () => {
   return (
     <>
       <Head>
-        <title>Events | Membership Academy</title>
+        <title>Events | Zanda360</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <EventsListTable />

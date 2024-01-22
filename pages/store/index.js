@@ -5,7 +5,7 @@ const Products = () => {
   return (
     <>
       <Head>
-        <title>Products | Membership Academy</title>
+        <title>Products | Zanda360</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>
