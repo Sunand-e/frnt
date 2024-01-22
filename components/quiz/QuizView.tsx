@@ -49,14 +49,6 @@ function QuizView() {
       );
       const remainingQuestions = quiz.questions.filter(q => !attemptedQuestionIds.includes(q.id))
       const randomQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)]
-      console.log('remainingQuestions')
-      console.log(remainingQuestions)
-      console.log('randomQuestion')
-      console.log(randomQuestion)
-      console.log('quiz.questions')
-      console.log(quiz.questions)
-      console.log('data?.latestUserQuizAttempt')
-      console.log(data?.latestUserQuizAttempt)
       useQuizStore.setState({
         activeQuestionId: randomQuestion?.id,
         isEditMode: false
@@ -100,9 +92,6 @@ function QuizView() {
 
   return (
     <div className="h-full w-full p-16 relative overflow-x-hidden">
-      <pre>
-      { JSON.stringify(activeQuestion,null,2) }
-      </pre>
       <AnimatePresence>
       <motion.div
         key={activeQuestion?.id+completed}
