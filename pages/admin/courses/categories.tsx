@@ -8,7 +8,7 @@ const AdminCourseCategories = () => {
   return (
     <>
       <Head>
-        <title>Membership Academy</title>
+        <title>Zanda360</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>

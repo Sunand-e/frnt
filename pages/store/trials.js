@@ -5,7 +5,7 @@ const Trials = () => {
   return (
     <>
       <Head>
-        <title>Trials | Membership Academy</title>
+        <title>Trials | Zanda360</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>
