@@ -43,7 +43,7 @@ const AddUserToGroups = ({ id }) => {
   const { roles, loading: loadingRoles } = useGetRoles()
   const [open, setOpen] = useState(false);
 
-  const availableGroups = groups?.edges?.filter(groupEdge =>
+  const availableGroups = user && groups?.edges?.filter(groupEdge =>
     !user.groups?.edges?.some(userGroupEdge => userGroupEdge.node.id === groupEdge.node.id)
   ) || []
 
