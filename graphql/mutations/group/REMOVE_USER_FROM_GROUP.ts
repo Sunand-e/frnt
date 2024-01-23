@@ -11,8 +11,30 @@ export const REMOVE_USER_FROM_GROUP = gql`
       groupId: $groupId
     ) {
       membership {
+        group {
+          id
+          name
+          users {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
         user {
-          fullName
+          id
+          groups {
+            totalCount
+            edges {
+              roles {
+                id
+              }
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }
