@@ -7,6 +7,7 @@ import useGetUser from "../../../hooks/users/useGetUser"
 import { closeModal } from "../../../stores/modalStore"
 import { useRouter } from "../../../utils/router"
 import Button from "../../common/Button"
+import LoadingSpinner from '../../common/LoadingSpinner'
 
 const customStyles = {
   option: (provided, state) => {
@@ -37,8 +38,9 @@ const AddUserToGroups = ({ id }) => {
 
   const { addUsersToGroups } = useAddUsersToGroups()
 
-  const { loading, error, user } = useGetUser(id)
-  const { groups } = useGetGroups()
+  const { user, loading: loadingUser, error } = useGetUser(id)
+  const { groups, loading: loadingGroups } = useGetGroups()
+  const { roles, loading: loadingRoles } = useGetRoles()
   const [open, setOpen] = useState(false);
 
   const availableGroups = groups?.edges?.filter(groupEdge =>
@@ -48,9 +50,8 @@ const AddUserToGroups = ({ id }) => {
   const selectOptions = availableGroups.map(groupEdge => ({
     label: groupEdge.node.name,
     value: groupEdge.node.id,
-  }))  
+  }))
 
-  const { roles } = useGetRoles()
 
   const defaultRole = roles?.find(role => role.name === 'Member')
 
@@ -72,13 +73,15 @@ const AddUserToGroups = ({ id }) => {
 
   const menuTopMargin = selectedGroupIds.length ? 60 : 0
 
+  if (loadingUser || loadingGroups || loadingRoles) {
+    return <LoadingSpinner size='sm' />
+  }
+
   return (
     <>
       {
         availableGroups?.length ? (
           <div>
-
-
             <Select
               placeholder={<span className="text-main-secondary">Choose group(s)...</span>}
               menuIsOpen={open}
@@ -106,7 +109,7 @@ const AddUserToGroups = ({ id }) => {
             {/* <GroupMultiLevelSelect data={availableGroupData} onChange={handleChange} /> */}
             {!!selectedGroupIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>
-                Assign { user.fullName } to { selectedGroupIds.length } group{!!(selectedGroupIds.length > 1) && 's'}
+                Assign {user.fullName} to {selectedGroupIds.length} group{!!(selectedGroupIds.length > 1) && 's'}
               </Button>
             )}
           </div>
