@@ -16,16 +16,20 @@ export const ADD_USERS_TO_GROUPS = gql`
         id
         name
         users {
-          nodes {
-            id
+          edges {
+            node {
+              id
+            }
           }
         }
       }
       users {
         id
         groups {
-          nodes {
-            id
+          edges {
+            node {
+              id
+            }
           }
         }
       }
