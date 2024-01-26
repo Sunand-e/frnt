@@ -164,7 +164,6 @@ const CourseSettings = ({options={}}) => {
           />
           { fpBgImageEnabled ? (
             <>
-            {fpOverlayColor}
               <ColorPickerInput
                 label="Overlay color"
                 name='settings.frontPage.overlayColor'
