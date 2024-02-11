@@ -29,8 +29,8 @@ export default function Modal() {
   },[])
   return (
     <Transition.Root show={modalActive} as={Fragment}>
-      {/* <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={handleModal}> */}
-      <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={() => false} ref={modalRef}>
+      {/* <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" onClose={() => false} ref={modalRef}> */}
+      <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto" style={{zIndex:12000}} onClose={() => false} ref={modalRef}>
         <div className="items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
