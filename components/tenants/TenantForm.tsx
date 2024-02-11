@@ -54,19 +54,16 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     defaultValues
   });
 
-  const formVals = watch()
-
   const handleSubmit = async (data) => {
     await Promise.all([
       data.logo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_image: data.logo})),
       data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
       data.squareLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_image: data.squareLogo})),
-      data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo}))
+      data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo})),
+      data.emailLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_emails_image: data.emailLogo}))
     ]).then(res => {
-
       onSubmit(data)
-    }
-    )
+    })
   }
 
   return (
@@ -128,6 +125,14 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="squareWhiteLogo"
         previewClassName="bg-black/40"
         initialValue={tenant?.logos.logo_square_white}
+      />
+      <ImageDropzoneInput
+        buttonText="Choose logo for emails (white)"
+        label="Logo for email headers (white)"
+        control={control}
+        name="emailLogo"
+        previewClassName="bg-black/40"
+        initialValue={tenant?.logos.logo_for_emails}
       />
       <ColorPickerInputLegacy
         label="Primary brand colour"
