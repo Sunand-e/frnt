@@ -30,6 +30,13 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
           }
         }
       }
+      if(item.removeIfFeaturesDisabled) {
+        for(let feature of item.removeIfFeaturesDisabled) {
+          if(!tenant || tenant?.[feature]?.enabled === false) {
+            return false
+          }
+        }
+      }
       return isSuperAdmin || !item.superAdminOnly
       // && (userHasCapability(item.capabilities)
     })
