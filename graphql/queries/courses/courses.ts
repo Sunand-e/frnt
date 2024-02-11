@@ -12,6 +12,7 @@ export const GET_COURSES = gql`
         status
         lastVisited
         completedAt
+        passedAt
         progress
         properties
         node {
