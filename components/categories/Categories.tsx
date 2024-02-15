@@ -6,12 +6,12 @@ import CategoryFilters from './CategoryFilters';
 import CategoriesCollection from './CategoriesCollection';
 import { Dot } from '../common/misc/Dot';
 import useGetTags from '../../hooks/tags/useGetTags';
-import Category from './Category';
+import CategoryOrSearch from './CategoryOrSearch';
 
 const Categories = () => {
   
   const router = useRouter()
-  const { category } = router.query
+  const { category, search } = router.query
   
   const { tags, loading } = useGetTags()
   
@@ -28,7 +28,7 @@ const Categories = () => {
           </>
         )} />
       ) : (
-        category ? <Category /> : <CategoriesCollection />
+        category || search ? <CategoryOrSearch /> : <CategoriesCollection />
       )}
     </div>
   )
