@@ -12,6 +12,8 @@ import { CheckCircle } from '@styled-icons/boxicons-regular/CheckCircle';
 import { InfoCircle } from '@styled-icons/boxicons-regular/InfoCircle';
 import dayjs from "dayjs"
 import Tippy from '@tippyjs/react';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import { TenantContext } from '../../context/TenantContext';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -40,6 +42,9 @@ const UsersTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo<GetUsers_users_edges_node[]>(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
 
+  const { userHasCapability } = useUserHasCapability()
+  const tenant = useContext(TenantContext)
+
   const editUrl = '/admin/users/edit'
 
   const tableCols = useMemo(
@@ -58,22 +63,26 @@ const UsersTable = () => {
           />
         )
       },
-      {
-        header: "Groups",
-        accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
-        cell: ({ cell }) => {
-          return cell.getValue() || '-'
+      ...(!(tenant?.groups?.enabled === false) ? [
+        {
+          header: "Groups",
+          accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
+          cell: ({ cell }) => {
+            return cell.getValue() || '-'
+          }
         }
-      },
-      {
-        header: "Global Roles",
-        id: 'roles',
-        cell: ({ cell }) => {
-          return cell.row.original.roles.filter(
-            role => role.name !== 'User'
-          ).map(role => role.name).join(', ') || '-'
+      ] : []),
+      ...(userHasCapability('SeeRoles') ? [
+        {
+          header: "Global Roles",
+          id: 'roles',
+          cell: ({ cell }) => {
+            return cell.row.original.roles.filter(
+              role => role.name !== 'User'
+            ).map(role => role.name).join(', ') || '-'
+          }
         }
-      },
+      ] : []),
       {
         header: "Status",
         id: 'status',
@@ -130,7 +139,7 @@ const UsersTable = () => {
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
       }
     ],
-    []
+    [tenant]
   );
 
   const { sendInvite } = useSendInvite()

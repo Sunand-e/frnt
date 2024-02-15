@@ -15,6 +15,8 @@ import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
 import ButtonLink from '../../components/common/ButtonLink';
 import useHeaderButtons from '../../hooks/useHeaderButtons';
 import RecentActivity from '../../components/admin/dashboard/RecentActivity';
+import { useContext } from 'react';
+import { TenantContext } from '../../context/TenantContext';
 
 const AdminDashboardPage = () => {
   
@@ -26,6 +28,8 @@ const AdminDashboardPage = () => {
     id: 'userView',
     component: <ButtonLink href={'/'}>User View</ButtonLink>
   }])
+  
+  const tenant = useContext(TenantContext)
   
   const cards = useMemo(() => ([
     {
@@ -43,30 +47,26 @@ const AdminDashboardPage = () => {
       IconComponent: Users,
       href: "admin/users"
     },
-    {
+    ...(!(tenant?.groups?.enabled === false) ? [{
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
       IconComponent: Group2,
       href: "admin/users/groups"
-    },
-    {
+    }] : []),
+    ...(!(tenant?.resources?.enabled === false) ? [{
       name: 'allResources',
       label: 'Total resources',
       value: data?.resources.totalCount,
       IconComponent: Library,
       href: "admin/resources"
-    },
-  ]),[data])
+    }] : []),
+  ]),[data, tenant])
 
   const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
     failed: 'bg-gray-100 text-gray-800',
-  }
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
   }
 
   return (
