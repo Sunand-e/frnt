@@ -7,7 +7,7 @@ import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function SecondaryNav({showSecondary, primaryNavItem, pageNavState}) {
 
-  const { userType } = useUserHasCapability()
+  const { userType, userHasCapability } = useUserHasCapability()
 
   const tenant = useContext(TenantContext)
 
@@ -34,11 +34,14 @@ export default function SecondaryNav({showSecondary, primaryNavItem, pageNavStat
         }
       }
 
+      if(!isSuperAdmin && item.capabilities?.length && !userHasCapability(item.capabilities)) {
+        return false
+      }
+
       return isSuperAdmin || !item.superAdminOnly
-      // && (userHasCapability(item.capabilities)
     }) || []
     
-  },[primaryNavItem, tenant, isSuperAdmin])
+  },[primaryNavItem, tenant, isSuperAdmin, userHasCapability])
 
   return (
     <div id="secondaryNav" className={`z-10 bg-main bg-opacity-10 transition-width ${showSecondary ? 'w-56' : 'w-0'}`}>

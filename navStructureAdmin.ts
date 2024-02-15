@@ -46,6 +46,7 @@ const navStructureAdmin = [
         title: 'Pathways',
         urlPath: '/admin/pathways',
         icon: Flow,
+        capabilities: ['SeePathways'],
         requireEnabledFeatures: ['pathways']
       },
     ],
@@ -55,6 +56,7 @@ const navStructureAdmin = [
     title: 'Resources',
     urlPath: '/admin/resources',
     icon: 'school',
+    capabilities: ['SeeResources'],
     removeIfFeaturesDisabled: ['resources'],
     subPages: [
       {
