@@ -27,6 +27,7 @@ export const GET_COURSES = gql`
           settings
           createdAt
           updatedAt
+          enrolmentsRemaining
           image {
             location
             id

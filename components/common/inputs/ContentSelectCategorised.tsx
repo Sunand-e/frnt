@@ -3,7 +3,8 @@ import 'react-dropdown-tree-select/dist/styles.css'
 
 import IconOption from "../../common/inputs/react-select/IconOption";
 import Button from '../Button';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { TenantContext } from '../../../context/TenantContext';
 
 const customStyles = {
   option: (provided, state) => {
@@ -34,7 +35,9 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, menuTop
 
   const [open, setOpen] = useState(false);
   
-  const tags = availableContent.reduce((tagArr,course,index, array) => {
+  const tenant = useContext(TenantContext)
+
+  const tags = availableContent.reduce((tagArr, course, index, array) => {
     return [
         ...tagArr,
         ...course.tags.edges.filter(({node}) => !tagArr.some(t => t.id === node.id))
@@ -55,7 +58,7 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, menuTop
       </components.Menu>
     </>
   );
-  
+
   let uniqueContent = []
   const categorisedContentData = tags.map(tag => {
     return ({
@@ -69,10 +72,17 @@ const ContentSelectCategorised = ({availableContent, onChange, typeName, menuTop
         }
         uniqueContent.push(course)
         return true
-      }).map(course => ({
+      }).map(course => {
+        return ({
         label: course.title,
         value: course.id,
-      })),
+        ...((tenant && tenant.limitEnrolments && course.enrolmentsRemaining === 0) ? {
+          isDisabled: true,
+          style: {
+            opacity: 0.5
+          }
+        } : {})
+      })}),
     })
   })
 
