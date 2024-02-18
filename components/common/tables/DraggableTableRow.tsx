@@ -33,7 +33,6 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
 
   const [isScrolling, setIsScrolling] = useState(false);
 
-  mainScrollableRef
   useEffect(() => {
     
     let timer = null;
@@ -48,7 +47,7 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
       timer = setTimeout(function() {
         setIsScrolling(false)
       }, 150);
-  }
+    }
 
     mainScrollableRef.current.addEventListener('scroll', handleScroll, false);
     // Add event listener for the scroll event
@@ -56,7 +55,7 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
 
     // Cleanup the event listener on component unmount
     return () => {
-      mainScrollableRef.current.removeEventListener('scroll', handleScroll);
+      mainScrollableRef.current?.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

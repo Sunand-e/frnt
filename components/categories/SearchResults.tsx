@@ -15,39 +15,13 @@ export default function SearchResults({items, itemType='item'}) {
   let filteredItems = [];
   
   if(search) {
-    const textResultsObject = items.reduce(
-      (filtered,item) => {
-        if(item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-          return {
-            ...filtered,
-            title: filtered.title.concat([item])
-          }
-          // } else if(item.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-            //   return {
-              //     ...filtered,
-              //     excerpt: filtered.excerpt.concat([item])
-              //   }
-              // } else if(item.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-                //   return {
-                  //     ...filtered,
-        //     content: filtered.content.concat([item])
-        //   }
-        } else {
-          return filtered
-        }
-      },
-      {
-        title: [],
-        excerpt: [],
-        content: []
-      }
-    )
-
-    filteredItems = textResultsObject.title.concat(textResultsObject.excerpt, textResultsObject.content)
+    filteredItems = items.filter(item => (
+      item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    ))
   } else {
     filteredItems = items;
   }
-
+  
   if(category) {
 
     const isSelectedCategory = tag => {
@@ -61,9 +35,6 @@ export default function SearchResults({items, itemType='item'}) {
       let orderB = b.tags.edges.find(({node}) => isSelectedCategory(node)).order
       return orderB - orderA
     }) || []
-    
-    
-    ;
   }
   
   const resultCountString = `${filteredItems.length || 'No'} ${itemType}${filteredItems.length !== 1 ? 's' : ''} found`

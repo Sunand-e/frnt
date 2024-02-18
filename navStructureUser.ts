@@ -40,7 +40,8 @@ const navStructureUser = [
         title: 'Pathways',
         urlPath: '/pathways',
         icon: Flow,
-        requireEnabledFeatures: ['pathways']
+        requireEnabledFeatures: ['pathways'],
+        capabilities: ['SeePathways'],
       },
     ],
   },
@@ -49,13 +50,16 @@ const navStructureUser = [
     title: 'Pathways',
     urlPath: '/pathways',
     icon: Flow,
-    requireEnabledFeatures: ['pathways']
+    requireEnabledFeatures: ['pathways'],
+    capabilities: ['SeePathways'],
   },
   {
     name: 'library',
     title: 'Resource Library',
     urlPath: '/resources',
     icon: 'school',
+    removeIfFeaturesDisabled: ['resources'],
+    capabilities: ['SeeResources'],
     subPages: [
       {
         name: 'overview',

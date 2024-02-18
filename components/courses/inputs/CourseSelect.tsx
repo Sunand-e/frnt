@@ -8,7 +8,7 @@ import IconOption from "../../common/inputs/react-select/IconOption";
 const customStyles = {
   menuPortal: (provided, state) => ({
     ...provided,
-    zIndex: 3000,
+    zIndex: 13000,
   }),
   input: (provided, state) => ({
     ...provided,

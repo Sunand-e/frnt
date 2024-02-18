@@ -47,6 +47,13 @@ const Category = () => {
     }    
   }
 
+  const filterNodes = (nodes) => {
+    let filteredNodes = search ? nodes.filter(node => (
+      node.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    )) : nodes
+    return filterNodesByCategory(filteredNodes)
+  }
+
   const courseNodes = useMemo(() => getNodes(courses), [courses])
   const resourceNodes = useMemo(() => getNodes(resources), [resources])
   const pathwayNodes = useMemo(() => getNodes(pathways), [pathways])
@@ -62,13 +69,13 @@ const Category = () => {
             <Dot>.</Dot>
           </>
         )} />
-      ) : filterNodesByCategory(courseNodes)?.length
-        || filterNodesByCategory(resourceNodes)?.length
-        || filterNodesByCategory(pathwayNodes)?.length ? (
+      ) : filterNodes(courseNodes)?.length
+        || filterNodes(resourceNodes)?.length
+        || filterNodes(pathwayNodes)?.length ? (
           <>
-            { !!filterNodesByCategory(courseNodes)?.length && <SearchResults items={courseNodes} itemType='course' /> }
-            { !!filterNodesByCategory(resourceNodes)?.length && <SearchResults items={resourceNodes} itemType='resource' /> }
-            { !!filterNodesByCategory(pathwayNodes)?.length && <SearchResults items={pathwayNodes} itemType='pathway' /> }
+            { !!filterNodes(courseNodes)?.length && <SearchResults items={courseNodes} itemType='course' /> }
+            { !!filterNodes(resourceNodes)?.length && <SearchResults items={resourceNodes} itemType='resource' /> }
+            { !!filterNodes(pathwayNodes)?.length && <SearchResults items={pathwayNodes} itemType='pathway' /> }
           </>
         ) : (
           search ? <h3>Sorry, no items match your search.</h3> : <h3>You have not yet been assigned materials in this category.</h3>

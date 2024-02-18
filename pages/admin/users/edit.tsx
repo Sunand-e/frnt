@@ -16,6 +16,8 @@ import UserPathways from '../../../components/users/pathways/UserPathways';
 import getJWT from '../../../utils/getToken';
 import ButtonBack from '../../../components/common/ButtonBack';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import { useContext } from 'react';
+import { TenantContext } from '../../../context/TenantContext';
 
 const AdminUsersEdit = () => {
   
@@ -23,6 +25,7 @@ const AdminUsersEdit = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
+  const tenant = useContext(TenantContext)
   const { userHasCapability } = useUserHasCapability()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
@@ -82,10 +85,10 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            <UserGroups />
+            { !(tenant?.groups?.enabled === false) && <UserGroups /> }
             <UserCourses />
-            <UserResources />
-            <UserPathways />
+            { !(tenant?.resources?.enabled === false) && <UserResources /> }
+            { (tenant?.pathways?.enabled === true) && <UserPathways /> }
           </div>
         </div>
       )}

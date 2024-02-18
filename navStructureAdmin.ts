@@ -46,6 +46,7 @@ const navStructureAdmin = [
         title: 'Pathways',
         urlPath: '/admin/pathways',
         icon: Flow,
+        capabilities: ['SeePathways'],
         requireEnabledFeatures: ['pathways']
       },
     ],
@@ -55,6 +56,8 @@ const navStructureAdmin = [
     title: 'Resources',
     urlPath: '/admin/resources',
     icon: 'school',
+    capabilities: ['SeeResources'],
+    removeIfFeaturesDisabled: ['resources'],
     subPages: [
       {
         name: 'overview',
@@ -127,7 +130,8 @@ const navStructureAdmin = [
         name: 'groups',
         title: 'Groups',
         urlPath: '/admin/users/groups',
-        icon: Group2
+        icon: Group2,
+        removeIfFeaturesDisabled: ['groups'],
       },
       {
         name: 'roles',
@@ -163,6 +167,7 @@ const navStructureAdmin = [
     title: 'Media',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
+    removeIfFeaturesDisabled: ['mediaLibrary'],
   },
   // {
   //   name: 'events',

@@ -4,6 +4,8 @@ import {Group2} from "@styled-icons/remix-fill/Group2"
 
 import Link from "next/link";
 import DashboardItem from "./DashboardItem";
+import { TenantContext } from '../../../context/TenantContext';
+import { useContext } from 'react';
 
 const QuickActionLink = ({text,icon,href}) => {
   const IconComponent = icon
@@ -18,6 +20,8 @@ const QuickActionLink = ({text,icon,href}) => {
 }
 const QuickActions = () => {
   
+  const tenant = useContext(TenantContext)
+
   return (
     <DashboardItem title="Quick actions">
         <div className="flex flex-col items-start px-4 py-6 space-y-4 bg-white shadow rounded-md ">
@@ -30,12 +34,14 @@ const QuickActions = () => {
             text={'Add a new user'} 
             href='/admin/users/create'
             icon={UserAdd}
-            />
-          <QuickActionLink
-            text={'Add a new group'} 
-            href='/admin/users/groups/add'
-            icon={Group2}
           />
+          { !(tenant?.groups?.enabled === false) && (
+            <QuickActionLink
+              text={'Add a new group'} 
+              href='/admin/users/groups/add'
+              icon={Group2}
+            />
+          )}
         </div>
     </DashboardItem>
   );

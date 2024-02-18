@@ -12,6 +12,7 @@ export const GET_COURSES = gql`
         status
         lastVisited
         completedAt
+        passedAt
         progress
         properties
         node {
@@ -26,6 +27,7 @@ export const GET_COURSES = gql`
           settings
           createdAt
           updatedAt
+          enrolmentsRemaining
           image {
             location
             id
