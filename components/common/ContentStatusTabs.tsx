@@ -29,8 +29,8 @@ export default function ContentStatusTabs({connection, content=[], options=null,
       title: 'Not started',
       countField: 'notStartedCount',
       contents: content?.filter(item => !item.status || item.status === 'not_started'),
-      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Start',
-      noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No new content found'
+      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['not_started']?.readMoreLabel || 'Start',
+      noItemsText: contentTypes[options.typeName]?.statusStrings?.['not_started']?.noItemsText || 'No new content found'
     },
     {
       name: 'completed',
@@ -38,15 +38,15 @@ export default function ContentStatusTabs({connection, content=[], options=null,
       countField: 'completedCount',
       href: '#',
       contents: content?.filter(item => item.status === 'completed'),
-      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'View item',
-      noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'You have not completed any items'
+      readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['completed']?.readMoreLabel || 'View item',
+      noItemsText: contentTypes[options.typeName]?.statusStrings?.['completed']?.noItemsText || 'You have not completed any items'
     },
   ]
 
   const [activeTab, setActiveTab] = useState('')
 
   const visibleContentPanels = contentPanels.filter(({name, contents}) => {
-    return !(name === 'in_progress' && !connection?.inProgressCount)
+    return !(name === 'in_progress' && !contents.length)
   })
   
   const { 
@@ -58,8 +58,8 @@ export default function ContentStatusTabs({connection, content=[], options=null,
 
       return {
         ...panel,
-        // count: contents?.length || 0,
-        count: connection?.[panel.countField],
+        count: contents?.length || 0,
+        // count: connection?.[panel.countField],
         href: '#'
       }
     }),
