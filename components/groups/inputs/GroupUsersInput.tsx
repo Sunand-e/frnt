@@ -1,7 +1,7 @@
 import useGetUsers from "../../../hooks/users/useGetUsers";
 import DualListBoxInput from "../../common/inputs/DualListBoxInput"
 
-const GroupUsersInput = ({control}) => {
+const GroupUsersInput = ({control, label='Group users'}) => {
 
   const { users } = useGetUsers();
 
@@ -13,7 +13,7 @@ const GroupUsersInput = ({control}) => {
     <>
       { usersOptions && (
         <DualListBoxInput
-          label="Group users"
+          label={label}
           control={control}
           name="userIds"
           options={usersOptions}

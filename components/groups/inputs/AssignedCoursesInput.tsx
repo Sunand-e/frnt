@@ -1,7 +1,7 @@
 import useGetCourses from "../../../hooks/courses/useGetCourses";
 import DualListBoxInput from "../../common/inputs/DualListBoxInput"
 
-const AssignedCoursesInput = ({control}) => {
+const AssignedCoursesInput = ({control, name='assignedCourseIds'}) => {
 
   const { courses } = useGetCourses();
   
@@ -15,7 +15,7 @@ const AssignedCoursesInput = ({control}) => {
         <DualListBoxInput
           label="Assigned courses"
           control={control}
-          name="assignedCourseIds"
+          name={name}
           options={coursesOptions}
           lang={{
             availableHeader: 'Available courses',

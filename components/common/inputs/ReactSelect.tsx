@@ -7,6 +7,7 @@ type ReactSelectProps = {
   value?: any
   label?: string
   isMulti?: boolean
+  isSearchable?: boolean
   slim?: boolean
   styles?: StylesConfig
   options?
@@ -19,6 +20,7 @@ const ReactSelect = ({
   onChange,
   value,
   className,
+  isSearchable=false,
   slim=false,
   ...props
 }: ReactSelectProps) => {
@@ -33,7 +35,7 @@ const ReactSelect = ({
       // slim ? 'w-auto': 'w-full',
       slim ? 'w-full': 'w-full',
     ),
-    isSearchable: false,
+    isSearchable,
     styles: {
       ...(slim && {
         dropdownIndicator: (provided, state) => {
