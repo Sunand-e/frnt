@@ -9,9 +9,9 @@ import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import {Users} from "@styled-icons/fa-solid/Users"
 import {Group2} from "@styled-icons/remix-fill/Group2"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
 import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
-import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Link} from '@styled-icons/entypo/Link'
@@ -132,6 +132,13 @@ const navStructureAdmin = [
         urlPath: '/admin/users/groups',
         icon: Group2,
         removeIfFeaturesDisabled: ['groups'],
+      },
+      {
+        name: 'organisations',
+        title: 'Organisations',
+        urlPath: '/admin/users/organisations',
+        icon: PeopleTeamToolbox,
+        requireEnabledFeatures: ['organisations'],
       },
       {
         name: 'roles',
