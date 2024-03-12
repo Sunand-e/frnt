@@ -7,6 +7,7 @@ export const CREATE_GROUP = gql`
     $parentId: ID,
     $assignedContentIds: [ID!],
     $enrolledContentIds: [ID!],
+    $isOrganisation: Boolean,
     $imageId: ID,
     $userIds: [ID!]
   ) {
@@ -16,6 +17,7 @@ export const CREATE_GROUP = gql`
         parentId: $parentId,
         assignedContentIds: $assignedContentIds,
         enrolledContentIds: $enrolledContentIds,
+        isOrganisation: $isOrganisation,
         imageId: $imageId,
         userIds: $userIds
       }

@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import TextInput from '../common/inputs/TextInput';
 import GroupUsersInput from './inputs/GroupUsersInput';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import AssignedResourcesInput from './inputs/AssignedResourcesInput';
 import AssignedPathwaysInput from './inputs/AssignedPathwaysInput';
 import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
+import { TenantContext } from '../../context/TenantContext';
+import CheckboxInput from '../common/inputs/CheckboxInput';
 
 interface GroupFormValues {
   id?: string
@@ -15,12 +17,15 @@ interface GroupFormValues {
   email: string
   groupImage: string
   userRole: string
+  isOrganisation: boolean
   assignedCourseIds: [any]
   assignedResourceIds: [any]
   assignedPathwayIds: [any]
 }
 
 const GroupForm = ({group=null, onSubmit}) => {
+
+  const tenant = useContext(TenantContext)
 
   const users = group?.users.edges.map(edge => edge.node) || []
   

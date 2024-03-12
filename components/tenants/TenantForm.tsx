@@ -26,6 +26,7 @@ interface TenantFormValues {
     }
   }
   pathwaysEnabled: boolean
+  organisationsEnabled: boolean
   showSendFeedbackButtonCourseSetting: boolean
   showSendCourseFeedbackButton: boolean
 }
@@ -38,6 +39,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     url: tenant?.url,
     id: tenant?.id,
     pathwaysEnabled: tenant?.settings?.pathways?.enabled,
+    organisationsEnabled: tenant?.settings?.organisations?.enabled,
     showSendFeedbackButtonCourseSetting: tenant?.settings?.courses?.showSendFeedbackButtonCourseSetting,
     showSendCourseFeedbackButton: tenant?.settings?.courses?.showSendCourseFeedbackButton,
   }
@@ -169,6 +171,11 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       <CheckboxInput
         label="Enable pathways"
         inputAttrs={register("pathwaysEnabled")}
+      />
+      <h3>Organisations</h3>
+      <CheckboxInput
+        label="Enable organisations"
+        inputAttrs={register("organisationsEnabled")}
       />
       <Button type="submit">Submit</Button>
     </form>

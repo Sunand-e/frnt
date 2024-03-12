@@ -24,6 +24,10 @@ const TenantEditor = () => {
           ...formValues.settings?.pathways,
           enabled: formValues.pathwaysEnabled
         },
+        organisations: {
+          ...formValues.settings?.organisations,
+          enabled: formValues.organisationsEnabled
+        },
         courses: {
           ...formValues.settings?.courses,
           showSendFeedbackButtonCourseSetting: formValues.showSendFeedbackButtonCourseSetting,

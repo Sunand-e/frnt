@@ -6,6 +6,7 @@ export const GroupFragment = gql`
     id
     name
     updatedAt
+    isOrganisation
     users {
       totalCount
       edges {
@@ -46,6 +47,34 @@ export const GroupFragment = gql`
       }
     }
     assignedPathways {
+      totalCount
+      edges {
+        node {
+          id
+        }
+      }
+    }
+    availableResources {
+      totalCount
+      edges {
+        node {
+          id
+        }
+      }
+    }
+    availableCourses {
+      totalCount
+      edges {
+        node {
+          id
+          title
+          image {
+            id
+          }
+        }
+      }
+    }
+    availablePathways {
       totalCount
       edges {
         node {
