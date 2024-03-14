@@ -8,9 +8,7 @@ import ButtonAdd from '../../../../components/common/ButtonAdd';
 const AdminOrganisations = () => {
   
   usePageTitle({ title: 'Organisations' })
-
-  const router = useRouter()
-
+  
   useHeaderButtons({
     id: 'createOrganisation',
     component: <ButtonAdd action='/admin/users/organisations/add' text='Create new organisation' />
