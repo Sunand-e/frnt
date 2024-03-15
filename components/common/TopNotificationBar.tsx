@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { useViewStore } from "../../hooks/useViewStore"
 
 const TopNotificationBar = () => {
@@ -8,8 +9,15 @@ const TopNotificationBar = () => {
     <div className={`py-2 ${!isAdminView ? 'bg-main-secondary' : 'bg-main'}`}>
       <div className="relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex justify-center items-center">
-          <div className="text-sm font-medium text-white">
-          Welcome to Zanda360
+          <div className="text-sm font-medium text-white flex items-center space-x-2">
+            <span>Welcome to</span>
+            <Image
+              priority
+              src="/images/zanda-text-white.svg"
+              height={34}
+              width={112}
+              alt="Zanda 360"
+            />
           </div>
           {/* <span aria-hidden="true" className="hidden sm:block mx-6 h-6 w-px bg-white bg-opacity-20"></span>
           <div className="ml-6 sm:ml-0">
