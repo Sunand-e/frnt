@@ -82,14 +82,8 @@ const UserCourseReportTable = () => {
           }
         }
       },
-      {
-        ...commonTableCols.createdAt,
-        header: "First access",
-      },
-      {
-        ...commonTableCols.updatedAt,
-        header: "Last visited",
-      },
+      commonTableCols.firstVisited,
+      commonTableCols.lastVisited,
 
       // "visits": null,
       // "completed": null
