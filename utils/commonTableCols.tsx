@@ -7,7 +7,7 @@ const noDataDash = <span>&mdash;</span>
 export const commonTableCols = {
   createdAt: {
     id: "createdAt",
-    header: "First access",
+    header: "Created at",
     accessorFn: row => (
       row.createdAt ? dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A') : null
     ),
@@ -16,16 +16,34 @@ export const commonTableCols = {
   
   updatedAt: {
     id: "updatedAt",
-    header: "Last visited",
+    header: "Updated at",
     accessorFn: row => (
       row.updatedAt ? dayjs(row.updatedAt).format('Do MMMM YYYY [at] h:mm A') : null
     ),
     cell: (cell) => cell.getValue() || noDataDash
   },
   
+  firstVisited: {
+    id: "firstVisited",
+    header: "First access",
+    accessorFn: row => (
+      row.firstVisited ? dayjs(row.firstVisited).format('Do MMMM YYYY [at] h:mm A') : null
+    ),
+    cell: (cell) => cell.getValue() || noDataDash
+  },
+  
+  lastVisited: {
+    id: "lastVisited",
+    header: "Last visited",
+    accessorFn: row => (
+      row.lastVisited ? dayjs(row.lastVisited).format('Do MMMM YYYY [at] h:mm A') : null
+    ),
+    cell: (cell) => cell.getValue() || noDataDash
+  },
+  
   passedAt: {
     id: "passedAt",
-    header: "Last visited",
+    header: "Passed at",
     accessorFn: row => (
       row.passedAt ? dayjs(row.passedAt).format('Do MMMM YYYY [at] h:mm A') : null
     ),
