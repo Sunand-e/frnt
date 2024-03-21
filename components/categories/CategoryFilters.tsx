@@ -15,11 +15,11 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
       ...router.query,
       [type]: option
     }})
-    // setFilters(newFilters);
   }
 
   const tagOptions = tags ? [
-    ...tags.filter(t => t.contentItems.totalCount > 0).map(tag => ({
+    // ...tags.filter(t => t.contentItems.totalCount > 0).map(tag => ({
+    ...tags.map(tag => ({
       value: tag.label,
       label: tag.label
     }))
