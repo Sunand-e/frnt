@@ -13,6 +13,9 @@ export const TagFragment = gql`
       properties
       title
     }
+    contentItems {
+      totalCount
+    }
     _deleted @client
   }
 `
