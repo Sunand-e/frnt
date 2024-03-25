@@ -3,11 +3,7 @@ import { useForm } from 'react-hook-form';
 import TextInput from '../common/inputs/TextInput';
 import React, { useContext, useEffect } from 'react';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
-import SelectInput from '../common/inputs/SelectInput';
 import TagSelectInput from '../tags/inputs/TagSelectInput';
-import CheckboxInput from '../common/inputs/CheckboxInput';
-import RTEInput from '../common/inputs/RTEInput';
-import { handleModal } from '../../stores/modalStore';
 import TipTapInput from '../common/inputs/TipTapInput';
 
 interface CourseFormValues {
@@ -68,6 +64,7 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
             control={control}
             tagType="category"
             label="Categories"
+            isMulti={true}
           />
           {/* <SelectInput
             label="Course access type"

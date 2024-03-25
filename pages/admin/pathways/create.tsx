@@ -97,6 +97,7 @@ const AdminPathwaySetup = () => {
           control={control}
           tagType="category"
           label="Categories"
+          isMulti={true}
         />
         {/* <SelectInput
           label="Pathway access type"

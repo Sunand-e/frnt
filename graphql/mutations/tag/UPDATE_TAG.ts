@@ -4,6 +4,7 @@ import { TagFragment } from '../../queries/tags';
 export const UPDATE_TAG = gql`
   mutation UpdateTag(
     $id: ID!
+    $parentId: ID
     $label: String,
     $tagType: String,
     $mediaItemId: ID,
@@ -11,10 +12,10 @@ export const UPDATE_TAG = gql`
     updateTag(
       input: {
         id: $id,
+        parentId: $parentId,
         label: $label,
         tagType: $tagType,
         mediaItemId: $mediaItemId,
-
       }
     ) {
       tag {

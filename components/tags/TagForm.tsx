@@ -4,22 +4,30 @@ import TextInput from '../common/inputs/TextInput';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import { handleModal } from '../../stores/modalStore';
+import TagSelectInput from './inputs/TagSelectInput';
+import useGetTags from '../../hooks/tags/useGetTags';
 
 interface TagFormValues {
   label: string
   mediaItemId: string
+  parentTag: any
 }
 
 const TagForm = ({tag=null, onSubmit, isModal=false}) => {
 
+  const { tags, loading, error } = useGetTags()
+  const parentTag = tags.find(t => t.id === tag.parent.id)
+
   const defaultValues = {
     tagType: 'category',
+    parentTag,
     ...tag
   }
-  
-  const { register, handleSubmit, control, setFocus, getValues, formState: { errors } } = useForm<TagFormValues>(
+  const { register, handleSubmit, control, setFocus, getValues, watch, formState: { errors } } = useForm<TagFormValues>(
     { defaultValues }
   );
+
+  const formVals = watch()
 
   useEffect(() => {
     setFocus('label')
@@ -35,10 +43,15 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
     })
   }
 
+  const onFormSubmit = (vals) => {
+    const {parentTag, ...values} = vals
+    onSubmit({...values, parentId: parentTag.id})
+  }
+  
   return (
     <form
       className='h-full w-full max-w-sm flex flex-col space-y-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onFormSubmit)}
     >
       <TextInput
         label="Category Name"
@@ -46,6 +59,14 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
         inputAttrs={register("label", {
           required: "Category name is required"
         })}
+      />
+      <TagSelectInput
+        name="parentTag"
+        control={control}
+        tagType="category"
+        label="Parent category"
+        isMulti={false}
+        idOnly={true}
       />
       {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
       <ImageSelectInput
