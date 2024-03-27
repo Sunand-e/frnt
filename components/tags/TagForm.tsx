@@ -6,6 +6,7 @@ import ImageSelectInput from '../common/inputs/ImageSelectInput';
 import { handleModal } from '../../stores/modalStore';
 import TagSelectInput from './inputs/TagSelectInput';
 import useGetTags from '../../hooks/tags/useGetTags';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 interface TagFormValues {
   label: string
@@ -18,6 +19,7 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
   const { tags, loading, error } = useGetTags()
   const parentTag = tags.find(t => t.id === tag.parent.id)
 
+  const { userHasCapability } = useUserHasCapability()
   const defaultValues = {
     tagType: 'category',
     parentTag,
@@ -60,14 +62,15 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
           required: "Category name is required"
         })}
       />
-      <TagSelectInput
-        name="parentTag"
-        control={control}
-        tagType="category"
-        label="Parent category"
-        isMulti={false}
-        idOnly={true}
-      />
+      { userHasCapability('CreateSubTags') && (      
+        <TagSelectInput
+          name="parentTag"
+          control={control}
+          tagType="category"
+          label="Parent category"
+          isMulti={false}
+        />
+      )}
       {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
       <ImageSelectInput
         label="Category image"
