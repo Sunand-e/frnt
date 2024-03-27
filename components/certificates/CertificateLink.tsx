@@ -1,5 +1,5 @@
 import { PDFViewer, usePDF } from "@react-pdf/renderer";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { TenantContext } from "../../context/TenantContext";
 import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import { handleModal } from "../../stores/modalStore";
@@ -7,16 +7,15 @@ import CertificatePdf from "./CertificatePdf";
 
 const CertificateLink = ({certificate}) => {
   
-  const tenant = useContext(TenantContext)
   const {user} = useGetCurrentUser()
-
-  const pdfContent = <CertificatePdf
+  
+  const tenant = useContext(TenantContext)
+  
+  const pdfContent = tenant && <CertificatePdf
     user={user}
     certificate={certificate}
-    colors={{
-    primary: tenant.primaryBrandColor || '#555555',
-    secondary: tenant.secondaryBrandColor || '#222222',
-  }} />
+    tenant={tenant}
+  />
 
   // const [instance, updateInstance] = usePDF({ document: pdfContent });
 
