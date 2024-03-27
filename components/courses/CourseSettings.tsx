@@ -199,6 +199,7 @@ const CourseSettings = ({options={}}) => {
         control={control}
         tagType="category"
         label="Categories"
+        isMulti={true}
         // onChange={(tags) => updateCourse({tags})}
       />
       {/* <TipTapInput

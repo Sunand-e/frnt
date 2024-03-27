@@ -60,7 +60,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
       data.squareLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_image: data.squareLogo})),
       data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo})),
-      data.emailLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_emails_image: data.emailLogo}))
+      data.emailLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_emails_image: data.emailLogo})),
+      data.certLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_certs_image: data.certLogo}))
     ]).then(res => {
       onSubmit(data)
     })
@@ -133,6 +134,14 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="emailLogo"
         previewClassName="bg-black/40"
         initialValue={tenant?.logos.logo_for_emails}
+      />
+      <ImageDropzoneInput
+        buttonText="Choose logo for certificates"
+        label="Logo for certificates"
+        control={control}
+        name="certLogo"
+        previewClassName="bg-black/40"
+        initialValue={tenant?.logos.logo_for_certs}
       />
       <ColorPickerInputLegacy
         label="Primary brand colour"

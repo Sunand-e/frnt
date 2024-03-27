@@ -65,6 +65,7 @@ const PathwayForm = ({pathway=null, onSubmit, isModal=false, submitButtonText="S
         control={control}
         tagType="category"
         label="Categories"
+        isMulti={true}
       />
       <SelectInput
         label="Pathway access type"

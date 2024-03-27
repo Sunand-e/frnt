@@ -1,34 +1,59 @@
-import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Page, StyleSheet, Text, View, Font, Svg, Line, Image } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
-import CertificateBg from './CertificateBg';
 import { CertificateSvg } from './CertificateSvg';
 import { certificateSvgXml } from './certificateSvgXml';
 
-const CertificatePdf = ({user, certificate, colors}) => {
+Font.register({ family: 'Birthstone', src: 'https://fonts.gstatic.com/s/birthstone/v14/8AtsGs2xO4yLRhy87sv_HLn5jRfZHzM.ttf' });
+Font.register({ family: 'Lato', src: 'https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHvxk6XweuBCY.ttf' });
 
+const CertificatePdf = ({user, certificate, tenant}) => {
+
+  const colors = {
+    primary: tenant.primaryBrandColor || '#555555',
+    secondary: tenant.secondaryBrandColor || '#222222'
+  }
+  
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
       backgroundColor: '#E4E4E4',
+      fontFamily: 'Lato',
+      textAlign: 'center',
+      color: '#222222',
     },
-    section: {
+    textSection: {
       margin: 10,
       padding: 10,
       flexGrow: 1,
-      fontFamily: 'Times-Roman',
-      textAlign: 'center',
-      color: '#222222',
-      fontSize: 16
+      fontSize: 16,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     },
     pageBackground: {
       position: 'absolute',
+      backgroundColor: '#ffffff',
       minWidth: '100%',
       minHeight: '100%',
       display: 'flex',
       height: '100%',
       width: '100%',
+    },
+    awardedBy: {
+      position: 'absolute',
+      right: 20,
+      bottom: 0,
+      width: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    logo: {
+      height: '100%',
+      width: 100,
+      marginBottom: 10
     },
   });
 
@@ -49,43 +74,64 @@ const CertificatePdf = ({user, certificate, colors}) => {
         <View style={styles.pageBackground}>
           <CertificateSvg svgXml={certificateSvgXml(colors)} />
         </View>
-          <View style={styles.section}>
+        
+        { !!tenant?.logo_for_certs && (
+          <View style={styles.awardedBy}>
             <Text style={{
-              marginTop: 290
-            }}>
-              This certificate has been awarded to:
-            </Text>
-            <Text style={{
-              fontSize: 28,
-              marginTop: 20,
-              fontFamily: 'Times-Bold',
-            }}>
-              {user.fullName}
-            </Text>
-            <Text style={{
-              marginTop: 20
-            }}>for completing</Text>
-            <Text style={{
-              fontSize: 28,
-              marginTop: 20,
-              fontFamily: 'Times-Italic',
-            }}>{certificate.course?.title}</Text>
-            {/* { certificate.isScored && (
-              <Text style={{
-                marginTop: 20,
-              }}>With a score of: {certificate.score}/100</Text>
-            )} */}
-            <Text
-            style={{
-              marginTop: 20,
-            }}>on</Text>
-            <Text
-            style={{
-              marginTop: 20,
-              fontFamily: 'Times-Bold',
-            }}>{displayDate}</Text>
-            {/* <Image></Image> */}
+              fontSize: 12,
+              marginBottom: 8
+            }}>Awarded by</Text>
+            <View>
+              <Image src={tenant?.logo_for_certs}  style={styles.logo} />
+              {/* <CertificateSvg svgXml={certificateLogoXml(logo)} /> */}
+            </View>
           </View>
+        )}
+
+        <View style={styles.textSection}>
+          <Text style={{
+            marginTop: 290
+          }}>
+            This certificate has been awarded to:
+          </Text>
+          <Text style={{
+            fontSize: 38,
+            marginTop: 20,
+            fontFamily: 'Birthstone',
+          }}>
+            {user.fullName}
+          </Text>
+          <Svg height="1" width="200">
+            <Line
+              x1="0"
+              y1="0"
+              x2="240"
+              y2="0"
+              strokeWidth={1}
+              stroke={colors.secondary}
+            />
+          </Svg>
+          <Text style={{
+            marginTop: 20
+          }}>for successfully completing</Text>
+          <Text style={{
+            fontSize: 28,
+            marginTop: 20,
+            fontFamily: 'Birthstone',
+          }}>
+            {certificate.course?.title}
+          </Text>
+          {/* { certificate.isScored && (
+            <Text style={{
+              marginTop: 20,
+            }}>With a score of: {certificate.score}/100</Text>
+          )} */}
+          <Text
+          style={{
+            marginTop: 20,
+            fontSize: 12,
+          }}>on {displayDate}</Text>
+        </View>
       </Page>
     </Document>
     ) : null

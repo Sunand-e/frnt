@@ -7,6 +7,9 @@ export const TagFragment = gql`
     tagType
     order
     settings
+    parent {
+      id
+    }
     image {
       location
       id
