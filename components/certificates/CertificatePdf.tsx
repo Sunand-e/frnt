@@ -75,14 +75,14 @@ const CertificatePdf = ({user, certificate, tenant}) => {
           <CertificateSvg svgXml={certificateSvgXml(colors)} />
         </View>
         
-        { !!tenant?.logo_for_certs && (
+        { !!certificate.logoUrl && (
           <View style={styles.awardedBy}>
             <Text style={{
               fontSize: 12,
               marginBottom: 8
             }}>Awarded by</Text>
             <View>
-              <Image src={tenant?.logo_for_certs}  style={styles.logo} />
+              <Image src={certificate.logoUrl}  style={styles.logo} />
               {/* <CertificateSvg svgXml={certificateLogoXml(logo)} /> */}
             </View>
           </View>

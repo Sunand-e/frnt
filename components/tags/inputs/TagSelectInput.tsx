@@ -13,9 +13,13 @@ const TagSelectInput = ({control, name="tags", tagType, label, isMulti=false, on
   
   const value = isMulti ? field.value?.map(({__typename, image, order, ...value}) => value) : field.value
 
+  const options = tags && tags
+    .filter(tag => tag.tagType === tagType)
+    .map(({contentItems, parent, ...properties}) => properties)
+
   const selectProps = {
     isMulti,
-    options: tags && tags.filter(tag => tag.tagType === tagType),
+    options,
     value,
     getOptionValue: option => option.value ?? option.id,
     onChange: val => {
