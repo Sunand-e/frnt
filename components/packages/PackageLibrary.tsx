@@ -51,12 +51,12 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                   dark:scrollbar-thumb:!bg-slate-500/50 
                   max-h-96 supports-scrollbars:pr-2 lg:max-h-96">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-main bg-opacity-10">
+                <thead className="">
                   <tr className="bg-main bg-opacity-10">
                     <th
                       scope="col"
                       className="
-                      sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+                      bg-main-lightness-90 sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
                       "
                       >
                       <div className="py-3 px-6  border-b border-slate-200 dark:border-slate-400/20">
@@ -66,7 +66,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                     <th
                       scope="col"
                       className="
-                      sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+                      bg-main-lightness-90 sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
                       border-b border-slate-200 dark:border-slate-400/20"
                     >
                       <div className="py-3 px-6 border-b border-slate-200 dark:border-slate-400/20">
@@ -76,7 +76,7 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                     <th
                       scope="col"
                       className="
-                      sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+                      bg-main-lightness-90 sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 p-0 dark:bg-slate-900 dark:text-slate-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
                       border-b border-slate-200 dark:border-slate-400/20"
                     >
                       <div className="py-3 px-6 border-b border-slate-200 dark:border-slate-400/20">
@@ -90,7 +90,11 @@ const PackageLibrary: React.FunctionComponent<PackageLibraryProps> = ({onItemSel
                   <tbody className="">
                   { filteredScormPackages.map((module) => (
                     <tr className="cursor-pointer" key={module.id} onClick={() => onItemSelect(module)}>
-                      <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{module.title}</td>
+                      <td className="px-6 py-3 text-ellipsis break-words text-sm font-medium text-gray-900">
+                        <span className="line-clamp-1">
+                          {module.title}
+                        </span>
+                      </td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">{dayjs(module.createdAt).format('Do MMMM YYYY [at] h:mm A')}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right" onClick={e=>e.stopPropagation()}>
                         <PackageActionsMenu module={module} returnFn={reopenPackageLibrary} />
