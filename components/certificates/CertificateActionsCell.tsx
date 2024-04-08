@@ -12,14 +12,12 @@ const CertificateActionsCell = ({cell}) => {
   const {user} = useGetCurrentUser()
 
   const certificate = cell.row.original
+
   const pdfContent = <CertificatePdf
     user={user}
     certificate={certificate}
-    colors={{
-    primary: tenant.primaryBrandColor || '#555555',
-    secondary: tenant.secondaryBrandColor || '#222222',
-  }} />
-
+    tenant={tenant}
+  />
 
   const handleClick = () => {
       handleModal({

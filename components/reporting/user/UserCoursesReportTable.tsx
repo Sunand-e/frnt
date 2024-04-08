@@ -74,14 +74,8 @@ const UserCoursesReportTable = () => {
         accessorFn: statusAccessor,
       },
       commonTableCols.score,
-      {
-        ...commonTableCols.createdAt,
-        header: "First access",
-      },
-      {
-        ...commonTableCols.updatedAt,
-        header: "Last visited",
-      },
+      commonTableCols.firstVisited,
+      commonTableCols.lastVisited,
       {
         id: "actions",
         header: "",

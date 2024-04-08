@@ -7,12 +7,14 @@ export const CREATE_TAG = gql`
     $label: String!,
     $tagType: String!,
     $mediaItemId: ID,
+    $parentId: ID,
   ) {
     createTag(
       input: {
         label: $label,
         tagType: $tagType,
         mediaItemId: $mediaItemId,
+        parentId: $parentId,
       }
     ) {
       tag {

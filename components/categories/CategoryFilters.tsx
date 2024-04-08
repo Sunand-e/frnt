@@ -19,7 +19,7 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
   }
 
   const tagOptions = tags ? [
-    ...tags.map(tag => ({
+    ...tags.filter(t => t.contentItems.totalCount > 0).map(tag => ({
       value: tag.label,
       label: tag.label
     }))

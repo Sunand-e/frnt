@@ -124,6 +124,7 @@ const router = useRouter()
         control={control}
         tagType="category"
         label="Categories"
+        isMulti={true}
       />
       
       <TipTapInput

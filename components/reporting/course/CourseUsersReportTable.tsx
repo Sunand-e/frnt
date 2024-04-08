@@ -59,17 +59,11 @@ const CourseUsersReportTable = () => {
           return <ItemWithImage {...cellProps} />;
         },
       },
-      { ...commonTableCols.status },
-      { ...commonTableCols.progress },
-      { ...commonTableCols.score },
-      {
-        ...commonTableCols.createdAt,
-        header: "First access",
-      },
-      {
-        ...commonTableCols.updatedAt,
-        header: "Last visited",
-      },
+      commonTableCols.status,
+      commonTableCols.progress,
+      commonTableCols.score,
+      commonTableCols.firstVisited,
+      commonTableCols.lastVisited,
       // {
       //   id: "completedAt",
       //   header: "Completed at",

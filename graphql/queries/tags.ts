@@ -6,12 +6,19 @@ export const TagFragment = gql`
     label
     tagType
     order
+    settings
+    parent {
+      id
+    }
     image {
       location
       id
       altText
       properties
       title
+    }
+    contentItems {
+      totalCount
     }
     _deleted @client
   }

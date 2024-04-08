@@ -14,6 +14,7 @@ const SelectResourcesTable = ({onRowClick}) => {
       onRowClick={onRowClick}
       loading={loading}
       error={error}
+      isInModal={true}
     />
   );
 }

@@ -6,7 +6,7 @@ export default function CategoriesCollection() {
   const { tags, loading, error } = useGetTags()
 
   const categories = tags?.filter(
-    tag => tag.tagType === 'category'
+    tag => tag.tagType === 'category' && tag.contentItems.totalCount > 0
   ).sort((a,b) => b.order - a.order) || []
 
   return (

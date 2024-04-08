@@ -79,7 +79,7 @@ export default function Item({ item, options }) {
           height: '100%',
           position: 'absolute',
           // backgroundColor: 'rgba(0,0,0,0.1)',
-          objectFit: 'cover'
+          objectFit: item.settings?.thumbnailImageFit ?? 'cover'
         }}
       />
     )    

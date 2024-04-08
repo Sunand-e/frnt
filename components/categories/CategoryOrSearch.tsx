@@ -9,7 +9,7 @@ import useGetCourses from '../../hooks/courses/useGetCourses';
 import useGetResources from '../../hooks/resources/useGetResources';
 import useGetPathways from '../../hooks/pathways/useGetPathways';
 
-const Category = () => {
+const CategoryOrSearch = () => {
   
   const router = useRouter()
   const { search, category } = router.query
@@ -85,4 +85,4 @@ const Category = () => {
   )
 }
 
-export default Category
+export default CategoryOrSearch
