@@ -27,6 +27,7 @@ import { useViewStore } from "../../../hooks/useViewStore";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { createPortal } from "react-dom";
 import { useMeasure } from "@uidotdev/usehooks";
+import classNames from "../../../utils/classNames";
 
 interface TableStructureProps {
   table: Table<any>
@@ -49,6 +50,8 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const bulkActions = useTableContext(s => s.bulkActions)
   const onRowClick = useTableContext(s => s.onRowClick)
   const onReorder = useTableContext(s => s.onReorder)
+  const scrollInTable = useTableContext(s => s.scrollInTable)
+  const visibleRows = useTableContext(s => s.visibleRows)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderableActive)
@@ -71,8 +74,10 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainerRef = useTableContext(s => s.scrollContainerRef)
   const mainScrollableRef = useViewStore(state => state.mainScrollableRef)
 
-  const scrollContainer = scrollContainerRef.current || mainScrollableRef.current
+  const scrollContainer = scrollInTable ? tableElementRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
+  
+  const rowHeight = 73;
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
   const tBodyRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
@@ -80,7 +85,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
     getScrollElement: () => scrollContainer,
     // getScrollElement: () => tBodyRef.current,
     count: rows.length,
-    estimateSize: () => 75,
+    estimateSize: () => rowHeight,
     // scrollMargin: 100,
     overscan: 6
   });
@@ -143,16 +148,28 @@ const TableStructure = ({ table }: TableStructureProps) => {
     return row;
   }, [activeId, rows]);
 
+  const tableHeight = virtualizer.getTotalSize() + tHeadHeight
+
+  const tableWrapperHeight = scrollInTable ? (visibleRows ?? 5) * rowHeight + tHeadHeight + 1 : tableHeight
+
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-y-visible sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
-            className="shadow border-b border-gray-200 sm:rounded-lg bg-white"
-            // className="shadow overflow-y-hidden border-b border-gray-200 sm:rounded-lg bg-white"
-            style={{ height: `${virtualizer.getTotalSize() + tHeadHeight + 5}px` }}
+            className={classNames(
+              "shadow border-b border-gray-200 sm:rounded-lg bg-white",
+              scrollInTable && `overflow-hidden lg:overflow-auto scrollbar:!w-1.5 
+              scrollbar:!h-1.5 scrollbar:bg-transparent 
+              scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded 
+              scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded 
+              dark:scrollbar-track:!bg-slate-500/[0.16] 
+              dark:scrollbar-thumb:!bg-slate-500/50 
+              supports-scrollbars:pr-2
+            `)}
+            style={{ height: tableWrapperHeight }}
           >
-            <MaybeDndContext
+          <MaybeDndContext
               sensors={sensors}
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
@@ -161,16 +178,23 @@ const TableStructure = ({ table }: TableStructureProps) => {
               // modifiers={[restrictToVerticalAxis]}
               modifiers={[restrictToVerticalAxis, adjustOriginPoint]}
             >
-              <table ref={tableElementRef} className="min-w-full table-fixed border-separate">
-                <thead className="bg-gray-50 sticky" ref={tHeadRef}>
+            <div style={{ height: tableHeight }}>
+              <table ref={tableElementRef} className="min-w-full table-fixed border-separate border-spacing-y-0">
+                <thead className="bg-gray-50 sticky top-0" ref={tHeadRef} style={{zIndex: 10000}}>
                   {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
                       {headerGroup.headers.map((header, index) => {
                         return (
                           <th key={header.id} colSpan={header.colSpan}
-                            className={`px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider border-b border-gray-200`}
+                            className={classNames(
+                              "bg-gray-50 px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider " +
+                              "border-b border-gray-200",
+                              scrollInTable && 'sticky top-0'
+                            )}
+                            
                             style={{
                               textAlign: (index > dataCellOffset) ? 'center' : 'left',
+                              zIndex: 10000,
                               // width: header.getSize() !== 150 ? header.getSize() : 20,
                               ...(colWidths && { width: colWidths[index] }),
                             }}
@@ -275,6 +299,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
                 </DragOverlay>,
                 document.getElementById("__next")
               )}
+            </div>
             </MaybeDndContext>
           </div>
         </div>

@@ -23,6 +23,8 @@ export interface TableProps {
   selectedRowIds?: Array<string>,
   showTop?: boolean,
   scrollContainerRef: MutableRefObject<HTMLDivElement>
+  scrollInTable: boolean,
+  visibleRows: number,
   isExportable?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
@@ -74,10 +76,13 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     isReorderable: false,
     isReorderableActive: false,
     isReportingTable: false,
+    scrollInTable: false,
+    visibleRows: 5,
     exportFilename: 'export',
     backButton: null,
     onFilterChange: null,
     scrollContainerRef: createRef(),
+
     onRowClick: () => false,
     onRowSelect: (selection) => false,
     onReorder: null,
