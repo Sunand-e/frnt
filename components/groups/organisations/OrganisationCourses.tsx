@@ -22,7 +22,7 @@ const OrganisationCourses = () => {
     onClick: () => {
       handleModal({
         title: 'Provide courses',
-        content: <ProvideContentToGroup group={group} content={courses} providedContent={group.availableCourses} typeName='course' />
+        content: <ProvideContentToGroup group={group} content={courses} provisionedContent={group.provisionedCourses} typeName='course' />
       })
     }
   }

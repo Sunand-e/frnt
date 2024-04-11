@@ -15,7 +15,7 @@ const OrganisationCoursesTable = () => {
   
   const tableData = useMemo(
     () => {
-      return group?.availableCourses.edges.filter(edge => (
+      return group?.provisionedCourses.edges.filter(edge => (
         !edge.node._deleted
       )) || []
     },
@@ -48,6 +48,8 @@ const OrganisationCoursesTable = () => {
   const tableProps = {
     tableData,
     tableCols,
+    scrollInTable: true,
+    visibleRows: 5,
     showTop: false
   }
     

@@ -1,12 +1,10 @@
-import ActionsMenu from "../../common/menus/ActionsMenu"
 import { useCallback } from "react"
-import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent"
-import { gql, useQuery } from "@apollo/client"
-import useRemoveProvidedContentFromGroup from "../../../hooks/groups/useRemoveProvidedContentFromGroup"
+import useRemoveProvisionedContentFromGroups from "../../../hooks/groups/useRemoveProvisionedContentFromGroups"
+import ActionsMenu from "../../common/menus/ActionsMenu"
 
 const OrganisationCourseActionsMenu = ({group, edge}) => {
 
-  const { removeProvidedContentFromGroup } = useRemoveProvidedContentFromGroup()
+  const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   
   const handleRemove = useCallback(content => {
     console.log('group')
@@ -14,8 +12,8 @@ const OrganisationCourseActionsMenu = ({group, edge}) => {
     if(!group?.id) {
       return false
     }
-    removeProvidedContentFromGroup({
-      groupId: group.id,
+    removeProvisionedContentFromGroups({
+      groupIds: [group.id],
       contentItemIds: [content.node.id],
     })
   }, [group])

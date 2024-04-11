@@ -1,18 +1,13 @@
+import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { TenantContext } from '../../../context/TenantContext';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
-import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
+import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
 import Button from '../../common/Button';
-import { useForm } from 'react-hook-form';
 import TextInput from '../../common/inputs/TextInput';
+import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
 import GroupUsersInput from '../inputs/GroupUsersInput';
-import { useContext, useEffect } from 'react';
-import AssignedResourcesInput from '../inputs/AssignedResourcesInput';
-import AssignedPathwaysInput from '../inputs/AssignedPathwaysInput';
-import AssignedCoursesInput from '../inputs/AssignedCoursesInput';
-import { disableSubmitOnEnterKey } from '../../../utils/forms';
-import { TenantContext } from '../../../context/TenantContext';
-import CheckboxInput from '../../common/inputs/CheckboxInput';
-import useCreateGroup from '../../../hooks/groups/useCreateGroup';
 import OrganisationCourses from './OrganisationCourses';
 
 interface GroupFormValues {
@@ -22,9 +17,9 @@ interface GroupFormValues {
   groupImage: string
   userRole: string
   isOrganisation: boolean
-  availableCourseIds: [any]
-  availableResourceIds: [any]
-  availablePathwayIds: [any]
+  provisionedCourseIds: [any]
+  provisionedResourceIds: [any]
+  provisionedPathwayIds: [any]
 }
 
 const OrganisationForm = ({organisation=null, onSubmit}) => {
@@ -43,9 +38,9 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
       defaultValues: {
         ...group,
         userIds: users.map(user => user.id),
-        availableCourseIds: group?.availableCourses.edges.map(edge => edge.node.id) || [],
-        availableResourceIds: group?.availableResources.edges.map(edge => edge.node.id) || [],
-        availablePathwayIds: group?.availablePathways.edges.map(edge => edge.node.id) || [],
+        provisionedCourseIds: group?.provisionedCourses.edges.map(edge => edge.node.id) || [],
+        provisionedResourceIds: group?.provisionedResources.edges.map(edge => edge.node.id) || [],
+        provisionedPathwayIds: group?.provisionedPathways.edges.map(edge => edge.node.id) || [],
       }
     }
   );
@@ -58,10 +53,10 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
     const input = {
       ...values,
       ...(organisation === null ? { isOrganisation: true } : {}),
-      availableContentIds: [
-        ...values.availableCourseIds,
-        ...values.availableResourceIds,
-        ...values.availablePathwayIds
+      provisionedContentIds: [
+        ...values.provisionedCourseIds,
+        ...values.provisionedResourceIds,
+        ...values.provisionedPathwayIds
       ]
     }
     onSubmit(input)
@@ -88,7 +83,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
       <GroupUsersInput control={control} label={'Members'} />
 
       <OrganisationCourses />
-      <AssignedCoursesInput control={control} name={'availableCourseIds'} />
+      {/* <CoursesDualListBoxInput control={control} name={'provisionedCourseIds'} /> */}
 
       <Button type="submit">{buttonText}</Button>
     </form>

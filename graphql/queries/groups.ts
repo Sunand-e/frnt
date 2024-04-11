@@ -54,7 +54,7 @@ export const GroupFragment = gql`
         }
       }
     }
-    availableResources {
+    provisionedResources {
       totalCount
       edges {
         node {
@@ -62,7 +62,7 @@ export const GroupFragment = gql`
         }
       }
     }
-    availableCourses {
+    provisionedCourses {
       totalCount
       edges {
         node {
@@ -74,7 +74,7 @@ export const GroupFragment = gql`
         }
       }
     }
-    availablePathways {
+    provisionedPathways {
       totalCount
       edges {
         node {

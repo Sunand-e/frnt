@@ -56,7 +56,7 @@ const OrganisationsTable = () => {
       },
       {
         header: "Provided Courses",
-        accessorFn: row => row.availableCourses?.totalCount,
+        accessorFn: row => row.provisionedCourses?.totalCount,
       },
       {
         header: "Enrolments",
