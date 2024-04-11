@@ -1,10 +1,10 @@
 import useGetPathways from "../../../hooks/pathways/useGetPathways";
 import DualListBoxInput from "../../common/inputs/DualListBoxInput"
 
-const AssignedPathwaysInput = ({control}) => {
+const PathwaysDualListBoxInput = ({control, name='courseIds', label='Courses'}) => {
 
   const { pathways } = useGetPathways();
-  // Get array of {value: label:} objects from fetched pathways object 
+
   const pathwaysOptions = pathways?.edges?.map(({node}) => {
     return { value: node.id, label: node.title }
   })
@@ -13,9 +13,9 @@ const AssignedPathwaysInput = ({control}) => {
     <>
       { pathways && (
         <DualListBoxInput
-          label="Assigned pathways"
+          label={label}
           control={control}
-          name="assignedPathwayIds"
+          name={name}
           options={pathwaysOptions}
           lang={{
             availableHeader: 'Available pathways',
@@ -27,4 +27,4 @@ const AssignedPathwaysInput = ({control}) => {
   )
 }
 
-export default AssignedPathwaysInput
+export default PathwaysDualListBoxInput

@@ -1,10 +1,10 @@
 import useGetResources from "../../../hooks/resources/useGetResources";
 import DualListBoxInput from "../../common/inputs/DualListBoxInput"
 
-const AssignedResourcesInput = ({control}) => {
+const ResourcesDualListBoxInput = ({control, name='resourceIds', label='Resources'}) => {
 
   const { resources } = useGetResources();
-  // Get array of {value: label:} objects from fetched resources object 
+
   const resourcesOptions = resources?.edges?.map(({node}) => {
     return { value: node.id, label: node.title }
   })
@@ -13,9 +13,9 @@ const AssignedResourcesInput = ({control}) => {
     <>
       { resources && (
         <DualListBoxInput
-          label="Assigned resources"
+          label={label}
           control={control}
-          name="assignedResourceIds"
+          name={name}
           options={resourcesOptions}
           lang={{
             availableHeader: 'Available resources',
@@ -27,4 +27,4 @@ const AssignedResourcesInput = ({control}) => {
   )
 }
 
-export default AssignedResourcesInput
+export default ResourcesDualListBoxInput

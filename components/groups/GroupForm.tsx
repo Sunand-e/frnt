@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import TextInput from '../common/inputs/TextInput';
 import GroupUsersInput from './inputs/GroupUsersInput';
 import { useEffect } from 'react';
-import AssignedResourcesInput from './inputs/AssignedResourcesInput';
-import AssignedPathwaysInput from './inputs/AssignedPathwaysInput';
-import AssignedCoursesInput from './inputs/AssignedCoursesInput';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
+import CoursesDualListBoxInput from './inputs/CoursesDualListBoxInput';
+import ResourcesDualListBoxInput from './inputs/ResourcesDualListBoxInput';
+import PathwaysDualListBoxInput from './inputs/PathwaysDualListBoxInput';
 
 interface GroupFormValues {
   id?: string
@@ -80,9 +80,9 @@ const GroupForm = ({group=null, onSubmit}) => {
       /> */}
 
       <GroupUsersInput control={control} />
-      <AssignedCoursesInput control={control} />
-      <AssignedResourcesInput control={control} />
-      <AssignedPathwaysInput control={control} />
+      <CoursesDualListBoxInput control={control} label="Assigned courses" name="assignedCourseIds" />
+      <ResourcesDualListBoxInput control={control} label="Assigned resources" name="assignedResourceIds" />
+      <PathwaysDualListBoxInput control={control} label="Assigned pathways" name="assignedPathwayIds" />
 
       <Button type="submit">{buttonText}</Button>
     </form>
