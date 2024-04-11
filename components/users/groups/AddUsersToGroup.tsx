@@ -1,15 +1,11 @@
-import Select, { components, MenuProps } from 'react-select'
 import { useState } from "react"
+import Select, { components } from 'react-select'
 import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups"
-import useGetGroups from "../../../hooks/groups/useGetGroups"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
-import useGetUser from "../../../hooks/users/useGetUser"
+import useGetUsers from '../../../hooks/users/useGetUsers'
 import { closeModal } from "../../../stores/modalStore"
-import { useRouter } from "../../../utils/router"
 import Button from "../../common/Button"
 import LoadingSpinner from '../../common/LoadingSpinner'
-import useGetUsers from '../../../hooks/users/useGetUsers'
-import useGetGroup from '../../../hooks/groups/useGetGroup'
 
 const customStyles = {
   option: (provided, state) => {
@@ -36,21 +32,23 @@ const Input = props => (
     inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const AddUsersToGroup = ({ id }) => {
+const AddUsersToGroup = ({ group }) => {
 
   const { addUsersToGroups } = useAddUsersToGroups()
 
   const { users, loading: loadingUsers, error } = useGetUsers()
-  const { group, loading: loadingGroup } = useGetGroup(id)
   const { roles, loading: loadingRoles } = useGetRoles()
   const [open, setOpen] = useState(false);
 
-  const availableUsers = group && users?.edges?.filter(userEdge =>
-    !group.groups?.edges?.some(userGroupEdge => userGroupEdge.node.id === userEdge.node.id)
-  ) || []
+  const availableUsers = group && users?.edges?.filter(userEdge => {
+    return  !group.users?.edges?.some(groupUserEdge => groupUserEdge.node.id === userEdge.node.id)
+}) || []
 
+
+
+  
   const selectOptions = availableUsers.map(userEdge => ({
-    label: userEdge.node.name,
+    label: userEdge.node.fullName,
     value: userEdge.node.id,
   }))
 
@@ -75,7 +73,7 @@ const AddUsersToGroup = ({ id }) => {
 
   const menuTopMargin = selectedUserIds.length ? 60 : 0
 
-  if (loadingUsers || loadingGroup || loadingRoles) {
+  if (loadingUsers || loadingRoles) {
     return <LoadingSpinner size='sm' />
   }
 
@@ -85,7 +83,7 @@ const AddUsersToGroup = ({ id }) => {
         availableUsers?.length ? (
           <div>
             <Select
-              placeholder={<span className="text-main-secondary">Choose group(s)...</span>}
+              placeholder={<span className="text-main-secondary">Choose a user...</span>}
               menuIsOpen={open}
               onMenuOpen={() => setOpen(true)}
               onMenuClose={() => setOpen(false)}
@@ -111,7 +109,7 @@ const AddUsersToGroup = ({ id }) => {
             {/* <GroupMultiLevelSelect data={availableGroupData} onChange={handleChange} /> */}
             {!!selectedUserIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>
-                Assign {selectedUserIds.length} user{!!(selectedUserIds.length > 1) && 's'} to {group.name}
+                Add {selectedUserIds.length} user{!!(selectedUserIds.length > 1) && 's'} to {group.name}
               </Button>
             )}
           </div>
