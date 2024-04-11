@@ -9,6 +9,7 @@ import TextInput from '../../common/inputs/TextInput';
 import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
 import GroupUsersInput from '../inputs/GroupUsersInput';
 import OrganisationCourses from './OrganisationCourses';
+import OrganisationMembers from './OrganisationMembers';
 
 interface GroupFormValues {
   id?: string
@@ -80,8 +81,8 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
       
       {/* <UserSelect /> */}
 
-      <GroupUsersInput control={control} label={'Members'} />
-
+      {/* <GroupUsersInput control={control} label={'Members'} /> */}
+      <OrganisationMembers />
       <OrganisationCourses />
       {/* <CoursesDualListBoxInput control={control} name={'provisionedCourseIds'} /> */}
 

@@ -12,6 +12,9 @@ export const GroupFragment = gql`
       edges {
         node {
           id
+          fullName
+          email
+          profileImageUrl
         }
       }
     }
