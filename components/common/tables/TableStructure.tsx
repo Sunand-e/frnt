@@ -51,7 +51,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const onRowClick = useTableContext(s => s.onRowClick)
   const onReorder = useTableContext(s => s.onReorder)
   const scrollInTable = useTableContext(s => s.scrollInTable)
-  const visibleRows = useTableContext(s => s.visibleRows)
+  const maxVisibleRows = useTableContext(s => s.maxVisibleRows)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderableActive)
@@ -150,7 +150,9 @@ const TableStructure = ({ table }: TableStructureProps) => {
 
   const tableHeight = virtualizer.getTotalSize() + tHeadHeight
 
-  const tableWrapperHeight = scrollInTable ? (visibleRows ?? 5) * rowHeight + tHeadHeight + 1 : tableHeight
+  const visibleRows = items.length < maxVisibleRows ? items.length : maxVisibleRows
+  
+  const tableWrapperHeight = scrollInTable ? visibleRows * rowHeight + tHeadHeight + 1 : tableHeight
 
   return (
     <div className="flex flex-col">
