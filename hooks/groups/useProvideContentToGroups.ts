@@ -5,7 +5,7 @@ import { AddUsersToGroups, AddUsersToGroupsVariables } from "../../graphql/mutat
 
 function useProvideContentToGroups() {
 
-  const [provideContentToGroupsMutation, provideContentToGroupsResponse] = useMutation<AddUsersToGroups, AddUsersToGroupsVariables>(
+  const [provideContentToGroupsMutation, provideContentToGroupsResponse] = useMutation(
     PROVIDE_CONTENT_TO_GROUPS
   );
 

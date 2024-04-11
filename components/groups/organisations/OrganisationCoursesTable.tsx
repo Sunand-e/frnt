@@ -49,7 +49,7 @@ const OrganisationCoursesTable = () => {
     tableData,
     tableCols,
     scrollInTable: true,
-    visibleRows: 5,
+    maxVisibleRows: 5,
     showTop: false
   }
     
