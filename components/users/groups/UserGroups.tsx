@@ -1,7 +1,7 @@
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import BoxContainer from "../../common/containers/BoxContainer";
-import AddUsersToGroups from "./AddUserToGroups";
+import AddUserToGroups from "./AddUserToGroups";
 import UserGroupsTable from "./UserGroupsTable";
 import {Group2} from "@styled-icons/remix-fill/Group2";
 import { handleModal } from "../../../stores/modalStore";
@@ -17,7 +17,7 @@ const UserGroups = () => {
   const openAddUsersToGroups = () => {
     handleModal({
       title: `Assign user to groups`,
-      content: <AddUsersToGroups id={user.id} />
+      content: <AddUserToGroups id={user.id} />
     })
   }
 
