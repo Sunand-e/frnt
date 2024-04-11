@@ -1,18 +1,18 @@
 import { gql } from '@apollo/client';
 
-export const REMOVE_PROVIDED_CONTENT_FROM_GROUP = gql`
-  mutation RemoveProvidedContentFromGroup(
+export const REMOVE_PROVISIONED_CONTENT_FROM_GROUPS = gql`
+  mutation removeProvisionedContentFromGroups(
     $contentItemIds: [ID!]!,
-    $groupId: ID!
+    $groupIds: [ID!]!
   ) {
-    removeProvidedContentFromGroup(
+    removeProvisionedContentFromGroups(
       input: {
         contentItemIds: $contentItemIds,
-        groupId: $groupId
+        groupIds: $groupIds
       }
     ) {
-      group {
-        availableCourses {
+      groups {
+        provisionedCourses {
           edges {
             node {
               id

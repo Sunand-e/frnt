@@ -6,7 +6,7 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
     $contentItemIds: [ID!]!,
     $groupIds: [ID!]!
   ) {
-    assignContentToGroups(
+    provideContentToGroups(
       input: {
         contentItemIds: $contentItemIds,
         groupIds: $groupIds
@@ -15,7 +15,7 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
       groups {
         id
         name
-        availableCourses {
+        provisionedCourses {
           edges {
             node {
               id

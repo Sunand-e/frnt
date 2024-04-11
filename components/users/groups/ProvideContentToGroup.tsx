@@ -1,18 +1,17 @@
 import { useState } from "react"
-import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
 import useProvideContentToGroups from "../../../hooks/groups/useProvideContentToGroups"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
 import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
 
-const ProvideContentToGroup = ({group, content, providedContent, typeName='item'}) => {
+const ProvideContentToGroup = ({group, content, provisionedContent, typeName='item'}) => {
   
   const {provideContentToGroups} = useProvideContentToGroups()
 
   const courseNodes = content?.edges.map(edge => edge.node)
 
-  const organisationCourseNodes = providedContent?.edges.filter(edge => (
+  const organisationCourseNodes = provisionedContent?.edges.filter(edge => (
     !edge.node._deleted
   )).map(edge => edge.node)
 
@@ -58,7 +57,7 @@ const ProvideContentToGroup = ({group, content, providedContent, typeName='item'
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            No {typeName}s available for enrolment
+            No {typeName}s available for provisioning
             <Button onClick={closeModal}>OK</Button>
           </div>
         )
