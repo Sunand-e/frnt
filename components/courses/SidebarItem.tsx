@@ -40,7 +40,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   });
 
   const [title, setTitle] = useState('Untitled Lesson')
-  const [isMenuOpen, setIsMenuOpen] = useState('Untitled Lesson')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     if(complete) {
