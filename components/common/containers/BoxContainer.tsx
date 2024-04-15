@@ -5,6 +5,7 @@ interface BoxContainerProps {
   button: {
     text: string
     onClick: any,
+    disabled: boolean,
   } | null,
   icon: StyledIcon | null,
   children: any
@@ -14,7 +15,7 @@ const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: 
 
   const HeaderButton = () => {
     return (
-      <Button onClick={button?.onClick}>
+      <Button onClick={button?.onClick} disabled={button?.disabled}>
         {button?.text}
       </Button>
     )
