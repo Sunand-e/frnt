@@ -6,9 +6,12 @@ import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
 import Button from '../../common/Button';
 import TextInput from '../../common/inputs/TextInput';
+import GroupMembers from '../GroupMembers';
 import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
 import GroupUsersInput from '../inputs/GroupUsersInput';
+import MenuTest from './MenuTest';
 import OrganisationCourses from './OrganisationCourses';
+import OrganisationLeader from './OrganisationLeader';
 import OrganisationMembers from './OrganisationMembers';
 
 interface GroupFormValues {
@@ -78,13 +81,20 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
         placeholder="Organisation name"
         inputAttrs={register("name", { maxLength: 100 })}
       />
-      
-      {/* <UserSelect /> */}
-
-      {/* <GroupUsersInput control={control} label={'Members'} /> */}
-      <OrganisationMembers />
+      <GroupMembers
+        title="Organisation Leader"
+        groupType="organisation"
+        addMembersButtonText="Choose organisation leader"
+        addMembersModalText="Organisation leader"
+        newMemberRole="Group Leader"
+        showRoles={["Group Leader"]}
+        isSingle={true}
+      />
+      <GroupMembers 
+        groupType="organisation"
+        showRoles={["Member"]}
+      />
       <OrganisationCourses />
-      {/* <CoursesDualListBoxInput control={control} name={'provisionedCourseIds'} /> */}
 
       <Button type="submit">{buttonText}</Button>
     </form>

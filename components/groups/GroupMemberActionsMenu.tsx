@@ -1,8 +1,8 @@
-import ActionsMenu from "../../common/menus/ActionsMenu"
+import ActionsMenu from "../common/menus/ActionsMenu"
 import { useCallback } from "react"
-import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup"
+import useRemoveUserFromGroup from "../../hooks/groups/useRemoveUserFromGroup"
 
-const OrganisationMemberActionsMenu = ({group, edge}) => {
+const GroupMemberActionsMenu = ({group, edge}) => {
 
   const { removeUserFromGroup } = useRemoveUserFromGroup()
   
@@ -18,7 +18,7 @@ const OrganisationMemberActionsMenu = ({group, edge}) => {
 
   const menuItems = [
     ...(!false ? [{
-      label: 'Remove user from organisation',
+      label: 'Remove user from group',
       onClick: () => {
         handleRemove(
           edge
@@ -31,8 +31,9 @@ const OrganisationMemberActionsMenu = ({group, edge}) => {
     <ActionsMenu
       menuItems={menuItems}
       buttonText={'Actions'}
+      align={'Right'}
     />
   )
 }
 
-export default OrganisationMemberActionsMenu
+export default GroupMemberActionsMenu

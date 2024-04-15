@@ -16,6 +16,10 @@ export const GroupFragment = gql`
           email
           profileImageUrl
         }
+        roles {
+          id
+          name
+        }
       }
     }
     image {

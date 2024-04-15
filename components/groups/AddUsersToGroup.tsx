@@ -1,11 +1,11 @@
 import { useState } from "react"
 import Select, { components } from 'react-select'
-import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups"
-import useGetRoles from "../../../hooks/roles/useGetRoles"
-import useGetUsers from '../../../hooks/users/useGetUsers'
-import { closeModal } from "../../../stores/modalStore"
-import Button from "../../common/Button"
-import LoadingSpinner from '../../common/LoadingSpinner'
+import useAddUsersToGroups from "../../hooks/groups/useAddUsersToGroups"
+import useGetRoles from "../../hooks/roles/useGetRoles"
+import useGetUsers from '../../hooks/users/useGetUsers'
+import { closeModal } from "../../stores/modalStore"
+import Button from "../common/Button"
+import LoadingSpinner from '../common/LoadingSpinner'
 
 const customStyles = {
   option: (provided, state) => {
@@ -32,7 +32,7 @@ const Input = props => (
     inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const AddUsersToGroup = ({ group }) => {
+const AddUsersToGroup = ({ group, roleName='Member', isSingle=false }) => {
 
   const { addUsersToGroups } = useAddUsersToGroups()
 
@@ -44,21 +44,19 @@ const AddUsersToGroup = ({ group }) => {
     return  !group.users?.edges?.some(groupUserEdge => groupUserEdge.node.id === userEdge.node.id)
 }) || []
 
-
-
-  
+ 
   const selectOptions = availableUsers.map(userEdge => ({
     label: userEdge.node.fullName,
     value: userEdge.node.id,
   }))
 
 
-  const defaultRole = roles?.find(role => role.name === 'Member')
+  const defaultRole = roles?.find(role => role.name === roleName)
 
   const [selectedUserIds, setSelectedUserIds] = useState([])
 
   const handleChange = (items) => {
-    setSelectedUserIds(items.map(item => item.value))
+    setSelectedUserIds(isSingle ? items.value : items.map(item => item.value));
   }
 
   const handleEnrol = (e) => {
@@ -67,11 +65,11 @@ const AddUsersToGroup = ({ group }) => {
       userIds: selectedUserIds,
       roleId: defaultRole?.id
     }, () => {
-      closeModal()
-    })
+      closeModal();
+    });
   }
 
-  const menuTopMargin = selectedUserIds.length ? 60 : 0
+  const menuTopMargin = selectedUserIds.length ? 60 : 0;
 
   if (loadingUsers || loadingRoles) {
     return <LoadingSpinner size='sm' />
@@ -97,19 +95,17 @@ const AddUsersToGroup = ({ group }) => {
               }}
               onChange={handleChange}
               className={`w-full mb-4`}
-              isMulti={true}
+              isMulti={!isSingle}
               isSearchable={true}
               closeMenuOnSelect={false}
               menuPortalTarget={document.body}
               menuPlacement={'auto'}
             />
 
-
-
             {/* <GroupMultiLevelSelect data={availableGroupData} onChange={handleChange} /> */}
             {!!selectedUserIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>
-                Add {selectedUserIds.length} user{!!(selectedUserIds.length > 1) && 's'} to {group.name}
+                Add {!isSingle && selectedUserIds.length} user{!isSingle && selectedUserIds.length > 1 && 's'} to {group.name}
               </Button>
             )}
           </div>
