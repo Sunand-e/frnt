@@ -3,7 +3,7 @@ import { useRouter } from "../../../../utils/router";
 import TextInput from "../../inputs/TextInput";
 
 import { useForm } from 'react-hook-form';
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { LessonFragment } from "../../../../graphql/queries/allQueries";
 import CheckboxInput from "../../inputs/CheckboxInput";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ export const LessonSettingsPanel = () => {
   const router = useRouter()
   const { cid: contentId } = router.query
 
-  const { complete, data, missing } = useFragment_experimental({
+  const { complete, data, missing } = useFragment({
     fragment: LessonFragment,
     fragmentName: 'LessonFragment',
     from: { id: contentId, __typename: "ContentItem", },

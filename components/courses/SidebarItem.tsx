@@ -2,7 +2,7 @@ import {Trash} from '@styled-icons/heroicons-outline/Trash'
 import {Duplicate} from '@styled-icons/ionicons-solid/Duplicate'
 import { forwardRef, useEffect, useMemo, useState } from "react"
 import { moduleTypes } from "../courses/moduleTypes"
-import { gql, useFragment_experimental } from '@apollo/client'
+import { gql, useFragment } from '@apollo/client'
 import SidebarItemProgress from './SidebarItemProgress'
 import { filterDeletedCourseItems, getItemStructureFromSections } from './CourseStructureEditor/utilities'
 import { useRouter } from '../../utils/router'
@@ -34,7 +34,7 @@ const SidebarItem = forwardRef<HTMLLIElement, any>(({
   const { courseEdge } = useGetUserCourse(courseId)
   const course = courseEdge?.node
 
-  const { complete, data, missing } = useFragment_experimental({
+  const { complete, data, missing } = useFragment({
     fragment: ContentTitleAndTypeFragment,
     from: { id, __typename: "ContentItem", },
   });

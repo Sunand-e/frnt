@@ -1,4 +1,4 @@
-import { useFragment_experimental } from '@apollo/client';
+import { useFragment } from '@apollo/client';
 import { RestartAlt } from '@styled-icons/material-rounded/RestartAlt';
 import { QuizFragment } from '../../graphql/queries/allQueries';
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
@@ -15,7 +15,7 @@ function QuizSummaryActions() {
   const { createUserQuizAttempt } = useCreateUserQuizAttempt()
   const { userHasCapability } = useUserHasCapability()
 
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },

@@ -31,13 +31,16 @@ const typePolicies = {
   UserContentEdge: {
     merge: true,
     keyFields: (object, context) => {
-      return `UserContentEdge:${object.userId}:${object.node.id}`
+      const contentId = context.readField('id', object.node);
+      // Use the subfieldData as needed
+      return `UserContentEdge:${object.userId}:${contentId}`;
     }
   },
   ContentItemTagEdge: {
     merge: true,
     keyFields: (object, context) => {
-      return `ContentItemTagEdge:${object.contentItemId}:${object.node.id}`
+      const tagId = context.readField('id', object.node);
+      return `ContentItemTagEdge:${object.contentItemId}:${tagId}`
     }
   },
   ContentItem: {
