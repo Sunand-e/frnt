@@ -17,7 +17,7 @@ interface TagFormValues {
 const TagForm = ({tag=null, onSubmit, isModal=false}) => {
 
   const { tags, loading, error } = useGetTags()
-  const parentTag = tags.find(t => t.id === tag.parent?.id)
+  const parentTag = tags.find(t => t.id === tag?.parent?.id)
 
   const { userHasCapability } = useUserHasCapability()
   const defaultValues = {
