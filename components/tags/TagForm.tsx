@@ -10,7 +10,7 @@ import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 
 interface TagFormValues {
   label: string
-  mediaItemId: string
+  mediaItem: string
   parentTag: any
 }
 
@@ -18,7 +18,6 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
 
   const { tags, loading, error } = useGetTags()
   const parentTag = tags.find(t => t.id === tag?.parent?.id)
-
   const { userHasCapability } = useUserHasCapability()
   const defaultValues = {
     tagType: 'category',
@@ -38,6 +37,7 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
   const buttonText = tag ? 'Save changes' : 'Create category'
   
   const reopenFormInModal = (image) => {
+    console.log(image)
     handleModal({
       title: `Course settings`,
       size: 'lg',
@@ -46,8 +46,8 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
   }
 
   const onFormSubmit = (vals) => {
-    const {parentTag, ...values} = vals
-    onSubmit({...values, parentId: parentTag?.id})
+    const {parentTag, image, ...values} = vals
+    onSubmit({...values, parentId: parentTag?.id, mediaItemId: image?.id})
   }
   
   return (
@@ -62,6 +62,7 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
           required: "Category name is required"
         })}
       />
+      {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
       { userHasCapability('CreateSubTags') && (      
         <TagSelectInput
           name="parentTag"
@@ -71,14 +72,15 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
           isMulti={false}
         />
       )}
-      {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
       <ImageSelectInput
         label="Category image"
         origImage={tag?.image}
         placeholder={'https://picsum.photos/640/360'}
         buttonText="Choose category image"
         control={control}
-        name="mediaItemId"
+        closeOnSelect={false}
+        name="image"
+        valueAsObject={true}
         onSelect={isModal ? reopenFormInModal : null}
         // inputAttrs={register("image", { required: true })}
       />
