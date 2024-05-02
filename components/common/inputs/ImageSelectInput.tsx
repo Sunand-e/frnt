@@ -9,6 +9,7 @@ type ImageSelectInputProps = {
   src?: string;
   origImage?;
   onSelect?;
+  closeOnSelect?: boolean;
   label?: string;
   placeholder?: string;
   buttonText?: string;
@@ -25,6 +26,7 @@ const ImageSelectInput = ({
   name,
   origImage,
   onSelect,
+  closeOnSelect=true,
   className='',
   valueAsObject=false,
   isButtonAlwaysVisible=true
@@ -48,6 +50,7 @@ const ImageSelectInput = ({
     <>
       <ImageSelectFromLibrary
         className={classNames(className)}
+        closeOnSelect={closeOnSelect}
         placeholder={placeholder}
         src={image?.location}
         buttonText={buttonText}

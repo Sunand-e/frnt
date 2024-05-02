@@ -8,6 +8,7 @@ type ImageSelectFromLibraryProps = {
   label?: string;
   placeholder?: string;
   buttonText?: string;
+  closeOnSelect?: boolean;
   onSelect?: (image) => void;
   isButtonAlwaysVisible?: boolean;
   className?: string;
@@ -20,6 +21,7 @@ const ImageSelectFromLibrary = ({
   buttonText,
   isButtonAlwaysVisible,
   className = '',
+  closeOnSelect = true,
   onSelect
 }: ImageSelectFromLibraryProps) => {
 
@@ -28,7 +30,7 @@ const ImageSelectFromLibrary = ({
       title: `Choose image`,
       content: <MediaLibrary onItemSelect={item => {
         onSelect(item)
-        closeModal()
+        closeOnSelect && closeModal()
       }} typeFilter={['image']} />,
       size: 'lg'
     })
