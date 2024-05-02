@@ -36,7 +36,7 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={'flex flex-col items-center space-y-4'}
+      className={'flex flex-col space-y-4'}
     >
       <div className='flex space-x-6 max-w-screen-xl'>
         <div className={`${!!showDescription && 'w-1/2'} flex flex-col space-y-4`}>
@@ -84,6 +84,8 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
             label="Disable lesson progression"
             inputAttrs={register("disableProgression")}
           /> */}
+          
+      <Button type="submit">{submitButtonText}</Button>
         </div>
         { showDescription && (
           <div className="w-1/2 flex flex-col">
@@ -104,7 +106,6 @@ const CourseForm = ({course=null, onSubmit, showDescription=false, extended=fals
           </div>
         )}
       </div>
-      <Button type="submit">{submitButtonText}</Button>
     </form>
   )
 }
