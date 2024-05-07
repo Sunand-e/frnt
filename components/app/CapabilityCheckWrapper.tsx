@@ -5,8 +5,8 @@ import useUserHasCapability from "../../hooks/users/useUserHasCapability"
 const CapabilityCheckWrapper = ({capabilities, children}) => {
 
   const router = useRouter()
-  const { userHasCapability, userCapabilityArray } = useUserHasCapability()
-  const ready = !!userCapabilityArray.length
+  const { userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
+  const ready = !!tenantLevelCapabilityArray.length
 
   useEffect(() => {
     if(ready && capabilities) {

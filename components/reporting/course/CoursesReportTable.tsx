@@ -101,7 +101,7 @@ const CoursesReportTable = () => {
     group: groupId, 
   } = router.query
 
-  const { userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const { userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const filterActive = (filterVal) => {
     return filterVal && filterVal !== 'all'
@@ -148,7 +148,7 @@ const CoursesReportTable = () => {
     }
     return data || []
 
-  }, [courses,groupId, userCapabilityArray])
+  }, [courses,groupId, tenantLevelCapabilityArray])
 
   const tableCols = useMemo(
     () => [

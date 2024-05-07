@@ -14,7 +14,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const ref = useRef(null)
   const tenant = useContext(TenantContext)
   const isAdminView = useViewStore(state => state.isAdminView)
-  const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
+  const { userType, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const isSuperAdmin = useMemo(() => {
     return userType ? userType === 'SuperAdmin' : false;
@@ -45,7 +45,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
       return isSuperAdmin || !item.superAdminOnly
 
     })
-  },[navStructure, tenant, isSuperAdmin, userCapabilityArray])
+  },[navStructure, tenant, isSuperAdmin, tenantLevelCapabilityArray])
 
   let logoImage;
   const defaultLogo = `${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`
