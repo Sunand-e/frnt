@@ -1,55 +1,22 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import useDeleteUser from "../../hooks/users/useDeleteUser"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
-import getJWT from "../../utils/getToken"
-import { client } from "../../graphql/client"
-import { useRouter } from "next/router"
-import { useCallback } from "react"
 import useSendInvite from "../../hooks/useSendInvite"
-
-const useRequestSwitchUser = ({user}) => {
-
-  const router = useRouter()
-
-  const requestSwitchUser = useCallback(() => {
-
-    const token = getJWT()
-
-    fetch(`/api/v1/user/act_as/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-    .then(res => res.json())
-    .then(
-      (result) => {
-        if(result.token) {    
-          router.push('/').then(() => {
-            localStorage.setItem('actAsToken', result.token as string);
-            client.resetStore()
-          })
-        } else if(result.error) {
-          alert('error')
-        }
-      },
-      (error) => {
-        console.log('ERROR:')
-        console.log(error)
-      }
-    )
-  },[])
-
-  return { 
-    requestSwitchUser
-  }
-}
+import useUserHasCapability from "../../hooks/users/useUserHasCapability"
+import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
+import { useRequestSwitchUser } from "../../hooks/users/useRequestSwitchUser"
+import { handleModal } from "../../stores/modalStore"
+import EnrolUserInContent from "./content/EnrolUserInContent"
 
 const UserActionsMenu = ({user}) => {
 
   const editUrl = '/admin/users/edit'
   const editHref = user?.id && `${editUrl}?id=${user.id}`
  
+  const { userHasCapability } = useUserHasCapability()
+  const { requestSwitchUser } = useRequestSwitchUser({user})
+  const { sendInvite } = useSendInvite()
+  const { user: currentUser, courses } = useGetCurrentUser()
   const { deleteUser } = useDeleteUser()
   const { confirmDelete } = useConfirmDelete({
     itemType: 'user',
@@ -57,9 +24,26 @@ const UserActionsMenu = ({user}) => {
     onConfirm: () => deleteUser(user.id)
   })
 
-  const { sendInvite } = useSendInvite()
   
-  const { requestSwitchUser } = useRequestSwitchUser({user})
+  const assignCourses = () => {
+    handleModal({
+      title: 'Assign courses',
+      content: <EnrolUserInContent user={user} typeName='course' />
+    })
+  }
+
+  let showAssignCourses
+  
+  if(userHasCapability('EnrolUsersInContent', 'tenant')) {
+    showAssignCourses = true
+  } else {
+    // if the current user has the EnrolUsersInContent capability for a group that the user is in, show the Assign courses button
+    showAssignCourses = user.groups.edges.some(groupEdge => {
+      return userHasCapability('EnrolUsersInContent', 'group', groupEdge.node.id)
+    })
+  }
+
+
   const menuItems = [
     { 
       label: 'Edit user', 
@@ -71,10 +55,16 @@ const UserActionsMenu = ({user}) => {
       capability: 'ActAsAnyUser',
       onClick: requestSwitchUser
     },
-    ...(!user.invitationAcceptedAt ? [{
-        label: 'Send invitation',
-        onClick: () => sendInvite(user.id)
-    }] : []),
+    {
+      label: 'Assign course(s)',
+      capability: 'EnrolUsersInContent',
+      onClick: assignCourses,
+    },
+    {
+      label: 'Send invitation',
+      onClick: () => sendInvite(user.id),
+      show: !user.invitationAcceptedAt
+    },
     {
       label: <span className="text-red-500">Delete user</span>, 
       capability: 'DeleteUser',
