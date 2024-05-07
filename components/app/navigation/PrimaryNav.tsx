@@ -8,12 +8,14 @@ import NavFooter from "./NavFooter";
 import { TenantContext } from '../../../context/TenantContext';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useViewStore } from '../../../hooks/useViewStore';
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
 
 const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const ref = useRef(null)
   const tenant = useContext(TenantContext)
   const isAdminView = useViewStore(state => state.isAdminView)
+  const { tenantFeauresEnabled } = useTenantFeaturesEnabled()
   const { userType, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const isSuperAdmin = useMemo(() => {
@@ -23,12 +25,8 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
-      if(item.requireEnabledFeatures) {
-        for(let feature of item.requireEnabledFeatures) {
-          if(!tenant || !tenant?.[feature]?.enabled) {
-            return false
-          }
-        }
+      if(item.requireEnabledFeatures && !tenantFeauresEnabled(item.requireEnabledFeatures)) {
+        return false
       }
       if(item.removeIfFeaturesDisabled) {
         for(let feature of item.removeIfFeaturesDisabled) {
