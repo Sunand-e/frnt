@@ -7,8 +7,6 @@ const OrganisationCourseActionsMenu = ({group, edge}) => {
   const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   
   const handleRemove = useCallback(content => {
-    console.log('group')
-    console.log(group)
     if(!group?.id) {
       return false
     }

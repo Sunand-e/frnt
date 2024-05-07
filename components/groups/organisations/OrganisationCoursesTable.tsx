@@ -32,7 +32,7 @@ const OrganisationCoursesTable = () => {
           return (
             <ItemWithImage
               title={course.title}
-              image={course.image}
+              // image={course.image}
             />
           )
         }

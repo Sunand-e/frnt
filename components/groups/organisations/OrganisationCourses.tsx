@@ -5,7 +5,6 @@ import { useRouter } from "../../../utils/router";
 import useGetCourses from "../../../hooks/courses/useGetCourses";
 import { handleModal } from "../../../stores/modalStore";
 import useGetGroup from "../../../hooks/groups/useGetGroup";
-import EnrolUserInContent from "../../users/content/EnrolUserInContent";
 import ProvideContentToGroup from "../../users/groups/ProvideContentToGroup";
 
 const OrganisationCourses = () => {
