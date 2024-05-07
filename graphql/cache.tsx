@@ -25,6 +25,9 @@ const typePolicies = {
   UserContentConnection: {
     merge: true,
   },
+  UserGroupConnection: {
+    merge: true,
+  },
   ContentUserConnection: {
     merge: true,
   },
@@ -34,6 +37,18 @@ const typePolicies = {
       const contentId = context.readField('id', object.node);
       // Use the subfieldData as needed
       return `UserContentEdge:${object.userId}:${contentId}`;
+    }
+  },
+  UserGroupEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      console.log('object.groupId')
+      console.log(object.groupId) 
+      console.log('context')
+      console.log(context)
+      // const groupId = context.readField('id', object.node);
+      const groupId = context.readField('groupId', object);
+      return `UserGroupEdge:${object.userId}:${groupId}`;
     }
   },
   ContentItemTagEdge: {
