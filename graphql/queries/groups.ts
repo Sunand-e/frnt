@@ -7,6 +7,8 @@ export const GroupFragment = gql`
     name
     updatedAt
     isOrganisation
+    enrolmentLicenseTotal
+    enrolments
     users {
       totalCount
       edges {
@@ -75,6 +77,14 @@ export const GroupFragment = gql`
         node {
           id
           title
+          tags {
+            edges {
+              node {
+                id
+                label
+              }
+            }
+          }
           image {
             id
           }

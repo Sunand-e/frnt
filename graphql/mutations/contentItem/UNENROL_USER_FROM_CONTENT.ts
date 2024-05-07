@@ -2,12 +2,12 @@ import { gql } from '@apollo/client';
 
 
 export const UNENROL_USER_FROM_CONTENT = gql`
-  mutation RemoveEnrolledContents(
+  mutation RemoveAssignedContent(
     $contentItemId: ID!
     $userId: ID!
     $roleIds: [ID!]
   ) {
-    removeEnrolledContents(
+    removeAssignedContent(
       input: {
         contentItemId: $contentItemId
         removeModel: "user"

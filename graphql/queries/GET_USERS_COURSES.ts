@@ -27,6 +27,8 @@ export const GET_USERS_COURSES = gql`
           }
           groups {
             edges {
+              groupId
+              userId
               node {
                 id
               }

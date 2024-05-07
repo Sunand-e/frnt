@@ -11,6 +11,8 @@ export const UPDATE_GROUP = gql`
     $assignedContentIds: [ID!],
     $enrolledContentIds: [ID!],
     $availableContentIds: [ID!],
+    $enrolmentLicenseTotal: Int,
+    $enrolments: Int,
     $userIds: [ID!]
   ) {
     updateGroup(
@@ -19,6 +21,8 @@ export const UPDATE_GROUP = gql`
         id: $id,
         imageId: $imageId,
         parentId: $parentId,
+        enrolmentLicenseTotal: $enrolmentLicenseTotal,
+        enrolments: $enrolments,
         availableContentIds: $availableContentIds,
         assignedContentIds: $assignedContentIds,
         enrolledContentIds: $enrolledContentIds,

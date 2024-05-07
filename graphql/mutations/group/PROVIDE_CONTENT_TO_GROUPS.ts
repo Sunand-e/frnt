@@ -25,7 +25,7 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
       }
       contentItems {
         id
-        groupsAssigned {
+        groupsProvisioned {
           edges {
             node {
               id
