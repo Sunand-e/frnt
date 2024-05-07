@@ -101,6 +101,27 @@ export const GET_CURRENT_USER = gql`
     user(id: $id) {
       ...UserFragment
       ...UserCapabilitiesFragment
+      groups {
+        totalCount
+        edges {
+          groupId
+          userId
+          node {
+            id
+            name
+            isOrganisation
+            enrolments
+            enrolmentLicenseTotal
+          }
+          roles {
+            id
+            capabilities {
+              id
+              name
+            }
+          }
+        }
+      }
     }
   }
   ${UserFragment}
@@ -135,6 +156,8 @@ export const GET_USER_CAPABILITIES = gql`
       }
       groups {
         edges {
+          groupId
+          userId
           roles {
             id
             capabilities {
@@ -157,6 +180,8 @@ export const GET_USERS = gql`
           groups {
             totalCount
             edges {
+              groupId
+              userId
               node {
                 id
                 name
