@@ -22,7 +22,7 @@ const GroupsTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return queryData?.groups?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
+      return queryData?.groups?.edges?.map(edge => edge.node).filter(node => node.isOrganisation === false && !node._deleted) || []
     }, [queryData]
   );
 
