@@ -27,13 +27,15 @@ const navStructureAdmin = [
     name: 'categories',
     title: 'Categories',
     urlPath: '/admin/tags',
-    icon: Category
+    icon: Category,
+    capabilities: ['UpdateTag', 'ReorderTags'],
   },
   {
     name: 'courses',
     title: 'Courses',
     urlPath: '/admin/courses',
     icon: 'graduation-cap',
+    capabilities: ['UpdateCourse', 'ReorderCourses'],
     subPages: [
       {
         name: 'courses',
@@ -56,7 +58,7 @@ const navStructureAdmin = [
     title: 'Resources',
     urlPath: '/admin/resources',
     icon: 'school',
-    capabilities: ['SeeResources'],
+    capabilities: ['UpdateResource', 'ReorderResources'],
     removeIfFeaturesDisabled: ['resources'],
     subPages: [
       {
@@ -175,6 +177,7 @@ const navStructureAdmin = [
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
     removeIfFeaturesDisabled: ['mediaLibrary'],
+    capabilities: ['UpdateMediaItem']
   },
   // {
   //   name: 'events',
