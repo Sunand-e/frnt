@@ -3,6 +3,7 @@ import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
 import {Users} from '@styled-icons/fa-solid/Users';
 import {Group2} from "@styled-icons/remix-fill/Group2";
 import {Library} from "@styled-icons/ionicons-solid/Library"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
 import CalendarDay from '../../components/common/Calendar/CalendarDay';
 import QuickActions from '../../components/admin/dashboard/QuickActions';
 import DashboardItem from '../../components/admin/dashboard/DashboardItem';
@@ -17,6 +18,9 @@ import useHeaderButtons from '../../hooks/useHeaderButtons';
 import RecentActivity from '../../components/admin/dashboard/RecentActivity';
 import { useContext } from 'react';
 import { TenantContext } from '../../context/TenantContext';
+import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 
 const AdminDashboardPage = () => {
   
@@ -24,14 +28,37 @@ const AdminDashboardPage = () => {
 
   usePageTitle({ title: 'Admin Dashboard' })
 
+  const { user } = useGetCurrentUser()
+  const { userHasCapability, determineCapabilityScope } = useUserHasCapability()
+  const { tenantFeauresEnabled } = useTenantFeaturesEnabled()
+  
   useHeaderButtons([{
     id: 'userView',
     component: <ButtonLink href={'/'}>User View</ButtonLink>
   }])
-  
+
   const tenant = useContext(TenantContext)
   
-  const cards = useMemo(() => ([
+  const cards = useMemo(() => {
+    
+    const organisationWithEnrolUsersInContentCapability = (
+      user?.groups?.edges.find(edge => {
+        return edge.node.isOrganisation && userHasCapability('EnrolUsersInContent', 'group', edge.groupId)
+      })?.node
+    )
+
+    const showOrganisationEnrolmentLicences = (
+      tenantFeauresEnabled(['organisations']) &&
+      !userHasCapability('EnrolUsersInContent', 'tenant') &&
+      organisationWithEnrolUsersInContentCapability
+    )
+
+    const showGroups = (
+      !(tenant?.groups?.enabled === false) &&
+      !showOrganisationEnrolmentLicences
+    )
+
+    return [
     {
       name: 'allCourses',
       label: 'Total courses',
@@ -47,12 +74,22 @@ const AdminDashboardPage = () => {
       IconComponent: Users,
       href: "admin/users"
     },
-    ...(!(tenant?.groups?.enabled === false) ? [{
+    ...(showGroups ? [{
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
       IconComponent: Group2,
       href: "admin/users/groups"
+    }] : []),
+    ...(showOrganisationEnrolmentLicences ? [{
+      name: 'enrolmentLicenses',
+      label: 'Enrolment licenses used',
+      value: (
+        organisationWithEnrolUsersInContentCapability.enrolments + ' / ' +
+        organisationWithEnrolUsersInContentCapability.enrolmentLicenseTotal
+      ),
+      IconComponent: PeopleTeamToolbox,
+      href: "#"
     }] : []),
     ...(!(tenant?.resources?.enabled === false) ? [{
       name: 'allResources',
@@ -61,7 +98,7 @@ const AdminDashboardPage = () => {
       IconComponent: Library,
       href: "admin/resources"
     }] : []),
-  ]),[data, tenant])
+  ]},[data, tenant, user])
 
   const statusStyles = {
     success: 'bg-green-100 text-green-800',
