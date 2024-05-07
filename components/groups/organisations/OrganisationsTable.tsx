@@ -27,6 +27,7 @@ const OrganisationsTable = () => {
   );
 
   const tableCols = useMemo(() => {
+
     return [
       {
         header: "Organisation",
@@ -48,11 +49,7 @@ const OrganisationsTable = () => {
       {
         header: "Date Created",
         accessorKey: "createdAt",
-        cell: ({ cell }) => {
-          console.log('cell.row')
-          console.log(cell.row)
-          return dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
-        }
+        cell: ({ cell }) => dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
       },
       {
         header: "Provided Courses",
@@ -60,10 +57,10 @@ const OrganisationsTable = () => {
       },
       {
         header: "Enrolments",
-        accessorFn: row => row.enrolmentLicenseTotal,
+        accessorFn: row => row.enrolments,
         cell: ({ cell }) => (
           <>
-            {cell.row.enrolmentLicenseTotal || 0} / {cell.row.enrolmentLicenseTotal || 0} licenses used
+            {cell.getValue() || 0} / {cell.row.original.enrolmentLicenseTotal || 0} licenses used
           </>
         )
       },
