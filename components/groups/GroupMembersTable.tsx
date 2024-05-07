@@ -9,6 +9,7 @@ import GroupMemberActionsMenu from "./GroupMemberActionsMenu";
 
 
 const GroupMembersTable = ({
+  userEdges=[],
   showRoles=[],
   isSingle=false,
   maxVisibleRows=5
@@ -17,16 +18,7 @@ const GroupMembersTable = ({
   const router = useRouter()
   const { id } = router.query
 
-  const { loading, error, group } = useGetGroup(id)
-  
-  const tableData = useMemo(
-    () => group?.users.edges.filter(edge => {
-      if(!!edge.node._deleted) return false
-      if(showRoles.length > 0 && !edge.roles.some(role => showRoles.includes(role.name))) return false
-      return true
-    }) || [],
-    [group, showRoles]
-  );
+  const { group } = useGetGroup(id)
 
   const tableCols = useMemo(() => {
     return [
@@ -54,7 +46,7 @@ const GroupMembersTable = ({
   }, [group]);
 
   const tableProps = {
-    tableData: isSingle && tableData.length > 0 ? [tableData[0]] : tableData,
+    tableData: isSingle && userEdges.length > 0 ? [userEdges[0]] : userEdges,
     tableCols,
     scrollInTable: true,
     maxVisibleRows: isSingle ? 1 : maxVisibleRows,

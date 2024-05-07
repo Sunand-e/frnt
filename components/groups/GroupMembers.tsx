@@ -1,4 +1,5 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
+import { useMemo } from "react";
 import useGetCourses from "../../hooks/courses/useGetCourses";
 import useGetGroup from "../../hooks/groups/useGetGroup";
 import { handleModal } from "../../stores/modalStore";
@@ -24,10 +25,19 @@ const GroupMembers = ({
   const { courses } = useGetCourses()
 
   const { group } = useGetGroup(id)
-
+  
+  const userEdges = useMemo(
+    () => group?.users.edges.filter(edge => {
+      if(!!edge.node._deleted) return false
+      if(showRoles.length > 0 && !edge.roles.some(role => showRoles.includes(role.name))) return false
+      return true
+    }) || [],
+    [group, showRoles]
+  );
+  
   const button = {
     text: addMembersButtonText,
-    disabled: isSingle && group?.users.edges.length > 0,
+    disabled: isSingle && userEdges.length > 0,
     onClick: () => {
       handleModal({
         title: addMembersModalText,
@@ -38,7 +48,7 @@ const GroupMembers = ({
 
   return (
     <BoxContainer title={title} icon={GraduationCap} button={button}>
-      <GroupMembersTable isSingle={isSingle} showRoles={showRoles} maxVisibleRows={maxVisibleRows} />
+      <GroupMembersTable userEdges={userEdges} isSingle={isSingle} showRoles={showRoles} maxVisibleRows={maxVisibleRows} />
     </BoxContainer>
   );
 }
