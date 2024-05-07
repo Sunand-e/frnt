@@ -41,6 +41,8 @@ function useUpdateGroup(id = null) {
         fragment UserGroups on User {
           groups {
             edges {
+              groupId
+              userId
               node {
                 id
               }
@@ -86,12 +88,14 @@ function useUpdateGroup(id = null) {
 
   const updateGroup = (values) => {
     const variables = {
-      ...values
+      ...values,
+      enrolmentLicenseTotal: parseInt(values.enrolmentLicenseTotal) || 0,
+      enrolments: parseInt(values.enrolments) || 0,
     }
-
     updateGroupMutation({
       variables: {
         id,
+        
         ...variables
       },
       optimisticResponse: {
