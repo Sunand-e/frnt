@@ -5,6 +5,7 @@ import useGetGroup from '../../../hooks/groups/useGetGroup';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
 import Button from '../../common/Button';
+import NumberPropertyInput from '../../common/inputs/NumberPropertyInput';
 import TextInput from '../../common/inputs/TextInput';
 import GroupMembers from '../GroupMembers';
 import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
@@ -21,9 +22,8 @@ interface GroupFormValues {
   groupImage: string
   userRole: string
   isOrganisation: boolean
-  provisionedCourseIds: [any]
-  provisionedResourceIds: [any]
-  provisionedPathwayIds: [any]
+  enrolments: number
+  enrolmentLicenseTotal: number
 }
 
 const OrganisationForm = ({organisation=null, onSubmit}) => {
@@ -41,10 +41,9 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
     {
       defaultValues: {
         ...group,
+        enrolments: group?.enrolments || 0,
+        enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
         userIds: users.map(user => user.id),
-        provisionedCourseIds: group?.provisionedCourses.edges.map(edge => edge.node.id) || [],
-        provisionedResourceIds: group?.provisionedResources.edges.map(edge => edge.node.id) || [],
-        provisionedPathwayIds: group?.provisionedPathways.edges.map(edge => edge.node.id) || [],
       }
     }
   );
@@ -57,11 +56,6 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
     const input = {
       ...values,
       ...(organisation === null ? { isOrganisation: true } : {}),
-      provisionedContentIds: [
-        ...values.provisionedCourseIds,
-        ...values.provisionedResourceIds,
-        ...values.provisionedPathwayIds
-      ]
     }
     onSubmit(input)
 
@@ -80,6 +74,22 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
         label="Organisation name"
         placeholder="Organisation name"
         inputAttrs={register("name", { maxLength: 100 })}
+      />
+      <NumberPropertyInput
+        inputAttrs={{
+          ...register("enrolmentLicenseTotal"),
+        }}
+        unit={'licenses'}
+        className={'text-sm'}
+        label="Enrolment license total"
+      />
+      <NumberPropertyInput
+        inputAttrs={{
+          ...register("enrolments"),
+        }}
+        unit={'licenses'}
+        className={'text-sm'}
+        label="Enrolments"
       />
       <GroupMembers
         title="Organisation Leader"
