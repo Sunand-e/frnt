@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../common/tables/Table';
-import { GET_USERS } from '../../graphql/queries/users';
+import { GET_USERS, UserFragment } from '../../graphql/queries/users';
 import { GetUsers, GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
@@ -14,6 +14,9 @@ import dayjs from "dayjs"
 import Tippy from '@tippyjs/react';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { TenantContext } from '../../context/TenantContext';
+import { handleModal } from '../../stores/modalStore';
+import EnrolUsersInContent from './content/EnrolUsersInContent';
+import cache from '../../graphql/cache';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -144,11 +147,30 @@ const UsersTable = () => {
 
   const { sendInvite } = useSendInvite()
 
+  const assignCourses = (ids) => {
+
+    const users = ids.map(id => cache.readFragment({
+      id: `User:${id}`,
+      fragment: UserFragment,
+    }));
+
+    handleModal({
+      title: 'Assign courses',
+      content: <EnrolUsersInContent users={users} content={null} typeName='course' />
+    });
+  }
+
   const bulkActions = [
     {
       label: 'Send invitations to selected users',
       onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
     },
+    {
+      label: 'Assign courses to users',
+      onClick: (ids: Array<string>) => ids.length && assignCourses(ids)
+    },
+
+  
     // {
     //   label: <span className="text-red-500">Delete users</span>,
     //   onClick: (ids: Array<string>) => console.log('test'),
