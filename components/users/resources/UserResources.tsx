@@ -5,7 +5,7 @@ import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import UserResourcesTable from "./UserResourcesTable";
 import useGetUserResources from "../../../hooks/users/useGetUserResources";
-import EnrolUserInContent from "../content/EnrolUserInContent";
+import EnrolUsersInContent from "../content/EnrolUsersInContent";
 import { handleModal } from "../../../stores/modalStore";
 import useGetResources from "../../../hooks/resources/useGetResources";
 
@@ -23,7 +23,7 @@ const UserResources = () => {
     onClick: () => {
       handleModal({
         title: 'Enrol user in resources',
-        content: <EnrolUserInContent user={user} content={resources} assignedContent={assignedResources} typeName='resource' />
+        content: <EnrolUsersInContent user={user} content={resources} assignedContent={assignedResources} typeName='resource' />
       })
     }
   }

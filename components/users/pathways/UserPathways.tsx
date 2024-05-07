@@ -5,7 +5,7 @@ import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import UserPathwaysTable from "./UserPathwaysTable";
 import useGetUserPathways from "../../../hooks/users/useGetUserPathways";
-import EnrolUserInContent from "../content/EnrolUserInContent";
+import EnrolUsersInContent from "../content/EnrolUsersInContent";
 import { handleModal } from "../../../stores/modalStore";
 import useGetPathways from "../../../hooks/pathways/useGetPathways";
 
@@ -23,7 +23,7 @@ const UserPathways = () => {
     onClick: () => {
       handleModal({
         title: 'Enrol user in pathways',
-        content: <EnrolUserInContent user={user} content={pathways} assignedContent={assignedPathways} typeName='pathway' />
+        content: <EnrolUsersInContent user={user} content={pathways} assignedContent={assignedPathways} typeName='pathway' />
       })
     }
   }

@@ -5,7 +5,7 @@ import { useRouter } from "../../../utils/router";
 import useGetUser from "../../../hooks/users/useGetUser";
 import useGetCourses from "../../../hooks/courses/useGetCourses";
 import useGetUserCourses from "../../../hooks/users/useGetUserCourses";
-import EnrolUserInContent from "../content/EnrolUserInContent";
+import EnrolUsersInContent from "../content/EnrolUsersInContent";
 import { handleModal } from "../../../stores/modalStore";
 
 const UserCourses = () => {
@@ -22,7 +22,7 @@ const UserCourses = () => {
     onClick: () => {
       handleModal({
         title: 'Enrol user in courses',
-        content: <EnrolUserInContent user={user} content={courses} assignedContent={assignedCourses} typeName='course' />
+        content: <EnrolUsersInContent users={[user]} content={courses} assignedContent={assignedCourses} typeName='course' />
       })
     }
   }
