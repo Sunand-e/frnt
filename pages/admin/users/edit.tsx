@@ -18,6 +18,7 @@ import ButtonBack from '../../../components/common/ButtonBack';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useContext } from 'react';
 import { TenantContext } from '../../../context/TenantContext';
+import useIsOrganisationLeader from '../../../hooks/users/useIsOrganisationLeader';
 
 const AdminUsersEdit = () => {
   
@@ -29,6 +30,7 @@ const AdminUsersEdit = () => {
   const { userHasCapability } = useUserHasCapability()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
+  const { isOrganisationLeader } = useIsOrganisationLeader()
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT"
   })
@@ -66,6 +68,11 @@ const AdminUsersEdit = () => {
     component: <ButtonBack text="Back to user list" action="/admin/users" />
   });
 
+  const showGroups = (
+    !(tenant?.groups?.enabled === false) &&
+    !isOrganisationLeader
+  )
+
   return (
     <>
       { loading ? (
@@ -85,7 +92,7 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            { !(tenant?.groups?.enabled === false) && <UserGroups /> }
+            { showGroups && <UserGroups /> }
             <UserCourses />
             { !(tenant?.resources?.enabled === false) && <UserResources /> }
             { (tenant?.pathways?.enabled === true) && <UserPathways /> }

@@ -17,6 +17,7 @@ import { TenantContext } from '../../context/TenantContext';
 import { handleModal } from '../../stores/modalStore';
 import EnrolUsersInContent from './content/EnrolUsersInContent';
 import cache from '../../graphql/cache';
+import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -37,7 +38,6 @@ const UserStatusCell = ({
     </div>
   </Tippy>
 ) 
-
 const UsersTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
@@ -47,6 +47,8 @@ const UsersTable = () => {
 
   const { userHasCapability } = useUserHasCapability()
   const tenant = useContext(TenantContext)
+
+  const { isOrganisationLeader } = useIsOrganisationLeader()
 
   const editUrl = '/admin/users/edit'
 
@@ -66,7 +68,11 @@ const UsersTable = () => {
           />
         )
       },
-      ...(!(tenant?.groups?.enabled === false) ? [
+      ...(
+        (
+          !(tenant?.groups?.enabled === false) &&
+          userHasCapability('SeeGroups', 'tenant')
+        ) ? [
         {
           header: "Groups",
           accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
@@ -75,7 +81,11 @@ const UsersTable = () => {
           }
         }
       ] : []),
-      ...(userHasCapability('SeeRoles') ? [
+      ...(
+        (
+          userHasCapability('SeeRoles') &&
+          !isOrganisationLeader
+        ) ? [
         {
           header: "Global Roles",
           id: 'roles',
@@ -142,7 +152,7 @@ const UsersTable = () => {
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
       }
     ],
-    [tenant]
+    [tenant, isOrganisationLeader, userHasCapability]
   );
 
   const { sendInvite } = useSendInvite()

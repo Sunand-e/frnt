@@ -1,26 +1,23 @@
-import usePageTitle from '../../hooks/usePageTitle';
-import {GraduationCap} from '@styled-icons/entypo/GraduationCap';
-import {Users} from '@styled-icons/fa-solid/Users';
-import {Group2} from "@styled-icons/remix-fill/Group2";
-import {Library} from "@styled-icons/ionicons-solid/Library"
-import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
-import CalendarDay from '../../components/common/Calendar/CalendarDay';
-import QuickActions from '../../components/admin/dashboard/QuickActions';
-import DashboardItem from '../../components/admin/dashboard/DashboardItem';
-import DashboardLayout from '../../layouts/DashboardLayout';
-import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
-import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 import { useQuery } from '@apollo/client';
-import { useEffect, useMemo } from 'react';
-import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
+import { GraduationCap } from '@styled-icons/entypo/GraduationCap';
+import { Users } from '@styled-icons/fa-solid/Users';
+import { PeopleTeamToolbox } from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox";
+import { Library } from "@styled-icons/ionicons-solid/Library";
+import { Group2 } from "@styled-icons/remix-fill/Group2";
+import { useContext, useMemo } from 'react';
+import AdminDashCard from '../../components/admin/dashboard/AdminDashCard';
+import DashboardItem from '../../components/admin/dashboard/DashboardItem';
+import QuickActions from '../../components/admin/dashboard/QuickActions';
 import ButtonLink from '../../components/common/ButtonLink';
-import useHeaderButtons from '../../hooks/useHeaderButtons';
-import RecentActivity from '../../components/admin/dashboard/RecentActivity';
-import { useContext } from 'react';
+import WelcomeUserPanel from '../../components/dashboard/WelcomeUserPanel';
 import { TenantContext } from '../../context/TenantContext';
+import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
+import useHeaderButtons from '../../hooks/useHeaderButtons';
+import usePageTitle from '../../hooks/usePageTitle';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
+import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
-import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
+import DashboardLayout from '../../layouts/DashboardLayout';
 
 const AdminDashboardPage = () => {
   
@@ -30,7 +27,6 @@ const AdminDashboardPage = () => {
 
   const { user } = useGetCurrentUser()
   const { userHasCapability, determineCapabilityScope } = useUserHasCapability()
-  const { tenantFeauresEnabled } = useTenantFeaturesEnabled()
   
   useHeaderButtons([{
     id: 'userView',
@@ -38,20 +34,12 @@ const AdminDashboardPage = () => {
   }])
 
   const tenant = useContext(TenantContext)
+
+  const { isOrganisationLeader, organisation } = useIsOrganisationLeader()
   
   const cards = useMemo(() => {
     
-    const organisationWithEnrolUsersInContentCapability = (
-      user?.groups?.edges.find(edge => {
-        return edge.node.isOrganisation && userHasCapability('EnrolUsersInContent', 'group', edge.groupId)
-      })?.node
-    )
-
-    const showOrganisationEnrolmentLicences = (
-      tenantFeauresEnabled(['organisations']) &&
-      !userHasCapability('EnrolUsersInContent', 'tenant') &&
-      organisationWithEnrolUsersInContentCapability
-    )
+    const showOrganisationEnrolmentLicences = isOrganisationLeader
 
     const showGroups = (
       !(tenant?.groups?.enabled === false) &&
@@ -85,8 +73,8 @@ const AdminDashboardPage = () => {
       name: 'enrolmentLicenses',
       label: 'Enrolment licenses used',
       value: (
-        organisationWithEnrolUsersInContentCapability.enrolments + ' / ' +
-        organisationWithEnrolUsersInContentCapability.enrolmentLicenseTotal
+        organisation.enrolments + ' / ' +
+        organisation.enrolmentLicenseTotal
       ),
       IconComponent: PeopleTeamToolbox,
       href: "#"
