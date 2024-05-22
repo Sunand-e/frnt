@@ -134,6 +134,7 @@ const navStructureAdmin = [
         urlPath: '/admin/users/groups',
         icon: Group2,
         removeIfFeaturesDisabled: ['groups'],
+        capabilities: ['CreateGroup'],
       },
       {
         name: 'organisations',
@@ -141,6 +142,7 @@ const navStructureAdmin = [
         urlPath: '/admin/users/organisations',
         icon: PeopleTeamToolbox,
         requireEnabledFeatures: ['organisations'],
+        capabilities: ['CreateGroup'],
       },
       {
         name: 'roles',
