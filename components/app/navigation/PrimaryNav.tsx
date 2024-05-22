@@ -16,7 +16,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const tenant = useContext(TenantContext)
   const isAdminView = useViewStore(state => state.isAdminView)
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
-  const { userType, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
+  const { isSuperAdmin, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const isSuperAdmin = useMemo(() => {
     return userType ? userType === 'SuperAdmin' : false;

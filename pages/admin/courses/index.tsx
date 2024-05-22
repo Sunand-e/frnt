@@ -13,7 +13,7 @@ const AdminCourses = () => {
     title: 'Courses'
   })
 
-  const { userType, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
+  const { isSuperAdmin, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
   const showCreateButton = userHasCapability([
     'CreateCourse',
   ])
@@ -25,7 +25,7 @@ const AdminCourses = () => {
     }] : []),
   ])
 
-  const ready = !!tenantLevelCapabilityArray.length || userType === 'SuperAdmin'
+  const ready = !!tenantLevelCapabilityArray.length || isSuperAdmin
   const router = useRouter()
   
   useEffect(() => {

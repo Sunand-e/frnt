@@ -25,6 +25,8 @@ function useUserHasCapability() {
     }, {}) || {}
   },[user])
 
+  const isSuperAdmin = user?.userType === 'SuperAdmin'
+
   // ...(courses?.edges && [...courses.edges.reduce((array, courseEdge) => {
   //   return [...array, ...getCapsFromRoleArr(courseEdge.roles)]
   // }, [])]),
@@ -67,7 +69,7 @@ function useUserHasCapability() {
   },[user, groupCapabilities, tenantLevelCapabilityArray])
 
   return {
-    userType: user?.userType,
+    isSuperAdmin,
     userHasCapability,
     determineCapabilityScope,
     tenantLevelCapabilityArray
