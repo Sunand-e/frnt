@@ -116,11 +116,7 @@ export const UserGroupsFragment = gql`
         roles {
           id
           name
-          roleType          
-          capabilities {
-            id
-            name
-          }      
+          roleType
         }
       }
     }
