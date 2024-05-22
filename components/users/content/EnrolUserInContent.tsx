@@ -1,23 +1,23 @@
 import { useState } from "react"
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
-import useGetCourses from "../../../hooks/courses/useGetCourses"
+import useGetContent from "../../../hooks/contentItems/useGetContent"
 import useGetGroups from "../../../hooks/groups/useGetGroups"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser"
-import useGetUserCourses from "../../../hooks/users/useGetUserCourses"
+import useGetUserContent from "../../../hooks/users/useGetUserContent"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
 import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
 
-const EnrolUserInContent = ({user, typeName='item'}) => {
+const EnrolUserInContent = ({user, typeName='course'}) => {
 
-  const { courses } = useGetCourses()
+  const { content } = useGetContent(typeName)
   const { groups } = useGetGroups()
   const { user: currentUser } = useGetCurrentUser()
   const {enrolUsersInContent} = useEnrolUsersInContent()
-  const { courses: assignedContent } = useGetUserCourses(user.id)
+  const { content: assignedContent } = useGetUserContent(user.id, typeName)
   
-  const userCourseNodes = assignedContent?.edges.filter(edge => (
+  const userContentNodes = assignedContent?.edges.filter(edge => (
     !edge.node._deleted
      && (
       edge.groups.edges.some(edge => edge.roles.length) || 
@@ -29,27 +29,21 @@ const EnrolUserInContent = ({user, typeName='item'}) => {
   const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
   const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
 
-  const commonGroupProvisionedCourses = groups?.edges.flatMap(
-    edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedCourses.edges : []
+  const commonGroupProvisionedContents = groups?.edges.flatMap(
+    edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
   ) || []
 
-  const commonGroupProvisionedCourseNodes = commonGroupProvisionedCourses.map(edge => edge.node)
-  const currentUserEnrolledCourseNodes = courses?.edges.map(edge => edge.node) || []
-
-  console.log('commonGroupProvisionedCourseNodes')
-  console.log(commonGroupProvisionedCourseNodes)
+  const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
+  const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
   
-  const availableCourseNodes = [
-    ...commonGroupProvisionedCourseNodes,
-    ...currentUserEnrolledCourseNodes
+  const availableContentNodes = [
+    ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
+    ...currentUserEnrolledContentNodes
   ]
 
-  console.log('availableCourseNodes')
-  console.log(availableCourseNodes)
-
   const availableContent = [
-    ...availableCourseNodes?.filter(course => 
-      !userCourseNodes?.some(userCourse=>userCourse.id === course.id)
+    ...availableContentNodes?.filter(content => 
+      !userContentNodes?.some(userContent=>userContent.id === content.id)
     ) || [],
   ]
   
@@ -87,7 +81,7 @@ const EnrolUserInContent = ({user, typeName='item'}) => {
               typeName={typeName}
               menuTopMargin={selectedContentIds.length ? 60 : 0}
             />
-            {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
+            {/* <ContentMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
             { !!selectedContentIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedContentIds.length} ${typeName}s`}</Button>
             )}

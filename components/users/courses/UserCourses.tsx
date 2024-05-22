@@ -7,6 +7,7 @@ import useGetCourses from "../../../hooks/courses/useGetCourses";
 import useGetUserCourses from "../../../hooks/users/useGetUserCourses";
 import EnrolUsersInContent from "../content/EnrolUsersInContent";
 import { handleModal } from "../../../stores/modalStore";
+import EnrolUserInContent from "../content/EnrolUserInContent";
 
 const UserCourses = () => {
 
@@ -14,15 +15,12 @@ const UserCourses = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
-  const { courses } = useGetCourses()
-  const { courses: assignedCourses } = useGetUserCourses(user.id)
-
   const button = {
     text: "Assign courses",
     onClick: () => {
       handleModal({
         title: 'Enrol user in courses',
-        content: <EnrolUsersInContent users={[user]} content={courses} assignedContent={assignedCourses} typeName='course' />
+        content: <EnrolUserInContent user={user} typeName='course' />
       })
     }
   }
