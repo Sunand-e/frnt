@@ -63,20 +63,13 @@ export const GroupFragment = gql`
         }
       }
     }
-    provisionedResources {
-      totalCount
-      edges {
-        node {
-          id
-        }
-      }
-    }
-    provisionedCourses {
+    provisionedContents {
       totalCount
       edges {
         node {
           id
           title
+          itemType
           tags {
             edges {
               node {
@@ -88,14 +81,6 @@ export const GroupFragment = gql`
           image {
             id
           }
-        }
-      }
-    }
-    provisionedPathways {
-      totalCount
-      edges {
-        node {
-          id
         }
       }
     }
