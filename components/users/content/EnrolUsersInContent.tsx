@@ -8,7 +8,7 @@ import Button from "../../common/Button"
 import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability"
 
-const EnrolUsersInContent = ({users, content: availableContent, assignedContent=null, typeName='item'}) => {
+const EnrolUsersInContent = ({users=[], content: availableContent, assignedContent=null, typeName='item'}) => {
   
   const { enrolUsersInContent, error: enrolError  } = useEnrolUsersInContent()
   const { userHasCapability } = useUserHasCapability()
