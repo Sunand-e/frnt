@@ -64,7 +64,7 @@ function useUserHasCapability() {
   const determineCapabilityScope = useCallback(capability => {
     return {
       tenant: tenantLevelCapabilityArray.includes(capability),
-      group: Object.keys(groupCapabilities).filter(groupId => groupCapabilities[groupId].includes(capability))
+      groups: Object.keys(groupCapabilities).filter(groupId => groupCapabilities[groupId].includes(capability))
     }
   },[user, groupCapabilities, tenantLevelCapabilityArray])
 
