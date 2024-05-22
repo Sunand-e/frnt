@@ -18,10 +18,6 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { isSuperAdmin, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
-  const isSuperAdmin = useMemo(() => {
-    return userType ? userType === 'SuperAdmin' : false;
-  },[userType])
-
   const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
