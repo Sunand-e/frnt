@@ -39,10 +39,11 @@ const AdminCreateUser = () => {
   })
 
 
-  const handleSubmit = ({profile_image, firstName, lastName, ...values}) => {
+  const handleSubmit = ({profile_image, firstName, lastName, group_id, ...values}) => {
     const token = getJWT();
     
     const data = {
+      group_id,
       user: {
         ...values,
         first_name: firstName, 

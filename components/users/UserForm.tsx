@@ -5,6 +5,8 @@ import CheckboxInput from '../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
 import ImageDropzoneInput from "../common/inputs/ImageDropzoneInput";
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import GroupSelect from '../groups/inputs/GroupSelect';
+import GroupSelectInput from '../groups/inputs/GroupSelectInput';
 
 interface UserFormValues {
   id?: string
@@ -12,20 +14,24 @@ interface UserFormValues {
   lastName: string
   email: string
   profileImage: string
+  group_id: string
   role_ids: [string]
   invite: boolean
 }
 
 const UserForm = ({user=null, onSubmit}) => {
   
-  const { userHasCapability } = useUserHasCapability()
+  const { userHasCapability, determineCapabilityScope } = useUserHasCapability()
+  
+  
+  const addUsersToGroupsCapabilityScope = determineCapabilityScope('AddUsersToGroups')
 
   const defaultValues = {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,
     firstName: user?.firstName,
     lastName: user?.lastName,
-    // anotherattr: 123,
+    group_id: null,
     role_ids: user?.roles.map(role => role.id),
   }
   
@@ -33,7 +39,19 @@ const UserForm = ({user=null, onSubmit}) => {
     defaultValues
   });
 
+    
+  let showAddUsersToGroupsInput = false
+  if(addUsersToGroupsCapabilityScope.tenant === true || addUsersToGroupsCapabilityScope.groups.length > 1) {
+    showAddUsersToGroupsInput = true
+  }
+  
+  let group_id = null
+  if(addUsersToGroupsCapabilityScope.tenant === false && addUsersToGroupsCapabilityScope.groups.length === 1) {
+    group_id = addUsersToGroupsCapabilityScope.groups[0]
+  }
+
   const handleSubmit = (data) => {
+    data.group_id = data.group_id || group_id
     onSubmit(data)
   }
 
@@ -108,6 +126,13 @@ const UserForm = ({user=null, onSubmit}) => {
         <UserRoleSelect
           control={control}
           roleType='tenant_role'
+        />
+      )}
+      { !user && showAddUsersToGroupsInput && (
+        <GroupSelectInput
+          label="Add user to group/organisation"
+          name='group_id'
+          control={control}
         />
       )}
       { !user ? (
