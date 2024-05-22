@@ -11,6 +11,7 @@ import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup
 import UserRoleSelectCell from "./UserRoleSelectCell";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import { handleModal } from "../../../stores/modalStore";
+import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
 
 const UserGroupsTable = () => {
 
@@ -22,6 +23,8 @@ const UserGroupsTable = () => {
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
   const { addUsersToGroups } = useAddUsersToGroups()
   const { removeUserFromGroup } = useRemoveUserFromGroup()
+  
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   
   const handleChangeRole = useCallback((group, role) => {
     if(!user?.id) {
@@ -42,14 +45,19 @@ const UserGroupsTable = () => {
   
   const tableData = useMemo(
     () => {
-      return user?.groups.edges.filter(edge => !edge.node._deleted) || []
+      return user?.groups.edges
+        .filter(edge => !edge.node._deleted)
+        .sort((a, b) => a.node.name.localeCompare(b.node.name)) || []
     }, [user]
   );
+
+  const groupColHeader = tenantFeaturesEnabled(['organisations']) ? 'Group / Organisation' : 'Group'
 
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Group",
+        header: groupColHeader,
+        id: 'name',
         accessorFn: row => row.node.name,
         cell: ({ cell }) => {
           const group = cell.row.original.node;
@@ -67,7 +75,7 @@ const UserGroupsTable = () => {
         },
       },
       {
-        header: ()=><span className="block w-full text-left">Role</span>,
+        header: 'Role',
         accessorKey: 'roles',
         cell: ({ cell }) => {
           const group = cell.row.original;
@@ -80,15 +88,16 @@ const UserGroupsTable = () => {
       {
         header: "Actions",
         accessorKey: "actions",
+        enableSorting: false,
         cell: ({ cell }) => <UserGroupActionsMenu user={user} group={cell.row.original} />
       },
     ]
   }, [roles]);
-
+  
   const tableProps = {
     tableData,
     tableCols,
-    showTop: false
+    showTop: false,
   }
     
   return (

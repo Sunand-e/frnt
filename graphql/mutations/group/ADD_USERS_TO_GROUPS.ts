@@ -27,6 +27,8 @@ export const ADD_USERS_TO_GROUPS = gql`
         id
         groups {
           edges {
+            groupId
+            userId
             node {
               id
             }
