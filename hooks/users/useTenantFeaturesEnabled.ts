@@ -5,7 +5,7 @@ function useTenantFeaturesEnabled() {
   
   const tenant = useContext(TenantContext)
 
-  const tenantFeauresEnabled = useCallback((featureArray) => {
+  const tenantFeaturesEnabled = useCallback((featureArray) => {
     for(let feature of featureArray) {
       if(!tenant || !tenant?.[feature]?.enabled) {
         return false
@@ -15,7 +15,7 @@ function useTenantFeaturesEnabled() {
   },[tenant])
 
   return {
-    tenantFeauresEnabled
+    tenantFeaturesEnabled
   }
 }
 

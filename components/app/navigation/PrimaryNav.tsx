@@ -15,7 +15,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const ref = useRef(null)
   const tenant = useContext(TenantContext)
   const isAdminView = useViewStore(state => state.isAdminView)
-  const { tenantFeauresEnabled } = useTenantFeaturesEnabled()
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { userType, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const isSuperAdmin = useMemo(() => {
@@ -25,7 +25,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
-      if(item.requireEnabledFeatures && !tenantFeauresEnabled(item.requireEnabledFeatures)) {
+      if(item.requireEnabledFeatures && !tenantFeaturesEnabled(item.requireEnabledFeatures)) {
         return false
       }
       if(item.removeIfFeaturesDisabled) {
