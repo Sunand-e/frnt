@@ -48,6 +48,13 @@ const AdminDashboardPage = () => {
 
     return [
     {
+      name: 'allUsers',
+      label: 'Total users',
+      value: data?.users.totalCount,
+      IconComponent: Users,
+      href: "admin/users"
+    },
+    {
       name: 'allCourses',
       label: 'Total courses',
       value: data?.courses.totalCount,
@@ -55,19 +62,19 @@ const AdminDashboardPage = () => {
       href: "admin/courses"
       // href: '#', icon: ScaleIcon,
     },
-    {
-      name: 'allUsers',
-      label: 'Total users',
-      value: data?.users.totalCount,
-      IconComponent: Users,
-      href: "admin/users"
-    },
     ...(showGroups ? [{
       name: 'allGroups',
       label: 'Total groups',
       value: data?.groups.totalCount,
       IconComponent: Group2,
       href: "admin/users/groups"
+    }] : []),
+    ...(!(tenant?.resources?.enabled === false) ? [{
+      name: 'allResources',
+      label: 'Total resources',
+      value: data?.resources.totalCount,
+      IconComponent: Library,
+      href: "admin/resources"
     }] : []),
     ...(showOrganisationEnrolmentLicences ? [{
       name: 'enrolmentLicenses',
@@ -77,14 +84,6 @@ const AdminDashboardPage = () => {
         organisation.enrolmentLicenseTotal
       ),
       IconComponent: PeopleTeamToolbox,
-      href: "#"
-    }] : []),
-    ...(!(tenant?.resources?.enabled === false) ? [{
-      name: 'allResources',
-      label: 'Total resources',
-      value: data?.resources.totalCount,
-      IconComponent: Library,
-      href: "admin/resources"
     }] : []),
   ]},[data, tenant, user])
 
