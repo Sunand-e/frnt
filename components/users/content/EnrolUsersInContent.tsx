@@ -22,7 +22,7 @@ const EnrolUsersInContent = ({users=[], content: availableContent, assignedConte
     if(userHasCapability('EnrolUsersInContent', 'tenant')) {
       contentEdges = courses?.edges || []
     } else if(userHasCapability('EnrolUsersInContent')) {
-      contentEdges = groups?.edges.flatMap(edge => edge.node.provisionedCourses.edges) || []
+      contentEdges = groups?.edges.flatMap(edge => edge.node.provisionedContents.edges) || []
     } else {
       contentEdges = []
     }
