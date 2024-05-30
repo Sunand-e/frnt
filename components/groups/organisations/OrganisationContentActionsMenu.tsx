@@ -2,27 +2,25 @@ import { useCallback } from "react"
 import useRemoveProvisionedContentFromGroups from "../../../hooks/groups/useRemoveProvisionedContentFromGroups"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 
-const OrganisationContentActionsMenu = ({group, edge}) => {
+const OrganisationContentActionsMenu = ({group, edge, typeName='content'}) => {
 
   const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   
-  const handleRemove = useCallback(content => {
+  const handleRemove = useCallback(() => {
     if(!group?.id) {
       return false
     }
     removeProvisionedContentFromGroups({
       groupIds: [group.id],
-      contentItemIds: [content.node.id],
+      contentItemIds: [edge.node.id],
     })
-  }, [group])
+  }, [group, edge])
 
   const menuItems = [
     ...(!false ? [{
-      label: 'Remove course from organisation',
+      label: `Remove ${typeName} from organisation`,
       onClick: () => {
-        handleRemove(
-          edge
-        )
+        handleRemove()
       },
       capability: 'EnrolUsersInContent'
     }]:[]),
