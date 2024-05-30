@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import useGetGroup from "../../../hooks/groups/useGetGroup";
-import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
-import OrganisationCourseActionsMenu from "./OrganisationCourseActionsMenu";
+import OrganisationContentActionsMenu from "./OrganisationContentActionsMenu";
 
-const OrganisationCoursesTable = () => {
+const OrganisationContentTable = ({typeName='content'}) => {
   
   const router = useRouter()
   const { id } = router.query
@@ -15,7 +14,8 @@ const OrganisationCoursesTable = () => {
   
   const tableData = useMemo(
     () => {
-      return group?.provisionedCourses.edges.filter(edge => (
+      return group?.provisionedContents.edges.filter(edge => (
+        (typeName === 'content' || edge.node.itemType === typeName) &&
         !edge.node._deleted
       )) || []
     },
@@ -40,7 +40,7 @@ const OrganisationCoursesTable = () => {
       {
         header: "Actions",
         accessorKey: "actions",
-        cell: ({ cell }) => <OrganisationCourseActionsMenu group={group} edge={cell.row.original} />
+        cell: ({ cell }) => <OrganisationContentActionsMenu group={group} edge={cell.row.original} typeName={typeName} />
       },
     ]
   }, [group]);
@@ -58,4 +58,4 @@ const OrganisationCoursesTable = () => {
   );
 }
 
-export default OrganisationCoursesTable
+export default OrganisationContentTable

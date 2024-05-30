@@ -1,5 +1,5 @@
 import BoxContainer from "../../common/containers/BoxContainer";
-import OrganisationCoursesTable from "./OrganisationCoursesTable";
+import OrganisationContentTable from "./OrganisationContentTable";
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import { useRouter } from "../../../utils/router";
 import useGetCourses from "../../../hooks/courses/useGetCourses";
@@ -28,7 +28,7 @@ const OrganisationCourses = () => {
 
   return (
     <BoxContainer title="Courses" icon={GraduationCap} button={button}>
-      <OrganisationCoursesTable />
+      <OrganisationContentTable />
     </BoxContainer>
   );
 }

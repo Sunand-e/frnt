@@ -2,7 +2,7 @@ import { useCallback } from "react"
 import useRemoveProvisionedContentFromGroups from "../../../hooks/groups/useRemoveProvisionedContentFromGroups"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 
-const OrganisationCourseActionsMenu = ({group, edge}) => {
+const OrganisationContentActionsMenu = ({group, edge}) => {
 
   const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   
@@ -35,4 +35,4 @@ const OrganisationCourseActionsMenu = ({group, edge}) => {
   )
 }
 
-export default OrganisationCourseActionsMenu
+export default OrganisationContentActionsMenu
