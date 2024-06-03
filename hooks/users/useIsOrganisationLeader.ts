@@ -16,7 +16,7 @@ function useIsOrganisationLeader() {
     })?.node
   )
 
-  const isOrganisationLeader = (
+  const isOrganisationLeader = Boolean(
     !isSuperAdmin &&
     tenantFeaturesEnabled(['organisations']) &&
     !userHasCapability('EnrolUsersInContent', 'tenant') &&
