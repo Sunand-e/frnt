@@ -10,10 +10,7 @@ import TextInput from '../../common/inputs/TextInput';
 import GroupMembers from '../GroupMembers';
 import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
 import GroupUsersInput from '../inputs/GroupUsersInput';
-import MenuTest from './MenuTest';
 import OrganisationCourses from './OrganisationCourses';
-import OrganisationLeader from './OrganisationLeader';
-import OrganisationMembers from './OrganisationMembers';
 
 interface GroupFormValues {
   id?: string
@@ -31,9 +28,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
   const router = useRouter()
   const { id } = router.query
 
-  const { group } = useGetGroup(id)
-
-  const tenant = useContext(TenantContext)
+  const { group, loading } = useGetGroup(id)
 
   const users = group?.users.edges.map(edge => edge.node) || []
   
