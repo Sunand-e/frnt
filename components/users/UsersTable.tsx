@@ -43,7 +43,9 @@ const UsersTable = () => {
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo<GetUsers_users_edges_node[]>(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
+  const tableData = useMemo<GetUsers_users_edges_node[]>(() => {
+    return queryData?.users?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
+  }, [queryData]);
 
   const { userHasCapability } = useUserHasCapability()
   const tenant = useContext(TenantContext)
