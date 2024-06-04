@@ -17,6 +17,7 @@ export const GroupFragment = gql`
           fullName
           email
           profileImageUrl
+          _deleted @client
         }
         roles {
           id

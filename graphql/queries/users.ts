@@ -23,6 +23,7 @@ export const UserFragment = gql`
       name
       roleType
     }
+    _deleted @client
   }
 `
 
