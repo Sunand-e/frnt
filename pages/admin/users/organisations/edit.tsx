@@ -7,6 +7,8 @@ import { useRouter } from '../../../../utils/router';
 import ButtonBack from '../../../../components/common/ButtonBack';
 import OrganisationForm from '../../../../components/groups/organisations/OrganisationForm';
 import useUpdateGroup from '../../../../hooks/groups/useUpdateGroup';
+import LoadingSpinner from '../../../../components/common/LoadingSpinner';
+import { Dot } from '../../../../components/common/misc/Dot';
 
 const AdminOrganisationsEdit = () => {
 
@@ -18,12 +20,27 @@ const AdminOrganisationsEdit = () => {
   
   const router = useRouter()
   const { id } = router.query
-  const { group } = useGetGroup(id)
+  const { group, loading } = useGetGroup(id)
   const { updateGroup } = useUpdateGroup(group?.id);
   
   usePageTitle({ title: `Edit organisation: ${group?.name}` })
 
-  return <OrganisationForm organisation={group} onSubmit={updateGroup} />
+  return (
+    <>
+      { loading ? (
+        <LoadingSpinner text={(
+          <>
+            Loading user details
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+            <Dot>.</Dot>
+          </>
+        )} />
+      ) : !!group && (
+        <OrganisationForm organisation={group} onSubmit={updateGroup} />
+      )}
+    </>
+  )
 }
 
 AdminOrganisationsEdit.capabilities = ['UpdateGroup']
