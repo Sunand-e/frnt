@@ -15,7 +15,7 @@ function useEnrolUsersInContent() {
   const [getGroup, { loading: loadingGroup, error: groupError, data }] = useLazyQuery(
     GET_GROUP,
     {
-      variables: { id: organisation.id },
+      variables: { id: organisation?.id },
       fetchPolicy: "network-only" // ensures the query is not loaded from the cache
     }
   );
@@ -36,7 +36,7 @@ function useEnrolUsersInContent() {
         onCompleted: (data) => {
           const { alreadyAssignedCount, licensesUsedCount } = data.enrolUsersInContent.details
           let details = []
-          if(licensesUsedCount > 0) {
+          if(isOrganisationLeader && licensesUsedCount > 0) {
             details.push(`Enrolment licenses used: ${licensesUsedCount}`)
           }
           if(alreadyAssignedCount > 0) {
@@ -56,7 +56,9 @@ function useEnrolUsersInContent() {
             hideProgressBar: true,
             autoClose: 3500
           })
-          getGroup()
+
+          isOrganisationLeader && getGroup()
+          
           cb()
         }
       }).catch(res => {
