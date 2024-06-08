@@ -5,18 +5,21 @@ import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser"
 import useGetUserContent from "../../../hooks/users/useGetUserContent"
+import useUserHasCapability from "../../../hooks/users/useUserHasCapability"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
 import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
 
 const EnrolUserInContent = ({user, typeName='course'}) => {
 
-  const { content } = useGetContent(typeName)
-  const { groups, loading: groupsLoading } = useGetGroupsDetailed()
+  const { content, loading: contentLoading } = useGetContent(typeName)
   const { user: currentUser } = useGetCurrentUser()
+  const { userHasCapability } = useUserHasCapability()
+  const shouldFetchGroupsContents = !userHasCapability('EnrolUsersInContent', 'tenant')
+  const { groups, loading: groupsLoading } = useGetGroupsDetailed(shouldFetchGroupsContents)
+
   const {enrolUsersInContent} = useEnrolUsersInContent()
-  const { content: assignedContent } = useGetUserContent(user.id, typeName)
-  
+  const { content: assignedContent, loading: userContentLoading } = useGetUserContent(user.id, typeName)
   const userContentNodes = assignedContent?.edges.filter(edge => (
     !edge.node._deleted
      && (
@@ -24,22 +27,28 @@ const EnrolUserInContent = ({user, typeName='course'}) => {
       edge.roles.length
     )
   )).map(edge => edge.node)
-
-  const userGroupIds = user.groups.edges.map(edge => edge.groupId)
-  const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
-  const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
-
-  const commonGroupProvisionedContents = groups?.edges.flatMap(
-    edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
-  ) || []
-
-  const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
-  const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
   
-  const availableContentNodes = [
-    ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
-    ...currentUserEnrolledContentNodes
-  ]
+  let availableContentNodes = []
+
+  if (userHasCapability('EnrolUsersInContent', 'tenant')) {
+    availableContentNodes = content?.edges.map(edge => edge.node) || []
+  } else {  
+    const userGroupIds = user.groups.edges.map(edge => edge.groupId)
+    const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
+    const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
+
+    const commonGroupProvisionedContents = groups?.edges.flatMap(
+      edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
+    ) || []
+
+    const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
+    const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
+    
+    availableContentNodes = [
+      ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
+      ...currentUserEnrolledContentNodes
+    ]
+  }
 
   const availableContent = [
     ...availableContentNodes?.filter(content => 
@@ -66,31 +75,34 @@ const EnrolUserInContent = ({user, typeName='course'}) => {
       closeModal()
     })
   }
-  console.log('availableContent')
-  console.log(availableContent)
+
   return (
     <>
-
-    
       {
-        availableContent?.length ? (
-          <div>
-            <ContentSelectCategorised
-              availableContent={availableContent}
-              onChange={handleChange}
-              typeName={typeName}
-              menuTopMargin={selectedContentIds.length ? 60 : 0}
-            />
-            {/* <ContentMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
-            { !!selectedContentIds.length && !!defaultRole?.id && (
-              <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedContentIds.length} ${typeName}s`}</Button>
-            )}
+        userContentLoading || contentLoading || (shouldFetchGroupsContents && groupsLoading) ? (
+          <div className="flex flex-col items-center">
+            Loading available {typeName}s...
           </div>
         ) : (
-          <div className="flex flex-col items-center">
-            No {typeName}s available to assign
-            <Button onClick={closeModal}>OK</Button>
-          </div>
+          availableContent?.length ? (
+            <div>
+              <ContentSelectCategorised
+                availableContent={availableContent}
+                onChange={handleChange}
+                typeName={typeName}
+                menuTopMargin={selectedContentIds.length ? 60 : 0}
+              />
+              {/* <ContentMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
+              { !!selectedContentIds.length && !!defaultRole?.id && (
+                <Button onClick={handleEnrol}>{`Enrol ${user.fullName} into ${selectedContentIds.length} ${typeName}s`}</Button>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              No {typeName}s available to assign
+              <Button onClick={closeModal}>OK</Button>
+            </div>
+          )
         )
       }
     </>

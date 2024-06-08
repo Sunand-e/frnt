@@ -2,10 +2,13 @@
 import { GET_GROUPS } from "../../graphql/queries/groups"
 import { useQuery } from "@apollo/client"
 
-function useGetGroups() {
+function useGetGroups(shouldFetch=true) {
 
   const { loading, error, data: {groups} = {} } = useQuery(
-    GET_GROUPS
+    GET_GROUPS,
+    {
+      skip: !shouldFetch
+    }
   );
 
   return { groups, loading, error }
