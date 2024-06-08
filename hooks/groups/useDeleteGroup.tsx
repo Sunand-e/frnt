@@ -24,22 +24,12 @@ function useDeleteGroup() {
         },
       },
       update(cache, { data: deleteGroup }) {
-        // We get a single item.
-        const group = cache.readFragment({
+        cache.modify({
           id: `Group:${id}`,
-          fragment: GroupFragment,
+          fields: {
+            _deleted: (cachedValue) => true
+          },
         });
-        // Then, we update it.
-        if (group) {
-          cache.writeFragment({
-            id: `Group:${id}`,
-            fragment: GroupFragment,
-            data: {
-              ...group,
-              _deleted: true
-            },
-          });
-        }
       }
     })
   }
