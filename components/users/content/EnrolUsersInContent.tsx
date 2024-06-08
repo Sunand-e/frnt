@@ -14,7 +14,9 @@ const EnrolUsersInContent = ({users=[], content: availableContent, assignedConte
   const { userHasCapability } = useUserHasCapability()
 
   const { courses } = useGetCourses()
-  const { groups } = useGetGroupsDetailed()
+
+  const shouldFetchGroupsContents = !userHasCapability('EnrolUsersInContent', 'tenant')
+  const { groups } = useGetGroupsDetailed(shouldFetchGroupsContents)
 
   let contentEdges = availableContent?.edges || null
 
