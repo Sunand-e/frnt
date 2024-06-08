@@ -44,7 +44,11 @@ const UsersTable = () => {
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo<GetUsers_users_edges_node[]>(() => {
-    return queryData?.users?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
+    return queryData?.users?.edges
+      ?.map(edge => edge.node)
+      .filter(node => !node._deleted)
+      .sort((a,b) => ('' + a.fullName).localeCompare(b.fullName)) || []
+      
   }, [queryData]);
 
   const { userHasCapability } = useUserHasCapability()
