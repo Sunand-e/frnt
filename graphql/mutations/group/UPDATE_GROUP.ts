@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { GroupFragment } from '../../queries/groups';
+import { GroupDetailsFragment } from '../../queries/groups';
 
 
 export const UPDATE_GROUP = gql`
@@ -30,9 +30,9 @@ export const UPDATE_GROUP = gql`
       }
     ) {
       group {
-      ...GroupFragment
+      ...GroupDetailsFragment
       }
     }
   }
-  ${GroupFragment}
+  ${GroupDetailsFragment}
 `;

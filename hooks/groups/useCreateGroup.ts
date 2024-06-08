@@ -1,5 +1,5 @@
 
-import { GET_GROUPS } from "../../graphql/queries/groups"
+import { GET_GROUPS, GET_GROUPS_DETAILED } from "../../graphql/queries/groups"
 import { useMutation } from "@apollo/client"
 import { CreateGroup, CreateGroupVariables } from "../../graphql/mutations/group/__generated__/CreateGroup";
 import { CREATE_GROUP } from "../../graphql/mutations/group/CREATE_GROUP";
@@ -12,20 +12,27 @@ function useCreateGroup() {
     CREATE_GROUP,
     {
       update(cache, { data: { createGroup } } ) {
-        const cachedData = cache.readQuery<GetGroups>({
-          query: GET_GROUPS
-        })
-
-        cache.writeQuery({
+        cache.updateQuery({
           query: GET_GROUPS,
-          data: {
-            ...cachedData,
+        }, data => ({
+            ...data,
             groups: {
-              ...cachedData.groups,
-              edges: [{node: createGroup.group}, ...cachedData.groups.edges]
+              ...data.groups,
+              edges: [{node: createGroup.group}, ...data.groups.edges]
             }            
-          }
-        })
+          })
+        )
+
+        cache.updateQuery({
+          query: GET_GROUPS_DETAILED,
+        }, data => ({
+            ...data,
+            groups: {
+              ...data.groups,
+              edges: [{node: createGroup.group}, ...data.groups.edges]
+            }            
+          })
+        )
       }
     }
   );

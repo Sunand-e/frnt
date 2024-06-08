@@ -2,7 +2,7 @@
 import { useMutation } from "@apollo/client";
 import { REMOVE_PROVISIONED_CONTENT_FROM_GROUPS } from "../../graphql/mutations/group/REMOVE_PROVISIONED_CONTENT_FROM_GROUPS";
 import { AddUsersToGroups, AddUsersToGroupsVariables } from "../../graphql/mutations/group/__generated__/AddUsersToGroups";
-import { GroupFragment } from "../../graphql/queries/groups";
+import { GroupDetailsFragment } from "../../graphql/queries/groups";
 
 function useRemoveProvisionedContentFromGroups() {
 
@@ -35,7 +35,7 @@ function useRemoveProvisionedContentFromGroups() {
         const { groupIds, contentItemIds } = values;
         groupIds.forEach(groupId => {
           const groupFragmentId = cache.identify({ __typename: 'Group', id: groupId });
-          const group = cache.readFragment<GroupFragment>({ id: groupFragmentId, fragment: GroupFragment }, true);
+          const group = cache.readFragment<GroupDetailsFragment>({ id: groupFragmentId, fragment: GroupDetailsFragment }, true);
 
           if (group) {
         const updatedProvisionedCourses = group.provisionedCourses.edges.filter(({ node }) => !contentItemIds.includes(node.id));
@@ -49,7 +49,7 @@ function useRemoveProvisionedContentFromGroups() {
         
         cache.writeFragment({
           id: groupFragmentId,
-          fragment: GroupFragment,
+          fragment: GroupDetailsFragment,
           data: updatedGroup,
         });
           }

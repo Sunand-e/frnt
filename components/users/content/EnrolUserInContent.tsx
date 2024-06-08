@@ -1,7 +1,7 @@
 import { useState } from "react"
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
 import useGetContent from "../../../hooks/contentItems/useGetContent"
-import useGetGroups from "../../../hooks/groups/useGetGroups"
+import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser"
 import useGetUserContent from "../../../hooks/users/useGetUserContent"
@@ -12,7 +12,7 @@ import ContentSelectCategorised from "../../common/inputs/ContentSelectCategoris
 const EnrolUserInContent = ({user, typeName='course'}) => {
 
   const { content } = useGetContent(typeName)
-  const { groups } = useGetGroups()
+  const { groups, loading: groupsLoading } = useGetGroupsDetailed()
   const { user: currentUser } = useGetCurrentUser()
   const {enrolUsersInContent} = useEnrolUsersInContent()
   const { content: assignedContent } = useGetUserContent(user.id, typeName)

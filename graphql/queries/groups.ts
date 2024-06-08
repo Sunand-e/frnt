@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const GroupFragment = gql`
-  fragment GroupFragment on Group {
+export const GroupOverviewFragment = gql`
+  fragment GroupOverviewFragment on Group {
     createdAt
     id
     name
@@ -11,6 +11,38 @@ export const GroupFragment = gql`
     enrolments
     users {
       totalCount
+    }
+    image {
+      location
+      id
+      altText
+      properties
+      title
+    }
+    enrolledCourses {
+      totalCount
+    }
+    assignedResources {
+      totalCount
+    }
+    assignedCourses {
+      totalCount
+    }
+    assignedPathways {
+      totalCount
+    }
+    provisionedContents {
+      totalCount
+    }
+    _deleted @client
+  }
+`
+
+
+export const GroupDetailsFragment = gql`
+  fragment GroupDetailsFragment on Group {
+    ...GroupOverviewFragment
+    users {
       edges {
         node {
           id
@@ -25,15 +57,7 @@ export const GroupFragment = gql`
         }
       }
     }
-    image {
-      location
-      id
-      altText
-      properties
-      title
-    }
     enrolledCourses {
-      totalCount
       edges {
         node {
           id
@@ -41,7 +65,6 @@ export const GroupFragment = gql`
       }
     }
     assignedResources {
-      totalCount
       edges {
         node {
           id
@@ -49,7 +72,6 @@ export const GroupFragment = gql`
       }
     }
     assignedCourses {
-      totalCount
       edges {
         node {
           id
@@ -57,7 +79,6 @@ export const GroupFragment = gql`
       }
     }
     assignedPathways {
-      totalCount
       edges {
         node {
           id
@@ -65,7 +86,6 @@ export const GroupFragment = gql`
       }
     }
     provisionedContents {
-      totalCount
       edges {
         node {
           id
@@ -87,14 +107,16 @@ export const GroupFragment = gql`
     }
     _deleted @client
   }
+  ${GroupOverviewFragment}
 `
+
 export const GET_GROUP = gql`
   query GetGroup($id: ID!) {
     group(id: $id) {
-      ...GroupFragment
+      ...GroupDetailsFragment
     }
   }
-  ${GroupFragment}
+  ${GroupDetailsFragment}
 `
 
 export const GET_GROUPS = gql`
@@ -102,10 +124,23 @@ export const GET_GROUPS = gql`
     groups {
       edges {
         node {
-          ...GroupFragment
+          ...GroupOverviewFragment
         }
       }
     }
   }
-  ${GroupFragment}
+  ${GroupOverviewFragment}
+`
+
+export const GET_GROUPS_DETAILED = gql`
+  query GetGroupsDetailed {
+    groups {
+      edges {
+        node {
+          ...GroupDetailsFragment
+        }
+      }
+    }
+  }
+  ${GroupDetailsFragment}
 `

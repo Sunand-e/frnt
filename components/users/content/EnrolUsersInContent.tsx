@@ -1,7 +1,7 @@
 import { useState } from "react"
 import useEnrolUsersInContent from "../../../hooks/contentItems/useEnrolUsersInContent"
 import useGetCourses from "../../../hooks/courses/useGetCourses"
-import useGetGroups from "../../../hooks/groups/useGetGroups"
+import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed"
 import useGetRoles from "../../../hooks/roles/useGetRoles"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
@@ -14,7 +14,7 @@ const EnrolUsersInContent = ({users=[], content: availableContent, assignedConte
   const { userHasCapability } = useUserHasCapability()
 
   const { courses } = useGetCourses()
-  const { groups } = useGetGroups()
+  const { groups } = useGetGroupsDetailed()
 
   let contentEdges = availableContent?.edges || null
 
