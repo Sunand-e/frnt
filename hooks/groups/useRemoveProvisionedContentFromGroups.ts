@@ -38,20 +38,20 @@ function useRemoveProvisionedContentFromGroups() {
           const group = cache.readFragment<GroupDetailsFragment>({ id: groupFragmentId, fragment: GroupDetailsFragment }, true);
 
           if (group) {
-        const updatedProvisionedCourses = group.provisionedCourses.edges.filter(({ node }) => !contentItemIds.includes(node.id));
-        const updatedGroup = {
-          ...group,
-          provisionedCourses: {
-            ...group.provisionedCourses,
-            edges: updatedProvisionedCourses,
-          },
-        };
-        
-        cache.writeFragment({
-          id: groupFragmentId,
-          fragment: GroupDetailsFragment,
-          data: updatedGroup,
-        });
+            const updatedProvisionedCourses = group.provisionedCourses.edges.filter(({ node }) => !contentItemIds.includes(node.id));
+            const updatedGroup = {
+              ...group,
+              provisionedCourses: {
+                ...group.provisionedCourses,
+                edges: updatedProvisionedCourses,
+              },
+            };
+            
+            cache.writeFragment({
+              id: groupFragmentId,
+              fragment: GroupDetailsFragment,
+              data: updatedGroup,
+            });
           }
         });
       },
