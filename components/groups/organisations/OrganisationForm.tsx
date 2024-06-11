@@ -36,6 +36,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
     {
       defaultValues: {
         ...group,
+        name: (group.name === 'Untitled organisation') ? '' : group.name,
         enrolments: group?.enrolments || 0,
         enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
         userIds: users.map(user => user.id),
