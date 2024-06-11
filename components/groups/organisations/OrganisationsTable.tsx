@@ -9,13 +9,30 @@ import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import GroupActionsMenu from '../GroupActionsMenu';
+import useConfirmDelete from '../../../hooks/useConfirmDelete';
+import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
+
 dayjs.extend(advancedFormat)
 
 const OrganisationsTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetGroups>(GET_GROUPS);
+  const { deleteGroup } = useDeleteGroup()
+  const { isSuperAdmin } = useUserHasCapability()
+  const { confirmDelete } = useConfirmDelete({
+    itemType: 'organisation',
+  })
 
+  const deleteOrganisations = (ids: Array<string>) => {
+    confirmDelete({
+      onConfirm: () => {
+        ids.forEach(id => deleteGroup(id))
+      },
+      amount: ids.length
+    })
+  }
   const editUrl = '/admin/users/organisations/edit'
 
   // Table data is memo-ised due to this:
@@ -73,9 +90,17 @@ const OrganisationsTable = () => {
     ]
   }, []);
 
+  const bulkActions = [
+    ...isSuperAdmin ? [{
+      label: 'Delete organisation(s)',
+      onClick: (ids: Array<string>) => ids.length && deleteOrganisations(ids)
+    }] : []
+  ]
+
   const tableProps = {
     tableData,
     tableCols,
+    bulkActions,
     options: {
       selectable: false
     },
