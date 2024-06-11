@@ -10,6 +10,7 @@ const GroupActionsMenu = ({group}) => {
   const editUrl = '/admin/users/groups/edit'
   const editHref = group?.id && `${editUrl}?id=${group.id}`
   
+  const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
     itemType: 'group',
@@ -19,14 +20,14 @@ const GroupActionsMenu = ({group}) => {
 
   const handleSendInvitations = () => {
     handleModal({
-      title: `Send invitations to group`,
+      title: `Send invitations to ${groupTypeName} members`,
       content: <SendGroupInvitesModal group={group} />
     })
   }
 
   const menuItems = [
     { 
-      label: 'Edit group', 
+      label: `Edit ${groupTypeName}`,
       href: editHref,
       capability: 'UpdateGroup'
     },
@@ -35,7 +36,7 @@ const GroupActionsMenu = ({group}) => {
       onClick: handleSendInvitations,
     },
     { 
-      label: <span className="text-red-500">Delete group</span>,
+      label: <span className="text-red-500">Delete {groupTypeName}</span>,
       onClick: confirmDelete,
       capability: 'DeleteGroup'
     },
