@@ -71,6 +71,9 @@ const AddUsersToGroup = ({ group, roleName='Member', isSingle=false }) => {
 
   const menuTopMargin = selectedUserIds.length ? 60 : 0;
 
+  const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
+  const groupName = group.name === `Untitled ${groupTypeName}` ? `this ${groupTypeName}` : group.name
+
   if (loadingUsers || loadingRoles) {
     return <LoadingSpinner size='sm' />
   }
@@ -105,7 +108,7 @@ const AddUsersToGroup = ({ group, roleName='Member', isSingle=false }) => {
             {/* <GroupMultiLevelSelect data={availableGroupData} onChange={handleChange} /> */}
             {!!selectedUserIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>
-                Add {!isSingle && selectedUserIds.length} user{!isSingle && selectedUserIds.length > 1 && 's'} to {group.name}
+                Add {!isSingle && selectedUserIds.length} user{!isSingle && selectedUserIds.length > 1 && 's'} to {groupName}
               </Button>
             )}
           </div>
