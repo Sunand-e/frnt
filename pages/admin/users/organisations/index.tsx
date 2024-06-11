@@ -22,7 +22,7 @@ const AdminOrganisations = () => {
   )
 }
 
-AdminOrganisations.capabilities = ['UpdateOrganisation']
+AdminOrganisations.capabilities = ['UpdateGroup', 'CreateGroup', 'DeleteGroup']
 AdminOrganisations.navState = {
 topLevel: 'users',
 secondary: 'organisations'
