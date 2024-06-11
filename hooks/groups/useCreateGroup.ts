@@ -3,8 +3,7 @@ import { GET_GROUPS, GET_GROUPS_DETAILED } from "../../graphql/queries/groups"
 import { useMutation } from "@apollo/client"
 import { CreateGroup, CreateGroupVariables } from "../../graphql/mutations/group/__generated__/CreateGroup";
 import { CREATE_GROUP } from "../../graphql/mutations/group/CREATE_GROUP";
-import { GetGroups } from "../../graphql/queries/__generated__/GetGroups";
-
+import { v4 as uuidv4 } from 'uuid';
 
 function useCreateGroup() {
 
@@ -14,38 +13,47 @@ function useCreateGroup() {
       update(cache, { data: { createGroup } } ) {
         cache.updateQuery({
           query: GET_GROUPS,
-        }, data => ({
-            ...data,
-            groups: {
-              ...data.groups,
-              edges: [{node: createGroup.group}, ...data.groups.edges]
-            }            
-          })
-        )
+        }, data => {
+          if(data) {
+            return {
+              ...data,
+              groups: {
+                ...data.groups,
+                edges: [{node: createGroup.group}, ...data.groups.edges]
+              }            
+            }
+          }
+        })
 
         cache.updateQuery({
           query: GET_GROUPS_DETAILED,
-        }, data => ({
-            ...data,
-            groups: {
-              ...data.groups,
-              edges: [{node: createGroup.group}, ...data.groups.edges]
-            }            
-          })
-        )
+        }, data => {
+          if(data) {
+            return {
+              ...data,
+              groups: {
+                ...data.groups,
+                edges: [{node: createGroup.group}, ...data.groups.edges]
+              }            
+            }
+          }
+        })
       }
     }
   );
 
-  const createGroup = values => {
-    createGroupMutation({ 
+  const createGroup = (values, options={}) => {
+    
+    const tempId = uuidv4(); // generate a temporary ID
+
+    createGroupMutation({
       variables: { ...values },
       optimisticResponse: {
         createGroup: {
           __typename: 'CreateGroupPayload',
           group: {
             __typename: 'Group',
-            id: Math.floor(Math.random() * 10000) + '',
+            id: values.id ?? tempId,
             _deleted: false,
             image: null,
             users: {
@@ -62,8 +70,14 @@ function useCreateGroup() {
           }
 
         }
-      }
-      // refetchQueries: [{ query: GET_GROUPS }]
+      },
+      onCompleted: (data) => {
+        alert('Group created successfully!');
+      },
+      onError: (error) => {
+        console.error('Error creating group:', error);
+      },
+      ...options
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
