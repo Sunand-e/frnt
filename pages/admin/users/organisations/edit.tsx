@@ -30,7 +30,7 @@ const AdminOrganisationsEdit = () => {
       { loading ? (
         <LoadingSpinner text={(
           <>
-            Loading user details
+            Loading organisation details
             <Dot>.</Dot>
             <Dot>.</Dot>
             <Dot>.</Dot>
