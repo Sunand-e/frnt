@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { TenantContext } from '../../../context/TenantContext';
+import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
@@ -10,7 +11,7 @@ import TextInput from '../../common/inputs/TextInput';
 import GroupMembers from '../GroupMembers';
 import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
 import GroupUsersInput from '../inputs/GroupUsersInput';
-import OrganisationCourses from './OrganisationCourses';
+import OrganisationContent from './OrganisationContent';
 
 interface GroupFormValues {
   id?: string
@@ -29,6 +30,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
   const { id } = router.query
 
   const { group, loading } = useGetGroup(id)
+  const { courses } = useGetCourses()
 
   const users = group?.users.edges.map(edge => edge.node) || []
   
@@ -100,7 +102,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
         groupType="organisation"
         showRoles={["Member"]}
       />
-      <OrganisationCourses />
+      <OrganisationContent content={courses} typeName='course'  />
 
       <Button type="submit">{buttonText}</Button>
     </form>

@@ -6,31 +6,34 @@ import useGetCourses from "../../../hooks/courses/useGetCourses";
 import { handleModal } from "../../../stores/modalStore";
 import useGetGroup from "../../../hooks/groups/useGetGroup";
 import ProvideContentToGroup from "../../users/groups/ProvideContentToGroup";
+import { contentTypes } from "../../common/contentTypes";
 
-const OrganisationCourses = () => {
+const OrganisationContent = ({typeName='course', content}) => {
 
+  const type = contentTypes[typeName]
+  
   const router = useRouter()
   const { id } = router.query
-  
-  const { courses } = useGetCourses()
 
   const { group } = useGetGroup(id)
 
   const button = {
-    text: "Provide courses",
+    text: `Provide ${type.plural}`,
     onClick: () => {
       handleModal({
-        title: 'Provide courses',
-        content: <ProvideContentToGroup group={group} content={courses} provisionedContent={group.provisionedCourses} typeName='course' />
+        title: `Provide ${type.plural}`,
+        content: <ProvideContentToGroup group={group} content={content} provisionedContent={group.provisionedContents} typeName={typeName} />
       })
     }
   }
 
+  const boxTitle = type.plural.charAt(0).toUpperCase() + type.plural.slice(1);
+
   return (
-    <BoxContainer title="Courses" icon={GraduationCap} button={button}>
-      <OrganisationContentTable />
+    <BoxContainer title={boxTitle} icon={GraduationCap} button={button}>
+      <OrganisationContentTable typeName={typeName} />
     </BoxContainer>
   );
 }
 
-export default OrganisationCourses
+export default OrganisationContent
