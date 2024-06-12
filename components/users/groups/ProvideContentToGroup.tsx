@@ -9,14 +9,14 @@ const ProvideContentToGroup = ({group, content, provisionedContent, typeName='it
   
   const {provideContentToGroups} = useProvideContentToGroups()
 
-  const courseNodes = content?.edges.map(edge => edge.node)
+  const contentNodes = content?.edges.map(edge => edge.node)
 
-  const organisationCourseNodes = provisionedContent?.edges.filter(edge => (
+  const organisationContentNodes = provisionedContent?.edges.filter(edge => (
     !edge.node._deleted
   )).map(edge => edge.node)
 
-  const availableContent = courseNodes?.filter(course => 
-    !organisationCourseNodes?.some(organisationCourse=>organisationCourse.id === course.id)
+  const availableContent = contentNodes?.filter(content => 
+    !organisationContentNodes?.some(organisationContent=>organisationContent.id === content.id)
   ) || []
   
   const {roles} = useGetRoles()
