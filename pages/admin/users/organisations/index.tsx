@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 import ButtonAdd from '../../../../components/common/ButtonAdd';
 import useCreateGroup from '../../../../hooks/groups/useCreateGroup';
-import { v4 as uuidv4 } from 'uuid';
 
 const AdminOrganisations = () => {
   
@@ -19,6 +18,7 @@ const AdminOrganisations = () => {
       name: 'Untitled organisation',
       isOrganisation: true
     }, {
+      skipOptimisticUpdate: true,
       onCompleted: (data) => {
         // navigate to the new URL with the actual ID
         router.push({
@@ -27,8 +27,6 @@ const AdminOrganisations = () => {
         });
       }
     })
-
-    const tempId = uuidv4(); // generate a temporary ID
   }
   
   useHeaderButtons({

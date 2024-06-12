@@ -48,27 +48,32 @@ function useCreateGroup() {
 
     createGroupMutation({
       variables: { ...values },
-      optimisticResponse: {
-        createGroup: {
-          __typename: 'CreateGroupPayload',
-          group: {
-            __typename: 'Group',
-            id: values.id ?? tempId,
-            _deleted: false,
-            image: null,
-            users: {
-              totalCount: 0,
-              edges: []
-            },
-            enrolledCourses: [],
-            assignedCourses: [],
-            assignedResources: [],
-            assignedPathways: [],
-            createdAt: 0,
-            updatedAt: 0,
-            ...values
+      optimisticResponse: (vars, { IGNORE }) => {
+        if (options.skipOptimisticUpdate === true) {
+          // conditionally bail out of optimistic updates
+          return IGNORE;
+        }
+        return {
+          createGroup: { 
+            __typename: 'CreateGroupPayload',
+            group: {
+              __typename: 'Group',
+              id: values.id ?? tempId,
+              _deleted: false,
+              image: null,
+              users: {
+                totalCount: 0,
+                edges: []
+              },
+              enrolledCourses: [],
+              assignedCourses: [],
+              assignedResources: [],
+              assignedPathways: [],
+              createdAt: 0,
+              updatedAt: 0,
+              ...values
+            }
           }
-
         }
       },
       onCompleted: (data) => {
