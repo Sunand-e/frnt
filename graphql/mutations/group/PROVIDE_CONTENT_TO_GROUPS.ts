@@ -15,7 +15,7 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
       groups {
         id
         name
-        provisionedCourses {
+        provisionedContents {
           edges {
             node {
               id

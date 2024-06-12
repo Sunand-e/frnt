@@ -65,9 +65,26 @@ function useCreateGroup() {
                 totalCount: 0,
                 edges: []
               },
-              assignedCourses: [],
-              assignedResources: [],
-              assignedPathways: [],
+              assignedCourses: {
+                totalCount: 0,
+                edges: []
+              },
+              assignedResources: {
+                totalCount: 0,
+                edges: []
+              },
+              assignedPathways: {
+                totalCount: 0,
+                edges: []
+              },
+              provisionedContents: {
+                totalCount: 0,
+                edges: []
+              },
+              provisionedCourses: {
+                totalCount: 0,
+                edges: []
+              },
               createdAt: 0,
               updatedAt: 0,
               ...values

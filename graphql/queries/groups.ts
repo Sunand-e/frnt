@@ -31,6 +31,9 @@ export const GroupOverviewFragment = gql`
     provisionedContents {
       totalCount
     }
+    provisionedCourses {
+      totalCount
+    }
     _deleted @client
   }
 `
