@@ -1,10 +1,8 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Table from '../common/tables/Table';
 import { GET_GROUPS } from '../../graphql/queries/groups';
 import { GetGroups } from '../../graphql/queries/__generated__/GetGroups';
-import Button from '../common/Button';
-import ButtonLink from '../common/ButtonLink';
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
@@ -57,7 +55,7 @@ const GroupsTable = () => {
       },
       {
         header: "Enrolled Courses",
-        accessorFn: row => row.enrolledCourses?.totalCount,
+        accessorFn: row => row.assignedCourses?.totalCount,
       },
       {
         header: "Assigned Resources",

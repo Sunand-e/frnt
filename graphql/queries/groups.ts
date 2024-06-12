@@ -19,9 +19,6 @@ export const GroupOverviewFragment = gql`
       properties
       title
     }
-    enrolledCourses {
-      totalCount
-    }
     assignedResources {
       totalCount
     }
@@ -54,13 +51,6 @@ export const GroupDetailsFragment = gql`
         roles {
           id
           name
-        }
-      }
-    }
-    enrolledCourses {
-      edges {
-        node {
-          id
         }
       }
     }

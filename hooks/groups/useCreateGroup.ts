@@ -65,7 +65,6 @@ function useCreateGroup() {
                 totalCount: 0,
                 edges: []
               },
-              enrolledCourses: [],
               assignedCourses: [],
               assignedResources: [],
               assignedPathways: [],
