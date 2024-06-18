@@ -56,7 +56,7 @@ const AddUsersToGroup = ({ group, roleName='Member', isSingle=false }) => {
   const [selectedUserIds, setSelectedUserIds] = useState([])
 
   const handleChange = (items) => {
-    setSelectedUserIds(isSingle ? items.value : items.map(item => item.value));
+    setSelectedUserIds(isSingle ? [items.value] : items.map(item => item.value));
   }
 
   const handleEnrol = (e) => {
