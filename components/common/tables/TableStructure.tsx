@@ -161,7 +161,8 @@ const TableStructure = ({ table }: TableStructureProps) => {
           <div
             className={classNames(
               "shadow border-b border-gray-200 sm:rounded-lg bg-white",
-              scrollInTable && `overflow-hidden lg:overflow-auto scrollbar:!w-1.5 
+              // scrollInTable && `overflow-hidden lg:overflow-auto scrollbar:!w-1.5 
+              scrollInTable && `overflow-auto scrollbar:!w-1.5 
               scrollbar:!h-1.5 scrollbar:bg-transparent 
               scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded 
               scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded 
