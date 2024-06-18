@@ -31,6 +31,22 @@ function useRemoveUserFromGroup() {
           // Garbage collect any unreachable objects from the cache.
           cache.gc();
         },
+        optimisticResponse: {
+          removeUserFromGroup: {
+            __typename: 'RemoveUserFromGroupPayload',
+            membership: {
+              __typename: 'GroupMembership',
+              user: {
+                __typename: 'User',
+                id: values.userId,
+              },
+              group: {
+                __typename: 'Group',
+                id: values.groupId,
+              },
+            },
+          },
+        },
       }).catch(res => {
         // TODO: do something if there is an error!!
       })
