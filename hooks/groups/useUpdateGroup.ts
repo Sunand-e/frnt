@@ -88,9 +88,7 @@ function useUpdateGroup(id = null) {
 
   const updateGroup = (values) => {
     const variables = {
-      ...values,
-      enrolmentLicenseTotal: parseInt(values.enrolmentLicenseTotal) || 0,
-      enrolments: parseInt(values.enrolments) || 0,
+      ...values
     }
     updateGroupMutation({
       variables: {
@@ -104,12 +102,12 @@ function useUpdateGroup(id = null) {
           group: {
             ...data.group,
             ...variables,
-            users: {
+            ...(variables.userIds ? { users: {
               ...data.group.users,
               edges: variables.userIds.map(id => {
                 return { node: { id, __typename: 'User'} }
               })
-            }
+            }} : {}),
           },
         }
       }
