@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { UserGroupsFragment } from '../../queries/userDetails';
 
 
 export const ADD_USERS_TO_GROUPS = gql`
@@ -16,6 +17,7 @@ export const ADD_USERS_TO_GROUPS = gql`
         id
         name
         users {
+          totalCount
           edges {
             node {
               id
@@ -25,16 +27,9 @@ export const ADD_USERS_TO_GROUPS = gql`
       }
       users {
         id
-        groups {
-          edges {
-            groupId
-            userId
-            node {
-              id
-            }
-          }
-        }
+        ...UserGroupsFragment
       }
     }
   }
-`;
+  ${UserGroupsFragment}
+`

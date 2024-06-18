@@ -12,6 +12,7 @@ export const REMOVE_PROVISIONED_CONTENT_FROM_GROUPS = gql`
       }
     ) {
       groups {
+        id
         provisionedContents {
           edges {
             node {
