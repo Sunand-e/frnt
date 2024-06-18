@@ -24,7 +24,7 @@ const UserPathways = () => {
 
   return (
     <BoxContainer title="Pathways" icon={Library} button={button}>
-      <UserPathwaysTable />
+      <UserPathwaysTable scrollInTable={true} />
     </BoxContainer>
   );
 }

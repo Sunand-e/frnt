@@ -5,7 +5,7 @@ import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
 import UserPathwayActionsMenu from "./UserPathwayActionsMenu";
 
-const UserPathwaysTable = () => {
+const UserPathwaysTable = ({scrollInTable = false}) => {
   
   const router = useRouter()
   const { id } = router.query

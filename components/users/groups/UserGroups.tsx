@@ -32,7 +32,7 @@ const UserGroups = () => {
   const boxTitle = tenantFeaturesEnabled(['organisations']) ? 'Groups / Organisations' : 'Groups'
   return (
     <BoxContainer title={boxTitle} icon={Group2} button={button}>
-        <UserGroupsTable />
+        <UserGroupsTable scrollInTable={true} />
     </BoxContainer>
   );
 }

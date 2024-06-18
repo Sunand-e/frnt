@@ -24,7 +24,7 @@ const UserResources = () => {
 
   return (
     <BoxContainer title="Resources" icon={Library} button={button}>
-      <UserResourcesTable />
+      <UserResourcesTable scrollInTable={true} />
     </BoxContainer>
     
   );

@@ -27,7 +27,7 @@ const UserCourses = () => {
 
   return (
     <BoxContainer title="Courses" icon={GraduationCap} button={button}>
-      <UserCoursesTable />
+      <UserCoursesTable scrollInTable={true} />
     </BoxContainer>
   );
 }

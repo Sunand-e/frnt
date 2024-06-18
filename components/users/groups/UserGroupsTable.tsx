@@ -13,7 +13,7 @@ import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import { handleModal } from "../../../stores/modalStore";
 import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
 
-const UserGroupsTable = () => {
+const UserGroupsTable = ({scrollInTable = false}) => {
 
   const router = useRouter()
 
@@ -98,6 +98,7 @@ const UserGroupsTable = () => {
     tableData,
     tableCols,
     showTop: false,
+    scrollInTable,
   }
     
   return (
