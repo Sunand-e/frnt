@@ -102,8 +102,8 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
         groupType="organisation"
         showRoles={["Member"]}
       />
-      <OrganisationContent content={courses} typeName='course'  />
-
+      <OrganisationContent content={courses} contentLoadingStatus={loadingCourses} typeName='course'  />
+      {/* <OrganisationContent content={resources} contentLoadingStatus={loadingResources} typeName='resource'  /> */}
       <Button type="submit">{buttonText}</Button>
     </form>
   )
