@@ -21,7 +21,6 @@ const AdminOrganisationsEdit = () => {
   const router = useRouter()
   const { id } = router.query
   const { group, loading } = useGetGroup(id)
-  const { updateGroup } = useUpdateGroup(group?.id);
   
   usePageTitle({ title: `Edit organisation: ${group?.name}` })
 
@@ -37,7 +36,7 @@ const AdminOrganisationsEdit = () => {
           </>
         )} />
       ) : !!group && (
-        <OrganisationForm organisation={group} onSubmit={updateGroup} />
+        <OrganisationForm organisation={group} />
       )}
     </>
   )

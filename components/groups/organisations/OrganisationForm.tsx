@@ -1,8 +1,12 @@
+import { parse } from 'graphql';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDebouncedCallback } from 'use-debounce';
 import { TenantContext } from '../../../context/TenantContext';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
+import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
+import useGetResources from '../../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
 import Button from '../../common/Button';
@@ -24,24 +28,27 @@ interface GroupFormValues {
   enrolmentLicenseTotal: number
 }
 
-const OrganisationForm = ({organisation=null, onSubmit}) => {
+const OrganisationForm = ({organisation=null}) => {
 
   const router = useRouter()
   const { id } = router.query
 
   const { group, loading } = useGetGroup(id)
-  const { courses } = useGetCourses()
-
-  const users = group?.users.edges.map(edge => edge.node) || []
+  const { courses, loading: loadingCourses } = useGetCourses()
+  const { resources, loading: loadingResources } = useGetResources()
+  const { updateGroup } = useUpdateGroup(id)
   
-  const { register, watch, handleSubmit: rhfHandleSubmit, control, setFocus } = useForm<GroupFormValues>(
+  const debouncedUpdate = useDebouncedCallback((values) => {
+    updateGroup(values);
+  }, 500);
+  
+  const { register, setFocus } = useForm<GroupFormValues>(
     {
       defaultValues: {
         ...group,
         name: (group.name === 'Untitled organisation') ? '' : group.name,
         enrolments: group?.enrolments || 0,
         enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
-        userIds: users.map(user => user.id),
       }
     }
   );
@@ -49,33 +56,25 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
   useEffect(() => {
     setFocus('name')
   },[])
-
-  const handleSubmit = values => {
-    const input = {
-      ...values,
-      ...(organisation === null ? { isOrganisation: true } : {}),
-    }
-    onSubmit(input)
-
-    router.push('/admin/users/organisations')
-  }
-
-  const buttonText = group ? 'Save changes' : 'Create organisation'
-  
+   
   return (
     <form
       className='h-full w-full max-w-3xl flex flex-col space-y-4'
-      onSubmit={rhfHandleSubmit(handleSubmit)}
+      // onSubmit={rhfHandleSubmit(handleSubmit)}
       onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
         label="Organisation name"
         placeholder="Organisation name"
-        inputAttrs={register("name", { maxLength: 100 })}
+        inputAttrs={{
+          ...register("name", { maxLength: 100 }),
+          onChange: (e => debouncedUpdate({ name: e.target.value }))
+        }}
       />
       <NumberPropertyInput
         inputAttrs={{
           ...register("enrolmentLicenseTotal"),
+          onChange: (e => debouncedUpdate({ enrolmentLicenseTotal: parseInt(e.target.value) }))
         }}
         unit={'licenses'}
         className={'text-sm'}
@@ -84,6 +83,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
       <NumberPropertyInput
         inputAttrs={{
           ...register("enrolments"),
+          onChange: (e => debouncedUpdate({ enrolments: parseInt(e.target.value) }))
         }}
         unit={'licenses'}
         className={'text-sm'}
@@ -104,7 +104,7 @@ const OrganisationForm = ({organisation=null, onSubmit}) => {
       />
       <OrganisationContent content={courses} contentLoadingStatus={loadingCourses} typeName='course'  />
       {/* <OrganisationContent content={resources} contentLoadingStatus={loadingResources} typeName='resource'  /> */}
-      <Button type="submit">{buttonText}</Button>
+      
     </form>
   )
 }
