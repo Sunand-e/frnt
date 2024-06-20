@@ -41,6 +41,49 @@ function useAddUsersToGroups() {
         variables: {
           ...values
         },
+        optimisticResponse: {
+          addUsersToGroups: {
+            __typename: 'AddUsersToGroupsPayload',
+            groups: values.groupIds.map(groupId => ({
+              __typename: 'Group',
+              id: groupId,
+              users: {
+                __typename: 'GroupUserConnection',
+                totalCount: 1, // This is optimistic, adjust according to your logic
+                edges: values.userIds.map(userId => ({
+                  __typename: 'GroupUserEdge',
+                  node: {
+                    __typename: 'User',
+                    id: userId,
+                  },
+                })),
+              },
+            })),
+            users: values.userIds.map(userId => ({
+              __typename: 'User',
+              id: userId,
+              groups: {
+                __typename: 'UserGroupConnection',
+                // totalCount: 1, // This is optimistic, adjust according to your logic
+                edges: values.groupIds.map(groupId => ({
+                  __typename: 'UserGroupEdge',
+                  groupId: groupId,
+                  userId: userId,
+                  node: {
+                    __typename: 'Group',
+                    id: groupId,
+                  },
+                  roles: [
+                    {
+                      __typename: 'Role',
+                      id: values.roleId,
+                    },
+                  ],
+                })),
+              },
+            })),
+          },
+        },
         refetchQueries: values.userIds.map(id => ({ query: GET_USER, variables: { id } })),
         onCompleted: cb
       }).catch(res => {
