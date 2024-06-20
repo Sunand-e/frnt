@@ -10,7 +10,8 @@ function useUpdateTenant(id = null) {
         {
             variables: {
                 id
-            }
+            },
+            skip: !id
         }
     );
 

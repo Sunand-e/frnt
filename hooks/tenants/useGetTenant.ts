@@ -7,7 +7,8 @@ function useGetTenant(id=null) {
   const { loading, error, data: {tenant} = {} } = useQuery(
     GET_TENANT,
     {
-      variables: id ? { id } : null
+      variables: {id},
+      skip: !id
     }
   );
 
