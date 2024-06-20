@@ -24,13 +24,6 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
       if(item.requireEnabledFeatures && !tenantFeaturesEnabled(item.requireEnabledFeatures)) {
         return false
       }
-      if(item.removeIfFeaturesDisabled) {
-        for(let feature of item.removeIfFeaturesDisabled) {
-          if(!tenant || tenant?.[feature]?.enabled === false) {
-            return false
-          }
-        }
-      }
       
       if(!isSuperAdmin && item.capabilities?.length && !userHasCapability(item.capabilities)) {
         return false

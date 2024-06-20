@@ -59,7 +59,7 @@ const navStructureAdmin = [
     urlPath: '/admin/resources',
     icon: 'school',
     capabilities: ['UpdateResource', 'ReorderResources'],
-    removeIfFeaturesDisabled: ['resources'],
+    requireEnabledFeatures: ['resources'],
     subPages: [
       {
         name: 'overview',
@@ -133,7 +133,7 @@ const navStructureAdmin = [
         title: 'Groups',
         urlPath: '/admin/users/groups',
         icon: Group2,
-        removeIfFeaturesDisabled: ['groups'],
+        requireEnabledFeatures: ['groups'],
         capabilities: ['CreateGroup'],
       },
       {
@@ -178,7 +178,7 @@ const navStructureAdmin = [
     title: 'Media',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
-    removeIfFeaturesDisabled: ['mediaLibrary'],
+    requireEnabledFeatures: ['mediaLibrary'],
     capabilities: ['UpdateMediaItem']
   },
   // {

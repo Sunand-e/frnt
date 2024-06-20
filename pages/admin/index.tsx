@@ -16,6 +16,7 @@ import useHeaderButtons from '../../hooks/useHeaderButtons';
 import usePageTitle from '../../hooks/usePageTitle';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
+import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import DashboardLayout from '../../layouts/DashboardLayout';
 
@@ -27,7 +28,8 @@ const AdminDashboardPage = () => {
 
   const { user } = useGetCurrentUser()
   const { userHasCapability, determineCapabilityScope } = useUserHasCapability()
-  
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
+
   useHeaderButtons([{
     id: 'userView',
     component: <ButtonLink href={'/'}>User View</ButtonLink>
@@ -42,7 +44,7 @@ const AdminDashboardPage = () => {
     const showOrganisationEnrolmentLicences = isOrganisationLeader
 
     const showGroups = (
-      !(tenant?.groups?.enabled === false) &&
+      tenantFeaturesEnabled(['groups']) &&
       !showOrganisationEnrolmentLicences
     )
 
@@ -69,7 +71,7 @@ const AdminDashboardPage = () => {
       IconComponent: Group2,
       href: "admin/users/groups"
     }] : []),
-    ...(!(tenant?.resources?.enabled === false) ? [{
+    ...(tenantFeaturesEnabled(['resources']) ? [{
       name: 'allResources',
       label: 'Total resources',
       value: data?.resources.totalCount,

@@ -17,23 +17,7 @@ const TenantEditor = () => {
 
   const handleSubmit = (formValues) => {
     const values = {
-      ...formValues,
-      settings: {
-        ...formValues.settings,
-        pathways: {
-          ...formValues.settings?.pathways,
-          enabled: formValues.pathwaysEnabled
-        },
-        organisations: {
-          ...formValues.settings?.organisations,
-          enabled: formValues.organisationsEnabled
-        },
-        courses: {
-          ...formValues.settings?.courses,
-          showSendFeedbackButtonCourseSetting: formValues.showSendFeedbackButtonCourseSetting,
-          showSendCourseFeedbackButton: formValues.showSendCourseFeedbackButton
-        }
-      }
+      ...formValues
     }
 
     updateTenant(values)

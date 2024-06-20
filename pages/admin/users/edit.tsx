@@ -19,6 +19,7 @@ import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useContext } from 'react';
 import { TenantContext } from '../../../context/TenantContext';
 import useIsOrganisationLeader from '../../../hooks/users/useIsOrganisationLeader';
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
 
 const AdminUsersEdit = () => {
   
@@ -28,6 +29,7 @@ const AdminUsersEdit = () => {
 
   const tenant = useContext(TenantContext)
   const { userHasCapability } = useUserHasCapability()
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
   const { isOrganisationLeader } = useIsOrganisationLeader()
@@ -69,8 +71,11 @@ const AdminUsersEdit = () => {
   });
 
   const showGroups = (
-    !(tenant?.groups?.enabled === false) &&
-    !isOrganisationLeader
+    tenantFeaturesEnabled('groups') && !isOrganisationLeader
+  )
+
+  const showOrganisations = (
+    tenantFeaturesEnabled('organisations') && !isOrganisationLeader
   )
 
   return (
@@ -94,8 +99,8 @@ const AdminUsersEdit = () => {
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
             { showGroups && <UserGroups /> }
             <UserCourses />
-            { !(tenant?.resources?.enabled === false) && <UserResources /> }
-            { (tenant?.pathways?.enabled === true) && <UserPathways /> }
+            { tenantFeaturesEnabled('resources') && <UserResources /> }
+            { tenantFeaturesEnabled('pathways') && <UserPathways /> }
           </div>
         </div>
       )}

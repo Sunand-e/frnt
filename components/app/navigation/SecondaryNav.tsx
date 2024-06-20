@@ -21,13 +21,6 @@ export default function SecondaryNav({showSecondary, primaryNavItem, pageNavStat
           }
         }
       }
-      if(item.removeIfFeaturesDisabled) {
-        for(let feature of item.removeIfFeaturesDisabled) {
-          if(!tenant || tenant?.[feature]?.enabled === false) {
-            return false
-          }
-        }
-      }
 
       if(!isSuperAdmin && item.capabilities?.length && !userHasCapability(item.capabilities)) {
         return false

@@ -5,13 +5,12 @@ import TagSelect from "../tags/inputs/TagSelect";
 import CourseSelect from "../courses/inputs/CourseSelect";
 import UserSelect from "../users/inputs/UserSelect";
 import useGetGroups from '../../hooks/groups/useGetGroups';
-import { useContext } from 'react';
-import { TenantContext } from '../../context/TenantContext';
+import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 
 const ReportFilters = ({filters=[]}) => {
 
   const router = useRouter()
-  const tenant = useContext(TenantContext)
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { groups } = useGetGroups();
 
   const { 
@@ -46,7 +45,7 @@ const ReportFilters = ({filters=[]}) => {
         />
       </div> */}
       
-      {!(tenant?.groups?.enabled === false) && groups && filters.includes('group') && (
+      { tenantFeaturesEnabled('groups') && groups && filters.includes('group') && (
         <div className="flex flex-col">
           <label className="text-left text-xs font-medium text-gray-500 uppercase">in group</label>
             <GroupSelect

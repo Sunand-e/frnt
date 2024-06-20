@@ -8,15 +8,54 @@ import ImageDropzoneInput from '../common/inputs/ImageDropzoneInput';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 import CheckboxInput from '../common/inputs/CheckboxInput';
 import FontFamilySelectInput from '../common/inputs/FontFamilySelectInput';
-
+import BoxContainer from '../common/containers/BoxContainer';
+import { contentTypes } from '../common/contentTypes';
+import merge from 'lodash/merge'
+interface TenantFeatureSettings {
+  courses: {
+    enabled: boolean
+    showSendFeedbackButtonCourseSetting: boolean
+    showSendCourseFeedbackButton: boolean
+    builder: {
+      enabled: boolean
+    }
+    reports: {
+      enabled: boolean
+    }
+  }
+  resources: {
+    enabled: boolean
+    reports: {
+      enabled: boolean
+    }
+  }
+  pathways: {
+    enabled: boolean
+    reports: {
+      enabled: boolean
+    }
+  }
+  groups: {
+    enabled: boolean
+  }
+  organisations: {
+    enabled: boolean
+  }
+  mediaLibrary: {
+    enabled: boolean
+  }
+  reports: {
+    enabled: boolean
+  }
+  primaryBrandColor: string
+  secondaryBrandColor: string
+}
 interface TenantFormValues {
   id?: string
   name: string
   shortName: string
   url: string
   profileImage: string
-  primaryBrandColor: string
-  secondaryBrandColor: string
   styles: {
     headings: {
       font: string
@@ -25,23 +64,17 @@ interface TenantFormValues {
       font: string
     }
   }
-  pathwaysEnabled: boolean
-  organisationsEnabled: boolean
-  showSendFeedbackButtonCourseSetting: boolean
-  showSendCourseFeedbackButton: boolean
+  settings: TenantFeatureSettings
 }
 
 const TenantForm = ({tenant=null, onSubmit}) => {
 
-  const defaultValues = {
+  const defaultValues: TenantFormValues = {
     ...tenant,
-    name: tenant?.name,
-    url: tenant?.url,
-    id: tenant?.id,
-    pathwaysEnabled: tenant?.settings?.pathways?.enabled,
-    organisationsEnabled: tenant?.settings?.organisations?.enabled,
-    showSendFeedbackButtonCourseSetting: tenant?.settings?.courses?.showSendFeedbackButtonCourseSetting,
-    showSendCourseFeedbackButton: tenant?.settings?.courses?.showSendCourseFeedbackButton,
+    settings: {
+      ...DEFAULT_TENANT_SETTINGS,
+      ...tenant?.settings
+    }
   }
   
   const endpoint = "/api/v1/tenant/update"
@@ -65,6 +98,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       data.emailLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_emails_image: data.emailLogo})),
       data.certLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_certs_image: data.certLogo}))
     ]).then(res => {
+      console.log('data')
+      console.log(data)
       onSubmit(data)
     })
   }
@@ -166,29 +201,101 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         control={control}
       />
       <hr></hr>
-      <h2>Feature settings</h2>
-      <h3>Courses</h3>
-      <CheckboxInput
-        label="Show 'Allow users to send course feedback' course setting"
-        inputAttrs={register("showSendFeedbackButtonCourseSetting")}
-      />
-      <CheckboxInput
-        label="Show 'Send feedback' button if course setting is set to 'on'"
-        inputAttrs={register("showSendCourseFeedbackButton")}
-      />
-      <h3>Pathways</h3>
-      <CheckboxInput
-        label="Enable pathways"
-        inputAttrs={register("pathwaysEnabled")}
-      />
-      <h3>Organisations</h3>
-      <CheckboxInput
-        label="Enable organisations"
-        inputAttrs={register("organisationsEnabled")}
-      />
+
+      <BoxContainer title={'Courses'} icon={contentTypes.course.icon} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable course builder"
+          inputAttrs={register("settings.courses.builder.enabled")}
+        />
+        <CheckboxInput
+          label="Show 'Allow users to send course feedback' course setting"
+          inputAttrs={register("settings.courses.showSendFeedbackButtonCourseSetting")}
+        />
+        <CheckboxInput
+          label="Show 'Send feedback' button if course setting is set to 'on'"
+          inputAttrs={register("settings.courses.showSendCourseFeedbackButton")}
+        />
+      </BoxContainer>
+
+      <BoxContainer title={'Resources'} icon={contentTypes.resource.icon} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable resource library"
+          inputAttrs={register("settings.resources.enabled")}
+        />
+        <CheckboxInput
+          label="Enable resource reports"
+          inputAttrs={register("settings.resources.reports.enabled")}
+        />
+      </BoxContainer>
+      
+      <BoxContainer title={'Pathways'} icon={contentTypes.pathway.icon} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable pathways"
+          inputAttrs={register("settings.pathways.enabled")}
+        />
+        <CheckboxInput
+          label="Enable pathway reports"
+          inputAttrs={register("settings.pathways.reports.enabled")}
+        />
+      </BoxContainer>
+
+      <BoxContainer title={'Groups'} icon={null} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable groups"
+          inputAttrs={register("settings.groups.enabled")}
+        />
+      </BoxContainer>
+
+      <BoxContainer title={'Organisations'} icon={null} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable organisations"
+          inputAttrs={register("settings.organisations.enabled")}
+        />
+      </BoxContainer>
+      
       <Button type="submit">Submit</Button>
     </form>
   );
+}
+
+const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
+  'courses': {
+    'enabled': true,
+    'showSendFeedbackButtonCourseSetting': false,
+    'showSendCourseFeedbackButton': false,
+    'reports': {
+      'enabled': true
+    },
+    'builder': {
+      'enabled': true
+    }
+  },
+  'resources': {
+    'enabled': true,
+    'reports': {
+      'enabled': false
+    }
+  },
+  'pathways': {
+    'enabled': false,
+    'reports': {
+      'enabled': false
+    }
+  },
+  'groups': {
+    'enabled': true
+  },
+  'organisations': {
+    'enabled': false
+  },
+  'mediaLibrary': {
+    'enabled': true
+  },  
+  'reports': {
+    'enabled': true
+  },
+  'primaryBrandColor': '',
+  'secondaryBrandColor': ''
 }
 
 export default TenantForm
