@@ -16,7 +16,7 @@ function useTenantFeaturesEnabled() {
 
     for(let featurePath of features) {
       const featureKeys = featurePath.split('.');
-      const featureEnabled = featureKeys.reduce((obj, key) => obj && obj[key], tenant).enabled;
+      const featureEnabled = featureKeys.reduce((obj, key) => obj && obj[key], tenant)?.enabled;
       if(!featureEnabled) {
         return false;
       }
