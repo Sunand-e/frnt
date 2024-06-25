@@ -26,9 +26,11 @@ export interface TableProps {
   scrollInTable: boolean,
   maxVisibleRows: number,
   isExportable?: boolean,
+  isLoading?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
   isReportingTable?: boolean,
+  loadingText?: ReactNode,
   getReorderableItemIdFromRow?: (row: any) => string,
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,
@@ -37,6 +39,7 @@ export interface TableProps {
 }
 
 interface TableState extends TableProps {
+  setIsLoading: (loading: boolean) => void
   setTable: (table: Table<any>) => void
   setGlobalFilter: (filter: TableProps['globalFilter']) => void
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
@@ -102,6 +105,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     setFilters: filters => set(state => ({filters})),
     setTypeName: typeName => set(state => ({typeName})),
     setTypeOptions: typeOptions => set(state => ({typeOptions})),
+    setIsLoading: isLoading => set(state => ({isLoading})),
     // setSorting: sorting => set(state => ({sorting})),
     setSorting: sorting => {
       set(state => ({sorting}))

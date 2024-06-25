@@ -1,5 +1,3 @@
-import { flexRender, Row, Table } from "@tanstack/react-table";
-import { CaretUp } from "@styled-icons/fa-solid/CaretUp"
 import {
   closestCenter,
   DndContext,
@@ -12,22 +10,17 @@ import {
   useSensors
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy
-} from "@dnd-kit/sortable";
-import DraggableTableRow from "./DraggableTableRow";
-import { MutableRefObject, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { StaticTableRow } from "./StaticTableRow";
-import { gql, useMutation } from "@apollo/client";
-import { useTableContext } from "./tableContext";
-import TableRow from "./TableRow";
-import { useViewStore } from "../../../hooks/useViewStore";
+import { CaretUp } from "@styled-icons/fa-solid/CaretUp";
+import { flexRender, Table } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { createPortal } from "react-dom";
 import { useMeasure } from "@uidotdev/usehooks";
+import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useViewStore } from "../../../hooks/useViewStore";
 import classNames from "../../../utils/classNames";
+import { StaticTableRow } from "./StaticTableRow";
+import TableBody from "./TableBody";
+import { useTableContext } from "./tableContext";
 
 interface TableStructureProps {
   table: Table<any>
@@ -48,20 +41,17 @@ const TableStructure = ({ table }: TableStructureProps) => {
 
   const rows = table.getRowModel().rows
   const bulkActions = useTableContext(s => s.bulkActions)
-  const onRowClick = useTableContext(s => s.onRowClick)
   const onReorder = useTableContext(s => s.onReorder)
   const scrollInTable = useTableContext(s => s.scrollInTable)
   const maxVisibleRows = useTableContext(s => s.maxVisibleRows)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
-  const isReorderableActive = useTableContext(s => s.isReorderableActive)
   const isSelectable = !!bulkActions.length;
 
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
   const [activeId, setActiveId] = useState();
   const tableElementRef = useRef<HTMLTableElement>(null)
   const [colWidths, setColWidths] = useState<number[] | null>(null)
-  const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
   const dataCellOffset = Number(isReorderable) + Number(isSelectable)
 
   
@@ -80,7 +70,6 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const rowHeight = 73;
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
-  const tBodyRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   const virtualizer = useVirtualizer({
     getScrollElement: () => scrollContainer,
     // getScrollElement: () => tBodyRef.current,
@@ -240,46 +229,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
                     </tr>
                   ))}
                 </thead>
-                <tbody ref={tBodyRef} className="relative">
-                  {
-                    isReorderableActive ? (
-                      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-                        {virtualizer.getVirtualItems().map((virtualRow, index) => {
-                          const row = rows[virtualRow.index]
-                          return (
-                            <DraggableTableRow 
-                              row={row}
-                              index={index}
-                              onRowClick={onRowClick}
-                              draggingRowHeight={draggingRowHeight}
-                              virtualizer={virtualizer}
-                              virtualRow={virtualRow}
-                              key={virtualRow.key}
-                              pkey={virtualRow.key}
-                              translateY={virtualRow.start - index * virtualRow.size}
-                            />
-                          )
-                        })}
-                      </SortableContext>
-                    ) : virtualizer.getVirtualItems().map((virtualRow, index) => {
-                      const row = rows[virtualRow.index]
-                      return (
-                        <TableRow
-                          dataIndex={virtualRow.index}
-                          trRef={virtualizer.measureElement}
-                          key={virtualRow.key}
-                          style={{
-                            transform: `translateY(${virtualRow.start - index * virtualRow.size}px)`,
-                            position: 'relative',
-                            zIndex: 9999 - index,
-                          }}
-                          row={row}
-                          onRowClick={onRowClick}
-                        />
-                      )
-                    })
-                  }
-                </tbody>
+                <TableBody table={table} virtualizer={virtualizer} />
               </table>
               {createPortal(
                 <DragOverlay
