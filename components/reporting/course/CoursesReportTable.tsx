@@ -44,7 +44,7 @@ const COURSES_REPORT_QUERY = gql`
           id
           title
           itemType
-          groupsEnrolled {
+          groupsAssigned {
             edges {
               node {
                 id
@@ -124,7 +124,7 @@ const CoursesReportTable = () => {
     let data = courses?.edges.filter((edge) => !edge.node._deleted);
     if (filterActive(groupId)) {
       if(userHasCapability('GetAllGroupsContent')) {
-        data = data?.filter(edge => edge.node.groupsEnrolled.edges.some(({node}) => node.id === groupId))
+        data = data?.filter(edge => edge.node.groupsAssigned.edges.some(({node}) => node.id === groupId))
       } else {
         data = data?.filter((item) => {
           const fragment = client.readFragment({

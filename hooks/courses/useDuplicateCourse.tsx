@@ -73,7 +73,7 @@ function useDuplicateCourse() {
                   node: {
                     ...course,
                     ...duplicateCourse.contentItem,
-                    groupsEnrolled: {
+                    groupsAssigned: {
                       edges: []
                     },
                     sections: []
