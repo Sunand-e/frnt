@@ -76,7 +76,9 @@ const GroupsTable = () => {
     options: {
       selectable: false
     },
-    filters: ['global']
+    filters: ['global'],
+    isLoading: loading,
+    loadingText: 'Loading groups',
   }
     
   return (
