@@ -51,6 +51,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
   const [activeId, setActiveId] = useState();
   const tableElementRef = useRef<HTMLTableElement>(null)
+  const scrollInTableContainerRef = useRef<HTMLDivElement>(null)
   const [colWidths, setColWidths] = useState<number[] | null>(null)
   const dataCellOffset = Number(isReorderable) + Number(isSelectable)
 
@@ -64,7 +65,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainerRef = useTableContext(s => s.scrollContainerRef)
   const mainScrollableRef = useViewStore(state => state.mainScrollableRef)
 
-  const scrollContainer = scrollInTable ? tableElementRef.current : (scrollContainerRef.current || mainScrollableRef.current)
+  const scrollContainer = scrollInTable ? scrollInTableContainerRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   
   const rowHeight = 73;
@@ -148,6 +149,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
       <div className="-my-2 overflow-y-visible sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
+          ref={scrollInTableContainerRef}
             className={classNames(
               "shadow border-b border-gray-200 sm:rounded-lg bg-white",
               // scrollInTable && `overflow-hidden lg:overflow-auto scrollbar:!w-1.5 
