@@ -1,14 +1,14 @@
-import EditGroupForm from '../../../../components/groups/EditGroupForm'
-import usePageTitle from '../../../../hooks/usePageTitle';
-import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
-import useHeaderButtons from "../../../../hooks/useHeaderButtons";
-import useGetGroup from '../../../../hooks/groups/useGetGroup';
-import { useRouter } from '../../../../utils/router';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 import ButtonBack from '../../../../components/common/ButtonBack';
-import OrganisationForm from '../../../../components/groups/organisations/OrganisationForm';
-import useUpdateGroup from '../../../../hooks/groups/useUpdateGroup';
 import LoadingSpinner from '../../../../components/common/LoadingSpinner';
 import { Dot } from '../../../../components/common/misc/Dot';
+import OrganisationForm from '../../../../components/groups/organisations/OrganisationForm';
+import useGetGroup from '../../../../hooks/groups/useGetGroup';
+import useHeaderButtons from "../../../../hooks/useHeaderButtons";
+import usePageTitle from '../../../../hooks/usePageTitle';
+import { useRouter } from '../../../../utils/router';
+import {ChevronRight} from "@styled-icons/boxicons-regular/ChevronRight";
 
 const AdminOrganisationsEdit = () => {
 
@@ -22,7 +22,21 @@ const AdminOrganisationsEdit = () => {
   const { id } = router.query
   const { group, loading } = useGetGroup(id)
   
-  usePageTitle({ title: `Edit organisation: ${group?.name}` })
+  let pageTitle: ReactNode = 'Organisations'
+
+  if(group) {
+    pageTitle = (
+      <span className='flex items-center space-x-2'>
+        <Link href="/admin/users/organisations">
+          <span>Organisations</span>
+        </Link>
+        <ChevronRight size={20} />
+        <span>{group.name}</span>
+      </span>
+    )
+  }
+
+  usePageTitle({ title: pageTitle })
 
   return (
     <>
@@ -36,7 +50,7 @@ const AdminOrganisationsEdit = () => {
           </>
         )} />
       ) : !!group && (
-        <OrganisationForm organisation={group} />
+        <OrganisationForm />
       )}
     </>
   )

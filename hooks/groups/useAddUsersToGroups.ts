@@ -1,9 +1,9 @@
 
-import { GET_GROUPS } from "../../graphql/queries/groups"
-import { useMutation, useQuery } from "@apollo/client"
-import { ADD_USERS_TO_GROUPS } from "../../graphql/mutations/group/ADD_USERS_TO_GROUPS";
-import { AddUsersToGroups, AddUsersToGroupsVariables } from "../../graphql/mutations/group/__generated__/AddUsersToGroups";
+import { useMutation } from "@apollo/client";
+import cache from "../../graphql/cache";
 import { AddUsersToGroupsMutation, AddUsersToGroupsMutationVariables } from "../../graphql/generated";
+import { ADD_USERS_TO_GROUPS } from "../../graphql/mutations/group/ADD_USERS_TO_GROUPS";
+import { GET_GROUP } from "../../graphql/queries/groups";
 import { GET_USER } from "../../graphql/queries/userDetails";
 
 function useAddUsersToGroups() {
@@ -12,24 +12,7 @@ function useAddUsersToGroups() {
     ADD_USERS_TO_GROUPS,
     {
       update: (cache, { data: { addUsersToGroups } }) => {
-        // for each user, add the group to the user's groups
-        // addUsersToGroups.users.forEach(user => {
-        //   const { user: cachedUser } = cache.readQuery({ query: GET_USER, variables: { id: user.id } }) || {};
-        //   if (cachedUser) {
-        //     const newUser = JSON.parse(JSON.stringify(cachedUser));
-
-        //     newUser.groups.edges = addUsersToGroups.users.find(u => u.id === user.id).groups.edges;
-        //     cache.writeQuery({
-        //       query: GET_USER,
-        //       variables: { id: user.id },
-        //       data: { user: newUser },
-        //     });
-      
-        //     alert('added users to groups')
-        //   }
-        // });
- 
-      }
+      },
     }
   );
 
@@ -37,64 +20,98 @@ function useAddUsersToGroups() {
   const addUsersToGroups = (values, cb = null) => {
     // const updateUser = ({name=null, contentBlocks=null}) => {
   
-      addUsersToGroupsMutation({
-        variables: {
-          ...values
+      // merge existing cached groups users and users groups with the new data
+
+      
+    const existingCachedGroups = values.groupIds.map(groupId => {
+      // Fetch the existing group data from the cache
+      const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
+      return cachedGroupData.group;
+    });
+
+    // Assuming values.userIds contains the new content item IDs to be assigned
+    // and existingCachedGroups is an array of groups with their current assignedContents
+
+    const updatedGroups = existingCachedGroups.map(group => {
+      // Create new edges for the new content item IDs
+      const newUserEdges = values.userIds.map(userId => ({
+        __typename: 'GroupUserEdge',
+        groupId: group.id,
+        userId,
+        node: {
+          __typename: 'User',
+          id: userId,
+          // fullName: 'New User',
         },
-        optimisticResponse: {
-          addUsersToGroups: {
-            __typename: 'AddUsersToGroupsPayload',
-            groups: values.groupIds.map(groupId => ({
-              __typename: 'Group',
-              id: groupId,
-              users: {
-                __typename: 'GroupUserConnection',
-                totalCount: 1, // This is optimistic, adjust according to your logic
-                edges: values.userIds.map(userId => ({
-                  __typename: 'GroupUserEdge',
-                  node: {
-                    __typename: 'User',
-                    id: userId,
-                  },
-                })),
-              },
-            })),
-            users: values.userIds.map(userId => ({
-              __typename: 'User',
-              id: userId,
-              groups: {
-                __typename: 'UserGroupConnection',
-                // totalCount: 1, // This is optimistic, adjust according to your logic
-                edges: values.groupIds.map(groupId => ({
-                  __typename: 'UserGroupEdge',
-                  groupId: groupId,
-                  userId: userId,
-                  node: {
-                    __typename: 'Group',
-                    id: groupId,
-                  },
-                  roles: [
-                    {
-                      __typename: 'Role',
-                      id: values.roleId,
-                    },
-                  ],
-                })),
-              },
-            })),
+        roles: [
+          {
+            __typename: 'Role',
+            id: values.roleId,
           },
+        ],
+      }));
+
+      // Combine existing assignedContents with new content item edges
+      // This assumes that group.assignedContents is an array of edges
+
+      // Return the updated group with new assignedContents
+      return {
+        ...group,
+        users: {
+          ...group.users,
+          edges: [
+            ...group.users.edges,
+            ...newUserEdges,
+          ]
+        }
+      };
+    });
+
+
+
+    addUsersToGroupsMutation({
+      variables: {
+        ...values
+      },
+      optimisticResponse: {
+        addUsersToGroups: {
+          __typename: 'AddUsersToGroupsPayload',
+          groups: updatedGroups,
+          users: values.userIds.map(userId => ({
+            __typename: 'User',
+            id: userId,
+            groups: {
+              __typename: 'UserGroupConnection',
+              // totalCount: 1, // This is optimistic, adjust according to your logic
+              edges: values.groupIds.map(groupId => ({
+                __typename: 'UserGroupEdge',
+                groupId: groupId,
+                userId: userId,
+                node: {
+                  __typename: 'Group',
+                  id: groupId,
+                },
+                roles: [
+                  {
+                    __typename: 'Role',
+                    id: values.roleId,
+                  },
+                ],
+              })),
+            },
+          })),
         },
-        refetchQueries: values.userIds.map(id => ({ query: GET_USER, variables: { id } })),
-        onCompleted: cb
-      }).catch(res => {
-        // TODO: do something if there is an error!!
-      })
-    }
-  
-    return {
-      groups: addUsersToGroupsResponse?.data?.addUsersToGroups?.groups,
-      addUsersToGroups,
-    }
+      },
+      onCompleted: cb
+    }).catch(res => {
+      // TODO: do something if there is an error!!
+    })
+  }
+
+  return {
+    groups: addUsersToGroupsResponse?.data?.addUsersToGroups?.groups,
+    addUsersToGroups,
+  }
 }
 
 export default useAddUsersToGroups

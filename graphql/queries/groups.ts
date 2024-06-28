@@ -28,6 +28,9 @@ export const GroupOverviewFragment = gql`
     assignedPathways {
       totalCount
     }
+    assignedContents {
+      totalCount
+    }
     provisionedContents {
       totalCount
     }
@@ -44,6 +47,8 @@ export const GroupDetailsFragment = gql`
     ...GroupOverviewFragment
     users {
       edges {
+        userId
+        groupId
         node {
           id
           fullName
@@ -57,29 +62,35 @@ export const GroupDetailsFragment = gql`
         }
       }
     }
-    assignedResources {
-      edges {
-        node {
-          id
-        }
-      }
-    }
-    assignedCourses {
-      edges {
-        node {
-          id
-        }
-      }
-    }
-    assignedPathways {
-      edges {
-        node {
-          id
-        }
-      }
-    }
+    
     provisionedContents {
       edges {
+        createdAt
+        groupId
+        contentItemId
+        node {
+          id
+          title
+          itemType
+          tags {
+            edges {
+              node {
+                id
+                label
+              }
+            }
+          }
+          image {
+            id
+          }
+        }
+      }
+    }
+    assignedContents {
+      edges {
+        createdAt
+        groupId
+        contentItemId
         node {
           id
           title

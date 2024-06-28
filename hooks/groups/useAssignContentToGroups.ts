@@ -2,26 +2,28 @@
 import { useMutation } from "@apollo/client";
 import { update } from "cypress/types/lodash";
 import cache from "../../graphql/cache";
-import { PROVIDE_CONTENT_TO_GROUPS } from "../../graphql/mutations/group/PROVIDE_CONTENT_TO_GROUPS";
+import { ASSIGN_CONTENT_TO_GROUPS } from "../../graphql/mutations/group/ASSIGN_CONTENT_TO_GROUPS";
 import { AddUsersToGroups, AddUsersToGroupsVariables } from "../../graphql/mutations/group/__generated__/AddUsersToGroups";
 import { GET_GROUP } from "../../graphql/queries/groups";
 
-function useProvideContentToGroups() {
+function useAssignContentToGroups() {
 
-  const [provideContentToGroupsMutation, provideContentToGroupsResponse] = useMutation(
-    PROVIDE_CONTENT_TO_GROUPS,
+  const [assignContentToGroupsMutation, assignContentToGroupsResponse] = useMutation(
+    ASSIGN_CONTENT_TO_GROUPS,
   );
 
-  const provideContentToGroups = (values, cb = null) => {
-    
+  const assignContentToGroups = (values, cb = null) => {
+
     const existingCachedGroups = values.groupIds.map(groupId => {
+
       const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
       return cachedGroupData.group;
     });
 
     const updatedGroups = existingCachedGroups.map(group => {
+      
       const newContentItemEdges = values.contentItemIds.map(contentItemId => ({
-        __typename: 'GroupProvisionedContentEdge',
+        __typename: 'GroupEnrolledContentEdge',
         groupId: group.id,
         contentItemId,
         createdAt: new Date().toISOString(),
@@ -30,27 +32,27 @@ function useProvideContentToGroups() {
           id: contentItemId,
         },
       }));
-
+      
       return {
         ...group,
-        provisionedContents: {
-          ...group.provisionedContents,
+        assignedContents: {
+          ...group.assignedContents,
           edges: [
-            ...group.provisionedContents.edges,
+            ...group.assignedContents.edges,
             ...newContentItemEdges,
           ]
         }
       }
     })
-
-    provideContentToGroupsMutation({
+    
+    assignContentToGroupsMutation({
       variables: {
         ...values
       },
       onCompleted: cb,
       optimisticResponse: {
-        provideContentToGroups: {
-          __typename: 'ProvideContentToGroupsPayload',
+        assignContentToGroups: {
+          __typename: 'AssignContentToGroupsPayload',
           groups: updatedGroups,
         }
       }
@@ -60,9 +62,9 @@ function useProvideContentToGroups() {
   }
 
   return {
-    groups: provideContentToGroupsResponse?.data?.provideContentToGroups?.groups,
-    provideContentToGroups,
+    groups: assignContentToGroupsResponse?.data?.assignContentToGroups?.groups,
+    assignContentToGroups,
   }
 }
 
-export default useProvideContentToGroups
+export default useAssignContentToGroups

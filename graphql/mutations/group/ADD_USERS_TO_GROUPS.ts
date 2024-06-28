@@ -19,7 +19,15 @@ export const ADD_USERS_TO_GROUPS = gql`
         users {
           totalCount
           edges {
+            groupId
+            userId
             node {
+              id
+              fullName
+              email
+              profileImageUrl
+            }
+            roles {
               id
             }
           }
@@ -29,6 +37,7 @@ export const ADD_USERS_TO_GROUPS = gql`
         id
         ...UserGroupsFragment
       }
+      errors
     }
   }
   ${UserGroupsFragment}

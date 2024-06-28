@@ -1,31 +1,29 @@
 
 import { useMutation } from "@apollo/client";
 import cache from "../../graphql/cache";
+import { REMOVE_ASSIGNED_CONTENT_FROM_GROUPS } from "../../graphql/mutations/group/REMOVE_ASSIGNED_CONTENT_FROM_GROUPS";
 import { REMOVE_PROVISIONED_CONTENT_FROM_GROUPS } from "../../graphql/mutations/group/REMOVE_PROVISIONED_CONTENT_FROM_GROUPS";
 import { GET_GROUP } from "../../graphql/queries/groups";
 
-function useRemoveProvisionedContentFromGroups() {
+function useRemoveAssignedContentFromGroups() {
 
-  const [removeProvisionedContentFromGroupsMutation, removeProvisionedContentFromGroupsResponse] = useMutation(
-    REMOVE_PROVISIONED_CONTENT_FROM_GROUPS
+  const [removeAssignedContentFromGroupsMutation, removeAssignedContentFromGroupsResponse] = useMutation(
+    REMOVE_ASSIGNED_CONTENT_FROM_GROUPS
   );
 
-  const removeProvisionedContentFromGroups = (values, cb = null) => {
+  const removeAssignedContentFromGroups = (values, cb = null) => {
 
+    
     // get all groups by values.groupIds and create a lookup from the group id to the group data:
     const cachedGroups = values.groupIds.map(groupId => {
       const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId }, optimistic: true});
-      return cachedGroupData.group;
+      return cachedGroupData?.group;
     })
     
-    removeProvisionedContentFromGroupsMutation({
+    removeAssignedContentFromGroupsMutation({
       variables: {
         ...values
       },
-
-      // for each group id in values.groupIds, we want to update the provisionedCourses 
-      // field in the cache by removing the content ids contained in values.contentItemIds from the provisionedCourses field
-
       update(cache, { data }) {
 
         const { groupIds, contentItemIds } = values;
@@ -36,8 +34,8 @@ function useRemoveProvisionedContentFromGroups() {
             variables: { id: groupId },
           }, data => {
             if(data && data.group) {
-              // Filter out the content from the group's provisionedContents connection
-              const filteredContent = data.group.provisionedContents.edges.filter(edge => {
+              // Filter out the content from the group's assignedContents connection
+              const filteredContent = data.group.assignedContents.edges.filter(edge => {
                 return !contentItemIds.includes(edge.node.id)
               });
               // Write the modified group data back to the cache
@@ -45,8 +43,8 @@ function useRemoveProvisionedContentFromGroups() {
                 ...data,
                 group: {
                   ...data.group,
-                  provisionedContents: {
-                    ...data.group.provisionedContents,
+                  assignedContents: {
+                    ...data.group.assignedContents,
                     edges: filteredContent,
                   },
                 },
@@ -58,9 +56,10 @@ function useRemoveProvisionedContentFromGroups() {
         })
       },
 
+
       optimisticResponse: {
-        removeProvisionedContentFromGroups: {
-          __typename: "RemoveProvisionedContentFromGroupsPayload",
+        removeAssignedContentFromGroups: {
+          __typename: 'RemoveAssignedContentFromGroupsPayload',
           groups: cachedGroups
         },
       },
@@ -70,9 +69,9 @@ function useRemoveProvisionedContentFromGroups() {
   }
 
   return {
-    groups: removeProvisionedContentFromGroupsResponse?.data?.removeProvisionedContentFromGroups?.groups,
-    removeProvisionedContentFromGroups,
+    groups: removeAssignedContentFromGroupsResponse?.data?.removeAssignedContentFromGroups?.groups,
+    removeAssignedContentFromGroups,
   }
 }
 
-export default useRemoveProvisionedContentFromGroups
+export default useRemoveAssignedContentFromGroups

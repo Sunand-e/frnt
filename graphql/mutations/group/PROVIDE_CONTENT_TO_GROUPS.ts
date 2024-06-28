@@ -14,11 +14,15 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
     ) {
       groups {
         id
-        name
         provisionedContents {
           edges {
+            groupId
+            contentItemId
+            createdAt
             node {
               id
+              title
+              itemType
             }
           }
         }
@@ -27,6 +31,9 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
         id
         groupsProvisioned {
           edges {
+            groupId
+            contentItemId
+            createdAt
             node {
               id
             }

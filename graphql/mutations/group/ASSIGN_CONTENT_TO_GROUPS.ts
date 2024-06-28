@@ -1,11 +1,12 @@
 import { gql } from '@apollo/client';
 
-export const REMOVE_PROVISIONED_CONTENT_FROM_GROUPS = gql`
-  mutation removeProvisionedContentFromGroups(
+
+export const ASSIGN_CONTENT_TO_GROUPS = gql`
+  mutation AssignContentToGroups(
     $contentItemIds: [ID!]!,
     $groupIds: [ID!]!
   ) {
-    removeProvisionedContentFromGroups(
+    assignContentToGroups(
       input: {
         contentItemIds: $contentItemIds,
         groupIds: $groupIds
@@ -13,15 +14,29 @@ export const REMOVE_PROVISIONED_CONTENT_FROM_GROUPS = gql`
     ) {
       groups {
         id
-        provisionedContents {
+        name
+        assignedContents {
           edges {
+            createdAt
             groupId
             contentItemId
-            createdAt
             node {
               id
               title
               itemType
+            }
+          }
+        }
+      }
+      contentItems {
+        id
+        groupsAssigned {
+          edges {
+            createdAt
+            groupId
+            contentItemId
+            node {
+              id
             }
           }
         }

@@ -65,8 +65,9 @@ const AddUsersToGroup = ({ group, roleName='Member', isSingle=false }) => {
       userIds: selectedUserIds,
       roleId: defaultRole?.id
     }, () => {
-      closeModal();
+      
     });
+    closeModal();
   }
 
   const menuTopMargin = selectedUserIds.length ? 60 : 0;

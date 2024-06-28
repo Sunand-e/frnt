@@ -12,10 +12,8 @@ import { useRouter } from '../../../utils/router';
 import Button from '../../common/Button';
 import NumberPropertyInput from '../../common/inputs/NumberPropertyInput';
 import TextInput from '../../common/inputs/TextInput';
+import GroupContent from '../GroupContent';
 import GroupMembers from '../GroupMembers';
-import CoursesDualListBoxInput from '../inputs/CoursesDualListBoxInput';
-import GroupUsersInput from '../inputs/GroupUsersInput';
-import OrganisationContent from './OrganisationContent';
 
 interface GroupFormValues {
   id?: string
@@ -28,14 +26,12 @@ interface GroupFormValues {
   enrolmentLicenseTotal: number
 }
 
-const OrganisationForm = ({organisation=null}) => {
+const OrganisationForm = ({groupType='organisation'}) => {
 
   const router = useRouter()
   const { id } = router.query
 
   const { group, loading } = useGetGroup(id)
-  const { courses, loading: loadingCourses } = useGetCourses()
-  const { resources, loading: loadingResources } = useGetResources()
   const { updateGroup } = useUpdateGroup(id)
   
   const debouncedUpdate = useDebouncedCallback((values) => {
@@ -102,9 +98,7 @@ const OrganisationForm = ({organisation=null}) => {
         groupType="organisation"
         showRoles={["Member"]}
       />
-      <OrganisationContent content={courses} contentLoadingStatus={loadingCourses} typeName='course'  />
-      {/* <OrganisationContent content={resources} contentLoadingStatus={loadingResources} typeName='resource'  /> */}
-      
+      <GroupContent associationType='provided' groupType='organisation' typeName='course'  />
     </form>
   )
 }

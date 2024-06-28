@@ -28,8 +28,36 @@ const typePolicies = {
   UserGroupConnection: {
     merge: true,
   },
+  GroupUserConnection: {
+    merge: true,
+  },
   ContentUserConnection: {
     merge: true,
+  },
+  GroupProvisionedContentConnection: {
+    merge: true,
+  },
+  GroupEnrolledContentConnection: {
+    merge: true,
+  },
+  GroupProvisionedContentEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const contentId = context.readField('id', object.node);
+      // console.log('object')
+      // console.log(object)
+
+      // Use the subfieldData as needed
+      return `GroupProvisionedContentEdge:${object.groupId}:${contentId}`;
+    }
+  },
+  GroupEnrolledContentEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const contentId = context.readField('id', object.node);
+      // Use the subfieldData as needed
+      return `GroupEnrolledContentEdge:${object.groupId}:${contentId}`;
+    }
   },
   UserContentEdge: {
     merge: true,
@@ -44,6 +72,13 @@ const typePolicies = {
     keyFields: (object, context) => {
       const groupId = context.readField('groupId', object);
       return `UserGroupEdge:${object.userId}:${groupId}`;
+    }
+  },
+  GroupUserEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const userId = context.readField('userId', object);
+      return `GroupUserEdge:${object.groupId}:${userId}`;
     }
   },
   ContentItemTagEdge: {

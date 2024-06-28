@@ -6,7 +6,7 @@ export const CREATE_GROUP = gql`
     $name: String!,
     $parentId: ID,
     $assignedContentIds: [ID!],
-    $enrolledContentIds: [ID!],
+    $provisionedContentIds: [ID!],
     $isOrganisation: Boolean,
     $imageId: ID,
     $userIds: [ID!]
@@ -16,7 +16,7 @@ export const CREATE_GROUP = gql`
         name: $name,
         parentId: $parentId,
         assignedContentIds: $assignedContentIds,
-        enrolledContentIds: $enrolledContentIds,
+        provisionedContentIds: $provisionedContentIds,
         isOrganisation: $isOrganisation,
         imageId: $imageId,
         userIds: $userIds
