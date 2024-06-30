@@ -16,18 +16,18 @@ function useAddUsersToGroups() {
     }
   );
 
-
   const addUsersToGroups = (values, cb = null) => {
-    // const updateUser = ({name=null, contentBlocks=null}) => {
-  
-      // merge existing cached groups users and users groups with the new data
 
-      
-    const existingCachedGroups = values.groupIds.map(groupId => {
-      // Fetch the existing group data from the cache
-      const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
-      return cachedGroupData.group;
-    });
+      const existingCachedGroups = values.groupIds.reduce((acc, groupId) => {
+        // Fetch the existing group data from the cache
+        const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
+        const group = cachedGroupData?.group;
+        // If the group exists, add it to the accumulator
+        if (group) {
+          acc.push(group);
+        }
+        return acc;
+      }, []);
 
     // Assuming values.userIds contains the new content item IDs to be assigned
     // and existingCachedGroups is an array of groups with their current assignedContents
