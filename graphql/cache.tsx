@@ -25,19 +25,67 @@ const typePolicies = {
   UserContentConnection: {
     merge: true,
   },
+  UserGroupConnection: {
+    merge: true,
+  },
+  GroupUserConnection: {
+    merge: true,
+  },
   ContentUserConnection: {
     merge: true,
+  },
+  GroupProvisionedContentConnection: {
+    merge: true,
+  },
+  GroupEnrolledContentConnection: {
+    merge: true,
+  },
+  GroupProvisionedContentEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const contentId = context.readField('id', object.node);
+      // console.log('object')
+      // console.log(object)
+
+      // Use the subfieldData as needed
+      return `GroupProvisionedContentEdge:${object.groupId}:${contentId}`;
+    }
+  },
+  GroupEnrolledContentEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const contentId = context.readField('id', object.node);
+      // Use the subfieldData as needed
+      return `GroupEnrolledContentEdge:${object.groupId}:${contentId}`;
+    }
   },
   UserContentEdge: {
     merge: true,
     keyFields: (object, context) => {
-      return `UserContentEdge:${object.userId}:${object.node.id}`
+      const contentId = context.readField('id', object.node);
+      // Use the subfieldData as needed
+      return `UserContentEdge:${object.userId}:${contentId}`;
+    }
+  },
+  UserGroupEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const groupId = context.readField('groupId', object);
+      return `UserGroupEdge:${object.userId}:${groupId}`;
+    }
+  },
+  GroupUserEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const userId = context.readField('userId', object);
+      return `GroupUserEdge:${object.groupId}:${userId}`;
     }
   },
   ContentItemTagEdge: {
     merge: true,
     keyFields: (object, context) => {
-      return `ContentItemTagEdge:${object.contentItemId}:${object.node.id}`
+      const tagId = context.readField('id', object.node);
+      return `ContentItemTagEdge:${object.contentItemId}:${tagId}`
     }
   },
   ContentItem: {

@@ -95,7 +95,7 @@ function useDuplicateLesson() {
               ...lesson,
               ...parentData,
               ...duplicateLesson.lesson,
-              groupsEnrolled: {
+              groupsAssigned: {
                 edges: []
               },
             }

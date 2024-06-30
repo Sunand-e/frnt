@@ -1,5 +1,6 @@
 import { Accordion } from "@mantine/core"
 import { useRouter } from "next/router"
+import useIsOrganisationLeader from "../../hooks/users/useIsOrganisationLeader"
 import { closeModal, handleModal } from "../../stores/modalStore"
 import Button from "../common/Button"
 import UserImportAddToNewGroup from "./UserImportAddToNewGroup"
@@ -13,6 +14,8 @@ const UserImportAccordion = ({data}) => {
   const userIds = rows.filter(row => ['exists','new'].includes(row.status)).map(user => user.id)
 
   const router = useRouter()
+
+  const { isOrganisationLeader } = useIsOrganisationLeader()
 
   const backToUsers = () => {
     router.push('/admin/users')
@@ -74,9 +77,10 @@ const UserImportAccordion = ({data}) => {
       )}
     </Accordion>
     <div className="flex flex-col space-y-2 w-full">
-      
-      <Button onClick={createGroup}>Create a group for these users</Button>
 
+      { !isOrganisationLeader && (
+        <Button onClick={createGroup}>Create a group for these users</Button>
+      )}
 
       <Button onClick={backToUsers}>Back to user list</Button>
     </div>

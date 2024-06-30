@@ -8,14 +8,14 @@ import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCirc
 import Tippy from "@tippyjs/react";
 import useGetThumbnail from "./useGetThumbnail";
 import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { contentTypes } from "../contentTypes";
 
 export default function Item({ item, options }) {
 
   const {user} = useGetCurrentUser()
 
-  const { complete, data } = useFragment_experimental({
+  const { complete, data } = useFragment({
     fragment: UserContentStatusFragment,
     fragmentName: 'UserContentStatusFragment',
     from: `UserContentEdge:${user?.id}:${item.id}`

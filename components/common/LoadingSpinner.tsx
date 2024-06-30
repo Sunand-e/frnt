@@ -1,15 +1,17 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 import classNames from '../../utils/classNames'
 import styles from './LoadingSpinner.module.scss'
+import { Dot } from '../common/misc/Dot';
 
 interface LoadingSpinnerProps {
-  text?
+  text?: ReactNode
   className?: string
   size?: string
   textPosition?: string
+  showSpinner?: boolean
 }
 
-export default function LoadingSpinner({text, className, size='lg', textPosition='top'}: LoadingSpinnerProps): JSX.Element {
+export default function LoadingSpinner({text, className, size='lg', textPosition='top', showSpinner=true}: LoadingSpinnerProps): JSX.Element {
 
   let sizeModifier = 4
   switch(size) {
@@ -37,27 +39,38 @@ export default function LoadingSpinner({text, className, size='lg', textPosition
   }
 
   const textPositionClasses = ['left','right'].includes(textPosition) ? 'space-x-3' : 'space-y-3 flex-col'
+
+  const textWithDots = (
+    <>
+      { text }
+      <span><Dot>.</Dot></span>
+      <span><Dot>.</Dot></span>
+      <span><Dot>.</Dot></span>
+    </>
+  )
   return (
     <div className={classNames(
       className,
-      'display flex text-center items-center justify-center text-main-secondary mx-auto',
+      'display flex text-center items-center justify-center text-gray-900 mx-auto',
       textPositionClasses
     )}>
-      { !!text && ['left', 'top'].includes(textPosition) && ( <span>{ text }</span> ) }
-      <div className={styles.loadingCubeGrid} style={gridStyle}>
-        {[...Array(9)].map((x, i) =>
-          <div 
-            key={i} 
-            className={classNames(
-              styles.loadingCube,
-              styles[`loadingCube${i+1}`],
-              'bg-main-secondary'
-            )}
-            style={cubeStyle}
-          ></div>
-        )}
-      </div>
-      { !!text && ['right', 'bottom'].includes(textPosition) && ( <span>{ text }</span> ) }
+      { !!text && ['left', 'top'].includes(textPosition) && ( <span>{ textWithDots }</span> ) }
+      { showSpinner && (
+        <div className={styles.loadingCubeGrid} style={gridStyle}>
+          {[...Array(9)].map((x, i) =>
+            <div 
+              key={i} 
+              className={classNames(
+                styles.loadingCube,
+                styles[`loadingCube${i+1}`],
+                'bg-main-secondary'
+              )}
+              style={cubeStyle}
+            ></div>
+          )}
+        </div>
+      )}
+      { !!text && ['right', 'bottom'].includes(textPosition) && ( <span>{ textWithDots }</span> ) }
     </div>
   )
 }

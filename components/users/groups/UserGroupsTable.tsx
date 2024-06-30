@@ -11,17 +11,21 @@ import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup
 import UserRoleSelectCell from "./UserRoleSelectCell";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import { handleModal } from "../../../stores/modalStore";
+import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
+import { groupTypes } from "../../common/groupTypes";
 
-const UserGroupsTable = () => {
+const UserGroupsTable = ({scrollInTable = false, typeName='group'}) => {
 
   const router = useRouter()
 
   const { id } = router.query
-
+  const groupType = groupTypes[typeName]
   const { loading, error, user } = useGetUser(id)
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
   const { addUsersToGroups } = useAddUsersToGroups()
   const { removeUserFromGroup } = useRemoveUserFromGroup()
+  
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   
   const handleChangeRole = useCallback((group, role) => {
     if(!user?.id) {
@@ -42,14 +46,24 @@ const UserGroupsTable = () => {
   
   const tableData = useMemo(
     () => {
-      return user?.groups.edges.filter(edge => !edge.node._deleted) || []
+      return user?.groups.edges
+        .filter(edge => !edge.node._deleted)
+        .filter(edge => {
+          if(typeName === 'group') {
+            return !edge.node.isOrganisation
+          } else if(typeName === 'organisation') {
+            return edge.node.isOrganisation
+          }
+        })
+        .sort((a, b) => a.node.name.localeCompare(b.node.name)) || []
     }, [user]
   );
 
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Group",
+        header: groupType.label,
+        id: 'name',
         accessorFn: row => row.node.name,
         cell: ({ cell }) => {
           const group = cell.row.original.node;
@@ -67,7 +81,7 @@ const UserGroupsTable = () => {
         },
       },
       {
-        header: ()=><span className="block w-full text-left">Role</span>,
+        header: 'Role',
         accessorKey: 'roles',
         cell: ({ cell }) => {
           const group = cell.row.original;
@@ -80,15 +94,17 @@ const UserGroupsTable = () => {
       {
         header: "Actions",
         accessorKey: "actions",
+        enableSorting: false,
         cell: ({ cell }) => <UserGroupActionsMenu user={user} group={cell.row.original} />
       },
     ]
   }, [roles]);
-
+  
   const tableProps = {
     tableData,
     tableCols,
-    showTop: false
+    showTop: false,
+    scrollInTable,
   }
     
   return (

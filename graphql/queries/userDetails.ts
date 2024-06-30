@@ -107,18 +107,17 @@ export const UserGroupsFragment = gql`
     groups {
       totalCount
       edges {
+        groupId
+        userId
         node {
           id
           name
+          isOrganisation
         }
         roles {
           id
           name
-          roleType          
-          capabilities {
-            id
-            name
-          }      
+          roleType
         }
       }
     }
@@ -151,6 +150,8 @@ export const GET_USERS = gql`
           groups {
             totalCount
             edges {
+              groupId
+              userId
               node {
                 id
                 name
@@ -215,6 +216,8 @@ export const GET_USERS_COURSES_GROUPS = gql`
           }
           groups {
             edges {
+              groupId
+              userId
               node {
                 id
               }
@@ -225,6 +228,8 @@ export const GET_USERS_COURSES_GROUPS = gql`
     }
     groups {
       edges {
+        groupId
+        userId
         node {
           id
           assignedCourses {

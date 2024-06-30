@@ -58,7 +58,7 @@ const navStructureUser = [
     title: 'Resource Library',
     urlPath: '/resources',
     icon: 'school',
-    removeIfFeaturesDisabled: ['resources'],
+    requireEnabledFeatures: ['resources'],
     capabilities: ['SeeResources'],
     subPages: [
       {

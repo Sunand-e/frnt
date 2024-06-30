@@ -9,7 +9,7 @@ const ActionsMenu = ({menuItems, buttonText='Actions', align='right'}) => {
   const { userHasCapability } = useUserHasCapability()
   
   const filteredMenuItems = menuItems.filter(item => {
-    return item.capability ? userHasCapability(item.capability) : true
+    return item.show !== false && item.capability ? userHasCapability(item.capability) : true
   })
 
   const disabled = !filteredMenuItems.length

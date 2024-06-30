@@ -7,14 +7,9 @@ import { useViewStore } from '../../../hooks/useViewStore'
 
 export default function SecondaryNav({showSecondary, primaryNavItem, pageNavState}) {
 
-  const { userType, userHasCapability } = useUserHasCapability()
+  const { isSuperAdmin, userHasCapability } = useUserHasCapability()
 
   const tenant = useContext(TenantContext)
-
-  const isSuperAdmin = useMemo(() => {
-    return userType ? userType === 'SuperAdmin' : false;
-  },[userType])
-
 
   const navItems = useMemo(() => {
     return primaryNavItem?.subPages?.filter(item => { 
@@ -22,13 +17,6 @@ export default function SecondaryNav({showSecondary, primaryNavItem, pageNavStat
       if(item.requireEnabledFeatures) {
         for(let feature of item.requireEnabledFeatures) {
           if(!tenant || !tenant?.[feature]?.enabled) {
-            return false
-          }
-        }
-      }
-      if(item.removeIfFeaturesDisabled) {
-        for(let feature of item.removeIfFeaturesDisabled) {
-          if(!tenant || tenant?.[feature]?.enabled === false) {
             return false
           }
         }

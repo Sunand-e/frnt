@@ -16,7 +16,12 @@ export const REMOVE_USER_FROM_GROUP = gql`
           name
           users {
             edges {
+              groupId
+              userId
               node {
+                id
+              }
+              roles {
                 id
               }
             }
@@ -25,8 +30,9 @@ export const REMOVE_USER_FROM_GROUP = gql`
         user {
           id
           groups {
-            totalCount
             edges {
+              userId
+              groupId
               roles {
                 id
               }

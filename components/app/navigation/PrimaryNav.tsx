@@ -8,34 +8,21 @@ import NavFooter from "./NavFooter";
 import { TenantContext } from '../../../context/TenantContext';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useViewStore } from '../../../hooks/useViewStore';
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
 
 const PrimaryNav = ({isSlim, pageNavState}) => {
 
   const ref = useRef(null)
   const tenant = useContext(TenantContext)
   const isAdminView = useViewStore(state => state.isAdminView)
-  const { userType, userHasCapability, userCapabilityArray } = useUserHasCapability()
-
-  const isSuperAdmin = useMemo(() => {
-    return userType ? userType === 'SuperAdmin' : false;
-  },[userType])
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
+  const { isSuperAdmin, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
-      if(item.requireEnabledFeatures) {
-        for(let feature of item.requireEnabledFeatures) {
-          if(!tenant || !tenant?.[feature]?.enabled) {
-            return false
-          }
-        }
-      }
-      if(item.removeIfFeaturesDisabled) {
-        for(let feature of item.removeIfFeaturesDisabled) {
-          if(!tenant || tenant?.[feature]?.enabled === false) {
-            return false
-          }
-        }
+      if(item.requireEnabledFeatures && !tenantFeaturesEnabled(item.requireEnabledFeatures)) {
+        return false
       }
       
       if(!isSuperAdmin && item.capabilities?.length && !userHasCapability(item.capabilities)) {
@@ -45,7 +32,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
       return isSuperAdmin || !item.superAdminOnly
 
     })
-  },[navStructure, tenant, isSuperAdmin, userCapabilityArray])
+  },[navStructure, tenant, isSuperAdmin, tenantLevelCapabilityArray])
 
   let logoImage;
   const defaultLogo = `${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`

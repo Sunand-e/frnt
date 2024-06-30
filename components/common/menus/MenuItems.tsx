@@ -17,7 +17,7 @@ const MenuItem = ({label = '', href='#', onClick=null, }) => {
 const MenuItems = forwardRef(({ menuItems, align='right' },ref) => {
   const alignClassNames = (align === 'right') ? 'origin-top-right right-0' : 'origin-top-left left-0'
   return (
-    <Menu.Items ref={ref} className={`text-left whitespace-nowrap  absolute z-20 mt-2 min-w-[160px] rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}>
+    <Menu.Items ref={ref} className={`text-left whitespace-nowrap z-20 mt-2 min-w-[160px] rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}>
       { menuItems.map((item, index) => (
         <MenuItem {...item} key={index} />
         )) }

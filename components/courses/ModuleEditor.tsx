@@ -1,4 +1,4 @@
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { useEffect, useMemo } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import { useLessonContentFragment } from "../../hooks/lessons/useLessonContentFragment";
@@ -21,7 +21,7 @@ const ModuleEditor = () => {
 
   const moduleTypeName = module ? module.itemType === 'quiz' ? 'quiz' : module.contentType : null
 
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: contentId, __typename: "ContentItem", },

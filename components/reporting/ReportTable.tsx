@@ -16,6 +16,7 @@ import ReportHeader from "./ReportHeader";
 import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
 import ReportFilters from "./ReportFilters";
 import Table from '../common/tables/Table';
+import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 
 export const filterActive = (filterVal: string) => {
   return filterVal && filterVal !== 'all'
@@ -74,6 +75,14 @@ const ReportTable = ({
 
   const [ filteredData, setFilteredData ] = useState([])
 
+  const { isOrganisationLeader } = useIsOrganisationLeader()
+  // if the user is an organisation leader, remove 'group' from the filters array
+  let filteredFilters = filters
+  if (isOrganisationLeader) {
+    filteredFilters = filters.filter(f => f !== 'group')
+  }
+
+
   useEffect(() => {
     let data
     if (filterActive(categoryId)) {
@@ -112,7 +121,7 @@ const ReportTable = ({
           showTop={false}
           tableCols={tableCols}
           tableData={filteredData}
-          filters={filters}
+          filters={filteredFilters}
           backButton={backButton}
         />
       )}

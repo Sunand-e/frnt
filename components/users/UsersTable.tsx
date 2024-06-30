@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Table from '../common/tables/Table';
-import { GET_USERS } from '../../graphql/queries/users';
+import { GET_USERS, UserFragment } from '../../graphql/queries/users';
 import { GetUsers, GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import {User} from '@styled-icons/fa-solid/User'
@@ -14,6 +14,11 @@ import dayjs from "dayjs"
 import Tippy from '@tippyjs/react';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { TenantContext } from '../../context/TenantContext';
+import { handleModal } from '../../stores/modalStore';
+import EnrolUsersInContent from './content/EnrolUsersInContent';
+import cache from '../../graphql/cache';
+import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
+import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -34,16 +39,24 @@ const UserStatusCell = ({
     </div>
   </Tippy>
 ) 
-
 const UsersTable = () => {
 
   const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo<GetUsers_users_edges_node[]>(() => queryData?.users?.edges?.map(edge => edge.node) || [], [queryData]);
+  const tableData = useMemo<GetUsers_users_edges_node[]>(() => {
+    return queryData?.users?.edges
+      ?.map(edge => edge.node)
+      .filter(node => !node._deleted)
+      .sort((a,b) => ('' + a.fullName).localeCompare(b.fullName)) || []
+      
+  }, [queryData]);
 
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { userHasCapability } = useUserHasCapability()
   const tenant = useContext(TenantContext)
+
+  const { isOrganisationLeader } = useIsOrganisationLeader()
 
   const editUrl = '/admin/users/edit'
 
@@ -63,7 +76,11 @@ const UsersTable = () => {
           />
         )
       },
-      ...(!(tenant?.groups?.enabled === false) ? [
+      ...(
+        (
+          tenantFeaturesEnabled('groups') &&
+          userHasCapability('SeeGroups', 'tenant')
+        ) ? [
         {
           header: "Groups",
           accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
@@ -72,9 +89,14 @@ const UsersTable = () => {
           }
         }
       ] : []),
-      ...(userHasCapability('SeeRoles') ? [
+      ...(
+        (
+          userHasCapability('SeeRoles') &&
+          !isOrganisationLeader
+        ) ? [
         {
-          header: "Global Roles",
+          // header: "Global Roles",
+          header: tenantFeaturesEnabled('groups') ? "Global Roles" : 'faaa',
           id: 'roles',
           cell: ({ cell }) => {
             return cell.row.original.roles.filter(
@@ -139,16 +161,35 @@ const UsersTable = () => {
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
       }
     ],
-    [tenant]
+    [tenantFeaturesEnabled, isOrganisationLeader, userHasCapability]
   );
 
   const { sendInvite } = useSendInvite()
+
+  const assignCourses = (ids) => {
+
+    const users = ids.map(id => cache.readFragment({
+      id: `User:${id}`,
+      fragment: UserFragment,
+    }));
+
+    handleModal({
+      title: 'Assign courses',
+      content: <EnrolUsersInContent users={users} content={null} typeName='course' />
+    });
+  }
 
   const bulkActions = [
     {
       label: 'Send invitations to selected users',
       onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
     },
+    {
+      label: 'Assign courses to users',
+      onClick: (ids: Array<string>) => ids.length && assignCourses(ids)
+    },
+
+  
     // {
     //   label: <span className="text-red-500">Delete users</span>,
     //   onClick: (ids: Array<string>) => console.log('test'),

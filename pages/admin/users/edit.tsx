@@ -18,6 +18,8 @@ import ButtonBack from '../../../components/common/ButtonBack';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useContext } from 'react';
 import { TenantContext } from '../../../context/TenantContext';
+import useIsOrganisationLeader from '../../../hooks/users/useIsOrganisationLeader';
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
 
 const AdminUsersEdit = () => {
   
@@ -27,8 +29,11 @@ const AdminUsersEdit = () => {
 
   const tenant = useContext(TenantContext)
   const { userHasCapability } = useUserHasCapability()
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
+  
+  const { isOrganisationLeader } = useIsOrganisationLeader()
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT"
   })
@@ -66,6 +71,14 @@ const AdminUsersEdit = () => {
     component: <ButtonBack text="Back to user list" action="/admin/users" />
   });
 
+  const showGroups = (
+    tenantFeaturesEnabled('groups') && !isOrganisationLeader
+  )
+
+  const showOrganisations = (
+    tenantFeaturesEnabled('organisations') && !isOrganisationLeader
+  )
+
   return (
     <>
       { loading ? (
@@ -85,10 +98,13 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            { !(tenant?.groups?.enabled === false) && <UserGroups /> }
-            <UserCourses />
-            { !(tenant?.resources?.enabled === false) && <UserResources /> }
-            { (tenant?.pathways?.enabled === true) && <UserPathways /> }
+            { userHasCapability('SeeGroups', 'tenant') && (<>
+              { showGroups && <UserGroups groupTypeName="group" /> }
+              { showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
+            </>)}
+            { tenantFeaturesEnabled('courses') && <UserCourses /> }
+            { tenantFeaturesEnabled('resources') && <UserResources /> }
+            { tenantFeaturesEnabled('pathways') && <UserPathways /> }
           </div>
         </div>
       )}

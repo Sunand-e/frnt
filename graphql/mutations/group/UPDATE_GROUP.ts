@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { GroupFragment } from '../../queries/groups';
+import { GroupDetailsFragment } from '../../queries/groups';
 
 
 export const UPDATE_GROUP = gql`
@@ -9,7 +9,10 @@ export const UPDATE_GROUP = gql`
     $parentId: ID,
     $imageId: ID,
     $assignedContentIds: [ID!],
-    $enrolledContentIds: [ID!],
+    $provisionedContentIds: [ID!],
+    $availableContentIds: [ID!],
+    $enrolmentLicenseTotal: Int,
+    $enrolments: Int,
     $userIds: [ID!]
   ) {
     updateGroup(
@@ -18,15 +21,17 @@ export const UPDATE_GROUP = gql`
         id: $id,
         imageId: $imageId,
         parentId: $parentId,
+        enrolmentLicenseTotal: $enrolmentLicenseTotal,
+        enrolments: $enrolments,
         assignedContentIds: $assignedContentIds,
-        enrolledContentIds: $enrolledContentIds,
+        provisionedContentIds: $provisionedContentIds,
         userIds: $userIds
       }
     ) {
       group {
-      ...GroupFragment
+      ...GroupDetailsFragment
       }
     }
   }
-  ${GroupFragment}
+  ${GroupDetailsFragment}
 `;

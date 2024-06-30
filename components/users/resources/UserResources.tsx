@@ -1,13 +1,10 @@
-import BoxContainer from "../../common/containers/BoxContainer";
-import {Library} from "@styled-icons/ionicons-solid/Library"
-import { useContext } from "react";
+import { Library } from "@styled-icons/ionicons-solid/Library";
 import useGetUser from "../../../hooks/users/useGetUser";
-import { useRouter } from "../../../utils/router";
-import UserResourcesTable from "./UserResourcesTable";
-import useGetUserResources from "../../../hooks/users/useGetUserResources";
-import EnrolUserInContent from "../content/EnrolUserInContent";
 import { handleModal } from "../../../stores/modalStore";
-import useGetResources from "../../../hooks/resources/useGetResources";
+import { useRouter } from "../../../utils/router";
+import BoxContainer from "../../common/containers/BoxContainer";
+import EnrolUserInContent from "../content/EnrolUserInContent";
+import UserResourcesTable from "./UserResourcesTable";
 
 const UserResources = () => {
   
@@ -15,22 +12,19 @@ const UserResources = () => {
   const { id } = router.query
   const { user, loading, error } = useGetUser(id)
 
-  const { resources } = useGetResources()
-  const { resources: assignedResources } = useGetUserResources(user.id)
-
   const button = {
     text: "Assign resources",
     onClick: () => {
       handleModal({
         title: 'Enrol user in resources',
-        content: <EnrolUserInContent user={user} content={resources} assignedContent={assignedResources} typeName='resource' />
+        content: <EnrolUserInContent user={user} typeName='resource' />
       })
     }
   }
 
   return (
     <BoxContainer title="Resources" icon={Library} button={button}>
-      <UserResourcesTable />
+      <UserResourcesTable scrollInTable={true} />
     </BoxContainer>
     
   );

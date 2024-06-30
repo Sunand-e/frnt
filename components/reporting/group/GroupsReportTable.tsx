@@ -56,7 +56,7 @@ const GroupsReportTable = () => {
       {
         id: "enrolled",
         header: "Enrolled Courses",
-        accessorFn: row => row.enrolledCourses.totalCount,
+        accessorFn: row => row.assignedCourses.totalCount,
       },
       {
         id: "actions",

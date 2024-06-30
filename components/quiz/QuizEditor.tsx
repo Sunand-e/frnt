@@ -1,4 +1,4 @@
-import { useFragment_experimental } from '@apollo/client';
+import { useFragment } from '@apollo/client';
 import { useCallback, useEffect, useLayoutEffect } from 'react';
 import useUpdateQuiz from '../../hooks/quizzes/useUpdateQuiz';
 import { useRouter } from '../../utils/router';
@@ -14,7 +14,7 @@ const QuizEditor = () => {
 
   const router = useRouter()
   const { cid: quizId } = router.query
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },

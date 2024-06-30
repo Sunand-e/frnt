@@ -1,4 +1,4 @@
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { QuizFragment } from "../../../../graphql/queries/allQueries";
@@ -31,7 +31,7 @@ export const QuizSettingsPanel = () => {
   const router = useRouter()
   const { id, cid: contentId } = router.query
   
-  const { complete, data: quiz, missing } = useFragment_experimental({
+  const { complete, data: quiz, missing } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: contentId, __typename: "ContentItem", },

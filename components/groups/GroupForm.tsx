@@ -1,13 +1,16 @@
-import Button from '../common/Button';
-import { useForm } from 'react-hook-form';
-import TextInput from '../common/inputs/TextInput';
-import GroupUsersInput from './inputs/GroupUsersInput';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import AssignedResourcesInput from './inputs/AssignedResourcesInput';
-import AssignedPathwaysInput from './inputs/AssignedPathwaysInput';
-import AssignedCoursesInput from './inputs/AssignedCoursesInput';
+import { useForm } from 'react-hook-form';
+import { useDebouncedCallback } from 'use-debounce';
+import useGetCourses from '../../hooks/courses/useGetCourses';
+import useGetGroup from '../../hooks/groups/useGetGroup';
+import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
+import useGetResources from '../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
+import { useRouter } from '../../utils/router';
+import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
+import TextInput from '../common/inputs/TextInput';
+import GroupContent from './GroupContent';
+import GroupMembers from './GroupMembers';
 
 interface GroupFormValues {
   id?: string
@@ -15,23 +18,30 @@ interface GroupFormValues {
   email: string
   groupImage: string
   userRole: string
-  assignedCourseIds: [any]
-  assignedResourceIds: [any]
-  assignedPathwayIds: [any]
+  isOrganisation: boolean
+  enrolments: number
+  enrolmentLicenseTotal: number
 }
 
-const GroupForm = ({group=null, onSubmit}) => {
+const GroupForm = ({groupType='group'}) => {
 
-  const users = group?.users.edges.map(edge => edge.node) || []
+  const router = useRouter()
+  const { id } = router.query
+
+  const { group, loading } = useGetGroup(id)
+  const { updateGroup } = useUpdateGroup(id)
   
-  const { register, watch, handleSubmit: rhfHandleSubmit, control, setFocus } = useForm<GroupFormValues>(
+  const debouncedUpdate = useDebouncedCallback((values) => {
+    updateGroup(values);
+  }, 500);
+  
+  const { register, setFocus } = useForm<GroupFormValues>(
     {
       defaultValues: {
         ...group,
-        userIds: users.map(user => user.id),
-        assignedCourseIds: group?.assignedCourses.edges.map(edge => edge.node.id) || [],
-        assignedResourceIds: group?.assignedResources.edges.map(edge => edge.node.id) || [],
-        assignedPathwayIds: group?.assignedPathways.edges.map(edge => edge.node.id) || [],
+        name: (group.name === `Untitled ${groupType}`) ? '' : group.name,
+        enrolments: group?.enrolments || 0,
+        enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
       }
     }
   );
@@ -39,54 +49,73 @@ const GroupForm = ({group=null, onSubmit}) => {
   useEffect(() => {
     setFocus('name')
   },[])
-
-  const handleSubmit = values => {
-    const input = {
-      ...values,
-      assignedContentIds: [
-        ...values.assignedCourseIds,
-        ...values.assignedResourceIds,
-        ...values.assignedPathwayIds
-      ]
-    }
-    onSubmit(input)
-  }
-
-  const buttonText = group ? 'Save changes' : 'Create group'
-
-
-  
+   
   return (
     <form
       className='h-full w-full max-w-3xl flex flex-col space-y-4'
-      onSubmit={rhfHandleSubmit(handleSubmit)}
+      // onSubmit={rhfHandleSubmit(handleSubmit)}
       onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
         label="Group name"
         placeholder="Group name"
-        inputAttrs={register("name", { maxLength: 100 })}
+        inputAttrs={{
+          ...register("name", { maxLength: 100 }),
+          onChange: (e => debouncedUpdate({ name: e.target.value }))
+        }}
       />
-{/*       
-      <ImageSelectInput
-        label="Group image"
-        // placeholder={'https://picsum.photos/640/360'}
-        isButtonAlwaysVisible={false}
-        buttonText="Choose group image"
-        control={control}
-        origImage={group?.image}
-        name="imageId"
-        // inputAttrs={register("image", { required: true })}
-      /> */}
+      { groupType === 'organisation' && (
+        <>
+          <NumberPropertyInput
+            inputAttrs={{
+              ...register("enrolmentLicenseTotal"),
+              onChange: (e => debouncedUpdate({ enrolmentLicenseTotal: parseInt(e.target.value) }))
+            }}
+            unit={'licenses'}
+            className={'text-sm'}
+            label="Enrolment license total"
+          />
+          <NumberPropertyInput
+            inputAttrs={{
+              ...register("enrolments"),
+              onChange: (e => debouncedUpdate({ enrolments: parseInt(e.target.value) }))
+            }}
+            unit={'licenses'}
+            className={'text-sm'}
+            label="Enrolments"
+          />
+        </>
+      )}
+      <GroupMembers
+        title=" Group Leaders"
+        groupType="group"
+        addMembersButtonText="Choose group leaders"
+        addMembersModalText="Group leader(s)"
+        newMemberRole="Group Leader"
+        showRoles={["Group Leader"]}
+      />
+      <GroupMembers 
+        groupType="group"
+        showRoles={["Member"]}
+      />
+      <h2 className='pt-2'>Provided Content</h2>
+      <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
 
-      <GroupUsersInput control={control} />
-      <AssignedCoursesInput control={control} />
-      <AssignedResourcesInput control={control} />
-      <AssignedPathwaysInput control={control} />
+      <GroupContent typeName='course' associationType='provided' />
+      <GroupContent typeName='resource' associationType='provided' />
+      <GroupContent typeName='pathway' associationType='provided' />      
+      
+      <h2 className='pt-2'>Assigned Content</h2>
+      <p className='text-sm'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
 
-      <Button type="submit">{buttonText}</Button>
+      <GroupContent typeName='course' associationType='assigned' />
+      <GroupContent typeName='resource' associationType='assigned' />
+      <GroupContent typeName='pathway' associationType='assigned' />
+
     </form>
   )
 }
+
+
 
 export default GroupForm

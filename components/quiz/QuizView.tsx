@@ -1,4 +1,4 @@
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
@@ -22,7 +22,7 @@ function QuizView() {
 
   const { loading, data, error } = useGetLatestQuizAttempt({quizId})
 
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },

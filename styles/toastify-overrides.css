@@ -5,3 +5,8 @@
     theme('colors.main.DEFAULT')
   );
 }
+
+.Toastify__toast-icon {
+  align-self: flex-start;
+  padding-top:3px;
+}

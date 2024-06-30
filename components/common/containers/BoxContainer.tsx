@@ -2,19 +2,21 @@ import { StyledIcon } from '@styled-icons/styled-icon';
 import Button from '../Button';
 interface BoxContainerProps {
   title: string,
-  button: {
+  contentClassName?: string,
+  button?: {
     text: string
     onClick: any,
+    disabled: boolean,
   } | null,
   icon: StyledIcon | null,
   children: any
 }
 
-const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: BoxContainerProps) => {
+const BoxContainer = ({title, button=null, icon: IconComponent=null, contentClassName=null, children}: BoxContainerProps) => {
 
   const HeaderButton = () => {
     return (
-      <Button onClick={button?.onClick}>
+      <Button onClick={button?.onClick} disabled={button?.disabled}>
         {button?.text}
       </Button>
     )
@@ -29,7 +31,9 @@ const BoxContainer = ({title, button=null, icon: IconComponent=null, children}: 
         </div>
         {button && <HeaderButton />}
       </div>
-      {children}
+      <div className={`${contentClassName}`}>
+        {children}
+      </div>
     </div>
   )
 }

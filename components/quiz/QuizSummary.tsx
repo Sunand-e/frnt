@@ -4,7 +4,7 @@ import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt
 import Button from "../common/Button";
 import {RestartAlt} from '@styled-icons/material-rounded/RestartAlt'
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
-import { useFragment_experimental } from "@apollo/client";
+import { useFragment } from "@apollo/client";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import PrevNextButtons from "../courses/CourseView/PrevNextButtons";
 import QuizSummaryActions from "./QuizSummaryActions";
@@ -14,7 +14,7 @@ function QuizSummary() {
   const { cid: quizId } = router.query
   
   const {loading, data, error} = useGetLatestQuizAttempt({quizId})
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },

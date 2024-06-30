@@ -5,7 +5,7 @@ import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
 import UserCourseActionsMenu from "./UserCourseActionsMenu";
 
-const UserCoursesTable = () => {
+const UserCoursesTable = ({scrollInTable = false}) => {
   
   const router = useRouter()
   const { id } = router.query
@@ -94,6 +94,7 @@ const UserCoursesTable = () => {
   const tableProps = {
     tableData,
     tableCols,
+    scrollInTable,
     showTop: false
   }
     

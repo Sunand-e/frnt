@@ -30,7 +30,7 @@ export const CREATE_COURSE = gql`
     ) {
       course {
         ...CourseFragment
-        groupsEnrolled {
+        groupsAssigned {
           edges {
             node {
               id

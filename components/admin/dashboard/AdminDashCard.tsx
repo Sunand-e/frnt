@@ -19,13 +19,13 @@ const AdminDashCard = ({card}) => {
         </div>
       </div>
       <div className="bg-gray-50 px-5 py-3 pt-1">
+      { !!card.href && 
         <div className="text-sm">
           <Link href={card.href} className="font-medium text-main hover:text-main/80">
-            
               View all
-            
           </Link>
         </div>
+      }
       </div>
     </div>
   )

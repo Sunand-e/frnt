@@ -9,9 +9,9 @@ import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import {Users} from "@styled-icons/fa-solid/Users"
 import {Group2} from "@styled-icons/remix-fill/Group2"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
 import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
-import {CalendarAlt} from "@styled-icons/fa-regular/CalendarAlt"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Link} from '@styled-icons/entypo/Link'
@@ -27,13 +27,15 @@ const navStructureAdmin = [
     name: 'categories',
     title: 'Categories',
     urlPath: '/admin/tags',
-    icon: Category
+    icon: Category,
+    capabilities: ['UpdateTag', 'ReorderTags'],
   },
   {
     name: 'courses',
     title: 'Courses',
     urlPath: '/admin/courses',
     icon: 'graduation-cap',
+    capabilities: ['UpdateCourse', 'ReorderCourses'],
     subPages: [
       {
         name: 'courses',
@@ -56,8 +58,8 @@ const navStructureAdmin = [
     title: 'Resources',
     urlPath: '/admin/resources',
     icon: 'school',
-    capabilities: ['SeeResources'],
-    removeIfFeaturesDisabled: ['resources'],
+    capabilities: ['UpdateResource', 'ReorderResources'],
+    requireEnabledFeatures: ['resources'],
     subPages: [
       {
         name: 'overview',
@@ -131,7 +133,16 @@ const navStructureAdmin = [
         title: 'Groups',
         urlPath: '/admin/users/groups',
         icon: Group2,
-        removeIfFeaturesDisabled: ['groups'],
+        requireEnabledFeatures: ['groups'],
+        capabilities: ['CreateGroup'],
+      },
+      {
+        name: 'organisations',
+        title: 'Organisations',
+        urlPath: '/admin/users/organisations',
+        icon: PeopleTeamToolbox,
+        requireEnabledFeatures: ['organisations'],
+        capabilities: ['CreateGroup'],
       },
       {
         name: 'roles',
@@ -167,7 +178,8 @@ const navStructureAdmin = [
     title: 'Media',
     urlPath: '/admin/medialibrary',
     icon: 'photo-video',
-    removeIfFeaturesDisabled: ['mediaLibrary'],
+    requireEnabledFeatures: ['mediaLibrary'],
+    capabilities: ['UpdateMediaItem']
   },
   // {
   //   name: 'events',

@@ -1,10 +1,10 @@
 import useGetCourses from "../../../hooks/courses/useGetCourses";
 import DualListBoxInput from "../../common/inputs/DualListBoxInput"
 
-const AvailableCoursesInput = ({control}) => {
+const CoursesDualListBoxInput = ({control, name='courseIds', label='Courses'}) => {
 
   const { courses } = useGetCourses();
-  // Get array of {value: label:} objects from fetched courses object 
+  
   const coursesOptions = courses?.edges?.map(({node: course}) => {
     return { value: course.id, label: course.title }
   })
@@ -13,9 +13,9 @@ const AvailableCoursesInput = ({control}) => {
     <>
       { courses && (
         <DualListBoxInput
-          label="Available courses"
+          label={label}
           control={control}
-          name="availableCourseIds"
+          name={name}
           options={coursesOptions}
           lang={{
             availableHeader: 'Available courses',
@@ -27,4 +27,4 @@ const AvailableCoursesInput = ({control}) => {
   )
 }
 
-export default AvailableCoursesInput
+export default CoursesDualListBoxInput

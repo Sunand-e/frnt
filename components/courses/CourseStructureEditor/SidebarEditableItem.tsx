@@ -7,7 +7,7 @@ import useConfirmDelete from '../../../hooks/useConfirmDelete'
 import { useEditorViewStore } from '../../common/ContentEditor/useEditorViewStore'
 import { useBlockStore } from '../../common/ContentEditor/useBlockStore'
 import { ContentTitleAndTypeFragment } from '../../../graphql/queries/allQueries'
-import { useFragment_experimental } from '@apollo/client'
+import { useFragment } from '@apollo/client'
 import { moduleTypes } from '../moduleTypes'
 import useDuplicateLesson from '../../../hooks/lessons/useDuplicateLesson'
 
@@ -33,7 +33,7 @@ const SidebarEditableItem = ({
 
   const items = useEditorViewStore(state => state.items)
 
-  const { complete, data, missing } = useFragment_experimental({
+  const { complete, data, missing } = useFragment({
     fragment: ContentTitleAndTypeFragment,
     from: { id, __typename: "ContentItem", },
   });

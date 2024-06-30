@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Button from '../../../components/common/Button'
 import { useContext } from 'react'
 import { TenantContext } from '../../../context/TenantContext'
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled'
 
 const ButtonWithIcon = ({text, action, icon: IconComponent}) => {
   const router = useRouter()
@@ -20,7 +21,8 @@ const ButtonWithIcon = ({text, action, icon: IconComponent}) => {
 
 const AdminReports = () => {
 
-  const tenant = useContext(TenantContext)
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
+
   usePageTitle({ title: 'Reports' })
   
   useHeaderButtons([
@@ -32,7 +34,7 @@ const AdminReports = () => {
       id: 'usersReport',
       component: <ButtonWithIcon text='Users' action='/admin/reports?type=user' icon={Users} />
     },
-    ...(!(tenant?.groups?.enabled === false) ? [{
+    ...(tenantFeaturesEnabled(['groups']) ? [{
       id: 'groupReport',
       component: <ButtonWithIcon text='Groups' action='/admin/reports?type=group' icon={Group2} />
     }] : [])

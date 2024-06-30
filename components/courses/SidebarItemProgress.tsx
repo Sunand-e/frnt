@@ -1,8 +1,7 @@
-import { forwardRef, useEffect, useState } from "react"
-import { gql, useFragment_experimental, useReactiveVar } from '@apollo/client'
 import { motion } from 'framer-motion'
-import { useRouter } from '../../utils/router'
+import { useEffect, useState } from "react"
 import useGetUserCourse from "../../hooks/users/useGetUserCourse"
+import { useRouter } from '../../utils/router'
 
 const SidebarItemProgress = ({id}) => {
 

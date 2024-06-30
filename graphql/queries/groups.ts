@@ -1,18 +1,16 @@
 import { gql } from '@apollo/client';
 
-export const GroupFragment = gql`
-  fragment GroupFragment on Group {
+export const GroupOverviewFragment = gql`
+  fragment GroupOverviewFragment on Group {
     createdAt
     id
     name
     updatedAt
+    isOrganisation
+    enrolmentLicenseTotal
+    enrolments
     users {
       totalCount
-      edges {
-        node {
-          id
-        }
-      }
     }
     image {
       location
@@ -21,48 +19,108 @@ export const GroupFragment = gql`
       properties
       title
     }
-    enrolledCourses {
-      totalCount
-      edges {
-        node {
-          id
-        }
-      }
-    }
     assignedResources {
       totalCount
-      edges {
-        node {
-          id
-        }
-      }
     }
     assignedCourses {
       totalCount
-      edges {
-        node {
-          id
-        }
-      }
     }
     assignedPathways {
       totalCount
+    }
+    assignedContents {
+      totalCount
+    }
+    provisionedContents {
+      totalCount
+    }
+    provisionedCourses {
+      totalCount
+    }
+    _deleted @client
+  }
+`
+
+
+export const GroupDetailsFragment = gql`
+  fragment GroupDetailsFragment on Group {
+    ...GroupOverviewFragment
+    users {
       edges {
+        userId
+        groupId
         node {
           id
+          fullName
+          email
+          profileImageUrl
+          _deleted @client
+        }
+        roles {
+          id
+          name
+        }
+      }
+    }
+    
+    provisionedContents {
+      edges {
+        createdAt
+        groupId
+        contentItemId
+        node {
+          id
+          title
+          itemType
+          tags {
+            edges {
+              node {
+                id
+                label
+              }
+            }
+          }
+          image {
+            id
+          }
+        }
+      }
+    }
+    assignedContents {
+      edges {
+        createdAt
+        groupId
+        contentItemId
+        node {
+          id
+          title
+          itemType
+          tags {
+            edges {
+              node {
+                id
+                label
+              }
+            }
+          }
+          image {
+            id
+          }
         }
       }
     }
     _deleted @client
   }
+  ${GroupOverviewFragment}
 `
+
 export const GET_GROUP = gql`
   query GetGroup($id: ID!) {
     group(id: $id) {
-      ...GroupFragment
+      ...GroupDetailsFragment
     }
   }
-  ${GroupFragment}
+  ${GroupDetailsFragment}
 `
 
 export const GET_GROUPS = gql`
@@ -70,10 +128,23 @@ export const GET_GROUPS = gql`
     groups {
       edges {
         node {
-          ...GroupFragment
+          ...GroupOverviewFragment
         }
       }
     }
   }
-  ${GroupFragment}
+  ${GroupOverviewFragment}
+`
+
+export const GET_GROUPS_DETAILED = gql`
+  query GetGroupsDetailed {
+    groups {
+      edges {
+        node {
+          ...GroupDetailsFragment
+        }
+      }
+    }
+  }
+  ${GroupDetailsFragment}
 `

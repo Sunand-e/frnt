@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { gql, useFragment_experimental, useReactiveVar } from "@apollo/client";
+import { gql, useFragment, useReactiveVar } from "@apollo/client";
 import { ContentTitleFragment } from "../../courses/SidebarSection";
 
 export const useContentTitle = (id) => {
 
   const [title, setTitle] = useState('')
 
-  const { complete, data } = useFragment_experimental({
+  const { complete, data } = useFragment({
     fragment: ContentTitleFragment,
     from: {
       __typename: "ContentItem",

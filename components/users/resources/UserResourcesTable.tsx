@@ -5,7 +5,7 @@ import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
 import UserResourceActionsMenu from "./UserResourceActionsMenu";
 
-const UserResourcesTable = () => {
+const UserResourcesTable = ({scrollInTable = false}) => {
   
   const router = useRouter()
   const { id } = router.query
@@ -71,6 +71,7 @@ const UserResourcesTable = () => {
   const tableProps = {
     tableData,
     tableCols,
+    scrollInTable,
     showTop: false
   }
     

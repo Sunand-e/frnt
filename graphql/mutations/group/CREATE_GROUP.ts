@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
-import { GroupFragment } from '../../queries/groups';
+import { GroupDetailsFragment } from '../../queries/groups';
 
 export const CREATE_GROUP = gql`
   mutation CreateGroup(
     $name: String!,
     $parentId: ID,
     $assignedContentIds: [ID!],
-    $enrolledContentIds: [ID!],
+    $provisionedContentIds: [ID!],
+    $isOrganisation: Boolean,
     $imageId: ID,
     $userIds: [ID!]
   ) {
@@ -15,15 +16,16 @@ export const CREATE_GROUP = gql`
         name: $name,
         parentId: $parentId,
         assignedContentIds: $assignedContentIds,
-        enrolledContentIds: $enrolledContentIds,
+        provisionedContentIds: $provisionedContentIds,
+        isOrganisation: $isOrganisation,
         imageId: $imageId,
         userIds: $userIds
       }
     ) {
       group {
-        ...GroupFragment
+        ...GroupDetailsFragment
       }
     }
   }
-  ${GroupFragment}
+  ${GroupDetailsFragment}
 `;

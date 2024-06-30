@@ -1,5 +1,8 @@
 import { VideoPersonCall } from '@styled-icons/fluentui-system-filled/VideoPersonCall'
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
+import { Flow } from '@styled-icons/fluentui-system-regular/Flow'
+import {Library} from "@styled-icons/ionicons-solid/Library"
+
 import { GET_COURSES } from '../../graphql/queries/courses/courses'
 import { GET_PATHWAYS, GET_RESOURCES } from '../../graphql/queries/allQueries'
 
@@ -32,7 +35,7 @@ export const contentTypes = {
     pluralKey: 'pathways',
     plural: 'pathways',
     label: "Pathway",
-    icon: GraduationCap,
+    icon: Flow,
     editUrl: 'admin/pathways/edit',
     gqlGetQuery: GET_PATHWAYS,
   },
@@ -41,7 +44,7 @@ export const contentTypes = {
     pluralKey: 'resources',
     plural: 'resources',
     label: "Resource",
-    icon: GraduationCap,
+    icon: Library,
     editUrl: 'admin/resources/edit',
     gqlGetQuery: GET_RESOURCES,
   },

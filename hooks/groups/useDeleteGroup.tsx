@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_GROUP } from "../../graphql/mutations/group/DELETE_GROUP";
 import { DeleteGroup, DeleteGroupVariables } from "../../graphql/mutations/group/__generated__/DeleteGroup";
-import { GroupFragment } from "../../graphql/queries/groups";
 
 function useDeleteGroup() {
 
@@ -24,22 +23,12 @@ function useDeleteGroup() {
         },
       },
       update(cache, { data: deleteGroup }) {
-        // We get a single item.
-        const group = cache.readFragment({
+        cache.modify({
           id: `Group:${id}`,
-          fragment: GroupFragment,
+          fields: {
+            _deleted: (cachedValue) => true
+          },
         });
-        // Then, we update it.
-        if (group) {
-          cache.writeFragment({
-            id: `Group:${id}`,
-            fragment: GroupFragment,
-            data: {
-              ...group,
-              _deleted: true
-            },
-          });
-        }
       }
     })
   }

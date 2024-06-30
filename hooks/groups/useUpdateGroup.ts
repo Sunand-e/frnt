@@ -41,6 +41,8 @@ function useUpdateGroup(id = null) {
         fragment UserGroups on User {
           groups {
             edges {
+              groupId
+              userId
               node {
                 id
               }
@@ -88,10 +90,10 @@ function useUpdateGroup(id = null) {
     const variables = {
       ...values
     }
-
     updateGroupMutation({
       variables: {
         id,
+        
         ...variables
       },
       optimisticResponse: {
@@ -100,12 +102,12 @@ function useUpdateGroup(id = null) {
           group: {
             ...data.group,
             ...variables,
-            users: {
+            ...(variables.userIds ? { users: {
               ...data.group.users,
               edges: variables.userIds.map(id => {
                 return { node: { id, __typename: 'User'} }
               })
-            }
+            }} : {}),
           },
         }
       }

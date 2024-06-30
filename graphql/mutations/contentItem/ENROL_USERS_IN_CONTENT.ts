@@ -15,6 +15,7 @@ export const ENROL_USERS_IN_CONTENT = gql`
       }
     ) {
       status
+      details
     }
   }
 `;

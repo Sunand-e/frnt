@@ -113,7 +113,7 @@ const AdminCourseSetup = () => {
             itemType: 'course',
             order: 9999999999,
             tags: contentItemDefaults.tags,
-            groupsEnrolled: {
+            groupsAssigned: {
               edges: []
             },
             sections: [{

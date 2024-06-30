@@ -1,4 +1,4 @@
-import { useFragment_experimental, useQuery } from "@apollo/client";
+import { useFragment, useQuery } from "@apollo/client";
 import { useCallback, useMemo, useState } from "react";
 import useCreateUserQuestionAttempt from "../../../hooks/questions/useCreateUserQuestionAttempt";
 import { useRouter } from "../../../utils/router";
@@ -17,7 +17,7 @@ function QuestionView({question, onFinishQuiz}) {
   
   const { loading, data: attemptQueryData, error } = useGetLatestQuizAttempt({quizId})
 
-  const { data: quiz } = useFragment_experimental({
+  const { data: quiz } = useFragment({
     fragment: QuizFragment,
     fragmentName: 'QuizFragment',
     from: { id: quizId, __typename: "ContentItem", },

@@ -1,10 +1,13 @@
 import EditGroupForm from '../../../../components/groups/EditGroupForm'
 import usePageTitle from '../../../../hooks/usePageTitle';
-import {ArrowBack} from "@styled-icons/boxicons-regular/ArrowBack";
+import {ChevronRight} from "@styled-icons/boxicons-regular/ChevronRight";
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 import useGetGroup from '../../../../hooks/groups/useGetGroup';
 import { useRouter } from '../../../../utils/router';
 import ButtonBack from '../../../../components/common/ButtonBack';
+import { ReactNode } from 'react';
+import Link from 'next/link';
+import LoadingSpinner from '../../../../components/common/LoadingSpinner';
 
 const AdminUsersGroupsEdit = () => {
 
@@ -16,7 +19,30 @@ const AdminUsersGroupsEdit = () => {
   const router = useRouter()
   const { id } = router.query
   const { group } = useGetGroup(id)
-  usePageTitle({ title: `Edit group: ${group?.name}` })
+  
+  let pageTitle: ReactNode = 'Groups'
+
+  if(group) {
+    pageTitle = (
+      <span className='flex items-center space-x-2'>
+        <Link href="/admin/users/groups">
+          <span>Groups</span>
+        </Link>
+        <ChevronRight size={20} />
+        <span>{group.name}</span>
+      </span>
+    )
+  }
+
+  usePageTitle({ title: pageTitle })
+
+  if(!group) return (
+    <LoadingSpinner
+      text='Loading group'
+    />
+  )
+
+
 
   return <EditGroupForm />
 }
