@@ -32,6 +32,7 @@ const AdminUsersEdit = () => {
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { updateUser } = useUpdateUser(id)
   const { updateUserTenantRoles } = useUpdateUserTenantRoles()
+  
   const { isOrganisationLeader } = useIsOrganisationLeader()
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT"
@@ -97,9 +98,11 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            { showGroups && <UserGroups groupTypeName="group" /> }
-            { showOrganisations && <UserGroups groupTypeName="organisation" /> }
-            { tenantFeaturesEnabled('resources') && <UserCourses /> }
+            { userHasCapability('SeeGroups', 'tenant') && (<>
+              { showGroups && <UserGroups groupTypeName="group" /> }
+              { showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
+            </>)}
+            { tenantFeaturesEnabled('courses') && <UserCourses /> }
             { tenantFeaturesEnabled('resources') && <UserResources /> }
             { tenantFeaturesEnabled('pathways') && <UserPathways /> }
           </div>
