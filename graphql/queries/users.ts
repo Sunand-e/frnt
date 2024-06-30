@@ -27,8 +27,8 @@ export const UserFragment = gql`
   }
 `
 
-export const UserContentFragment = gql`
-  fragment UserContentFragment on UserContent {
+export const UserContentEdgeSimpleFragment = gql`
+  fragment UserContentEdgeSimpleFragment on UserContentEdge {
     status
     lastVisited
     firstVisited
@@ -45,18 +45,6 @@ export const UserContentFragment = gql`
 export const UserContentEdgeFragment = gql`
   fragment UserContentEdgeFragment on UserContentEdge {
     userId
-    status
-    lastVisited
-    firstVisited
-    createdAt
-    updatedAt
-    completedAt
-    passedAt
-    score
-    progress
-    visits
-    properties
-
     node {
       id
       title
@@ -66,8 +54,10 @@ export const UserContentEdgeFragment = gql`
       itemType
       ...ContentFragment
     }
+    ...UserContentEdgeSimpleFragment
   }
   ${ContentFragment}
+  ${UserContentEdgeSimpleFragment}
 `
 
 export const UserContentConnectionFragment = gql`

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { UserContentConnectionFragment, UserContentFragment } from './users';
+import { UserContentConnectionFragment, UserContentEdgeSimpleFragment } from './users';
 
 export const CertificateFragment = gql`
   fragment CertificateFragment on Certificate {
@@ -9,7 +9,7 @@ export const CertificateFragment = gql`
       title
     }
     courseUserContent {
-      ...UserContentFragment
+      ...UserContentEdgeSimpleFragment
     }
     moduleUserContents {
       ...UserContentConnectionFragment
@@ -17,7 +17,7 @@ export const CertificateFragment = gql`
     score
     logoUrl
   }
-  ${UserContentFragment}
+  ${UserContentEdgeSimpleFragment}
   ${UserContentConnectionFragment}
 `
 
