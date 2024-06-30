@@ -8,24 +8,23 @@ import { handleModal } from "../../../stores/modalStore";
 import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
 import { groupTypes } from "../../common/groupTypes";
 
-const UserGroups = ({groupTypeName='group'}) => {
+const UserGroups = ({groupTypeName='group', isSingular=false}) => {
 
   const router = useRouter()
   const { id } = router.query
   const { loading, error, user } = useGetUser(id)
-  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const groupType = groupTypes[groupTypeName]
 
 
   const openAddUsersToGroups = () => {
     handleModal({
-      title: `Assign user to ${groupType.plural}`,
-      content: <AddUserToGroups id={user.id} />
+      title: `Assign user to ${isSingular ? groupType.name : groupType.plural}`,
+      content: <AddUserToGroups groupTypeName={groupTypeName} isSingular={isSingular} id={user.id} />
     })
   }
 
   const button = {
-    text: "Assign to groups",
+    text: `Assign to ${isSingular ? groupType.name : groupType.plural}`,
     onClick: openAddUsersToGroups
     // onClick: () => {
     //   router.push('/admin/users/groups')
@@ -34,7 +33,7 @@ const UserGroups = ({groupTypeName='group'}) => {
 
   // const boxTitle = tenantFeaturesEnabled(['organisations']) ? 'Groups / Organisations' : 'Groups'
   return (
-    <BoxContainer title={groupType.pluralLabel} icon={Group2} button={button}>
+    <BoxContainer title={isSingular ? groupType.label : groupType.pluralLabel} icon={Group2} button={button}>
         <UserGroupsTable typeName={groupTypeName} scrollInTable={true} />
     </BoxContainer>
   );

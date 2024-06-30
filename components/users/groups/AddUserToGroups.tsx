@@ -8,6 +8,7 @@ import { closeModal } from "../../../stores/modalStore"
 import { useRouter } from "../../../utils/router"
 import Button from "../../common/Button"
 import LoadingSpinner from '../../common/LoadingSpinner'
+import { groupTypes } from '../../common/groupTypes'
 
 const customStyles = {
   option: (provided, state) => {
@@ -34,7 +35,7 @@ const Input = props => (
     inputClassName="outline-none border-none shadow-none focus:ring-transparent"
   />
 )
-const AddUserToGroups = ({ id }) => {
+const AddUserToGroups = ({ id, isSingular=false, groupTypeName='group' }) => {
 
   const { addUsersToGroups } = useAddUsersToGroups()
 
@@ -42,6 +43,8 @@ const AddUserToGroups = ({ id }) => {
   const { groups, loading: loadingGroups } = useGetGroups()
   const { roles, loading: loadingRoles } = useGetRoles()
   const [open, setOpen] = useState(false);
+
+  const groupType = groupTypes[groupTypeName]
 
   const availableGroups = user && groups?.edges?.filter(groupEdge =>
     !user.groups?.edges?.some(userGroupEdge => userGroupEdge.node.id === groupEdge.node.id)
@@ -57,8 +60,12 @@ const AddUserToGroups = ({ id }) => {
 
   const [selectedGroupIds, setSelectedGroupIds] = useState([])
 
+  const selectedGroupNames = (groups?.edges || [])
+    .filter(edge => selectedGroupIds.includes(edge.node.id)) // Filter groups by selected IDs
+    .map(edge => edge.node.name); // Map to group names
+
   const handleChange = (items) => {
-    setSelectedGroupIds(items.map(item => item.value))
+    setSelectedGroupIds(isSingular ? [items.value] : items.map(item => item.value))
   }
 
   const handleEnrol = (e) => {
@@ -83,7 +90,7 @@ const AddUserToGroups = ({ id }) => {
         availableGroups?.length ? (
           <div>
             <Select
-              placeholder={<span className="text-main-secondary">Choose group(s)...</span>}
+              placeholder={<span className="text-main-secondary">Choose {groupType.name}{!isSingular && '{s}'}...</span>}
               menuIsOpen={open}
               onMenuOpen={() => setOpen(true)}
               onMenuClose={() => setOpen(false)}
@@ -97,7 +104,7 @@ const AddUserToGroups = ({ id }) => {
               }}
               onChange={handleChange}
               className={`w-full mb-4`}
-              isMulti={true}
+              isMulti={!isSingular}
               isSearchable={true}
               closeMenuOnSelect={false}
               menuPortalTarget={document.body}
@@ -109,13 +116,16 @@ const AddUserToGroups = ({ id }) => {
             {/* <GroupMultiLevelSelect data={availableGroupData} onChange={handleChange} /> */}
             {!!selectedGroupIds.length && !!defaultRole?.id && (
               <Button onClick={handleEnrol}>
-                Assign {user.fullName} to {selectedGroupIds.length} group{!!(selectedGroupIds.length > 1) && 's'}
+                Assign {user.fullName} to {selectedGroupIds.length > 1 ? 
+                  (`${selectedGroupIds.length} ${groupType.plural}`) : 
+                  (`${selectedGroupNames[0]}`)
+                }
               </Button>
             )}
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            No groups available for {user.fullName}.
+            No {groupType.plural} available for {user.fullName}.
             <Button onClick={closeModal}>OK</Button>
           </div>
         )
