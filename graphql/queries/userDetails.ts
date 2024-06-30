@@ -112,6 +112,7 @@ export const UserGroupsFragment = gql`
         node {
           id
           name
+          isOrganisation
         }
         roles {
           id

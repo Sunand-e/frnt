@@ -48,6 +48,13 @@ const UserGroupsTable = ({scrollInTable = false, typeName='group'}) => {
     () => {
       return user?.groups.edges
         .filter(edge => !edge.node._deleted)
+        .filter(edge => {
+          if(typeName === 'group') {
+            return !edge.node.isOrganisation
+          } else if(typeName === 'organisation') {
+            return edge.node.isOrganisation
+          }
+        })
         .sort((a, b) => a.node.name.localeCompare(b.node.name)) || []
     }, [user]
   );
