@@ -4,7 +4,7 @@ import useGetRoles from "../../../hooks/roles/useGetRoles"
 import Button from "../../common/Button";
 import ReactSelectInput from "../../common/inputs/ReactSelectInput"
 
-const UserRoleSelect = ({control, roleType}) => {
+const UserRoleSelect = ({control, roleType, className=''}) => {
 
   const { roles, loading, error } = useGetRoles()
 
@@ -50,6 +50,7 @@ const UserRoleSelect = ({control, roleType}) => {
           control={control}
           name="role_ids"
           isMulti={true}
+          className={className}
           options={options}
         />
       }
