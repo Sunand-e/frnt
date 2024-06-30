@@ -63,7 +63,7 @@ function useUserHasCapability() {
 
   const determineCapabilityScope = useCallback(capability => {
     return {
-      tenant: user.userType === 'SuperAdmin' || tenantLevelCapabilityArray.includes(capability),
+      tenant: user?.userType === 'SuperAdmin' || tenantLevelCapabilityArray.includes(capability),
       groups: Object.keys(groupCapabilities).filter(groupId => groupCapabilities[groupId].includes(capability))
     }
   },[user, groupCapabilities, tenantLevelCapabilityArray])
