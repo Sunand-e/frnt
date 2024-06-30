@@ -1,12 +1,25 @@
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
 
-export const groupTypes = {
+interface GroupDictionary {
+  [key: string]: {
+    name: string
+    pluralKey: string
+    plural: string
+    pluralLabel: string
+    label: string
+    icon: React.FC,
+    indexUrl: string,
+}
+}
+
+export const groupTypes: GroupDictionary = {
   group: {
-    name: 'course',
-    pluralKey: 'courses',
-    plural: 'courses',
-    label: "Course",
+    name: 'group',
+    pluralKey: 'groups',
+    plural: 'groups',
+    label: "Group",
+    pluralLabel: "Groups",
     icon: Group2,
     indexUrl: 'admin/users/groups',
   },
@@ -17,7 +30,7 @@ export const groupTypes = {
     label: "Organisation",
     pluralLabel: "Organisations",
     icon: PeopleTeamToolbox,
-    indexUrl: 'admin/organisations',
+    indexUrl: 'admin/users/organisations',
   }
 }
 

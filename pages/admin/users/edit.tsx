@@ -97,9 +97,9 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            { showGroups && <UserGroups type="groups" /> }
-            { showOrganisations && <UserGroups type="organisations" /> }
-            <UserCourses />
+            { showGroups && <UserGroups groupTypeName="group" /> }
+            { showOrganisations && <UserGroups groupTypeName="organisation" /> }
+            { tenantFeaturesEnabled('resources') && <UserCourses /> }
             { tenantFeaturesEnabled('resources') && <UserResources /> }
             { tenantFeaturesEnabled('pathways') && <UserPathways /> }
           </div>

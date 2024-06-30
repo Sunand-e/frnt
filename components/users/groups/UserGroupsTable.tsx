@@ -12,13 +12,14 @@ import UserRoleSelectCell from "./UserRoleSelectCell";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import { handleModal } from "../../../stores/modalStore";
 import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
+import { groupTypes } from "../../common/groupTypes";
 
-const UserGroupsTable = ({scrollInTable = false}) => {
+const UserGroupsTable = ({scrollInTable = false, typeName='group'}) => {
 
   const router = useRouter()
 
   const { id } = router.query
-
+  const groupType = groupTypes[typeName]
   const { loading, error, user } = useGetUser(id)
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
   const { addUsersToGroups } = useAddUsersToGroups()
@@ -51,12 +52,10 @@ const UserGroupsTable = ({scrollInTable = false}) => {
     }, [user]
   );
 
-  const groupColHeader = tenantFeaturesEnabled(['organisations']) ? 'Group / Organisation' : 'Group'
-
   const tableCols = useMemo(() => {
     return [
       {
-        header: groupColHeader,
+        header: groupType.label,
         id: 'name',
         accessorFn: row => row.node.name,
         cell: ({ cell }) => {
