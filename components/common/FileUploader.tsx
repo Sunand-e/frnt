@@ -26,7 +26,7 @@ const FileUploader = ({
       onAllUploadsComplete(data)
     })
     onDrop(acceptedFiles)
-  },[endpoint])
+  },[endpoint, fileParameterName, additionalParams])
 
   return (
     <FileDropzone
