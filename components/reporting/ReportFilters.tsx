@@ -48,8 +48,9 @@ const ReportFilters = ({filters=[]}) => {
       { tenantFeaturesEnabled('groups') && groups && filters.includes('group') && (
         <div className="flex flex-col">
           <label className="text-left text-xs font-medium text-gray-500 uppercase">in group</label>
-            <GroupSelect
-            selected={groupId as string}
+          <GroupSelect
+            defaultValueId={groupId as string}
+            placeholder="All groups"
             onSelect={group => {
               router.push({
                 query: { ...router.query, group: group?.id }
@@ -64,7 +65,6 @@ const ReportFilters = ({filters=[]}) => {
           <UserSelect
             selected={userId}
             onSelect={user => {
-              // alert(JSON.stringify(user,null,2))
               router.push({
                 query: { ...router.query, user: user?.id }
               });
@@ -78,7 +78,6 @@ const ReportFilters = ({filters=[]}) => {
           <CourseSelect
             options={courseId}
             onSelect={course => {
-              // alert(JSON.stringify(course,null,2))
               router.push({
                 query: { ...router.query, course: course?.id }
               });
@@ -93,7 +92,6 @@ const ReportFilters = ({filters=[]}) => {
             selected={categoryId}
             tagType={`category`}
             onSelect={tag => {
-              // alert(JSON.stringify(tag,null,2))
               router.push({
                 query: { ...router.query, tag: tag?.id }
               });

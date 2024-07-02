@@ -2,18 +2,14 @@ import { useMemo } from "react";
 import Select from "react-select";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
 
-const allGroupsOption = {
-  name: 'All groups',
-  id: 'all',
-}
-
 const GroupSelect = ({
-  onSelect, 
-  defaultOption=allGroupsOption, 
-  selected='all', 
+  onSelect,
   className='',
   groupFilter=null,
-  isMulti=false
+  isMulti=false,
+  isClearable=true,
+  defaultValueId=null,
+  placeholder="Select group..."
 }) => {
   
   const { groups } = useGetGroups()
@@ -24,24 +20,20 @@ const GroupSelect = ({
   }
 
   const groupOptions = groupEdges.map(groupEdge => groupEdge.node)
+  const defaultValue = defaultValueId === 'all' ? null : groupOptions.find(group => group.id === defaultValueId) || null
 
-  groupOptions && defaultOption && groupOptions.unshift(defaultOption)
-  
-  const value = groupOptions?.find(group => group.id === selected) || defaultOption
-  const isClearable = value !== defaultOption
-  
   const selectProps = useMemo(() => ({
     options: groupOptions,
     getOptionLabel: group => group.name,
     getOptionValue: group => group.id,
-    // defaultValue: currentRoles[0],
-    value,
+    
     menuPortalTarget: document.body,
     isSearchable: false,
     onChange: onSelect,
-    isClearable,
+    isClearable: isClearable,
     isMulti,
     className,
+    defaultValue,
     styles: {
       menuPortal: base => ({ ...base, zIndex: 9999 }),
       control: (provided, state) => ({
@@ -49,7 +41,8 @@ const GroupSelect = ({
         minWidth: "240px"
       }),
     },
-  }), [groupOptions, value, onSelect])
+    placeholder
+  }), [groupOptions, onSelect])
 
   return (
     <div className="flex space-x-4">

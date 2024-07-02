@@ -5,7 +5,6 @@ import CheckboxInput from '../common/inputs/CheckboxInput';
 import UserRoleSelect from './inputs/UserRoleSelect';
 import ImageDropzoneInput from "../common/inputs/ImageDropzoneInput";
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
-import GroupSelect from '../groups/inputs/GroupSelect';
 import GroupSelectInput from '../groups/inputs/GroupSelectInput';
 
 interface UserFormValues {
@@ -133,6 +132,7 @@ const UserForm = ({user=null, onSubmit}) => {
         <GroupSelectInput
           label="Add user to group/organisation"
           name='group_id'
+          isClearable={addUsersToGroupsCapabilityScope.tenant === true}
           control={control}
         />
       )}

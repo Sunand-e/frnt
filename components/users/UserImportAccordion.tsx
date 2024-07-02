@@ -5,7 +5,7 @@ import { closeModal, handleModal } from "../../stores/modalStore"
 import Button from "../common/Button"
 import UserImportAddToNewGroup from "./UserImportAddToNewGroup"
 
-const UserImportAccordion = ({data}) => {
+const UserImportAccordion = ({data, groupId}) => {
   const { rows } = data
   
   const newUsers = rows.filter(row => row.status === 'new')
@@ -78,7 +78,7 @@ const UserImportAccordion = ({data}) => {
     </Accordion>
     <div className="flex flex-col space-y-2 w-full">
 
-      { !isOrganisationLeader && (
+      { !isOrganisationLeader && !groupId && (
         <Button onClick={createGroup}>Create a group for these users</Button>
       )}
 

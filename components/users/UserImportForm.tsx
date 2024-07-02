@@ -1,24 +1,41 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import FileUploader from '../common/FileUploader';
-import { GET_USERS } from '../../graphql/queries/users';
-import useGetUsers from '../../hooks/users/useGetUsers';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserImportAccordion from './UserImportAccordion';
 import ButtonLink from '../common/ButtonLink';
 import DropzoneIconAndText from '../common/inputs/DropzoneIconAndText';
 import { handleModal } from '../../stores/modalStore';
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import GroupSelect from '../groups/inputs/GroupSelect';
+import useGetGroups from '../../hooks/groups/useGetGroups';
+import { GET_USERS } from '../../graphql/queries/users';
 
 const UserImportForm = () => {
 
-  const users = useGetUsers()
+  const { determineCapabilityScope } = useUserHasCapability()
+
+  const addUsersToGroupsCapabilityScope = determineCapabilityScope('AddUsersToGroups')
+
+  const { groups } = useGetGroups()
+
+  const [groupId, setGroupId] = useState(null)
   
+  let showAddUsersToGroupsInput = false
+  if(addUsersToGroupsCapabilityScope.tenant === true || addUsersToGroupsCapabilityScope.groups.length > 1) {
+    showAddUsersToGroupsInput = true
+  }
+  
+  useEffect(() => {
+    if(addUsersToGroupsCapabilityScope.tenant === false) {
+      setGroupId(addUsersToGroupsCapabilityScope.groups[0])
+    }
+  }, [determineCapabilityScope, addUsersToGroupsCapabilityScope])
+
   const handleAllUploadsComplete = (data) => {
     handleModal({
       title: 'CSV upload successful',
       content: (
         <>
-          <UserImportAccordion data={data?.[0]?.data} />
+          <UserImportAccordion data={data?.[0]?.data} groupId={groupId} />
         </>
       )
     })
@@ -26,9 +43,9 @@ const UserImportForm = () => {
   }
 
   const dropZoneContent = <DropzoneIconAndText
-  fileHintText="CSV, up to 10MB"
-  linkText="Upload a CSV file"
-/>
+    fileHintText="CSV, up to 10MB"
+    linkText="Upload a CSV file"
+  />
 
   const fileUploaderProps = {
     accept: [
@@ -44,22 +61,38 @@ const UserImportForm = () => {
     
     dropZoneContent,
     endpoint: "/api/v1/users/bulk_import",
-    refetchQuery: 'GetUsers',
+    refetchQuery: GET_USERS,
     fileParameterName: 'csv_file',
     onAllUploadsComplete: handleAllUploadsComplete,
-    additionalParams: {
-      // invite: 'true'
-    } 
+  }
+
+  const groupFilter = edge => {
+    return addUsersToGroupsCapabilityScope.tenant || addUsersToGroupsCapabilityScope.groups.includes(edge.node.id)
   }
 
   return <>
-    <FileUploader {...fileUploaderProps} />
-    <p>
+    <FileUploader {...fileUploaderProps} additionalParams={{group_id: groupId}}  />
+    <div className='flex flex-col mt-4 space-y-4 w-full max-w-sm' >
       <ButtonLink href="/docs/import_user_example.csv">
         Download an example CSV
       </ButtonLink>
-    </p>
-  </>;
+
+      { showAddUsersToGroupsInput && (
+      <label className={`block`}>
+        <span className="text-sm font-medium text-gray-700">Add users to group: </span>
+        <GroupSelect
+          onSelect={(value) => {
+            setGroupId(value?.id)
+          }}
+          className='w-full'
+          groupFilter={groupFilter}
+          defaultValueId={groupId}
+          isClearable={addUsersToGroupsCapabilityScope.tenant === true}
+        />
+      </label>
+      )}
+    </div>
+  </>
 }
 
 export default UserImportForm

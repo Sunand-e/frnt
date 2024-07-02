@@ -7,6 +7,7 @@ const GroupSelectInput = ({
   label=null,
   isMulti=false,
   groupFilter=null,
+  isClearable=null,
 }) => {
   
   const { field } = useController({
@@ -23,9 +24,9 @@ const GroupSelectInput = ({
     <label className={`block z-40`}>
       { label && <span className="text-sm font-medium text-gray-700">{ label }</span> }
       <GroupSelect
-        onSelect={handleChange} 
-        defaultOption={null} 
-        selected={field.value} 
+        onSelect={handleChange}
+        isClearable={isClearable}
+        defaultValueId={field.value}
         className='w-full'
         groupFilter={groupFilter}
       />
