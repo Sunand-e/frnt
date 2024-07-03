@@ -42,20 +42,31 @@ export const GroupOverviewFragment = gql`
 `
 
 
+export const GroupUsersFragment = gql`
+fragment GroupUsersFragment on GroupUserConnection {
+  edges {
+    userId
+    groupId
+    node {
+      id
+      fullName
+      email
+      profileImageUrl
+      _deleted @client
+    }
+  }
+}
+`
+
+
 export const GroupDetailsFragment = gql`
   fragment GroupDetailsFragment on Group {
     ...GroupOverviewFragment
     users {
+      ...GroupUsersFragment
       edges {
         userId
         groupId
-        node {
-          id
-          fullName
-          email
-          profileImageUrl
-          _deleted @client
-        }
         roles {
           id
           name
@@ -112,6 +123,7 @@ export const GroupDetailsFragment = gql`
     _deleted @client
   }
   ${GroupOverviewFragment}
+  ${GroupUsersFragment}
 `
 
 export const GET_GROUP = gql`
@@ -134,6 +146,22 @@ export const GET_GROUPS = gql`
     }
   }
   ${GroupOverviewFragment}
+`
+
+export const GET_GROUPS_USERS = gql`
+  query GetGroupsUsers {
+    groups {
+      edges {
+        node {
+          id
+          users {
+            ...GroupUsersFragment
+          }
+        }
+      }
+    }
+  }
+  ${GroupUsersFragment}
 `
 
 export const GET_GROUPS_DETAILED = gql`
