@@ -9,6 +9,7 @@ import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import useGetGroups from "../../../hooks/groups/useGetGroups";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
+import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 dayjs.extend(advancedFormat);
 
@@ -19,7 +20,7 @@ const CourseUsersReportTable = () => {
     group: groupId 
   } = router.query
 
-  const { groups } = useGetGroups();
+  const { groups } = useGetGroupsUsers();
   const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
   
   // Table data is memo-ised due to this:
