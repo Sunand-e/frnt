@@ -7,18 +7,14 @@ import { closeModal } from "../../stores/modalStore"
 import Button from "../common/Button"
 import ContentSelectCategorised from "../common/inputs/ContentSelectCategorised"
 import LoadingSpinner from "../common/LoadingSpinner"
-import { GET_RESOURCES } from "../../graphql/queries/allQueries";
 import useAssignContentToGroups from "../../hooks/groups/useAssignContentToGroups";
 import { contentTypes } from "../common/contentTypes";
-import cache from "../../graphql/cache";
 
 const AssociateContentWithGroup = ({group, groupType='group', associationType='assigned', contentType='course'}) => {
   
   const type = contentTypes[contentType]
 
-  const [getContent, { loading: contentLoadingStatus, data: content }] = useLazyQuery(
-    contentType === 'course' ? GET_COURSES : GET_RESOURCES
-  );
+  const [getContent, { loading: contentLoadingStatus, data: content }] = useLazyQuery(type.gqlGetQuery);
 
   // Call the getContent function when the component mounts
   useEffect(() => {
