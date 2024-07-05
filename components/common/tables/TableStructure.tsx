@@ -53,6 +53,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const tableElementRef = useRef<HTMLTableElement>(null)
   const scrollInTableContainerRef = useRef<HTMLDivElement>(null)
   const [colWidths, setColWidths] = useState<number[] | null>(null)
+  const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
   const dataCellOffset = Number(isReorderable) + Number(isSelectable)
 
   
@@ -231,7 +232,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
                     </tr>
                   ))}
                 </thead>
-                <TableBody table={table} virtualizer={virtualizer} />
+                <TableBody table={table} virtualizer={virtualizer} draggingRowHeight={draggingRowHeight} />
               </table>
               {createPortal(
                 <DragOverlay
