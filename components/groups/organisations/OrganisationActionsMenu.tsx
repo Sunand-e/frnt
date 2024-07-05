@@ -20,7 +20,7 @@ const OrganisationActionsMenu = ({group}) => {
   const handleSendInvitations = () => {
     handleModal({
       title: `Send invitations to organisation`,
-      content: <SendGroupInvitesModal group={group} />
+      content: <SendGroupInvitesModal groupId={group.id} />
     })
   }
 
