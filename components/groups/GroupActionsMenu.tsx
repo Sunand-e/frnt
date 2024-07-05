@@ -21,7 +21,7 @@ const GroupActionsMenu = ({group}) => {
   const handleSendInvitations = () => {
     handleModal({
       title: `Send invitations to ${groupType} members`,
-      content: <SendGroupInvitesModal group={group} />
+      content: <SendGroupInvitesModal groupId={group.id} />
     })
   }
 
