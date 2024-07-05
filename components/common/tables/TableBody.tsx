@@ -13,9 +13,10 @@ import LoadingSpinner from "../LoadingSpinner";
 interface TableBodyProps {
   table: Table<any>
   virtualizer: Virtualizer<HTMLDivElement, Element>
+  draggingRowHeight: number
 }
 
-const TableBody = ({ table, virtualizer }: TableBodyProps) => {
+const TableBody = ({ table, virtualizer, draggingRowHeight }: TableBodyProps) => {
 
   const rows = table.getRowModel().rows
   const onRowClick = useTableContext(s => s.onRowClick)
@@ -24,7 +25,6 @@ const TableBody = ({ table, virtualizer }: TableBodyProps) => {
   const isLoading = useTableContext(s => s.isLoading)
   const loadingText = useTableContext(s => s.loadingText)
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
-  const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
 
   const tBodyRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   return (
