@@ -29,7 +29,7 @@ const GET_GROUP_USERS = gql`
 
 const COURSES_REPORT_QUERY = gql`
   query CoursesReportQuery {
-    courses {
+    courses(where: { includeProvisioned: true }) {
       edges {
         groups {
           edges {
