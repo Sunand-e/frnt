@@ -25,19 +25,19 @@ function useCreateGroup() {
           }
         })
 
-        cache.updateQuery({
-          query: GET_GROUPS_DETAILED,
-        }, data => {
-          if(data) {
-            return {
-              ...data,
-              groups: {
-                ...data.groups,
-                edges: [{node: createGroup.group}, ...data.groups.edges]
-              }            
-            }
-          }
-        })
+        // cache.updateQuery({
+        //   query: GET_GROUPS_DETAILED,
+        // }, data => {
+        //   if(data) {
+        //     return {
+        //       ...data,
+        //       groups: {
+        //         ...data.groups,
+        //         edges: [{node: createGroup.group}, ...data.groups.edges]
+        //       }            
+        //     }
+        //   }
+        // })
       }
     }
   );
@@ -93,7 +93,7 @@ function useCreateGroup() {
         }
       },
       onCompleted: (data) => {
-        alert('Group created successfully!');
+        console.log('Group created successfully!');
       },
       onError: (error) => {
         console.error('Error creating group:', error);
