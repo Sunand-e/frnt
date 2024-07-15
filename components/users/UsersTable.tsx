@@ -19,6 +19,7 @@ import EnrolUsersInContent from './content/EnrolUsersInContent';
 import cache from '../../graphql/cache';
 import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
+import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -84,9 +85,9 @@ const UsersTable = () => {
         {
           header: "Groups",
           accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
-          cell: ({ cell }) => {
-            return cell.getValue() || '-'
-          }
+          cell: ({ cell }) => (
+            <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped> || <span>&mdash;</span>
+          )
         }
       ] : []),
       ...(
@@ -99,9 +100,12 @@ const UsersTable = () => {
           header: tenantFeaturesEnabled('groups') ? "Global Roles" : 'faaa',
           id: 'roles',
           cell: ({ cell }) => {
-            return cell.row.original.roles.filter(
+            const rolesString = cell.row.original.roles.filter(
               role => role.name !== 'User'
             ).map(role => role.name).join(', ') || '-'
+            return (
+              <TooltipIfClamped className="line-clamp-2">{rolesString}</TooltipIfClamped>
+            )
           }
         }
       ] : []),
