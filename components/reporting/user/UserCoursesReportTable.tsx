@@ -5,9 +5,31 @@ import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable, { filterActive, statusAccessor } from "../ReportTable";
-import useGetGroups from "../../../hooks/groups/useGetGroups";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
+import { gql, useQuery } from "@apollo/client";
 
+// Define your GraphQL query, assuming it accepts a groupId variable
+const GET_GROUP_COURSES = gql`
+  query GetGroupCourses($groupId: ID!) {
+    group(id: $groupId) {
+      id
+      assignedCourses {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      provisionedCourses {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
 const UserCoursesReportTable = () => {
   const router = useRouter();
   const { 
@@ -16,21 +38,26 @@ const UserCoursesReportTable = () => {
   } = router.query
 
   const { loading, error, user } = useGetUser(userId);
-  const { groups } = useGetGroups();
+  // const { groups } = useGetGroups();
+  
+  const { loading: groupLoading, error: groupError, data: groupData } = useQuery(GET_GROUP_COURSES, {
+    variables: { groupId },
+    skip: !filterActive(groupId),
+  });
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    let data = groups && user?.courses?.edges.filter((edge) => !edge.node._deleted)
-    if(filterActive(groupId) && groups) {
-      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+    let data = user?.courses?.edges.filter((edge) => !edge.node._deleted)
+    if(filterActive(groupId) && groupData) {
+      
       data = data?.filter(edge => {
-        return groupEdge.node.assignedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
+        return groupData.group.provisionedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
       })
     }
 
     return data || []
-  }, [user, groups, groupId]);
+  }, [user, groupData, groupId]);
 
   const tableCols = useMemo(() => {
     return [
