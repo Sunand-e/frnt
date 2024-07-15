@@ -12,6 +12,7 @@ import GroupActionsMenu from '../GroupActionsMenu';
 import useConfirmDelete from '../../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import { commonTableCols } from '../../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 
 dayjs.extend(advancedFormat)
@@ -55,7 +56,7 @@ const OrganisationsTable = () => {
             image: cell.row.original.image,
             title: cell.getValue(),
             icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
-            secondary: `${userCount} member${userCount !== 1 ? 's' : ''}`,
+            // secondary: `${userCount} member${userCount !== 1 ? 's' : ''}`,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
@@ -64,10 +65,10 @@ const OrganisationsTable = () => {
         }
       },
       {
-        header: "Date Created",
-        accessorKey: "createdAt",
-        cell: ({ cell }) => dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
+        header: "Users",
+        accessorKey: "users.totalCount",
       },
+      commonTableCols.createdAt,
       {
         header: "Provided Courses",
         accessorFn: row => row.provisionedCourses?.totalCount,
