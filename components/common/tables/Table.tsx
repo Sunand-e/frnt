@@ -212,30 +212,32 @@ const Table = () => {
 
   useEffect(() => {
     // onFilterChange && onFilterChange(categoryId, globalFilter)
-    if(globalFilter || categoryId || sorting?.length) {
-      store.setState(state => ({ isReorderableActive: false }))
-      if(sorting?.length) {
-        const sortingColumnHeading = table.getColumn(sorting[0].id).columnDef.header.toLowerCase()
-        setTableReorderStatus(<span>
-          sorted by the <strong>{sortingColumnHeading}</strong> column
-        </span>)
+    if(isReorderable) {
+      if(globalFilter || categoryId || sorting?.length) {
+        store.setState(state => ({ isReorderableActive: false }))
+        if(sorting?.length) {
+          const sortingColumnHeading = table.getColumn(sorting[0].id).columnDef.header.toLowerCase()
+          setTableReorderStatus(<span>
+            sorted by the <strong>{sortingColumnHeading}</strong> column
+          </span>)
+        }
+        if(categoryId) {
+          setTableReorderStatus("filtered by category. Please clear filters")
+        }
+        if(globalFilter) {
+          setTableReorderStatus(`filtered by a custom search. Please clear filters`)
+        }
+      } else {
+        store.setState(state => ({ isReorderableActive: true }))
+        // setOnReorder(() => handleReorder)
+        // if(categoryId) {
+        //   setOnReorder(() => handleReorderInTags)
+        // } else {
+        //   setOnReorder(() => handleReorder)
+        // }
       }
-      if(categoryId) {
-        setTableReorderStatus("filtered by category. Please clear filters")
-      }
-      if(globalFilter) {
-        setTableReorderStatus(`filtered by a custom search. Please clear filters`)
-      }
-    } else {
-      store.setState(state => ({ isReorderableActive: true }))
-      // setOnReorder(() => handleReorder)
-      // if(categoryId) {
-      //   setOnReorder(() => handleReorderInTags)
-      // } else {
-      //   setOnReorder(() => handleReorder)
-      // }
     }
-  },[categoryId, globalFilter, sorting])
+  },[categoryId, globalFilter, sorting, isReorderable])
 
   const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 

@@ -1,53 +1,47 @@
 import dayjs from "dayjs"
+import TooltipIfClamped from "../components/common/floating-ui/TooltipIfClamped"
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
 const noDataDash = <span>&mdash;</span>
 
+const dateAccessorFnAndCell = (accessorKey: string) => {
+  return {
+    accessorFn: row => (
+      row[accessorKey] ? dayjs(row[accessorKey]).format('Do MMMM YYYY [at] h:mm A') : null
+    ),
+    cell: (cell) => <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped> || noDataDash
+  }
+}
 export const commonTableCols = {
   createdAt: {
     id: "createdAt",
     header: "Created at",
-    accessorFn: row => (
-      row.createdAt ? dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A') : null
-    ),
-    cell: (cell) => cell.getValue() || noDataDash
+    ...dateAccessorFnAndCell('createdAt')
   },
   
   updatedAt: {
     id: "updatedAt",
     header: "Updated at",
-    accessorFn: row => (
-      row.updatedAt ? dayjs(row.updatedAt).format('Do MMMM YYYY [at] h:mm A') : null
-    ),
-    cell: (cell) => cell.getValue() || noDataDash
+    ...dateAccessorFnAndCell('updatedAt')
   },
   
   firstVisited: {
     id: "firstVisited",
     header: "First access",
-    accessorFn: row => (
-      row.firstVisited ? dayjs(row.firstVisited).format('Do MMMM YYYY [at] h:mm A') : null
-    ),
-    cell: (cell) => cell.getValue() || noDataDash
+    ...dateAccessorFnAndCell('firstVisited')
   },
   
   lastVisited: {
     id: "lastVisited",
     header: "Last visited",
-    accessorFn: row => (
-      row.lastVisited ? dayjs(row.lastVisited).format('Do MMMM YYYY [at] h:mm A') : null
-    ),
-    cell: (cell) => cell.getValue() || noDataDash
+    ...dateAccessorFnAndCell('lastVisited')
   },
   
   passedAt: {
     id: "passedAt",
     header: "Passed at",
-    accessorFn: row => (
-      row.passedAt ? dayjs(row.passedAt).format('Do MMMM YYYY [at] h:mm A') : null
-    ),
-    cell: (cell) => cell.getValue() || noDataDash
+    ...dateAccessorFnAndCell('passedAt')
   },
 
   status: {

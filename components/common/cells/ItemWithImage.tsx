@@ -1,70 +1,84 @@
-import Link from "next/link"
+import Link from "next/link";
 import classNames from "../../../utils/classNames";
+import TooltipIfClamped from "../floating-ui/TooltipIfClamped";
 
-const roundedMap = new Map([
-  ['none', 'rounded-none'],
-  ['md', 'rounded-md'],
-  ['full', 'rounded-full'],
-]);
+interface ItemWithImageProps {
+  rounded?: 'none' | 'md' | 'full';
+  imgDivClass?: string;
+  title: string;
+  objectFit?: 'fill' | 'cover' | 'contain';
+  placeholder?: string;
+  secondary?: string;
+  image?: { id: string };
+  imageSrc?: string;
+  icon?: JSX.Element;
+  href?: string;
+}
 
-const objectFitMap = new Map([
-  ['fill', 'object-fill'],
-  ['cover', 'object-cover'],
-  ['contain', 'object-contain'],
-]);
+const roundedClasses = {
+  none: 'rounded-none',
+  md: 'rounded-md',
+  full: 'rounded-full',
+};
 
-const ConditionalLinkWrapper = ({ href, children }) => (
-  href ? <Link href={href}>{children}</Link> : children
-)
+const objectFitClasses = {
+  fill: 'object-fill',
+  cover: 'object-cover',
+  contain: 'object-contain',
+};
 
+const ConditionalLinkWrapper: React.FC<{ href?: string; children: React.ReactNode }> = ({ href, children }) => (
+  href ? <Link href={href}>{children}</Link> : <>{children}</>
+);
 
-const ItemWithImage = ({
-  rounded='full', 
-  imgDivClass='', 
-  title, 
-  objectFit='cover', 
-  placeholder=null, 
-  secondary=null, 
-  image=null, 
-  imageSrc=null, 
-  icon=null, 
-  href=null
+const ItemWithImage: React.FC<ItemWithImageProps> = ({
+  rounded = 'full',
+  imgDivClass = '',
+  title,
+  objectFit = 'cover',
+  placeholder,
+  secondary,
+  image,
+  imageSrc,
+  icon,
+  href,
 }) => {
+  const imageAltText = `${title} - ${secondary}`;
 
   return (
     <ConditionalLinkWrapper href={href}>
-      <div className="flex items-center max-w-xs text-main-secondary">
-        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${imgDivClass} ${roundedMap.get(rounded)}`}>
-          { image || imageSrc ? (
-            <img 
-              className={`h-10 w-10 ${objectFitMap.get(objectFit)}`} 
+      <div className="flex items-center max-w-xs text-main">
+        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${imgDivClass} ${roundedClasses[rounded]}`}>
+          {image || imageSrc ? (
+            <img
+              className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
               src={imageSrc || `/uploaded_images/${image?.id}?w=50`}
-              alt=""
+              alt={imageAltText}
+              loading="lazy" // Example of performance optimization
             />
           ) : (
-            <>
-              {icon ?? (
-                <img 
-                  className={`h-10 w-10 ${objectFitMap.get(objectFit)}`} 
-                  src={placeholder ?? '/images/placeholder-image.png'} 
-                  alt=""
-                 />
-              )}
-            </>
+            icon || (
+              <img
+                className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
+                src={placeholder || '/images/placeholder-image.png'}
+                alt={imageAltText}
+                loading="lazy"
+              />
+            )
           )}
         </div>
-        <div className="ml-4">
-          <div 
-            className={classNames(
-              "font-medium text-gray-900",
-              secondary ? 'line-clamp-1' : 'line-clamp-2'
-            )}
-          >{title}</div>
-          { secondary && <div className="text-gray-500">{secondary}</div> }
+        <div className="ml-4 w-full">
+          <TooltipIfClamped className={classNames(
+            "font-medium text-gray-900",
+            !!secondary ? 'line-clamp-1' : 'line-clamp-2'
+          )}>{title}</TooltipIfClamped>
+          {secondary && (
+            <TooltipIfClamped className=" text-gray-500 line-clamp-1 break-words w-full">{secondary}</TooltipIfClamped>
+          )}
         </div>
       </div>
     </ConditionalLinkWrapper>
-  )
-}
+  );
+};
 
-export default ItemWithImage
+export default ItemWithImage;

@@ -10,6 +10,7 @@ import GroupActionsMenu from './GroupActionsMenu';
 import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../hooks/groups/useDeleteGroup';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import { commonTableCols } from '../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -50,12 +51,11 @@ const GroupsTable = () => {
         header: "Group Name",
         accessorKey: "name", // accessor is the "key" in the data
         cell: ({ cell }) => {
-          const userCount = cell.row.original.users.totalCount
+          // const userCount = cell.row.original.users.totalCount?
           const cellProps = {
             image: cell.row.original.image,
             title: cell.getValue(),
             icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
-            secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
             href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           }
           return (
@@ -64,12 +64,10 @@ const GroupsTable = () => {
         }
       },
       {
-        header: "Date Created",
-        accessorKey: "createdAt",
-        cell: ({ cell }) => {
-          return dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A')
-        }
+        header: "Users",
+        accessorKey: "users.totalCount",
       },
+      commonTableCols.createdAt,
       {
         header: "Enrolled Courses",
         accessorFn: row => row.assignedCourses?.totalCount,

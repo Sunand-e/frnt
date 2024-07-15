@@ -7,7 +7,6 @@ import possibleTypes from './possibleTypes.json'
 import { relayStylePagination } from "@apollo/client/utilities";
 
 const typePolicies = {
-  
   Query: {
     fields: {
       // courses: relayStylePagination(),
@@ -37,26 +36,41 @@ const typePolicies = {
   GroupProvisionedContentConnection: {
     merge: true,
   },
-  GroupEnrolledContentConnection: {
+  GroupAssignedContentConnection: {
+    merge: true,
+  },
+  ContentGroupProvisionedConnection: {
+    merge: true,
+  },
+  ContentGroupAssignedConnection: {
     merge: true,
   },
   GroupProvisionedContentEdge: {
     merge: true,
     keyFields: (object, context) => {
       const contentId = context.readField('id', object.node);
-      // console.log('object')
-      // console.log(object)
-
-      // Use the subfieldData as needed
       return `GroupProvisionedContentEdge:${object.groupId}:${contentId}`;
     }
   },
-  GroupEnrolledContentEdge: {
+  GroupAssignedContentEdge: {
     merge: true,
     keyFields: (object, context) => {
       const contentId = context.readField('id', object.node);
-      // Use the subfieldData as needed
-      return `GroupEnrolledContentEdge:${object.groupId}:${contentId}`;
+      return `GroupAssignedContentEdge:${object.groupId}:${contentId}`;
+    }
+  },
+  ContentGroupProvisionedEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const groupId = context.readField('groupId', object);
+      return `ContentGroupProvisionedEdge:${object.contentItemId}:${groupId}`;
+    }
+  },
+  ContentGroupAssignedEdge: {
+    merge: true,
+    keyFields: (object, context) => {
+      const groupId = context.readField('groupId', object);
+      return `ContentGroupAssignedEdge:${object.contentItemId}:${groupId}`;
     }
   },
   UserContentEdge: {

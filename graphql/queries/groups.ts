@@ -85,6 +85,7 @@ export const GroupDetailsFragment = gql`
           itemType
           tags {
             edges {
+              contentItemId
               node {
                 id
                 label
@@ -108,6 +109,7 @@ export const GroupDetailsFragment = gql`
           itemType
           tags {
             edges {
+              contentItemId
               node {
                 id
                 label

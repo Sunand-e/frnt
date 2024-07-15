@@ -9,6 +9,7 @@ import { TenantContext } from '../../../context/TenantContext';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useViewStore } from '../../../hooks/useViewStore';
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
+import { Tooltip } from '../../common/floating-ui/Tooltip';
 
 const PrimaryNav = ({isSlim, pageNavState}) => {
 
@@ -19,6 +20,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
   const { isSuperAdmin, userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
 
   const navStructure = isAdminView ? navStructureAdmin : navStructureUser;
+  
   const navItems = useMemo(() => {
     return navStructure.filter(item => {
       if(item.requireEnabledFeatures && !tenantFeaturesEnabled(item.requireEnabledFeatures)) {
@@ -34,12 +36,15 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
     })
   },[navStructure, tenant, isSuperAdmin, tenantLevelCapabilityArray])
 
-  let logoImage;
-  const defaultLogo = `${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`
-  logoImage = tenant?.logo_white ?? defaultLogo
-  if(isSlim) {
-    logoImage = tenant?.logo_square_white ?? logoImage
-  }
+  const logoImage = useMemo(() => {
+    const defaultLogo = `${process.env.NEXT_PUBLIC_BASE_PATH}/images/elp-logo-notext-white.svg`;
+    let logo = tenant?.logo_white ?? defaultLogo;
+    if (isSlim) {
+      logo = tenant?.logo_square_white ?? logo;
+    }
+    return logo;
+  }, [tenant, isSlim]);
+  
   return (
     <div id="primaryNav" className={`transition-width ${isSlim ? 'w-16 slim-nav' : 'w-64'} flex flex-col h-full`}>
       <div ref={ref} className="sticky z-30 top-0 flex flex-col justify-between h-full overflow-auto">
@@ -81,36 +86,18 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
 
                   if(isSlim) {
                     return (
-                        // <Tippy
-                        //     key={index}
-                        //     className="bg-main text-white p-2 cursor-pointer whitespace-nowrap"
-                        //     interactive={true}
-                        //     hideOnClick={false}
-                        //     placement='right'
-                        //     theme="memberhub"
-
-                        //     // placement='right-start'
-                        //     // placement='right-end'
-                        //     // theme='light'
-                        //     content = {item.title}
-                        //     // content={
-                        //     //   <>
-                        //     //     <ul className="flex flex-col">
-                        //     //       {
-                        //     //         item.subPages?.map((item, index) => (
-                        //     //           <li key={index} onClick={() => {}}>
-                        //     //             <Link href={item.urlPath}>
-                        //     //               {item.title}
-                        //     //             </Link>
-                        //     //           </li>
-                        //     //         ))
-                        //     //       }
-                        //     //     </ul>
-                        //     //   </>
-                        //     // }
-                        // >
-                          <ThisWillWork key={index} item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} />
-                        // </Tippy>
+                      <Tooltip
+                        key={index}
+                        showArrow={true}
+                        content={item.title}
+                        followMouse={false}
+                        placement="right"
+                        className='text-md bg-main-secondary text-white'
+                        arrowClassName='fill-main-secondary'
+                        renderOpener={({ ref }) => (
+                          <ThisWillWork item={item} index={index} iconClasses={menuIconClasses} itemClasses={menuItemClasses} ref={ref} />
+                        )}
+                      />
                     )
                   } else {
                     return (
