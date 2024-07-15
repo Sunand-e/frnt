@@ -18,7 +18,6 @@ import {
   FloatingPortal,
   useClientPoint,
 } from '@floating-ui/react'
-import styled from 'styled-components'
 import { useViewStore } from '../../../hooks/useViewStore'
 import classNames from '../../../utils/classNames'
 // import { getColor } from '../theme/getters'
