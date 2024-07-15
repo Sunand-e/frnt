@@ -6,83 +6,8 @@ import ReportTable from "../ReportTable";
 import { useRouter } from "../../../utils/router";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
-import { GET_COURSES } from "../../../graphql/queries/courses/courses";
-
-const GET_GROUP_USERS = gql`
-  query GetGroupUsers {
-    groups {
-      edges {
-        node {
-          id
-          users {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`
-
-const COURSES_REPORT_QUERY = gql`
-  query CoursesReportQuery {
-    courses(where: { includeProvisioned: true }) {
-      edges {
-        groups {
-          edges {
-            node {
-              id
-              name
-            }
-          }
-        }
-        userId
-        node {
-          id
-          title
-          itemType
-          groupsAssigned {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-          _deleted @client
-          image {
-            id
-            location
-          }
-          tags {
-            edges {
-              contentItemId
-              id
-              order
-              node {
-                id
-                label
-              }
-            }
-          }
-          users {
-            totalCount
-            edges {
-              score
-              progress
-              status
-              node {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { COURSES_REPORT_QUERY } from "./COURSES_REPORT_QUERY";
+import { GET_GROUP_USERS } from "./GET_GROUP_USERS";
 
 const CoursesReportTable = () => {
   const {
@@ -124,7 +49,11 @@ const CoursesReportTable = () => {
     let data = courses?.edges.filter((edge) => !edge.node._deleted);
     if (filterActive(groupId)) {
       if(userHasCapability('GetAllGroupsContent')) {
-        data = data?.filter(edge => edge.node.groupsAssigned.edges.some(({node}) => node.id === groupId))
+        data = data?.filter(edge => (
+            edge.node.groupsAssigned.edges.some(({node}) => node.id === groupId) ||
+            edge.node.groupsProvisioned.edges.some(({node}) => node.id === groupId)
+          )
+        )
       } else {
         data = data?.filter((item) => {
           const fragment = client.readFragment({
@@ -141,6 +70,7 @@ const CoursesReportTable = () => {
               }
             `,
           });
+          
           const groupIds = fragment?.groups.edges.map((edge) => edge.node.id);
           return groupIds?.some((id) => id === groupId);
         });
