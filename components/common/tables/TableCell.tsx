@@ -10,14 +10,22 @@ interface TableCellProps {
 const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
 
   const isReorderable = useTableContext(s => s.isReorderable)
+  const rowSizing = useTableContext(s => s.rowSizing)
   const isSelectable = useTableContext(s => s.isSelectable)
   const bulkActions = useTableContext(s => s.bulkActions)
 
   const selectable = isSelectable || !!bulkActions.length
   const dataCellOffset = Number(isReorderable) + Number(selectable)
+
+  let padding = '1rem 1.5rem'
+  if (rowSizing === 'sm') {
+    padding = '0.5rem 1rem'
+  } else if (rowSizing === 'lg') {
+    padding = '1.5rem 2rem'
+  }
   
   const defaultStyles: CSSProperties = {
-    padding: '1rem 1.5rem',
+    padding,
     textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
     maxHeight: 75
   }

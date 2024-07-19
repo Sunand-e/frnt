@@ -63,7 +63,7 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
   const style = {
     opacity: row.original._isOptimistic ? 0.25 : 1,
     transform: `translateY(${totalTranslateY}px)`,
-    height: 73,
+    height: 7,
     zIndex: 9999 - index,
     ...(isDragging && { height: draggingRowHeight } ),
     ...(!isScrolling && { transition } ),

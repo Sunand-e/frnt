@@ -101,17 +101,12 @@ const GroupForm = ({groupType='group'}) => {
       <h2 className='pt-2'>Provided Content</h2>
       <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
 
-      <GroupContent typeName='course' associationType='provided' />
-      <GroupContent typeName='resource' associationType='provided' />
-      <GroupContent typeName='pathway' associationType='provided' />      
+      <GroupContent typeName='content' associationType='provided' />
       
       <h2 className='pt-2'>Assigned Content</h2>
       <p className='text-sm'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
 
-      <GroupContent typeName='course' associationType='assigned' />
-      <GroupContent typeName='resource' associationType='assigned' />
-      <GroupContent typeName='pathway' associationType='assigned' />
-
+      <GroupContent typeName='content' associationType='assigned' />
     </form>
   )
 }

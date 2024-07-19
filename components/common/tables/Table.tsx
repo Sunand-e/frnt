@@ -58,12 +58,36 @@ const Table = () => {
   const selectable = isSelectable || !!bulkActions.length
   
   const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
+
+
   const router = useRouter()
-  const { type, ctype } = router.query
+  const { ctype } = router.query
 
   useEffect(() => {
-    setItemType(type as string)
-  },[type])
+    // Synchronize store with URL
+    const type = router.query.type;
+    if (typeof type === 'string' && type !== itemType) {
+      setItemType(type);
+    }
+  }, [router.query.type, setItemType]); // Depend only on router.query.type
+  
+  useEffect(() => {
+    // Synchronize URL with store
+    const newQuery = { ...router.query };
+  
+    if (itemType) {
+      newQuery.type = itemType;
+    } else {
+      delete newQuery.type; // Remove the type parameter if itemType is not set
+    }
+  
+    if (router.query.type !== itemType) {
+      router.push({
+        query: newQuery,
+      }, undefined, { shallow: true });
+    }
+
+  }, [itemType]);
 
   useEffect(() => {
     setContentType(ctype as string)

@@ -1,17 +1,20 @@
 import Pluralize from 'pluralize'
 import Select from 'react-select'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TagSelect from "../../tags/inputs/TagSelect"
 import BulkActionsMenu from "./BulkActionsMenu"
 import GlobalFilter from "./GlobalFilter"
 import { useTableContext } from './tableContext'
 import { Table } from '@tanstack/react-table'
 import { useRouter } from '../../../utils/router'
+import { contentTypes } from '../contentTypes'
 
-const TableActions = ({table }: { table: Table<any> }) => {
+const TableActions = ({ table }: { table: Table<any> }) => {
   
   const globalFilter = useTableContext(s => s.globalFilter)
   const categoryId = useTableContext(s => s.categoryId)
+  const itemType = useTableContext(s => s.itemType)
+  const setItemType = useTableContext(s => s.setItemType)
   const setCategoryId = useTableContext(s => s.setCategoryId)
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
   const tableData = useTableContext(s => s.tableData)
@@ -20,12 +23,19 @@ const TableActions = ({table }: { table: Table<any> }) => {
   const filters = useTableContext(s => s.filters)
   const types = useTableContext(s => s.typeOptions)
   const typeName = useTableContext(s => s.typeName)
+  
+  const contentItemTypeOptions = Object.entries(contentTypes).map(([key, value]) => ({
+    value: key,
+    ...value
+  })).filter(type => type.isAssignable);
+
   const setContentType = useTableContext(s => s.setContentType)
 
   const clearFilters = () => {
     setCategoryId(null)
     setGlobalFilter(null)
     setContentType(null)
+    setItemType(null)
   }
 
   const cleared = !categoryId && !globalFilter && !contentType
@@ -70,28 +80,64 @@ const TableActions = ({table }: { table: Table<any> }) => {
         )}
 
         { filters.includes('contentType') && (
-        <div className="relative ml-0 w-full mt-5 md:w-auto md:mt-0 sm:mt-0">
-          <Select
-            name="types"
-            className='absolute'
-            styles={{
-              menu: (base) => ({
-                ...base,
-                width: "max-content",
-                minWidth: "100%"
-              }),
-            }}
-            // defaultValue={category}resourceTypes[typeName].label
-            value={contentType && {value: contentType, label: types[contentType].label}}
-            onChange={handleContentTypeChange}
-            placeholder={'Select type...'}
-            options={typeOptions}
-            instanceId="type"
-            classNamePrefix="select"
-            isClearable
-            isSearchable={false}
-          />
-        </div> ) }
+          <div className="relative ml-0 w-full mt-5 md:w-auto md:mt-0 sm:mt-0">
+            <Select
+              name="types"
+              className='absolute'
+              styles={{
+                menu: (base) => ({
+                  ...base,
+                  width: "max-content",
+                  minWidth: "100%"
+                }),
+                menuPortal: (provided, state) => ({
+                  ...provided,
+                  zIndex: 13000,
+                }),
+              }}
+              // defaultValue={category}resourceTypes[typeName].label
+              value={contentType && {value: contentType, label: types[contentType].label}}
+              menuPortalTarget={document.body}
+              onChange={handleContentTypeChange}
+              placeholder={'Select type...'}
+              options={typeOptions}
+              instanceId="type"
+              classNamePrefix="select"
+              isClearable
+              isSearchable={false}
+            />
+          </div>
+        ) }
+
+        { filters.includes('itemType') && (
+          <div className="relative ml-0 w-full mt-5 md:w-auto md:mt-0 sm:mt-0">
+            <Select
+              name="types"
+              className='absolute'
+              styles={{
+                menu: (base) => ({
+                  ...base,
+                  width: "max-content",
+                  minWidth: "100%"
+                }),
+                menuPortal: (provided, state) => ({
+                  ...provided,
+                  zIndex: 13000,
+                }),
+              }}
+              // defaultValue={category}resourceTypes[typeName].label
+              value={itemType && {value: itemType, label: contentTypes[itemType].label}}
+              menuPortalTarget={document.body}
+              onChange={itemTypeObj => setItemType(itemTypeObj?.value)}
+              placeholder={'Select type...'}
+              options={contentItemTypeOptions}
+              instanceId="type"
+              classNamePrefix="select"
+              isClearable
+              isSearchable={false}
+            />
+          </div>
+        ) }
 
         { !!filters.length && !cleared && (
           <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>

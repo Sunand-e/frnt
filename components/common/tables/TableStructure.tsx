@@ -46,6 +46,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const maxVisibleRows = useTableContext(s => s.maxVisibleRows)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
+  const rowSizing = useTableContext(s => s.rowSizing)
   const isSelectable = useTableContext(s => s.isSelectable);
 
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
@@ -71,7 +72,13 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainer = scrollInTable ? scrollInTableContainerRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   
-  const rowHeight = 73;
+  let rowHeight = 73;
+  if (rowSizing === 'sm') {
+    rowHeight = 50;
+  } else if (rowSizing === 'lg') {
+    rowHeight = 100;
+  }
+
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
   const virtualizer = useVirtualizer({
