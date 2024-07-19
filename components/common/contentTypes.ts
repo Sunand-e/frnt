@@ -5,8 +5,39 @@ import {Library} from "@styled-icons/ionicons-solid/Library"
 
 import { GET_COURSES } from '../../graphql/queries/courses/courses'
 import { GET_PATHWAYS, GET_RESOURCES } from '../../graphql/queries/allQueries'
+import { GET_CONTENT_ITEMS } from '../../graphql/queries/contentItems/GET_CONTENT_ITEMS'
+import { DocumentNode } from 'graphql'
+import { OperationVariables } from '@apollo/client'
 
-export const contentTypes = {
+enum ContentTypeStatus {
+  NotStarted = 'not_started',
+  InProgress = 'in_progress',
+  Completed = 'completed',
+}
+
+interface StatusStrings {
+  readMoreLabel: string;
+  noItemsText: string;
+}
+
+interface ContentType {
+  name: string;
+  pluralKey: string;
+  plural: string;
+  label: string;
+  icon: React.ComponentType; // Assuming icons are React components, adjust accordingly
+  editUrl: string;
+  gqlGetQuery: DocumentNode; // Assuming GraphQL queries are of type DocumentNode from 'graphql'
+  gqlVariables?: OperationVariables
+  isAssignable?: boolean;
+  statusStrings?: Record<ContentTypeStatus, StatusStrings>;
+}
+
+interface ContentTypes {
+  [key: string]: ContentType;
+}
+
+export const contentTypes: ContentTypes = {
   course: {
     name: 'course',
     pluralKey: 'courses',
@@ -15,7 +46,9 @@ export const contentTypes = {
     icon: GraduationCap,
     editUrl: 'admin/courses/edit',
     gqlGetQuery: GET_COURSES,
+    isAssignable: true,
     statusStrings: {
+      
       not_started: {
         readMoreLabel: 'Start course',
         noItemsText: 'No courses found'
@@ -30,6 +63,32 @@ export const contentTypes = {
       }
     }
   },
+  content: {
+    name: 'content',
+    pluralKey: 'contentItems',
+    plural: 'content',
+    label: "content",
+    icon: GraduationCap,
+    editUrl: 'admin/contents/edit',
+    gqlGetQuery: GET_CONTENT_ITEMS,
+    gqlVariables: {
+      itemType: ['course', 'pathway', 'resource']
+    },
+    statusStrings: {
+      not_started: {
+        readMoreLabel: 'Start content',
+        noItemsText: 'No content found'
+      },
+      in_progress: {
+        readMoreLabel: 'Continue content',
+        noItemsText: 'No content currently in progress'
+      },
+      completed: {
+        readMoreLabel: 'Review content',
+        noItemsText: 'You have not completed any content'
+      }
+    }
+  },
   pathway: {
     name: 'pathway',
     pluralKey: 'pathways',
@@ -38,6 +97,7 @@ export const contentTypes = {
     icon: Flow,
     editUrl: 'admin/pathways/edit',
     gqlGetQuery: GET_PATHWAYS,
+    isAssignable: true,
   },
   resource: {
     name: 'resource',
@@ -47,13 +107,16 @@ export const contentTypes = {
     icon: Library,
     editUrl: 'admin/resources/edit',
     gqlGetQuery: GET_RESOURCES,
+    isAssignable: true,
   },
-  virtual: {
-    label: "Virtual Event",
-    readMoreLabel: "View event details",
-    eventModel: "VirtualEvent",
-    icon: VideoPersonCall,
-    content: { blocks: [{type:'text'}]}
-  }
+  // virtual: {
+  //   label: "Virtual Event",
+  //   statusStrings: {
+  //     readMoreLabel: "View event details"
+  //   },
+  //   eventModel: "VirtualEvent",
+  //   icon: VideoPersonCall,
+  //   content: { blocks: [{type:'text'}]}
+  // }
 }
 
