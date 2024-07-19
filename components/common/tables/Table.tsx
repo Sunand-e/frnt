@@ -51,9 +51,11 @@ const Table = () => {
   const filters = useTableContext(s => s.filters)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderableActive)
+  const isSelectable = useTableContext(s => s.isSelectable)
   const isReportingTable = useTableContext(s => s.isReportingTable)
   const backButton = useTableContext(s => s.backButton)
-  const selectable = !!bulkActions.length;
+  const onRowSelect = useTableContext(s => s.onRowSelect)
+  const selectable = isSelectable || !!bulkActions.length
   
   const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
   const router = useRouter()
@@ -74,9 +76,11 @@ const Table = () => {
   }))
 
   useEffect(() => {
+    const newRowSelection = table.getSelectedRowModel().flatRows.map(row=>row.original.id)
     store.setState(state => ({
-      selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+      selectedRowIds: newRowSelection
     }))
+    onRowSelect(newRowSelection)
   },[rowSelection])
 
   const columns = [

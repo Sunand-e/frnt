@@ -52,6 +52,7 @@ const TableActions = ({table }: { table: Table<any> }) => {
     ${visibleCount !== tableData.length ? `of ${tableData.length}` : ''}
     ${tableData.length === 1 ? typeName : pluralTypeName}
   `
+
   return (
 
     <div className='flex items-center flex-col mb-3 sm:justify-between sm:flex-row'>
@@ -100,4 +101,5 @@ const TableActions = ({table }: { table: Table<any> }) => {
     </div>
   )
 }
+
 export default TableActions

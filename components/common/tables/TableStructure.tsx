@@ -46,7 +46,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const maxVisibleRows = useTableContext(s => s.maxVisibleRows)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
   const isReorderable = useTableContext(s => s.isReorderable)
-  const isSelectable = !!bulkActions.length;
+  const isSelectable = useTableContext(s => s.isSelectable);
 
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
   const [activeId, setActiveId] = useState();
@@ -54,7 +54,9 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollInTableContainerRef = useRef<HTMLDivElement>(null)
   const [colWidths, setColWidths] = useState<number[] | null>(null)
   const [draggingRowHeight, setDraggingRowHeight] = useState<number>()
-  const dataCellOffset = Number(isReorderable) + Number(isSelectable)
+  
+  const selectable = isSelectable || !!bulkActions.length
+  const dataCellOffset = Number(isReorderable) + Number(selectable)
 
   
   // useEffect(() => {

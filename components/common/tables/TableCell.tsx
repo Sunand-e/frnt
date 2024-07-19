@@ -9,9 +9,12 @@ interface TableCellProps {
 
 const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
 
-  const dataCellOffset = useTableContext(s => (
-    Number(s.isReorderable) + Number(!!s.bulkActions.length)
-  ))
+  const isReorderable = useTableContext(s => s.isReorderable)
+  const isSelectable = useTableContext(s => s.isSelectable)
+  const bulkActions = useTableContext(s => s.bulkActions)
+
+  const selectable = isSelectable || !!bulkActions.length
+  const dataCellOffset = Number(isReorderable) + Number(selectable)
   
   const defaultStyles: CSSProperties = {
     padding: '1rem 1.5rem',

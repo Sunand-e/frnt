@@ -5,12 +5,12 @@ import { handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import BoxContainer from "../common/containers/BoxContainer";
 import { contentTypes } from "../common/contentTypes";
-import AssociateContentWithGroup from "./AssociateContentWithGroup";
+import AssociateContentTable from "./AssociateContentTable";
 import GroupContentTable from "./GroupContentTable";
 
 type AssociationType = 'assigned' | 'provided'
 
-const GroupContent = ({typeName='course', groupType='group', associationType='assigned'}) => {
+const GroupContent = ({typeName='content', groupType='group', associationType='assigned'}) => {
 
   const type = contentTypes[typeName]
   
@@ -31,12 +31,13 @@ const GroupContent = ({typeName='course', groupType='group', associationType='as
       handleModal({
         title: `${actionNameCapitalised} ${type?.plural}`,
         content: (
-          <AssociateContentWithGroup
+          <AssociateContentTable
             group={group}
             associationType={associationType}
             contentType={typeName}
           />
-        )
+        ),
+        size: 'lg'
       })
     }
   }
