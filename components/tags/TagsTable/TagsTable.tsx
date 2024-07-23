@@ -1,30 +1,28 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Table from '../../common/tables/Table'
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import {Category} from '@styled-icons/material-rounded/Category'
-import LoadingSpinner from '../../common/LoadingSpinner';
-import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
-import TagActionsMenu from '../TagActionsMenu';
 import { useMutation } from '@apollo/client';
-import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
-import { arrayMove } from '@dnd-kit/sortable';
+import { useMemo } from 'react';
 import cache from '../../../graphql/cache';
 import { TagFragmentFragment } from '../../../graphql/generated';
 import { REORDER_TAGS } from '../../../graphql/mutations/tag/REORDER_TAGS';
-import { GET_CURRENT_USER } from '../../../graphql/queries/users';
-import useGetTags from '../../../hooks/tags/useGetTags';
-import useGetResources from '../../../hooks/resources/useGetResources';
+import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
+import useGetResources from '../../../hooks/resources/useGetResources';
+import useGetTags from '../../../hooks/tags/useGetTags';
+import ItemWithImage from '../../common/cells/ItemWithImage';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import Table from '../../common/tables/Table';
+import { tagTypes } from '../../common/tagTypes';
+import TagActionsMenu from '../TagActionsMenu';
 
-const TagsTable = () => {
+const TagsTable = ({typeName='category'}) => {
 
   const { tags, loading, error } = useGetTags()
   const { courses, loading: loadingCourses } = useGetCourses()
   const { resources, loading: loadingResources } = useGetResources()
   const { pathways, loading: loadingPathways } = useGetPathways()
   
-  const editUrl = '/admin/tags/edit'
+  const tagType = tagTypes[typeName]
+  const editUrl = tagType.editUrl
 
   const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
     REORDER_TAGS
@@ -35,25 +33,30 @@ const TagsTable = () => {
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return tags?.filter(item => !item._deleted).sort((a,b) => b.order - a.order) || []
+      return tags?.filter(item => !item._deleted)
+      .filter(item => item.tagType === tagType.name)
+      .sort((a,b) => b.order - a.order) || []
     }, [tags, courses, resources, pathways]
   );
-  
+
   const tableCols = useMemo(
     () => [
       {
-        header: "Category Name",
+        header: `${tagType.label} name`,
         accessorKey: "label", // accessor is the "key" in the data
-        cell: ({ cell }) => (
-          <ItemWithImage
+        cell: ({ cell }) => {
+        
+            const icon = tagType.icon ? <tagType.icon className='p-2' /> : null;
+          
+          return <ItemWithImage
             image={cell.row.original.image}
-            icon={<Category className='p-2' />}
+            icon={icon}
             title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
             imgDivClass={'bg-main text-white'}
           />
-        )
+        }
       },
       {
         id: 'order',
@@ -90,7 +93,7 @@ const TagsTable = () => {
   const tableProps = {
     tableData,
     tableCols,
-    typeName: 'category',
+    typeName,
     isReorderable: true,
     onReorder: (active, over, newIndex, oldIndex) => {
 

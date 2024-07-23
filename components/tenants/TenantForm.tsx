@@ -47,6 +47,14 @@ interface TenantFeatureSettings {
   reports: {
     enabled: boolean
   }
+  tags: {
+    categories: {
+      enabled: boolean
+    }
+    collections: {
+      enabled: boolean
+    }
+  }
   primaryBrandColor: string
   secondaryBrandColor: string
 }
@@ -216,6 +224,19 @@ const TenantForm = ({tenant=null, onSubmit}) => {
           inputAttrs={register("settings.courses.showSendCourseFeedbackButton")}
         />
       </BoxContainer>
+
+
+      <BoxContainer title={'Tags'} icon={contentTypes.course.icon} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+      <CheckboxInput
+          label="Enable 'categories'"
+          inputAttrs={register("settings.tags.categories.enabled")}
+        />
+        <CheckboxInput
+          label="Enable 'collections'"
+          inputAttrs={register("settings.tags.collections.enabled")}
+        />
+      </BoxContainer>
+
 
       <BoxContainer title={'Resources'} icon={contentTypes.resource.icon} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
         <CheckboxInput

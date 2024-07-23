@@ -5,11 +5,11 @@ import TagsTable from '../../../components/tags/TagsTable/TagsTable';
 import { handleModal } from '../../../stores/modalStore';
 import ButtonAdd from '../../../components/common/ButtonAdd';
 
-const AdminTags = () => {
+const AdminCollections = () => {
   
-  usePageTitle({ title: 'Categories' })
+  usePageTitle({ title: 'Collections' })
   
-  const handleNewTagButton = (tagType='category') => {
+  const handleNewTagButton = (tagType='collection') => {
     handleModal({
       title: `Create a new ${tagType}`,
       size: 'lg',
@@ -18,20 +18,21 @@ const AdminTags = () => {
   }
 
   useHeaderButtons({
-    id: 'createTag',
-    component: <ButtonAdd action={() => handleNewTagButton()} text='Create new category' />
+    id: 'createCollection',
+    component: <ButtonAdd action={() => handleNewTagButton()} text='Create new collection' />
   })
 
   
   return (
     <>
-      <TagsTable typeName='category' />
+    {/* <Button onClick=>Create new tag</Button> */}
+    <TagsTable typeName='collection' />
     </>
   )
 }
 
-AdminTags.navState = {
-  topLevel: 'categories'
+AdminCollections.navState = {
+  topLevel: 'collections'
 }
 
-export default AdminTags
+export default AdminCollections

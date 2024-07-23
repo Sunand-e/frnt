@@ -11,7 +11,7 @@ import { contentTypes } from '../common/contentTypes';
 import TagContent from './content/TagContent';
 import TagForm from './TagForm';
 
-const EditTagForm = () => {
+const EditTagForm = ({typeName=null}) => {
 
   const router = useRouter()
   const { id } = router.query
@@ -35,7 +35,7 @@ const EditTagForm = () => {
 
   return tag && (
     <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
-      <TagForm tag={tag} onSubmit={onSubmit} />
+      <TagForm tag={tag} typeName={tag.tagType} onSubmit={onSubmit} />
     <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
       <TagContent tag={tag} contentType={contentTypes.course} content={courses} />
       <TagContent tag={tag} contentType={contentTypes.pathway} content={pathways} />
