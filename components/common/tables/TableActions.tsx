@@ -13,9 +13,11 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   
   const globalFilter = useTableContext(s => s.globalFilter)
   const categoryId = useTableContext(s => s.categoryId)
+  const collectionId = useTableContext(s => s.collectionId)
   const itemType = useTableContext(s => s.itemType)
   const setItemType = useTableContext(s => s.setItemType)
   const setCategoryId = useTableContext(s => s.setCategoryId)
+  const setCollectionId = useTableContext(s => s.setCollectionId)
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
   const tableData = useTableContext(s => s.tableData)
   const bulkActions = useTableContext(s => s.bulkActions)
@@ -33,12 +35,13 @@ const TableActions = ({ table }: { table: Table<any> }) => {
 
   const clearFilters = () => {
     setCategoryId(null)
+    setCollectionId(null)
     setGlobalFilter(null)
     setContentType(null)
     setItemType(null)
   }
 
-  const cleared = !categoryId && !globalFilter && !contentType
+  const cleared = !categoryId && !collectionId && !globalFilter && !contentType && !itemType
 
   const typeOptions = Object.keys(types).map(typeName => {
     return {
@@ -65,8 +68,8 @@ const TableActions = ({ table }: { table: Table<any> }) => {
 
   return (
 
-    <div className='flex items-center flex-col mb-3 sm:justify-between sm:flex-row'>
-      <div className='flex items-center flex-col sm:flex-row space-x-3'>
+    <div className='flex items-center flex-col mb-3 sm:justify-between sm:flex-row text-nowrap'>
+      <div className='flex items-center flex-col sm:flex-row gap-3 flex-wrap'>
         
         { !!bulkActions.length && <BulkActionsMenu {...{bulkActions}} /> }
         
@@ -77,6 +80,10 @@ const TableActions = ({ table }: { table: Table<any> }) => {
         
         { filters.includes('category') && (
           <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
+        )}
+
+        { filters.includes('collection') && (
+          <TagSelect selected={collectionId} tagType={`collection`} onSelect={tag => setCollectionId(tag.id)} />
         )}
 
         { filters.includes('contentType') && (
@@ -140,10 +147,10 @@ const TableActions = ({ table }: { table: Table<any> }) => {
         ) }
 
         { !!filters.length && !cleared && (
-          <span className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
+          <span className={`text-main-secondary whitespace-nowrap hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
         )}
       </div>
-      <p>{!!tableData.length && itemCountString}</p>
+      <p className='whitespace-nowrap pl-3'>{!!tableData.length && itemCountString}</p>
     </div>
   )
 }

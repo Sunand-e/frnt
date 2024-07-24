@@ -45,6 +45,7 @@ const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
               contentFilter={contentFilter}
               recipientType="tag"
               recipient={tag}
+              filters={['category', 'global']}
               actionName="Add"
               onSubmit={onSubmit}
             />

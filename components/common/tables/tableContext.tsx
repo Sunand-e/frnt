@@ -11,6 +11,7 @@ export interface TableProps {
   tableData: Array<any>,
   tableCols: Array<any>,
   categoryId?: string,
+  collectionId?: string,
   contentType?: string,
   itemType?: string,
   filters?: Array<string>,
@@ -37,7 +38,7 @@ export interface TableProps {
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,
   onReorder?: (active: any, over: any, newIndex: number, oldIndex: number) => void | null,
-  onFilterChange?: (categoryId: string, globalFilter: string) => void | null,
+  onFilterChange?: (categoryId: string, collectionId: string, globalFilter: string) => void | null,
 }
 
 interface TableState extends TableProps {
@@ -47,6 +48,7 @@ interface TableState extends TableProps {
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
   // setTableData: (tableData: TableProps['tableData']) => void
   setCategoryId: (categoryId: TableProps['categoryId']) => void
+  setCollectionId: (collectionId: TableProps['collectionId']) => void
   setContentType: (contentType: TableProps['contentType']) => void
   setItemType: (itemType: TableProps['contentType']) => void
   setFilters: (filters: TableProps['filters']) => void
@@ -69,6 +71,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     bulkActions: [],
     tableData: [],
     categoryId: null,
+    collectionId: null,
     contentType: null,
     itemType: null,
     rowSizing: 'md',
@@ -106,6 +109,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     setBulkActions: bulkActions => set(state => ({bulkActions})),
     // setTableData: tableData => set(state => ({tableData})),
     setCategoryId: categoryId => set(state => ({categoryId})),
+    setCollectionId: collectionId => set(state => ({collectionId})),
     setContentType: contentType => set(state => ({contentType})),
     setItemType: itemType => set(state => ({itemType})),
     setFilters: filters => set(state => ({filters})),

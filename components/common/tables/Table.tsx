@@ -37,6 +37,7 @@ const Table = () => {
   const exportFilename = useTableContext(s => s.exportFilename)
   const globalFilter = useTableContext(s => s.globalFilter)
   const categoryId = useTableContext(s => s.categoryId)
+  const collectionId = useTableContext(s => s.collectionId)
   const sorting = useTableContext(s => s.sorting)
   const tableCols = useTableContext(s => s.tableCols)
   const tableData = useTableContext(s => s.tableData)
@@ -200,8 +201,14 @@ const Table = () => {
         return item?.tags?.edges.some(({node}) => node.id === categoryId)
       })
     }
+
+    if(collectionId) {
+      data = data?.filter(item => {
+        return item?.tags?.edges.some(({node}) => node.id === collectionId)
+      })
+    }
     return data
-  },[tableData, categoryId, itemType, contentType])
+  },[tableData, categoryId, collectionId, itemType, contentType])
 
   // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
   const globalFilterFn = (row, columnId, filterValue: string) => {
@@ -241,7 +248,7 @@ const Table = () => {
   useEffect(() => {
     // onFilterChange && onFilterChange(categoryId, globalFilter)
     if(isReorderable) {
-      if(globalFilter || categoryId || sorting?.length) {
+      if(globalFilter || categoryId || collectionId || sorting?.length) {
         store.setState(state => ({ isReorderableActive: false }))
         if(sorting?.length) {
           const sortingColumnHeading = table.getColumn(sorting[0].id).columnDef.header.toLowerCase()
@@ -251,6 +258,9 @@ const Table = () => {
         }
         if(categoryId) {
           setTableReorderStatus("filtered by category. Please clear filters")
+        }
+        if(collectionId) {
+          setTableReorderStatus("filtered by collection. Please clear filters")
         }
         if(globalFilter) {
           setTableReorderStatus(`filtered by a custom search. Please clear filters`)
@@ -265,7 +275,7 @@ const Table = () => {
         // }
       }
     }
-  },[categoryId, globalFilter, sorting, isReorderable])
+  },[categoryId, collectionId, globalFilter, sorting, isReorderable])
 
   const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
 

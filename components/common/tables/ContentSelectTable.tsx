@@ -1,17 +1,13 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import Table from "./Table";
-import Button from "../Button";
-import { contentTypes } from "../contentTypes";
-import useAssignContentToGroups from "../../../hooks/groups/useAssignContentToGroups";
-import useProvideContentToGroups from "../../../hooks/groups/useProvideContentToGroups";
-import { closeModal } from "../../../stores/modalStore";
-import useGetRoles from "../../../hooks/roles/useGetRoles";
-import ItemWithImage from "../cells/ItemWithImage";
-import { resourceTypes } from "../../resources/resourceTypes";
-import { getIconFromFilename } from "../../../utils/getIconFromFilename";
-import useGetThumbnail from "../items/useGetThumbnail";
+import { useEffect, useMemo } from "react";
 import { ContentItem, Tag } from "../../../graphql/generated";
+import { getIconFromFilename } from "../../../utils/getIconFromFilename";
+import { resourceTypes } from "../../resources/resourceTypes";
+import Button from "../Button";
+import ItemWithImage from "../cells/ItemWithImage";
+import { contentTypes } from "../contentTypes";
+import useGetThumbnail from "../items/useGetThumbnail";
+import Table from "./Table";
 
 
 type ContentSelectTableProps = {
@@ -21,11 +17,12 @@ type ContentSelectTableProps = {
   actionName: string
   contentType?: string
   contentFilter: (content: any) => boolean
+  filters?: string[]
   onSubmit: (contentIds: string[]) => void
   onRowSelect: (selectedIds: string[]) => void
 }
 
-const ContentSelectTable = ({ contentType = 'content', selectedContentIds, contentFilter, recipientType, recipient, actionName, onRowSelect, onSubmit }: ContentSelectTableProps) => {
+const ContentSelectTable = ({ contentType = 'content', selectedContentIds, contentFilter, filters=['global'], recipientType, recipient, actionName, onRowSelect, onSubmit }: ContentSelectTableProps) => {
 
   const type = contentTypes[contentType];
   
@@ -107,7 +104,7 @@ const ContentSelectTable = ({ contentType = 'content', selectedContentIds, conte
       <Table
         tableData={tableData}
         tableCols={tableCols}
-        filters={['category', 'global', 'itemType']}
+        filters={filters}
         scrollInTable={true}
         maxVisibleRows={9}
         selectedRowIds={selectedContentIds}

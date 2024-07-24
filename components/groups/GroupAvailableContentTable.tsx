@@ -47,6 +47,7 @@ const GroupAvailableContentTable = ({ group, groupType = 'group', associationTyp
       selectedContentIds={selectedContentIds}
       contentType={contentType}
       contentFilter={contentFilter}
+      filters={['category', 'global', 'collection', 'itemType']}
       recipientType={groupType}
       recipient={group}
       actionName={actionName}
