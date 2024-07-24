@@ -72,7 +72,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainer = scrollInTable ? scrollInTableContainerRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   
-  let rowHeight = 73;
+  let rowHeight = 75;
   if (rowSizing === 'sm') {
     rowHeight = 50;
   } else if (rowSizing === 'lg') {
@@ -85,7 +85,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
     getScrollElement: () => scrollContainer,
     // getScrollElement: () => tBodyRef.current,
     count: rows.length,
-    estimateSize: () => rowHeight,
+    estimateSize: () => rowHeight-2,
     // scrollMargin: 100,
     overscan: 6
   });
@@ -149,6 +149,8 @@ const TableStructure = ({ table }: TableStructureProps) => {
   }, [activeId, rows]);
 
   const tableHeight = virtualizer.getTotalSize() + tHeadHeight
+  console.log('virtualizer.getTotalSize()')
+  console.log(virtualizer.getTotalSize())
 
   const visibleRows = items.length < maxVisibleRows ? items.length : maxVisibleRows
   

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import classNames from "../../../utils/classNames";
 import TooltipIfClamped from "../floating-ui/TooltipIfClamped";
+import { useTableContext } from "../tables/tableContext";
 
 interface ItemWithImageProps {
   rounded?: 'none' | 'md' | 'full';
@@ -27,6 +28,12 @@ const objectFitClasses = {
   contain: 'object-contain',
 };
 
+const iconSizeOptions = {
+  sm: 'h-8 w-8',
+  md: 'h-10 w-10',
+  lg: 'h-12 w-12',
+};
+
 const ConditionalLinkWrapper: React.FC<{ href?: string; children: React.ReactNode }> = ({ href, children }) => (
   href ? <Link href={href}>{children}</Link> : <>{children}</>
 );
@@ -43,15 +50,25 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
   icon,
   href,
 }) => {
+
+  const rowSizing = useTableContext(s => s.rowSizing)
+
   const imageAltText = `${title} - ${secondary}`;
+
+  const iconSizeClass = iconSizeOptions[rowSizing] || iconSizeOptions.md;
 
   return (
     <ConditionalLinkWrapper href={href}>
       <div className="flex items-center max-w-xs text-main">
-        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${imgDivClass} ${roundedClasses[rounded]}`}>
+        <div className={classNames(
+          iconSizeClass,
+          'flex justify-center items-center shrink-0 overflow-hidden',
+          imgDivClass,
+          roundedClasses[rounded]
+        )}>
           {image || imageSrc ? (
             <img
-              className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
+              className={classNames(iconSizeClass, objectFitClasses[objectFit])}
               src={imageSrc || `/uploaded_images/${image?.id}?w=50`}
               alt={imageAltText}
               loading="lazy" // Example of performance optimization
@@ -59,7 +76,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
           ) : (
             icon || (
               <img
-                className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
+              className={classNames(iconSizeClass, objectFitClasses[objectFit])}
                 src={placeholder || '/images/placeholder-image.png'}
                 alt={imageAltText}
                 loading="lazy"

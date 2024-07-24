@@ -16,13 +16,25 @@ type ContentSelectTableProps = {
   selectedContentIds: string[]
   actionName: string
   contentType?: string
+  rowSizing?: 'sm' | 'md' | 'lg'
   contentFilter: (content: any) => boolean
   filters?: string[]
   onSubmit: (contentIds: string[]) => void
   onRowSelect: (selectedIds: string[]) => void
 }
 
-const ContentSelectTable = ({ contentType = 'content', selectedContentIds, contentFilter, filters=['global'], recipientType, recipient, actionName, onRowSelect, onSubmit }: ContentSelectTableProps) => {
+const ContentSelectTable = ({ 
+  contentType = 'content',
+  selectedContentIds,
+  rowSizing='sm',
+  contentFilter,
+  filters=['global'],
+  recipient,
+  recipientType,
+  actionName,
+  onRowSelect,
+  onSubmit
+}: ContentSelectTableProps) => {
 
   const type = contentTypes[contentType];
   
@@ -53,6 +65,14 @@ const ContentSelectTable = ({ contentType = 'content', selectedContentIds, conte
 
   const tableData = useMemo(() => availableContent, [availableContent]);
 
+  const iconPaddingOptions = {
+    sm: 'p-1.2',
+    md: 'p-1.5',
+    lg: 'p-1.8',
+  };
+
+  const iconPadding = iconPaddingOptions[rowSizing] || iconPaddingOptions.md;
+
   const tableCols = useMemo(() => [
     {
       header: "Content",
@@ -63,7 +83,7 @@ const ContentSelectTable = ({ contentType = 'content', selectedContentIds, conte
         
         const { src } = useGetThumbnail(cell.row.original, 50)
         const { contentType, itemType } = cell.row.original
-        let icon = <type.icon className='p-1.5'/>
+        let icon = <type.icon className={iconPadding} />
         let rounded = 'full'
          
         if(itemType==='resource') {
@@ -72,7 +92,7 @@ const ContentSelectTable = ({ contentType = 'content', selectedContentIds, conte
           ) : (
             resourceTypes[contentType]?.icon
           )
-          icon = <IconComponent className='p-1.5' />
+          icon = <IconComponent className={iconPadding}  />
           rounded = (!src && contentType === 'document') ? 'none' : 'full'
         }
         const cellProps = {
@@ -110,7 +130,7 @@ const ContentSelectTable = ({ contentType = 'content', selectedContentIds, conte
         selectedRowIds={selectedContentIds}
         isSelectable={true}
         onRowSelect={onRowSelect}
-        rowSizing='sm'
+        rowSizing={rowSizing}
       />
       {!!selectedContentIds.length && (
         <Button className="mt-4 -mb-4" onClick={() => onSubmit(selectedContentIds)}>

@@ -17,17 +17,18 @@ const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
   const selectable = isSelectable || !!bulkActions.length
   const dataCellOffset = Number(isReorderable) + Number(selectable)
 
-  let padding = '1rem 1.5rem'
-  if (rowSizing === 'sm') {
-    padding = '0.5rem 1rem'
-  } else if (rowSizing === 'lg') {
-    padding = '1.5rem 2rem'
-  }
+  const sizingOptions = {
+    sm: { padding: '0.5rem 1rem', rowHeight: 50 },
+    md: { padding: '1rem 1.5rem', rowHeight: 75 },
+    lg: { padding: '1.5rem 2rem', rowHeight: 100 },
+  };
+  
+  const { padding, rowHeight } = sizingOptions[rowSizing] || sizingOptions.md;
   
   const defaultStyles: CSSProperties = {
     padding,
     textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
-    maxHeight: 75
+    maxHeight: rowHeight
   }
 
   return (
