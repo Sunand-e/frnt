@@ -8,10 +8,13 @@ import useGetTags from '../../hooks/tags/useGetTags';
 import useUpdateTag from '../../hooks/tags/useUpdateTag';
 import { useRouter } from '../../utils/router';
 import { contentTypes } from '../common/contentTypes';
+import { tagTypes } from '../common/tagTypes';
 import TagContent from './content/TagContent';
 import TagForm from './TagForm';
 
 const EditTagForm = ({typeName=null}) => {
+
+  const tagType = tagTypes[typeName]
 
   const router = useRouter()
   const { id } = router.query
@@ -30,7 +33,7 @@ const EditTagForm = ({typeName=null}) => {
   
   const onSubmit = (values) => {
     updateTag(values)
-    router.push('/admin/tags')
+    router.push(tagType.indexUrl)
   }
 
   return tag && (

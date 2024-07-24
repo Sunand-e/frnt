@@ -36,7 +36,7 @@ const AdminUsersTagsEdit = () => {
   })
 
   return (
-    <EditTagForm />
+    <EditTagForm typeName={ 'category' } />
   )
 }
 
