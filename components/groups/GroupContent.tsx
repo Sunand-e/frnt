@@ -5,7 +5,7 @@ import { handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import BoxContainer from "../common/containers/BoxContainer";
 import { contentTypes } from "../common/contentTypes";
-import AssociateContentTable from "./AssociateContentTable";
+import GroupAvailableContentTable from "./GroupAvailableContentTable";
 import GroupContentTable from "./GroupContentTable";
 
 type AssociationType = 'assigned' | 'provided'
@@ -31,7 +31,7 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
       handleModal({
         title: `${actionNameCapitalised} ${type?.plural}`,
         content: (
-          <AssociateContentTable
+          <GroupAvailableContentTable
             group={group}
             associationType={associationType}
             contentType={typeName}
