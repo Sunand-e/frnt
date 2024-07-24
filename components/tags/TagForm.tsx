@@ -18,14 +18,14 @@ interface TagFormValues {
 const TagForm = ({tag=null, typeName='category', onSubmit, isModal=false}) => {
   const tagType = tagTypes[typeName]
   const { tags, loading, error } = useGetTags()
-  const parentTag = tags.find(t => t.id === tag?.parent?.id)
+  const parentTag = tags?.find(t => t.id === tag?.parent?.id)
   const { userHasCapability } = useUserHasCapability()
   const defaultValues = {
     tagType: tagType['name'],
     parentTag,
     ...tag
   }
-  const { register, handleSubmit, control, setFocus, getValues, watch, formState: { errors } } = useForm<TagFormValues>(
+  const { register, handleSubmit, control, setFocus, setValue, getValues, watch, formState: { errors } } = useForm<TagFormValues>(
     { defaultValues }
   );
 
@@ -34,6 +34,10 @@ const TagForm = ({tag=null, typeName='category', onSubmit, isModal=false}) => {
   useEffect(() => {
     setFocus('label')
   },[])
+
+  useEffect(() => {
+    setValue('parentTag', parentTag)
+  },[tags])
 
   const buttonText = tag ? 'Save changes' : `Create ${tagType.name}`
   
