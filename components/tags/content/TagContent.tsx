@@ -13,8 +13,9 @@ const TagContent = ({tag, contentType, content}) => {
     text: `Add ${contentType.name}`,
     onClick: () => {
       handleModal({
-        title: `Add ${contentType.plural} to category`,
-        content: <AddTagToContent tag={tag} content={content} typeName={contentType.name} />
+        title: `Add ${contentType.plural} to ${tag.tagType}: ${tag.label}`,
+        content: <AddTagToContent tag={tag} content={content} typeName={contentType.name} />,
+        size: 'lg'
       })
     }
   }

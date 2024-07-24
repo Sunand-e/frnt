@@ -1,53 +1,53 @@
 import { useState } from "react"
 import useAddTagsToContent from "../../../hooks/contentItems/useAddTagsToContent"
-import useGetRoles from "../../../hooks/roles/useGetRoles"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
-import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
+import ContentSelectTable from "../../common/tables/ContentSelectTable"
 
-const AddTagToContent = ({tag, content, typeName='item'}) => {
-  
-  const {addTagsToContent} = useAddTagsToContent()
+const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
+  const { addTagsToContent } = useAddTagsToContent();
 
-  const contentNodes = content?.edges.map(edge => edge.node)
+  const contentNodes = content?.edges.map(edge => edge.node);
 
-  const availableContent = contentNodes?.filter(node => 
-    !node.tags.edges.find(({node}) => node.id === tag.id)
-  ) || []
+  const availableContent = contentNodes?.filter(node =>
+    !node.tags.edges.find(({ node }) => node.id === tag.id)
+  ) || [];
 
-  const [selectedContentIds, setSelectedContentIds] = useState([])
+  const [selectedContentIds, setSelectedContentIds] = useState([]);
 
-  const handleChange = (items, actionMeta) => {
-    setSelectedContentIds(items.map(item => item.value))
-  }
-
-  const handleAddTagToContent = (e) => {
+  const handleAddTagToContent = () => {
     addTagsToContent({
       tagIds: [tag.id],
       contentItemIds: selectedContentIds,
     }, () => {
-      closeModal()
-    })
-  }
-  
+      closeModal();
+    });
+  };
+
+  const contentFilter = (contentItem) => {
+    return !contentItem.tags.edges.find(({ node }) => node.id === tag.id);
+  };
+
+  const onSubmit = (selectedIds) => {
+    setSelectedContentIds(selectedIds);
+    handleAddTagToContent();
+  };
+
   return (
     <>
       {
-        availableContent?.length ? (
+        availableContent.length ? (
           <div>
-            <ContentSelectCategorised
-              availableContent={availableContent}
-              onChange={handleChange}
-              typeName={typeName}
-              menuTopMargin={selectedContentIds.length ? 60 : 0}
+            <ContentSelectTable
+              selectedContentIds={selectedContentIds}
+              onRowSelect={setSelectedContentIds}
+              contentType={typeName}
+              contentFilter={contentFilter}
+              recipientType="tag"
+              recipient={tag}
+              actionName="Add"
+              onSubmit={onSubmit}
             />
-            {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
-            { !!selectedContentIds.length && (
-              <Button onClick={handleAddTagToContent}><>
-                Add {selectedContentIds.length} {typeName}s to '{tag.label}'
-                </>
-              </Button>
-            )}
           </div>
         ) : (
           <div className="flex flex-col items-center">
@@ -57,7 +57,7 @@ const AddTagToContent = ({tag, content, typeName='item'}) => {
         )
       }
     </>
-  )
-}
+  );
+};
 
 export default AddTagToContent
