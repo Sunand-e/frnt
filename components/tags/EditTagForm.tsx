@@ -38,8 +38,8 @@ const EditTagForm = ({typeName=null}) => {
       <TagForm tag={tag} typeName={tag.tagType} onSubmit={onSubmit} />
     <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
       <TagContent tag={tag} contentType={contentTypes.course} content={courses} />
-      <TagContent tag={tag} contentType={contentTypes.pathway} content={pathways} />
       <TagContent tag={tag} contentType={contentTypes.resource} content={resources} />
+      <TagContent tag={tag} contentType={contentTypes.pathway} content={pathways} />
     </div>
   </div>
   )
