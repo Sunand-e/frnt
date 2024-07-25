@@ -9,6 +9,7 @@ import { useTableContext } from "./tableContext";
 const TableRow = ({trRef, row, style, onRowClick, dataIndex}) => {
 
   const rowSizing = useTableContext(s => s.rowSizing)
+  const isSelectable = useTableContext(s => s.isSelectable)
 
   let height = 75
   if (rowSizing === 'sm') {
@@ -16,16 +17,26 @@ const TableRow = ({trRef, row, style, onRowClick, dataIndex}) => {
   } else if (rowSizing === 'lg') {
     height = 100
   }
+
+  const handleRowClick = (e) => {
+    isSelectable && row.toggleSelected()
+    !!onRowClick && onRowClick()
+  }
   
+  const className = classNames(
+    'group',
+    isSelectable && 'cursor-pointer hover:bg-main-lightness-95',
+  )
+
   return (
     <tr
       ref={trRef}
-      className={classNames('group')}
+      className={className}
       style={{
         ...style,
         height
       }}
-      onClick={onRowClick ? (event) => onRowClick(row.original, event) : undefined}
+      onClick={handleRowClick}
       data-index={dataIndex}
     >
       {
