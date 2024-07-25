@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { ContentItem, Tag } from "../../../graphql/generated";
+import { Group, Tag } from "../../../graphql/generated";
 import { getIconFromFilename } from "../../../utils/getIconFromFilename";
 import { resourceTypes } from "../../resources/resourceTypes";
 import Button from "../Button";
@@ -12,7 +12,7 @@ import Table from "./Table";
 
 type ContentSelectTableProps = {
   recipientType: string
-  recipient: Tag | ContentItem
+  recipient: Tag | Group
   selectedContentIds: string[]
   actionName: string
   contentType?: string
@@ -58,8 +58,8 @@ const ContentSelectTable = ({
     case 'Tag':
       recipientLabel = recipient.label
       break;
-    case 'ContentItem':
-      recipientLabel = recipient.title
+    case 'Group':
+      recipientLabel = recipient.name
       break;
   }
 
@@ -119,6 +119,18 @@ const ContentSelectTable = ({
     },
   ], []);
 
+  let buttonLabel = `No ${type.plural} selected`
+
+  if(selectedContentIds.length) {
+    let typeLabel
+    if(type.name === 'content') {
+      typeLabel = selectedContentIds.length > 1 ? 'items' : 'item'
+    } else {
+      typeLabel = selectedContentIds.length > 1 ? type.plural : type.name
+    }
+    buttonLabel = `${actionNameCapitalised} ${selectedContentIds.length} ${typeLabel} to ${recipientLabel}`
+  }
+
   return (
     <>
       <Table
@@ -132,12 +144,12 @@ const ContentSelectTable = ({
         onRowSelect={onRowSelect}
         rowSizing={rowSizing}
       />
-      {!!selectedContentIds.length && (
-        <Button className="mt-4 -mb-4" onClick={() => onSubmit(selectedContentIds)}>
-          {`${actionNameCapitalised} ${selectedContentIds.length} content
-          item${selectedContentIds.length > 1 ? 's' : ''} to ${recipientLabel}`}
-        </Button>
-      )}
+      <Button
+        disabled={!selectedContentIds.length}
+        className="mt-4 -mb-4" onClick={() => onSubmit(selectedContentIds)}
+      >
+        {buttonLabel}
+      </Button>
     </>
   );
 }
