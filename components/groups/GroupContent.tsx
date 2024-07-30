@@ -67,10 +67,12 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
 
   const boxTitle = type?.plural.charAt(0).toUpperCase() + type?.plural.slice(1);
 
+  const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
+
   const bulkActions = [
     {
-      label: 'Remove selected items from group',
-      labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(type, ids.length, 'selected')} from group`,
+      label: `Remove selected items from ${groupTypeName}`,
+      labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(type, ids.length, 'selected')}`,
       onClick: (ids: Array<string>) => handleRemove(ids),
     }
   ]

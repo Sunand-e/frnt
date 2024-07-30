@@ -3,7 +3,8 @@ import { ContentType } from "../components/common/contentTypes";
 export function getContentTypeStringWithCount(
   type: ContentType, 
   count: number, 
-  typePrefix: string | null = null
+  typePrefix: string | null = null,
+  showCount: boolean = true
 ): string {
   let typeLabel;
   if (type.name === 'content') {
@@ -11,5 +12,5 @@ export function getContentTypeStringWithCount(
   } else {
     typeLabel = count === 1 ? type.name : type.plural;
   }
-  return `${count} ${typePrefix || ''} ${typeLabel}`;
+  return `${showCount && `${count} `}${typePrefix || ''} ${typeLabel}`;
 }
