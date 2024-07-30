@@ -131,8 +131,6 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
     tableData,
     tableCols,
     bulkActions,
-    scrollInTable: true,
-    maxVisibleRows: 5,
   }
 
   return (
