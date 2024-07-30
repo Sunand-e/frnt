@@ -1,12 +1,16 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
-import { type } from "cypress/types/jquery";
+import { useCallback, useMemo } from "react";
 import useGetGroup from "../../hooks/groups/useGetGroup";
+import useRemoveAssignedContentFromGroups from "../../hooks/groups/useRemoveAssignedContentFromGroups";
+import useRemoveProvisionedContentFromGroups from "../../hooks/groups/useRemoveProvisionedContentFromGroups";
 import { handleModal } from "../../stores/modalStore";
+import { commonTableCols } from "../../utils/commonTableCols";
 import { useRouter } from "../../utils/router";
-import BoxContainer from "../common/containers/BoxContainer";
+import ItemWithImage from "../common/cells/ItemWithImage";
 import { contentTypes } from "../common/contentTypes";
+import BoxContainerTable from "../common/tables/BoxContainerTable";
 import GroupAvailableContentTable from "./GroupAvailableContentTable";
-import GroupContentTable from "./GroupContentTable";
+import GroupContentActionsMenu from "./GroupContentActionsMenu";
 
 type AssociationType = 'assigned' | 'provided'
 
@@ -16,7 +20,8 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
   
   const router = useRouter()
   const { id } = router.query
-  
+  const { loading, error, group } = useGetGroup(id)
+
   let actionNameCapitalised
   if(associationType === 'assigned') {
     actionNameCapitalised = 'Assign'
@@ -24,7 +29,24 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
     actionNameCapitalised = 'Provide'
   }
 
-  const { group } = useGetGroup(id)
+  const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
+  const { removeAssignedContentFromGroups } = useRemoveAssignedContentFromGroups()
+  
+  const handleRemove = useCallback((ids) => {
+    const idsArray = Array.isArray(ids) ? ids : [ids];
+    if(associationType === 'assigned') {
+      removeAssignedContentFromGroups({
+        groupIds: [group.id],
+        contentItemIds: idsArray,
+      })
+    } else if(associationType === 'provided') {
+      removeProvisionedContentFromGroups({
+        groupIds: [group.id],
+        contentItemIds: idsArray,
+      })
+    }
+  }, [group])
+
   const button = {
     text: `${actionNameCapitalised} ${type?.plural}`,
     onClick: () => {
@@ -44,10 +66,78 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
 
   const boxTitle = type?.plural.charAt(0).toUpperCase() + type?.plural.slice(1);
 
+  const bulkActions = [
+    {
+      label: 'Remove selected items from group',
+      onClick: (ids: Array<string>) => handleRemove(ids),
+    }
+  ]
+
+  const tableData = useMemo(
+    () => {
+      let existingAssociatedContentConnection
+      if(associationType === 'assigned') {
+        existingAssociatedContentConnection = group.assignedContents
+      } else if(associationType === 'provided') {
+        existingAssociatedContentConnection = group.provisionedContents
+      }
+      // console.log('existingAssociatedContentConnection')
+      // console.log(existingAssociatedContentConnection)
+      return existingAssociatedContentConnection.edges.filter(edge => (
+        (typeName === 'content' || edge.node.itemType === typeName) &&
+        !edge.node._deleted
+        )).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || []
+    },
+    [group]
+  );
+
+  const tableCols = useMemo(() => {
+    return [
+      {
+        header: "Course",
+        accessorFn: row => row.node.title,
+        cell: ({ cell }) => {
+          const course = cell.row.original.node;
+          return (
+            <ItemWithImage
+              title={course.title}
+              // image={course.image}
+            />
+          )
+        }
+      },
+      commonTableCols.createdAt,
+      {
+        header: "Actions",
+        accessorKey: "actions",
+        cell: ({ cell }) => (
+          <GroupContentActionsMenu
+            onRemove={handleRemove}
+            group={group}
+            associationType={associationType}
+            edge={cell.row.original}
+            typeName={typeName}
+          />
+        )
+      },
+    ]
+  }, [group]);
+
+  const tableProps = {
+    tableData,
+    tableCols,
+    bulkActions,
+    scrollInTable: true,
+    maxVisibleRows: 5,
+  }
+
   return (
-    <BoxContainer title={boxTitle} icon={GraduationCap} button={button}>
-      <GroupContentTable typeName={typeName} associationType={associationType} />
-    </BoxContainer>
+    <BoxContainerTable
+      title={boxTitle}
+      icon={GraduationCap}
+      button={button}
+      tableProps={tableProps}
+    />
   );
 }
 
