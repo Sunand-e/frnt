@@ -101,7 +101,7 @@ const Table = () => {
   }))
 
   useEffect(() => {
-    const newRowSelection = table.getSelectedRowModel().flatRows.map(row=>row.original.id)
+    const newRowSelection = table.getSelectedRowModel().flatRows.map(row=>row.original.id || row.original.node?.id)
     store.setState(state => ({
       selectedRowIds: newRowSelection
     }))
@@ -267,12 +267,6 @@ const Table = () => {
         }
       } else {
         store.setState(state => ({ isReorderableActive: true }))
-        // setOnReorder(() => handleReorder)
-        // if(categoryId) {
-        //   setOnReorder(() => handleReorderInTags)
-        // } else {
-        //   setOnReorder(() => handleReorder)
-        // }
       }
     }
   },[categoryId, collectionId, globalFilter, sorting, isReorderable])
@@ -308,4 +302,6 @@ const Table = () => {
     </>
   );
 }
-export default TableWithProvider
+
+export { Table as TableWithoutProvider };
+export default TableWithProvider;

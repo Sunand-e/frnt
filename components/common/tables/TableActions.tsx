@@ -71,7 +71,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
     <div className='flex items-center flex-col mb-3 sm:justify-between sm:flex-row text-nowrap'>
       <div className='flex items-center flex-col sm:flex-row gap-3 flex-wrap'>
         
-        { !!bulkActions.length && <BulkActionsMenu {...{bulkActions}} /> }
+        { !!bulkActions.length && <BulkActionsMenu /> }
         
         { filters.includes('global') && <GlobalFilter
           globalFilter={globalFilter}

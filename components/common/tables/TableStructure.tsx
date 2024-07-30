@@ -149,8 +149,6 @@ const TableStructure = ({ table }: TableStructureProps) => {
   }, [activeId, rows]);
 
   const tableHeight = virtualizer.getTotalSize() + tHeadHeight
-  console.log('virtualizer.getTotalSize()')
-  console.log(virtualizer.getTotalSize())
 
   const visibleRows = items.length < maxVisibleRows ? items.length : maxVisibleRows
   
