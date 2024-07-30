@@ -20,7 +20,7 @@ const BoxContainerTableBulkActions = () => {
   } else if(bulkActions.length === 1) {
     return (
       <Button onClick={handleBulkAction} disabled={false} displayType="white">
-        {bulkActions[0].label}
+        {bulkActions[0].labelFn(selectedRowIds) || bulkActions[0].label}
       </Button>
     )
   }

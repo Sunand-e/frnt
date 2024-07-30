@@ -9,18 +9,18 @@ import { GET_CONTENT_ITEMS } from '../../graphql/queries/contentItems/GET_CONTEN
 import { DocumentNode } from 'graphql'
 import { OperationVariables } from '@apollo/client'
 
-enum ContentTypeStatus {
+export enum ContentTypeStatus {
   NotStarted = 'not_started',
   InProgress = 'in_progress',
   Completed = 'completed',
 }
 
-interface StatusStrings {
+export interface StatusStrings {
   readMoreLabel: string;
   noItemsText: string;
 }
 
-interface ContentType {
+export interface ContentType {
   name: string;
   pluralKey: string;
   plural: string;
@@ -33,7 +33,7 @@ interface ContentType {
   statusStrings?: Record<ContentTypeStatus, StatusStrings>;
 }
 
-interface ContentTypes {
+export interface ContentTypes {
   [key: string]: ContentType;
 }
 

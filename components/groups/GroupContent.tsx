@@ -5,6 +5,7 @@ import useRemoveAssignedContentFromGroups from "../../hooks/groups/useRemoveAssi
 import useRemoveProvisionedContentFromGroups from "../../hooks/groups/useRemoveProvisionedContentFromGroups";
 import { handleModal } from "../../stores/modalStore";
 import { commonTableCols } from "../../utils/commonTableCols";
+import { getContentTypeStringWithCount } from "../../utils/getContentTypeStringWithCount";
 import { useRouter } from "../../utils/router";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { contentTypes } from "../common/contentTypes";
@@ -69,6 +70,7 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
   const bulkActions = [
     {
       label: 'Remove selected items from group',
+      labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(type, ids.length, 'selected')} from group`,
       onClick: (ids: Array<string>) => handleRemove(ids),
     }
   ]

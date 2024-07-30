@@ -2,6 +2,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useEffect, useMemo } from "react";
 import { Group, Tag } from "../../../graphql/generated";
 import { getIconFromFilename } from "../../../utils/getIconFromFilename";
+import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import { resourceTypes } from "../../resources/resourceTypes";
 import Button from "../Button";
 import ItemWithImage from "../cells/ItemWithImage";
@@ -122,13 +123,8 @@ const ContentSelectTable = ({
   let buttonLabel = `No ${type.plural} selected`
 
   if(selectedContentIds.length) {
-    let typeLabel
-    if(type.name === 'content') {
-      typeLabel = selectedContentIds.length > 1 ? 'items' : 'item'
-    } else {
-      typeLabel = selectedContentIds.length > 1 ? type.plural : type.name
-    }
-    buttonLabel = `${actionNameCapitalised} ${selectedContentIds.length} ${typeLabel} to ${recipientLabel}`
+    const contentTypeStringWithCount = getContentTypeStringWithCount(type, selectedContentIds.length)
+    buttonLabel = `${actionNameCapitalised} ${contentTypeStringWithCount} to ${recipientLabel}`
   }
 
   return (
