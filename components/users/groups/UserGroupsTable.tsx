@@ -7,7 +7,7 @@ import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
 import UserRoleSelect from "../inputs/UserRoleSelect";
 import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
-import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup";
+import useRemoveUsersFromGroups from "../../../hooks/groups/useRemoveUsersFromGroups";
 import UserRoleSelectCell from "./UserRoleSelectCell";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import { handleModal } from "../../../stores/modalStore";
@@ -23,7 +23,7 @@ const UserGroupsTable = ({scrollInTable = false, typeName='group'}) => {
   const { loading, error, user } = useGetUser(id)
   const { loading: rolesLoading, error: rolesError, roles } = useGetRoles()
   const { addUsersToGroups } = useAddUsersToGroups()
-  const { removeUserFromGroup } = useRemoveUserFromGroup()
+  const { removeUsersFromGroups } = useRemoveUsersFromGroups()
   
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   
@@ -32,9 +32,9 @@ const UserGroupsTable = ({scrollInTable = false, typeName='group'}) => {
       return false
     }
 
-    removeUserFromGroup({
-      userId: user.id,
-      groupId: group.node.id,
+    removeUsersFromGroups({
+      userIds: [user.id],
+      groupIds: [group.node.id]
     })
 
     addUsersToGroups({

@@ -1,30 +1,18 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import { useCallback } from "react"
-import useRemoveUserFromGroup from "../../hooks/groups/useRemoveUserFromGroup"
+import useRemoveUsersFromGroups from "../../hooks/groups/useRemoveUsersFromGroups"
 
-const GroupMemberActionsMenu = ({group, edge}) => {
-
-  const { removeUserFromGroup } = useRemoveUserFromGroup()
+const GroupMemberActionsMenu = ({group, edge, onRemove}) => {
   
-  const handleRemove = useCallback(user => {
-    if(!group?.id) {
-      return false
-    }
-    removeUserFromGroup({
-      groupId: group.id,
-      userId: user.node.id,
-    })
-  }, [group])
+  const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
 
   const menuItems = [
     ...(!false ? [{
-      label: 'Remove user from group',
+      label: `Remove user from ${groupTypeName}`,
       onClick: () => {
-        handleRemove(
-          edge
-        )
+        onRemove(edge.node.id)
       },
-      capability: 'RemoveUserFromGroup'
+      capability: 'RemoveUsersFromGroups'
     }]:[]),
   ]
   return (
