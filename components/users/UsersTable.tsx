@@ -96,8 +96,7 @@ const UsersTable = () => {
           !isOrganisationLeader
         ) ? [
         {
-          // header: "Global Roles",
-          header: tenantFeaturesEnabled('groups') ? "Global Roles" : 'faaa',
+          header: "Global Roles",
           id: 'roles',
           cell: ({ cell }) => {
             const rolesString = cell.row.original.roles.filter(
