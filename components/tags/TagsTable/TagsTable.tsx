@@ -8,6 +8,7 @@ import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
 import useGetResources from '../../../hooks/resources/useGetResources';
 import useGetTags from '../../../hooks/tags/useGetTags';
+import useReorderTags from '../../../hooks/tags/useReorderTags';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
@@ -24,10 +25,7 @@ const TagsTable = ({typeName='category'}) => {
   const tagType = tagTypes[typeName]
   const editUrl = tagType.editUrl
 
-  const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
-    REORDER_TAGS
-  ) 
-
+  const { reorderTags } = useReorderTags()
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -108,46 +106,8 @@ const TagsTable = ({typeName='category'}) => {
       },true)
 
       const newOrder = overTag.order + Number(overTag.order > activeTag.order)
-      reorderTagsMutation({
-        variables: {
-          id: active.id,
-          order: newOrder
-        },
-        update(cache, response) {
-          const newData = {
-            tags: tags.map(tag => {
-              if(tag.id === activeTag.id) {
-                return {
-                  ...tag,
-                  order: newOrder
-                }
-              } else if(tag.order >= newOrder) {
-                const newTag = {
-                  ...tag,
-                  order: tag.order + 1
-                }
-                return newTag 
-              } else {
-                return tag
-              }
-            })
-          }
-          cache.updateQuery({ query: GET_TAGS, optimistic: true}, (data) => ({
-            ...data,
-            ...newData
-          }))
-        },
-        optimisticResponse: {
-          reorderTags: {
-            __typename: "ReorderTagsPayload",
-            tag: {
-              ...activeTag,
-              order: newOrder
-            }
-          }
-        }
-      })
 
+      reorderTags(active.id, newOrder)
     }
   }
     
