@@ -1,22 +1,15 @@
 import { useMemo } from "react";
-import Table from "../../common/tables/Table";
-import ItemWithImage from "../../common/cells/ItemWithImage";
-import TagContentActionsMenu from "./TagContentActionsMenu";
+import cache from "../../../graphql/cache";
 import { ContentItemTagEdgeFragmentFragment } from "../../../graphql/generated";
 import { ContentItemTagEdgeFragment } from "../../../graphql/queries/allQueries";
-import cache from "../../../graphql/cache";
-import { REORDER_TAG_CONTENT } from "../../../graphql/mutations/tag/REORDER_TAG_CONTENT";
-import { useMutation } from "@apollo/client";
+import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import Table from "../../common/tables/Table";
+import TagContentActionsMenu from "./TagContentActionsMenu";
 
 const TagContentTable = ({tag, contentType, data}) => {
 
-  const [reorderTagContentMutation, reorderTagContentMutationResponse] = useMutation(
-    REORDER_TAG_CONTENT
-  ) 
-  
-  const getContentTagEdge = (contentEdge) => {
-    return contentEdge.node.tags.edges.find(({node}) => node.id === tag.id)
-  }
+  const { reorderTagContent } = useReorderTagContent() 
   
   const tableCols = useMemo(() => {
     return [
@@ -72,51 +65,7 @@ const TagContentTable = ({tag, contentType, data}) => {
       
       const newOrder = overEdge.order + Number(overEdge.order > activeEdge.order)
       
-      reorderTagContentMutation({
-        variables: {
-          tagId: tag.id,
-          contentItemId: active.id.split(":")[0],
-          order: newOrder,
-        },
-
-        update(cache, response) {
-          for (let contentEdge of data) {
-            const contentTagEdge = getContentTagEdge(contentEdge)
-            let order: number
-            if(contentTagEdge.contentItemId === activeEdge.contentItemId) {
-              order = newOrder
-            } else if(contentTagEdge.order >= newOrder) {
-              order = contentTagEdge.order + 1
-            } else {
-              continue
-            }
-            cache.updateFragment({ 
-              id:`ContentItemTagEdge:${contentTagEdge.contentItemId}:${tag.id}`,
-              fragment: ContentItemTagEdgeFragment,
-              optimistic: true
-            }, (data) => {
-              const newData = {
-                ...data,
-                order
-              }
-              return newData
-            })
-          }
-        },
-        optimisticResponse: {
-          reorderContentItemsWithinTags: {
-            __typename: "ReorderContentWithinTagsPayload",
-            tagAttachment: {
-              id: tag.id+'-'+activeEdge.id,
-              order: newOrder,
-              tag: {
-                id: tag.id
-              }
-            }
-          }
-        }
-      })
-
+      reorderTagContent(tag.id, activeEdge.contentItemId, newOrder, data)
     }
   }
     
