@@ -1,11 +1,16 @@
-import BoxContainer from "../../common/containers/BoxContainer";
-import TagContentTable from "./TagContentTable";
-import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
-import AddTagToContent from "../content/AddTagToContent";
+import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
+import { useCallback, useMemo } from "react";
+import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
 import { handleModal } from "../../../stores/modalStore";
-import LoadingSpinner from "../../common/LoadingSpinner";
-import { Dot } from '../../common/misc/Dot';
-import { useMemo } from "react";
+import ItemWithImage from "../../common/cells/ItemWithImage";
+import AddTagToContent from "../content/AddTagToContent";
+import cache from "../../../graphql/cache";
+import TagContentActionsMenu from "./TagContentActionsMenu";
+import { ContentItemTagEdgeFragmentFragment } from "../../../graphql/generated";
+import { ContentItemTagEdgeFragment } from "../../../graphql/queries/allQueries";
+import BoxContainerTable from "../../common/tables/BoxContainerTable";
+import useRemoveTagsFromContent from "../../../hooks/contentItems/useRemoveTagsFromContent";
+import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 
 const TagContent = ({tag, contentType, content}) => {
   
@@ -20,43 +25,99 @@ const TagContent = ({tag, contentType, content}) => {
     }
   }
   
+  const {removeTagsFromContent} = useRemoveTagsFromContent()
+  
+  const handleRemove = useCallback(ids => {
+    removeTagsFromContent({
+      tagIds: [tag.id],
+      contentItemIds: ids,
+    })
+  }, [tag])
+  
   const getContentTagEdge = (contentEdge) => {
     return contentEdge.node.tags.edges.find(({node}) => node.id === tag.id)
   }
-    // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const data = useMemo(
-    () => {
-      return content?.edges.filter(edge => {
-        return (
-        !edge.node._deleted
-         && getContentTagEdge(edge)
-        )
-      }).sort((a,b) => getContentTagEdge(b).order - getContentTagEdge(a).order) || []
+  
+  const bulkActions = [
+    {
+      label: `Remove selected items from ${tag.tagType}`,
+      labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(contentType, ids.length, 'selected')}`,
+      onClick: (ids: Array<string>) => handleRemove(ids),
+    }
+  ]
+
+  const tableData = useMemo(() => {
+    return (
+      content?.edges
+        .filter(edge => !edge.node._deleted && getContentTagEdge(edge))
+        .sort((a, b) => getContentTagEdge(b).order - getContentTagEdge(a).order) || []
+    );
+  }, [tag, content]);
+
+
+  const { reorderTagContent } = useReorderTagContent() 
+  
+  const tableCols = useMemo(() => {
+    return [
+      {
+        header: contentType.label,
+        accessorFn: row => row.node.title, // accessor is the key in the data
+        cell: ({ cell }) => {
+          const content = cell.row.original.node;
+          return <ItemWithImage title={content.title} image={content.image} />
+        }
+      },
+      {
+        header: 'order',
+        accessorFn: row => {
+          return row.node.tags.edges.find(
+            ({node}) => node.id === tag.id
+          ).order
+        },
+        id: 'order',
+      },
+      {
+        header: "Actions",
+        accessorKey: "actions",
+        cell: ({ cell }) => <TagContentActionsMenu tag={tag} contentType={contentType} item={cell.row.original} onRemove={handleRemove} />
+      },
+    ]
+  }, []);
+
+  const tableProps = {
+    tableData,
+    tableCols,
+    isReorderable: true,
+    bulkActions,
+    getReorderableItemIdFromRow: row => {
+      return `${row.original.node.id}:${tag.id}`
     },
-    [tag,content]
-  );
+    onReorder: (active, over, newIndex, oldIndex) => {
+
+      const overEdge = cache.readFragment<ContentItemTagEdgeFragmentFragment>({
+        id:`ContentItemTagEdge:${over.id}`,
+        fragment: ContentItemTagEdgeFragment
+      },true)
+      
+      const activeEdge = cache.readFragment<ContentItemTagEdgeFragmentFragment>({
+        id:`ContentItemTagEdge:${active.id}`,
+        fragment: ContentItemTagEdgeFragment
+      },true)
+      
+      const newOrder = overEdge.order + Number(overEdge.order > activeEdge.order)
+      
+      reorderTagContent(tag.id, activeEdge.contentItemId, newOrder, tableData)
+    }
+  }
 
   return (
-    <BoxContainer title={`${contentType.label}s`} icon={GraduationCap} button={button}>
-      { !data ?
-        <LoadingSpinner
-          size="xs"
-          textPosition="right"
-          className="m-6"
-          text={(
-          <>
-            Loading {contentType.plural}
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-          </>
-        )} /> : data.length ? (
-          <TagContentTable data={data} tag={tag} contentType={contentType} />
-        ) : <p className="m-6 text-center">No {contentType.plural} found</p>
-      }
-    </BoxContainer>
-  );
+    <BoxContainerTable
+      title={`${contentType.label}s`}
+      icon={GraduationCap}
+      button={button}
+      tableProps={tableProps}
+    />
+  )
 }
 
 export default TagContent
