@@ -3,18 +3,25 @@ import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
-import UserResourceActionsMenu from "./UserResourceActionsMenu";
+import UserContentActionsMenu from "../content/UserContentActionsMenu";
+import { contentTypes } from "../../common/contentTypes";
 
-const UserResourcesTable = ({scrollInTable = false}) => {
-  
-  const router = useRouter()
-  const { id } = router.query
+interface UserContentTableProps {
+  contentType: string;
+  scrollInTable?: boolean;
+}
 
-  const { loading, error, user } = useGetUser(id)
+const UserContentTable = ({ contentType }: UserContentTableProps) => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { loading, error, user } = useGetUser(id);
+
+  const type = contentTypes[contentType];
 
   const tableData = useMemo(
     () => {
-      return user?.resources.edges.filter(edge => (
+      return user?.[type.pluralKey].edges.filter(edge => (
         !edge.node._deleted
          && (
           edge.groups.edges.some(edge => edge.roles.length) || 
@@ -22,20 +29,20 @@ const UserResourcesTable = ({scrollInTable = false}) => {
         )
       )) || []
     },
-    [user]
+    [user, type.pluralKey]
   );
 
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Resource",
-        accessorFn: row => row.node.title, // accessor is the key in the data
+        header: type.label,
+        accessorFn: row => row.node.title,
         cell: ({ cell }) => {
-          const resource = cell.row.original.node;
+          const item = cell.row.original.node;
           return (
             <ItemWithImage
-              title={resource.title}
-              image={resource.image}
+              title={item.title}
+              image={item.image}
             />
           )
         }
@@ -63,15 +70,15 @@ const UserResourcesTable = ({scrollInTable = false}) => {
       {
         header: "Actions",
         accessorKey: "actions",
-        cell: ({ cell }) => <UserResourceActionsMenu user={user} resource={cell.row.original} />
+        cell: ({ cell }) => <UserContentActionsMenu user={user} content={cell.row.original} />
       },
     ]
-  }, []);
+  }, [type.label]);
 
   const tableProps = {
     tableData,
     tableCols,
-    scrollInTable,
+    scrollInTable: true,
     showTop: false
   }
     
@@ -80,4 +87,4 @@ const UserResourcesTable = ({scrollInTable = false}) => {
   );
 }
 
-export default UserResourcesTable
+export default UserContentTable;

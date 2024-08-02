@@ -204,6 +204,17 @@ export const GET_USER_RESOURCES = gql`
   }
   ${UserContentGroupsConnectionFragment}
 `
+export const GET_USER_CONTENT = gql`
+  query GetUserResources($id: ID) {
+    user(id: $id) {
+      id
+      contentItems {
+        ...UserContentGroupsConnectionFragment
+      }
+    }
+  }
+  ${UserContentGroupsConnectionFragment}
+`
 
 export const GET_USERS_COURSES_GROUPS = gql`
   query GetUsersCoursesGroups {

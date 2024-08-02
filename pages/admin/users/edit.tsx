@@ -1,25 +1,23 @@
-import usePageTitle from '../../../hooks/usePageTitle';
-import { useRouter } from '../../../utils/router';
-import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import useGetUser from '../../../hooks/users/useGetUser';
-import useUpdateUser from '../../../hooks/users/useUpdateUser';
-import UserForm from '../../../components/users/UserForm';
-import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import UserGroups from '../../../components/users/groups/UserGroups';
-import UserCourses from '../../../components/users/courses/UserCourses';
-import UserResources from '../../../components/users/resources/UserResources';
-import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import LoadingSpinner from '../../../components/common/LoadingSpinner'
-import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
-import UserPathways from '../../../components/users/pathways/UserPathways';
-import getJWT from '../../../utils/getToken';
-import ButtonBack from '../../../components/common/ButtonBack';
-import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { useContext } from 'react';
+import ButtonBack from '../../../components/common/ButtonBack';
+import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import { Dot } from '../../../components/common/misc/Dot';
+import UserContent from '../../../components/users/content/UserContent';
+import UserGroups from '../../../components/users/groups/UserGroups';
+import UserForm from '../../../components/users/UserForm';
 import { TenantContext } from '../../../context/TenantContext';
+import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import usePageTitle from '../../../hooks/usePageTitle';
+import useGetUser from '../../../hooks/users/useGetUser';
 import useIsOrganisationLeader from '../../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
+import useUpdateUser from '../../../hooks/users/useUpdateUser';
+import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import getJWT from '../../../utils/getToken';
+import { useRouter } from '../../../utils/router';
 
 const AdminUsersEdit = () => {
   
@@ -102,9 +100,9 @@ const AdminUsersEdit = () => {
               { showGroups && <UserGroups groupTypeName="group" /> }
               { showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
             </>)}
-            { tenantFeaturesEnabled('courses') && <UserCourses /> }
-            { tenantFeaturesEnabled('resources') && <UserResources /> }
-            { tenantFeaturesEnabled('pathways') && <UserPathways /> }
+            { tenantFeaturesEnabled('courses') && <UserContent contentType="course" />}
+            { tenantFeaturesEnabled('resources') && <UserContent contentType="resource" />}
+            { tenantFeaturesEnabled('pathways') && <UserContent contentType="pathway" />}
           </div>
         </div>
       )}

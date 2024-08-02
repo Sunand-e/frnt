@@ -8,6 +8,7 @@ import { GET_PATHWAYS, GET_RESOURCES } from '../../graphql/queries/allQueries'
 import { GET_CONTENT_ITEMS } from '../../graphql/queries/contentItems/GET_CONTENT_ITEMS'
 import { DocumentNode } from 'graphql'
 import { OperationVariables } from '@apollo/client'
+import { StyledIcon } from '@styled-icons/styled-icon';
 
 export enum ContentTypeStatus {
   NotStarted = 'not_started',
@@ -25,7 +26,8 @@ export interface ContentType {
   pluralKey: string;
   plural: string;
   label: string;
-  icon: React.ComponentType; // Assuming icons are React components, adjust accordingly
+  pluralLabel: string;
+  icon: StyledIcon | null; // Assuming icons are React components, adjust accordingly
   editUrl: string;
   gqlGetQuery: DocumentNode; // Assuming GraphQL queries are of type DocumentNode from 'graphql'
   gqlVariables?: OperationVariables
@@ -43,6 +45,7 @@ export const contentTypes: ContentTypes = {
     pluralKey: 'courses',
     plural: 'courses',
     label: "Course",
+    pluralLabel: "Courses",
     icon: GraduationCap,
     editUrl: 'admin/courses/edit',
     gqlGetQuery: GET_COURSES,
@@ -63,11 +66,34 @@ export const contentTypes: ContentTypes = {
       }
     }
   },
+  pathway: {
+    name: 'pathway',
+    pluralKey: 'pathways',
+    plural: 'pathways',
+    label: "Pathway",
+    pluralLabel: "Pathways",
+    icon: Flow,
+    editUrl: 'admin/pathways/edit',
+    gqlGetQuery: GET_PATHWAYS,
+    isAssignable: true,
+  },
+  resource: {
+    name: 'resource',
+    pluralKey: 'resources',
+    plural: 'resources',
+    label: "Resource",
+    pluralLabel: "Resources",
+    icon: Library,
+    editUrl: 'admin/resources/edit',
+    gqlGetQuery: GET_RESOURCES,
+    isAssignable: true,
+  },
   content: {
     name: 'content',
     pluralKey: 'contentItems',
     plural: 'content',
-    label: "content",
+    label: "Content",
+    pluralLabel: "Contents",
     icon: GraduationCap,
     editUrl: 'admin/contents/edit',
     gqlGetQuery: GET_CONTENT_ITEMS,
@@ -88,26 +114,6 @@ export const contentTypes: ContentTypes = {
         noItemsText: 'You have not completed any content'
       }
     }
-  },
-  pathway: {
-    name: 'pathway',
-    pluralKey: 'pathways',
-    plural: 'pathways',
-    label: "Pathway",
-    icon: Flow,
-    editUrl: 'admin/pathways/edit',
-    gqlGetQuery: GET_PATHWAYS,
-    isAssignable: true,
-  },
-  resource: {
-    name: 'resource',
-    pluralKey: 'resources',
-    plural: 'resources',
-    label: "Resource",
-    icon: Library,
-    editUrl: 'admin/resources/edit',
-    gqlGetQuery: GET_RESOURCES,
-    isAssignable: true,
   },
   // virtual: {
   //   label: "Virtual Event",

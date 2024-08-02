@@ -1,6 +1,6 @@
 
 import { useQuery } from "@apollo/client"
-import { GET_USER_COURSES, GET_USER_RESOURCES, GET_USER_PATHWAYS } from "../../graphql/queries/userDetails";
+import { GET_USER_COURSES, GET_USER_RESOURCES, GET_USER_PATHWAYS, GET_USER_CONTENT } from "../../graphql/queries/userDetails";
 
 function useGetUserContent(id=null, type) {
 
@@ -11,6 +11,8 @@ function useGetUserContent(id=null, type) {
     query = GET_USER_RESOURCES
   } else if(type === 'pathway') {
     query = GET_USER_PATHWAYS
+  } else if(type === 'content') {
+    query = GET_USER_CONTENT
   }
 
   const { loading, error, data: {user} = {} } = useQuery(
@@ -21,7 +23,7 @@ function useGetUserContent(id=null, type) {
   );
 
   return { 
-    content: user?.courses || user?.resources || user?.pathways,
+    content: user?.courses || user?.resources || user?.pathways || user?.contentItems,
     loading,
     error
   }
