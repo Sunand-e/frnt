@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { Group, Tag } from "../../../graphql/generated";
+import { Group, Tag, User } from "../../../graphql/generated";
 import { getIconFromFilename } from "../../../utils/getIconFromFilename";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import { resourceTypes } from "../../resources/resourceTypes";
@@ -9,11 +9,15 @@ import ItemWithImage from "../cells/ItemWithImage";
 import { contentTypes } from "../contentTypes";
 import useGetThumbnail from "../items/useGetThumbnail";
 import Table from "./Table";
+import useGetContent from "../../../hooks/contentItems/useGetContent";
+import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
+import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
+import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed";
 
 
 type ContentSelectTableProps = {
-  recipientType: string
-  recipient: Tag | Group
+  // recipientType: string
+  recipient: Tag | Group | User
   selectedContentIds: string[]
   actionName: string
   contentType?: string
@@ -31,27 +35,57 @@ const ContentSelectTable = ({
   contentFilter,
   filters=['global'],
   recipient,
-  recipientType,
+  // recipientType,
   actionName,
   onRowSelect,
   onSubmit
 }: ContentSelectTableProps) => {
-
-  const type = contentTypes[contentType];
   
-  const [getContent, { loading: contentLoading, data: content }] = useLazyQuery(type.gqlGetQuery, { 
-    ...(type.gqlVariables && { variables: type.gqlVariables }),
-    fetchPolicy: "network-only" });
+  // const [getContent, { loading: contentLoading, data: content }] = useLazyQuery(type.gqlGetQuery, { 
+  //   ...(type.gqlVariables && { variables: type.gqlVariables }),
+  //   fetchPolicy: "network-only" });
 
-  useEffect(() => {
-    getContent();
-  }, [getContent]);
+  // useEffect(() => {
+  //   getContent();
+  // }, [getContent]);
 
-  const contentNodes = content?.[type.pluralKey]?.edges.map(edge => edge.node)
+  // const contentNodes = content?.edges.map(edge => edge.node)
+  
+  const { content, loading: contentLoading } = useGetContent(contentType)
+  const { user: currentUser } = useGetCurrentUser()
+  const { userHasCapability } = useUserHasCapability()
+  const shouldFetchGroupsContents = !userHasCapability('EnrolUsersInContent', 'tenant')
+  const { groups, loading: groupsLoading } = useGetGroupsDetailed(shouldFetchGroupsContents)
+  
+  const type = contentTypes[contentType];
+
+  let availableContentNodes = []
+
+  if (userHasCapability('EnrolUsersInContent', 'tenant')) {
+    availableContentNodes = content?.edges.map(edge => edge.node) || []
+    console.log('availableContentNodes')
+    console.log(availableContentNodes)
+  } else {  
+    const userGroupIds = user.groups.edges.map(edge => edge.groupId)
+    const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
+    const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
+
+    const commonGroupProvisionedContents = groups?.edges.flatMap(
+      edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
+    ) || []
+
+    const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
+    const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
+    
+    availableContentNodes = [
+      ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
+      ...currentUserEnrolledContentNodes
+    ]
+  }
   
   const actionNameCapitalised = actionName.charAt(0).toUpperCase() + actionName.slice(1)
   
-  const availableContent = contentNodes?.filter(contentFilter) || []
+  const availableContent = availableContentNodes?.filter(contentFilter) || []
 
   let recipientLabel
 
@@ -61,6 +95,9 @@ const ContentSelectTable = ({
       break;
     case 'Group':
       recipientLabel = recipient.name
+      break;
+    case 'User':
+      recipientLabel = recipient.fullName
       break;
   }
 
@@ -81,7 +118,6 @@ const ContentSelectTable = ({
 
       cell: ({ cell }) => {
         const type = contentTypes[cell.row.original.itemType]
-        
         const { src } = useGetThumbnail(cell.row.original, 50)
         const { contentType, itemType } = cell.row.original
         let icon = <type.icon className={iconPadding} />
