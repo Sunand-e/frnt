@@ -1,31 +1,11 @@
 import ActionsMenu from "../../common/menus/ActionsMenu"
-import { useCallback } from "react"
-import useRemoveUsersFromGroups from "../../../hooks/groups/useRemoveUsersFromGroups"
 
-const UserGroupActionsMenu = ({user, group}) => {
+const UserGroupActionsMenu = ({user, group, onRemove}) => {
 
-  const reportsUrl = '/admin/groups/edit'
-  
-  const {removeUsersFromGroups} = useRemoveUsersFromGroups()
-  
-  const handleRemove = useCallback((group) => {
-    if(!user?.id) {
-      return false
-    }
-    removeUsersFromGroups({
-      userIds: [user.id],
-      groupIds: [group.node.id],
-    })
-  }, [user])
-  
   const menuItems = [
     {
       label: 'Remove from group',
-      onClick: () => {
-        handleRemove(
-          group,
-        )
-      },
+      onClick: () => onRemove([group.node.id]),
       capability: 'RemoveUsersFromGroups'
     },
     // { title: 'Settings', href:'settings' },
