@@ -2,9 +2,9 @@
 import { useQuery } from "@apollo/client"
 import { contentTypes } from "../../components/common/contentTypes";
 
-function useGetContent(contentType) {
+function useGetContent(typeName) {
 
-  const type = contentTypes[contentType]
+  const type = contentTypes[typeName]
 
   const {loading, error, data } = useQuery(
     type.gqlGetQuery,

@@ -9,7 +9,6 @@ function useUnenrolUserFromContent() {
   );
 
   const unenrolUserFromContent = (values, cb = null) => {
-    // const updateUser = ({name=null, contentBlocks=null}) => {
   
       unenrolUserFromContentMutation({
         variables: {
