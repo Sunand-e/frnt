@@ -1,6 +1,4 @@
-import { FC } from "react"
-// import { useReactiveVar } from '@apollo/client';
-
+import { FC, SVGProps } from "react"
 import { pageTitleVar, navStateVar } from "../../../graphql/cache";
 import EasyEdit, {Types} from 'react-easy-edit';
 import { useReactiveVar } from "@apollo/client";
@@ -30,7 +28,12 @@ const PageTitle : FC = () => {
       iconComponent = <FontAwesomeIcon className="text-xl" icon={{ prefix: 'fas', iconName: currentItem.icon }} />
     } else {
       let IconComponent = currentItem.icon
-      iconComponent = <IconComponent width="24" />
+      let iconProps: SVGProps<SVGSVGElement> = { width: '24' }
+
+      if(pageTitle.title === 'Groups') {
+        iconProps = { className: 'p-1' }
+      }
+      iconComponent = <IconComponent {...iconProps} />
     }
   }
 
