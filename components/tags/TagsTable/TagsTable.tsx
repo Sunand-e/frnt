@@ -15,6 +15,14 @@ import Table from '../../common/tables/Table';
 import { tagTypes } from '../../common/tagTypes';
 import TagActionsMenu from '../TagActionsMenu';
 
+const getTagContentTypeCount = (cell, content) => {
+  return content?.edges.filter(
+    edge => edge.node.tags.edges.map(
+      ({node}) => node.id
+    ).includes(cell.row.original.id)
+  ).length
+}
+
 const TagsTable = ({typeName='category'}) => {
 
   const { tags, loading, error } = useGetTags()
@@ -62,19 +70,21 @@ const TagsTable = ({typeName='category'}) => {
         accessorKey: 'order'
       },
       {
-        header: "Item count",
+        header: "Courses",
         cell: ({ cell }) => {
-          const allItemEdges = [
-            ...(courses?.edges || []),
-          ]
-          const catItemCount = allItemEdges.filter(
-            edge => edge.node.tags.edges.map(
-              ({node}) => node.id
-            ).includes(cell.row.original.id)
-          ).length
-          return (
-            <span>{`${catItemCount || 0} item${catItemCount !== 1 ? 's' : ''}`}</span>
-          )
+          return getTagContentTypeCount(cell, courses)
+        }
+      },
+      {
+        header: "Resources",
+        cell: ({ cell }) => {
+          return getTagContentTypeCount(cell, resources)
+        }
+      },
+      {
+        header: "Pathways",
+        cell: ({ cell }) => {
+          return getTagContentTypeCount(cell, pathways)
         }
       },
       {
@@ -84,8 +94,8 @@ const TagsTable = ({typeName='category'}) => {
         cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
       }
     ],
-    [courses]
-    // [courses, resources, pathways]
+    // [courses]
+    [courses, resources, pathways]
   );
 
   const tableProps = {
