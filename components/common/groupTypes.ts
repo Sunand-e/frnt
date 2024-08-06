@@ -1,5 +1,5 @@
 import {Group2} from "@styled-icons/remix-fill/Group2"
-import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-filled/PeopleTeamToolbox"
 
 interface GroupDictionary {
   [key: string]: {

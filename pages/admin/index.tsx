@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { GraduationCap } from '@styled-icons/entypo/GraduationCap';
 import { Users } from '@styled-icons/fa-solid/Users';
-import { PeopleTeamToolbox } from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox";
+import { PeopleTeamToolbox } from "@styled-icons/fluentui-system-filled/PeopleTeamToolbox";
 import { Library } from "@styled-icons/ionicons-solid/Library";
 import { Group2 } from "@styled-icons/remix-fill/Group2";
 import { useContext, useMemo } from 'react';
