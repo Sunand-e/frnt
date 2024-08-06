@@ -64,7 +64,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
           iconSizeClass,
           'flex justify-center items-center shrink-0 overflow-hidden',
           imgDivClass,
-          roundedClasses[rounded]
+          !!(image || imageSrc) && roundedClasses[rounded]
         )}>
           {image || imageSrc ? (
             <img

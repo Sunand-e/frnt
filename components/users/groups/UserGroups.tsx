@@ -1,19 +1,16 @@
-import { useMemo, useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
+import useRemoveUsersFromGroups from "../../../hooks/groups/useRemoveUsersFromGroups";
+import useGetRoles from "../../../hooks/roles/useGetRoles";
 import useGetUser from "../../../hooks/users/useGetUser";
+import { handleModal } from "../../../stores/modalStore";
 import { useRouter } from "../../../utils/router";
+import GroupTitleCell from "../../common/cells/GroupTitleCell";
+import { getGroupType, groupTypes } from "../../common/groupTypes";
 import BoxContainerTable from "../../common/tables/BoxContainerTable";
 import AddUserToGroups from "./AddUserToGroups";
 import UserGroupActionsMenu from "./UserGroupActionsMenu";
 import UserRoleSelectCell from "./UserRoleSelectCell";
-import { handleModal } from "../../../stores/modalStore";
-import useTenantFeaturesEnabled from "../../../hooks/users/useTenantFeaturesEnabled";
-import useAddUsersToGroups from "../../../hooks/groups/useAddUsersToGroups";
-import useRemoveUsersFromGroups from "../../../hooks/groups/useRemoveUsersFromGroups";
-import useGetRoles from "../../../hooks/roles/useGetRoles";
-import { groupTypes } from "../../common/groupTypes";
-import ItemWithImage from "../../common/cells/ItemWithImage";
-import { Group2 } from "@styled-icons/remix-fill/Group2";
-import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 
 const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
   const router = useRouter();
@@ -27,7 +24,8 @@ const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
   const openAddUsersToGroups = () => {
     handleModal({
       title: `Assign user to ${isSingular ? groupType.name : groupType.plural}`,
-      content: <AddUserToGroups groupTypeName={groupTypeName} isSingular={isSingular} id={user.id} />
+      content: <AddUserToGroups groupTypeName={groupTypeName} isSingular={isSingular} userId={user.id} />,
+      size: 'lg'
     });
   };
 
@@ -66,16 +64,9 @@ const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
 
   const tableData = useMemo(
     () => {
-      return user?.groups.edges
-        .filter(edge => !edge.node._deleted)
-        .filter(edge => {
-          if (groupTypeName === 'group') {
-            return !edge.node.isOrganisation;
-          } else if (groupTypeName === 'organisation') {
-            return edge.node.isOrganisation;
-          }
-        })
-        .sort((a, b) => a.node.name.localeCompare(b.node.name)) || [];
+      return user?.groups.edges.filter(edge => (
+        !edge.node._deleted && getGroupType(edge.node).name === groupTypeName
+      )).sort((a, b) => a.node.name.localeCompare(b.node.name)) || [];
     }, [user, groupTypeName]
   );
 
@@ -87,15 +78,12 @@ const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
         accessorFn: row => row.node.name,
         cell: ({ cell }) => {
           const group = cell.row.original.node;
-          const cellProps = {
-            title: group.name,
+          const props = {
             style: {
               width: '200px'
             },
           };
-          return (
-            <ItemWithImage {...cellProps} />
-          );
+          return <GroupTitleCell group={group} itemWithImageProps={props} />;
         },
       },
       {

@@ -34,3 +34,7 @@ export const groupTypes: GroupDictionary = {
   }
 }
 
+export const getGroupType = (group) => {
+  return group.isOrganisation ? groupTypes['organisation'] : groupTypes['group']
+}
+

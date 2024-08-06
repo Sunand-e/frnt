@@ -11,6 +11,7 @@ import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../hooks/groups/useDeleteGroup';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../utils/commonTableCols';
+import GroupTitleCell from '../common/cells/GroupTitleCell';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -48,20 +49,13 @@ const GroupsTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Group Name",
+        header: "Group",
         accessorKey: "name", // accessor is the "key" in the data
         cell: ({ cell }) => {
-          // const userCount = cell.row.original.users.totalCount?
-          const cellProps = {
-            image: cell.row.original.image,
-            title: cell.getValue(),
-            icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
-        }
+          const group = cell.row.original
+          const props = { href: `${editUrl}?id=${group.id}` }
+          return <GroupTitleCell group={group} itemWithImageProps={props} />
+                  }
       },
       {
         header: "Users",
