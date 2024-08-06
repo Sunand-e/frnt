@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import { contentTypes } from "../common/contentTypes";
 import useAssignContentToGroups from "../../hooks/groups/useAssignContentToGroups";
 import useProvideContentToGroups from "../../hooks/groups/useProvideContentToGroups";
 import { closeModal } from "../../stores/modalStore";
 import ContentSelectTable from "../common/tables/ContentSelectTable";
+import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import useGetContent from '../../hooks/contentItems/useGetContent';
 
 const GroupAvailableContentTable = ({ group, groupType = 'group', associationType = 'assigned', contentType = 'content' }) => {
-  const type = contentTypes[contentType];
+
   const { provideContentToGroups } = useProvideContentToGroups();
   const { assignContentToGroups } = useAssignContentToGroups();
+  const { userHasCapability } = useUserHasCapability();
+
+  const { content, loading: contentLoading } = useGetContent(contentType)
   
   const [selectedContentIds, setSelectedContentIds] = useState([]);
 
@@ -23,6 +27,20 @@ const GroupAvailableContentTable = ({ group, groupType = 'group', associationTyp
     actionName = 'Provide';
   }
 
+  const onSubmit = (selectedContentIds) => {
+    associateContentWithGroup({
+      groupIds: [group.id],
+      contentItemIds: selectedContentIds,
+    });
+    closeModal();
+  };
+
+  let availableContentNodes
+
+  if (userHasCapability('EnrolUsersInContent', 'tenant')) {
+    availableContentNodes = content?.edges.map(edge => edge.node) || []
+  }
+
   const contentFilter = (content) => {
     let existingAssociatedContent;
     if (associationType === 'assigned') {
@@ -33,22 +51,15 @@ const GroupAvailableContentTable = ({ group, groupType = 'group', associationTyp
     return !existingAssociatedContent.some(existingContent => existingContent.id === content.id);
   };
 
-  const onSubmit = (selectedContentIds) => {
-    associateContentWithGroup({
-      groupIds: [group.id],
-      contentItemIds: selectedContentIds,
-    });
-    closeModal();
-  };
+  const availableContent = availableContentNodes?.filter(contentFilter) || []
 
   return (
     <ContentSelectTable
       onRowSelect={setSelectedContentIds}
       selectedContentIds={selectedContentIds}
+      availableContent={availableContent}
       contentType={contentType}
-      contentFilter={contentFilter}
       filters={['category', 'global', 'collection', 'itemType']}
-      recipientType={groupType}
       recipient={group}
       actionName={actionName}
       onSubmit={onSubmit}

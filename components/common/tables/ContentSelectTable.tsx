@@ -21,8 +21,8 @@ type ContentSelectTableProps = {
   selectedContentIds: string[]
   actionName: string
   contentType?: string
+  availableContent?: any
   rowSizing?: 'sm' | 'md' | 'lg'
-  contentFilter: (content: any) => boolean
   filters?: string[]
   onSubmit: (contentIds: string[]) => void
   onRowSelect: (selectedIds: string[]) => void
@@ -30,9 +30,9 @@ type ContentSelectTableProps = {
 
 const ContentSelectTable = ({ 
   contentType = 'content',
+  availableContent=[],
   selectedContentIds,
   rowSizing='sm',
-  contentFilter,
   filters=['global'],
   recipient,
   // recipientType,
@@ -51,42 +51,11 @@ const ContentSelectTable = ({
 
   // const contentNodes = content?.edges.map(edge => edge.node)
   
-  const { content, loading: contentLoading } = useGetContent(contentType)
-  const { user: currentUser } = useGetCurrentUser()
-  const { userHasCapability } = useUserHasCapability()
-  const shouldFetchGroupsContents = !userHasCapability('EnrolUsersInContent', 'tenant')
-  const { groups, loading: groupsLoading } = useGetGroupsDetailed(shouldFetchGroupsContents)
-  
   const type = contentTypes[contentType];
-
-  let availableContentNodes = []
-
-  if (userHasCapability('EnrolUsersInContent', 'tenant')) {
-    availableContentNodes = content?.edges.map(edge => edge.node) || []
-    console.log('availableContentNodes')
-    console.log(availableContentNodes)
-  } else {  
-    const userGroupIds = user.groups.edges.map(edge => edge.groupId)
-    const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
-    const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
-
-    const commonGroupProvisionedContents = groups?.edges.flatMap(
-      edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
-    ) || []
-
-    const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
-    const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
-    
-    availableContentNodes = [
-      ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
-      ...currentUserEnrolledContentNodes
-    ]
-  }
-  
+  console.log('type')
+  console.log(type)
   const actionNameCapitalised = actionName.charAt(0).toUpperCase() + actionName.slice(1)
   
-  const availableContent = availableContentNodes?.filter(contentFilter) || []
-
   let recipientLabel
 
   switch (recipient.__typename) {
@@ -120,6 +89,7 @@ const ContentSelectTable = ({
         const type = contentTypes[cell.row.original.itemType]
         const { src } = useGetThumbnail(cell.row.original, 50)
         const { contentType, itemType } = cell.row.original
+        
         let icon = <type.icon className={iconPadding} />
         let rounded = 'full'
          

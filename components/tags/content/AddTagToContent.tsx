@@ -24,10 +24,6 @@ const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
     });
   };
 
-  const contentFilter = (contentItem) => {
-    return !contentItem.tags.edges.find(({ node }) => node.id === tag.id);
-  };
-
   const onSubmit = (selectedIds) => {
     setSelectedContentIds(selectedIds);
     handleAddTagToContent();
@@ -39,11 +35,10 @@ const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
         availableContent.length ? (
           <div>
             <ContentSelectTable
+              availableContent={availableContent}
               selectedContentIds={selectedContentIds}
               onRowSelect={setSelectedContentIds}
               contentType={typeName}
-              contentFilter={contentFilter}
-              recipientType="tag"
               recipient={tag}
               filters={['category', 'global']}
               actionName="Add"
