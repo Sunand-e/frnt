@@ -163,6 +163,7 @@ const Table = () => {
             checked: row.getIsSelected(),
             indeterminate: row.getIsSomeSelected(),
             onChange: row.getToggleSelectedHandler(),
+            disabled: row.original.checkboxDisabled
           }}
         />
       ),
@@ -240,6 +241,7 @@ const Table = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    enableRowSelection: (row) => !row.original.checkboxDisabled,
     // getPaginationRowModel: getPaginationRowModel(),
     // debugTable: true,
   });

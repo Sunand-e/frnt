@@ -49,18 +49,27 @@ const UserContent = ({ contentType }: UserContentProps) => {
     }
   ]
 
-  const tableData = useMemo(
-    () => {
-      return user?.[type.pluralKey].edges.filter(edge => (
-        !edge.node._deleted
-         && (
-          edge.groups.edges.some(edge => edge.roles.length) || 
-          edge.roles.length
-        )
-      )) || []
-    },
-    [user, type.pluralKey]
-  );
+  const tableData = useMemo(() => {
+    return (
+      user?.[type.pluralKey].edges.reduce((acc, edge) => {
+        // Check if the edge node is not deleted and has relevant roles
+        const hasRoles =
+          edge.groups.edges.some((groupEdge) => groupEdge.roles.length) ||
+          edge.roles.length;
+
+        if (!edge.node._deleted && hasRoles) {
+          // Check if the edge has groups with edges and set checkboxDisabled
+          const hasGroupsWithEdges = edge.groups.edges.some((groupEdge) => groupEdge.roles.length)
+          acc.push({
+            ...edge,
+            checkboxDisabled: hasGroupsWithEdges,
+          });
+        }
+
+        return acc;
+      }, []) || []
+    );
+  }, [user, type.pluralKey]);
 
   const tableCols = useMemo(() => {
     return [
