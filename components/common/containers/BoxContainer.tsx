@@ -8,7 +8,7 @@ interface BoxContainerProps {
   button?: {
     text: string
     onClick: any,
-    disabled: boolean,
+    disabled?: boolean,
   } | null,
   bulkActions?: {
     label: string,
