@@ -66,17 +66,6 @@ export const contentTypes: ContentTypes = {
       }
     }
   },
-  pathway: {
-    name: 'pathway',
-    pluralKey: 'pathways',
-    plural: 'pathways',
-    label: "Pathway",
-    pluralLabel: "Pathways",
-    icon: Flow,
-    editUrl: 'admin/pathways/edit',
-    gqlGetQuery: GET_PATHWAYS,
-    isAssignable: true,
-  },
   resource: {
     name: 'resource',
     pluralKey: 'resources',
@@ -86,6 +75,17 @@ export const contentTypes: ContentTypes = {
     icon: Library,
     editUrl: 'admin/resources/edit',
     gqlGetQuery: GET_RESOURCES,
+    isAssignable: true,
+  },
+  pathway: {
+    name: 'pathway',
+    pluralKey: 'pathways',
+    plural: 'pathways',
+    label: "Pathway",
+    pluralLabel: "Pathways",
+    icon: Flow,
+    editUrl: 'admin/pathways/edit',
+    gqlGetQuery: GET_PATHWAYS,
     isAssignable: true,
   },
   content: {
