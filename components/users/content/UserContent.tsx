@@ -6,9 +6,9 @@ import BoxContainerTable from "../../common/tables/BoxContainerTable";
 import UserAvailableContentTable from "../content/UserAvailableContentTable";
 import UserContentActionsMenu from "../content/UserContentActionsMenu";
 import { contentTypes } from "../../common/contentTypes";
-import ItemWithImage from "../../common/cells/ItemWithImage";
 import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
+import ContentTitleCell from "../../common/cells/ContentTitleCell";
 
 interface UserContentProps {
   contentType: string;
@@ -67,15 +67,7 @@ const UserContent = ({ contentType }: UserContentProps) => {
       {
         header: type.label,
         accessorFn: row => row.node.title,
-        cell: ({ cell }) => {
-          const item = cell.row.original.node;
-          return (
-            <ItemWithImage
-              title={item.title}
-              image={item.image}
-            />
-          )
-        }
+        cell: ({ cell }) => <ContentTitleCell item={cell.row.original.node} />
       },
       {
         id: "AssignmentStatus",

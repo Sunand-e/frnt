@@ -1,16 +1,16 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
 import { useCallback, useMemo } from "react";
-import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
-import { handleModal } from "../../../stores/modalStore";
-import ItemWithImage from "../../common/cells/ItemWithImage";
-import AddTagToContent from "../content/AddTagToContent";
 import cache from "../../../graphql/cache";
-import TagContentActionsMenu from "./TagContentActionsMenu";
 import { ContentItemTagEdgeFragmentFragment } from "../../../graphql/generated";
 import { ContentItemTagEdgeFragment } from "../../../graphql/queries/allQueries";
-import BoxContainerTable from "../../common/tables/BoxContainerTable";
 import useRemoveTagsFromContent from "../../../hooks/contentItems/useRemoveTagsFromContent";
+import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
+import { handleModal } from "../../../stores/modalStore";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
+import ContentTitleCell from "../../common/cells/ContentTitleCell";
+import BoxContainerTable from "../../common/tables/BoxContainerTable";
+import AddTagToContent from "../content/AddTagToContent";
+import TagContentActionsMenu from "./TagContentActionsMenu";
 
 const TagContent = ({tag, contentType, content}) => {
   
@@ -62,10 +62,7 @@ const TagContent = ({tag, contentType, content}) => {
       {
         header: contentType.label,
         accessorFn: row => row.node.title, // accessor is the key in the data
-        cell: ({ cell }) => {
-          const content = cell.row.original.node;
-          return <ItemWithImage title={content.title} image={content.image} />
-        }
+        cell: ({ cell }) => <ContentTitleCell item={cell.row.original.node} />,
       },
       {
         header: 'order',

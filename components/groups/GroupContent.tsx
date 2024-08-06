@@ -7,6 +7,7 @@ import { handleModal } from "../../stores/modalStore";
 import { commonTableCols } from "../../utils/commonTableCols";
 import { getContentTypeStringWithCount } from "../../utils/getContentTypeStringWithCount";
 import { useRouter } from "../../utils/router";
+import ContentTitleCell from "../common/cells/ContentTitleCell";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { contentTypes } from "../common/contentTypes";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
@@ -98,17 +99,9 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Course",
+        header: type.label,
         accessorFn: row => row.node.title,
-        cell: ({ cell }) => {
-          const course = cell.row.original.node;
-          return (
-            <ItemWithImage
-              title={course.title}
-              // image={course.image}
-            />
-          )
-        }
+        cell: ({ cell }) => <ContentTitleCell item={cell.row.original.node} />
       },
       commonTableCols.createdAt,
       {
