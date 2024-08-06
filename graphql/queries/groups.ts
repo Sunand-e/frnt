@@ -37,6 +37,12 @@ export const GroupOverviewFragment = gql`
     provisionedCourses {
       totalCount
     }
+    provisionedResources {
+      totalCount
+    }
+    provisionedPathways {
+      totalCount
+    }
     _deleted @client
   }
 `

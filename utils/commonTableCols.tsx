@@ -3,7 +3,7 @@ import TooltipIfClamped from "../components/common/floating-ui/TooltipIfClamped"
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
-const noDataDash = <span>&mdash;</span>
+export const noDataDash = <span>&mdash;</span>
 
 const dateAccessorFnAndCell = (accessorKey: string) => {
   return {

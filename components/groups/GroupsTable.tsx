@@ -3,8 +3,6 @@ import React, { useMemo } from 'react';
 import Table from '../common/tables/Table';
 import { GET_GROUPS } from '../../graphql/queries/groups';
 import { GetGroups } from '../../graphql/queries/__generated__/GetGroups';
-import {Group2} from "@styled-icons/remix-fill/Group2"
-import ItemWithImage from '../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import GroupActionsMenu from './GroupActionsMenu';
 import useConfirmDelete from '../../hooks/useConfirmDelete';
@@ -12,6 +10,7 @@ import useDeleteGroup from '../../hooks/groups/useDeleteGroup';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../utils/commonTableCols';
 import GroupTitleCell from '../common/cells/GroupTitleCell';
+import { getAssociatedContentString } from '../../utils/getAssociatedContentString';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -55,7 +54,7 @@ const GroupsTable = () => {
           const group = cell.row.original
           const props = { href: `${editUrl}?id=${group.id}` }
           return <GroupTitleCell group={group} itemWithImageProps={props} />
-                  }
+        }
       },
       {
         header: "Users",
@@ -63,12 +62,20 @@ const GroupsTable = () => {
       },
       commonTableCols.createdAt,
       {
-        header: "Enrolled Courses",
-        accessorFn: row => row.assignedCourses?.totalCount,
+        header: "Assigned content",
+        accessorFn: row => row.assignedContent?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return getAssociatedContentString(group, 'assigned');
+        }
       },
       {
-        header: "Assigned Resources",
-        accessorFn: row => row.assignedResources?.totalCount,
+        header: "Provided content",
+        accessorFn: row => row.providedContent?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return getAssociatedContentString(group, 'provisioned');
+        }
       },
       {
         width: 300,
