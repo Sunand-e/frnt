@@ -19,6 +19,7 @@ import { createPortal } from "react-dom";
 import { useViewStore } from "../../../hooks/useViewStore";
 import classNames from "../../../utils/classNames";
 import { StaticTableRow } from "./StaticTableRow";
+import { tableSizingOptions } from "./Table";
 import TableBody from "./TableBody";
 import { useTableContext } from "./tableContext";
 
@@ -72,12 +73,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainer = scrollInTable ? scrollInTableContainerRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   
-  let rowHeight = 75;
-  if (rowSizing === 'sm') {
-    rowHeight = 50;
-  } else if (rowSizing === 'lg') {
-    rowHeight = 100;
-  }
+  const { padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
 
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
@@ -191,7 +187,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
                         return (
                           <th key={header.id} colSpan={header.colSpan}
                             className={classNames(
-                              "bg-gray-50 px-6 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider " +
+                              "bg-gray-50 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider " +
                               "border-b border-gray-200",
                               scrollInTable && 'sticky top-0'
                             )}
@@ -199,6 +195,9 @@ const TableStructure = ({ table }: TableStructureProps) => {
                             style={{
                               textAlign: (index > dataCellOffset) ? 'center' : 'left',
                               zIndex: 10000,
+                              padding,
+                              ...(headerGroup.headers.length !== index + 1 && { paddingRight:0 }),
+                              // paddingRight:0,
                               // width: header.getSize() !== 150 ? header.getSize() : 20,
                               ...(colWidths && { width: colWidths[index] }),
                             }}

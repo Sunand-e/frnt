@@ -44,7 +44,7 @@ const TagsTable = ({typeName='category'}) => {
         accessorKey: "label", // accessor is the "key" in the data
         cell: ({ cell }) => {
         
-            const icon = tagType.icon ? <tagType.icon className='p-2' /> : null;
+            const icon = tagType.icon ? <tagType.icon className='p-1' /> : null;
           
           return <ItemWithImage
             image={cell.row.original.image}
@@ -52,7 +52,7 @@ const TagsTable = ({typeName='category'}) => {
             title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
-            imgDivClass={'bg-main text-white'}
+            // imgDivClass={'bg-main text-white'}
           />
         }
       },

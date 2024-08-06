@@ -21,6 +21,11 @@ import { TableContext, TableProps, TableProvider, useTableContext } from './tabl
 import TableStructure from './TableStructure';
 import Tippy from '@tippyjs/react';
 
+export const tableSizingOptions = {
+  sm: { padding: '0.5rem 1rem', rowHeight: 50 },
+  md: { padding: '1rem 1.5rem', rowHeight: 75 },
+  lg: { padding: '1.5rem 2rem', rowHeight: 100 },
+};
 
 const TableWithProvider = (props: TableProps) => {
   return (

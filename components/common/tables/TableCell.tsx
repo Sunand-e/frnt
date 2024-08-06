@@ -1,5 +1,6 @@
 import { Cell, flexRender } from "@tanstack/react-table"
 import { CSSProperties, memo, useEffect } from "react"
+import { tableSizingOptions } from "./Table"
 import { useTableContext } from "./tableContext"
 interface TableCellProps {
   cell: Cell<any,any>
@@ -16,24 +17,22 @@ const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
 
   const selectable = isSelectable || !!bulkActions.length
   const dataCellOffset = Number(isReorderable) + Number(selectable)
-
-  const sizingOptions = {
-    sm: { padding: '0.5rem 1rem', rowHeight: 50 },
-    md: { padding: '1rem 1.5rem', rowHeight: 75 },
-    lg: { padding: '1.5rem 2rem', rowHeight: 100 },
-  };
-  
-  const { padding, rowHeight } = sizingOptions[rowSizing] || sizingOptions.md;
+    
+  const { padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
   
   const defaultStyles: CSSProperties = {
     padding,
     textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
     maxHeight: rowHeight
   }
+  
+  if(cell.row.getVisibleCells().length !== index + 1) {
+    defaultStyles.paddingRight = 0
+  }
 
   return (
     <td key={cell.id}
-      className={`px-6 py-4 border-b border-gray-200 text-sm text-gray-900 group-last:border-0`}
+      className={`px-6 pl-4 border-b border-gray-200 text-sm text-gray-900 group-last:border-0`}
       style={{
         ...defaultStyles,
         ...cell.column.columnDef.style,
