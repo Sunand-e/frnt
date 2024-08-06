@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client';
-import React, { useMemo } from 'react';
-import Table from '../common/tables/Table';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { GET_GROUPS } from '../../graphql/queries/groups';
 import { GetGroups } from '../../graphql/queries/__generated__/GetGroups';
-import dayjs from 'dayjs'
-import GroupActionsMenu from './GroupActionsMenu';
-import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../hooks/groups/useDeleteGroup';
+import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../utils/commonTableCols';
+import AssociatedContentCell from '../common/cells/AssociatedContentCell';
 import GroupTitleCell from '../common/cells/GroupTitleCell';
-import { getAssociatedContentString } from '../../utils/getAssociatedContentString';
+import Table from '../common/tables/Table';
+import GroupActionsMenu from './GroupActionsMenu';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -66,7 +66,7 @@ const GroupsTable = () => {
         accessorFn: row => row.assignedContent?.totalCount,
         cell: ({ cell }) => {
           const group = cell.row.original;
-          return getAssociatedContentString(group, 'assigned');
+          return <AssociatedContentCell entity={group} keyPrefix='assigned' />
         }
       },
       {
@@ -74,7 +74,7 @@ const GroupsTable = () => {
         accessorFn: row => row.providedContent?.totalCount,
         cell: ({ cell }) => {
           const group = cell.row.original;
-          return getAssociatedContentString(group, 'provisioned');
+          return <AssociatedContentCell entity={group} keyPrefix='provisioned' />
         }
       },
       {

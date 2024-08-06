@@ -1,7 +1,13 @@
 import { contentTypes } from "../components/common/contentTypes";
 import { noDataDash } from "./commonTableCols";
 
-export const getAssociatedContentString = (entity, keyPrefix) => {
+export const getAssociatedContentString = (entity, keyPrefix=null, minimize=false) => {
+
+  if(minimize) {
+    const count = entity[`${keyPrefix}Contents`]?.totalCount;
+    return count ? `${count} items` : noDataDash;
+  }
+
   const parts = [];
 
   Object.keys(contentTypes).forEach(key => {
