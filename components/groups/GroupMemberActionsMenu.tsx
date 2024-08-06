@@ -1,14 +1,13 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
-import { useCallback } from "react"
-import useRemoveUsersFromGroups from "../../hooks/groups/useRemoveUsersFromGroups"
+import { getGroupType } from "../common/groupTypes"
 
 const GroupMemberActionsMenu = ({group, edge, onRemove}) => {
   
-  const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
+  const { name: typeName } = getGroupType(group)
 
   const menuItems = [
     ...(!false ? [{
-      label: `Remove user from ${groupTypeName}`,
+      label: `Remove user from ${typeName}`,
       onClick: () => {
         onRemove(edge.node.id)
       },
