@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import useGetCourses from '../../hooks/courses/useGetCourses';
@@ -7,6 +7,7 @@ import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
 import useGetResources from '../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
 import { useRouter } from '../../utils/router';
+import Tabs from '../common/containers/Tabs';
 import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
 import TextInput from '../common/inputs/TextInput';
 import GroupContent from './GroupContent';
@@ -46,6 +47,19 @@ const GroupForm = ({groupType='group'}) => {
     }
   );
   
+  const [activeAssociatedContentTab, setActiveAssociatedContentTab] = useState('assigned')
+  const [activeGroupUsersTab, setActiveGroupUsersTab] = useState('members')
+
+  const associatedContentTabs = [
+    {name: 'assigned', title: 'Assigned Content'},
+    {name: 'provided', title: 'Provided Content'}
+  ]
+  const groupUsersTabs = [
+    {name: 'members', title: 'Members'},
+    {name: 'leaders', title: 'Leaders'}
+  ]
+
+
   useEffect(() => {
     setFocus('name')
   },[])
@@ -86,27 +100,47 @@ const GroupForm = ({groupType='group'}) => {
           />
         </>
       )}
-      <GroupMembers
-        title=" Group Leaders"
-        groupType="group"
-        addMembersButtonText="Choose group leaders"
-        addMembersModalText="Group leader(s)"
-        newMemberRole="Group Leader"
-        showRoles={["Group Leader"]}
-      />
-      <GroupMembers 
-        groupType="group"
-        showRoles={["Member"]}
-      />
-      <h2 className='pt-2'>Provided Content</h2>
-      <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
-
-      <GroupContent typeName='content' associationType='provided' />
       
-      <h2 className='pt-2'>Assigned Content</h2>
-      <p className='text-sm'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
-
-      <GroupContent typeName='content' associationType='assigned' />
+      <Tabs
+        activeTab={activeGroupUsersTab}
+        setActiveTab={setActiveGroupUsersTab}
+        tabs={groupUsersTabs}
+        className='mb-4'
+      />
+      { activeGroupUsersTab === 'members' && (
+        <GroupMembers 
+          groupType="group"
+          showRoles={["Member"]}
+        />
+      )}
+      { activeGroupUsersTab === 'leaders' && (
+        <GroupMembers
+          title=" Group Leaders"
+          groupType="group"
+          addMembersButtonText="Choose group leaders"
+          addMembersModalText="Group leader(s)"
+          newMemberRole="Group Leader"
+          showRoles={["Group Leader"]}
+        />
+      )}
+      <Tabs
+        activeTab={activeAssociatedContentTab}
+        setActiveTab={setActiveAssociatedContentTab}
+        tabs={associatedContentTabs}
+        className='mb-4'
+      />
+      { activeAssociatedContentTab === 'assigned' && (
+        <>
+          <p className='text-sm'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
+          <GroupContent typeName='content' associationTypeName='assigned' />
+        </>
+      )}
+      { activeAssociatedContentTab === 'provided' && (
+        <>
+          <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
+          <GroupContent typeName='content' associationTypeName='provided' />
+        </>
+      )}
     </form>
   )
 }
