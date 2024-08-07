@@ -42,7 +42,7 @@ const Tabs = ({tabs, className, activeTab, setActiveTab}) => {
                   'px-3 py-2 h-10 rounded-md flex items-center justify-center'
                 )}>
                   {tab.title}
-                  {typeof tab.count !== undefined && tab.count !== null ? (
+                  {typeof tab.count !== 'undefined' && tab.count !== null ? (
                   <span
                     className={classNames(
                       tab.name === activeTab ? 'bg-white/30 text-white' : 'bg-gray-100 text-gray-900',
