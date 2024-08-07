@@ -43,12 +43,12 @@ export default function ContentStatusTabs({connection, content=[], options=null,
     },
   ]
 
-  const [activeTab, setActiveTab] = useState('')
-
   const visibleContentPanels = contentPanels.filter(({name, contents}) => {
     return !(name === 'in_progress' && !contents.length)
   })
   
+  const [activeTab, setActiveTab] = useState(visibleContentPanels.find(({name}) => name === 'in_progress') ? 'in_progress' : 'not_started')
+
   const { 
     contents: filteredCourses, readMoreLabel, noItemsText 
   } = visibleContentPanels.find(tab => tab.name === activeTab) || visibleContentPanels[0]
