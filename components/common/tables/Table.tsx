@@ -173,7 +173,7 @@ const Table = () => {
         />
       ),
       style: {
-        padding: 0,
+        paddingRight: 0,
         width: '16px'
       }
     }] : []),
