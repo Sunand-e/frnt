@@ -15,7 +15,17 @@ export const ASSIGN_CONTENT_TO_GROUPS = gql`
       groups {
         id
         name
+        assignedCourses {
+          totalCount
+        }
+        assignedResources {
+          totalCount
+        }
+        assignedPathways {
+          totalCount
+        }
         assignedContents {
+          totalCount
           edges {
             createdAt
             groupId

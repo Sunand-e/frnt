@@ -13,7 +13,17 @@ export const REMOVE_PROVISIONED_CONTENT_FROM_GROUPS = gql`
     ) {
       groups {
         id
+        provisionedCourses {
+          totalCount
+        }
+        provisionedResources {
+          totalCount
+        }
+        provisionedPathways {
+          totalCount
+        }
         provisionedContents {
+          totalCount
           edges {
             groupId
             contentItemId
