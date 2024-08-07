@@ -16,7 +16,22 @@ import GroupContentActionsMenu from "./GroupContentActionsMenu";
 
 type AssociationType = 'assigned' | 'provided'
 
-const GroupContent = ({typeName='content', groupType='group', associationType='assigned'}) => {
+const associationTypes = {
+  assigned: {
+    pastTense: 'assigned',
+    presentTense: 'assign',
+  },
+  provided: {
+    pastTense: 'provided',
+    presentTense: 'provide',
+  }
+}
+
+const capitaliseWord = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1)
+}
+
+const GroupContent = ({typeName='content', groupType='group', associationTypeName='assigned'}) => {
 
   const type = contentTypes[typeName]
   
@@ -24,24 +39,20 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
   const { id } = router.query
   const { loading, error, group } = useGetGroup(id)
 
-  let actionNameCapitalised
-  if(associationType === 'assigned') {
-    actionNameCapitalised = 'Assign'
-  } else if(associationType === 'provided') {
-    actionNameCapitalised = 'Provide'
-  }
+  let actionNameCapitalised = capitaliseWord(associationTypes[associationTypeName].presentTense)
+  let associationTypeCapitalised = capitaliseWord(associationTypes[associationTypeName].pastTense)
 
   const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   const { removeAssignedContentFromGroups } = useRemoveAssignedContentFromGroups()
   
   const handleRemove = useCallback((ids) => {
     const idsArray = Array.isArray(ids) ? ids : [ids];
-    if(associationType === 'assigned') {
+    if(associationTypeName === 'assigned') {
       removeAssignedContentFromGroups({
         groupIds: [group.id],
         contentItemIds: idsArray,
       })
-    } else if(associationType === 'provided') {
+    } else if(associationTypeName === 'provided') {
       removeProvisionedContentFromGroups({
         groupIds: [group.id],
         contentItemIds: idsArray,
@@ -57,7 +68,7 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
         content: (
           <GroupAvailableContentTable
             group={group}
-            associationType={associationType}
+            associationType={associationTypeName}
             contentType={typeName}
           />
         ),
@@ -66,7 +77,7 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
     }
   }
 
-  const boxTitle = type?.plural.charAt(0).toUpperCase() + type?.plural.slice(1);
+  const boxTitle = `${associationTypeCapitalised} ${type?.plural.charAt(0).toUpperCase()}${type?.plural.slice(1)}`;
 
   const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
 
@@ -81,9 +92,9 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
   const tableData = useMemo(
     () => {
       let existingAssociatedContentConnection
-      if(associationType === 'assigned') {
+      if(associationTypeName === 'assigned') {
         existingAssociatedContentConnection = group.assignedContents
-      } else if(associationType === 'provided') {
+      } else if(associationTypeName === 'provided') {
         existingAssociatedContentConnection = group.provisionedContents
       }
       // console.log('existingAssociatedContentConnection')
@@ -111,7 +122,7 @@ const GroupContent = ({typeName='content', groupType='group', associationType='a
           <GroupContentActionsMenu
             onRemove={handleRemove}
             group={group}
-            associationType={associationType}
+            associationType={associationTypeName}
             edge={cell.row.original}
             typeName={typeName}
           />
