@@ -42,7 +42,7 @@ export const Tooltip = ({
   showArrow = false,
   followMouse = false,
   arrowClassName = 'fill-white',
-  placement = 'bottom',
+  placement = 'top',
   className = 'bg-white text-sm',
 }: TooltipProps) => {
   
@@ -60,7 +60,7 @@ export const Tooltip = ({
     onOpenChange: setIsOpen,
     placement,
     middleware: [
-      offset(),
+      offset({ mainAxis: 6 }),
       flip(),
       shift(),
       arrow({
