@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { useContext } from "react";
 import classNames from "../../../utils/classNames";
 import TooltipIfClamped from "../floating-ui/TooltipIfClamped";
-import { useTableContext } from "../tables/tableContext";
+import { TableContext } from "../tables/tableContext";
 
 interface ItemWithImageProps {
   rounded?: 'none' | 'md' | 'full';
@@ -51,11 +52,12 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
   href,
 }) => {
 
-  const rowSizing = useTableContext(s => s.rowSizing)
-
+  const store = useContext(TableContext)
+  
+  const rowSizing = store?.getState().rowSizing || 'md';
+  
   const imageAltText = `${title} - ${secondary}`;
-
-  const iconSizeClass = iconSizeOptions[rowSizing] || iconSizeOptions.md;
+  const iconSizeClass = iconSizeOptions[rowSizing]
 
   return (
     <ConditionalLinkWrapper href={href}>

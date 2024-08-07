@@ -27,6 +27,7 @@ export interface TableProps {
   scrollContainerRef?: MutableRefObject<HTMLDivElement>
   scrollInTable: boolean,
   maxVisibleRows: number,
+  dontShowTypes?: Array<string>,
   isExportable?: boolean,
   isLoading?: boolean,
   isReorderable?: boolean,
@@ -82,6 +83,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     rowSelection: {},
     selectedRowIds: [],
     tableCols: [],
+    dontShowTypes: [],
     showTop: true,
     isReorderable: false,
     isReorderableActive: false,

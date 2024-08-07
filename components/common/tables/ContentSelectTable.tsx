@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { Group, Tag, User } from "../../../graphql/generated";
+import { ContentItem, Group, Tag, User } from "../../../graphql/generated";
 import { getIconFromFilename } from "../../../utils/getIconFromFilename";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import { resourceTypes } from "../../resources/resourceTypes";
@@ -17,7 +17,8 @@ import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed";
 
 type ContentSelectTableProps = {
   // recipientType: string
-  recipient: Tag | Group | User
+  recipient: Tag | Group | User | ContentItem
+  dontShowTypes: string[]
   selectedContentIds: string[]
   actionName: string
   contentType?: string
@@ -30,6 +31,7 @@ type ContentSelectTableProps = {
 
 const ContentSelectTable = ({ 
   contentType = 'content',
+  dontShowTypes=[],
   availableContent=[],
   selectedContentIds,
   rowSizing='sm',
@@ -65,6 +67,9 @@ const ContentSelectTable = ({
       break;
     case 'User':
       recipientLabel = recipient.fullName
+      break;
+    case 'ContentItem':
+      recipientLabel = recipient.title
       break;
   }
 
@@ -143,6 +148,7 @@ const ContentSelectTable = ({
         isSelectable={true}
         onRowSelect={onRowSelect}
         rowSizing={rowSizing}
+        dontShowTypes={dontShowTypes}
       />
       <Button
         disabled={!selectedContentIds.length}

@@ -25,11 +25,14 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const filters = useTableContext(s => s.filters)
   const types = useTableContext(s => s.typeOptions)
   const typeName = useTableContext(s => s.typeName)
+  const dontShowTypes = useTableContext(s => s.dontShowTypes)
   
   const contentItemTypeOptions = Object.entries(contentTypes).map(([key, value]) => ({
     value: key,
     ...value
-  })).filter(type => type.isAssignable);
+  })).filter(type => {
+    return type.isAssignable && !dontShowTypes.includes(type.value)
+  });
 
   const setContentType = useTableContext(s => s.setContentType)
 
