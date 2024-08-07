@@ -12,22 +12,24 @@ function useAddUsersToGroups() {
     ADD_USERS_TO_GROUPS,
     {
       update: (cache, { data: { addUsersToGroups } }) => {
+        console.log('addUsersToGroups')
+        console.log(addUsersToGroups)
       },
     }
   );
 
   const addUsersToGroups = (values, cb = null) => {
 
-      const existingCachedGroups = values.groupIds.reduce((acc, groupId) => {
-        // Fetch the existing group data from the cache
-        const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
-        const group = cachedGroupData?.group;
-        // If the group exists, add it to the accumulator
-        if (group) {
-          acc.push(group);
-        }
-        return acc;
-      }, []);
+    const existingCachedGroups = values.groupIds.reduce((acc, groupId) => {
+      // Fetch the existing group data from the cache
+      const cachedGroupData = cache.readQuery({ query: GET_GROUP, variables: { id: groupId } });
+      const group = cachedGroupData?.group;
+      // If the group exists, add it to the accumulator
+      if (group) {
+        acc.push(group);
+      }
+      return acc;
+    }, []);
 
     // Assuming values.userIds contains the new content item IDs to be assigned
     // and existingCachedGroups is an array of groups with their current assignedContents
@@ -68,6 +70,54 @@ function useAddUsersToGroups() {
     });
 
 
+    const existingCachedUsers = values.userIds.reduce((acc, userId) => {
+      // Fetch the existing user data from the cache
+      const cachedUserData = cache.readQuery({ query: GET_USER, variables: { id: userId } });
+      const user = cachedUserData?.user;
+      // If the user exists, add it to the accumulator
+      if (user) {
+        acc.push(user);
+      }
+      return acc;
+    }, []);
+    // Assuming values.userIds contains the new content item IDs to be assigned
+    // and existingCachedGroups is an array of groups with their current assignedContents
+
+    const updatedUsers = existingCachedUsers.map(user => {
+      // Create new edges for the new content item IDs
+      const newGroupEdges = values.groupIds.map(groupId => ({
+        __typename: 'UserGroupEdge',
+        groupId,
+        userId: user.id,
+        node: {
+          __typename: 'Group',
+          id: groupId,
+        },
+        roles: [
+          {
+            __typename: 'Role',
+            id: values.roleId,
+          },
+        ],
+      }));
+
+      // Combine existing assignedContents with new content item edges
+      // This assumes that group.assignedContents is an array of edges
+
+      // Return the updated group with new assignedContents
+      return {
+        ...user,
+        groups: {
+          ...user.groups,
+          edges: [
+            ...user.groups.edges,
+            ...newGroupEdges,
+          ]
+        }
+      };
+    });
+
+
 
     addUsersToGroupsMutation({
       variables: {
@@ -77,29 +127,7 @@ function useAddUsersToGroups() {
         addUsersToGroups: {
           __typename: 'AddUsersToGroupsPayload',
           groups: updatedGroups,
-          users: values.userIds.map(userId => ({
-            __typename: 'User',
-            id: userId,
-            groups: {
-              __typename: 'UserGroupConnection',
-              // totalCount: 1, // This is optimistic, adjust according to your logic
-              edges: values.groupIds.map(groupId => ({
-                __typename: 'UserGroupEdge',
-                groupId: groupId,
-                userId: userId,
-                node: {
-                  __typename: 'Group',
-                  id: groupId,
-                },
-                roles: [
-                  {
-                    __typename: 'Role',
-                    id: values.roleId,
-                  },
-                ],
-              })),
-            },
-          })),
+          users: updatedUsers
         },
       },
       onCompleted: cb
