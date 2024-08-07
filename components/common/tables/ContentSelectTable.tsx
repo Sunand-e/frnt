@@ -52,8 +52,6 @@ const ContentSelectTable = ({
   // const contentNodes = content?.edges.map(edge => edge.node)
   
   const type = contentTypes[contentType];
-  console.log('type')
-  console.log(type)
   const actionNameCapitalised = actionName.charAt(0).toUpperCase() + actionName.slice(1)
   
   let recipientLabel
@@ -89,7 +87,7 @@ const ContentSelectTable = ({
         const type = contentTypes[cell.row.original.itemType]
         const { src } = useGetThumbnail(cell.row.original, 50)
         const { contentType, itemType } = cell.row.original
-        
+
         let icon = <type.icon className={iconPadding} />
         let rounded = 'full'
          
