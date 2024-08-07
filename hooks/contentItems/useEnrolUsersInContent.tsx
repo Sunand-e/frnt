@@ -59,7 +59,7 @@ function useEnrolUsersInContent() {
 
           isOrganisationLeader && getGroup()
           
-          cb()
+          !!cb && cb()
         }
       }).catch(res => {
         // TODO: do something if there is an error!!
