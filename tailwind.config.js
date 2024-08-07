@@ -3,17 +3,25 @@ const rgbaStringFunction = (colorName) => ({opacityValue}) => {
   return `rgba(var(--theme-${colorName}), ${opacity})`
 }
 
-let darkColorFns = {}
-let lightnessColorFns = {}
-for(let p=5; p<100; p=p+5) {
-  let string = "dark-"+String(p).padStart(2, '0')
-  darkColorFns[string] = rgbaStringFunction(string)
-  string = "lightness-"+String(p).padStart(2, '0')
-  lightnessColorFns[string] = rgbaStringFunction(string)
+let darkColorFns = {};
+let mainLightnessColorFns = {};
+let secondaryLightnessColorFns = {};
+
+for (let p = 5; p < 100; p += 5) {
+  let paddedNum = String(p).padStart(2, '0');
+
+  let darkString = "dark-" + paddedNum;
+  darkColorFns[darkString] = rgbaStringFunction(darkString);
+
+  let mainLightnessString = "lightness-" + paddedNum;
+  mainLightnessColorFns[mainLightnessString] = rgbaStringFunction('main-'+mainLightnessString);
+
+  let secondaryLightnessString = "lightness-" + paddedNum;
+  secondaryLightnessColorFns[secondaryLightnessString] = rgbaStringFunction('secondary-'+secondaryLightnessString);
 }
 
 string = "lightness-99"
-lightnessColorFns[string] = rgbaStringFunction(string)
+mainLightnessColorFns[string] = rgbaStringFunction('main-'+string)
 
 module.exports = {
   content: ['./pages/**/*.{js,jsx,ts,tsx}', './layouts/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
@@ -29,12 +37,16 @@ module.exports = {
         },
         main: {
           ...darkColorFns,
-          ...lightnessColorFns,
+          ...mainLightnessColorFns,
           DEFAULT: rgbaStringFunction('main'),
           dark: rgbaStringFunction('dark'),
           secondary: rgbaStringFunction('secondary'),
           superlight: rgbaStringFunction('superlight'),
           'lighten-test': rgbaStringFunction('lighten-test'),
+        },
+        secondary: {
+          ...secondaryLightnessColorFns,
+          DEFAULT: rgbaStringFunction('secondary'),
         },
         grey: {
           // DEFAULT: '#ebedf4',

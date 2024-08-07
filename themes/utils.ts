@@ -18,14 +18,17 @@ export function createTheme({
   font_body=null
 }) {
   let darkColorVars = {}
-  let lightnessColorVars = {}
+  let mainLightnessColorVars = {}
+  let secondaryLightnessColorVars = {}
   for(let p=5; p<100; p=p+5) {
     darkColorVars["--theme-dark-"+String(p).padStart(2, '0')] = darken(chroma(main), p/100).rgb().join(', ')
-    lightnessColorVars["--theme-lightness-"+String(p).padStart(2, '0')] = chroma(main).set("hsl.l", p/100).rgb().join(', ')
+    mainLightnessColorVars["--theme-main-lightness-"+String(p).padStart(2, '0')] = chroma(main).set("hsl.l", p/100).rgb().join(', ')
+    secondaryLightnessColorVars["--theme-secondary-lightness-"+String(p).padStart(2, '0')] = chroma(secondary).set("hsl.l", p/100).rgb().join(', ')
   }
   return {
     ...darkColorVars,
-    ...lightnessColorVars,
+    ...mainLightnessColorVars,
+    ...secondaryLightnessColorVars,
     "--theme-lightness-99": chroma(main).set("hsl.l", 99/100).rgb().join(', '),
     "--theme-main": chroma(main).rgb().join(', '),
     "--theme-secondary": chroma(secondary).rgb().join(', '),
