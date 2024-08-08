@@ -16,6 +16,7 @@ import GroupContentActionsMenu from "./GroupContentActionsMenu";
 type AssociationType = {
   name: string,
   presentTense: string,
+  dataKey: string,
   removeAssociationsFn: Function
 }
 
@@ -39,11 +40,13 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
     assigned: {
       name: 'assigned',
       presentTense: 'assign',
+      dataKey: 'assignedContents',
       removeAssociationsFn: removeAssignedContentFromGroups
     },
     provided: {
       name: 'provided',
       presentTense: 'provide',
+      dataKey: 'provisionedContents',
       removeAssociationsFn: removeProvisionedContentFromGroups
     }
   }
@@ -92,10 +95,12 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
   ]
 
   const tableData = useMemo(
-    () => group[`${associationType.name}Contents`].edges.filter(edge => (
+    () => {
+      return group[associationType.dataKey].edges.filter(edge => (
       (typeName === 'content' || edge.node.itemType === typeName) &&
       !edge.node._deleted
-    )).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [],
+    )).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || []
+  },
     [group]
   );
 
