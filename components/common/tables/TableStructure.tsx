@@ -49,6 +49,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const isReorderable = useTableContext(s => s.isReorderable)
   const rowSizing = useTableContext(s => s.rowSizing)
   const isSelectable = useTableContext(s => s.isSelectable);
+  const isLoading = useTableContext(s => s.isLoading);
 
   const items = useMemo(() => rows?.map(getReorderableItemIdFromRow), [rows]);
   const [activeId, setActiveId] = useState();
@@ -144,11 +145,11 @@ const TableStructure = ({ table }: TableStructureProps) => {
     return row;
   }, [activeId, rows]);
 
-  const tableHeight = virtualizer.getTotalSize() + tHeadHeight
+  const tableHeight = virtualizer.getTotalSize() + tHeadHeight + (Number(isLoading) * 75)
 
   const visibleRows = items.length < maxVisibleRows ? items.length : maxVisibleRows
   
-  const tableWrapperHeight = scrollInTable ? visibleRows * rowHeight + tHeadHeight + 1 : tableHeight
+  const tableWrapperHeight = (scrollInTable ? (visibleRows * (rowHeight-2)) + tHeadHeight + 1 : tableHeight) + (Number(isLoading) * 75)
 
   return (
     <div className="flex flex-col">
