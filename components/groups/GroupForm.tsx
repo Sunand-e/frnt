@@ -103,7 +103,6 @@ const GroupForm = ({groupType='group'}) => {
         activeTab={activeGroupUsersTab}
         setActiveTab={setActiveGroupUsersTab}
         tabs={groupUsersTabs}
-        className='mb-4'
       />
       { activeGroupUsersTab === 'members' && (
         <GroupUsers 
@@ -125,7 +124,6 @@ const GroupForm = ({groupType='group'}) => {
         activeTab={activeAssociatedContentTab}
         setActiveTab={setActiveAssociatedContentTab}
         tabs={associatedContentTabs}
-        className='mb-4'
       />
       { activeAssociatedContentTab === 'assigned' && (
         <>

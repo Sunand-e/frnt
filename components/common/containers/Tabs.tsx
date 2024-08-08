@@ -1,9 +1,12 @@
 import classNames from "../../../utils/classNames"
 
-const Tabs = ({tabs, className, activeTab, setActiveTab}) => {
+const Tabs = ({tabs, className=null, activeTab, setActiveTab}) => {
   
   return (
-    <div className={className}>
+    <div className={classNames(
+      className,
+      'mb-2'
+    )}>
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
@@ -13,7 +16,7 @@ const Tabs = ({tabs, className, activeTab, setActiveTab}) => {
           id="tabs"
           name="tabs"
           className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-main focus:border-main sm:text-sm rounded-md"
-          defaultValue={activeTab || tabs[0].name}
+          defaultValue={activeTab || tabs[0]?.name}
           onChange={e => setActiveTab(e.target.value)}
         >
           {tabs.map((tab) => (

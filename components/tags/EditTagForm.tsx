@@ -58,7 +58,6 @@ const EditTagForm = ({typeName=null}) => {
         tabs={tabs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-4'
       />
       { activeTab === 'courses' && tenantFeaturesEnabled('courses') && <TagContent tag={tag} contentType={contentTypes.course} content={courses} /> }
       { activeTab === 'resources' && tenantFeaturesEnabled('resources') && <TagContent tag={tag} contentType={contentTypes.resource} content={resources} /> }

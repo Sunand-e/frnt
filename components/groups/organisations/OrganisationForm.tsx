@@ -96,7 +96,6 @@ const OrganisationForm = ({groupType='organisation'}) => {
           tabs={groupUsersTabs}
           activeTab={activeGroupUsersTab}
           setActiveTab={setActiveGroupUsersTab}
-          className='mb-4'
         />
         { activeGroupUsersTab === 'members' && (
           <GroupUsers 

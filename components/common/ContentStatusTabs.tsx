@@ -72,7 +72,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
 
   return (
     <>
-      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="mb-2" />
+      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
       { activeTab === 'certificates' ? (
         <CertificatesTable />
       ) : (

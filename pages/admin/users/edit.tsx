@@ -135,7 +135,6 @@ const AdminUsersEdit = () => {
                 tabs={contentTabs}
                 activeTab={activeContentTab}
                 setActiveTab={setActiveContentTab}
-                className='mb-4'
               />
               { activeContentTab === 'courses' && tenantFeaturesEnabled('courses') && <UserContent contentType="course" />}
               { activeContentTab === 'resources' && tenantFeaturesEnabled('resources') && <UserContent contentType="resource" />}
@@ -147,7 +146,6 @@ const AdminUsersEdit = () => {
                   tabs={groupsTabs}
                   activeTab={activeGroupsTab}
                   setActiveTab={setActiveGroupsTab}
-                  className='mb-4'
                 />
                 { activeGroupsTab === 'groups' && showGroups && <UserGroups groupTypeName="group" /> }
                 { activeGroupsTab === 'organisations' && showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
