@@ -12,8 +12,6 @@ function useAddUsersToGroups() {
     ADD_USERS_TO_GROUPS,
     {
       update: (cache, { data: { addUsersToGroups } }) => {
-        console.log('addUsersToGroups')
-        console.log(addUsersToGroups)
       },
     }
   );
