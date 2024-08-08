@@ -9,6 +9,7 @@ const BoxContainerTable = ({tableProps, title, icon, button=null}) => {
       showTop: false,
       maxVisibleRows: 5,
       scrollInTable: true,
+      showHeadersWhenLoading: false,
     }}>
       <BoxContainer title={title} icon={icon} button={button} hasTable={true}>
         <TableWithoutProvider />

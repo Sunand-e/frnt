@@ -24,6 +24,7 @@ export interface TableProps {
   rowSizing?: 'sm' | 'md' | 'lg',
   selectedRowIds?: Array<string>,
   showTop?: boolean,
+  showHeadersWhenLoading?: boolean,
   scrollContainerRef?: MutableRefObject<HTMLDivElement>
   scrollInTable: boolean,
   maxVisibleRows: number,
@@ -85,6 +86,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     tableCols: [],
     dontShowTypes: [],
     showTop: true,
+    showHeadersWhenLoading: true,
     isReorderable: false,
     isReorderableActive: false,
     isSelectable: false,

@@ -25,6 +25,8 @@ type ContentSelectTableProps = {
   availableContent?: any
   rowSizing?: 'sm' | 'md' | 'lg'
   filters?: string[]
+  isLoading?: boolean
+  loadingText?: string
   onSubmit: (contentIds: string[]) => void
   onRowSelect: (selectedIds: string[]) => void
 }
@@ -36,6 +38,8 @@ const ContentSelectTable = ({
   selectedContentIds,
   rowSizing='sm',
   filters=['global'],
+  isLoading = false,
+  loadingText = null,
   recipient,
   // recipientType,
   actionName,
@@ -136,6 +140,8 @@ const ContentSelectTable = ({
     buttonLabel = `${actionNameCapitalised} ${contentTypeStringWithCount} to ${recipientLabel}`
   }
 
+  let tableLoadingText = loadingText || `Loading available ${type.plural}...`
+
   return (
     <>
       <Table
@@ -145,6 +151,8 @@ const ContentSelectTable = ({
         scrollInTable={true}
         maxVisibleRows={9}
         selectedRowIds={selectedContentIds}
+        loadingText={tableLoadingText}
+        isLoading={isLoading}
         isSelectable={true}
         onRowSelect={onRowSelect}
         rowSizing={rowSizing}
