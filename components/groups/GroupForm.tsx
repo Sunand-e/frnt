@@ -131,7 +131,7 @@ const GroupForm = ({groupType='group'}) => {
           <>
             <span className='flex items-start text-sm mb-2'>
             <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
-              <p className='text-sm mb-2'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
+              <p className='text-sm mb-2'>When content is 'assigned' to a group, all group members will gain access to that content.</p>
             </span>
             <GroupContent typeName='content' associationTypeName='assigned' />
           </>
@@ -140,7 +140,7 @@ const GroupForm = ({groupType='group'}) => {
           <>
             <span className='flex items-start text-sm mb-2'>
               <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
-              <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
+              <p className='text-sm'>When content is 'provided' to a group, a group leader of the group can individually assign that content to any user within the group.</p>
             </span>
             <GroupContent typeName='content' associationTypeName='provided' />
           </>
