@@ -101,7 +101,7 @@ export const Tooltip = ({
         <FloatingPortal root={mainScrollableRef}>
         <div
           ref={setFloating}
-          style={{ ...floatingStyles, zIndex: 1000, position: 'absolute', top:-1}}
+          style={{ ...floatingStyles, zIndex: 12500, position: 'absolute', top:-1}}
           {...getFloatingProps()}
         >
           <div style={transitionStyles} className={classNames(
