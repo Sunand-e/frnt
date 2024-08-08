@@ -1,5 +1,6 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import { getGroupType } from "../common/groupTypes"
+import { getUserEditUrl } from "../../utils/getUserEditUrl"
 
 const GroupUserActionsMenu = ({group, edge, onRemove}) => {
   
@@ -13,6 +14,11 @@ const GroupUserActionsMenu = ({group, edge, onRemove}) => {
       },
       capability: 'RemoveUsersFromGroups'
     }]:[]),
+    { 
+      label: 'Edit user', 
+      href: getUserEditUrl(edge.node),
+      capability: 'UpdateUser'
+    },
   ]
   return (
     <ActionsMenu
