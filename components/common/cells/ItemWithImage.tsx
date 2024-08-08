@@ -89,7 +89,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
         <div className="ml-4 w-full">
           <TooltipIfClamped className={classNames(
             "font-medium text-gray-900",
-            !!secondary ? 'line-clamp-1' : 'line-clamp-2'
+            !!secondary || rowSizing === 'sm' ? 'line-clamp-1' : 'line-clamp-2'
           )}>{title}</TooltipIfClamped>
           {secondary && (
             <TooltipIfClamped className=" text-gray-500 line-clamp-1 break-words w-full">{secondary}</TooltipIfClamped>
