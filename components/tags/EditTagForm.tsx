@@ -20,9 +20,9 @@ const EditTagForm = ({typeName=null}) => {
   const router = useRouter()
   const { id } = router.query
 
-  const { courses } = useGetCourses()
-  const { resources } = useGetResources()
-  const { pathways } = useGetPathways()
+  const { courses, loading: loadingCourses } = useGetCourses()
+  const { resources, loading: loadingResources } = useGetResources()
+  const { pathways, loading: loadingPathways } = useGetPathways()
   
   const [activeTab, setActiveTab] = useState('courses')
 
@@ -41,7 +41,9 @@ const EditTagForm = ({typeName=null}) => {
   }
   
   const getContentTypeTagCount = (connection) => {
-    return connection.edges.filter(edge => edge.node.tags.edges.find(({node}) => node.id === tag?.id)).length
+    return connection?.edges.filter(edge => {
+      return edge.node.tags.edges.find(({node}) => node.id === tag?.id)
+    }).length
   }
   
   const tabs = [
@@ -59,9 +61,9 @@ const EditTagForm = ({typeName=null}) => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      { activeTab === 'courses' && tenantFeaturesEnabled('courses') && <TagContent tag={tag} contentType={contentTypes.course} content={courses} /> }
-      { activeTab === 'resources' && tenantFeaturesEnabled('resources') && <TagContent tag={tag} contentType={contentTypes.resource} content={resources} /> }
-      { activeTab === 'pathways' && tenantFeaturesEnabled('pathways') && <TagContent tag={tag} contentType={contentTypes.pathway} content={pathways} /> }
+      { activeTab === 'courses' && tenantFeaturesEnabled('courses') && <TagContent tag={tag} contentType={contentTypes.course} content={courses} isLoading={loadingCourses} /> }
+      { activeTab === 'resources' && tenantFeaturesEnabled('resources') && <TagContent tag={tag} contentType={contentTypes.resource} content={resources} isLoading={loadingResources} /> }
+      { activeTab === 'pathways' && tenantFeaturesEnabled('pathways') && <TagContent tag={tag} contentType={contentTypes.pathway} content={pathways} isLoading={loadingPathways} /> }
     </div>
   </div>
   )

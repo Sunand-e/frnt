@@ -12,7 +12,7 @@ import BoxContainerTable from "../../common/tables/BoxContainerTable";
 import AddTagToContent from "../content/AddTagToContent";
 import TagContentActionsMenu from "./TagContentActionsMenu";
 
-const TagContent = ({tag, contentType, content}) => {
+const TagContent = ({tag, contentType, content, isLoading}) => {
   
   const button = {
     text: `Add ${contentType.name}`,
@@ -86,6 +86,8 @@ const TagContent = ({tag, contentType, content}) => {
     tableCols,
     isReorderable: true,
     bulkActions,
+    isLoading,
+    loadingText: `Loading ${contentType.plural}`,
     getReorderableItemIdFromRow: row => {
       return `${row.original.node.id}:${tag.id}`
     },
