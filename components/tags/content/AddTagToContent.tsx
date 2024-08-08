@@ -1,10 +1,11 @@
+import { is } from "cypress/types/bluebird"
 import { useState } from "react"
 import useAddTagsToContent from "../../../hooks/contentItems/useAddTagsToContent"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
 import ContentSelectTable from "../../common/tables/ContentSelectTable"
 
-const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
+const AddTagToContent = ({ tag, content, isLoading, typeName = 'item' }) => {
   const { addTagsToContent } = useAddTagsToContent();
 
   const contentNodes = content?.edges.map(edge => edge.node);
@@ -31,20 +32,20 @@ const AddTagToContent = ({ tag, content, typeName = 'item' }) => {
 
   return (
     <>
+    { isLoading ? 'Loading...' : 'Not Loading' }
       {
-        availableContent.length ? (
-          <div>
-            <ContentSelectTable
-              availableContent={availableContent}
-              selectedContentIds={selectedContentIds}
-              onRowSelect={setSelectedContentIds}
-              contentType={typeName}
-              recipient={tag}
-              filters={['category', 'global']}
-              actionName="Add"
-              onSubmit={onSubmit}
-            />
-          </div>
+        isLoading || availableContent.length ? (
+          <ContentSelectTable
+            availableContent={availableContent}
+            selectedContentIds={selectedContentIds}
+            onRowSelect={setSelectedContentIds}
+            contentType={typeName}
+            recipient={tag}
+            isLoading={isLoading}
+            filters={['category', 'global']}
+            actionName="Add"
+            onSubmit={onSubmit}
+          />
         ) : (
           <div className="flex flex-col items-center">
             No {typeName}s available
