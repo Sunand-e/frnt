@@ -8,7 +8,8 @@ import { useTableContext } from './tableContext'
 import { Table } from '@tanstack/react-table'
 import { useRouter } from '../../../utils/router'
 import { contentTypes } from '../contentTypes'
-
+import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled'
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
 const TableActions = ({ table }: { table: Table<any> }) => {
   
   const globalFilter = useTableContext(s => s.globalFilter)
@@ -27,6 +28,8 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const typeName = useTableContext(s => s.typeName)
   const dontShowTypes = useTableContext(s => s.dontShowTypes)
   
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
+  const { userHasCapability } = useUserHasCapability()
   const contentItemTypeOptions = Object.entries(contentTypes).map(([key, value]) => ({
     value: key,
     ...value
@@ -85,7 +88,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
           <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
         )}
 
-        { filters.includes('collection') && (
+        { filters.includes('collection') && tenantFeaturesEnabled('tags.collections') && userHasCapability('GetCollections') &&  (
           <TagSelect selected={collectionId} tagType={`collection`} onSelect={tag => setCollectionId(tag.id)} />
         )}
 
