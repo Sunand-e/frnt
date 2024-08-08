@@ -9,6 +9,7 @@ import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
 import { TableProps } from '../../common/tables/tableContext';
 import ContentTitleCell from '../cells/ContentTitleCell';
+import { getContentEditUrl } from '../contentTypes';
 
 const ContentIdAndOrderFragment = gql`
   fragment ContentIdAndOrderFragment on ContentItem {
@@ -17,7 +18,7 @@ const ContentIdAndOrderFragment = gql`
     _deleted @client
   }
 `
-const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}, idKey='id'}) => {
+const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}}) => {
 
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
@@ -45,7 +46,7 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
           if(itemType==='resource') {
             secondary = startCase(cell.row.original.contentType)
           }
-          const href = cell.row.original.shared === false && `/${type.editUrl}?${idKey}=${cell.row.original.id}`
+          const href = cell.row.original.shared === false && getContentEditUrl(cell.row.original)
           
           const props = { secondary, href }
 

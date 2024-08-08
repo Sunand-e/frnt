@@ -9,6 +9,7 @@ import { GET_CONTENT_ITEMS } from '../../graphql/queries/contentItems/GET_CONTEN
 import { DocumentNode } from 'graphql'
 import { OperationVariables } from '@apollo/client'
 import { StyledIcon } from '@styled-icons/styled-icon';
+import { ContentItem } from '../../graphql/generated'
 
 export enum ContentTypeStatus {
   NotStarted = 'not_started',
@@ -29,6 +30,7 @@ export interface ContentType {
   pluralLabel: string;
   icon: StyledIcon | null; // Assuming icons are React components, adjust accordingly
   editUrl: string;
+  idKey?: string;
   gqlGetQuery: DocumentNode; // Assuming GraphQL queries are of type DocumentNode from 'graphql'
   gqlVariables?: OperationVariables
   isAssignable?: boolean;
@@ -39,6 +41,12 @@ export interface ContentTypes {
   [key: string]: ContentType;
 }
 
+export function getContentEditUrl(content: ContentItem): string {
+  const { id, itemType } = content;
+  const type = contentTypes[itemType];
+  return `/admin/${type.editUrl}?${type.idKey || 'id'}=${id}`;
+}
+
 export const contentTypes: ContentTypes = {
   course: {
     name: 'course',
@@ -47,7 +55,7 @@ export const contentTypes: ContentTypes = {
     label: "Course",
     pluralLabel: "Courses",
     icon: GraduationCap,
-    editUrl: 'admin/courses/edit',
+    editUrl: 'courses/edit',
     gqlGetQuery: GET_COURSES,
     isAssignable: true,
     statusStrings: {
@@ -73,7 +81,7 @@ export const contentTypes: ContentTypes = {
     label: "Resource",
     pluralLabel: "Resources",
     icon: Library,
-    editUrl: 'admin/resources/edit',
+    editUrl: 'resources/edit',
     gqlGetQuery: GET_RESOURCES,
     isAssignable: true,
   },
@@ -84,7 +92,8 @@ export const contentTypes: ContentTypes = {
     label: "Pathway",
     pluralLabel: "Pathways",
     icon: Flow,
-    editUrl: 'admin/pathways/edit',
+    idKey: 'pid',
+    editUrl: 'pathways/edit',
     gqlGetQuery: GET_PATHWAYS,
     isAssignable: true,
   },
@@ -95,7 +104,7 @@ export const contentTypes: ContentTypes = {
     label: "Content",
     pluralLabel: "Contents",
     icon: GraduationCap,
-    editUrl: 'admin/contents/edit',
+    editUrl: 'contents/edit',
     gqlGetQuery: GET_CONTENT_ITEMS,
     gqlVariables: {
       itemType: ['course', 'pathway', 'resource']
