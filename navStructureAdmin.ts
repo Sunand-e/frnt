@@ -122,7 +122,7 @@ const navStructureAdmin = [
     title: 'Collections',
     urlPath: '/admin/collections',
     icon: Collections,
-    capabilities: ['UpdateTag', 'ReorderTags'],
+    capabilities: ['GetCollections'],
     requireEnabledFeatures: ['tags.collections'],
   },
   {
