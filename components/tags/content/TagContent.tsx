@@ -1,25 +1,34 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import cache from "../../../graphql/cache";
 import { ContentItemTagEdgeFragmentFragment } from "../../../graphql/generated";
 import { ContentItemTagEdgeFragment } from "../../../graphql/queries/allQueries";
 import useRemoveTagsFromContent from "../../../hooks/contentItems/useRemoveTagsFromContent";
 import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
-import { handleModal } from "../../../stores/modalStore";
+import { handleModal, useModalStore } from "../../../stores/modalStore";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import ContentTitleCell from "../../common/cells/ContentTitleCell";
 import BoxContainerTable from "../../common/tables/BoxContainerTable";
+import { tagTypes } from "../../common/tagTypes";
 import AddTagToContent from "../content/AddTagToContent";
 import TagContentActionsMenu from "./TagContentActionsMenu";
 
 const TagContent = ({tag, contentType, content, isLoading}) => {
   
+  const tagType = tagTypes[tag.tagType]
+
+  const modalContent = <AddTagToContent tag={tag} content={content} isLoading={isLoading} typeName={contentType.name} />
+
+  useEffect(() => {
+    useModalStore.setState({modalContent})
+  }, [isLoading]);
+
   const button = {
-    text: `Add ${contentType.name}`,
+    text: `Add ${contentType.name} ${isLoading ? 'loooading' : ''}`,
     onClick: () => {
       handleModal({
-        title: `Add ${contentType.plural} to ${tag.tagType}: ${tag.label}`,
-        content: <AddTagToContent tag={tag} content={content} typeName={contentType.name} />,
+        title: `Add ${contentType.plural} to ${tagType.name}: ${tag.label}`,
+        content: modalContent,
         size: 'lg'
       })
     }
@@ -40,7 +49,7 @@ const TagContent = ({tag, contentType, content, isLoading}) => {
   
   const bulkActions = [
     {
-      label: `Remove selected items from ${tag.tagType}`,
+      label: `Remove selected items from ${tagType.name}`,
       labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(contentType, ids.length, 'selected')}`,
       onClick: (ids: Array<string>) => handleRemove(ids),
     }
@@ -87,7 +96,7 @@ const TagContent = ({tag, contentType, content, isLoading}) => {
     isReorderable: true,
     bulkActions,
     isLoading,
-    loadingText: `Loading ${contentType.plural}`,
+    loadingText: `Loading ${tag.tagType} ${contentType.plural}`,
     getReorderableItemIdFromRow: row => {
       return `${row.original.node.id}:${tag.id}`
     },
