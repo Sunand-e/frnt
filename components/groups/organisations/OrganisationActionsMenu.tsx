@@ -2,13 +2,11 @@ import { useContext } from "react"
 import useDeleteGroup from "../../../hooks/groups/useDeleteGroup"
 import useConfirmDelete from "../../../hooks/useConfirmDelete"
 import { handleModal } from "../../../stores/modalStore"
+import { getGroupEditUrl } from "../../common/groupTypes"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 import SendGroupInvitesModal from "../SendGroupInvitesModal"
 
 const OrganisationActionsMenu = ({group}) => {
-
-  const editUrl = '/admin/users/organisations/edit'
-  const editHref = group?.id && `${editUrl}?id=${group.id}`
   
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
@@ -27,7 +25,7 @@ const OrganisationActionsMenu = ({group}) => {
   const menuItems = [
     { 
       label: 'Edit organisation', 
-      href: editHref,
+      href: getGroupEditUrl(group),
       capability: 'UpdateGroup'
     },
     {

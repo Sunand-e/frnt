@@ -1,15 +1,13 @@
 import useDeleteGroup from "../../hooks/groups/useDeleteGroup"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import { handleModal } from "../../stores/modalStore"
-import { getGroupType } from "../common/groupTypes"
+import { getGroupEditUrl, getGroupType } from "../common/groupTypes"
 import ActionsMenu from "../common/menus/ActionsMenu"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
 const GroupActionsMenu = ({group}) => {
   
   const { name: typeName } = getGroupType(group)
-  const editUrl = `/admin/users/${typeName}s/edit`
-  const editHref = group?.id && `${editUrl}?id=${group.id}`
 
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
@@ -28,7 +26,7 @@ const GroupActionsMenu = ({group}) => {
   const menuItems = [
     { 
       label: `Edit ${typeName}`,
-      href: editHref,
+      href: getGroupEditUrl(group),
       capability: 'UpdateGroup'
     },
     {
