@@ -61,7 +61,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
 
   return (
     <ConditionalLinkWrapper href={href}>
-      <div className="flex items-center max-w-xs text-main">
+      <div className="flex items-center max-w-xs text-main-lightness-65">
         <div className={classNames(
           iconSizeClass,
           'flex justify-center items-center shrink-0 overflow-hidden',
