@@ -8,23 +8,15 @@ import { commonTableCols } from "../../utils/commonTableCols";
 import { getContentTypeStringWithCount } from "../../utils/getContentTypeStringWithCount";
 import { useRouter } from "../../utils/router";
 import ContentTitleCell from "../common/cells/ContentTitleCell";
-import ItemWithImage from "../common/cells/ItemWithImage";
 import { contentTypes } from "../common/contentTypes";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
 import GroupAvailableContentTable from "./GroupAvailableContentTable";
 import GroupContentActionsMenu from "./GroupContentActionsMenu";
 
-type AssociationType = 'assigned' | 'provided'
-
-const associationTypes = {
-  assigned: {
-    pastTense: 'assigned',
-    presentTense: 'assign',
-  },
-  provided: {
-    pastTense: 'provided',
-    presentTense: 'provide',
-  }
+type AssociationType = {
+  name: string,
+  presentTense: string,
+  removeAssociationsFn: Function
 }
 
 const capitaliseWord = (word: string) => {
@@ -35,29 +27,39 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
 
   const type = contentTypes[typeName]
   
+  
   const router = useRouter()
   const { id } = router.query
   const { loading, error, group } = useGetGroup(id)
 
-  let actionNameCapitalised = capitaliseWord(associationTypes[associationTypeName].presentTense)
-  let associationTypeCapitalised = capitaliseWord(associationTypes[associationTypeName].pastTense)
-
-  const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   const { removeAssignedContentFromGroups } = useRemoveAssignedContentFromGroups()
+  const { removeProvisionedContentFromGroups } = useRemoveProvisionedContentFromGroups()
   
+  const associationTypes: Record<string, AssociationType> = {
+    assigned: {
+      name: 'assigned',
+      presentTense: 'assign',
+      removeAssociationsFn: removeAssignedContentFromGroups
+    },
+    provided: {
+      name: 'provided',
+      presentTense: 'provide',
+      removeAssociationsFn: removeProvisionedContentFromGroups
+    }
+  }
+
+  const associationType: AssociationType = associationTypes[associationTypeName]
+
+  let actionNameCapitalised = capitaliseWord(associationType.presentTense)
+  let associationTypeCapitalised = capitaliseWord(associationType.name)
+
+
   const handleRemove = useCallback((ids) => {
     const idsArray = Array.isArray(ids) ? ids : [ids];
-    if(associationTypeName === 'assigned') {
-      removeAssignedContentFromGroups({
-        groupIds: [group.id],
-        contentItemIds: idsArray,
-      })
-    } else if(associationTypeName === 'provided') {
-      removeProvisionedContentFromGroups({
-        groupIds: [group.id],
-        contentItemIds: idsArray,
-      })
-    }
+    associationType.removeAssociationsFn({
+      groupIds: [group.id],
+      contentItemIds: idsArray,
+    })
   }, [group])
 
   const button = {
@@ -68,7 +70,7 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
         content: (
           <GroupAvailableContentTable
             group={group}
-            associationType={associationTypeName}
+            associationType={associationType.name}
             contentType={typeName}
           />
         ),
@@ -90,20 +92,10 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
   ]
 
   const tableData = useMemo(
-    () => {
-      let existingAssociatedContentConnection
-      if(associationTypeName === 'assigned') {
-        existingAssociatedContentConnection = group.assignedContents
-      } else if(associationTypeName === 'provided') {
-        existingAssociatedContentConnection = group.provisionedContents
-      }
-      // console.log('existingAssociatedContentConnection')
-      // console.log(existingAssociatedContentConnection)
-      return existingAssociatedContentConnection.edges.filter(edge => (
-        (typeName === 'content' || edge.node.itemType === typeName) &&
-        !edge.node._deleted
-        )).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || []
-    },
+    () => group[`${associationType.name}Contents`].edges.filter(edge => (
+      (typeName === 'content' || edge.node.itemType === typeName) &&
+      !edge.node._deleted
+    )).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [],
     [group]
   );
 
@@ -122,7 +114,7 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
           <GroupContentActionsMenu
             onRemove={handleRemove}
             group={group}
-            associationType={associationTypeName}
+            associationType={associationType}
             edge={cell.row.original}
             typeName={typeName}
           />
