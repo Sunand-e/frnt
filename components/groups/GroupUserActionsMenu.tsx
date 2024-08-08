@@ -1,7 +1,7 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import { getGroupType } from "../common/groupTypes"
 
-const GroupMemberActionsMenu = ({group, edge, onRemove}) => {
+const GroupUserActionsMenu = ({group, edge, onRemove}) => {
   
   const { name: typeName } = getGroupType(group)
 
@@ -23,4 +23,4 @@ const GroupMemberActionsMenu = ({group, edge, onRemove}) => {
   )
 }
 
-export default GroupMemberActionsMenu
+export default GroupUserActionsMenu

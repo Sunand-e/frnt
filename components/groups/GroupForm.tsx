@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
-import useGetCourses from '../../hooks/courses/useGetCourses';
 import useGetGroup from '../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
-import useGetResources from '../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
 import { useRouter } from '../../utils/router';
 import Tabs from '../common/containers/Tabs';
 import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
 import TextInput from '../common/inputs/TextInput';
 import GroupContent from './GroupContent';
-import GroupMembers from './GroupMembers';
+import GroupUsers from './GroupUsers';
 
 interface GroupFormValues {
   id?: string
@@ -108,13 +106,13 @@ const GroupForm = ({groupType='group'}) => {
         className='mb-4'
       />
       { activeGroupUsersTab === 'members' && (
-        <GroupMembers 
+        <GroupUsers 
           groupType="group"
           showRoles={["Member"]}
         />
       )}
       { activeGroupUsersTab === 'leaders' && (
-        <GroupMembers
+        <GroupUsers
           title=" Group Leaders"
           groupType="group"
           addMembersButtonText="Choose group leaders"

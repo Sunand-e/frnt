@@ -1,20 +1,15 @@
-import { parse } from 'graphql';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
-import { TenantContext } from '../../../context/TenantContext';
-import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
-import useGetResources from '../../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
-import Button from '../../common/Button';
 import Tabs from '../../common/containers/Tabs';
 import NumberPropertyInput from '../../common/inputs/NumberPropertyInput';
 import TextInput from '../../common/inputs/TextInput';
 import GroupContent from '../GroupContent';
-import GroupMembers from '../GroupMembers';
+import GroupUsers from '../GroupUsers';
 
 interface GroupFormValues {
   id?: string
@@ -104,13 +99,13 @@ const OrganisationForm = ({groupType='organisation'}) => {
           className='mb-4'
         />
         { activeGroupUsersTab === 'members' && (
-          <GroupMembers 
+          <GroupUsers 
             groupType="organisation"
             showRoles={["Member"]}
           />
         )}
         { activeGroupUsersTab === 'leaders' && (
-          <GroupMembers
+          <GroupUsers
             title="Organisation Leader"
             groupType="organisation"
             addMembersButtonText="Choose organisation leader"

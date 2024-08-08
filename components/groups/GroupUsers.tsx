@@ -6,13 +6,13 @@ import { handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
 import AddUsersToGroup from "./AddUsersToGroup";
-import GroupMemberActionsMenu from "./GroupMemberActionsMenu";
+import GroupUserActionsMenu from "./GroupUserActionsMenu";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { User } from '@styled-icons/fa-solid/User';
 import useRemoveUsersFromGroups from "../../hooks/groups/useRemoveUsersFromGroups";
 import GroupAvailableUsersTable from "./GroupAvailableUsersTable";
 
-const GroupMembers = ({
+const GroupUsers = ({
   title = "Members",
   addMembersButtonText = "Add members",
   addMembersModalText = "Add members",
@@ -73,7 +73,7 @@ const GroupMembers = ({
               title={user.fullName}
               secondary={user.email}
               imageSrc={user.profileImageUrl}
-              icon={<User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />}
+              icon={<User className="p-2" />}
               placeholder={"/images/user-generic.png"}
             />
           );
@@ -81,7 +81,7 @@ const GroupMembers = ({
       },
       {
         header: "Actions",
-        cell: ({ cell }) => <GroupMemberActionsMenu group={group} edge={cell.row.original} onRemove={handleRemove} />,
+        cell: ({ cell }) => <GroupUserActionsMenu group={group} edge={cell.row.original} onRemove={handleRemove} />,
       },
     ];
   }, [group]);
@@ -110,4 +110,4 @@ const GroupMembers = ({
   );
 }
 
-export default GroupMembers;
+export default GroupUsers;
