@@ -41,7 +41,7 @@ const EditTagForm = ({typeName=null}) => {
   }
   
   const getContentTypeTagCount = (connection) => {
-    return connection.edges.filter(edge => edge.node.tags.edges.find(({node}) => node.id === tag.id)).length
+    return connection.edges.filter(edge => edge.node.tags.edges.find(({node}) => node.id === tag?.id)).length
   }
   
   const tabs = [
