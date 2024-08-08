@@ -10,7 +10,7 @@ import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
 import TextInput from '../common/inputs/TextInput';
 import GroupContent from './GroupContent';
 import GroupUsers from './GroupUsers';
-
+import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
 interface GroupFormValues {
   id?: string
   name: string 
@@ -98,45 +98,54 @@ const GroupForm = ({groupType='group'}) => {
           />
         </>
       )}
-      
-      <Tabs
-        activeTab={activeGroupUsersTab}
-        setActiveTab={setActiveGroupUsersTab}
-        tabs={groupUsersTabs}
-      />
-      { activeGroupUsersTab === 'members' && (
-        <GroupUsers 
-          groupType="group"
-          showRoles={["Member"]}
+      <div>
+        <Tabs
+          activeTab={activeGroupUsersTab}
+          setActiveTab={setActiveGroupUsersTab}
+          tabs={groupUsersTabs}
         />
-      )}
-      { activeGroupUsersTab === 'leaders' && (
-        <GroupUsers
-          title=" Group Leaders"
-          groupType="group"
-          addMembersButtonText="Choose group leaders"
-          addMembersModalText="Group leader(s)"
-          newMemberRole="Group Leader"
-          showRoles={["Group Leader"]}
+        { activeGroupUsersTab === 'members' && (
+          <GroupUsers 
+            groupType="group"
+            showRoles={["Member"]}
+          />
+        )}
+        { activeGroupUsersTab === 'leaders' && (
+          <GroupUsers
+            title=" Group Leaders"
+            groupType="group"
+            addMembersButtonText="Choose group leaders"
+            addMembersModalText="Group leader(s)"
+            newMemberRole="Group Leader"
+            showRoles={["Group Leader"]}
+          />
+        )}
+      </div>
+      <div>
+        <Tabs
+          activeTab={activeAssociatedContentTab}
+          setActiveTab={setActiveAssociatedContentTab}
+          tabs={associatedContentTabs}
         />
-      )}
-      <Tabs
-        activeTab={activeAssociatedContentTab}
-        setActiveTab={setActiveAssociatedContentTab}
-        tabs={associatedContentTabs}
-      />
-      { activeAssociatedContentTab === 'assigned' && (
-        <>
-          <p className='text-sm'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
-          <GroupContent typeName='content' associationTypeName='assigned' />
-        </>
-      )}
-      { activeAssociatedContentTab === 'provided' && (
-        <>
-          <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
-          <GroupContent typeName='content' associationTypeName='provided' />
-        </>
-      )}
+        { activeAssociatedContentTab === 'assigned' && (
+          <>
+            <span className='flex items-start text-sm mb-2'>
+            <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
+              <p className='text-sm mb-2'>When content is 'assigned' to a group, then all group members will gain access to that content.</p>
+            </span>
+            <GroupContent typeName='content' associationTypeName='assigned' />
+          </>
+        )}
+        { activeAssociatedContentTab === 'provided' && (
+          <>
+            <span className='flex items-start text-sm mb-2'>
+              <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
+              <p className='text-sm'>When content is 'provided' to a group, then a group leader of the group can individually assign that content to any user within the group.</p>
+            </span>
+            <GroupContent typeName='content' associationTypeName='provided' />
+          </>
+        )}
+      </div>
     </form>
   )
 }
