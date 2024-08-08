@@ -1,7 +1,8 @@
+import { getContentEditUrl } from "../../common/contentTypes"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 
 const TagContentActionsMenu = ({item, contentType, onRemove}) => {
-
+  
   const menuItems = [
     {
       label: `Remove ${contentType.name}`,
@@ -9,6 +10,11 @@ const TagContentActionsMenu = ({item, contentType, onRemove}) => {
         onRemove(item.node.id)
       },
       capability: 'AddTagsToContent'
+    },
+    { 
+      label: `Edit ${contentType.name}`,
+      href: getContentEditUrl(item.node),
+      capability: contentType.updateCapability
     },
     // { title: 'Settings', href:'settings' },
   ]

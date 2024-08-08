@@ -1,4 +1,4 @@
-import { contentTypes } from "../../common/contentTypes"
+import { contentTypes, getContentEditUrl } from "../../common/contentTypes"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 
 const UserContentActionsMenu = ({content, onRevoke}) => {
@@ -11,6 +11,11 @@ const UserContentActionsMenu = ({content, onRevoke}) => {
       onClick: () => onRevoke([content.node.id]),
       capability: 'EnrolUsersInContent'
     }]:[]),
+    { 
+      label: `Edit ${type.name}`,
+      href: getContentEditUrl(content.node),
+      capability: type.updateCapability
+    },
   ]
   return (
     <ActionsMenu

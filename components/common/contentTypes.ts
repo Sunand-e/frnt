@@ -28,6 +28,7 @@ export interface ContentType {
   plural: string;
   label: string;
   pluralLabel: string;
+  updateCapability: string;
   icon: StyledIcon | null; // Assuming icons are React components, adjust accordingly
   editUrl: string;
   idKey?: string;
@@ -54,6 +55,7 @@ export const contentTypes: ContentTypes = {
     plural: 'courses',
     label: "Course",
     pluralLabel: "Courses",
+    updateCapability: 'UpdateCourse',
     icon: GraduationCap,
     editUrl: 'courses/edit',
     gqlGetQuery: GET_COURSES,
@@ -80,6 +82,7 @@ export const contentTypes: ContentTypes = {
     plural: 'resources',
     label: "Resource",
     pluralLabel: "Resources",
+    updateCapability: 'UpdateResource',
     icon: Library,
     editUrl: 'resources/edit',
     gqlGetQuery: GET_RESOURCES,
@@ -91,6 +94,7 @@ export const contentTypes: ContentTypes = {
     plural: 'pathways',
     label: "Pathway",
     pluralLabel: "Pathways",
+    updateCapability: 'UpdatePathway',
     icon: Flow,
     idKey: 'pid',
     editUrl: 'pathways/edit',
@@ -103,6 +107,7 @@ export const contentTypes: ContentTypes = {
     plural: 'content',
     label: "Content",
     pluralLabel: "Contents",
+    updateCapability: '',
     icon: GraduationCap,
     editUrl: 'contents/edit',
     gqlGetQuery: GET_CONTENT_ITEMS,
