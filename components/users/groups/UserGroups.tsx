@@ -101,7 +101,7 @@ const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
         header: "Actions",
         accessorKey: "actions",
         enableSorting: false,
-        cell: ({ cell }) => <UserGroupActionsMenu group={cell.row.original} onRemove={handleRemove} />
+        cell: ({ cell }) => <UserGroupActionsMenu group={cell.row.original.node} onRemove={handleRemove} />
       },
     ];
   }, [roles, handleChangeRole, handleRemove, groupType.label]);

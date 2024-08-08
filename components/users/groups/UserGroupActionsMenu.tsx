@@ -1,13 +1,13 @@
 import { getGroupEditUrl, getGroupType } from "../../common/groupTypes"
 import ActionsMenu from "../../common/menus/ActionsMenu"
 
-const UserGroupActionsMenu = ({user, group, onRemove}) => {
+const UserGroupActionsMenu = ({group, onRemove}) => {
 
   const type = getGroupType(group)
   const menuItems = [
     {
       label: `Remove from ${type.name}`,
-      onClick: () => onRemove([group.node.id]),
+      onClick: () => onRemove([group.id]),
       capability: 'RemoveUsersFromGroups'
     },
     {
