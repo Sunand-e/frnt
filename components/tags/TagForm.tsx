@@ -7,6 +7,7 @@ import { handleModal } from '../../stores/modalStore';
 import TagSelectInput from './inputs/TagSelectInput';
 import useGetTags from '../../hooks/tags/useGetTags';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
+import { tagTypes } from '../common/tagTypes';
 
 interface TagFormValues {
   label: string
@@ -14,17 +15,17 @@ interface TagFormValues {
   parentTag: any
 }
 
-const TagForm = ({tag=null, onSubmit, isModal=false}) => {
-
+const TagForm = ({tag=null, typeName='category', onSubmit, isModal=false}) => {
+  const tagType = tagTypes[typeName]
   const { tags, loading, error } = useGetTags()
-  const parentTag = tags.find(t => t.id === tag?.parent?.id)
+  const parentTag = tags?.find(t => t.id === tag?.parent?.id)
   const { userHasCapability } = useUserHasCapability()
   const defaultValues = {
-    tagType: 'category',
+    tagType: tagType['name'],
     parentTag,
     ...tag
   }
-  const { register, handleSubmit, control, setFocus, getValues, watch, formState: { errors } } = useForm<TagFormValues>(
+  const { register, handleSubmit, control, setFocus, setValue, getValues, watch, formState: { errors } } = useForm<TagFormValues>(
     { defaultValues }
   );
 
@@ -34,14 +35,18 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
     setFocus('label')
   },[])
 
-  const buttonText = tag ? 'Save changes' : 'Create category'
+  useEffect(() => {
+    setValue('parentTag', parentTag)
+  },[tags])
+
+  const buttonText = tag ? 'Save changes' : `Create ${tagType.name}`
   
   const reopenFormInModal = (image) => {
     console.log(image)
     handleModal({
       title: `Course settings`,
       size: 'lg',
-      content: <TagForm tag={{...getValues(), image}} isModal={true} onSubmit={onSubmit} />
+      content: <TagForm typeName={typeName} tag={{...getValues(), image}} isModal={true} onSubmit={onSubmit} />
     })
   }
 
@@ -56,27 +61,30 @@ const TagForm = ({tag=null, onSubmit, isModal=false}) => {
       onSubmit={handleSubmit(onFormSubmit)}
     >
       <TextInput
-        label="Category Name"
-        placeholder="Untitled category"
+        label={`${tagType.label} name`}
+        placeholder={`Untitled ${tagType.name}`}
         inputAttrs={register("label", {
-          required: "Category name is required"
+          required: `${tagType.label} name is required`,
         })}
       />
       {errors.label && (<small className="text-danger text-red-500">{errors.label.message}</small>)}
-      { userHasCapability('CreateSubTags') && (      
-        <TagSelectInput
-          name="parentTag"
-          control={control}
-          tagType="category"
-          label="Parent category"
-          isMulti={false}
-        />
-      )}
+      {
+        tagType.heirarchical &&
+        userHasCapability('CreateSubTags') && (      
+          <TagSelectInput
+            name="parentTag"
+            control={control}
+            tagType={tagType.name}
+            label={`Parent ${tagType.name}`}
+            isMulti={false}
+          />
+        )
+      }
       <ImageSelectInput
-        label="Category image"
+        label={`${tagType.label} image`}
         origImage={tag?.image}
         placeholder={'https://picsum.photos/640/360'}
-        buttonText="Choose category image"
+        buttonText={`Select ${tagType.name} image`}
         control={control}
         closeOnSelect={false}
         name="image"

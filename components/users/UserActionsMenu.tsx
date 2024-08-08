@@ -7,11 +7,9 @@ import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import { useRequestSwitchUser } from "../../hooks/users/useRequestSwitchUser"
 import { handleModal } from "../../stores/modalStore"
 import EnrolUserInContent from "./content/EnrolUserInContent"
+import { getUserEditUrl } from "../../utils/getUserEditUrl"
 
 const UserActionsMenu = ({user}) => {
-
-  const editUrl = '/admin/users/edit'
-  const editHref = user?.id && `${editUrl}?id=${user.id}`
  
   const { userHasCapability } = useUserHasCapability()
   const { requestSwitchUser } = useRequestSwitchUser({user})
@@ -47,7 +45,7 @@ const UserActionsMenu = ({user}) => {
   const menuItems = [
     { 
       label: 'Edit user', 
-      href: editHref,
+      href: getUserEditUrl(user),
       capability: 'UpdateUser'
     },
     {

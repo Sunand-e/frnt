@@ -14,7 +14,17 @@ export const PROVIDE_CONTENT_TO_GROUPS = gql`
     ) {
       groups {
         id
+        provisionedCourses {
+          totalCount
+        }
+        provisionedResources {
+          totalCount
+        }
+        provisionedPathways {
+          totalCount
+        }
         provisionedContents {
+          totalCount
           edges {
             groupId
             contentItemId

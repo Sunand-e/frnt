@@ -37,6 +37,12 @@ export const GroupOverviewFragment = gql`
     provisionedCourses {
       totalCount
     }
+    provisionedResources {
+      totalCount
+    }
+    provisionedPathways {
+      totalCount
+    }
     _deleted @client
   }
 `
@@ -83,6 +89,7 @@ export const GroupDetailsFragment = gql`
           id
           title
           itemType
+          contentType
           tags {
             edges {
               contentItemId
@@ -107,6 +114,7 @@ export const GroupDetailsFragment = gql`
           id
           title
           itemType
+          contentType
           tags {
             edges {
               contentItemId

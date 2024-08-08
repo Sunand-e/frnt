@@ -36,6 +36,7 @@ const TagSelect = ({tagType, onSelect, selected}) => {
     value: tags?.find(tag => tag.id === selected) || null,
     placeholder: `Select ${tagType}`,
     menuPortalTarget: document.body,
+    isClearable: true,
     isSearchable: false,
     onChange,
     styles: { 

@@ -1,26 +1,20 @@
 
 import { useQuery } from "@apollo/client"
-import { GET_PATHWAYS, GET_RESOURCES } from "../../graphql/queries/allQueries";
-import { GET_COURSES } from "../../graphql/queries/courses/courses";
+import { contentTypes } from "../../components/common/contentTypes";
 
-function useGetContent(type) {
+function useGetContent(typeName) {
 
-  let query
-  if(type === 'course') {
-    query = GET_COURSES
-  } else if(type === 'resource') {
-    query = GET_RESOURCES
-  } else if(type === 'pathway') {
-    query = GET_PATHWAYS
-  }
+  const type = contentTypes[typeName]
 
-  // const {loading, error, data: { courses: courses} = {} } = useQuery<GetCourses>(
   const {loading, error, data } = useQuery(
-    query
+    type.gqlGetQuery,
+    {
+      ...(type.gqlVariables && { variables: type.gqlVariables }),
+    }
   );
 
   return {
-    content: data?.courses || data?.resources || data?.pathways,
+    content: data?.courses || data?.resources || data?.pathways || data?.contentItems,
     loading,
     error
   }

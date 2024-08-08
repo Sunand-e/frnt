@@ -14,7 +14,6 @@ export const REORDER_TAG_CONTENT = gql`
       }
     ) {
       tagAttachment {
-        id
         order
         tag {
           id

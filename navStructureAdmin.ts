@@ -9,11 +9,12 @@ import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
 import {Users} from "@styled-icons/fa-solid/Users"
 import {Group2} from "@styled-icons/remix-fill/Group2"
-import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-filled/PeopleTeamToolbox"
 import {Identification} from "@styled-icons/heroicons-solid/Identification"
 import {Calendar2PlusFill} from "@styled-icons/bootstrap/Calendar2PlusFill"
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import {Image} from '@styled-icons/fluentui-system-filled/Image'
+import {Collections} from '@styled-icons/material/Collections'
 import {Link} from '@styled-icons/entypo/Link'
 const navStructureAdmin = [
   {
@@ -22,13 +23,6 @@ const navStructureAdmin = [
     urlPath: '/admin',
     icon: 'house-chimney',
     subPages: [],
-  },
-  {
-    name: 'categories',
-    title: 'Categories',
-    urlPath: '/admin/tags',
-    icon: Category,
-    capabilities: ['UpdateTag', 'ReorderTags'],
   },
   {
     name: 'courses',
@@ -115,6 +109,21 @@ const navStructureAdmin = [
       //   urlPath: '/admin/resources/add',
       // },
     ],
+  },
+  {
+    name: 'categories',
+    title: 'Categories',
+    urlPath: '/admin/tags',
+    icon: Category,
+    capabilities: ['UpdateTag', 'ReorderTags'],
+  },
+  {
+    name: 'collections',
+    title: 'Collections',
+    urlPath: '/admin/collections',
+    icon: Collections,
+    capabilities: ['GetCollections'],
+    requireEnabledFeatures: ['tags.collections'],
   },
   {
     name: 'users',

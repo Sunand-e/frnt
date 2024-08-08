@@ -72,7 +72,7 @@ const UsersTable = () => {
             secondary={cell.row.original.email}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
             imageSrc={cell.row.original.profileImageUrl}
-            icon={<User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />}
+            icon={<User className="p-2" />}
             placeholder={"/images/user-generic.png"}
           />
         )
@@ -96,8 +96,7 @@ const UsersTable = () => {
           !isOrganisationLeader
         ) ? [
         {
-          // header: "Global Roles",
-          header: tenantFeaturesEnabled('groups') ? "Global Roles" : 'faaa',
+          header: "Global Roles",
           id: 'roles',
           cell: ({ cell }) => {
             const rolesString = cell.row.original.roles.filter(

@@ -3,16 +3,13 @@ import React, { useContext, useMemo } from 'react';
 import Table from '../../common/tables/Table';
 import { GET_GROUPS } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
-import Button from '../../common/Button';
-import ButtonLink from '../../common/ButtonLink';
-import {Group2} from "@styled-icons/remix-fill/Group2"
-import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import GroupActionsMenu from '../GroupActionsMenu';
 import useConfirmDelete from '../../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../../hooks/groups/useDeleteGroup';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../../utils/commonTableCols';
+import GroupTitleCell from '../../common/cells/GroupTitleCell';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 
 dayjs.extend(advancedFormat)
@@ -51,17 +48,9 @@ const OrganisationsTable = () => {
         header: "Organisation",
         accessorKey: "name", // accessor is the "key" in the data
         cell: ({ cell }) => {
-          const userCount = cell.row.original.users.totalCount
-          const cellProps = {
-            image: cell.row.original.image,
-            title: cell.getValue(),
-            icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
-            // secondary: `${userCount} member${userCount !== 1 ? 's' : ''}`,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
+          const group = cell.row.original
+          const props = { href: `${editUrl}?id=${group.id}` }
+          return <GroupTitleCell group={group} itemWithImageProps={props} />
         }
       },
       {

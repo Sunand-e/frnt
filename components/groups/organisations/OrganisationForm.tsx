@@ -1,19 +1,15 @@
-import { parse } from 'graphql';
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
-import { TenantContext } from '../../../context/TenantContext';
-import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
-import useGetResources from '../../../hooks/resources/useGetResources';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
-import Button from '../../common/Button';
+import Tabs from '../../common/containers/Tabs';
 import NumberPropertyInput from '../../common/inputs/NumberPropertyInput';
 import TextInput from '../../common/inputs/TextInput';
 import GroupContent from '../GroupContent';
-import GroupMembers from '../GroupMembers';
+import GroupUsers from '../GroupUsers';
 
 interface GroupFormValues {
   id?: string
@@ -49,16 +45,25 @@ const OrganisationForm = ({groupType='organisation'}) => {
     }
   );
   
+  const [activeGroupUsersTab, setActiveGroupUsersTab] = useState('members')
+
+  const groupUsersTabs = [
+    {name: 'members', title: 'Members'},
+    {name: 'leaders', title: 'Leader'}
+  ]
+
+
   useEffect(() => {
     setFocus('name')
   },[])
    
   return (
     <form
-      className='h-full w-full max-w-3xl flex flex-col space-y-4'
+      className='h-full w-full max-w-3xl flex flex-col'
       // onSubmit={rhfHandleSubmit(handleSubmit)}
       onKeyDown={disableSubmitOnEnterKey}
     >
+      <div className='space-y-4'>
       <TextInput
         label="Organisation name"
         placeholder="Organisation name"
@@ -85,19 +90,31 @@ const OrganisationForm = ({groupType='organisation'}) => {
         className={'text-sm'}
         label="Enrolments"
       />
-      <GroupMembers
-        title="Organisation Leader"
-        groupType="organisation"
-        addMembersButtonText="Choose organisation leader"
-        addMembersModalText="Organisation leader"
-        newMemberRole="Group Leader"
-        showRoles={["Group Leader"]}
-        isSingle={true}
-      />
-      <GroupMembers 
-        groupType="organisation"
-        showRoles={["Member"]}
-      />
+      </div>
+      <div className='mt-2 mb-12'>
+        <Tabs 
+          tabs={groupUsersTabs}
+          activeTab={activeGroupUsersTab}
+          setActiveTab={setActiveGroupUsersTab}
+        />
+        { activeGroupUsersTab === 'members' && (
+          <GroupUsers 
+            groupType="organisation"
+            showRoles={["Member"]}
+          />
+        )}
+        { activeGroupUsersTab === 'leaders' && (
+          <GroupUsers
+            title="Organisation Leader"
+            groupType="organisation"
+            addMembersButtonText="Choose organisation leader"
+            addMembersModalText="Organisation leader"
+            newMemberRole="Group Leader"
+            showRoles={["Group Leader"]}
+            isSingle={true}
+          />
+      )}
+      </div>
       <GroupContent associationType='provided' groupType='organisation' typeName='course'  />
     </form>
   )

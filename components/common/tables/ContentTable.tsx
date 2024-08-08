@@ -1,20 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import Table from '../../common/tables/Table'
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import { TableProps } from '../../common/tables/tableContext';
-import { GetCurrentUserQuery } from '../../../graphql/generated';
-import { ContentFragment } from '../../../graphql/queries/allQueries';
-import cache from '../../../graphql/cache';
 import { gql, useMutation } from '@apollo/client';
-import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_CONTENT';
-import { GET_CURRENT_USER } from '../../../graphql/queries/users';
-import { getIconFromFilename } from '../../../utils/getIconFromFilename';
-import useGetThumbnail from '../items/useGetThumbnail';
-import { resourceTypes } from '../../resources/resourceTypes';
 import startCase from 'lodash/startCase';
-import Editor from '../inputs/Editor';
+import { useMemo } from 'react';
+import cache from '../../../graphql/cache';
+import { GetCurrentUserQuery } from '../../../graphql/generated';
+import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_CONTENT';
 import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import Table from '../../common/tables/Table';
+import { TableProps } from '../../common/tables/tableContext';
+import ContentTitleCell from '../cells/ContentTitleCell';
+import { getContentEditUrl } from '../contentTypes';
 
 const ContentIdAndOrderFragment = gql`
   fragment ContentIdAndOrderFragment on ContentItem {
@@ -23,7 +18,7 @@ const ContentIdAndOrderFragment = gql`
     _deleted @client
   }
 `
-const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}, idKey='id'}) => {
+const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}}) => {
 
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
@@ -45,37 +40,17 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
         header: type.label,
         accessorKey: "title", // accessor is the "key" in the data
         cell: ({ cell }) => {
-          
-          const { src } = useGetThumbnail(cell.row.original, 50)
-          const { contentType, itemType } = cell.row.original
-          let icon = <type.icon className='p-1'/>
-          let rounded = 'full'
+          const { itemType } = cell.row.original
           let secondary = cell.row.original?.tags?.edges.map?.(({node}) => node.label).join(', ')
            
           if(itemType==='resource') {
-            const IconComponent = (contentType === 'document') ? (
-              getIconFromFilename(cell.row.original.document?.fileName)
-            ) : (
-              resourceTypes[contentType]?.icon
-            )
-            icon = <IconComponent />
-            rounded = (!src && contentType === 'document') ? 'none' : 'full'
             secondary = startCase(cell.row.original.contentType)
           }
-          const cellProps = {
-            image: cell.row.original.image,
-            imageSrc: src,
-            icon,
-            rounded,
-            title: cell.getValue(),
-            href: cell.row.original.shared === false && 
-              `/${type.editUrl}?${idKey}=${cell.row.original.id}`
-          }
+          const href = cell.row.original.shared === false && getContentEditUrl(cell.row.original)
+          
+          const props = { secondary, href }
 
-
-          return (
-          <ItemWithImage { ...cellProps } />
-          )
+          return <ContentTitleCell item={cell.row.original} itemWithImageProps={props} />
         }
       },
       {

@@ -1,5 +1,6 @@
 import {Group2} from "@styled-icons/remix-fill/Group2"
-import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-regular/PeopleTeamToolbox"
+import {PeopleTeamToolbox} from "@styled-icons/fluentui-system-filled/PeopleTeamToolbox"
+import { Group } from "../../graphql/generated"
 
 interface GroupDictionary {
   [key: string]: {
@@ -32,5 +33,15 @@ export const groupTypes: GroupDictionary = {
     icon: PeopleTeamToolbox,
     indexUrl: 'admin/users/organisations',
   }
+}
+
+export const getGroupType = (group) => {
+  return group.isOrganisation ? groupTypes['organisation'] : groupTypes['group']
+}
+
+export function getGroupEditUrl(group: Group): string {
+  const { id } = group;
+  const type = getGroupType(group);
+  return `/admin/${type.pluralKey}?id=${id}`;
 }
 

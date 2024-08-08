@@ -1,15 +1,13 @@
-import { useContext } from "react"
 import useDeleteGroup from "../../hooks/groups/useDeleteGroup"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import { handleModal } from "../../stores/modalStore"
+import { getGroupEditUrl, getGroupType } from "../common/groupTypes"
 import ActionsMenu from "../common/menus/ActionsMenu"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
 const GroupActionsMenu = ({group}) => {
   
-  const groupType = group.isOrganisation ? 'organisation' : 'group'
-  const editUrl = `/admin/users/${groupType}s/edit`
-  const editHref = group?.id && `${editUrl}?id=${group.id}`
+  const { name: typeName } = getGroupType(group)
 
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
@@ -20,15 +18,15 @@ const GroupActionsMenu = ({group}) => {
 
   const handleSendInvitations = () => {
     handleModal({
-      title: `Send invitations to ${groupType} members`,
+      title: `Send invitations to ${typeName} members`,
       content: <SendGroupInvitesModal groupId={group.id} />
     })
   }
 
   const menuItems = [
     { 
-      label: `Edit ${groupType}`,
-      href: editHref,
+      label: `Edit ${typeName}`,
+      href: getGroupEditUrl(group),
       capability: 'UpdateGroup'
     },
     {
@@ -36,7 +34,7 @@ const GroupActionsMenu = ({group}) => {
       onClick: handleSendInvitations,
     },
     { 
-      label: <span className="text-red-500">Delete {groupType}</span>,
+      label: <span className="text-red-500">Delete {typeName}</span>,
       onClick: confirmDelete,
       capability: 'DeleteGroup'
     },

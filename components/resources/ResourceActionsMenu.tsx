@@ -1,10 +1,9 @@
 import ActionsMenu from "../common/menus/ActionsMenu"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import useDeleteResource from "../../hooks/resources/useDeleteResource"
+import { getContentEditUrl } from "../common/contentTypes"
 
 const ResourceActionsMenu = ({content: resource}) => {
-  const editUrl = '/admin/resources/edit'
-  const editHref = resource?.id && `${editUrl}?id=${resource.id}`
   
   const { deleteResource } = useDeleteResource()
   const { confirmDelete } = useConfirmDelete({
@@ -16,7 +15,7 @@ const ResourceActionsMenu = ({content: resource}) => {
   const menuItems = [
     { 
       label: 'Edit resource',
-      href: editHref,
+      href: getContentEditUrl(resource),
       capability: 'UpdateResource'
     },
     { 

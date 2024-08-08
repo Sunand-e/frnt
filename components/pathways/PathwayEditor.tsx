@@ -1,37 +1,22 @@
-import { useContext } from "react"
+import useWarningOnExit from "../../hooks/useWarningOnExit"
+import { handleModal } from "../../stores/modalStore"
 import Button from "../common/Button"
-import SelectCoursesTable from "./SelectCoursesTable"
+import PathwayAvailableContentTable from "./PathwayAvailableContentTable"
 import PathwayTimeline from "./PathwayTimeline"
-import { usePathwayStore } from "./usePathwayStore"
-import SelectResourcesTable from "./SelectResourcesTable"
-import useWarningOnExit from "../../hooks/useWarningOnExit";
 import RemovePathwayItemModal from "./RemovePathwayItemModal"
-import { closeModal, handleModal } from "../../stores/modalStore"
+import { usePathwayStore } from "./usePathwayStore"
 
 const PathwayEditor = () => {
   
-  const addItem = usePathwayStore(state => state.addItem)
   const isDirty = usePathwayStore(state => state.isDirty)
 
   useWarningOnExit(isDirty)
   
-  const handleContentSelect = (content) => {
-    addItem(content)
-    closeModal()
-  }
-  
-  const addCourse = () => {
+  const addContent = () => {
     handleModal({
-      title: `Add course to pathway:`,
+      title: `Add content to pathway:`,
       size: 'lg',
-      content: <SelectCoursesTable onRowClick={handleContentSelect} />
-    })
-  }
-  const addResource = () => {
-    handleModal({
-      title: `Add resource to pathway:`,
-      size: 'lg',
-      content: <SelectResourcesTable onRowClick={handleContentSelect} />
+      content: <PathwayAvailableContentTable />
     })
   }
 
@@ -49,8 +34,8 @@ const PathwayEditor = () => {
         editMode={true} 
         onRemove={handleRemoveItem}
       />
-      <Button onClick={addCourse} className="mr-2">Add a course</Button>
-      <Button onClick={addResource}>Add a resource</Button>
+      <Button onClick={addContent} className="mr-2">Add content</Button>
+      {/* <Button onClick={addResource}>Add a resource</Button> */}
     </>
   )
 }

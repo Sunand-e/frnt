@@ -11,6 +11,7 @@ export interface TableProps {
   tableData: Array<any>,
   tableCols: Array<any>,
   categoryId?: string,
+  collectionId?: string,
   contentType?: string,
   itemType?: string,
   filters?: Array<string>,
@@ -20,22 +21,26 @@ export interface TableProps {
   sorting?: SortingState,
   backButton?: ReactNode | null,
   rowSelection?: any,
+  rowSizing?: 'sm' | 'md' | 'lg',
   selectedRowIds?: Array<string>,
   showTop?: boolean,
-  scrollContainerRef: MutableRefObject<HTMLDivElement>
+  showHeadersWhenLoading?: boolean,
+  scrollContainerRef?: MutableRefObject<HTMLDivElement>
   scrollInTable: boolean,
   maxVisibleRows: number,
+  dontShowTypes?: Array<string>,
   isExportable?: boolean,
   isLoading?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
+  isSelectable?: boolean,
   isReportingTable?: boolean,
   loadingText?: ReactNode,
   getReorderableItemIdFromRow?: (row: any) => string,
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,
   onReorder?: (active: any, over: any, newIndex: number, oldIndex: number) => void | null,
-  onFilterChange?: (categoryId: string, globalFilter: string) => void | null,
+  onFilterChange?: (categoryId: string, collectionId: string, globalFilter: string) => void | null,
 }
 
 interface TableState extends TableProps {
@@ -45,6 +50,7 @@ interface TableState extends TableProps {
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
   // setTableData: (tableData: TableProps['tableData']) => void
   setCategoryId: (categoryId: TableProps['categoryId']) => void
+  setCollectionId: (collectionId: TableProps['collectionId']) => void
   setContentType: (contentType: TableProps['contentType']) => void
   setItemType: (itemType: TableProps['contentType']) => void
   setFilters: (filters: TableProps['filters']) => void
@@ -53,6 +59,7 @@ interface TableState extends TableProps {
   // setSorting: (sorting: TableProps['sorting']) => SortingState
   setSorting: (updaterFn: TableProps['sorting']) => void
   setRowSelection: (rowSelection: TableProps['rowSelection']) => void
+  setRowSizing: (rowSizing: TableProps['rowSizing']) => void
 }
 
 type TableStore = ReturnType<typeof createTableStore>
@@ -66,8 +73,10 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     bulkActions: [],
     tableData: [],
     categoryId: null,
+    collectionId: null,
     contentType: null,
     itemType: null,
+    rowSizing: 'md',
     filters: [],
     typeName: 'item',
     typeOptions: {},
@@ -75,9 +84,12 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     rowSelection: {},
     selectedRowIds: [],
     tableCols: [],
+    dontShowTypes: [],
     showTop: true,
+    showHeadersWhenLoading: true,
     isReorderable: false,
     isReorderableActive: false,
+    isSelectable: false,
     isReportingTable: false,
     scrollInTable: false,
     maxVisibleRows: 5,
@@ -95,11 +107,13 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     ...DEFAULT_PROPS,
     ...initProps,
     setTable: table => set(state => ({table})),
-    setRowSelection: rowSelection => set(state => ({rowSelection})),  
+    setRowSelection: rowSelection => set(state => ({rowSelection})),
+    setRowSizing: rowSizing => set(state => ({rowSizing})),
     setGlobalFilter: globalFilter => set(state => ({globalFilter})),
     setBulkActions: bulkActions => set(state => ({bulkActions})),
     // setTableData: tableData => set(state => ({tableData})),
     setCategoryId: categoryId => set(state => ({categoryId})),
+    setCollectionId: collectionId => set(state => ({collectionId})),
     setContentType: contentType => set(state => ({contentType})),
     setItemType: itemType => set(state => ({itemType})),
     setFilters: filters => set(state => ({filters})),

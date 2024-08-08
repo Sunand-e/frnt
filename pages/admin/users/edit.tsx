@@ -1,25 +1,24 @@
-import usePageTitle from '../../../hooks/usePageTitle';
-import { useRouter } from '../../../utils/router';
-import useHeaderButtons from '../../../hooks/useHeaderButtons';
-import useGetUser from '../../../hooks/users/useGetUser';
-import useUpdateUser from '../../../hooks/users/useUpdateUser';
-import UserForm from '../../../components/users/UserForm';
-import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
-import UserGroups from '../../../components/users/groups/UserGroups';
-import UserCourses from '../../../components/users/courses/UserCourses';
-import UserResources from '../../../components/users/resources/UserResources';
-import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import LoadingSpinner from '../../../components/common/LoadingSpinner'
-import { Dot } from '../../../components/common/misc/Dot';
 import axios from 'axios';
-import UserPathways from '../../../components/users/pathways/UserPathways';
-import getJWT from '../../../utils/getToken';
+import { useContext, useEffect, useState } from 'react';
 import ButtonBack from '../../../components/common/ButtonBack';
-import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
-import { useContext } from 'react';
+import Tabs from '../../../components/common/containers/Tabs';
+import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import { Dot } from '../../../components/common/misc/Dot';
+import UserContent from '../../../components/users/content/UserContent';
+import UserGroups from '../../../components/users/groups/UserGroups';
+import UserForm from '../../../components/users/UserForm';
 import { TenantContext } from '../../../context/TenantContext';
+import useHeaderButtons from '../../../hooks/useHeaderButtons';
+import usePageTitle from '../../../hooks/usePageTitle';
+import useGetUser from '../../../hooks/users/useGetUser';
 import useIsOrganisationLeader from '../../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled';
+import useUpdateUser from '../../../hooks/users/useUpdateUser';
+import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
+import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import getJWT from '../../../utils/getToken';
+import { useRouter } from '../../../utils/router';
 
 const AdminUsersEdit = () => {
   
@@ -79,6 +78,39 @@ const AdminUsersEdit = () => {
     tenantFeaturesEnabled('organisations') && !isOrganisationLeader
   )
 
+  const getUserContentTypeCount = (type) => user?.[type].edges.filter(edge => {
+    // Check if the edge node is not deleted and has relevant roles
+    const hasRoles =
+      edge.groups.edges.some(groupEdge => groupEdge.roles.length) ||
+      edge.roles.length;
+  
+    return !edge.node._deleted && hasRoles;
+  }).length;
+
+  const groupsTabs = [
+    {name: 'groups', title: 'Groups'},
+    {name: 'organisations', title: 'Organisation'},
+  ].filter(tab => tenantFeaturesEnabled(tab.name))
+
+  const contentTabs = [
+    {name: 'courses', title: 'Courses', count: getUserContentTypeCount('courses')},
+    {name: 'resources', title: 'Resources', count: getUserContentTypeCount('resources')},
+    {name: 'pathways', title: 'Pathways', count: getUserContentTypeCount('pathways')},
+  ].filter(tab => tenantFeaturesEnabled(tab.name))
+  console.log('contentTabs')
+  console.log(contentTabs)
+  const [activeContentTab, setActiveContentTab] = useState(contentTabs[0]?.name)
+  const [activeGroupsTab, setActiveGroupsTab] = useState(groupsTabs[0]?.name)
+
+  useEffect(() => {
+    if(!contentTabs.find(tab => tab.name === activeContentTab)) {
+      setActiveContentTab(contentTabs[0]?.name)
+    }
+    if(!groupsTabs.find(tab => tab.name === activeGroupsTab)) {
+      setActiveGroupsTab(groupsTabs[0]?.name)
+    }
+  }, [tenantFeaturesEnabled])
+
   return (
     <>
       { loading ? (
@@ -98,13 +130,27 @@ const AdminUsersEdit = () => {
           </pre> */}
           <UserForm onSubmit={handleSubmit} user={user} />
           <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-            { userHasCapability('SeeGroups', 'tenant') && (<>
-              { showGroups && <UserGroups groupTypeName="group" /> }
-              { showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
-            </>)}
-            { tenantFeaturesEnabled('courses') && <UserCourses /> }
-            { tenantFeaturesEnabled('resources') && <UserResources /> }
-            { tenantFeaturesEnabled('pathways') && <UserPathways /> }
+            <div>
+              <Tabs
+                tabs={contentTabs}
+                activeTab={activeContentTab}
+                setActiveTab={setActiveContentTab}
+              />
+              { activeContentTab === 'courses' && tenantFeaturesEnabled('courses') && <UserContent contentType="course" />}
+              { activeContentTab === 'resources' && tenantFeaturesEnabled('resources') && <UserContent contentType="resource" />}
+              { activeContentTab === 'pathways' && tenantFeaturesEnabled('pathways') && <UserContent contentType="pathway" />}
+            </div>
+            <div>
+              { userHasCapability('SeeGroups', 'tenant') && (<>
+                <Tabs
+                  tabs={groupsTabs}
+                  activeTab={activeGroupsTab}
+                  setActiveTab={setActiveGroupsTab}
+                />
+                { activeGroupsTab === 'groups' && showGroups && <UserGroups groupTypeName="group" /> }
+                { activeGroupsTab === 'organisations' && showOrganisations && <UserGroups groupTypeName="organisation" isSingular={true} /> }
+              </>)}
+            </div>
           </div>
         </div>
       )}

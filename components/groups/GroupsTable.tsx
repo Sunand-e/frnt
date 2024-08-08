@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client';
-import React, { useMemo } from 'react';
-import Table from '../common/tables/Table';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { GET_GROUPS } from '../../graphql/queries/groups';
 import { GetGroups } from '../../graphql/queries/__generated__/GetGroups';
-import {Group2} from "@styled-icons/remix-fill/Group2"
-import ItemWithImage from '../common/cells/ItemWithImage';
-import dayjs from 'dayjs'
-import GroupActionsMenu from './GroupActionsMenu';
-import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useDeleteGroup from '../../hooks/groups/useDeleteGroup';
+import useConfirmDelete from '../../hooks/useConfirmDelete';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../utils/commonTableCols';
+import AssociatedContentCell from '../common/cells/AssociatedContentCell';
+import GroupTitleCell from '../common/cells/GroupTitleCell';
+import Table from '../common/tables/Table';
+import GroupActionsMenu from './GroupActionsMenu';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -48,19 +48,12 @@ const GroupsTable = () => {
   const tableCols = useMemo(() => {
     return [
       {
-        header: "Group Name",
+        header: "Group",
         accessorKey: "name", // accessor is the "key" in the data
         cell: ({ cell }) => {
-          // const userCount = cell.row.original.users.totalCount?
-          const cellProps = {
-            image: cell.row.original.image,
-            title: cell.getValue(),
-            icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
-            href: cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
-          }
-          return (
-            <ItemWithImage { ...cellProps } />
-          )
+          const group = cell.row.original
+          const props = { href: `${editUrl}?id=${group.id}` }
+          return <GroupTitleCell group={group} itemWithImageProps={props} />
         }
       },
       {
@@ -69,12 +62,20 @@ const GroupsTable = () => {
       },
       commonTableCols.createdAt,
       {
-        header: "Enrolled Courses",
-        accessorFn: row => row.assignedCourses?.totalCount,
+        header: "Assigned content",
+        accessorFn: row => row.assignedContent?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return <AssociatedContentCell entity={group} keyPrefix='assigned' />
+        }
       },
       {
-        header: "Assigned Resources",
-        accessorFn: row => row.assignedResources?.totalCount,
+        header: "Provided content",
+        accessorFn: row => row.providedContent?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return <AssociatedContentCell entity={group} keyPrefix='provisioned' />
+        }
       },
       {
         width: 300,

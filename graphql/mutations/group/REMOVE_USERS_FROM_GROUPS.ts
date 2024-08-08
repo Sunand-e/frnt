@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client';
 
 
-export const REMOVE_USER_FROM_GROUP = gql`
-  mutation RemoveUserFromGroup(
-    $userId: ID!,
-    $groupId: ID!
+export const REMOVE_USERS_FROM_GROUPS = gql`
+  mutation RemoveUsersFromGroups(
+    $userIds: [ID!]!
+    $groupIds: [ID!]!
   ) {
-    removeUserFromGroup(
-      userId: $userId,
-      groupId: $groupId
+    removeUsersFromGroups(
+      userIds: $userIds,
+      groupIds: $groupIds
     ) {
-      membership {
+      memberships {
         group {
           id
           name

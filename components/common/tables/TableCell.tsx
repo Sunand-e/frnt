@@ -1,5 +1,6 @@
 import { Cell, flexRender } from "@tanstack/react-table"
 import { CSSProperties, memo, useEffect } from "react"
+import { tableSizingOptions } from "./Table"
 import { useTableContext } from "./tableContext"
 interface TableCellProps {
   cell: Cell<any,any>
@@ -9,19 +10,29 @@ interface TableCellProps {
 
 const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
 
-  const dataCellOffset = useTableContext(s => (
-    Number(s.isReorderable) + Number(!!s.bulkActions.length)
-  ))
+  const isReorderable = useTableContext(s => s.isReorderable)
+  const rowSizing = useTableContext(s => s.rowSizing)
+  const isSelectable = useTableContext(s => s.isSelectable)
+  const bulkActions = useTableContext(s => s.bulkActions)
+
+  const selectable = isSelectable || !!bulkActions.length
+  const dataCellOffset = Number(isReorderable) + Number(selectable)
+    
+  const { padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
   
   const defaultStyles: CSSProperties = {
-    padding: '1rem 1.5rem',
+    padding,
     textAlign: (cell.column.id === 'select' || index > dataCellOffset) ? 'center' : 'left',
-    maxHeight: 75
+    maxHeight: rowHeight
+  }
+  
+  if(cell.row.getVisibleCells().length !== index + 1) {
+    defaultStyles.paddingRight = 0
   }
 
   return (
     <td key={cell.id}
-      className={`px-6 py-4 border-b border-gray-200 text-sm text-gray-900 group-last:border-0`}
+      className={`px-6 pl-4 border-b border-gray-200 text-sm text-gray-900 group-last:border-0`}
       style={{
         ...defaultStyles,
         ...cell.column.columnDef.style,

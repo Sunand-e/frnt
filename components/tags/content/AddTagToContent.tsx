@@ -1,54 +1,51 @@
+import { is } from "cypress/types/bluebird"
 import { useState } from "react"
 import useAddTagsToContent from "../../../hooks/contentItems/useAddTagsToContent"
-import useGetRoles from "../../../hooks/roles/useGetRoles"
 import { closeModal } from "../../../stores/modalStore"
 import Button from "../../common/Button"
-import ContentSelectCategorised from "../../common/inputs/ContentSelectCategorised"
+import ContentSelectTable from "../../common/tables/ContentSelectTable"
 
-const AddTagToContent = ({tag, content, typeName='item'}) => {
-  
-  const {addTagsToContent} = useAddTagsToContent()
+const AddTagToContent = ({ tag, content, isLoading, typeName = 'item' }) => {
+  const { addTagsToContent } = useAddTagsToContent();
 
-  const contentNodes = content?.edges.map(edge => edge.node)
+  const contentNodes = content?.edges.map(edge => edge.node);
 
-  const availableContent = contentNodes?.filter(node => 
-    !node.tags.edges.find(({node}) => node.id === tag.id)
-  ) || []
+  const availableContent = contentNodes?.filter(node =>
+    !node.tags.edges.find(({ node }) => node.id === tag.id)
+  ) || [];
 
-  const [selectedContentIds, setSelectedContentIds] = useState([])
+  const [selectedContentIds, setSelectedContentIds] = useState([]);
 
-  const handleChange = (items, actionMeta) => {
-    setSelectedContentIds(items.map(item => item.value))
-  }
-
-  const handleAddTagToContent = (e) => {
+  const handleAddTagToContent = () => {
     addTagsToContent({
       tagIds: [tag.id],
       contentItemIds: selectedContentIds,
     }, () => {
-      closeModal()
-    })
-  }
-  
+      closeModal();
+    });
+  };
+
+  const onSubmit = (selectedIds) => {
+    setSelectedContentIds(selectedIds);
+    handleAddTagToContent();
+  };
+
   return (
     <>
+    { isLoading ? 'Loading...' : 'Not Loading' }
       {
-        availableContent?.length ? (
-          <div>
-            <ContentSelectCategorised
-              availableContent={availableContent}
-              onChange={handleChange}
-              typeName={typeName}
-              menuTopMargin={selectedContentIds.length ? 60 : 0}
-            />
-            {/* <CourseMultiLevelSelect data={availableContentData} onChange={handleChange} /> */}
-            { !!selectedContentIds.length && (
-              <Button onClick={handleAddTagToContent}><>
-                Add {selectedContentIds.length} {typeName}s to '{tag.label}'
-                </>
-              </Button>
-            )}
-          </div>
+        isLoading || availableContent.length ? (
+          <ContentSelectTable
+            availableContent={availableContent}
+            selectedContentIds={selectedContentIds}
+            onRowSelect={setSelectedContentIds}
+            contentType={typeName}
+            recipient={tag}
+            isLoading={isLoading}
+            filters={['category', 'global']}
+            actionName="Add"
+            onSubmit={onSubmit}
+          />
         ) : (
           <div className="flex flex-col items-center">
             No {typeName}s available
@@ -57,7 +54,7 @@ const AddTagToContent = ({tag, content, typeName='item'}) => {
         )
       }
     </>
-  )
-}
+  );
+};
 
 export default AddTagToContent

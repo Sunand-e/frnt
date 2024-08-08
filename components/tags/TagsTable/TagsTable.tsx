@@ -1,59 +1,68 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Table from '../../common/tables/Table'
-import ItemWithImage from '../../common/cells/ItemWithImage';
-import {Category} from '@styled-icons/material-rounded/Category'
-import LoadingSpinner from '../../common/LoadingSpinner';
-import useGetCurrentUser from '../../../hooks/users/useGetCurrentUser';
-import TagActionsMenu from '../TagActionsMenu';
 import { useMutation } from '@apollo/client';
-import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
-import { arrayMove } from '@dnd-kit/sortable';
+import { useMemo } from 'react';
 import cache from '../../../graphql/cache';
 import { TagFragmentFragment } from '../../../graphql/generated';
 import { REORDER_TAGS } from '../../../graphql/mutations/tag/REORDER_TAGS';
-import { GET_CURRENT_USER } from '../../../graphql/queries/users';
-import useGetTags from '../../../hooks/tags/useGetTags';
-import useGetResources from '../../../hooks/resources/useGetResources';
+import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
+import useGetResources from '../../../hooks/resources/useGetResources';
+import useGetTags from '../../../hooks/tags/useGetTags';
+import useReorderTags from '../../../hooks/tags/useReorderTags';
+import ItemWithImage from '../../common/cells/ItemWithImage';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import Table from '../../common/tables/Table';
+import { tagTypes } from '../../common/tagTypes';
+import TagActionsMenu from '../TagActionsMenu';
 
-const TagsTable = () => {
+const getTagContentTypeCount = (cell, content) => {
+  return content?.edges.filter(
+    edge => edge.node.tags.edges.map(
+      ({node}) => node.id
+    ).includes(cell.row.original.id)
+  ).length
+}
+
+const TagsTable = ({typeName='category'}) => {
 
   const { tags, loading, error } = useGetTags()
   const { courses, loading: loadingCourses } = useGetCourses()
   const { resources, loading: loadingResources } = useGetResources()
   const { pathways, loading: loadingPathways } = useGetPathways()
   
-  const editUrl = '/admin/tags/edit'
+  const tagType = tagTypes[typeName]
+  const editUrl = tagType.editUrl
 
-  const [reorderTagsMutation, reorderTagsMutationResponse] = useMutation(
-    REORDER_TAGS
-  ) 
-
+  const { reorderTags } = useReorderTags()
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return tags?.filter(item => !item._deleted).sort((a,b) => b.order - a.order) || []
+      return tags?.filter(item => !item._deleted)
+      .filter(item => item.tagType === tagType.name)
+      .sort((a,b) => b.order - a.order) || []
     }, [tags, courses, resources, pathways]
   );
-  
+
   const tableCols = useMemo(
     () => [
       {
-        header: "Category Name",
+        header: `${tagType.label} name`,
         accessorKey: "label", // accessor is the "key" in the data
-        cell: ({ cell }) => (
-          <ItemWithImage
+        cell: ({ cell }) => {
+        
+            const icon = tagType.icon ? <tagType.icon className='p-1' /> : null;
+          
+          return <ItemWithImage
             image={cell.row.original.image}
-            icon={<Category className='p-2' />}
+            icon={icon}
             title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
-            imgDivClass={'bg-main text-white'}
+            // imgDivClass={'bg-main text-white'}
           />
-        )
+        }
       },
       {
         id: 'order',
@@ -61,19 +70,21 @@ const TagsTable = () => {
         accessorKey: 'order'
       },
       {
-        header: "Item count",
+        header: "Courses",
         cell: ({ cell }) => {
-          const allItemEdges = [
-            ...(courses?.edges || []),
-          ]
-          const catItemCount = allItemEdges.filter(
-            edge => edge.node.tags.edges.map(
-              ({node}) => node.id
-            ).includes(cell.row.original.id)
-          ).length
-          return (
-            <span>{`${catItemCount || 0} item${catItemCount !== 1 ? 's' : ''}`}</span>
-          )
+          return getTagContentTypeCount(cell, courses)
+        }
+      },
+      {
+        header: "Resources",
+        cell: ({ cell }) => {
+          return getTagContentTypeCount(cell, resources)
+        }
+      },
+      {
+        header: "Pathways",
+        cell: ({ cell }) => {
+          return getTagContentTypeCount(cell, pathways)
         }
       },
       {
@@ -83,14 +94,14 @@ const TagsTable = () => {
         cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
       }
     ],
-    [courses]
-    // [courses, resources, pathways]
+    // [courses]
+    [courses, resources, pathways]
   );
 
   const tableProps = {
     tableData,
     tableCols,
-    typeName: 'category',
+    typeName,
     isReorderable: true,
     onReorder: (active, over, newIndex, oldIndex) => {
 
@@ -105,46 +116,8 @@ const TagsTable = () => {
       },true)
 
       const newOrder = overTag.order + Number(overTag.order > activeTag.order)
-      reorderTagsMutation({
-        variables: {
-          id: active.id,
-          order: newOrder
-        },
-        update(cache, response) {
-          const newData = {
-            tags: tags.map(tag => {
-              if(tag.id === activeTag.id) {
-                return {
-                  ...tag,
-                  order: newOrder
-                }
-              } else if(tag.order >= newOrder) {
-                const newTag = {
-                  ...tag,
-                  order: tag.order + 1
-                }
-                return newTag 
-              } else {
-                return tag
-              }
-            })
-          }
-          cache.updateQuery({ query: GET_TAGS, optimistic: true}, (data) => ({
-            ...data,
-            ...newData
-          }))
-        },
-        optimisticResponse: {
-          reorderTags: {
-            __typename: "ReorderTagsPayload",
-            tag: {
-              ...activeTag,
-              order: newOrder
-            }
-          }
-        }
-      })
 
+      reorderTags(active.id, newOrder)
     }
   }
     

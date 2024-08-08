@@ -42,7 +42,7 @@ export const Tooltip = ({
   showArrow = false,
   followMouse = false,
   arrowClassName = 'fill-white',
-  placement = 'bottom',
+  placement = 'top',
   className = 'bg-white text-sm',
 }: TooltipProps) => {
   
@@ -60,7 +60,7 @@ export const Tooltip = ({
     onOpenChange: setIsOpen,
     placement,
     middleware: [
-      offset(),
+      offset({ mainAxis: 6 }),
       flip(),
       shift(),
       arrow({
@@ -101,7 +101,7 @@ export const Tooltip = ({
         <FloatingPortal root={mainScrollableRef}>
         <div
           ref={setFloating}
-          style={{ ...floatingStyles, zIndex: 1000, position: 'absolute', top:-1}}
+          style={{ ...floatingStyles, zIndex: 12500, position: 'absolute', top:-1}}
           {...getFloatingProps()}
         >
           <div style={transitionStyles} className={classNames(

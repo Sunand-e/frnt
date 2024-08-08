@@ -18,7 +18,6 @@ const PathwaysTable = () => {
       tableProps={{
         filters: ['global']
       }}
-      idKey='pid'
     />
   )
 }

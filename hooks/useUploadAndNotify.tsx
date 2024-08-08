@@ -108,14 +108,16 @@ const useUploadAndNotify = ({
       /* REFETCH QUERY TO UPDATE UI */ 
       onComplete && onComplete(response)
 
-      client.refetchQueries({
-        include: [refetchQuery]
-      })
-      // the following seems to work better than the above:
-      client.query({
-        query: refetchQuery,
-        fetchPolicy: 'network-only'
-      })
+      if(refetchQuery) {
+        client.refetchQueries({
+          include: [refetchQuery]
+        })
+        // the following seems to work better than the above:
+        client.query({
+          query: refetchQuery,
+          fetchPolicy: 'network-only'
+        })
+      }
 
       return response.data
     })

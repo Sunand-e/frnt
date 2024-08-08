@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useContext } from "react";
 import classNames from "../../../utils/classNames";
 import TooltipIfClamped from "../floating-ui/TooltipIfClamped";
+import { TableContext } from "../tables/tableContext";
 
 interface ItemWithImageProps {
   rounded?: 'none' | 'md' | 'full';
@@ -27,6 +29,12 @@ const objectFitClasses = {
   contain: 'object-contain',
 };
 
+const iconSizeOptions = {
+  sm: 'h-8 w-8',
+  md: 'h-10 w-10',
+  lg: 'h-12 w-12',
+};
+
 const ConditionalLinkWrapper: React.FC<{ href?: string; children: React.ReactNode }> = ({ href, children }) => (
   href ? <Link href={href}>{children}</Link> : <>{children}</>
 );
@@ -43,15 +51,26 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
   icon,
   href,
 }) => {
+
+  const store = useContext(TableContext)
+  
+  const rowSizing = store?.getState().rowSizing || 'md';
+  
   const imageAltText = `${title} - ${secondary}`;
+  const iconSizeClass = iconSizeOptions[rowSizing]
 
   return (
     <ConditionalLinkWrapper href={href}>
-      <div className="flex items-center max-w-xs text-main">
-        <div className={`h-10 w-10 flex justify-center items-center shrink-0 overflow-hidden ${imgDivClass} ${roundedClasses[rounded]}`}>
+      <div className="flex items-center max-w-xs text-main-lightness-65">
+        <div className={classNames(
+          iconSizeClass,
+          'flex justify-center items-center shrink-0 overflow-hidden',
+          imgDivClass,
+          !!(image || imageSrc) && roundedClasses[rounded]
+        )}>
           {image || imageSrc ? (
             <img
-              className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
+              className={classNames(iconSizeClass, objectFitClasses[objectFit])}
               src={imageSrc || `/uploaded_images/${image?.id}?w=50`}
               alt={imageAltText}
               loading="lazy" // Example of performance optimization
@@ -59,7 +78,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
           ) : (
             icon || (
               <img
-                className={`h-10 w-10 ${objectFitClasses[objectFit]}`}
+              className={classNames(iconSizeClass, objectFitClasses[objectFit])}
                 src={placeholder || '/images/placeholder-image.png'}
                 alt={imageAltText}
                 loading="lazy"
@@ -70,7 +89,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
         <div className="ml-4 w-full">
           <TooltipIfClamped className={classNames(
             "font-medium text-gray-900",
-            !!secondary ? 'line-clamp-1' : 'line-clamp-2'
+            !!secondary || rowSizing === 'sm' ? 'line-clamp-1' : 'line-clamp-2'
           )}>{title}</TooltipIfClamped>
           {secondary && (
             <TooltipIfClamped className=" text-gray-500 line-clamp-1 break-words w-full">{secondary}</TooltipIfClamped>

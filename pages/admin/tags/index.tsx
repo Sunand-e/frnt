@@ -25,8 +25,7 @@ const AdminTags = () => {
   
   return (
     <>
-    {/* <Button onClick=>Create new tag</Button> */}
-    <TagsTable />
+      <TagsTable typeName='category' />
     </>
   )
 }

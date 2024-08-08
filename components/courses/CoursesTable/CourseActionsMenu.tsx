@@ -2,12 +2,10 @@ import ActionsMenu from "../../common/menus/ActionsMenu"
 import useDeleteCourse from "../../../hooks/courses/useDeleteCourse"
 import useConfirmDelete from "../../../hooks/useConfirmDelete"
 import useDuplicateCourse from "../../../hooks/courses/useDuplicateCourse"
+import { getContentEditUrl } from "../../common/contentTypes"
 
 const CourseActionsMenu = ({content: course}) => {
 
-  const editUrl = '/admin/courses/edit'
-  const editHref = course?.id && `${editUrl}?id=${course.id}`
-  
   const { deleteCourse } = useDeleteCourse()
   const { duplicateCourse } = useDuplicateCourse()
   const { confirmDelete } = useConfirmDelete({
@@ -19,7 +17,7 @@ const CourseActionsMenu = ({content: course}) => {
   const menuItems = [
     { 
       label: 'Edit course', 
-      href: editHref,
+      href: getContentEditUrl(course),
       capability: 'UpdateCourse'
     },
     {

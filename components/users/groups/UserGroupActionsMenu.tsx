@@ -1,32 +1,19 @@
+import { getGroupEditUrl, getGroupType } from "../../common/groupTypes"
 import ActionsMenu from "../../common/menus/ActionsMenu"
-import { useCallback } from "react"
-import useRemoveUserFromGroup from "../../../hooks/groups/useRemoveUserFromGroup"
 
-const UserGroupActionsMenu = ({user, group}) => {
+const UserGroupActionsMenu = ({group, onRemove}) => {
 
-  const reportsUrl = '/admin/groups/edit'
-  
-  const {removeUserFromGroup} = useRemoveUserFromGroup()
-  
-  const handleRemove = useCallback((group) => {
-    if(!user?.id) {
-      return false
-    }
-    removeUserFromGroup({
-      userId: user.id,
-      groupId: group.node.id,
-    })
-  }, [user])
-  
+  const type = getGroupType(group)
   const menuItems = [
     {
-      label: 'Remove from group',
-      onClick: () => {
-        handleRemove(
-          group,
-        )
-      },
-      capability: 'RemoveUserFromGroup'
+      label: `Remove from ${type.name}`,
+      onClick: () => onRemove([group.id]),
+      capability: 'RemoveUsersFromGroups'
+    },
+    {
+      label: `Edit ${type.name}`,
+      href: getGroupEditUrl(group),
+      capability: 'UpdateGroup'
     },
     // { title: 'Settings', href:'settings' },
   ]
