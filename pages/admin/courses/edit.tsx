@@ -1,14 +1,12 @@
-import CourseEditor from '../../../components/courses/CourseEditor'
-import { useRouter } from '../../../utils/router'
-import EditorLayout from '../../../layouts/EditorLayout'
-import { headerButtonsVar } from '../../../graphql/cache'
-import { useEffect, useLayoutEffect } from 'react'
-import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
-import LoadingSpinner from '../../../components/common/LoadingSpinner'
-import { Dot } from '../../../components/common/misc/Dot';
+import { useEffect } from 'react'
 import Button from '../../../components/common/Button'
-import { useViewStore } from '../../../hooks/useViewStore'
+import LoadingSpinner from '../../../components/common/LoadingSpinner'
+import CourseEditor from '../../../components/courses/CourseEditor'
 import useHeaderButtons from '../../../hooks/useHeaderButtons'
+import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
+import { useViewStore } from '../../../hooks/useViewStore'
+import EditorLayout from '../../../layouts/EditorLayout'
+import { useRouter } from '../../../utils/router'
 
 const AdminCoursesEdit = () => {
   /*
@@ -47,14 +45,7 @@ const AdminCoursesEdit = () => {
     <>
       { course ?
         <CourseEditor /> :
-        <LoadingSpinner className='mt-12' text={(
-          <>
-            Loading your course
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-          </>
-        )} />
+        <LoadingSpinner className='mt-12' text="Loading your course" />
       }
     </>
   )

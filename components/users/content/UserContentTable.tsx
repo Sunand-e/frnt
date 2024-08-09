@@ -5,6 +5,7 @@ import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
 import UserContentActionsMenu from "../content/UserContentActionsMenu";
 import { contentTypes } from "../../common/contentTypes";
+import { commonTableCols } from "../../../utils/commonTableCols";
 
 interface UserContentTableProps {
   contentType: string;
@@ -68,8 +69,7 @@ const UserContentTable = ({ contentType }: UserContentTableProps) => {
         }
       },
       {
-        header: "Actions",
-        accessorKey: "actions",
+        ...commonTableCols.actions,
         cell: ({ cell }) => <UserContentActionsMenu user={user} content={cell.row.original} />
       },
     ]

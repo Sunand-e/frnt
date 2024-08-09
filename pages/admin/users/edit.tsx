@@ -114,14 +114,7 @@ const AdminUsersEdit = () => {
   return (
     <>
       { loading ? (
-        <LoadingSpinner text={(
-          <>
-            Loading user details
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-          </>
-        )} />
+        <LoadingSpinner text="Loading user details" />
       ) : !!user && (
         <div className='flex space-x-0 flex-col w-full max-w-screen-lg md:flex-row md:space-x-11'>
           {/* <pre>

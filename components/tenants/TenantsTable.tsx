@@ -11,6 +11,7 @@ import dayjs from 'dayjs'
 import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
 import TenantActionsMenu from './TenantActionsMenu';
 import { handleModal } from '../../stores/modalStore';
+import { commonTableCols } from '../../utils/commonTableCols';
 
 const TenantsTable = () => {
 
@@ -85,10 +86,9 @@ const TenantsTable = () => {
         }
       },
       {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <TenantActionsMenu tenant={cell.row.original} />
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <TenantActionsMenu tenant={cell.row.original} />,
+        width: 300
       }
     ],
     []

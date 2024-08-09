@@ -1,7 +1,7 @@
-import { CSSProperties, ReactNode } from 'react'
-import classNames from '../../utils/classNames'
-import styles from './LoadingSpinner.module.scss'
-import { Dot } from '../common/misc/Dot';
+import { CSSProperties, ReactNode } from 'react';
+import classNames from '../../utils/classNames';
+import styles from './LoadingSpinner.module.scss';
+import BlinkingEllipsis from './misc/BlinkingEllipsis';
 
 interface LoadingSpinnerProps {
   text?: ReactNode
@@ -40,21 +40,15 @@ export default function LoadingSpinner({text, className, size='lg', textPosition
 
   const textPositionClasses = ['left','right'].includes(textPosition) ? 'space-x-3' : 'space-y-3 flex-col'
 
-  const textWithDots = (
-    <>
-      { text }
-      <span><Dot>.</Dot></span>
-      <span><Dot>.</Dot></span>
-      <span><Dot>.</Dot></span>
-    </>
-  )
+  const textWithEllipsis = <span>{text}<BlinkingEllipsis /></span>
+
   return (
     <div className={classNames(
       className,
       'display flex text-center items-center justify-center text-gray-900 mx-auto',
       textPositionClasses
     )}>
-      { !!text && ['left', 'top'].includes(textPosition) && ( <span>{ textWithDots }</span> ) }
+      { !!text && ['left', 'top'].includes(textPosition) && textWithEllipsis }
       { showSpinner && (
         <div className={styles.loadingCubeGrid} style={gridStyle}>
           {[...Array(9)].map((x, i) =>
@@ -70,7 +64,7 @@ export default function LoadingSpinner({text, className, size='lg', textPosition
           )}
         </div>
       )}
-      { !!text && ['right', 'bottom'].includes(textPosition) && ( <span>{ textWithDots }</span> ) }
+      { !!text && ['right', 'bottom'].includes(textPosition) && textWithEllipsis }
     </div>
   )
 }

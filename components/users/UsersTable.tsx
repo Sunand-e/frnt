@@ -20,6 +20,7 @@ import cache from '../../graphql/cache';
 import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
+import { commonTableCols } from '../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -158,10 +159,9 @@ const UsersTable = () => {
         }
       },
       {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />,
+        width: 300
       }
     ],
     [tenantFeaturesEnabled, isOrganisationLeader, userHasCapability]

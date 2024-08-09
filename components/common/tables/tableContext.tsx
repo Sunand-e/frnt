@@ -90,6 +90,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     isReorderable: false,
     isReorderableActive: false,
     isSelectable: false,
+    isLoading: false,
     isReportingTable: false,
     scrollInTable: false,
     maxVisibleRows: 5,

@@ -1,13 +1,12 @@
-import { useState, useEffect, useContext, useMemo } from 'react'
-import { useRouter } from '../../utils/router';
-import SearchResults from './SearchResults';
-import LoadingSpinner from '../common/LoadingSpinner';
-import CategoryFilters from './CategoryFilters';
-import { Dot } from '../common/misc/Dot';
-import useGetTags from '../../hooks/tags/useGetTags';
+import { useMemo } from 'react';
 import useGetCourses from '../../hooks/courses/useGetCourses';
-import useGetResources from '../../hooks/resources/useGetResources';
 import useGetPathways from '../../hooks/pathways/useGetPathways';
+import useGetResources from '../../hooks/resources/useGetResources';
+import useGetTags from '../../hooks/tags/useGetTags';
+import { useRouter } from '../../utils/router';
+import LoadingSpinner from '../common/LoadingSpinner';
+import BlinkingEllipsis from '../common/misc/BlinkingEllipsis';
+import SearchResults from './SearchResults';
 
 const CategoryOrSearch = () => {
   
@@ -64,9 +63,7 @@ const CategoryOrSearch = () => {
         <LoadingSpinner text={(
           <>
             Loading category
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
+            <BlinkingEllipsis />
           </>
         )} />
       ) : filterNodes(courseNodes)?.length

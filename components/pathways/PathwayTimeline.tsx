@@ -39,14 +39,7 @@ const PathwayTimeline = ({editMode=false, onRemove=null}) => {
     <div className="container mb-8 bg-white shadow rounded-md p-6">
       <div className="flex flex-col mx-auto px-2">
         { !pathway ? (
-          <LoadingSpinner text={(
-            <>
-              Loading pathway
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-            </>
-          )} />
+          <LoadingSpinner text="Loading pathway" />
         ) : (
           <>
           <div className="flex relative mb-9">

@@ -41,14 +41,7 @@ const AdminOrganisationsEdit = () => {
   return (
     <>
       { loading ? (
-        <LoadingSpinner text={(
-          <>
-            Loading organisation details
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-            <Dot>.</Dot>
-          </>
-        )} />
+        <LoadingSpinner text="Loading organisation details" />
       ) : !!group && (
         <OrganisationForm />
       )}

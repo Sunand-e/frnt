@@ -78,10 +78,9 @@ const GroupsTable = () => {
         }
       },
       {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <GroupActionsMenu group={cell.row.original} />
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <GroupActionsMenu group={cell.row.original} />,
+        width: 300
       }
     ]
   }, []);

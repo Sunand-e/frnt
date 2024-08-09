@@ -1,3 +1,4 @@
+import BlinkingEllipsis from '../misc/BlinkingEllipsis';
 import { Dot } from '../misc/Dot';
 
 const TableRowOverlay = ({row, rowElementRef, text=''}) => {
@@ -14,9 +15,7 @@ const TableRowOverlay = ({row, rowElementRef, text=''}) => {
         <div className="w-full h-full flex items-center justify-center">
           {/* <LoadingSpinner size="sm" text={'Cloning course'} textPosition="right" /> */}
           { text || 'Please wait' }
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
+          <BlinkingEllipsis />
         </div>
       </td>
     </tr>

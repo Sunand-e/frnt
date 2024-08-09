@@ -1,25 +1,23 @@
-import { useMutation } from '@apollo/client';
 import { useMemo } from 'react';
 import cache from '../../../graphql/cache';
 import { TagFragmentFragment } from '../../../graphql/generated';
-import { REORDER_TAGS } from '../../../graphql/mutations/tag/REORDER_TAGS';
-import { GET_TAGS, TagFragment } from '../../../graphql/queries/tags';
+import { TagFragment } from '../../../graphql/queries/tags';
 import useGetCourses from '../../../hooks/courses/useGetCourses';
 import useGetPathways from '../../../hooks/pathways/useGetPathways';
 import useGetResources from '../../../hooks/resources/useGetResources';
 import useGetTags from '../../../hooks/tags/useGetTags';
 import useReorderTags from '../../../hooks/tags/useReorderTags';
+import { commonTableCols } from '../../../utils/commonTableCols';
 import ItemWithImage from '../../common/cells/ItemWithImage';
-import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
 import { tagTypes } from '../../common/tagTypes';
 import TagActionsMenu from '../TagActionsMenu';
 
-const getTagContentTypeCount = (cell, content) => {
+const getTagContentTypeCount = (originalRow, content) => {
   return content?.edges.filter(
     edge => edge.node.tags.edges.map(
       ({node}) => node.id
-    ).includes(cell.row.original.id)
+    ).includes(originalRow.id)
   ).length
 }
 
@@ -56,6 +54,7 @@ const TagsTable = ({typeName='category'}) => {
           
           return <ItemWithImage
             image={cell.row.original.image}
+            imgDivClass='bg-main/20'
             icon={icon}
             title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
@@ -71,27 +70,26 @@ const TagsTable = ({typeName='category'}) => {
       },
       {
         header: "Courses",
-        cell: ({ cell }) => {
-          return getTagContentTypeCount(cell, courses)
+        accessorFn: (row, index) => {
+          return getTagContentTypeCount(row, courses)
         }
       },
       {
         header: "Resources",
-        cell: ({ cell }) => {
-          return getTagContentTypeCount(cell, resources)
+        accessorFn: (row, index) => {
+          return getTagContentTypeCount(row, resources)
         }
       },
       {
         header: "Pathways",
-        cell: ({ cell }) => {
-          return getTagContentTypeCount(cell, pathways)
+        accessorFn: (row, index) => {
+          return getTagContentTypeCount(row, pathways)
         }
       },
       {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />,
+        width: 300
       }
     ],
     // [courses]
@@ -102,6 +100,8 @@ const TagsTable = ({typeName='category'}) => {
     tableData,
     tableCols,
     typeName,
+    isLoading: loading,
+    loadingText: `Loading ${tagType.plural}`,
     isReorderable: true,
     onReorder: (active, over, newIndex, oldIndex) => {
 
@@ -121,20 +121,12 @@ const TagsTable = ({typeName='category'}) => {
     }
   }
     
+  if(error) {
+    return <p>Unable to fetch {tagType.plural}.</p>
+  }
 
-  return (
-    <>
-      { loading && (
-        <LoadingSpinner />
-      )}
-      { error && (
-        <p>Unable to fetch tags.</p>
-      )}
-      { (!loading && !error) && (
-        <Table { ...tableProps } />
-      )}
-    </>
-  );
+  return <Table {...tableProps} />
+
 }
 
 export default TagsTable

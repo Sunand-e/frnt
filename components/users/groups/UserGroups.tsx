@@ -4,6 +4,7 @@ import useRemoveUsersFromGroups from "../../../hooks/groups/useRemoveUsersFromGr
 import useGetRoles from "../../../hooks/roles/useGetRoles";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { handleModal } from "../../../stores/modalStore";
+import { commonTableCols } from "../../../utils/commonTableCols";
 import { useRouter } from "../../../utils/router";
 import GroupTitleCell from "../../common/cells/GroupTitleCell";
 import { getGroupType, groupTypes } from "../../common/groupTypes";
@@ -98,9 +99,7 @@ const UserGroups = ({ groupTypeName = 'group', isSingular = false }) => {
         }
       },
       {
-        header: "Actions",
-        accessorKey: "actions",
-        enableSorting: false,
+        ...commonTableCols.actions,
         cell: ({ cell }) => <UserGroupActionsMenu group={cell.row.original.node} onRemove={handleRemove} />
       },
     ];

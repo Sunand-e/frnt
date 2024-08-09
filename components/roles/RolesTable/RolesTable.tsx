@@ -6,6 +6,7 @@ import useGetRoles from '../../../hooks/roles/useGetRoles';
 import useDeleteRole from '../../../hooks/roles/useDeleteRole';
 import Button from '../../common/Button';
 import LoadingSpinner from '../../common/LoadingSpinner';
+import { commonTableCols } from '../../../utils/commonTableCols';
 
 const RolesTable = () => {
 
@@ -50,9 +51,8 @@ const RolesTable = () => {
 
       },
       {
+        ...commonTableCols.actions,
         width: 300,
-        header: "Actions",
-        accessorKey: "actions",
         cell: ({ cell }) => {
           const href = cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`
           return (

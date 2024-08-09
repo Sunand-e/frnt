@@ -3,6 +3,7 @@ import useUpdateTenant from "../../hooks/tenants/useUpdateTenant"
 import { handleModal } from "../../stores/modalStore"
 import { useRouter } from "../../utils/router"
 import Button from "../common/Button"
+import SharedContent from "./SharedContent"
 import TenantFontsForm from "./TenantFontsForm"
 import TenantForm from "./TenantForm"
 import TenantSharedContentForm from "./TenantSharedContentForm"
@@ -42,7 +43,8 @@ const TenantEditor = () => {
         <Button onClick={openFontModal}>Upload fonts</Button>
       </div>
       <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-        <TenantSharedContentForm />
+        {/* <TenantSharedContentForm /> */}
+        <SharedContent tenant={tenant} />
       </div>
     </div>
   )

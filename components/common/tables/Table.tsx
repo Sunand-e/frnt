@@ -1,15 +1,10 @@
-import {
-  getCoreRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  getSortedRowModel,
-  SortingState,
-  ColumnResizeMode,
-  ColumnDef,
-  Table as TableType
-} from '@tanstack/react-table'
-import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { FileExport } from '@styled-icons/fa-solid/FileExport';
+import {
+  getCoreRowModel, getFilteredRowModel,
+  getSortedRowModel, Table as TableType, useReactTable
+} from '@tanstack/react-table';
+import Tippy from '@tippyjs/react';
+import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
 import ReportFilters from '../../reporting/ReportFilters';
@@ -19,11 +14,10 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import TableActions from './TableActions';
 import { TableContext, TableProps, TableProvider, useTableContext } from './tableContext';
 import TableStructure from './TableStructure';
-import Tippy from '@tippyjs/react';
 
 export const tableSizingOptions = {
-  sm: { padding: '0.5rem 1rem', rowHeight: 55 },
-  md: { padding: '1rem 1.5rem', rowHeight: 73 },
+  sm: { padding: '0.5rem 1rem', rowHeight: 50 },
+  md: { padding: '1rem 1.5rem', rowHeight: 75 },
   lg: { padding: '1.5rem 2rem', rowHeight: 100 },
 };
 

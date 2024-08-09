@@ -34,6 +34,7 @@ interface TooltipProps {
   followMouse?: boolean
   placement?: Placement
   className?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
 export const Tooltip = ({
@@ -44,6 +45,7 @@ export const Tooltip = ({
   arrowClassName = 'fill-white',
   placement = 'top',
   className = 'bg-white text-sm',
+  size = 'md',
 }: TooltipProps) => {
   
   const [isOpen, setIsOpen] = useState(false)
@@ -105,7 +107,8 @@ export const Tooltip = ({
           {...getFloatingProps()}
         >
           <div style={transitionStyles} className={classNames(
-            "font-medium shadow rounded px-4 py-1 max-w-[320px] break-words",
+            "font-medium shadow rounded px-4 py-1 break-words",
+            size === 'sm' && 'max-w-[320px]',
             className,
           )}>
             { showArrow && <FloatingArrow className={arrowClassName} tipRadius={2} height={8} ref={arrowRef} context={context} /> }

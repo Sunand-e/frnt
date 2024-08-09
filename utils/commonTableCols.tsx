@@ -75,4 +75,10 @@ export const commonTableCols = {
       return (cell.getValue() || noDataDash)
     }
   },
+  actions: {
+    id: "actions",
+    header: "Actions",
+    accessorKey: "actions",
+    enableSorting: false
+  }
 }
