@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import cache from '../../../graphql/cache';
 import { GetCurrentUserQuery } from '../../../graphql/generated';
 import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_CONTENT';
+import { commonTableCols } from '../../../utils/commonTableCols';
 import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
@@ -94,10 +95,9 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
         )
       },
       {
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <ActionsMenuComponent content={cell.row.original} />,
         width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <ActionsMenuComponent content={cell.row.original} />
       }
     ],
     []

@@ -9,6 +9,7 @@ import useGetPathways from '../../../hooks/pathways/useGetPathways';
 import useGetResources from '../../../hooks/resources/useGetResources';
 import useGetTags from '../../../hooks/tags/useGetTags';
 import useReorderTags from '../../../hooks/tags/useReorderTags';
+import { commonTableCols } from '../../../utils/commonTableCols';
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
@@ -89,10 +90,9 @@ const TagsTable = ({typeName='category'}) => {
         }
       },
       {
-        width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />
+        ...commonTableCols.actions,
+        cell: ({ cell }) => <TagActionsMenu tag={cell.row.original} />,
+        width: 300
       }
     ],
     // [courses]

@@ -6,6 +6,7 @@ import CertificateActionsCell from './CertificateActionsCell';
 import {Certificate} from '@styled-icons/fluentui-system-regular/Certificate'
 import dayjs from 'dayjs';
 import ItemWithImage from '../common/cells/ItemWithImage';
+import { commonTableCols } from '../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -51,12 +52,10 @@ const CertificatesTable = () => {
         },
         cell: (cell) => cell.getValue() || <span>&mdash;</span>
       },
-
       {
+        ...commonTableCols.actions,
+        cell: CertificateActionsCell,
         width: 300,
-        header: "Actions",
-        accessorKey: "actions",
-        cell: CertificateActionsCell
       }
     ],
     []

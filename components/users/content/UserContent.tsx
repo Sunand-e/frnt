@@ -9,6 +9,7 @@ import { contentTypes } from "../../common/contentTypes";
 import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUserFromContent";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import ContentTitleCell from "../../common/cells/ContentTitleCell";
+import { commonTableCols } from "../../../utils/commonTableCols";
 
 interface UserContentProps {
   contentType: string;
@@ -99,8 +100,7 @@ const UserContent = ({ contentType }: UserContentProps) => {
         }
       },
       {
-        header: "Actions",
-        accessorKey: "actions",
+        ...commonTableCols.actions,
         cell: ({ cell }) => <UserContentActionsMenu content={cell.row.original} onRevoke={handleRevoke} />
       },
     ]

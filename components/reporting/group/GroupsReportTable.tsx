@@ -9,6 +9,7 @@ import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import { useRouter } from '../../../utils/router';
 import ReportTable from '../ReportTable';
+import { commonTableCols } from '../../../utils/commonTableCols';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -59,10 +60,8 @@ const GroupsReportTable = () => {
         accessorFn: row => row.assignedCourses.totalCount,
       },
       {
-        id: "actions",
+        ...commonTableCols.actions,
         width: 300,
-        header: "",
-        accessorKey: "actions",
         hideOnCsv: true,
         cell: ({ cell }) => {
           const usersHref = cell.row.original.id && {

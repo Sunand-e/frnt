@@ -6,6 +6,7 @@ import { ContentItemTagEdgeFragment } from "../../../graphql/queries/allQueries"
 import useRemoveTagsFromContent from "../../../hooks/contentItems/useRemoveTagsFromContent";
 import useReorderTagContent from "../../../hooks/tags/useReorderTagContent";
 import { handleModal, useModalStore } from "../../../stores/modalStore";
+import { commonTableCols } from "../../../utils/commonTableCols";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import ContentTitleCell from "../../common/cells/ContentTitleCell";
 import BoxContainerTable from "../../common/tables/BoxContainerTable";
@@ -83,8 +84,7 @@ const TagContent = ({tag, contentType, content, isLoading}) => {
         id: 'order',
       },
       {
-        header: "Actions",
-        accessorKey: "actions",
+        ...commonTableCols.actions,
         cell: ({ cell }) => <TagContentActionsMenu tag={tag} contentType={contentType} item={cell.row.original} onRemove={handleRemove} />
       },
     ]

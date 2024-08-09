@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import useGetGroup from "../../../hooks/groups/useGetGroup";
+import { commonTableCols } from "../../../utils/commonTableCols";
 import { useRouter } from '../../../utils/router';
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import Table from "../../common/tables/Table";
@@ -38,8 +39,7 @@ const OrganisationContentTable = ({typeName='content'}) => {
         }
       },
       {
-        header: "Actions",
-        accessorKey: "actions",
+        ...commonTableCols.actions,
         cell: ({ cell }) => <OrganisationContentActionsMenu group={group} edge={cell.row.original} typeName={typeName} />
       },
     ]

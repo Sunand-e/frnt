@@ -113,8 +113,7 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
       },
       commonTableCols.createdAt,
       {
-        header: "Actions",
-        accessorKey: "actions",
+        ...commonTableCols.actions,
         cell: ({ cell }) => (
           <GroupContentActionsMenu
             onRemove={handleRemove}
