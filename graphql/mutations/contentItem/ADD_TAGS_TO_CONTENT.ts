@@ -14,6 +14,7 @@ export const ADD_TAGS_TO_CONTENT = gql`
         tags {
           edges {
             id
+            contentItemId
             order
             node {
               id

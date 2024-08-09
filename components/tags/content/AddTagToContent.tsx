@@ -1,4 +1,3 @@
-import { is } from "cypress/types/bluebird"
 import { useState } from "react"
 import useAddTagsToContent from "../../../hooks/contentItems/useAddTagsToContent"
 import { closeModal } from "../../../stores/modalStore"
@@ -20,9 +19,8 @@ const AddTagToContent = ({ tag, content, isLoading, typeName = 'item' }) => {
     addTagsToContent({
       tagIds: [tag.id],
       contentItemIds: selectedContentIds,
-    }, () => {
-      closeModal();
     });
+    closeModal();
   };
 
   const onSubmit = (selectedIds) => {

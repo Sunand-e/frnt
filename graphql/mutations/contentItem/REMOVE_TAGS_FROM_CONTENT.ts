@@ -14,6 +14,7 @@ export const REMOVE_TAGS_FROM_CONTENT = gql`
         tags {
           edges {
             id
+            contentItemId
             order
             node {
               id

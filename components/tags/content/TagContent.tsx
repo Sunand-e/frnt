@@ -85,7 +85,7 @@ const TagContent = ({tag, contentType, content, isLoading}) => {
       },
       {
         ...commonTableCols.actions,
-        cell: ({ cell }) => <TagContentActionsMenu tag={tag} contentType={contentType} item={cell.row.original} onRemove={handleRemove} />
+        cell: ({ cell }) => <TagContentActionsMenu tag={tag} contentType={contentType} item={cell.row.original} onRemove={id => handleRemove([id])} />
       },
     ]
   }, []);
