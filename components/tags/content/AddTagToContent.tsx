@@ -32,7 +32,6 @@ const AddTagToContent = ({ tag, content, isLoading, typeName = 'item' }) => {
 
   return (
     <>
-    { isLoading ? 'Loading...' : 'Not Loading' }
       {
         isLoading || availableContent.length ? (
           <ContentSelectTable
