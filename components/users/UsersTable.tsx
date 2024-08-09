@@ -203,6 +203,8 @@ const UsersTable = () => {
     tableData, 
     tableCols, 
     bulkActions,
+    isLoading: loading,
+    loadingText: 'Loading users',
     typeName: 'user',
     filters: ['global']
   }
