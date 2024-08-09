@@ -114,14 +114,7 @@ const ResourceView = ({id}) => {
         </div>
       ) : (
         <>
-          { loading && <LoadingSpinner text={(
-            <>
-              Loading resources
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-            </>
-          )} /> }
+          { loading && <LoadingSpinner text="Loading resources" /> }
           { error && (
             <p>Unable to fetch resourses.</p>
           )}

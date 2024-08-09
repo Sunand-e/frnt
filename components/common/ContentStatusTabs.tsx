@@ -77,7 +77,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
         <CertificatesTable />
       ) : (
         <>
-          { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s...`}/> }
+          { loading && <LoadingSpinner text={`Loading ${options?.typeName || 'item'}s`}/> }
           { !!content?.length && (
             <>
               <ItemCollection

@@ -1,9 +1,9 @@
-import {useCallback, useState} from 'react';
 import axios, { Method } from 'axios';
-import { client } from '../graphql/client';
+import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { Dot } from '../components/common/misc/Dot';
+import BlinkingEllipsis from '../components/common/misc/BlinkingEllipsis';
+import { client } from '../graphql/client';
 import getJWT from '../utils/getToken';
 
 interface UseUploadAndNotifyProps {
@@ -64,9 +64,7 @@ const useUploadAndNotify = ({
           const text = <>
             Uploading { filenamesSpan }
             <span className='font-bold'> 
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-              <Dot>.</Dot>
+              <BlinkingEllipsis />
             </span>
           </>
 

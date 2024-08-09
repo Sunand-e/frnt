@@ -102,15 +102,7 @@ const ReportTable = ({
 
       {loading && (
         <LoadingSpinner
-          text={
-            <>
-              {loadingText}
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-              <Dot>.</Dot>
-            </>
-          }
-        />
+          text={loadingText} />
       )}
       {error && <p>{errorText}</p>}
       {!loading && !error && (

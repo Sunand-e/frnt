@@ -76,14 +76,7 @@ const CourseItemView = () => {
         )}
       </div>
     ) : (
-      <LoadingSpinner className='mt-12' text={(
-        <>
-          Loading course module
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-          <Dot>.</Dot>
-        </>
-      )} />
+      <LoadingSpinner className='mt-12' text="Loading course module" />
     )
   )
 }
