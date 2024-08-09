@@ -156,7 +156,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
           <span className={`text-main-secondary whitespace-nowrap hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
         )}
       </div>
-      <p className='whitespace-nowrap pl-3'>{!!tableData.length && itemCountString}</p>
+      <p className='whitespace-nowrap pl-3'>{!!tableData.length ? itemCountString : 'Loading...'}</p>
     </div>
   )
 }
