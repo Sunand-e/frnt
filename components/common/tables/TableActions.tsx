@@ -28,6 +28,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const types = useTableContext(s => s.typeOptions)
   const typeName = useTableContext(s => s.typeName)
   const dontShowTypes = useTableContext(s => s.dontShowTypes)
+  const isLoading = useTableContext(s => s.isLoading)
   
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { userHasCapability } = useUserHasCapability()
@@ -157,7 +158,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
           <span className={`text-main-secondary whitespace-nowrap hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
         )}
       </div>
-      <p className='whitespace-nowrap pl-3'>{!!tableData.length ? itemCountString : <>Loading<BlinkingEllipsis /></>}</p>
+      <p className='whitespace-nowrap pl-3'>{isLoading ? <>Loading<BlinkingEllipsis /></> : itemCountString}</p>
     </div>
   )
 }
