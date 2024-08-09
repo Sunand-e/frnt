@@ -18,6 +18,7 @@ interface StatusStrings {
 
 interface TagType {
   name: string;
+  plural: string;
   pluralKey: string;
   label: string;
   heirarchical: boolean;
@@ -35,6 +36,7 @@ interface TagTypes {
 export const tagTypes: TagTypes = {
   collection: {
     name: 'collection',
+    plural: 'collections',
     pluralKey: 'collections',
     heirarchical: false,
     label: "Collection",
@@ -60,6 +62,7 @@ export const tagTypes: TagTypes = {
   category: {
     heirarchical: true,
     name: 'category',
+    plural: 'categories',
     pluralKey: 'categories',
     label: "Category",
     icon: Category,

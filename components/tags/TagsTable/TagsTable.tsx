@@ -103,6 +103,8 @@ const TagsTable = ({typeName='category'}) => {
     tableData,
     tableCols,
     typeName,
+    isLoading: loading,
+    loadingText: `Loading ${tagType.plural}`,
     isReorderable: true,
     onReorder: (active, over, newIndex, oldIndex) => {
 
@@ -122,20 +124,12 @@ const TagsTable = ({typeName='category'}) => {
     }
   }
     
+  if(error) {
+    return <p>Unable to fetch {tagType.plural}.</p>
+  }
 
-  return (
-    <>
-      { loading && (
-        <LoadingSpinner />
-      )}
-      { error && (
-        <p>Unable to fetch tags.</p>
-      )}
-      { (!loading && !error) && (
-        <Table { ...tableProps } />
-      )}
-    </>
-  );
+  return <Table {...tableProps} />
+
 }
 
 export default TagsTable
