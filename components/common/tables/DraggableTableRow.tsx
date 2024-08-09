@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useViewStore } from "../../../hooks/useViewStore";
+import { tableSizingOptions } from "./Table";
 import TableCell from "./TableCell";
 import { useTableContext } from "./tableContext";
 import TableRowOverlay from "./TableRowOverlay";
@@ -10,6 +11,7 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
   
   const mainScrollableRef = useViewStore(s => s.mainScrollableRef)
   const getReorderableItemIdFromRow = useTableContext(s => s.getReorderableItemIdFromRow)
+  const rowSizing = useTableContext(s => s.rowSizing)
 
   const id = getReorderableItemIdFromRow(row)
   
@@ -59,11 +61,10 @@ const DraggableTableRow = ({row, onRowClick, pkey, index, draggingRowHeight, vir
     };
   }, []);
 
-  
   const style = {
     opacity: row.original._isOptimistic ? 0.25 : 1,
     transform: `translateY(${totalTranslateY}px)`,
-    height: 7,
+    height: tableSizingOptions[rowSizing].rowHeight,
     zIndex: 9999 - index,
     ...(isDragging && { height: draggingRowHeight } ),
     ...(!isScrolling && { transition } ),
