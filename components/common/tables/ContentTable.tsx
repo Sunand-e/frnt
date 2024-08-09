@@ -179,25 +179,19 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
     tableCols,
     typeName: type.name,
     isReorderable: true,
+    isLoading: loading,
+    loadingText: "Loading " + type.plural,
     typeOptions: tableProps.typeOptions || {},
     onReorder: handleReorder,
     filters: tableProps.filters ?? ['category', 'global'],
     // onFilterChange: handleFilterChange
   }
 
-  return (
-    <>
-      { loading && (
-        <LoadingSpinner />
-      )}
-      { error && (
-        <p>Unable to fetch {type.plural}.</p>
-      )}
-      { (!loading && !error) && (
-        <Table {...tProps} />
-      )}
-    </>
-  );
+  if(error) {
+    return <p>Unable to fetch {type.plural}.</p>
+  }
+
+  return <Table {...tProps} />
 }
 
 // ContentTable.whyDidYouRender = true
