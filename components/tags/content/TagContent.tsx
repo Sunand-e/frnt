@@ -25,7 +25,7 @@ const TagContent = ({tag, contentType, content, isLoading}) => {
   }, [isLoading]);
 
   const button = {
-    text: `Add ${contentType.name} ${isLoading ? 'loooading' : ''}`,
+    text: `Add ${contentType.name}`,
     onClick: () => {
       handleModal({
         title: `Add ${contentType.plural} to ${tagType.name}: ${tag.label}`,
