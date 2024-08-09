@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { ContentItem, Group, Tag, User } from "../../../graphql/generated";
+import { ContentItem, Group, Tag, Tenant, User } from "../../../graphql/generated";
 import { getIconFromFilename } from "../../../utils/getIconFromFilename";
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import { resourceTypes } from "../../resources/resourceTypes";
@@ -9,15 +9,10 @@ import ItemWithImage from "../cells/ItemWithImage";
 import { contentTypes } from "../contentTypes";
 import useGetThumbnail from "../items/useGetThumbnail";
 import Table from "./Table";
-import useGetContent from "../../../hooks/contentItems/useGetContent";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
-import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
-import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed";
-
 
 type ContentSelectTableProps = {
   // recipientType: string
-  recipient: Tag | Group | User | ContentItem
+  recipient: Tag | Group | User | ContentItem | Tenant
   dontShowTypes: string[]
   selectedContentIds: string[]
   actionName: string
@@ -74,6 +69,9 @@ const ContentSelectTable = ({
       break;
     case 'ContentItem':
       recipientLabel = recipient.title
+      break;
+    case 'Tenant':
+      recipientLabel = recipient.name
       break;
   }
 

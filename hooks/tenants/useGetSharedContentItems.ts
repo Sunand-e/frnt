@@ -18,7 +18,8 @@ function useGetSharedContentItems(tenant_id) {
   );
 
   return {
-    sharedContentItems: data
+    sharedContentItems: data,
+    loading
   }
 }
 
