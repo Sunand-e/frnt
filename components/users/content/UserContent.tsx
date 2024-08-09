@@ -10,6 +10,8 @@ import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUse
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import ContentTitleCell from "../../common/cells/ContentTitleCell";
 import { commonTableCols } from "../../../utils/commonTableCols";
+import { Tooltip } from "../../common/floating-ui/Tooltip";
+import TooltipIfClamped from "../../common/floating-ui/TooltipIfClamped";
 
 interface UserContentProps {
   contentType: string;
@@ -85,7 +87,7 @@ const UserContent = ({ contentType }: UserContentProps) => {
         cell: ({ cell }) => {
           const values = cell.row.original;
           return (
-            <div className="text-center line-clamp-2">
+            <TooltipIfClamped className="text-center line-clamp-2">
               { cell.row.original.groups.edges.length ? (
                 <>
                   Assigned via group:
@@ -95,7 +97,7 @@ const UserContent = ({ contentType }: UserContentProps) => {
               ) : (
                 'Assigned'
               )}
-            </div>
+            </TooltipIfClamped>
           )
         }
       },
