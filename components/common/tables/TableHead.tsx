@@ -21,7 +21,7 @@ const TableHead: FC<TableHeadProps> = ({ table, tHeadRef, scrollInTable, dataCel
             return (
               <th key={header.id} colSpan={header.colSpan}
                 className={classNames(
-                  "bg-gray-50 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider " +
+                  "bg-gray-50 pl-4 py-3 text-left h-11 text-xs font-medium max-w-max text-gray-500 uppercase tracking-wider " +
                   "border-b border-gray-200",
                   scrollInTable && 'sticky top-0'
                 )}

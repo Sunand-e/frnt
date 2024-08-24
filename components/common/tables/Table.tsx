@@ -16,9 +16,9 @@ import { TableContext, TableProps, TableProvider, useTableContext } from './tabl
 import TableStructure from './TableStructure';
 
 export const tableSizingOptions = {
-  sm: { padding: '0.5rem 1rem', rowHeight: 50 },
-  md: { padding: '1rem 1.5rem', rowHeight: 75 },
-  lg: { padding: '1.5rem 2rem', rowHeight: 100 },
+  sm: { verticalPadding: '0.5rem', rowHeight: 50 },
+  md: { verticalPadding: '1rem', rowHeight: 75 },
+  lg: { verticalPadding: '1.5rem', rowHeight: 100 },
 };
 
 const TableWithProvider = (props: TableProps) => {
@@ -77,7 +77,7 @@ const Table = () => {
   
     if (itemType) {
       newQuery.type = itemType;
-    } else {
+    } else if(!['user', 'group'].includes(newQuery.type as string)) {
       delete newQuery.type; // Remove the type parameter if itemType is not set
     }
   
@@ -139,7 +139,7 @@ const Table = () => {
       },
       style: {
         paddingRight: 0,
-        width: '50px',
+        width: '36px',
         opacity: isReorderableActive ? 1 : 0.5
       }
     }] : []),
@@ -168,8 +168,9 @@ const Table = () => {
       ),
       style: {
         paddingRight: 0,
-        width: '16px'
-      }
+        width: '2rem',
+        zIndex: 10001
+      },
     }] : []),
 
     // ...(isReorderable ? [{
