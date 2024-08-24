@@ -87,11 +87,11 @@ const TableActions = ({ table }: { table: Table<any> }) => {
         /> }
         
         { filters.includes('category') && (
-          <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag.id)} />
+          <TagSelect selected={categoryId} tagType={`category`} onSelect={tag => setCategoryId(tag?.id)} />
         )}
 
         { filters.includes('collection') && tenantFeaturesEnabled('tags.collections') && userHasCapability('GetCollections') &&  (
-          <TagSelect selected={collectionId} tagType={`collection`} onSelect={tag => setCollectionId(tag.id)} />
+          <TagSelect selected={collectionId} tagType={`collection`} onSelect={tag => setCollectionId(tag?.id)} />
         )}
 
         { filters.includes('contentType') && (
