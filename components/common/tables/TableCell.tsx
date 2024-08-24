@@ -18,7 +18,7 @@ const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
   const selectable = isSelectable || !!bulkActions.length
   const dataCellOffset = Number(isReorderable) + Number(selectable)
     
-  const { padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
+  const { verticalPadding: padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
   
   const defaultStyles: CSSProperties = {
     padding,

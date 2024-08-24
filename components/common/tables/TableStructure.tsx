@@ -75,7 +75,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
   const scrollContainer = scrollInTable ? scrollInTableContainerRef.current : (scrollContainerRef.current || mainScrollableRef.current)
   // const tHeadRef: MutableRefObject<HTMLTableSectionElement> = useRef(null)
   
-  const { padding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
+  const { verticalPadding, rowHeight } = tableSizingOptions[rowSizing] || tableSizingOptions.md;
 
   const [tHeadRef, { height: tHeadHeight }] = useMeasure();
 
@@ -188,7 +188,7 @@ const TableStructure = ({ table }: TableStructureProps) => {
                     tHeadRef={tHeadRef}
                     scrollInTable={scrollInTable}
                     dataCellOffset={dataCellOffset}
-                    padding={padding}
+                    padding={verticalPadding}
                     colWidths={colWidths}
                   />
                 )}
