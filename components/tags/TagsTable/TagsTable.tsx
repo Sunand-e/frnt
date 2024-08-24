@@ -54,7 +54,7 @@ const TagsTable = ({typeName='category'}) => {
           
           return <ItemWithImage
             image={cell.row.original.image}
-            imgDivClass='bg-main/20'
+            imgDivClass={!!cell.row.original.image ? 'bg-main/25' : ''}
             icon={icon}
             title={cell.getValue()}
             secondary={cell.row.original.tags?.map(tag => tag.label).join(', ')}
