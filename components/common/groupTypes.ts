@@ -11,6 +11,7 @@ interface GroupDictionary {
     label: string
     icon: React.FC,
     indexUrl: string,
+    withIndefiniteArticle: string
 }
 }
 
@@ -21,6 +22,7 @@ export const groupTypes: GroupDictionary = {
     plural: 'groups',
     label: "Group",
     pluralLabel: "Groups",
+    withIndefiniteArticle: 'a group',
     icon: Group2,
     indexUrl: 'admin/users/groups',
   },
@@ -30,6 +32,7 @@ export const groupTypes: GroupDictionary = {
     plural: 'organisations',
     label: "Organisation",
     pluralLabel: "Organisations",
+    withIndefiniteArticle: 'an organisation',
     icon: PeopleTeamToolbox,
     indexUrl: 'admin/users/organisations',
   }
@@ -44,4 +47,3 @@ export function getGroupEditUrl(group: Group): string {
   const type = getGroupType(group);
   return `/admin/${type.pluralKey}?id=${id}`;
 }
-

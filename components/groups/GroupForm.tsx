@@ -3,14 +3,18 @@ import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import useGetGroup from '../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../hooks/groups/useUpdateGroup';
+import { handleModal } from '../../stores/modalStore';
 import { disableSubmitOnEnterKey } from '../../utils/forms';
 import { useRouter } from '../../utils/router';
+import Button from '../common/Button';
 import Tabs from '../common/containers/Tabs';
 import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
 import TextInput from '../common/inputs/TextInput';
 import GroupContent from './GroupContent';
 import GroupUsers from './GroupUsers';
-import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle'
+import IssueGroupCredits from './IssueGroupCredits';
+import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle';
+import { groupTypes } from '../common/groupTypes';
 interface GroupFormValues {
   id?: string
   name: string 
@@ -22,7 +26,9 @@ interface GroupFormValues {
   creditTotal: number
 }
 
-const GroupForm = ({groupType='group'}) => {
+const GroupForm = ({typeName='group'}) => {
+
+  const type = groupTypes[typeName]
 
   const router = useRouter()
   const { id } = router.query
@@ -38,13 +44,20 @@ const GroupForm = ({groupType='group'}) => {
     {
       defaultValues: {
         ...group,
-        name: (group.name === `Untitled ${groupType}`) ? '' : group.name,
+        name: (group.name === `Untitled ${type.name}`) ? '' : group.name,
         creditsUsed: group?.creditsUsed || 0,
         creditTotal: group?.creditTotal || 0,
       }
     }
   );
   
+  const handleIssueCredits = () => {
+    handleModal({
+      title: `Issue credits`,
+      content: <IssueGroupCredits groupId={group.id} />
+    })
+  }
+
   const [activeAssociatedContentTab, setActiveAssociatedContentTab] = useState('assigned')
   const [activeGroupUsersTab, setActiveGroupUsersTab] = useState('members')
 
@@ -69,55 +82,36 @@ const GroupForm = ({groupType='group'}) => {
       onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
-        label="Group name"
-        placeholder="Group name"
+        label={`${type.label} name`}
+        placeholder={`${type.label} name`}
         inputAttrs={{
           ...register("name", { maxLength: 100 }),
           onChange: (e => debouncedUpdate({ name: e.target.value }))
         }}
       />
-      { groupType === 'organisation' && (
+      {typeName === 'organisation' && (
         <>
-          <NumberPropertyInput
-            inputAttrs={{
-              ...register("creditTotal"),
-              onChange: (e => debouncedUpdate({ creditTotal: parseInt(e.target.value) }))
-            }}
-            unit={'credits'}
-            className={'text-sm'}
-            label="Credit Total"
-          />
-          <NumberPropertyInput
-            inputAttrs={{
-              ...register("creditsUsed"),
-              onChange: (e => debouncedUpdate({ creditsUsed: parseInt(e.target.value) }))
-            }}
-            unit={'credits'}
-            className={'text-sm'}
-            label="Credits Used"
-          />
+          <div className='flex items-center mb-2'>
+            <div>
+              Credits: <span className='font-bold'>{group.creditTotal}</span>
+            </div>
+            <Button displayType='white' onClick={() => handleIssueCredits(group.id)}>
+              Issue Credits
+            </Button>
+          </div>
         </>
       )}
       <div>
-        <Tabs
-          activeTab={activeGroupUsersTab}
-          setActiveTab={setActiveGroupUsersTab}
-          tabs={groupUsersTabs}
-        />
-        { activeGroupUsersTab === 'members' && (
-          <GroupUsers 
-            groupType="group"
-            showRoles={["Member"]}
-          />
-        )}
-        { activeGroupUsersTab === 'leaders' && (
+        <Tabs activeTab={activeGroupUsersTab} setActiveTab={setActiveGroupUsersTab} tabs={groupUsersTabs} />
+        {activeGroupUsersTab === 'members' && <GroupUsers typeName={typeName} showRoles={['Member']} />}
+        {activeGroupUsersTab === 'leaders' && (
           <GroupUsers
-            title=" Group Leaders"
-            groupType="group"
-            addMembersButtonText="Choose group leaders"
-            addMembersModalText="Group leader(s)"
-            newMemberRole="Group Leader"
-            showRoles={["Group Leader"]}
+            title={`${type.label} Leaders`}
+            addMembersButtonText={`Choose ${type.name} leaders`}
+            addMembersModalText={`${type.label} leader(s)`}
+            newMemberRole='Group Leader'
+            showRoles={['Group Leader']}
+            isSingle={typeName === 'organisation'}
           />
         )}
       </div>
@@ -131,7 +125,7 @@ const GroupForm = ({groupType='group'}) => {
           <>
             <span className='flex items-start text-sm mb-2'>
             <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
-              <p className='text-sm mb-2'>When content is 'assigned' to a group, all group members will gain access to that content.</p>
+              <p className='text-sm mb-2'>When content is 'assigned' to {type.withIndefiniteArticle}, all {type.name} members will gain access to that content.</p>
             </span>
             <GroupContent typeName='content' associationTypeName='assigned' />
           </>
@@ -140,7 +134,7 @@ const GroupForm = ({groupType='group'}) => {
           <>
             <span className='flex items-start text-sm mb-2'>
               <InformationCircle className='w-6 h-6 -mt-0.5 mr-2 text-main-lightness-70 shrink-0' />
-              <p className='text-sm'>When content is 'provided' to a group, a group leader of the group can individually assign that content to any user within the group.</p>
+              <p className='text-sm'>When content is 'provided' to {type.withIndefiniteArticle}, {type.withIndefiniteArticle} leader can individually assign that content to any user within the {type.name}.</p>
             </span>
             <GroupContent typeName='content' associationTypeName='provided' />
           </>
