@@ -1,3 +1,4 @@
+import classNames from "../../../utils/classNames";
 import styles from "./NumberPropertyInput.module.scss";
 
 interface NumberPropertyInputProps {
@@ -21,8 +22,8 @@ export default function NumberPropertyInput({
 }: NumberPropertyInputProps) {
   return (
     <label className={`${className} flex w-full items-center justify-between space-x-1 text-sm basis-1/2`}>
-      <span>{label}</span>
-      <div className="flex items-center space-x-1">
+      { !!label && <span>{label}</span> }
+      <div className="flex items-center space-x-2">
         <input
           className="
           max-w-[80px]
@@ -42,7 +43,10 @@ export default function NumberPropertyInput({
           step={step}
           { ...inputAttrs }
         />
-        {!!unit && <div className={styles.unit}>{unit}</div>}
+        {!!unit && <div className={classNames(
+          styles.unit,
+          "text-sm text-gray-500 ml-4"
+        )}>{unit}</div>}
       </div>
     </label>
   );
