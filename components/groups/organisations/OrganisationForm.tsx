@@ -115,7 +115,7 @@ const OrganisationForm = ({groupType='organisation'}) => {
           />
       )}
       </div>
-      <GroupContent associationType='provided' groupType='organisation' typeName='course'  />
+      <GroupContent associationTypeName='provided' groupType='organisation' typeName='course'  />
     </form>
   )
 }
