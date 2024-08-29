@@ -3,13 +3,16 @@ import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import useGetGroup from '../../../hooks/groups/useGetGroup';
 import useUpdateGroup from '../../../hooks/groups/useUpdateGroup';
+import { handleModal } from '../../../stores/modalStore';
 import { disableSubmitOnEnterKey } from '../../../utils/forms';
 import { useRouter } from '../../../utils/router';
+import Button from '../../common/Button';
 import Tabs from '../../common/containers/Tabs';
 import NumberPropertyInput from '../../common/inputs/NumberPropertyInput';
 import TextInput from '../../common/inputs/TextInput';
 import GroupContent from '../GroupContent';
 import GroupUsers from '../GroupUsers';
+import IssueGroupCredits from '../IssueGroupCredits';
 
 interface GroupFormValues {
   id?: string
@@ -18,8 +21,8 @@ interface GroupFormValues {
   groupImage: string
   userRole: string
   isOrganisation: boolean
-  enrolments: number
-  enrolmentLicenseTotal: number
+  creditsUsed: number
+  creditTotal: number
 }
 
 const OrganisationForm = ({groupType='organisation'}) => {
@@ -39,8 +42,8 @@ const OrganisationForm = ({groupType='organisation'}) => {
       defaultValues: {
         ...group,
         name: (group.name === 'Untitled organisation') ? '' : group.name,
-        enrolments: group?.enrolments || 0,
-        enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
+        creditsUsed: group?.creditsUsed || 0,
+        creditTotal: group?.creditTotal || 0,
       }
     }
   );
@@ -52,6 +55,14 @@ const OrganisationForm = ({groupType='organisation'}) => {
     {name: 'leaders', title: 'Leader'}
   ]
 
+  const handleIssueCredits = () => {
+    handleModal({
+      title: `Issue credits`,
+      content: <IssueGroupCredits
+       groupId={group.id}
+      />
+    })
+  }
 
   useEffect(() => {
     setFocus('name')
@@ -72,24 +83,11 @@ const OrganisationForm = ({groupType='organisation'}) => {
           onChange: (e => debouncedUpdate({ name: e.target.value }))
         }}
       />
-      <NumberPropertyInput
-        inputAttrs={{
-          ...register("enrolmentLicenseTotal"),
-          onChange: (e => debouncedUpdate({ enrolmentLicenseTotal: parseInt(e.target.value) }))
-        }}
-        unit={'licenses'}
-        className={'text-sm'}
-        label="Enrolment license total"
-      />
-      <NumberPropertyInput
-        inputAttrs={{
-          ...register("enrolments"),
-          onChange: (e => debouncedUpdate({ enrolments: parseInt(e.target.value) }))
-        }}
-        unit={'licenses'}
-        className={'text-sm'}
-        label="Enrolments"
-      />
+      
+      <div className='flex items-center mb-2'>
+        <div>Credits: <span className='font-bold'>{group.creditTotal}</span></div>
+        <Button displayType='white' onClick={() => handleIssueCredits(group.id)}>Issue Credits</Button>
+      </div>
       </div>
       <div className='mt-2 mb-12'>
         <Tabs 

@@ -7,8 +7,8 @@ export const GroupOverviewFragment = gql`
     name
     updatedAt
     isOrganisation
-    enrolmentLicenseTotal
-    enrolments
+    creditTotal
+    creditsUsed
     users {
       totalCount
     }

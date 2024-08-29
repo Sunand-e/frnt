@@ -18,8 +18,8 @@ interface GroupFormValues {
   groupImage: string
   userRole: string
   isOrganisation: boolean
-  enrolments: number
-  enrolmentLicenseTotal: number
+  creditsUsed: number
+  creditTotal: number
 }
 
 const GroupForm = ({groupType='group'}) => {
@@ -39,8 +39,8 @@ const GroupForm = ({groupType='group'}) => {
       defaultValues: {
         ...group,
         name: (group.name === `Untitled ${groupType}`) ? '' : group.name,
-        enrolments: group?.enrolments || 0,
-        enrolmentLicenseTotal: group?.enrolmentLicenseTotal || 0,
+        creditsUsed: group?.creditsUsed || 0,
+        creditTotal: group?.creditTotal || 0,
       }
     }
   );
@@ -80,21 +80,21 @@ const GroupForm = ({groupType='group'}) => {
         <>
           <NumberPropertyInput
             inputAttrs={{
-              ...register("enrolmentLicenseTotal"),
-              onChange: (e => debouncedUpdate({ enrolmentLicenseTotal: parseInt(e.target.value) }))
+              ...register("creditTotal"),
+              onChange: (e => debouncedUpdate({ creditTotal: parseInt(e.target.value) }))
             }}
-            unit={'licenses'}
+            unit={'credits'}
             className={'text-sm'}
-            label="Enrolment license total"
+            label="Credit Total"
           />
           <NumberPropertyInput
             inputAttrs={{
-              ...register("enrolments"),
-              onChange: (e => debouncedUpdate({ enrolments: parseInt(e.target.value) }))
+              ...register("creditsUsed"),
+              onChange: (e => debouncedUpdate({ creditsUsed: parseInt(e.target.value) }))
             }}
-            unit={'licenses'}
+            unit={'credits'}
             className={'text-sm'}
-            label="Enrolments"
+            label="Credits Used"
           />
         </>
       )}

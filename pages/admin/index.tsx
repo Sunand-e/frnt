@@ -41,11 +41,11 @@ const AdminDashboardPage = () => {
   
   const cards = useMemo(() => {
     
-    const showOrganisationEnrolmentLicences = isOrganisationLeader
+    const showOrganisationCredits = isOrganisationLeader
 
     const showGroups = (
       tenantFeaturesEnabled(['groups']) &&
-      !showOrganisationEnrolmentLicences
+      !showOrganisationCredits
     )
 
     return [
@@ -78,12 +78,12 @@ const AdminDashboardPage = () => {
       IconComponent: Library,
       href: "admin/resources"
     }] : []),
-    ...(showOrganisationEnrolmentLicences ? [{
-      name: 'enrolmentLicenses',
-      label: 'Enrolment licenses used',
+    ...(showOrganisationCredits ? [{
+      name: 'credits',
+      label: 'Credits used',
       value: (
-        organisation.enrolments + ' / ' +
-        organisation.enrolmentLicenseTotal
+        organisation.creditsUsed + ' / ' +
+        organisation.creditTotal
       ),
       IconComponent: PeopleTeamToolbox,
     }] : []),

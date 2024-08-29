@@ -34,11 +34,11 @@ function useEnrolUsersInContent() {
         },
         refetchQueries: ['GetUser'],
         onCompleted: (data) => {
-          const { alreadyAssignedCount, licensesUsedCount } = data.enrolUsersInContent.details
+          const { alreadyAssignedCount, creditsUsed } = data.enrolUsersInContent.details
           let details = []
-          if(isOrganisationLeader && licensesUsedCount > 0) {
-            details.push(`Enrolment licenses used: ${licensesUsedCount}`)
-          }
+          if(isOrganisationLeader && creditsUsed > 0) {
+            details.push(`Credits used: ${creditsUsed}`)
+          }s
           if(alreadyAssignedCount > 0) {
             // details.push(`${alreadyAssignedCount} assignments weren't made as the users are already assigned to the content`)
             details.push(`If a user is already assigned to the content, they won't be assigned again.`)

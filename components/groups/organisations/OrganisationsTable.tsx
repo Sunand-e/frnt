@@ -63,11 +63,11 @@ const OrganisationsTable = () => {
         accessorFn: row => row.provisionedCourses?.totalCount,
       },
       {
-        header: "Enrolments",
-        accessorFn: row => row.enrolments,
+        header: "Credits",
+        accessorFn: row => row.creditsUsed,
         cell: ({ cell }) => (
           <>
-            {cell.getValue() || 0} / {cell.row.original.enrolmentLicenseTotal || 0} licenses used
+            {cell.getValue() || 0} / {cell.row.original.creditTotal || 0} credits used
           </>
         )
       },

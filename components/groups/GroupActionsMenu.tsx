@@ -3,6 +3,7 @@ import useConfirmDelete from "../../hooks/useConfirmDelete"
 import { handleModal } from "../../stores/modalStore"
 import { getGroupEditUrl, getGroupType } from "../common/groupTypes"
 import ActionsMenu from "../common/menus/ActionsMenu"
+import IssueGroupCredits from "./IssueGroupCredits"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
 const GroupActionsMenu = ({group}) => {
@@ -23,6 +24,14 @@ const GroupActionsMenu = ({group}) => {
     })
   }
 
+  const handleIssueCredits = () => {
+    handleModal({
+      title: `Issue credits`,
+      content: <IssueGroupCredits
+       groupId={group.id}
+      />
+    })
+  }
   const menuItems = [
     { 
       label: `Edit ${typeName}`,
@@ -32,6 +41,11 @@ const GroupActionsMenu = ({group}) => {
     {
       label: 'Send user invitations', 
       onClick: handleSendInvitations,
+    },
+    {
+      label: 'Issue credits',
+      onClick: handleIssueCredits,
+      capability: 'IssueGroupCredits'
     },
     { 
       label: <span className="text-red-500">Delete {typeName}</span>,
