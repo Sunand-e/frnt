@@ -10,6 +10,7 @@ export const TenantFragment = gql`
     shortName
     settings
     logos
+    creditsIssued
     groups {
       totalCount
     }
