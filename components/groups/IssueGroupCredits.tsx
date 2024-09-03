@@ -5,14 +5,57 @@ import { closeModal } from '../../stores/modalStore'; // Remove if not using mod
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
 import NumberPropertyInput from '../common/inputs/NumberPropertyInput'; // Import NumberPropertyInput
+import ReactSelect from '../common/inputs/ReactSelect';
+
+const creditOptions = [
+  { value: 10, label: '10' },
+  { value: 25, label: '25' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
+  { value: 250, label: '250' },
+  { value: 500, label: '500' },
+];
+
+
+const customStyles = {
+  option: (provided, state) => {
+    return ({
+      ...provided,
+      padding: 8,
+      height: 'auto',
+      lineHeight: 1.5
+    })
+  },
+    menu: (base) => ({
+      ...base,
+      width: "max-content",
+      minWidth: "100%"
+    }),
+  menuPortal: (provided, state) => ({
+    ...provided,
+    zIndex: 13000,
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    boxShadow: 'none',
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    minWidth: "240px"
+
+  }),
+}
 
 const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
-  const [creditIncrement, setCreditIncrement] = useState(0);
+
   const { issueGroupCredits } = useIssueGroupCredits(groupId);
   const { group, loading, error } = useGetGroup(groupId);
+  
+  // const [creditIncrement, setCreditIncrement] = useState(0);
+    const [selectedCreditOption, setSelectedCreditOption] = useState(null);
 
   const handleIssueCredits = () => {
-    issueGroupCredits(groupId, creditIncrement);
+    issueGroupCredits(groupId, selectedCreditOption.value);
     if (onSubmit) {
       onSubmit();
     }
@@ -34,9 +77,10 @@ const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
 
   return (
     <>
+      <div className='mb-2'>Credits used: <span className='font-bold'>{group.creditsUsed}</span></div>
+      <div className='mb-2'>Credits remaining: <span className='font-bold text-xl'>{group.creditTotal - group.creditsUsed}</span></div>
       <p className='mb-2'>Issue new credits to <span className='font-bold'>{group.name}</span>.</p>
-      <div className='mb-2'>Current credit total: <span className='font-bold'>{group.creditTotal}</span></div>
-      <NumberPropertyInput
+      {/* <NumberPropertyInput
         unit="credits"
         min={0}
         step={1}
@@ -45,8 +89,20 @@ const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
           onChange: (e) => setCreditIncrement(Number(e.target.value)),
         }}
         className="mb-2"
+      /> */}
+      <ReactSelect
+        value={selectedCreditOption}
+        onChange={(option) => {
+          setSelectedCreditOption(option);
+        }}
+        options={creditOptions}
+        className="mb-2 z-[9999] h-[678]"
+        menuPortalTarget={document.body}
+        menuPlacement={'auto'}
+        menuPosition="fixed"
+        styles={customStyles}
       />
-      <Button disabled={!creditIncrement} onClick={handleIssueCredits}>{`Issue credits`}</Button>
+      <Button disabled={!selectedCreditOption} onClick={handleIssueCredits}>{`Issue credits`}</Button>
     </>
   );
 };
