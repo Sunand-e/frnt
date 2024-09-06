@@ -3,12 +3,14 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const { loadEnvConfig } = require('@next/env')
 loadEnvConfig(process.cwd())
 
+const schemaUrl = process.env.API_BASE + process.env.API_URL;
+
 const config: CodegenConfig = {
   overwrite: true,
   verbose: true,
   schema: [
     {
-      'http://127.0.0.1/graphql': {
+      [schemaUrl]: {
         headers: {
           Authorization: `Bearer: ${process.env.RAILS_AUTH_TOKEN}`,
         },
