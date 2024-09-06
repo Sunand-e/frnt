@@ -3,7 +3,7 @@ import useConfirmDelete from "../../hooks/useConfirmDelete"
 import { handleModal } from "../../stores/modalStore"
 import { getGroupEditUrl, getGroupType } from "../common/groupTypes"
 import ActionsMenu from "../common/menus/ActionsMenu"
-import IssueGroupCredits from "./IssueGroupCredits"
+import IssueGroupCredits from "./inputs/IssueGroupCredits"
 import SendGroupInvitesModal from "./SendGroupInvitesModal"
 
 const GroupActionsMenu = ({group}) => {

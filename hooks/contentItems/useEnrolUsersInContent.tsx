@@ -63,8 +63,6 @@ function useEnrolUsersInContent() {
         }
       }).catch(res => {
         // TODO: do something if there is an error!!
-        console.log('res')
-        console.log(res)
         toast.error(res.message, {
           toastId: 'enrolUsersInContentError',
           hideProgressBar: true,

@@ -12,9 +12,9 @@ import NumberPropertyInput from '../common/inputs/NumberPropertyInput';
 import TextInput from '../common/inputs/TextInput';
 import GroupContent from './GroupContent';
 import GroupUsers from './GroupUsers';
-import IssueGroupCredits from './IssueGroupCredits';
 import { InformationCircle } from '@styled-icons/heroicons-solid/InformationCircle';
 import { groupTypes } from '../common/groupTypes';
+import GroupCredits from './inputs/GroupCredits';
 interface GroupFormValues {
   id?: string
   name: string 
@@ -22,8 +22,8 @@ interface GroupFormValues {
   groupImage: string
   userRole: string
   isOrganisation: boolean
-  creditsUsed: number
-  creditTotal: number
+  // creditsUsed: number
+  // creditTotal: number
 }
 
 const GroupForm = ({typeName='group'}) => {
@@ -45,19 +45,12 @@ const GroupForm = ({typeName='group'}) => {
       defaultValues: {
         ...group,
         name: (group.name === `Untitled ${type.name}`) ? '' : group.name,
-        creditsUsed: group?.creditsUsed || 0,
-        creditTotal: group?.creditTotal || 0,
+        // creditsUsed: group?.creditsUsed || 0,
+        // creditTotal: group?.creditTotal || 0,
       }
     }
   );
   
-  const handleIssueCredits = () => {
-    handleModal({
-      title: `Issue credits`,
-      content: <IssueGroupCredits groupId={group.id} />
-    })
-  }
-
   const [activeAssociatedContentTab, setActiveAssociatedContentTab] = useState('assigned')
   const [activeGroupUsersTab, setActiveGroupUsersTab] = useState('members')
 
@@ -78,7 +71,6 @@ const GroupForm = ({typeName='group'}) => {
   return (
     <form
       className='h-full w-full max-w-3xl flex flex-col space-y-4'
-      // onSubmit={rhfHandleSubmit(handleSubmit)}
       onKeyDown={disableSubmitOnEnterKey}
     >
       <TextInput
@@ -89,18 +81,9 @@ const GroupForm = ({typeName='group'}) => {
           onChange: (e => debouncedUpdate({ name: e.target.value }))
         }}
       />
-      {typeName === 'organisation' && (
-        <>
-          <div className='flex items-center mb-2'>
-            <div>
-              Credits: <span className='font-bold'>{group.creditTotal}</span>
-            </div>
-            <Button displayType='white' onClick={() => handleIssueCredits(group.id)}>
-              Issue Credits
-            </Button>
-          </div>
-        </>
-      )}
+      
+      {typeName === 'organisation' && <GroupCredits group={group} />}
+
       <div>
         <Tabs activeTab={activeGroupUsersTab} setActiveTab={setActiveGroupUsersTab} tabs={groupUsersTabs} />
         {activeGroupUsersTab === 'members' && <GroupUsers typeName={typeName} showRoles={['Member']} />}

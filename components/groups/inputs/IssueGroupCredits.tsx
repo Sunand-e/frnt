@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import useGetGroup from '../../hooks/groups/useGetGroup';
-import useIssueGroupCredits from '../../hooks/groups/useIssueGroupCredits';
-import { closeModal } from '../../stores/modalStore'; // Remove if not using modal
-import Button from '../common/Button';
-import LoadingSpinner from '../common/LoadingSpinner';
-import NumberPropertyInput from '../common/inputs/NumberPropertyInput'; // Import NumberPropertyInput
-import ReactSelect from '../common/inputs/ReactSelect';
+import useGetGroup from '../../../hooks/groups/useGetGroup';
+import useIssueGroupCredits from '../../../hooks/groups/useIssueGroupCredits';
+import { closeModal } from '../../../stores/modalStore'; // Remove if not using modal
+import Button from '../../common/Button';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import ReactSelect from '../../common/inputs/ReactSelect';
+import useConfirmAction from '../../../hooks/useConfirmAction';
 
 const creditOptions = [
   { value: 10, label: '10' },
@@ -46,21 +46,36 @@ const customStyles = {
   }),
 }
 
-const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
+const IssueGroupCredits = ({ groupId, onSubmit=null, selectedValue=null }) => {
 
   const { issueGroupCredits } = useIssueGroupCredits(groupId);
   const { group, loading, error } = useGetGroup(groupId);
   
-  // const [creditIncrement, setCreditIncrement] = useState(0);
-    const [selectedCreditOption, setSelectedCreditOption] = useState(null);
+  const [selectedCreditOption, setSelectedCreditOption] = useState(creditOptions.find(option => option.value === selectedValue));
 
   const handleIssueCredits = () => {
     issueGroupCredits(groupId, selectedCreditOption.value);
     if (onSubmit) {
       onSubmit();
     }
-    closeModal(); // Remove if not using modal
+    closeModal();
   };
+
+  const { confirmAction } = useConfirmAction({
+    title: `Issue ${selectedCreditOption?.value} credits`,
+    content: (
+      <>
+        <p>
+          Are you sure you want to add 
+          <strong> {selectedCreditOption?.value} </strong>
+          credits to <strong>{group?.name}?</strong>
+        </p>
+        <p>This will incur costs as outlined in the pricing table.</p>
+      </>
+    ),
+    buttonTitle: `Yes, issue credits`,
+    onConfirm: handleIssueCredits,
+  })
 
   if (loading) {
     return (
@@ -77,8 +92,11 @@ const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
 
   return (
     <>
-      <div className='mb-2'>Credits used: <span className='font-bold'>{group.creditsUsed}</span></div>
-      <div className='mb-2'>Credits remaining: <span className='font-bold text-xl'>{group.creditTotal - group.creditsUsed}</span></div>
+      <div className='mb-2'>
+        {`Credits remaining: `}
+        <span className='font-bold text-xl'>{group.creditTotal - group.creditsUsed}</span>
+        {` (used: `}<span className='font-bold'>{group.creditsUsed}</span>{`)`}
+      </div>
       <p className='mb-2'>Issue new credits to <span className='font-bold'>{group.name}</span>.</p>
       {/* <NumberPropertyInput
         unit="credits"
@@ -102,7 +120,7 @@ const IssueGroupCredits = ({ groupId, onSubmit=null }) => {
         menuPosition="fixed"
         styles={customStyles}
       />
-      <Button disabled={!selectedCreditOption} onClick={handleIssueCredits}>{`Issue credits`}</Button>
+      <Button disabled={!selectedCreditOption} onClick={confirmAction}>{`Issue credits`}</Button>
     </>
   );
 };
