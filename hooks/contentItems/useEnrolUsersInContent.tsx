@@ -38,7 +38,7 @@ function useEnrolUsersInContent() {
           let details = []
           if(isOrganisationLeader && creditsUsed > 0) {
             details.push(`Credits used: ${creditsUsed}`)
-          }s
+          }
           if(alreadyAssignedCount > 0) {
             // details.push(`${alreadyAssignedCount} assignments weren't made as the users are already assigned to the content`)
             details.push(`If a user is already assigned to the content, they won't be assigned again.`)
@@ -63,6 +63,8 @@ function useEnrolUsersInContent() {
         }
       }).catch(res => {
         // TODO: do something if there is an error!!
+        console.log('res')
+        console.log(res)
         toast.error(res.message, {
           toastId: 'enrolUsersInContentError',
           hideProgressBar: true,
