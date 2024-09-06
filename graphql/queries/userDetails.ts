@@ -205,7 +205,7 @@ export const GET_USER_RESOURCES = gql`
   ${UserContentGroupsConnectionFragment}
 `
 export const GET_USER_CONTENT = gql`
-  query GetUserResources($id: ID) {
+  query GetUserContent($id: ID) {
     user(id: $id) {
       id
       contentItems {
