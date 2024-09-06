@@ -19,6 +19,7 @@ import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import DashboardLayout from '../../layouts/DashboardLayout';
+import { CoinStack } from "@styled-icons/boxicons-solid/CoinStack";
 
 const AdminDashboardPage = () => {
   
@@ -80,12 +81,14 @@ const AdminDashboardPage = () => {
     }] : []),
     ...(showOrganisationCredits ? [{
       name: 'credits',
-      label: 'Credits used',
+      label: 'Credits remaining',
       value: (
-        organisation.creditsUsed + ' / ' +
-        organisation.creditTotal
+        <>
+          {organisation.creditTotal - organisation.creditsUsed}&nbsp;
+          <span className='text-lg'>{`(used: `}<span className='font-bold'>{organisation.creditsUsed}</span>{`)`}</span>
+        </>
       ),
-      IconComponent: PeopleTeamToolbox,
+      IconComponent: CoinStack,
     }] : []),
   ]},[data, tenant, user])
 
