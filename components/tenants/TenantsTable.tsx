@@ -1,17 +1,13 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useMemo } from 'react';
-import Table from '../common/tables/Table';
+import { Buildings } from "@styled-icons/boxicons-solid/Buildings";
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { GET_TENANTS } from '../../graphql/queries/tenants';
 import { GetTenants } from '../../graphql/queries/__generated__/GetTenants';
-import ButtonLink from '../common/ButtonLink';
-import Button from '../common/Button';
-import ItemWithImage from '../common/cells/ItemWithImage';
-import DeleteTenantModal from './DeleteTenantModal';
-import dayjs from 'dayjs'
-import {Buildings} from "@styled-icons/boxicons-solid/Buildings"
-import TenantActionsMenu from './TenantActionsMenu';
-import { handleModal } from '../../stores/modalStore';
 import { commonTableCols } from '../../utils/commonTableCols';
+import ItemWithImage from '../common/cells/ItemWithImage';
+import Table from '../common/tables/Table';
+import TenantActionsMenu from './TenantActionsMenu';
 
 const TenantsTable = () => {
 
@@ -68,17 +64,12 @@ const TenantsTable = () => {
         accessorFn: row => row.groups.totalCount,
       },
       {
-        header: "Date Created",
-        accessorKey: "createdAt",
-        cell: ({ cell }) => {
-          return (
-              dayjs(cell.getValue()).format('DD/MM')
-          )
-        }
+        header: "Credits Issued",
+        accessorFn: row => row.creditsIssued,
       },
       {
-        header: "Date Updated",
-        accessorKey: "updatedAt",
+        header: "Date Created",
+        accessorKey: "createdAt",
         cell: ({ cell }) => {
           return (
               dayjs(cell.getValue()).format('DD/MM')

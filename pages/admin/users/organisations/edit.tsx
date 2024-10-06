@@ -1,14 +1,13 @@
+import { ChevronRight } from "@styled-icons/boxicons-regular/ChevronRight";
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import ButtonBack from '../../../../components/common/ButtonBack';
 import LoadingSpinner from '../../../../components/common/LoadingSpinner';
-import { Dot } from '../../../../components/common/misc/Dot';
-import OrganisationForm from '../../../../components/groups/organisations/OrganisationForm';
+import GroupForm from '../../../../components/groups/GroupForm';
 import useGetGroup from '../../../../hooks/groups/useGetGroup';
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
 import usePageTitle from '../../../../hooks/usePageTitle';
 import { useRouter } from '../../../../utils/router';
-import {ChevronRight} from "@styled-icons/boxicons-regular/ChevronRight";
 
 const AdminOrganisationsEdit = () => {
 
@@ -43,7 +42,7 @@ const AdminOrganisationsEdit = () => {
       { loading ? (
         <LoadingSpinner text="Loading organisation details" />
       ) : !!group && (
-        <OrganisationForm />
+        <GroupForm typeName="organisation" />
       )}
     </>
   )

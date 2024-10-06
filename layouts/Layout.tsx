@@ -15,7 +15,7 @@ export default function Layout( {children, navState, sidebarComponent=null} ) {
       <div className={`flex min-h-full relative`}>
         <NavContainer navState={navState} sidebarComponent={sidebarComponent} />
         {/* { SidebarComponent && <SidebarComponent /> } */}
-        <div className="grow main-right-block" ref={mainScrollableRef}>
+        <div className="grow main-right-block overflow-y-scroll" ref={mainScrollableRef}>
           <Header />
           { children }
         </div>

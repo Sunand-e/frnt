@@ -121,8 +121,8 @@ const UserCourseReportTable = () => {
     ],
     []
   );
-
-  const courseNode = data?.user?.courses?.edges?.[0].node;
+  
+  const courseNode = data?.user?.courses?.edges?.[0]?.node;
   
   return (
     <>

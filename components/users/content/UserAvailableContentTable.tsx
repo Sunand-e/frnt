@@ -61,11 +61,17 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
     const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
     const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
     
-    availableContentNodes = [
+    const combinedContentNodes = [
       ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
       ...currentUserEnrolledContentNodes
-    ]
+    ];
+    
+    const uniqueContentNodes = Array.from(new Set(combinedContentNodes.map(node => node.id)))
+      .map(id => combinedContentNodes.find(node => node.id === id));
+    
+    availableContentNodes = uniqueContentNodes;
   }
+
   const availableContent = availableContentNodes?.filter(contentFilter) || []
 
   return (

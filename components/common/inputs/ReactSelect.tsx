@@ -1,21 +1,25 @@
-import Select from "react-select";
-import { Control, useController } from "react-hook-form";
-import { StylesConfig, StylesProps } from "react-select/dist/declarations/src/styles";
+import Select, { Props as SelectProps, OnChangeValue, GroupBase } from "react-select";
+import { StylesConfig } from "react-select/dist/declarations/src/styles";
 import classNames from "../../../utils/classNames";
 
-type ReactSelectProps = {
-  value?: any
-  label?: string
-  isMulti?: boolean
-  isSearchable?: boolean
-  slim?: boolean
-  styles?: StylesConfig
-  options?
-  className?
-  onChange?
-}
+type OptionType = {
+  value: number | string;
+  label: string;
+};
 
-const ReactSelect = ({
+type ReactSelectProps = {
+  value?: OptionType | OptionType[];
+  label?: string;
+  isMulti?: boolean;
+  isSearchable?: boolean;
+  slim?: boolean;
+  styles?: StylesConfig<OptionType>;
+  options?: OptionType[];
+  className?: string;
+  onChange?: (selectedOption: OnChangeValue<OptionType, boolean>) => void;
+} & Omit<SelectProps<OptionType>, 'onChange' | 'value' | 'options'>;
+
+const ReactSelect: React.FC<ReactSelectProps> = ({
   label,
   onChange,
   value,
@@ -25,6 +29,22 @@ const ReactSelect = ({
   ...props
 }: ReactSelectProps) => {
   
+  const customStyles: StylesConfig<any, false, GroupBase<any>> = {
+    ...(slim && {
+      dropdownIndicator: (provided, state) => {
+        return {
+          ...provided,
+          padding: '0px',
+          paddingLeft: '3px',
+          paddingTop: '0px',
+          paddingRight: '3px',
+          paddingDown: '0px',
+        };
+      }
+    }),
+    ...props.styles
+  };
+
   const selectProps = {
     ...props,
     // placeholder={<span className="text-main-secondary">{placeholder}</span>}
@@ -36,21 +56,7 @@ const ReactSelect = ({
       slim ? 'w-full': 'w-full',
     ),
     isSearchable,
-    styles: {
-      ...(slim && {
-        dropdownIndicator: (provided, state) => {
-          return {
-            ...provided,
-            padding: '0px',
-            paddingLeft: '3px',
-            paddingTop: '0px',
-            paddingRight: '3px',
-            paddingDown: '0px',
-          };
-        }
-      }),
-      ...props.styles
-    }
+    styles: {...customStyles}
   }
   return (
     <>
