@@ -101,8 +101,8 @@ export const GET_CURRENT_USER = gql`
             id
             name
             isOrganisation
-            enrolments
-            enrolmentLicenseTotal
+            creditsUsed
+            creditTotal
           }
           roles {
             id

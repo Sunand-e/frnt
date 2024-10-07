@@ -64,32 +64,6 @@ const Table = () => {
   const { ctype } = router.query
 
   useEffect(() => {
-    // Synchronize store with URL
-    const type = router.query.type;
-    if (typeof type === 'string' && type !== itemType) {
-      setItemType(type);
-    }
-  }, [router.query.type, setItemType]); // Depend only on router.query.type
-  
-  useEffect(() => {
-    // Synchronize URL with store
-    const newQuery = { ...router.query };
-  
-    if (itemType) {
-      newQuery.type = itemType;
-    } else if(!['user', 'group'].includes(newQuery.type as string)) {
-      delete newQuery.type; // Remove the type parameter if itemType is not set
-    }
-  
-    if (router.query.type !== itemType) {
-      router.push({
-        query: newQuery,
-      }, undefined, { shallow: true });
-    }
-
-  }, [itemType]);
-
-  useEffect(() => {
     setContentType(ctype as string)
   },[ctype])
 

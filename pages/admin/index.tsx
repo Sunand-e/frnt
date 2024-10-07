@@ -19,6 +19,7 @@ import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import DashboardLayout from '../../layouts/DashboardLayout';
+import { CoinStack } from "@styled-icons/boxicons-solid/CoinStack";
 
 const AdminDashboardPage = () => {
   
@@ -41,11 +42,11 @@ const AdminDashboardPage = () => {
   
   const cards = useMemo(() => {
     
-    const showOrganisationEnrolmentLicences = isOrganisationLeader
+    const showOrganisationCredits = isOrganisationLeader
 
     const showGroups = (
       tenantFeaturesEnabled(['groups']) &&
-      !showOrganisationEnrolmentLicences
+      !showOrganisationCredits
     )
 
     return [
@@ -78,14 +79,16 @@ const AdminDashboardPage = () => {
       IconComponent: Library,
       href: "admin/resources"
     }] : []),
-    ...(showOrganisationEnrolmentLicences ? [{
-      name: 'enrolmentLicenses',
-      label: 'Enrolment licenses used',
+    ...(showOrganisationCredits ? [{
+      name: 'credits',
+      label: 'Credits remaining',
       value: (
-        organisation.enrolments + ' / ' +
-        organisation.enrolmentLicenseTotal
+        <>
+          {organisation.creditTotal - organisation.creditsUsed}&nbsp;
+          <span className='text-lg'>{`(used: `}<span className='font-bold'>{organisation.creditsUsed}</span>{`)`}</span>
+        </>
       ),
-      IconComponent: PeopleTeamToolbox,
+      IconComponent: CoinStack,
     }] : []),
   ]},[data, tenant, user])
 
