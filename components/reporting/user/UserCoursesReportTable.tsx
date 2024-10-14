@@ -52,7 +52,7 @@ const UserCoursesReportTable = () => {
     if(filterActive(groupId) && groupData) {
       
       data = data?.filter(edge => {
-        return groupData.group.provisionedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
+        return groupData.group.assignedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
       })
     }
 
