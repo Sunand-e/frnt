@@ -111,7 +111,7 @@ const FileDropzoneV2 = ({
   ]);
   
   const { uploadFilesAndNotify } = useUploadAndNotify({
-    refetchQuery,
+    refetchQueries: [refetchQuery],
   })
 
   

@@ -6,7 +6,7 @@ const FileUploader = ({
   accept,
   dropZoneContent,
   endpoint=null,
-  refetchQuery=null,
+  refetchQueries=[],
   fileParameterName,
   onDrop = acceptedFiles => null,
   onAllUploadsComplete = (data) => null,
@@ -15,7 +15,7 @@ const FileUploader = ({
 }) => {
 
   const { uploadFilesAndNotify } = useUploadAndNotify({
-    refetchQuery,
+    refetchQueries,
     additionalParams
   })
 

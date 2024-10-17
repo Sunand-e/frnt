@@ -30,7 +30,7 @@ const AdminCourses = () => {
   
   useEffect(() => {
     if(ready) {
-      if(!(userHasCapability('UpdateCourse') || userHasCapability('ReorderCourses'))) {
+      if(!(userHasCapability('ViewCoursesAdmin'))) {
         router.push('/')
       }
     }

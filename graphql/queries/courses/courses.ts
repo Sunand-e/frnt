@@ -28,6 +28,7 @@ export const GET_COURSES = gql`
           createdAt
           updatedAt
           enrolmentsRemaining
+          creditsUsed
           image {
             location
             id

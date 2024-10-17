@@ -8,6 +8,8 @@ import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import GroupSelect from '../groups/inputs/GroupSelect';
 import useGetGroups from '../../hooks/groups/useGetGroups';
 import { GET_USERS } from '../../graphql/queries/users';
+import { GET_GROUPS } from '../../graphql/queries/groups';
+import { GET_ADMIN_DASHBOARD_DATA } from '../../graphql/queries/misc';
 
 const UserImportForm = () => {
 
@@ -61,7 +63,7 @@ const UserImportForm = () => {
     
     dropZoneContent,
     endpoint: "/api/v1/users/bulk_import",
-    refetchQuery: GET_USERS,
+    refetchQueries: [GET_USERS, GET_GROUPS, GET_ADMIN_DASHBOARD_DATA],
     fileParameterName: 'csv_file',
     onAllUploadsComplete: handleAllUploadsComplete,
   }

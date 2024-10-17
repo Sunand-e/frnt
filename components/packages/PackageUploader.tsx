@@ -21,7 +21,7 @@ const PackageUploader = () => {
 
   return (
     <FileUploader
-      refetchQuery={refetchQuery}
+      refetchQueries={[refetchQuery]}
       fileParameterName={fileParameterName}
       endpoint={endpoint}
       accept={accept}

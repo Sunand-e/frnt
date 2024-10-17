@@ -65,7 +65,7 @@ const MediaUploader = ({onUploadComplete}) => {
   }
   return (
     <FileUploader
-      refetchQuery={refetchQuery}
+      refetchQueries={[refetchQuery]}
       onAllUploadsComplete={onUploadComplete}
       fileParameterName={fileParameterName}
       additionalParams={additionalParams}

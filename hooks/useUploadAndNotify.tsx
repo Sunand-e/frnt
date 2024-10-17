@@ -1,4 +1,5 @@
 import axios, { Method } from 'axios';
+import { DocumentNode } from 'graphql';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,16 +8,16 @@ import { client } from '../graphql/client';
 import getJWT from '../utils/getToken';
 
 interface UseUploadAndNotifyProps {
-  additionalParams?: {[key: string]: any};
+  additionalParams?: {[key: string]: any},
   method?: Method,
-  refetchQuery?;
-  onComplete?;
+  refetchQueries?: DocumentNode[],
+  onComplete?
 }
 
 const useUploadAndNotify = ({
   additionalParams={},
   method="POST",
-  refetchQuery=null,
+  refetchQueries=[],
   onComplete=null,
 } : UseUploadAndNotifyProps) => {
   
@@ -105,15 +106,16 @@ const useUploadAndNotify = ({
       }, 1000)
       /* REFETCH QUERY TO UPDATE UI */ 
       onComplete && onComplete(response)
-
-      if(refetchQuery) {
+      if(refetchQueries.length) {
         client.refetchQueries({
-          include: [refetchQuery]
+          include: refetchQueries
         })
         // the following seems to work better than the above:
-        client.query({
-          query: refetchQuery,
-          fetchPolicy: 'network-only'
+        refetchQueries.forEach((query) => {
+          client.query({
+            query,
+            fetchPolicy: 'network-only'
+          })
         })
       }
 
