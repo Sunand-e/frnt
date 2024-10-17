@@ -29,7 +29,7 @@ const navStructureAdmin = [
     title: 'Courses',
     urlPath: '/admin/courses',
     icon: 'graduation-cap',
-    capabilities: ['UpdateCourse', 'ReorderCourses'],
+    capabilities: ['ViewCoursesAdmin'],
     subPages: [
       {
         name: 'courses',
