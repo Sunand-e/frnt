@@ -25,7 +25,7 @@ const AdminCreateUser = () => {
 
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT",
-    refetchQuery: GET_USERS,
+    refetchQueries: [GET_USERS],
     onComplete: (response) => {
       cache.modify({
         id: cache.identify(response.data.user),

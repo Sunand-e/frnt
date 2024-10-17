@@ -61,7 +61,7 @@ const UserImportForm = () => {
     
     dropZoneContent,
     endpoint: "/api/v1/users/bulk_import",
-    refetchQuery: GET_USERS,
+    refetchQueries: [GET_USERS],
     fileParameterName: 'csv_file',
     onAllUploadsComplete: handleAllUploadsComplete,
   }
