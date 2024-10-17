@@ -97,15 +97,20 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
           </span>
         )
       },
+      ...(type.name === 'course' && userHasCapability(`ViewCreditsUsed`) ? [{
+        id: 'creditsUsed',
+        header: 'Credits Used',
+        accessorKey: 'creditsUsed'
+      }] : []),
       {
         ...commonTableCols.actions,
         cell: ({ cell }) => <ActionsMenuComponent content={cell.row.original} />,
         width: 300,
-      }
+      },
     ],
-    []
+    [userHasCapability]
   );
-    
+
   const handleReorder = (active, over, newIndex, oldIndex) => {
 
     const overItem = cache.readFragment({
