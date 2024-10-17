@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import cache from '../../../graphql/cache';
 import { GetCurrentUserQuery } from '../../../graphql/generated';
 import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_CONTENT';
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../../utils/commonTableCols';
 import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
 import LoadingSpinner from '../../common/LoadingSpinner';
@@ -23,7 +24,9 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
-  ) 
+  )
+
+  const { userHasCapability } = useUserHasCapability()
 
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
@@ -173,12 +176,14 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       },
     })
   }
+  
+  const capitalisedPluralKey = type.pluralKey.charAt(0).toUpperCase() + type.pluralKey.slice(1);
 
   const tProps: TableProps = {
     tableData,
     tableCols,
     typeName: type.name,
-    isReorderable: true,
+    isReorderable: userHasCapability(`Reorder${capitalisedPluralKey}`),
     isLoading: loading,
     loadingText: "Loading " + type.plural,
     typeOptions: tableProps.typeOptions || {},
