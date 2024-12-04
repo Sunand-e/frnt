@@ -94,8 +94,8 @@ const UserForm = ({user=null, onSubmit}) => {
             value: 160,
             message:"Max length of the email address is 160"
           },
-          pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/i,
+          pattern: {
+            value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+(?:\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+)*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,24}$/,
             message: "Please enter a valid email address"
           }
         })}
