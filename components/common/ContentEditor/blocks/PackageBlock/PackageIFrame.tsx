@@ -94,8 +94,18 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     }
     // }
 
+    // Check if the course is authored in Rise
     const riseProgress = ref.current?.contentWindow.getRiseProgress?.()
     riseProgress?.p && setProgress(riseProgress.p)
+
+    // Check if the course is authored in Storyline
+    if (typeof ref.current?.contentWindow.GetPlayer === "function") {
+      const storylinePlayer = ref.current?.contentWindow.GetPlayer()
+      if(storylinePlayer !== null) {
+        const storylineProgress = storylinePlayer.getVar('Progresscourse')
+        !!storylineProgress && setProgress(storylineProgress)
+      }
+    }
 
     upsertScoAttempt({
       variables: {
