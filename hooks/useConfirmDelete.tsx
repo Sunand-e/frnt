@@ -22,7 +22,7 @@ const useConfirmDelete = ({itemType, name=null, onConfirm: defaultOnConfirm = nu
     }
   }
 
-  const confirmDelete = ({onConfirm, amount=1}) => {
+  const confirmDelete = (onConfirm=null, amount=1) => {
     handleModal({
       title: `Delete ${itemType}`,
       content: (

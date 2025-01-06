@@ -31,8 +31,6 @@ const QuizStructureEditor = () => {
       activeQuestionId: id,
       isDirty: true
     }))
-
-    // createQuestion(newQuestion)
   }
 
   const handleRemoveQuestion = (question: Question) => {
@@ -45,8 +43,7 @@ const QuizStructureEditor = () => {
         }))
       }
     })
-    confirmDelete(question)
-    // deleteQuestion(newQuestion)
+    confirmDelete()
   }
 
   const handleSelect = (id) => {

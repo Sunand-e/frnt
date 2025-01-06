@@ -24,12 +24,11 @@ const OrganisationsTable = () => {
   })
 
   const deleteOrganisations = (ids: Array<string>) => {
-    confirmDelete({
-      onConfirm: () => {
+    confirmDelete(() => {
         ids.forEach(id => deleteGroup(id))
       },
-      amount: ids.length
-    })
+      ids.length
+    )
   }
   const editUrl = '/admin/users/organisations/edit'
 
