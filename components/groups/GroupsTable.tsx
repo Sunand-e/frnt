@@ -26,12 +26,11 @@ const GroupsTable = () => {
   })
 
   const deleteGroups = (ids: Array<string>) => {
-    confirmDelete({
-      onConfirm: () => {
+    confirmDelete(() => {
         ids.forEach(id => deleteGroup(id))
       },
-      amount: ids.length
-    })
+      ids.length
+    )
   }
 
   // Table data is memo-ised due to this:
