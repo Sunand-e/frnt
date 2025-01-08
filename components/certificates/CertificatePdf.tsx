@@ -55,6 +55,20 @@ const CertificatePdf = ({user, certificate, tenant}) => {
       width: 100,
       marginBottom: 10
     },
+    awardingBody: {
+      position: 'absolute',
+      left: 20,
+      bottom: 0,
+      width: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    awardingBodyLogo: {
+      height: 'auto',
+      width: 80,
+      marginBottom: 10
+    }
   });
 
   const userCourseEdge = certificate.courseUserContent
@@ -75,6 +89,20 @@ const CertificatePdf = ({user, certificate, tenant}) => {
           <CertificateSvg svgXml={certificateSvgXml(colors)} />
         </View>
         
+        { !!certificate.awardingBodyLogoUrl && (
+          <View style={styles.awardingBody}>
+            <View>
+              <Image src={certificate.awardingBodyLogoUrl} style={styles.awardingBodyLogo} />
+            </View>
+            { !!tenant.certificates.awardingBodyText && (
+              <Text style={{
+                fontSize: 12,
+                marginBottom: 8
+              }}>{tenant.certificates.awardingBodyText}</Text>
+            )}
+          </View>
+        )}
+
         { !!certificate.logoUrl && (
           <View style={styles.awardedBy}>
             <Text style={{
@@ -82,8 +110,7 @@ const CertificatePdf = ({user, certificate, tenant}) => {
               marginBottom: 8
             }}>Awarded by</Text>
             <View>
-              <Image src={certificate.logoUrl}  style={styles.logo} />
-              {/* <CertificateSvg svgXml={certificateLogoXml(logo)} /> */}
+              <Image src={certificate.logoUrl} style={styles.logo} />
             </View>
           </View>
         )}
