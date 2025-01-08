@@ -93,6 +93,9 @@ const AdminCourseSetup = () => {
           frontPage: {
             enabled: true,
             ...settings.frontPage
+          },
+          certificate: {
+            ...settings.certificate
           }
         },
         tags,
@@ -115,6 +118,10 @@ const AdminCourseSetup = () => {
             tags: contentItemDefaults.tags,
             groupsAssigned: {
               edges: []
+            },
+            certificate: {
+              enabled: false,
+              showAwardingBody: false
             },
             sections: [{
               ...contentItemDefaults,
