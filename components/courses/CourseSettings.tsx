@@ -25,7 +25,10 @@ interface CourseSettingsFormValues {
   }
   settings: {
     isScored: boolean
-    hasCertificate: JSON
+    certificate: {
+      enabled: boolean
+      showAwardingBody: boolean
+    }
     passMark: Number
     scoreFromModuleIds: Array<string>
     showSendFeedbackButton: boolean
@@ -77,7 +80,6 @@ const CourseSettings = ({options={}}) => {
 
   const { register, watch, handleSubmit, control, setFocus, formState: { errors } } = useForm<CourseSettingsFormValues>({defaultValues});
 
-
   useEffect(() => {
     const subscription = watch((data, options) => {
       if(options.type === 'change') {
@@ -119,11 +121,18 @@ const CourseSettings = ({options={}}) => {
     })
   }
 
-  const [isScored, fpEnabled, fpBgImageEnabled, fpOverlayColor] = watch([
+  const [
+    isScored, 
+    fpEnabled, 
+    fpBgImageEnabled, 
+    fpOverlayColor, 
+    certEnabled
+  ] = watch([
     'settings.isScored',
     'settings.frontPage.enabled',
     'settings.frontPage.bgImageEnabled',
     'settings.frontPage.overlayColor',
+    'settings.certificate.enabled',
   ]);
   
   return (
@@ -247,8 +256,15 @@ const CourseSettings = ({options={}}) => {
       <CheckboxInput
         label="Award certificate?"
         labelClassName='text-sm font-medium'
-        inputAttrs={register("settings.hasCertificate")}
+        inputAttrs={register("settings.certificate.enabled")}
       />
+      { certEnabled && (
+        <CheckboxInput
+          label="Show awarding body logo & text on certificate?"
+          labelClassName='text-sm font-medium'
+          inputAttrs={register("settings.certificate.showAwardingBody")}
+        />
+      )}
       <label>
         <span className="text-gray-700 text-sm font-medium">Headings font</span>
         <FontFamilySelect

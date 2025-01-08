@@ -23,6 +23,9 @@ interface TenantFeatureSettings {
       enabled: boolean
     }
   }
+  certificates: {
+    awardingBodyText: string
+  }
   resources: {
     enabled: boolean
     reports: {
@@ -104,7 +107,8 @@ const TenantForm = ({tenant=null, onSubmit}) => {
       data.squareLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_image: data.squareLogo})),
       data.squareWhiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_square_white_image: data.squareWhiteLogo})),
       data.emailLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_emails_image: data.emailLogo})),
-      data.certLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_certs_image: data.certLogo}))
+      data.certLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_for_certs_image: data.certLogo})),
+      data.awardingBodyLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_awarding_body_image: data.awardingBodyLogo}))
     ]).then(res => {
       console.log('data')
       console.log(data)
@@ -187,6 +191,19 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         name="certLogo"
         previewClassName="bg-black/40"
         initialValue={tenant?.logos.logo_for_certs}
+      />
+      <ImageDropzoneInput
+        buttonText="Choose awarding body logo for certificates"
+        label="Awarding body logo"
+        control={control}
+        name="awardingBodyLogo"
+        previewClassName="bg-black/40"
+        initialValue={tenant?.logos.logo_awarding_body}
+      />
+      <TextInput
+        label="Awarding body text"
+        placeholder="Awarding body text"
+        inputAttrs={register("settings.certificates.awardingBodyText")}
       />
       <ColorPickerInputLegacy
         label="Primary brand colour"
@@ -314,6 +331,17 @@ const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
   },  
   'reports': {
     'enabled': true
+  },
+  'tags': {
+    'categories': {
+      'enabled': true
+    },
+    'collections': {
+      'enabled': false
+    }
+  },
+  'certificates': {
+    'awardingBodyText': ''
   },
   'primaryBrandColor': '',
   'secondaryBrandColor': ''
