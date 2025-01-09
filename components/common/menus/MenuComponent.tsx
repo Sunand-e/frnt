@@ -9,7 +9,7 @@ const MenuComponent = ({menuItems=[], button, align='right'}) => {
   return (
     
     <Menu as="div" className="relative inline-block">
-      <Float placement="bottom-end" portal>
+      <Float placement="bottom-end" portal flip>
       { button }
       <Transition
         as={Fragment}
