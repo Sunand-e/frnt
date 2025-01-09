@@ -27,7 +27,7 @@ const CourseActionsMenu = ({content: course}) => {
     },
     {
       label: <span className="text-red-500">Delete course</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteCourse'
     },
     // { title: 'Settings', href:'settings' },

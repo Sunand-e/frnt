@@ -20,7 +20,7 @@ const ResourceActionsMenu = ({content: resource}) => {
     },
     { 
       label: <span className="text-red-500">Delete resource</span>, 
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteResource'
     },
     // { title: 'Settings', href:'settings' },

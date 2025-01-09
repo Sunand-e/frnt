@@ -66,7 +66,7 @@ const UserActionsMenu = ({user}) => {
     {
       label: <span className="text-red-500">Delete user</span>, 
       capability: 'DeleteUser',
-      onClick: confirmDelete
+      onClick: () => confirmDelete()
     },
   ]
 

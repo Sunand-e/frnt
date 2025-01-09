@@ -25,7 +25,7 @@ const TagActionsMenu = ({tag}) => {
     },
     { 
       label: <span className="text-red-500">Delete {tagType.name}</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteTag'
     },
     // { title: 'Settings', href:'settings' },

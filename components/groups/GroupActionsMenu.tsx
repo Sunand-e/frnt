@@ -49,7 +49,7 @@ const GroupActionsMenu = ({group}) => {
     },
     { 
       label: <span className="text-red-500">Delete {typeName}</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteGroup'
     },
   ]

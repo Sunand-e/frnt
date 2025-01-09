@@ -39,7 +39,7 @@ const PackageActionsMenu = ({module, returnFn}) => {
   const menuItems = [
     {
       label: <span className="text-red-500">Delete SCORM package</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteScormPackage'
     },
     // { title: 'Settings', href:'settings' },
