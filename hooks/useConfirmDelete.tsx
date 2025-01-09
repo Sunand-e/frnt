@@ -5,6 +5,8 @@ import { closeModal, handleModal } from '../stores/modalStore';
 const useConfirmDelete = ({itemType, name=null, onConfirm: defaultOnConfirm = null, autoClose=true, onExit=null}) => {
 
   const handleDelete = ({onConfirm=null}) => {
+    console.log('onConfirm')
+    console.log(onConfirm)
     onConfirm ? onConfirm() : defaultOnConfirm && defaultOnConfirm()
     // onExit ? onExit() : closeModal()
     autoClose && closeModal()

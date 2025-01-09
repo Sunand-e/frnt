@@ -42,7 +42,7 @@ const OrganisationActionsMenu = ({group}) => {
     },
     {
       label: <span className="text-red-500">Delete organisation</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeleteGroup'
     },
   ]

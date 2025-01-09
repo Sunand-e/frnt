@@ -20,7 +20,7 @@ const PathwayActionsMenu = ({content: pathway}) => {
     },
     {
       label: <span className="text-red-500">Delete pathway</span>,
-      onClick: confirmDelete,
+      onClick: () => confirmDelete(),
       capability: 'DeletePathway'
     },
     // { title: 'Settings', href:'settings' },

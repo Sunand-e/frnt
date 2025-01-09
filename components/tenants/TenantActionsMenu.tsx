@@ -20,7 +20,7 @@ const TenantActionsMenu = ({tenant}) => {
       href: editHref
     },
     { label: <span className="text-red-500">Delete tenant</span>,
-      onClick: confirmDelete
+      onClick: () => confirmDelete()
     },
   ]
 
