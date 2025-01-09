@@ -94,11 +94,11 @@ const CertificatePdf = ({user, certificate, tenant}) => {
             <View>
               <Image src={certificate.awardingBodyLogoUrl} style={styles.awardingBodyLogo} />
             </View>
-            { !!tenant.certificates.awardingBodyText && (
+            { !!certificate.awardingBodyText && (
               <Text style={{
                 fontSize: 12,
                 marginBottom: 8
-              }}>{tenant.certificates.awardingBodyText}</Text>
+              }}>{certificate.awardingBodyText}</Text>
             )}
           </View>
         )}
