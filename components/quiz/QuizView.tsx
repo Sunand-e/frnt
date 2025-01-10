@@ -1,11 +1,12 @@
 import { useFragment } from "@apollo/client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { QuizFragment } from "../../graphql/queries/allQueries";
 import useCreateUserQuizAttempt from "../../hooks/quizzes/useCreateUserQuizAttempt";
 import useGetLatestQuizAttempt from "../../hooks/quizzes/useGetLatestQuizAttempt";
 import useUpdateUserQuizAttempt from "../../hooks/quizzes/useUpdateUserQuizAttempt";
 import useUpdateUserContentStatus from "../../hooks/users/useUpdateUserContentStatus";
+import Button from "../common/Button";
 import { useRouter } from "../../utils/router";
 import QuestionView from "./questions/QuestionView";
 import QuizSummary from "./QuizSummary";
@@ -71,10 +72,10 @@ function QuizView() {
         contentItemId: quizId,
         progress: 100,
         status: 'completed'
-      })
-      
+      }) 
     }
   }
+  
   useEffect(() => {
     useQuizStore.setState({
       questions: quiz.questions,
@@ -90,6 +91,13 @@ function QuizView() {
 
   const completed = data?.latestUserQuizAttempt?.completedAt
 
+  // calculate the number of questions remaining, in case the questions 
+  // have been completed but 'finish quiz' has not been clicked:
+  const questionsLength = useQuizStore(state => state.questions.length)
+  const totalQuestions = quiz.settings.limitQuestions ? quiz.settings.questionCount : questionsLength
+  const questionAttempts = data.latestUserQuizAttempt.userQuestionAttempts
+  const questionsRemaining = totalQuestions - questionAttempts.length
+
   return (
     <div className="h-full w-full p-16 relative overflow-x-hidden">
       <AnimatePresence>
@@ -104,16 +112,19 @@ function QuizView() {
         {
           data?.latestUserQuizAttempt && (
             completed ? (
-              <>
               <QuizSummary />
-              </>
-
             ) : (
-              activeQuestion && (
+              activeQuestion ? (
                 <QuestionView
                   question={activeQuestion}
                   onFinishQuiz={finishQuiz}
                 />
+              ) : (
+                questionsRemaining === 0 && (
+                  <div className="flex flex-col items-center space-y-4">
+                    <Button onClick={finishQuiz} className="bg-main text-white px-4 py-2 rounded-md">Finish Quiz</Button>
+                  </div>
+                )
               )
             )
           )
