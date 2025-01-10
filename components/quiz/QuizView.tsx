@@ -122,6 +122,10 @@ function QuizView() {
               ) : (
                 questionsRemaining === 0 && (
                   <div className="flex flex-col items-center space-y-4">
+                    <p className="text-center">
+                      You have completed all of the questions in this quiz.<br />
+                      Please click the 'Finish Quiz' button below to finalise your quiz attempt.
+                    </p>
                     <Button onClick={finishQuiz} className="bg-main text-white px-4 py-2 rounded-md">Finish Quiz</Button>
                   </div>
                 )
