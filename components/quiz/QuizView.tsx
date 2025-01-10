@@ -95,8 +95,8 @@ function QuizView() {
   // have been completed but 'finish quiz' has not been clicked:
   const questionsLength = useQuizStore(state => state.questions.length)
   const totalQuestions = quiz.settings.limitQuestions ? quiz.settings.questionCount : questionsLength
-  const questionAttempts = data.latestUserQuizAttempt.userQuestionAttempts
-  const questionsRemaining = totalQuestions - questionAttempts.length
+  const questionAttempts = data?.latestUserQuizAttempt?.userQuestionAttempts
+  const questionsRemaining = totalQuestions - questionAttempts?.length
 
   return (
     <div className="h-full w-full p-16 relative overflow-x-hidden">
