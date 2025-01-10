@@ -51,7 +51,7 @@ const CertificatePdf = ({user, certificate, tenant}) => {
       alignItems: 'center'
     },
     logo: {
-      height: '100%',
+      height: 'auto',
       width: 100,
       marginBottom: 10
     },
