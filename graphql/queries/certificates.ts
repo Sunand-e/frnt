@@ -17,6 +17,7 @@ export const CertificateFragment = gql`
     score
     logoUrl
     awardingBodyLogoUrl
+    awardingBodyText
   }
   ${UserContentEdgeSimpleFragment}
   ${UserContentConnectionFragment}
