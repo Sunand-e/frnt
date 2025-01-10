@@ -131,7 +131,13 @@ function QuestionView({question, onFinishQuiz}) {
             <Button className="mt-2" onClick={goToNextQuestion}>Next question</Button>
           )}
           { isLastQuestion && (
-            <Button className="mt-2" onClick={onFinishQuiz}>Finish quiz</Button>
+            <>
+              <p className="text-center">
+                You have now completed all of the questions in this quiz.<br />
+                Please click the 'Finish Quiz' button below to finalise your quiz attempt.
+              </p>
+              <Button className="mt-2" onClick={onFinishQuiz}>Finish quiz</Button>
+            </>
           )}
         </FeedbackContainer>
       )}
