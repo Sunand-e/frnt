@@ -5,6 +5,14 @@ export const COURSES_REPORT_QUERY = gql`
     courses(where: { includeProvisioned: true }) {
       edges {
         userId
+        groups {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
         node {
           id
           title
