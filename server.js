@@ -47,6 +47,14 @@ const apiPaths = {
     router: customRouter,
     changeOrigin: false
   },
+  '/admintools': {
+    target: 'http://127.0.0.1', 
+    pathRewrite: {
+      '^/admintools': '/admintools'
+    },
+    router: customRouter,
+    changeOrigin: false
+  },
   '/api/v1': {
     target: 'http://127.0.0.1', 
     pathRewrite: {
@@ -91,6 +99,7 @@ app.prepare().then(() => {
     server.use('/graphiql', createProxyMiddleware(apiPaths['/graphiql']));
     server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
     server.use('/rails', createProxyMiddleware(apiPaths['/rails']));
+    server.use('/admintools', createProxyMiddleware(apiPaths['/admintools']));
     server.use('/uploaded_images', createProxyMiddleware(apiPaths['/uploaded_images']));
     server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));
     server.use('/scorm', createProxyMiddleware(apiPaths['/scorm']));
