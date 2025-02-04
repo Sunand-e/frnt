@@ -45,5 +45,5 @@ export const getGroupType = (group) => {
 export function getGroupEditUrl(group: Group): string {
   const { id } = group;
   const type = getGroupType(group);
-  return `/admin/${type.pluralKey}?id=${id}`;
+  return `/admin/users/${type.pluralKey}/edit?id=${id}`;
 }
