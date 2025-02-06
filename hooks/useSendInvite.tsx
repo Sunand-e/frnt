@@ -2,17 +2,10 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import cache from '../graphql/cache';
-import getJWT from '../utils/getToken';
 
 const useSendInvite = () => {
 
   const endpoint = '/api/v1/users/send_invitation'
-
-  const [token, setToken] = useState('')
-
-  useEffect(() => {
-    setToken(getJWT())
-  },[])
 
   const sendInvite = useCallback(async (uids) => {
     const userIds = Array.isArray(uids) ? uids : [uids];
@@ -20,7 +13,6 @@ const useSendInvite = () => {
       method: "post", 
       url: endpoint,
       headers: {
-        'Authorization': `Bearer ${token}`,
       },
       data: {
         user_ids: userIds
@@ -46,7 +38,7 @@ const useSendInvite = () => {
         })
       }
     })
-  },[token])
+  },[])
 
   return { sendInvite }
 }

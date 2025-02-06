@@ -36,8 +36,7 @@ const { setError, register, handleSubmit, control, formState: { errors } } = use
     .then(res => res.json())
     .then(
       (result) => {
-        if(result.token) {
-          localStorage.setItem('token', result.token as string);
+        if(result.status) {
           isLoggedInVar(true);
           router.push('/');
         } else if(result.error) {

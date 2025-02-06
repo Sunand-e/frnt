@@ -2,10 +2,8 @@ import {
   InMemoryCache,
   makeVar,
 } from '@apollo/client'
-import getJWT from '../utils/getToken'
+import { getCookie } from './../utils/cookieUtils';
 import possibleTypes from './possibleTypes.json'
-import { relayStylePagination } from "@apollo/client/utilities";
-
 const typePolicies = {
   Query: {
     fields: {
@@ -151,13 +149,7 @@ export const noticesVar = makeVar([])
 export const scormDataVar = makeVar({})
 export const headerButtonsVar = makeVar(<></>)
 
-
-
-
-
-// Initializes to true if localStorage includes a 'token', false otherwise
-export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!getJWT() || null)
-// export const actAsUserVar = makeVar<string>(localStorage.getItem('actAsToken') || null)
+export const isLoggedInVar = makeVar<boolean>(typeof window !== "undefined" && !!getCookie('jwt_header_payload') || null)
 
 const cache = new InMemoryCache({
   possibleTypes,

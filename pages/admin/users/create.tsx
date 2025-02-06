@@ -8,7 +8,6 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import usePageTitle from '../../../hooks/usePageTitle';
 import useGetUsers from '../../../hooks/users/useGetUsers';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import getJWT from '../../../utils/getToken';
 
 const AdminCreateUser = () => {
   
@@ -40,7 +39,6 @@ const AdminCreateUser = () => {
 
 
   const handleSubmit = ({profile_image, firstName, lastName, group_id, ...values}) => {
-    const token = getJWT();
     
     const data = {
       group_id,
@@ -55,7 +53,6 @@ const AdminCreateUser = () => {
       method: "post", 
       url: endpoint,
       headers: {
-        'Authorization': `Bearer ${token}`,
       },
       data
     }).then (response => {

@@ -1,15 +1,16 @@
 import { client } from "../graphql/client";
 import Button from "./common/Button"
+import { deleteCookie, getCookie } from '../utils/cookieUtils';
 
 const ReturnToMyAccount = () => {
 
   const switchBack = () => {
-    localStorage.removeItem('actAsToken');
+    deleteCookie('actAsUser');
     client.resetStore()
   } 
 
   return (
-    localStorage.getItem('actAsToken') && (
+    getCookie('actAsUser') && (
       <Button onClick={switchBack}>Return to my account</Button>
     )
   )

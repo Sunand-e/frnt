@@ -4,8 +4,6 @@ import LoginForm from './LoginForm';
 import Image from 'next/image';
 
 const LoginPage = () => {
-
-  // const isLoggedIn = useReactiveVar(isLoggedInVar);
   const tenant = useContext(TenantContext)
   
   return (
