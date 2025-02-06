@@ -66,6 +66,27 @@ const AdminCreateUser = () => {
           const imageEndpoint = `/api/v1/users/${response.data.user?.id}/update_profile_image`
           profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
         }
+        if (group_id) {
+          cache.modify({
+            id: cache.identify({ __typename: 'Group', id: group_id }),
+            fields: {
+              users(existingConnection = { edges: [], totalCount: 0 }) {
+                const newEdge = {
+                  __typename: 'GroupUserEdge',
+                  userId: response.data.user.id,
+                  groupId: group_id,
+                  node: response.data.user,
+                };
+        
+                return {
+                  ...existingConnection,
+                  edges: [...existingConnection.edges, newEdge],
+                  totalCount: existingConnection.totalCount + 1,
+                };
+              },
+            },
+          });
+        }
       }
       router.push('/admin/users')
     })
