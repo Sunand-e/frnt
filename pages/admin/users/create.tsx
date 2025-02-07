@@ -52,8 +52,6 @@ const AdminCreateUser = () => {
     axios.request({
       method: "post", 
       url: endpoint,
-      headers: {
-      },
       data
     }).then (response => {
       refetchUsers()

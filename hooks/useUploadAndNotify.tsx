@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import BlinkingEllipsis from '../components/common/misc/BlinkingEllipsis';
 import { client } from '../graphql/client';
-import { getCookie } from '../utils/cookieUtils';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any},
@@ -51,8 +50,6 @@ const useUploadAndNotify = ({
     return await axios.request({
       method,
       url: endpoint,
-      headers: {
-      },
       data, 
       onUploadProgress: (p) => {
         const progress = p.loaded / p.total

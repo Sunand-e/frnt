@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { isLoggedInVar } from '../graphql/cache';
 import { client } from '../graphql/client';
-import { deleteCookie, getCookie } from '../utils/cookieUtils';
+import { deleteCookie } from '../utils/cookieUtils';
 
 const useLogout = () => {
 
@@ -15,8 +15,6 @@ const useLogout = () => {
     await axios.request({
       method: "delete", 
       url: endpoint,
-      headers: {
-      },
       data: {},
     }).then(data => {  
       isLoggedInVar(false);

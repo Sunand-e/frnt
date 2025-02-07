@@ -12,8 +12,6 @@ const useSendInvite = () => {
     await axios.request({
       method: "post", 
       url: endpoint,
-      headers: {
-      },
       data: {
         user_ids: userIds
       },

@@ -47,8 +47,6 @@ const AdminUsersEdit = () => {
       axios.request({
         method: "post", 
         url: '/api/v1/users/send_invitation',
-        headers: {
-        },
         data: { emails: [values.email] }
       })
     }
