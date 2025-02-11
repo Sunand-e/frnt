@@ -106,7 +106,7 @@ const MediaPreview = ({item}: MediaPreviewProps) => {
           <p><span className='font-medium'>Uploaded: </span>{ uploadedDate }</p>
         </div>
         <div className="mediaActions flex items-end justify-end">
-          <button onClick={confirmDelete}>
+          <button onClick={() => confirmDelete()}>
             <div className="bg-red-600 hover:bg-red-800 text-white rounded-full w-8 h-8 flex justify-center">
               <Trash className={`w-6 cursor-pointer`} />
             </div>

@@ -97,8 +97,7 @@ const AdminUsersEdit = () => {
     {name: 'resources', title: 'Resources', count: getUserContentTypeCount('resources')},
     {name: 'pathways', title: 'Pathways', count: getUserContentTypeCount('pathways')},
   ].filter(tab => tenantFeaturesEnabled(tab.name))
-  console.log('contentTabs')
-  console.log(contentTabs)
+
   const [activeContentTab, setActiveContentTab] = useState(contentTabs[0]?.name)
   const [activeGroupsTab, setActiveGroupsTab] = useState(groupsTabs[0]?.name)
 

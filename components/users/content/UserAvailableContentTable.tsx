@@ -13,7 +13,9 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
 
   const {enrolUsersInContent} = useEnrolUsersInContent()
   const [selectedContentIds, setSelectedContentIds] = useState([]);
+  // Get the content that the user is already enrolled in
   const { content: userContent, loading: userContentLoading } = useGetUserContent(user.id, typeName)
+  // Get the content available to the current user
   const { content, loading: contentLoading } = useGetContent(typeName)
 
   const { userHasCapability } = useUserHasCapability()
@@ -21,6 +23,7 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
   const { groups, loading: groupsLoading } = useGetGroupsDetailed(shouldFetchGroupsContents)
   const actionName = 'Assign';
 
+  // filter out deleted, and ensure that the user has a role in a group with the content, or a role assigned directly to the content
   const userContentNodes = userContent?.edges.filter(edge => (
     !edge.node._deleted
      && (
@@ -29,14 +32,15 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
     )
   )).map(edge => edge.node)
   
-  const contentFilter = (content) => !userContentNodes?.some(userContent=>userContent.id === content.id)
-
   const {roles} = useGetRoles()
 
   const defaultRole = roles?.find(role => role.name === 'Learner')
 
   const { user: currentUser } = useGetCurrentUser()
   
+  // Create filter function to remove content that the user is already enrolled in
+  const contentFilter = (content) => !userContentNodes?.some(userContent=>userContent.id === content.id)
+
   const onSubmit = (selectedContentIds) => {
     enrolUsersInContent({
       userIds: [user.id],
@@ -47,23 +51,26 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
   };
   let availableContentNodes = []
 
+  // If the user has 'EnrolUsersInContent' capability at the tenant level, show all content
   if (userHasCapability('EnrolUsersInContent', 'tenant')) {
     availableContentNodes = content?.edges.map(edge => edge.node) || []
-  } else {  
+  } else { 
+    // Find the common groups between the current user and the user being enrolled
     const userGroupIds = user.groups.edges.map(edge => edge.groupId)
     const currentUserGroupIds = currentUser.groups.edges.map(edge => edge.groupId)
     const commonGroupIds = userGroupIds.filter(groupId => currentUserGroupIds.includes(groupId))
-
+    
+    // Get the provisioned content for the common groups
     const commonGroupProvisionedContents = groups?.edges.flatMap(
       edge => commonGroupIds.includes(edge.node.id) ? edge.node.provisionedContents.edges : []
     ) || []
 
     const commonGroupProvisionedContentNodes = commonGroupProvisionedContents.map(edge => edge.node)
-    const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
+    // const currentUserEnrolledContentNodes = content?.edges.map(edge => edge.node) || []
     
     const combinedContentNodes = [
       ...commonGroupProvisionedContentNodes.filter(node => node.itemType === typeName),
-      ...currentUserEnrolledContentNodes
+      // ...currentUserEnrolledContentNodes
     ];
     
     const uniqueContentNodes = Array.from(new Set(combinedContentNodes.map(node => node.id)))
@@ -71,7 +78,6 @@ const UserAvailableContentTable = ({ user, typeName = 'content' }) => {
     
     availableContentNodes = uniqueContentNodes;
   }
-
   const availableContent = availableContentNodes?.filter(contentFilter) || []
 
   return (

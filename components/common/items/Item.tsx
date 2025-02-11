@@ -34,7 +34,11 @@ export default function Item({ item, options }) {
   }
   // const href = item.href ?? itemType.urlPath + '/' + item.slug;
 
-  const href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?id=${item.id}`
+  let href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?id=${item.id}`
+
+  if (item.itemType === 'pathway') {
+    href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?pid=${item.id}`
+  }
 
   let title
   switch(item.__typename) {
