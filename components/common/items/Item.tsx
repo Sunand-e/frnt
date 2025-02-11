@@ -37,7 +37,7 @@ export default function Item({ item, options }) {
   let href = options?.getHref?.(item) ?? item.href ?? `/ ${item.itemType}?id=${item.id}`
 
   if (item.itemType === 'pathway') {
-    href = options?.getHref?.(item) ?? item.href ?? `/ ${item.itemType}?pid=${item.id}`
+    href = options?.getHref?.(item) ?? item.href ?? `/${item.itemType}?pid=${item.id}`
   }
 
   let title
