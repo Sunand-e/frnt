@@ -45,6 +45,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError && 'statusCode' in networkError && networkError.statusCode === 401 && !excludedRoutes.includes(Router.pathname)) {
     isLoggedInVar(false);
+    client.clearStore();
     Router.push('/'); // Redirect to login page
   }
 });
