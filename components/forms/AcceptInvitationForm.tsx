@@ -32,7 +32,6 @@ const AcceptInvitationForm = () => {
     .then(
       (result) => {
         if(result.status === 'Invitation accepted!') {
-          localStorage.setItem('token', result.token as string);
           isLoggedInVar(true);
           router.push('/');
         }

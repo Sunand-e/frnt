@@ -17,7 +17,6 @@ import useUpdateUser from '../../../hooks/users/useUpdateUser';
 import useUpdateUserTenantRoles from '../../../hooks/users/useUpdateUserTenantRoles';
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import getJWT from '../../../utils/getToken';
 import { useRouter } from '../../../utils/router';
 
 const AdminUsersEdit = () => {
@@ -39,8 +38,6 @@ const AdminUsersEdit = () => {
 
   const handleSubmit = ({profile_image, invite, ...values}) => {
 
-    const token = getJWT();
-
     updateUser(values, () => userHasCapability('UpdateUserTenantRoles') && updateUserTenantRoles({
       userId: id,
       roleIds: values.role_ids
@@ -50,9 +47,6 @@ const AdminUsersEdit = () => {
       axios.request({
         method: "post", 
         url: '/api/v1/users/send_invitation',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
         data: { emails: [values.email] }
       })
     }
