@@ -1,14 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { GET_RESOURCES } from "../../graphql/queries/allQueries";
 import { GetResources } from "../../graphql/queries/__generated__/GetResources";
+import { useViewStore } from '../../hooks/useViewStore';
+import { useEffect } from 'react';
 
-function useGetResources() {
+function useGetResources({ pagination = false } = {}) {
   const { loading, error, data, fetchMore } = useQuery<GetResources>(GET_RESOURCES, {
-    variables: { first: 20, after: null }, // Initial fetch of 20 resources
+    variables: pagination ? { first: 20, after: null } : {}, // Initial fetch of 20 resources
   });
 
   const loadMore = () => {
-    if (data?.resources?.pageInfo?.hasNextPage) {
+    if (pagination && data?.resources?.pageInfo?.hasNextPage) {
       fetchMore({
         variables: { after: data.resources.pageInfo.endCursor },
         updateQuery: (prevResult, { fetchMoreResult }) => {
@@ -29,12 +31,33 @@ function useGetResources() {
     }
   };
 
+  const scrollableRef = useViewStore((state) => state.mainScrollableRef);
+
+  useEffect(() => {
+    if (!pagination || !scrollableRef.current) {
+      return;
+    }
+    const handleScroll = () => {
+      if (
+        scrollableRef.current.scrollTop + scrollableRef.current.clientHeight >=
+        scrollableRef.current.scrollHeight - 20
+      ) {
+        loadMore();
+      }
+    };
+
+    scrollableRef.current.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      scrollableRef.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollableRef, loadMore, pagination]);
+
   return {
     resources: data?.resources,
     loading,
     error,
-    loadMore,
-    hasMore: data?.resources?.pageInfo?.hasNextPage || false, // Whether more resources are available
+    loadMore
   };
 }
 

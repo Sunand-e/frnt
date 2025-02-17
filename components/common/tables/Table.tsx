@@ -147,9 +147,6 @@ const Table = () => {
       },
     }] : []),
 
-    // ...(isReorderable ? [{
-    // }] : []),
-
     ...tableCols
 
   ]
@@ -215,9 +212,7 @@ const Table = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    enableRowSelection: (row) => !row.original.checkboxDisabled,
-    // getPaginationRowModel: getPaginationRowModel(),
-    // debugTable: true,
+    enableRowSelection: (row) => !row.original.checkboxDisabled
   });
 
 
@@ -258,7 +253,7 @@ const Table = () => {
     })
     exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
-  
+  debugger;
   return (
     <>
       { showTop && <TableActions { ...{

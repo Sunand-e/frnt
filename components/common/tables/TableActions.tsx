@@ -67,7 +67,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
 
   const pluralTypeName = Pluralize( typeName, 2 )
   const visibleCount = table.getFilteredRowModel().rows.length
-
+  debugger;
   const itemCountString = `Showing ${visibleCount}
     ${visibleCount !== count ? `of ${count}` : ''}
     ${count === 1 ? typeName : pluralTypeName}

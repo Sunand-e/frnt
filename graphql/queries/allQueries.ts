@@ -225,6 +225,7 @@ export const GET_RESOURCE = gql`
 export const GET_RESOURCES = gql`
   query GetResources($first: Int, $after: String) {
     resources(first: $first, after: $after) {
+      totalCount
       edges {
         userId
         node {
@@ -253,6 +254,7 @@ export const GET_PATHWAY = gql`
 export const GET_PATHWAYS = gql`
   query GetPathways($first: Int, $after: String) {
     pathways(first: $first, after: $after) {
+      totalCount
       edges {
         userId
         node {

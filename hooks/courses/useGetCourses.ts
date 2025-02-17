@@ -6,7 +6,7 @@ import { useViewStore } from "../../hooks/useViewStore";
 
 function useGetCourses({ pagination = false } = {}) {
   const { loading, error, data, fetchMore } = useQuery<GetCourses>(GET_COURSES, {
-    variables: pagination ? { first: 10, after: null } : {},
+    variables: pagination ? { first: 20, after: null } : {},
   });
 
   const loadMore = () => {
