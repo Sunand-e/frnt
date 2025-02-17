@@ -253,7 +253,7 @@ const Table = () => {
     })
     exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
   };
-  debugger;
+
   return (
     <>
       { showTop && <TableActions { ...{
