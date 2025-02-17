@@ -206,12 +206,21 @@ export interface GetCourses_courses_edges {
   node: GetCourses_courses_edges_node | null;
 }
 
+export interface GetCourses_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
 export interface GetCourses_courses {
   __typename: "UserContentConnection";
   /**
    * A list of edges.
    */
   edges: (GetCourses_courses_edges | null)[] | null;
+  pageInfo: (GetCourses_pageInfo | null) | null;
 }
 
 export interface GetCourses {
