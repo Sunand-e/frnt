@@ -22,6 +22,13 @@ export interface GetResources_resources_edges_node_icon {
   properties: any | null;
   id: string;
 }
+export interface GetResources_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
 
 export interface GetResources_resources_edges_node_mediaItem {
   __typename: "MediaItem";
@@ -84,6 +91,7 @@ export interface GetResources_resources {
    * A list of edges.
    */
   edges: (GetResources_resources_edges | null)[] | null;
+   pageInfo: (GetResources_pageInfo | null) | null;
 }
 
 export interface GetResources {

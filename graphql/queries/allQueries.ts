@@ -223,13 +223,17 @@ export const GET_RESOURCE = gql`
 `
 
 export const GET_RESOURCES = gql`
-  query GetResources {
-    resources {
+  query GetResources($first: Int, $after: String) {
+    resources(first: $first, after: $after) {
       edges {
         userId
         node {
           ...ResourceFragment
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
@@ -247,18 +251,24 @@ export const GET_PATHWAY = gql`
 `
 
 export const GET_PATHWAYS = gql`
-  query GetPathways {
-    pathways {
+  query GetPathways($first: Int, $after: String) {
+    pathways(first: $first, after: $after) {
       edges {
         userId
         node {
           ...PathwayFragment
+          id
+          title
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
   ${PathwayFragment}
-`
+`;
 
 export const GET_QUIZ = gql`
   query GetQuiz($id: ID!) {
