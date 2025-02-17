@@ -22,6 +22,13 @@ export interface GetPathways_pathways_edges_node_icon {
   properties: any | null;
   id: string;
 }
+export interface GetPathways_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
 
 export interface GetPathways_pathways_edges_node_mediaItem {
   __typename: "MediaItem";
@@ -276,6 +283,7 @@ export interface GetPathways_pathways {
    * A list of edges.
    */
   edges: (GetPathways_pathways_edges | null)[] | null;
+  pageInfo: (GetPathways_pageInfo | null) | null;
 }
 
 export interface GetPathways {
