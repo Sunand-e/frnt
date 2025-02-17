@@ -215,6 +215,9 @@ export interface GetCourses_pageInfo {
 }
 
 export interface GetCourses_courses {
+  completedCount: number;
+  inProgressCount: number;
+  notStartedCount: number;
   __typename: "UserContentConnection";
   /**
    * A list of edges.

@@ -2,7 +2,6 @@
 
 import { Reorder } from "framer-motion"
 import { useCallback, useContext, useEffect, useState } from "react"
-import useGetCourses from "../../hooks/courses/useGetCourses"
 import useGetPathway from "../../hooks/pathways/useGetPathway"
 import { useRouter } from "../../utils/router"
 import CourseSelectCategorised from "../courses/inputs/CourseSelectCategorised"

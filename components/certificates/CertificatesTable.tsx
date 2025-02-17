@@ -65,7 +65,8 @@ const CertificatesTable = () => {
     tableData,
     tableCols,
     filters: ['global'],
-    typeName: 'certificate'
+    typeName: 'certificate',
+    count: certificates?.length
   }
   
   return (

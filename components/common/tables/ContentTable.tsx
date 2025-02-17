@@ -38,6 +38,8 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
     }, [content]
   );
 
+  const count = content?.totalCount || 0
+
   const tableCols = useMemo(
     () => [
       {
@@ -185,6 +187,7 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
   const capitalisedPluralKey = type.pluralKey.charAt(0).toUpperCase() + type.pluralKey.slice(1);
 
   const tProps: TableProps = {
+    count,
     tableData,
     tableCols,
     typeName: type.name,

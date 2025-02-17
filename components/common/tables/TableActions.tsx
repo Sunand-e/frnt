@@ -1,6 +1,5 @@
 import Pluralize from 'pluralize'
 import Select from 'react-select'
-import { useEffect, useState } from "react"
 import TagSelect from "../../tags/inputs/TagSelect"
 import BulkActionsMenu from "./BulkActionsMenu"
 import GlobalFilter from "./GlobalFilter"
@@ -21,7 +20,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const setCategoryId = useTableContext(s => s.setCategoryId)
   const setCollectionId = useTableContext(s => s.setCollectionId)
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
-  const tableData = useTableContext(s => s.tableData)
+  const count = useTableContext(s => s.count)
   const bulkActions = useTableContext(s => s.bulkActions)
   const contentType = useTableContext(s => s.contentType)
   const filters = useTableContext(s => s.filters)
@@ -59,8 +58,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   });
 
   const router = useRouter()
-  const handleContentTypeChange = (option) => {
-    // (option) => setContentType(option?.value)
+  const handleContentTypeChange = (option: any) => {
     router.push({query: {
       ...router.query,
       ctype: option?.value
@@ -69,9 +67,10 @@ const TableActions = ({ table }: { table: Table<any> }) => {
 
   const pluralTypeName = Pluralize( typeName, 2 )
   const visibleCount = table.getFilteredRowModel().rows.length
+
   const itemCountString = `Showing ${visibleCount}
-    ${visibleCount !== tableData.length ? `of ${tableData.length}` : ''}
-    ${tableData.length === 1 ? typeName : pluralTypeName}
+    ${visibleCount !== count ? `of ${count}` : ''}
+    ${count === 1 ? typeName : pluralTypeName}
   `
 
   return (
