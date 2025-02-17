@@ -1,6 +1,6 @@
 import { Column, ColumnDef, SortingState, Table } from "@tanstack/react-table";
 import { createStore, useStore } from 'zustand'
-import { createContext, createRef, MutableRefObject, ReactNode, useContext, useMemo } from 'react'
+import { createContext, createRef, MutableRefObject, ReactNode, useContext, useEffect, useMemo } from 'react'
 import { useRef } from 'react'
 
 export interface TableProps {
@@ -143,10 +143,7 @@ function useTableContext<T>(
 type TableProviderProps = React.PropsWithChildren<TableProps>
 
 function TableProvider({ children, tableProps }: TableProviderProps) {
-
-  const tableStoreProps = useMemo(() => {
-    return tableProps
-  },[
+  const tableStoreProps = useMemo(() => tableProps, [
     tableProps.isReorderable,
     tableProps.tableData
   ])
@@ -154,9 +151,12 @@ function TableProvider({ children, tableProps }: TableProviderProps) {
   const storeRef = useRef<TableStore>()
   if (!storeRef.current) {
     storeRef.current = createTableStore(tableStoreProps)
-  } else {
-    storeRef.current.setState(s => tableStoreProps)
   }
+  
+  useEffect(() => {
+    storeRef.current?.setState(s => tableStoreProps);
+  }, [tableStoreProps]);
+
   return (
     <TableContext.Provider value={storeRef.current}>
       {children}
