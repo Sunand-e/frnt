@@ -54,4 +54,4 @@ export const LinkBlockEdit: FunctionComponent<LinkBlockEditProps> = ({ id }) => 
   );
 }
 
-export default LinkBlockEdit
+export default LinkBlockEdit;

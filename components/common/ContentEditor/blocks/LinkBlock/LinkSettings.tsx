@@ -5,4 +5,4 @@ export const TextSettings = ({}) => {
   )
 }
 
-export default TextSettings
+export default TextSettings;

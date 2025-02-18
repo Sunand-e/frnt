@@ -20,4 +20,4 @@ export const LinkBlock: FunctionComponent<LinkBlockProps> = ({ block }) => {
   );
 }
 
-export default LinkBlock
+export default LinkBlock;
