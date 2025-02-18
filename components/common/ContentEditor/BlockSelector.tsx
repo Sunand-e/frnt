@@ -2,40 +2,35 @@ import blocktypes, { BlockType } from './blocktypes'
 import BlockTypeButton from './BlockTypeButton'
 import { CSSProperties } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import useBlockEditor from './useBlockEditor';
 import VideoUrlSelect from './blocks/VideoBlock/VideoUrlSelect';
 import { closeModal, handleModal } from '../../../stores/modalStore';
 import PackageLibrary from '../../packages/PackageLibrary';
 import { addBlock, Block, createBlock, useBlockStore } from './useBlockStore';
-import MediaLibrary from '../../media/MediaLibrary';
+import LinkUrlSelect from './blocks/LinkBlock/LinkUrlSelect';
 
 interface BlockSelectorProps {
   block?: Block,
-  replace?: boolean, 
+  replace?: boolean,
   exclude?: any[],
   className?: string,
   blockButtonClassName?: string,
-  onSelect?:()=>void,
+  onSelect?: () => void,
   style?: CSSProperties
 }
 const BlockSelector = ({
-  block=null, 
-  replace=false, 
-  exclude=[], 
-  className='',
-  blockButtonClassName='',
-  onSelect = ():void => null,
-  style={}
+  block = null,
+  replace = false,
+  exclude = [],
+  className = '',
+  blockButtonClassName = '',
+  onSelect = (): void => null,
+  style = {}
 }: BlockSelectorProps) => {
 
   const blocks = useBlockStore(state => state.blocks)
   const sidebarFieldsRegenKey = useBlockStore(state => state.sidebarFieldsRegenKey)
 
-  // const {isOver, setNodeRef} = useDroppable({
-  //   id: 'blockSelector',
-  // });
-
-  const handleVideoSelect = (url) => {
+  const handleVideoSelect = (url: any) => {
     const videoBlock = createBlock({
       type: 'video',
       properties: {
@@ -56,7 +51,29 @@ const BlockSelector = ({
     })
   }
 
-  const handlePackageSelect = (scormPackage) => {
+  const handleLinkSelect = (url: string, button_text: string) => {
+    const linkBlock = createBlock({
+      type: 'link',
+      properties: {
+        url: url,
+        button_text: button_text
+      }
+    });
+    addBlock(linkBlock, replace, block);
+    closeModal();
+  }
+
+  const handleAddLink = () => {
+    handleModal({
+      title: `Add Link`,
+      size: 'lg',
+      content: (
+        <LinkUrlSelect onAddLink={handleLinkSelect} />
+      )
+    });
+  }
+
+  const handlePackageSelect = (scormPackage: { launchUrl: any; id: any; title: any; }) => {
     const newBlock = createBlock({
       type: 'package',
       properties: {
@@ -66,11 +83,9 @@ const BlockSelector = ({
       }
     })
     addBlock(newBlock, replace, block)
-    // block ? updateBlock(block, newBlock) : insertBlock(newBlock, blocks.length)
     closeModal()
   }
-  
-  
+
   const handleSelectType = (type: BlockType) => {
 
     onSelect?.()
@@ -80,7 +95,7 @@ const BlockSelector = ({
       type: type.name,
     })
 
-    switch(type.name) {
+    switch (type.name) {
       case 'package': {
         handleModal({
           title: `Choose package`,
@@ -98,6 +113,10 @@ const BlockSelector = ({
       }
       case 'video': {
         handleAddVideo()
+        break;
+      }
+      case 'link': {
+        handleAddLink();
         break;
       }
       case 'text': {
@@ -129,15 +148,15 @@ const BlockSelector = ({
       }
       case 'columns': {
         newBlock.children = [
-          createBlock({ type: 'placeholder'}),
-          createBlock({ type: 'placeholder'}),
+          createBlock({ type: 'placeholder' }),
+          createBlock({ type: 'placeholder' }),
         ]
-        newBlock.widths = [6,6]
+        newBlock.widths = [6, 6]
         break;
       }
       case 'accordion': {
         newBlock.children = [
-          createBlock({ 
+          createBlock({
             type: 'textAndImage',
             style: {
               paddingTop: '0px'
@@ -148,7 +167,7 @@ const BlockSelector = ({
       }
       case 'tabs': {
         newBlock.children = [
-          createBlock({ 
+          createBlock({
             type: 'textAndImage',
             editorSettings: {
               defaultAlignment: 'center'
@@ -163,7 +182,7 @@ const BlockSelector = ({
       }
       case 'carousel': {
         newBlock.children = [
-          createBlock({ type: 'textAndImage'})
+          createBlock({ type: 'textAndImage' })
         ]
         break;
       }
@@ -171,18 +190,17 @@ const BlockSelector = ({
       }
     }
 
-    if(!['package', 'video'].includes(type.name)) {
+    if (!['package', 'video', 'link'].includes(type.name)) {
       addBlock(newBlock, replace, block)
     }
   }
 
   let blockButtons = []
-  let btnIndex = 0;
-  for(const blockTypeName in blocktypes) {
+  for (const blockTypeName in blocktypes) {
 
-    if(!exclude.includes(blockTypeName)) {
+    if (!exclude.includes(blockTypeName)) {
       const blockType = blocktypes[blockTypeName]
-      if(!blockType.hideFromSelector) {
+      if (!blockType.hideFromSelector) {
         blockButtons.push({
           ...blockType,
           name: blockTypeName
@@ -192,8 +210,8 @@ const BlockSelector = ({
   }
 
   const BlockTypeButtons = blockButtons.map((type, index) => {
-    const isDisabled = type.name === 'package' && blocks.some(({type}) => type === 'package')
-    return(
+    const isDisabled = type.name === 'package' && blocks.some(({ type }) => type === 'package')
+    return (
       <BlockTypeButton
         key={index}
         type={type}
@@ -206,19 +224,7 @@ const BlockSelector = ({
 
   return (
     <div style={style} key={sidebarFieldsRegenKey} className={className}>
-      { BlockTypeButtons }
-{/*       
-      {createPortal(
-        <DragOverlay dropAnimation={dropAnimation}>
-          <BlockTypeButton
-            type={blocktypes['text']}
-            isDisabled={false}
-            onSelect={handleSelectType}
-            className={blockButtonClassName}
-          />
-        </DragOverlay>,
-        document.body
-      )} */}
+      {BlockTypeButtons}
     </div>
   )
 };
