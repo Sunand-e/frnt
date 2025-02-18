@@ -163,8 +163,8 @@ export const GET_USER_CAPABILITIES = gql`
 `
 
 export const GET_USERS = gql`
-  query GetUsers {
-    users(where: { status: "active" }) {
+  query GetUsers($first: Int, $after: String) {
+    users(first: $first, after: $after, where: { status: "active" }) {
       edges {
         node {
           ...UserFragment
@@ -185,10 +185,14 @@ export const GET_USERS = gql`
           }
         }
       }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
   ${UserFragment}
-`
+`;
 
 export const GET_USER_COURSE = gql`
   query GetUserCourse($courseFilter: JSON, $lessonSectionFilter: JSON) {

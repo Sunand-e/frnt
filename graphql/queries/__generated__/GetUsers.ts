@@ -25,6 +25,13 @@ export interface GetUsers_users_edges_node_groups_edges_roles {
   id: string;
   name: string | null;
 }
+export interface GetUsers_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
 
 export interface GetUsers_users_edges_node_groups_edges {
   __typename: "UserGroupEdge";
@@ -74,6 +81,7 @@ export interface GetUsers_users {
    * A list of edges.
    */
   edges: (GetUsers_users_edges | null)[] | null;
+  pageInfo: (GetUsers_pageInfo | null) | null;
 }
 
 export interface GetUsers {
