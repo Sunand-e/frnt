@@ -2,8 +2,10 @@
 import React, { FunctionComponent } from 'react';
 import Link from './Link';
 
-interface LinkBlockProps {
+export interface LinkBlockProps {
   block: {
+    id: string,
+    type: string,
     properties: {
       buttonText: string;
       url: string;

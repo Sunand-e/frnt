@@ -56,6 +56,7 @@ import TextOnImageBlock from './blocks/TextOnImageBlock/TextOnImageBlock'
 import TextOnImageBlockEdit from './blocks/TextOnImageBlock/TextOnImageBlockEdit'
 import LinkBlock from './blocks/LinkBlock/LinkBlock'
 import LinkBlockEdit from './blocks/LinkBlock/LinkBlockEdit'
+import LinkSettings from './blocks/LinkBlock/LinkSettings'
 
 export type BlockType = {
   name: string,
@@ -222,7 +223,7 @@ const blocktypes: BlockTypes = {
     name: 'link',
     component: LinkBlock,
     editComponent: LinkBlockEdit,
-    settingsComponent: DefaultSettings,
+    settingsComponent: LinkSettings,
     icon: Link
   }
 }
