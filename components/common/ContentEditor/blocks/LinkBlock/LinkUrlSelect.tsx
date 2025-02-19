@@ -4,22 +4,22 @@ import LinkPreview from '../../../LinkPreview';
 import Button from '../../../Button';
 
 interface LinkUrlSelectProps {
-  onAddLink: (url: string, button_text: string) => void;
+  onAddLink: (url: string, buttonText: string) => void;
 }
 
 export const LinkUrlSelect = ({ onAddLink }: LinkUrlSelectProps) => {
 
-  const [url, setUrl] = useState()
-  const [button_text, setButtonUrl] = useState()
-  const [validUrl, setValidUrl] = useState()
+  const [url, setUrl] = useState();
+  const [buttonText, setButtonUrl] = useState();
+  const [validUrl, setValidUrl] = useState();
 
   return (
     <>
       <InputWithLabel
         onChange={(e: { target: { value: (prevState: undefined) => undefined; }; }) => setButtonUrl(e.target.value)}
         label="Button Text"
-        value={button_text}
-        name="button_text"
+        value={buttonText}
+        name="buttonText"
         placeholder="Enter Button Text..."
         type="text"
       />
@@ -31,9 +31,10 @@ export const LinkUrlSelect = ({ onAddLink }: LinkUrlSelectProps) => {
         placeholder="Enter URL..."
         type="url"
       />
-      {url && ( <LinkPreview setValidUrl={setValidUrl} url={url} /> )}
+
+      {url && (<LinkPreview setValidUrl={setValidUrl} url={url} />)}
       <div className="flex justify-end">
-        <Button className="ml-2" disabled={!(validUrl && button_text)} onClick={() => onAddLink(validUrl, button_text) }>Add Link</Button>
+        <Button className="ml-2" disabled={!(validUrl && buttonText)} onClick={() => onAddLink(validUrl, buttonText)}>Add Link</Button>
       </div>
     </>
   );

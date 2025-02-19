@@ -23,27 +23,27 @@ const AdminCoursesEdit = () => {
       isSlimNav: true,
       showSecondaryNav: false,
     })
-  },[])
-  
+  }, [])
+
   const previewCourse = () => {
     router.push({
       pathname: `/course`,
       query: {
         id,
-        ...(contentId && {cid: contentId})
+        ...(contentId && { cid: contentId })
       }
     })
   }
 
   useHeaderButtons({
     id: 'viewCourse',
-    order:8,
+    order: 8,
     component: <Button onClick={previewCourse}>View course</Button>
   })
-  
+
   return (
     <>
-      { course ?
+      {course ?
         <CourseEditor /> :
         <LoadingSpinner className='mt-12' text="Loading your course" />
       }
@@ -56,7 +56,7 @@ AdminCoursesEdit.navState = {
   secondary: 'courses'
 }
 
-AdminCoursesEdit.getLayout = page => (
+AdminCoursesEdit.getLayout = (page: any) => (
   <EditorLayout
     navState={AdminCoursesEdit.navState || {}}
     page={page}

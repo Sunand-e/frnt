@@ -35,15 +35,9 @@ import PlaceholderBlockEdit from './blocks/ColumnsBlock/PlaceholderBlockEdit'
 import AccordionBlockEdit from './blocks/AccordionBlock/AccordionBlockEdit'
 import LineDividerBlockEdit from './blocks/LineDividerBlock/LineDividerBlockEdit'
 
-import TextSettings from './blocks/TextBlock/TextSettings'
-import HeadingSettings from './blocks/HeadingBlock/HeadingSettings'
+import DefaultSettings from './blocks/DefaultSettings'
 import ImageSettings from './blocks/ImageBlock/ImageSettings'
-import VideoSettings from './blocks/VideoBlock/VideoSettings'
-import AudioSettings from './blocks/AudioBlock/AudioSettings'
-import DocumentSettings from './blocks/DocumentBlock/DocumentSettings'
-import ColumnsSettings from './blocks/ColumnsBlock/ColumnsSettings'
 import PlaceholderSettings from './blocks/ColumnsBlock/PlaceholderSettings'
-import AccordionSettings from './blocks/AccordionBlock/AccordionSettings'
 import LineDividerSettings from './blocks/LineDividerBlock/LineDividerSettings'
 
 import AddColumn from './Icons/AddColumn';
@@ -53,20 +47,15 @@ import QuestionSettings from './blocks/QuestionBlock/QuestionSettings'
 import QuestionBlock from './blocks/QuestionBlock/QuestionBlock'
 import TabsBlock from './blocks/TabsBlock/TabsBlock'
 import TabsBlockEdit from './blocks/TabsBlock/TabsBlockEdit'
-import { TabsSettings } from './blocks/TabsBlock/TabsSettings'
 import CarouselBlock from './blocks/CarouselBlock/CarouselBlock'
 import CarouselBlockEdit from './blocks/CarouselBlock/CarouselBlockEdit'
-import { CarouselSettings } from './blocks/CarouselBlock/CarouselBlockSettings'
 import TextAndImageBlock from './blocks/TextAndImageBlock/TextAndImageBlock'
 import TextAndImageBlockEdit from './blocks/TextAndImageBlock/TextAndImageBlockEdit'
 import TextAndImageSettings from './blocks/TextAndImageBlock/TextAndImageSettings'
 import TextOnImageBlock from './blocks/TextOnImageBlock/TextOnImageBlock'
 import TextOnImageBlockEdit from './blocks/TextOnImageBlock/TextOnImageBlockEdit'
-import TextOnImageSettings from './blocks/TextOnImageBlock/TextOnImageSettings'
 import LinkBlock from './blocks/LinkBlock/LinkBlock'
 import LinkBlockEdit from './blocks/LinkBlock/LinkBlockEdit'
-import LinkSettings from './blocks/LinkBlock/LinkSettings'
-
 
 export type BlockType = {
   name: string,
@@ -92,7 +81,7 @@ const blocktypes: BlockTypes = {
     text: 'Heading',
     component: HeadingBlock,
     editComponent: HeadingBlockEdit,
-    settingsComponent: HeadingSettings,
+    settingsComponent: DefaultSettings,
     icon: Heading,
     defaultProperties: {
       properties: {
@@ -105,7 +94,7 @@ const blocktypes: BlockTypes = {
     text: 'Drag',
     component: Spacer,
     editComponent: Spacer,
-    settingsComponent: TextSettings,
+    settingsComponent: DefaultSettings,
     icon: TextT,
     hideFromSelector: true
   },
@@ -114,7 +103,7 @@ const blocktypes: BlockTypes = {
     text: 'Text',
     component: TextBlock,
     editComponent: TextBlockEdit,
-    settingsComponent: TextSettings,
+    settingsComponent: DefaultSettings,
     icon: TextT
   },
   textOnImage: {
@@ -124,7 +113,7 @@ const blocktypes: BlockTypes = {
     alwaysHasBgImage: true,
     component: TextOnImageBlock,
     editComponent: TextOnImageBlockEdit,
-    settingsComponent: TextOnImageSettings,
+    settingsComponent: DefaultSettings,
     icon: Image,
   },
   'image': {
@@ -140,7 +129,7 @@ const blocktypes: BlockTypes = {
     name: 'video',
     component: VideoBlock,
     editComponent: VideoBlockEdit,
-    settingsComponent: VideoSettings,
+    settingsComponent: DefaultSettings,
     icon: Video,
   },
   audio: {
@@ -148,7 +137,7 @@ const blocktypes: BlockTypes = {
     name: 'audio',
     component: AudioBlock,
     editComponent: AudioBlockEdit,
-    settingsComponent: AudioSettings,
+    settingsComponent: DefaultSettings,
     icon: Speaker2,
   },
   document: {
@@ -156,7 +145,7 @@ const blocktypes: BlockTypes = {
     name: 'document',
     component: DocumentBlock,
     editComponent: DocumentBlockEdit,
-    settingsComponent: DocumentSettings,
+    settingsComponent: DefaultSettings,
     icon: Document,
   },
   question: {
@@ -172,7 +161,7 @@ const blocktypes: BlockTypes = {
     name: 'columns',
     component: ColumnsBlock,
     editComponent: ColumnsBlockEdit,
-    settingsComponent: ColumnsSettings,
+    settingsComponent: DefaultSettings,
     icon: Columns,
   },
   placeholder: {
@@ -201,7 +190,7 @@ const blocktypes: BlockTypes = {
     text: 'Accordion',
     component: AccordionBlock,
     editComponent: AccordionBlockEdit,
-    settingsComponent: AccordionSettings,
+    settingsComponent: DefaultSettings,
     icon: Expand
   },
   tabs: {
@@ -209,7 +198,7 @@ const blocktypes: BlockTypes = {
     text: 'Tabs',
     component: TabsBlock,
     editComponent: TabsBlockEdit,
-    settingsComponent: TabsSettings,
+    settingsComponent: DefaultSettings,
     icon: Tabs
   },
   carousel: {
@@ -217,7 +206,7 @@ const blocktypes: BlockTypes = {
     text: 'Carousel',
     component: CarouselBlock,
     editComponent: CarouselBlockEdit,
-    settingsComponent: CarouselSettings,
+    settingsComponent: DefaultSettings,
     icon: Carousel
   },
   linedivider: {
@@ -233,9 +222,9 @@ const blocktypes: BlockTypes = {
     name: 'link',
     component: LinkBlock,
     editComponent: LinkBlockEdit,
-    settingsComponent: LinkSettings,
+    settingsComponent: DefaultSettings,
     icon: Link
   }
 }
 
-export default blocktypes
+export default blocktypes;

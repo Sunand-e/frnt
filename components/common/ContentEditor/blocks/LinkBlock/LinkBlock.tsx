@@ -1,11 +1,13 @@
 
-import React, { useMemo, FunctionComponent } from 'react';
-import Editor from '../../../inputs/Editor';
+import React, { FunctionComponent } from 'react';
+import Link from './Link';
 
 interface LinkBlockProps {
   block: {
     properties: {
-      content: string;
+      buttonText: string;
+      url: string;
+      content: any;
     };
   };
 }
@@ -14,9 +16,12 @@ export const LinkBlock: FunctionComponent<LinkBlockProps> = ({ block }) => {
   const { properties } = block
 
   return (
-    <>
-      <Editor editable={false} content={properties?.content} editorClass={'my-2'} />
-    </>
+    <Link
+      buttonText={properties?.buttonText}
+      url={properties?.url}
+      editable={false}
+      content={properties?.content}
+    />
   );
 }
 

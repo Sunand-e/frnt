@@ -51,12 +51,12 @@ const BlockSelector = ({
     })
   }
 
-  const handleLinkSelect = (url: string, button_text: string) => {
+  const handleLinkSelect = (url: string, buttonText: string) => {
     const linkBlock = createBlock({
       type: 'link',
       properties: {
         url: url,
-        button_text: button_text
+        buttonText: buttonText,
       }
     });
     addBlock(linkBlock, replace, block);
