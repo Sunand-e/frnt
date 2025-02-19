@@ -43,7 +43,7 @@ export const LinkSettings: FunctionComponent<LinkBlockProps> = ({ block }) => {
         })}
       />
       <TextInput
-        label="Url"
+        label="URL"
         inputAttrs={register("url", {
         })}
         type="url"
