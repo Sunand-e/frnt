@@ -69,7 +69,7 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const visibleCount = table.getFilteredRowModel().rows.length
 
   const itemCountString = `Showing ${visibleCount}
-    ${visibleCount !== count ? `of ${count}` : ''}
+    ${count && visibleCount !== count ? `of ${count}` : ''}
     ${count === 1 ? typeName : pluralTypeName}
   `
 

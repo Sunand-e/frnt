@@ -1,10 +1,10 @@
-import { Column, ColumnDef, SortingState, Table } from "@tanstack/react-table";
+import { SortingState, Table } from "@tanstack/react-table";
 import { createStore, useStore } from 'zustand'
 import { createContext, createRef, MutableRefObject, ReactNode, useContext, useEffect, useMemo } from 'react'
 import { useRef } from 'react'
 
 export interface TableProps {
-  count?: number,
+  count: number,
   table?: Table<any>,
   globalFilter?: string,
   bulkActions?: Array<any>,
@@ -26,8 +26,8 @@ export interface TableProps {
   showTop?: boolean,
   showHeadersWhenLoading?: boolean,
   scrollContainerRef?: MutableRefObject<HTMLDivElement>
-  scrollInTable: boolean,
-  maxVisibleRows: number,
+  scrollInTable?: boolean,
+  maxVisibleRows?: number,
   dontShowTypes?: Array<string>,
   isExportable?: boolean,
   isLoading?: boolean,
@@ -68,7 +68,7 @@ type TableStore = ReturnType<typeof createTableStore>
 const createTableStore = (initProps?: Partial<TableProps>) => {
 
   const DEFAULT_PROPS: TableProps = {
-    count: 1,
+    count: null,
     table: null,
     globalFilter: null,
     bulkActions: [],

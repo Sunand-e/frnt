@@ -76,6 +76,7 @@ export interface GetUsers_users_edges {
 }
 
 export interface GetUsers_users {
+  totalCount: number;
   __typename: "UserConnection";
   /**
    * A list of edges.

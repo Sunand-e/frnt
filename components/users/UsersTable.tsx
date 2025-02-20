@@ -1,8 +1,5 @@
-import { useQuery } from '@apollo/client';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {useContext, useMemo } from 'react';
 import Table from '../common/tables/Table';
-import { GET_USERS, UserFragment } from '../../graphql/queries/users';
-import { GetUsers, GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import { User } from '@styled-icons/fa-solid/User';
 import UserActionsMenu from './UserActionsMenu';
@@ -20,8 +17,7 @@ import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 import { commonTableCols } from '../../utils/commonTableCols';
-import { useViewStore } from '../../hooks/useViewStore'; // Added hook for scroll management
-import { ITEMS_PER_PAGE } from '../../utils/constants';
+import useGetUsers from '../../hooks/users/useGetUsers';
 
 var advancedFormat = require('dayjs/plugin/advancedFormat');
 dayjs.extend(advancedFormat);
@@ -41,64 +37,22 @@ const UserStatusCell = ({
 );
 
 const UsersTable = () => {
-  const { loading, error, data: queryData, fetchMore } = useQuery<GetUsers>(GET_USERS, {
-    variables: { first: ITEMS_PER_PAGE, after: null },
-  });
+  const { users, loading } = useGetUsers({ pagination: true });
 
-  const tableData = useMemo<GetUsers_users_edges_node[]>(() => {
-    return queryData?.users?.edges
+  const tableData = useMemo(() => {
+    return users?.edges
       ?.map((edge) => edge.node)
       .filter((node) => !node._deleted)
       .sort((a, b) => ('' + a.fullName).localeCompare(b.fullName)) || [];
-  }, [queryData]);
+  }, [users]);
+
+  const count = users?.totalCount || 0
 
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled();
   const { userHasCapability } = useUserHasCapability();
   const tenant = useContext(TenantContext);
 
   const { isOrganisationLeader } = useIsOrganisationLeader();
-  const scrollableRef = useViewStore((state) => state.mainScrollableRef); // Use scrollableRef to manage scrolling
-
-  useEffect(() => {
-    if (!scrollableRef.current) {
-      return;
-    }
-
-    const handleScroll = () => {
-      if (
-        scrollableRef.current.scrollTop + scrollableRef.current.clientHeight >=
-        scrollableRef.current.scrollHeight - 10
-      ) {
-        if (!loading && queryData?.users?.pageInfo?.hasNextPage) {
-          fetchMore({
-            variables: {
-              after: queryData?.users?.pageInfo?.endCursor,
-            },
-            updateQuery: (prevResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult?.users) return prevResult;
-
-              return {
-                users: {
-                  ...fetchMoreResult.users,
-                  edges: [
-                    ...prevResult.users.edges,
-                    ...fetchMoreResult.users.edges,
-                  ],
-                  pageInfo: fetchMoreResult.users.pageInfo,
-                },
-              };
-            },
-          }).catch((error) => console.error("FetchMore Error:", error));
-        }
-      }
-    };
-
-    scrollableRef.current.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      scrollableRef.current?.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollableRef, loading, queryData?.users?.pageInfo?.hasNextPage, fetchMore]);
 
   const editUrl = '/admin/users/edit';
 
@@ -232,6 +186,7 @@ const UsersTable = () => {
   ];
 
   const tableProps = {
+    count,
     tableData,
     tableCols,
     bulkActions,
