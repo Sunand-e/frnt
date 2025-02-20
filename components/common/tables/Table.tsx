@@ -46,8 +46,9 @@ const Table = () => {
   const itemType = useTableContext(s => s.itemType)
   const contentType = useTableContext(s => s.contentType)
   const setContentType = useTableContext(s => s.setContentType)
-  const setItemType = useTableContext(s => s.setItemType)
-
+  
+  const remote = useTableContext(s => s.remote)
+  const reLoad = useTableContext(s => s.reLoad)
   const filters = useTableContext(s => s.filters)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderableActive)
@@ -59,7 +60,6 @@ const Table = () => {
   
   const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
 
-
   const router = useRouter()
   const { ctype } = router.query
 
@@ -68,9 +68,8 @@ const Table = () => {
   },[ctype])
 
 
-  const handleRowSelectionChange = (updater) => store.setState(state => ({
+  const handleRowSelectionChange = (updater: any) => store.setState(state => ({
     rowSelection: typeof updater === 'function' ? updater(state.rowSelection) : updater,
-    // selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
   }))
 
   useEffect(() => {
@@ -154,42 +153,50 @@ const Table = () => {
   const memoedData = useMemo(() => {
     let data = tableData;
     
-    if(!!itemType && !['group', 'user'].includes(itemType)) {
-      data = data.filter(item => (
-        item.itemType === itemType
-        || item.node?.itemType === itemType
-      ))
+    if (remote) {
+      return tableData;
     }
+    else{
+      if(!!itemType && !['group', 'user'].includes(itemType)) {
+        data = data.filter(item => (
+          item.itemType === itemType
+          || item.node?.itemType === itemType
+        ))
+      }
+      
+      if(contentType) {
+        data = data.filter(item => (
+          item.contentType === contentType
+          || item.node?.contentType === contentType
+        ))
+      }
+  
+      if(categoryId) {
+        data = data?.filter(item => {
+          return item?.tags?.edges.some(({node}) => node.id === categoryId)
+        })
+      }
+  
+      if(collectionId) {
+        data = data?.filter(item => {
+          return item?.tags?.edges.some(({node}) => node.id === collectionId)
+        })
+      }
+      return data;
+    }
+  },[tableData, categoryId, collectionId, itemType, contentType, remote])
+
+  const globalFilterFn = (row: any, columnId: string, filterValue: string) => {
+    if (remote) {
+      return true;
+    }else{
+      const search = filterValue.toLowerCase();
     
-    if(contentType) {
-      data = data.filter(item => (
-        item.contentType === contentType
-        || item.node?.contentType === contentType
-      ))
+      let value = row.getValue(columnId) as string;
+      if (typeof value === 'number') value = String(value);
+    
+      return value?.toLowerCase().includes(search);
     }
-
-    if(categoryId) {
-      data = data?.filter(item => {
-        return item?.tags?.edges.some(({node}) => node.id === categoryId)
-      })
-    }
-
-    if(collectionId) {
-      data = data?.filter(item => {
-        return item?.tags?.edges.some(({node}) => node.id === collectionId)
-      })
-    }
-    return data
-  },[tableData, categoryId, collectionId, itemType, contentType])
-
-  // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
-  const globalFilterFn = (row, columnId, filterValue: string) => {
-    const search = filterValue.toLowerCase();
-  
-    let value = row.getValue(columnId) as string;
-    if (typeof value === 'number') value = String(value);
-  
-    return value?.toLowerCase().includes(search);
   };
 
   const table: TableType<any> = useReactTable({
@@ -202,7 +209,7 @@ const Table = () => {
       globalFilter
     },
     globalFilterFn,
-    columns, 
+    columns,
     data: memoedData,
     onSortingChange: updater => store.setState(prevState => ({
       sorting: typeof updater === 'function' ? updater(prevState.sorting) : updater
@@ -217,7 +224,7 @@ const Table = () => {
 
 
   useEffect(() => {
-    // onFilterChange && onFilterChange(categoryId, globalFilter)
+    remote && reLoad && reLoad(categoryId, collectionId, globalFilter, sorting);
     if(isReorderable) {
       if(globalFilter || categoryId || collectionId || sorting?.length) {
         store.setState(state => ({ isReorderableActive: false }))

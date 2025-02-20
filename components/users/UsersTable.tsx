@@ -21,6 +21,7 @@ import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled
 import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 import { commonTableCols } from '../../utils/commonTableCols';
 import { useViewStore } from '../../hooks/useViewStore'; // Added hook for scroll management
+import { ITEMS_PER_PAGE } from '../../utils/constants';
 
 var advancedFormat = require('dayjs/plugin/advancedFormat');
 dayjs.extend(advancedFormat);
@@ -41,9 +42,7 @@ const UserStatusCell = ({
 
 const UsersTable = () => {
   const { loading, error, data: queryData, fetchMore } = useQuery<GetUsers>(GET_USERS, {
-    variables: { first: 20, after: null },
-  // https://github.com/tannerlinsley/react-table/issues/1994
-
+    variables: { first: ITEMS_PER_PAGE, after: null },
   });
 
   const tableData = useMemo<GetUsers_users_edges_node[]>(() => {

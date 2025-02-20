@@ -3,10 +3,12 @@ import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { useEffect } from "react";
 import { useViewStore } from "../../hooks/useViewStore";
+import { ITEMS_PER_PAGE } from "../../utils/constants";
+import { SortingState } from "@tanstack/react-table";
 
 function useGetCourses({ pagination = false } = {}) {
-  const { loading, error, data, fetchMore } = useQuery<GetCourses>(GET_COURSES, {
-    variables: pagination ? { first: 20, after: null } : {},
+  const { loading, error, data, fetchMore, refetch } = useQuery<GetCourses>(GET_COURSES, {
+    variables: pagination ? { first: ITEMS_PER_PAGE, after: null } : {},
   });
 
   const loadMore = () => {
@@ -26,6 +28,12 @@ function useGetCourses({ pagination = false } = {}) {
         },
       }).catch(error => console.error("FetchMore Error:", error));
     }
+  };
+
+  const reLoad = (categoryId: string, collectionId: string, globalFilter: string, sorting: SortingState) => {
+    refetch({
+      variables: pagination ? { after: null } : {},
+    }).catch(error => console.error("refetch Error:", error));
   };
 
   const scrollableRef = useViewStore((state) => state.mainScrollableRef);
@@ -55,7 +63,8 @@ function useGetCourses({ pagination = false } = {}) {
     courses: data?.courses,
     loading,
     error,
-    loadMore
+    loadMore,
+    reLoad
   };
 }
 

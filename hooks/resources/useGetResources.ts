@@ -3,10 +3,11 @@ import { GET_RESOURCES } from "../../graphql/queries/allQueries";
 import { GetResources } from "../../graphql/queries/__generated__/GetResources";
 import { useViewStore } from '../../hooks/useViewStore';
 import { useEffect } from 'react';
+import { ITEMS_PER_PAGE } from "../../utils/constants";
 
 function useGetResources({ pagination = false } = {}) {
   const { loading, error, data, fetchMore } = useQuery<GetResources>(GET_RESOURCES, {
-    variables: pagination ? { first: 20, after: null } : {}, // Initial fetch of 20 resources
+    variables: pagination ? { first: ITEMS_PER_PAGE, after: null } : {},
   });
 
   const loadMore = () => {

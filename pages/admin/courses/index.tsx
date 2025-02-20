@@ -36,12 +36,6 @@ const AdminCourses = () => {
     }
   },[ready])
 
-
-  // useHeaderButtons(
-    // <ButtonAdd action='/admin/courses/create' text='Create new course' />
-  // )
-
-
   return (
     <>
       <Notices />
@@ -50,11 +44,9 @@ const AdminCourses = () => {
   )
 }
 
-
-
 AdminCourses.navState = {
   topLevel: 'courses',
   secondary: 'courses'
 }
 
-export default AdminCourses
+export default AdminCourses;

@@ -36,11 +36,12 @@ export interface TableProps {
   isSelectable?: boolean,
   isReportingTable?: boolean,
   loadingText?: ReactNode,
+  remote?: boolean,
+  reLoad?: (categoryId: string, collectionId: string, globalFilter: string, sorting: SortingState) => void | null,
   getReorderableItemIdFromRow?: (row: any) => string,
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,
   onReorder?: (active: any, over: any, newIndex: number, oldIndex: number) => void | null,
-  onFilterChange?: (categoryId: string, collectionId: string, globalFilter: string) => void | null,
 }
 
 interface TableState extends TableProps {
@@ -96,9 +97,9 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     maxVisibleRows: 5,
     exportFilename: 'export',
     backButton: null,
-    onFilterChange: null,
     scrollContainerRef: createRef(),
-
+    remote: false,
+    reLoad: null,
     onRowClick: () => false,
     onRowSelect: (selection) => false,
     onReorder: null,

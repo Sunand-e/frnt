@@ -20,7 +20,27 @@ const ContentIdAndOrderFragment = gql`
     _deleted @client
   }
 `
-const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}}) => {
+interface ContentTableProps<T> {
+  content: any;
+  type: any;
+  loading: boolean;
+  error?: any;
+  ActionsMenuComponent?: any;
+  tableProps?: any;
+  remote?: boolean;
+  reLoad?: any;
+}
+
+const ContentTable = <T,>({
+  content,
+  type,
+  loading,
+  error,
+  ActionsMenuComponent,
+  tableProps = {},
+  remote = false,
+  reLoad,
+}: ContentTableProps<T>) => {
 
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
@@ -28,8 +48,6 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 
   const { userHasCapability } = useUserHasCapability()
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
       return content?.edges?.map(edge => edge.node).filter(node  => {
@@ -197,7 +215,8 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
     typeOptions: tableProps.typeOptions || {},
     onReorder: handleReorder,
     filters: tableProps.filters ?? ['category', 'global'],
-    // onFilterChange: handleFilterChange
+    remote: remote,
+    reLoad: reLoad
   }
 
   if(error) {
@@ -208,4 +227,4 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 }
 
 // ContentTable.whyDidYouRender = true
-export default ContentTable
+export default ContentTable;

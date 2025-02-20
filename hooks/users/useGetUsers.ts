@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/users";
 import { GetUsers } from "../../graphql/queries/__generated__/GetUsers";
+import { ITEMS_PER_PAGE } from "../../utils/constants";
 
 function useGetUsers() {
   const { loading, error, data, fetchMore, refetch } = useQuery<GetUsers>(GET_USERS, {
-    variables: { first: 20, after: null }, // Load first 20 users
+    variables: { first: ITEMS_PER_PAGE, after: null },
   });
 
   const loadMore = () => {
@@ -31,8 +32,7 @@ function useGetUsers() {
     loading,
     error,
     loadMore,
-    refetchUsers: refetch,  // Expose refetch for external use
-    hasMore: data?.users?.pageInfo?.hasNextPage || false,
+    refetchUsers: refetch
   };
 }
 

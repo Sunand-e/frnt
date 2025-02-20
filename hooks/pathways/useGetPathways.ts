@@ -3,10 +3,11 @@ import { GET_PATHWAYS } from "../../graphql/queries/allQueries";
 import { GetPathways } from "../../graphql/queries/__generated__/GetPathways";
 import { useViewStore } from '../../hooks/useViewStore';
 import { useEffect } from 'react';
+import { ITEMS_PER_PAGE } from "../../utils/constants";
 
 function useGetPathways({ pagination = false } = {}) {
   const { loading, error, data, fetchMore } = useQuery<GetPathways>(GET_PATHWAYS, {
-    variables: pagination ? { first: 20, after: null } : {},
+    variables: pagination ? { first: ITEMS_PER_PAGE, after: null } : {},
   });
 
   const loadMore = () => {
