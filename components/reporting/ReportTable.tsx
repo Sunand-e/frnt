@@ -4,118 +4,137 @@ import {
   getSortedRowModel,
   SortingState,
   ColumnDef,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dot } from "../common/misc/Dot";
 import Button from "../common/Button";
 import exportToCsv from "../../utils/exportToCsv";
-import TableStructure from "../common/tables/TableStructure";
+import Table from "../common/tables/Table";
 import { useRouter } from "../../utils/router";
 import ReportHeader from "./ReportHeader";
-import {FileExport} from "@styled-icons/boxicons-solid/FileExport"
-import ReportFilters from "./ReportFilters";
-import Table from '../common/tables/Table';
-import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
+import useIsOrganisationLeader from "../../hooks/users/useIsOrganisationLeader";
+import useGetReports from "../../hooks/reports/useGetReports";
 
-export const filterActive = (filterVal: string) => {
-  return filterVal && filterVal !== 'all'
-}
+export const filterActive = (filterVal: string | undefined | null) => {
+  return filterVal && filterVal !== "all";
+};
 
-export const statusAccessor = (row) => {
-  let map = new Map([
-    ["not_started", 'Not started'],
-    ["in_progress", 'In progress'],
-    ["completed", 'Completed'],
+export const statusAccessor = (row: { status?: string }) => {
+  const statusMap = new Map([
+    ["not_started", "Not started"],
+    ["in_progress", "In progress"],
+    ["completed", "Completed"],
   ]);
-  return map.get(row.status) || 'Not started'
-}
+  return statusMap.get(row.status || "") || "Not started";
+};
 
 interface ReportTableProps {
-  tableData: any,
-  tableCols: ColumnDef<unknown, any>[],
-  loadingText?: string,
-  errorText?: string,
-  simpleHeader?: boolean,
-  loading?: any,
-  error?: any,
-  exportFilename: string,
-  title?: ReactNode,
-  filters?: string[],
-  backButton?: ReactNode
+  loadingText?: string;
+  errorText?: string;
+  simpleHeader?: boolean;
+  exportFilename: string;
+  title?: ReactNode;
+  filters?: string[];
+  backButton?: ReactNode;
+  tableCols: ColumnDef<any>[];
+  tableData: any[];
+  loading: boolean;
+  error: boolean;
 }
 
 const ReportTable = ({
-  tableData,
-  tableCols,
   loadingText = "Loading...",
   errorText = "Unable to fetch report.",
-  simpleHeader=false,
-  loading = null,
-  error = null,
+  simpleHeader = false,
   exportFilename = "report",
   title = <>Reports</>,
   filters = [],
   backButton,
+  tableCols = [],
+  tableData = [],
+  loading,
+  error,
 }: ReportTableProps) => {
-  // const [categoryId, setCategoryId] = useState(null);
-  // const [groupId, setGroupId] = useState(null);
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
+  const router = useRouter();
+  const { reports, loadMore } = useGetReports();
+  const hasNextPage = reports?.pageInfo?.hasNextPage ?? false;
+  const { isOrganisationLeader } = useIsOrganisationLeader();
 
-  const router = useRouter()
+  const categoryId = useMemo(() => {
+    const category = router.query.category;
+    return Array.isArray(category) ? category[0] : category || null;
+  }, [router.query]);
 
-  const { 
-    category: categoryId
-  } = router.query
-  
-  const filterActive = (filterVal: string) => {
-    return filterVal && filterVal !== 'all'
-  }
 
-  const [ filteredData, setFilteredData ] = useState([])
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  const { isOrganisationLeader } = useIsOrganisationLeader()
-  // if the user is an organisation leader, remove 'group' from the filters array
-  let filteredFilters = filters
-  if (isOrganisationLeader) {
-    filteredFilters = filters.filter(f => f !== 'group')
-  }
+  const filteredData = useMemo(() => {
+    if (filterActive(categoryId)) {
+      return tableData?.filter((edge) =>
+        edge.node.tags.edges.some(({ node }) => node.id === categoryId)
+      );
+    }
+    return tableData || [];
+  }, [tableData, categoryId]);
+
+  const filteredFilters = useMemo(
+    () => (isOrganisationLeader ? filters.filter((f) => f !== "group") : filters),
+    [filters, isOrganisationLeader]
+  );
+
 
 
   useEffect(() => {
-    let data
-    if (filterActive(categoryId)) {
-      data = tableData?.filter((edge) => {
-        return edge.node.tags.edges.some(({node}) => node.id === categoryId);
-      });
-    }
-    data = tableData || []
-    setFilteredData(data)
-  },[tableData, categoryId])
+    const handleScroll = () => {
+      if (hasNextPage && !loading && window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+        loadMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasNextPage, loading, loadMore]);
+
   return (
     <>
-      <ReportHeader
-        simple={simpleHeader}
-        title={title}
-      />
+      <ReportHeader simple={simpleHeader} title={typeof title === "string" ? title : "Reports"} />
 
-      {loading && (
-        <LoadingSpinner
-          text={loadingText} />
-      )}
+      {loading && <LoadingSpinner text={loadingText} />}
       {error && <p>{errorText}</p>}
-      {!loading && !error && (
-        <Table
-          exportFilename={exportFilename}
-          isReportingTable={true}
-          isExportable={true}
-          showTop={false}
-          tableCols={tableCols}
-          tableData={filteredData}
-          filters={filteredFilters}
-          backButton={backButton}
-        />
+
+      {!loading && !error && filteredData.length === 0 && <p>No reports available.</p>}
+
+      {!loading && !error && filteredData.length > 0 && (
+        <>
+          <Table
+            exportFilename={exportFilename}
+            isReportingTable={true}
+            isExportable={true}
+            showTop={false}
+            tableCols={tableCols}
+            tableData={filteredData}
+            filters={filteredFilters}
+            backButton={backButton}
+            scrollInTable={false}
+          />
+
+          {hasNextPage && <LoadingSpinner text="Loading more..." />}
+
+          {hasNextPage && (
+            <button
+              onClick={loadMore}
+              style={{
+                margin: "20px auto",
+                display: "block",
+                padding: "10px",
+                cursor: "pointer",
+              }}
+            >
+              Load More
+            </button>
+          )}
+        </>
       )}
     </>
   );
