@@ -1,12 +1,8 @@
-import Tippy from "@tippyjs/react"
 import { useState } from "react";
-import { useController } from "react-hook-form";
-// import { ColorPicker as ColorPickerIcon } from "@styled-icons/evaicons-solid/ColorPicker"
 import { ColorPicker as ColorPickerIcon } from "css.gg/icons/tsx/ColorPicker"
 
 import {
   ColorPicker,
-  ColorPickerArea,
   ColorPickerAreaGradient,
   ColorPickerAreaThumb,
   ColorPickerChannelInput,
@@ -20,27 +16,26 @@ import {
   ColorPickerSwatchGroup,
 } from '@ark-ui/react/color-picker'
 
-const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
+const ColorPickerControl = ({ color, onChange, showAlpha = false }) => {
 
   const [swatches, setSwatches] = useState([])
-  const handleChange = ({value}) => {
+  const handleChange = ({ value }) => {
     onChange(value)
   }
-  
+
   return (
     <ColorPicker defaultValue={'hsla(0, 0%, 0%, 1)'} onChange={handleChange}>
       {(api) => {
         api.setFormat('hsla')
         const [hue, saturation, lightness] = api.channels
-        console.log(saturation, lightness)
         return (
           <ColorPickerContent className="rounded-lg w-[266px] mb-1">
             <output>
               <ColorPickerSwatch value={api.value} readOnly />
             </output>
             <ColorPicker.Area xChannel={saturation} yChannel={lightness} className="h-[266px]">
-              <ColorPickerAreaGradient className="h-full"/>
-              <ColorPickerAreaThumb 
+              <ColorPickerAreaGradient className="h-full" />
+              <ColorPickerAreaThumb
                 className="h-4 w-4"
                 style={{
                   borderRadius: '100%',
@@ -53,8 +48,8 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
             </ColorPicker.Area>
             <div className="flex flex-col space-y-2 pt-4 overflow-visible">
               <div className="flex space-x-4  overflow-visible">
-                <ColorPickerEyeDropperTrigger><ColorPickerIcon className="w-8"/></ColorPickerEyeDropperTrigger>
-                
+                <ColorPickerEyeDropperTrigger><ColorPickerIcon className="w-8" /></ColorPickerEyeDropperTrigger>
+
                 <div className="flex flex-col space-y-4 w-full">
                   <ColorPickerChannelSliderTrack channel={hue} className="h-3 rounded-full w-full">
                     <ColorPickerChannelSliderBackground className="rounded-full" />
@@ -69,10 +64,10 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                       }}
                     />
                   </ColorPickerChannelSliderTrack>
-                  { showAlpha && (
+                  {showAlpha && (
                     <ColorPickerChannelSliderTrack channel="alpha" className="h-3 rounded-full">
                       <ColorPickerChannelSliderBackground className="rounded-full" />
-                      <ColorPickerChannelSliderThumb 
+                      <ColorPickerChannelSliderThumb
                         className="h-3 w-3"
                         style={{
                           borderRadius: '100%',
@@ -92,9 +87,9 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                   <ColorPickerChannelInput
                     className={`px-3 p-1.5 block text-center w-full rounded-md border-gray-300 hover:border-gray-400/60 shadow-sm focus:border-main focus:ring focus:ring-main/50`}
                     channel="hex"
-                    />
+                  />
                 </label>
-                { showAlpha && (
+                {showAlpha && (
                   <label className="flex flex-col items-center">
                     <span>Alpha</span>
                     <ColorPickerChannelInput
@@ -105,7 +100,7 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                 )}
               </div>
             </div>
-            { !!swatches.length && (
+            {!!swatches.length && (
               <ColorPickerSwatchGroup>
                 <ColorPickerSwatch value="#123123">
                   <ColorPickerSwatchBackground />
@@ -114,12 +109,12 @@ const ColorPickerControl = ({color, onChange, showAlpha=false}) => {
                   <ColorPickerSwatchBackground />
                 </ColorPickerSwatch>
               </ColorPickerSwatchGroup>
-            )}    
+            )}
           </ColorPickerContent>
         )
       }}
     </ColorPicker>
   )
-} 
+}
 
 export default ColorPickerControl

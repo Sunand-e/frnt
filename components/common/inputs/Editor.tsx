@@ -23,7 +23,7 @@ const OneLiner = Node.create({
 const Editor = ({
   autofocus=false,
   editable=true,
-  onUpdate=(instance) => null,
+  onUpdate=(instance: any) => {},
   onMenuHidden=null,
   onMenuShow=null,
   isHeading=false,
@@ -41,7 +41,7 @@ const Editor = ({
         class: classNames(
           editorClass,
           isHeading ? 'prose-lg lg:prose-xl prose-p:text-[1.9rem]' : 'prose-sm lg:prose-md',
-          'rounded-md prose max-w-none dark:prose-invert sm:prose-base focus:outline-none',
+          'rounded-md max-w-none dark:prose-invert sm:prose-base focus:outline-none',
         ),
       },
     },
@@ -101,17 +101,6 @@ const Editor = ({
         <MenuBar editor={editor} isHeading={isHeading} />
         </BubbleMenu>
       )}
-      {/* <AnimatePresence>
-        { isEditable && editor && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            <MenuBar editor={editor} />
-          </motion.div>
-        )}
-      </AnimatePresence> */}
       <EditorContent className="editor__content" editor={editor} />
     </div>
   )
