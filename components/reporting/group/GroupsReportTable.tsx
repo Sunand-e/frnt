@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import Table from '../../common/tables/Table';
 import { GET_GROUPS } from '../../../graphql/queries/groups';
 import { GetGroups } from '../../../graphql/queries/__generated__/GetGroups';
 import ButtonLink from '../../common/ButtonLink';
-import {Group2} from "@styled-icons/remix-fill/Group2"
+import { Group2 } from "@styled-icons/remix-fill/Group2"
 import ItemWithImage from '../../common/cells/ItemWithImage';
 import dayjs from 'dayjs'
 import { useRouter } from '../../../utils/router';
@@ -19,8 +18,6 @@ const GroupsReportTable = () => {
 
   const router = useRouter()
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
       return queryData?.groups?.edges?.map(edge => edge.node).filter(node => !node._deleted) || []
@@ -38,15 +35,15 @@ const GroupsReportTable = () => {
           const cellProps = {
             image: cell.row.original.image,
             title: cell.getValue(),
-            icon: <Group2 className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-80" />,
+            icon: <Group2 className="p-1" />,
             secondary: `${userCount} user${userCount !== 1 ? 's' : ''}`,
           }
           return (
-            <ItemWithImage { ...cellProps } />
-            )
-          }
-        },
-        {
+            <ItemWithImage {...cellProps} />
+          )
+        }
+      },
+      {
         id: "createdAt",
         header: "Date Created",
         accessorKey: "createdAt",
@@ -57,7 +54,7 @@ const GroupsReportTable = () => {
       {
         id: "enrolled",
         header: "Enrolled Courses",
-        accessorFn: row => row.assignedCourses.totalCount,
+        accessorFn: (row: any) => row.assignedCourses.totalCount,
       },
       {
         ...commonTableCols.actions,

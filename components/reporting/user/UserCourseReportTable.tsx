@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { useRouter } from "../../../utils/router";
@@ -22,8 +22,8 @@ const UserCourseReportTable = () => {
     }
   );
   const course = data?.user.courses.edges[0]?.node
-  const orderedIds = course?.sections.reduce((arr, section) => {
-    return [...arr, ...section.children.map(child => child.id)]
+  const orderedIds = course?.sections.reduce((arr: any, section: any) => {
+    return [...arr, ...section.children.map((child: any) => child.id)]
   }, []);
 
   const modules = data && [
@@ -31,25 +31,23 @@ const UserCourseReportTable = () => {
     ...(data?.user.quizzes.edges ? data.user.quizzes.edges : []),
   ]
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => modules ? (
     modules.sort((a, b) => orderedIds.indexOf(a.node.id) - orderedIds.indexOf(b.node.id))
   ) : [], [modules]);
-  
+
   const tableCols = useMemo(
     () => [
       {
         id: "title",
         header: "Course module",
-        accessorFn: row => row.node.title,
+        accessorFn: (row: any) => row.node.title,
         cell: ({ cell }) => {
           const module = cell.row.original.node
-          const moduleTypeName = module?.itemType === 'quiz' ? 
+          const moduleTypeName = module?.itemType === 'quiz' ?
             'quiz'
             : module?.contentType
 
-          const moduleType = moduleTypes[moduleTypeName] 
+          const moduleType = moduleTypes[moduleTypeName]
           const title = module ? (module.title || `Untitled ${moduleType?.label}`) : ''
           const IconComponent =
             moduleTypes[moduleTypeName]?.icon || null;
@@ -70,7 +68,7 @@ const UserCourseReportTable = () => {
         header: "Score",
         accessorKey: "score",
         cell: ({ cell }) => {
-          if(cell.row.original.status !== 'not_started' &&
+          if (cell.row.original.status !== 'not_started' &&
             cell.row.original.status !== null && (
               cell.row.original.node.itemType === 'quiz' ||
               cell.row.original.node.contentType === 'scorm_assessment'
@@ -84,18 +82,6 @@ const UserCourseReportTable = () => {
       },
       commonTableCols.firstVisited,
       commonTableCols.lastVisited,
-
-      // "visits": null,
-      // "completed": null
-      // {
-      //   header: "Roles",
-      //   accessorFn: row => row.roles[0].name, // accessor is the key in the data
-      //   cell: ({ cell }) => {
-      //     return cell.row.original.roles.map(role => {
-      //       return role.name
-      //     }).join(', ')
-      //   }
-      // },
       {
         id: "actions",
         header: "",
@@ -121,24 +107,25 @@ const UserCourseReportTable = () => {
     ],
     []
   );
-  
+
   const courseNode = data?.user?.courses?.edges?.[0]?.node;
-  
+
   return (
     <>
       <ReportTable
-      simpleHeader={true}
-      title={(
-        <>
-          <span className="font-semibold">Progress report </span>
-          <span className="font-normal">for user: </span>
-          <span className="font-semibold">{data?.user?.fullName} </span>
-          <span className="font-normal">in course: </span>
-          <span className="font-semibold">
-            {courseNode?.title}
-          </span>
-        </>
-      )}
+        simpleHeader={true}
+        title={(
+          <>
+            <span className="font-semibold">Progress report </span>
+            <span className="font-normal">for user: </span>
+            <span className="font-semibold">{data?.user?.fullName} </span>
+            <span className="font-normal">in course: </span>
+            <span className="font-semibold">
+              {courseNode?.title}
+            </span>
+          </>
+        )}
+        exportFilename={`User lessons for user ${data?.user?.fullName} in course ${courseNode?.title}`}
         tableData={tableData}
         tableCols={tableCols}
         loadingText="Loading lessons"

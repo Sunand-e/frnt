@@ -8,6 +8,7 @@ import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
 import useGetCoursesReport from "../../../hooks/reports/useGetCoursesReport";
 import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
+import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap"
 
 const CoursesReportTable = () => {
   const { courses, loading, error } = useGetCoursesReport({ pagination: true });
@@ -82,7 +83,6 @@ const CoursesReportTable = () => {
             secondary: cell.row.original.node.tags.edges
               ?.map(({ node }) => node.label)
               .join(", "),
-            // secondary: cell.row.original.node.title,
             href: cell.row.original.node.id && {
               query: {
                 ...router.query,
@@ -90,6 +90,7 @@ const CoursesReportTable = () => {
                 type: 'user',
               },
             },
+            icon: (<GraduationCap className="p-1" />)
           };
           return <ItemWithImage {...cellProps} />;
         },

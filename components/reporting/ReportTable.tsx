@@ -27,7 +27,7 @@ interface ReportTableProps {
   simpleHeader?: boolean,
   loading?: any,
   error?: any,
-  exportFilename: string,
+  exportFilename?: string,
   title?: ReactNode,
   filters?: string[],
   backButton?: ReactNode
@@ -52,10 +52,6 @@ const ReportTable = ({
   const {
     category: categoryId
   } = router.query
-
-  const filterActive = (filterVal: string) => {
-    return filterVal && filterVal !== 'all'
-  }
 
   const [filteredData, setFilteredData] = useState([])
 

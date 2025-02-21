@@ -1,4 +1,3 @@
-// import { useRouter } from '../../utils/router';
 import { useRouter } from 'next/router';
 import GroupSelect from "../groups/inputs/GroupSelect";
 import TagSelect from "../tags/inputs/TagSelect";
@@ -7,17 +6,16 @@ import UserSelect from "../users/inputs/UserSelect";
 import useGetGroups from '../../hooks/groups/useGetGroups';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 
-const ReportFilters = ({filters=[]}) => {
+const ReportFilters = ({ filters = [] }) => {
 
   const router = useRouter()
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { groups } = useGetGroups();
 
-  const { 
-    user: userId, 
-    group: groupId, 
-    course: courseId, 
-    lesson: lessonId, 
+  const {
+    user: userId,
+    group: groupId,
+    course: courseId,
     category: categoryId,
   } = router.query
 
@@ -25,33 +23,21 @@ const ReportFilters = ({filters=[]}) => {
     router.push({
       query: {
         ...router.query,
-        ...filters.reduce((acc,curr)=> (acc[curr]='',acc),{})
+        ...filters.reduce((acc, curr) => (acc[curr] = '', acc), {})
       }
     })
   };
 
-
   return (
     <div className="flex items-center flex-col sm:flex-row space-x-2">
-      {/* <div className="flex flex-col">
-        <label className="text-left text-xs font-medium text-gray-500 uppercase">Report Type</label>
-        <ReportTypeSelect
-          selected={reportType}
-          onSelect={(option) => {
-            router.push({
-              query: { type: option.value }
-            });
-          }}
-        />
-      </div> */}
-      
-      { tenantFeaturesEnabled('groups') && groups && filters.includes('group') && (
+
+      {tenantFeaturesEnabled('groups') && groups && filters.includes('group') && (
         <div className="flex flex-col">
           <label className="text-left text-xs font-medium text-gray-500 uppercase">in group</label>
           <GroupSelect
             defaultValueId={groupId as string}
             placeholder="All groups"
-            onSelect={group => {
+            onSelect={(group: any) => {
               router.push({
                 query: { ...router.query, group: group?.id }
               });
@@ -64,12 +50,12 @@ const ReportFilters = ({filters=[]}) => {
           <label className="text-left text-xs font-medium text-gray-500 uppercase">for user</label>
           <UserSelect
             selected={userId}
-            onSelect={user => {
+            onSelect={(user: any) => {
               router.push({
                 query: { ...router.query, user: user?.id }
               });
             }}
-            />
+          />
         </div>
       )}
       {filters.includes('course') && (
@@ -77,7 +63,7 @@ const ReportFilters = ({filters=[]}) => {
           <label className="text-left text-xs font-medium text-gray-500 uppercase">in course</label>
           <CourseSelect
             options={courseId}
-            onSelect={course => {
+            onSelect={(course: any) => {
               router.push({
                 query: { ...router.query, course: course?.id }
               });
@@ -88,10 +74,9 @@ const ReportFilters = ({filters=[]}) => {
       {filters.includes('category') && (
         <div className="flex flex-col">
           <TagSelect
-            label="in category"
             selected={categoryId}
             tagType={`category`}
-            onSelect={tag => {
+            onSelect={(tag: any) => {
               router.push({
                 query: { ...router.query, tag: tag?.id }
               });
@@ -99,7 +84,7 @@ const ReportFilters = ({filters=[]}) => {
           />
         </div>
       )}
-      { !!filters.length && filters.length > 1 && (
+      {!!filters.length && filters.length > 1 && (
         <div className="flex flex-col">
           <span className={`h-4`}></span>
           <span

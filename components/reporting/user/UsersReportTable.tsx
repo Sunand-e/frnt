@@ -54,8 +54,6 @@ const UsersReportTable = () => {
     return filteredEdges
   }, [groups, groupId])
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = queryData?.users?.edges
     if (filterActive(groupId)) {
@@ -78,7 +76,7 @@ const UsersReportTable = () => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
             icon: (
-              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+              <User className="p-1" />
             ),
             title: cell.row.original.node.fullName,
             secondary: cell.row.original.node.email,
@@ -140,14 +138,6 @@ const UsersReportTable = () => {
             query: {
               ...router.query,
               type: 'course',
-              user: cell.row.original.node.id,
-            },
-          };
-
-          const groupsHref = cell.row.original.node.id && {
-            query: {
-              ...router.query,
-              type: 'group',
               user: cell.row.original.node.id,
             },
           };

@@ -14,7 +14,7 @@ interface ItemWithImageProps {
   image?: { id: string };
   imageSrc?: string;
   icon?: JSX.Element;
-  href?: string;
+  href?: any;
 }
 
 const roundedClasses = {
@@ -53,9 +53,9 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
 }) => {
 
   const store = useContext(TableContext)
-  
+
   const rowSizing = store?.getState().rowSizing || 'md';
-  
+
   const imageAltText = `${title} - ${secondary}`;
   const iconSizeClass = iconSizeOptions[rowSizing]
 
@@ -78,7 +78,7 @@ const ItemWithImage: React.FC<ItemWithImageProps> = ({
           ) : (
             icon || (
               <img
-              className={classNames(iconSizeClass, objectFitClasses[objectFit])}
+                className={classNames(iconSizeClass, objectFitClasses[objectFit])}
                 src={placeholder || '/images/placeholder-image.png'}
                 alt={imageAltText}
                 loading="lazy"

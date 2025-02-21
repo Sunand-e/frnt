@@ -22,8 +22,6 @@ const CourseUsersReportTable = () => {
   const { groups } = useGetGroupsUsers();
   const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = userConnection?.edges
     if (filterActive(groupId) && groups) {
@@ -45,7 +43,7 @@ const CourseUsersReportTable = () => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
             icon: (
-              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+              <User className="p-1" />
             ),
             title: cell.row.original.node.fullName,
             secondary: cell.row.original.node.email,
