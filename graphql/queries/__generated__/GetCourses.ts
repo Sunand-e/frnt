@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "./PageInfo";
+
 // ====================================================
 // GraphQL query operation: GetCourses
 // ====================================================
@@ -206,13 +208,6 @@ export interface GetCourses_courses_edges {
   node: GetCourses_courses_edges_node | null;
 }
 
-export interface GetCourses_pageInfo {
-  __typename: "PageInfo";
-  endCursor: string | null;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  startCursor: string | null;
-}
 
 export interface GetCourses_courses {
   completedCount: number;
@@ -223,7 +218,7 @@ export interface GetCourses_courses {
    * A list of edges.
    */
   edges: (GetCourses_courses_edges | null)[] | null;
-  pageInfo: (GetCourses_pageInfo | null) | null;
+  pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetCourses {

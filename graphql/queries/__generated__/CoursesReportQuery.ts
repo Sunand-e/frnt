@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "./PageInfo";
+
 // ====================================================
 // GraphQL query operation: CoursesReportQuery
 // ====================================================
@@ -67,6 +69,7 @@ export interface CoursesReportQuery_courses {
    * A list of edges.
    */
   edges: (CoursesReportQuery_courses_edges | null)[] | null;
+  pageInfo: (PageInfo | null) | null;
 }
 
 export interface CoursesReportQuery {

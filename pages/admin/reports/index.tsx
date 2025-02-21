@@ -6,8 +6,6 @@ import {Users} from "@styled-icons/fa-solid/Users"
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import { useRouter } from 'next/router'
 import Button from '../../../components/common/Button'
-import { useContext } from 'react'
-import { TenantContext } from '../../../context/TenantContext'
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled'
 
 const ButtonWithIcon = ({text, action, icon: IconComponent}) => {
@@ -46,8 +44,8 @@ const AdminReports = () => {
 }
 
 AdminReports.navState = {
-topLevel: 'reports',
-secondary: 'overview'
+  topLevel: 'reports',
+  secondary: 'overview'
 }
 
 export default AdminReports

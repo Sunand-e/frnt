@@ -1,6 +1,4 @@
-// import { useRouter } from '../../utils/router';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import CoursesReportTable from './course/CoursesReportTable';
 import CourseUsersReportTable from './course/CourseUsersReportTable';
 import LessonUsersReportTable from './course/LessonUsersReportTable';

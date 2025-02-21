@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "./PageInfo";
+
 // ====================================================
 // GraphQL query operation: GetResources
 // ====================================================
@@ -21,13 +23,6 @@ export interface GetResources_resources_edges_node_icon {
   provider: string | null;
   properties: any | null;
   id: string;
-}
-export interface GetResources_pageInfo {
-  __typename: "PageInfo";
-  endCursor: string | null;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  startCursor: string | null;
 }
 
 export interface GetResources_resources_edges_node_mediaItem {
@@ -91,7 +86,7 @@ export interface GetResources_resources {
    * A list of edges.
    */
   edges: (GetResources_resources_edges | null)[] | null;
-   pageInfo: (GetResources_pageInfo | null) | null;
+   pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetResources {
