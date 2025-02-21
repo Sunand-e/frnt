@@ -115,24 +115,6 @@ export const QuizFragment = gql`
   ${QuestionFragment}
   ${ContentFragment}
 `
-export const GET_REPORTS = gql`
-  query GetReports($first: Int, $after: String) {
-    reports(first: $first, after: $after) {
-      edges {
-        node {
-          completedCourseCount
-          userCount
-          groupCount
-          courseCount
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`;
 
 export const SectionChildrenFragment = gql`
   fragment SectionChildrenFragment on ContentItem {
