@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import { User } from "@styled-icons/fa-solid/User";
 import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import useGetGroups from "../../../hooks/groups/useGetGroups";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
@@ -15,20 +14,20 @@ dayjs.extend(advancedFormat);
 
 const CourseUsersReportTable = () => {
   const router = useRouter();
-  const { 
+  const {
     course: courseId,
-    group: groupId 
+    group: groupId
   } = router.query
 
   const { groups } = useGetGroupsUsers();
   const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
-  
+
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = userConnection?.edges
-    if(filterActive(groupId) && groups) {
-      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+    if (filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({ node }) => node.id === groupId)
       data = data?.filter(edge => {
         return groupEdge.node.users.edges.map(edge => edge.node.id).includes(edge.node.id)
       })
@@ -146,7 +145,7 @@ const CourseUsersReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
-      // groupFilter={true}
+    // groupFilter={true}
     />
   );
 };

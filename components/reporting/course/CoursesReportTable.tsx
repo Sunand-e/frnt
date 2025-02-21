@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
-import ReportTable from "../ReportTable";
+import ReportTable, { filterActive } from "../ReportTable";
 import { useRouter } from "../../../utils/router";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
@@ -23,10 +23,6 @@ const CoursesReportTable = () => {
   } = router.query
 
   const { userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
-
-  const filterActive = (filterVal: any) => {
-    return filterVal && filterVal !== 'all'
-  }
 
   const applyGroupFilter = useCallback((edges: any) => {
     let filteredEdges = edges;
@@ -50,7 +46,7 @@ const CoursesReportTable = () => {
         )
         )
       } else {
-        data = data?.filter((item :any) => {
+        data = data?.filter((item: any) => {
           const fragment = client.readFragment({
             id: `UserContentEdge:${item.userId}:${item.node.id}`,
             fragment: gql`
@@ -67,7 +63,7 @@ const CoursesReportTable = () => {
           });
 
           const groupIds = fragment?.groups.edges.map((edge: any) => edge.node.id);
-          return groupIds?.some((id :any) => id === groupId);
+          return groupIds?.some((id: any) => id === groupId);
         });
       }
     }
@@ -80,7 +76,7 @@ const CoursesReportTable = () => {
       {
         id: "title",
         header: "Course",
-        accessorFn: (row :any) => row.node.title,
+        accessorFn: (row: any) => row.node.title,
         cell: ({ cell }) => {
           const cellProps = {
             image: cell.row.original.node.image,
@@ -103,7 +99,7 @@ const CoursesReportTable = () => {
       {
         id: "enrolled",
         header: "Enrolled users",
-        accessorFn: row => applyGroupFilter(row.node.users.edges).length
+        accessorFn: (row: any) => applyGroupFilter(row.node.users.edges).length
       },
       {
         id: "not_started",
@@ -128,17 +124,17 @@ const CoursesReportTable = () => {
         header: "Completed",
         accessorFn: (row: any) => (
           applyGroupFilter(row.node.users.edges).filter(
-            (contentUserEdge :any) => contentUserEdge.status === "completed"
+            (contentUserEdge: any) => contentUserEdge.status === "completed"
           ).length
         )
       },
       {
         id: "percentage_complete",
         header: "% Complete",
-        accessorFn: (row :any) => {
+        accessorFn: (row: any) => {
           const totalCount = row.node.users.edges.length;
           const completedCount = row.node.users.edges.filter(
-            (contentUserEdge :any) => contentUserEdge.status === "completed"
+            (contentUserEdge: any) => contentUserEdge.status === "completed"
           ).length;
           const ratio = totalCount ? completedCount / totalCount : 0;
 

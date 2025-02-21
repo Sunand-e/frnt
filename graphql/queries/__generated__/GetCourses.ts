@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PageInfo } from "./PageInfo";
+import { PageInfo } from "../../generated";
 
 // ====================================================
 // GraphQL query operation: GetCourses
