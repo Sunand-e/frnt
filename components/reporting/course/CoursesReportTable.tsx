@@ -1,20 +1,18 @@
 import React, { useCallback, useMemo } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import ReportTable, { filterActive } from "../ReportTable";
 import { useRouter } from "../../../utils/router";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import { client } from "../../../graphql/client";
-import { GET_GROUP_USERS } from "./GET_GROUP_USERS";
 import useGetCoursesReport from "../../../hooks/reports/useGetCoursesReport";
+import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 
 const CoursesReportTable = () => {
   const { courses, loading, error } = useGetCoursesReport({ pagination: true });
 
-  const {
-    loading: loadingGroups, error: errorGroups, data: { groups: groups } = {},
-  } = useQuery(GET_GROUP_USERS);
+  const { groups } = useGetGroupsUsers();
 
   const router = useRouter()
 

@@ -29,7 +29,7 @@ const CourseUsersReportTable = () => {
     if (filterActive(groupId) && groups) {
       let groupEdge = groups.edges.find(({ node }) => node.id === groupId)
       data = data?.filter(edge => {
-        return groupEdge.node.users.edges.map(edge => edge.node.id).includes(edge.node.id)
+        return groupEdge.node.users.edges.map((edge: any) => edge.node.id).includes(edge.node.id)
       })
     }
     return data || []
@@ -40,7 +40,7 @@ const CourseUsersReportTable = () => {
       {
         id: "name",
         header: "Name",
-        accessorFn: row => row.node.fullName,
+        accessorFn: (row: any) => row.node.fullName,
         cell: ({ cell }) => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
@@ -64,26 +64,7 @@ const CourseUsersReportTable = () => {
       commonTableCols.score,
       commonTableCols.firstVisited,
       commonTableCols.lastVisited,
-      // {
-      //   id: "completedAt",
-      //   header: "Completed at",
-      //   accessorKey: "completedAt",
-      //   cell: ({ cell }) => {
-      //     return cell.getValue() ? dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-      //   }
-      // },
 
-      // "visits": null,
-      // "completed": null
-      // {
-      //   header: "Roles",
-      //   accessorFn: row => row.roles[0].name, // accessor is the key in the data
-      //   cell: ({ cell }) => {
-      //     return cell.row.original.node.roles.map(role => {
-      //       return role.name
-      //     }).join(', ')
-      //   }
-      // },
       {
         id: "actions",
         header: "",
@@ -145,7 +126,6 @@ const CourseUsersReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
-    // groupFilter={true}
     />
   );
 };

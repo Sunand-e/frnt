@@ -9,7 +9,7 @@ import { GetUsersCoursesQuery } from "../../../graphql/generated";
 import { GET_USERS_COURSES } from "../../../graphql/queries/GET_USERS_COURSES";
 import { ITEMS_PER_PAGE } from "../../../utils/constants";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
-import { GET_GROUP_USERS } from "../course/GET_GROUP_USERS";
+import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 
 const UsersReportTable = () => {
   const { loading, error, data: queryData, fetchMore, refetch } = useQuery<GetUsersCoursesQuery>(GET_USERS_COURSES, {
@@ -37,9 +37,7 @@ const UsersReportTable = () => {
 
   useInfiniteScroll(loadMore, true);
 
-  const {
-    loading: loadingGroups, error: errorGroups, data: { groups: groups } = {},
-  } = useQuery(GET_GROUP_USERS);
+  const { groups } = useGetGroupsUsers();
 
   const router = useRouter()
 
@@ -174,7 +172,6 @@ const UsersReportTable = () => {
       loading={loading}
       error={error}
       exportFilename={'users'}
-      // filters={['group','course']}
       filters={['group']}
       simpleHeader={true}
       title={<>Users</>}

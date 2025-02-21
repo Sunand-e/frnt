@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import { UserFragment } from './users';
 
 export const GET_USERS_COURSES = gql`
-  query GetUsersCourses {
-    users {
+  query GetUsersCourses($first: Int, $after: String) {
+    users(first: $first, after: $after) {
       edges {
         node {
           ...UserFragment
@@ -35,6 +35,12 @@ export const GET_USERS_COURSES = gql`
             }
           }
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }
