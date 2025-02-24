@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_COURSES = gql`
-  query GetCourses($first: Int, $after: String) {
-    courses(first: $first, after: $after) {
+  query GetCourses($first: Int, $after: String, $where: JSON) {
+    courses(first: $first, after: $after, where: $where) {
       totalCount
       notStartedCount
       inProgressCount
