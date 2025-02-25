@@ -12,7 +12,7 @@ const GroupActionsMenu = ({group}) => {
 
   const { deleteGroup } = useDeleteGroup()
   const { confirmDelete } = useConfirmDelete({
-    itemType: 'group',
+    itemType: typeName,
     name: group.title,
     onConfirm: () => deleteGroup(group.id)
   })

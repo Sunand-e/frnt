@@ -1,8 +1,6 @@
-import { useRouter } from "next/router"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import getJWT from "../../utils/getToken"
 import Button from "../common/Button"
 import FileDropzone from "../common/FileDropzone"
 import TextInput from "../common/inputs/TextInput"
@@ -18,7 +16,6 @@ interface AICreateQuizFormValues {
 export const AICreateQuizForm = ({onResponse}) => {
   
   const endpoint = '/api/v1/generate_quiz_questions'
-  const token = getJWT();
 
   const defaultValues = {
     // course_id: id,
@@ -40,8 +37,7 @@ export const AICreateQuizForm = ({onResponse}) => {
       const response = await fetch(endpoint, {
         method: 'POST', // or 'PUT' if it's an update
         headers: new Headers({
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }),
         body: JSON.stringify(formData)
       });

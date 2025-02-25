@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import BlinkingEllipsis from '../components/common/misc/BlinkingEllipsis';
 import { client } from '../graphql/client';
-import getJWT from '../utils/getToken';
 
 interface UseUploadAndNotifyProps {
   additionalParams?: {[key: string]: any},
@@ -20,8 +19,6 @@ const useUploadAndNotify = ({
   refetchQueries=[],
   onComplete=null,
 } : UseUploadAndNotifyProps) => {
-  
-  const token = getJWT();
 
   const uploadFilesAndNotify = useCallback(async (endpoint, fileParams, params={}) => {
 
@@ -53,9 +50,6 @@ const useUploadAndNotify = ({
     return await axios.request({
       method,
       url: endpoint,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
       data, 
       onUploadProgress: (p) => {
         const progress = p.loaded / p.total

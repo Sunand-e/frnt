@@ -1,11 +1,11 @@
 import { ApolloClient, ApolloLink, createHttpLink, NormalizedCacheObject } from '@apollo/client';
 import { RestLink } from 'apollo-link-rest';
-import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import getConfig from 'next/config'
 import cache from './cache';
-import getJWT from '../utils/getToken';
 import dayjs from 'dayjs';
+import { isLoggedInVar } from './cache';
+import Router from 'next/router';
 
 const {publicRuntimeConfig} = getConfig()
 const {API_URL} = publicRuntimeConfig
@@ -30,45 +30,6 @@ const afterwareLink = new ApolloLink((operation, forward) => {
     return response
   })
 })
-// const delay = setContext(
-//   request => {
-//     new Promise<void>((success, fail) => {
-//       setTimeout(() => {
-//         if (typeof window !== 'undefined') {
-//         }
-      
-//         success()
-//       }, 800)
-//     })
-//   }
-// )
-
-
-// export const typeDefs = gql`
-//   extend type Query {
-//     libraryStatus: String!
-//   }
-// `;
-
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  let token: string
-
-  if (typeof window !== 'undefined') {
-    token = getJWT();
-  }
-  // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiY2E2ODEwZjItYzRmOS00NDViLTg1MTYtY2UxNzM3M2IyNjI5In0.qJhqzt8ogGJayTCQIZJS-FWaT-3ksmqw6qo_KLE8jmY'
-  // return the headers to the context so httpLink can read them
-
-  return {
-    headers: {
-      ...headers,
-      Authorization: token ? `Bearer ${token}` : "",
-      // authorization: token || '',
-
-    }
-  }
-});
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -79,16 +40,23 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     );
 
   if (networkError) console.log(`[Network error]: ${networkError}`);
+
+  const excludedRoutes = ['/accept_invitation', '/lost-password', '/reset-password', '/sign_up']; 
+
+  if (networkError && 'statusCode' in networkError && networkError.statusCode === 401 && !excludedRoutes.includes(Router.pathname)) {
+    isLoggedInVar(false);
+    client.clearStore();
+    Router.push('/'); // Redirect to login page
+  }
 });
 
 const restLink = new RestLink({ uri: UPLOAD_API_URL });
-
 
 const link = ApolloLink.from([
   // delay,
   errorLink,
   restLink,
-  afterwareLink.concat(authLink.concat(httpLink)),
+  afterwareLink.concat(httpLink),
 ])
 
 const typesWithDeleted = ['ContentItem', 'ScormPackage', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']

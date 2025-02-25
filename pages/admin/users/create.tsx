@@ -8,7 +8,6 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import usePageTitle from '../../../hooks/usePageTitle';
 import useGetUsers from '../../../hooks/users/useGetUsers';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
-import getJWT from '../../../utils/getToken';
 
 const AdminCreateUser = () => {
   
@@ -40,7 +39,6 @@ const AdminCreateUser = () => {
 
 
   const handleSubmit = ({profile_image, firstName, lastName, group_id, ...values}) => {
-    const token = getJWT();
     
     const data = {
       group_id,
@@ -54,9 +52,6 @@ const AdminCreateUser = () => {
     axios.request({
       method: "post", 
       url: endpoint,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
       data
     }).then (response => {
       refetchUsers()
@@ -65,6 +60,27 @@ const AdminCreateUser = () => {
         if(profile_image) {
           const imageEndpoint = `/api/v1/users/${response.data.user?.id}/update_profile_image`
           profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
+        }
+        if (group_id) {
+          cache.modify({
+            id: cache.identify({ __typename: 'Group', id: group_id }),
+            fields: {
+              users(existingConnection = { edges: [], totalCount: 0 }) {
+                const newEdge = {
+                  __typename: 'GroupUserEdge',
+                  userId: response.data.user.id,
+                  groupId: group_id,
+                  node: response.data.user,
+                };
+        
+                return {
+                  ...existingConnection,
+                  edges: [...existingConnection.edges, newEdge],
+                  totalCount: existingConnection.totalCount + 1,
+                };
+              },
+            },
+          });
         }
       }
       router.push('/admin/users')
