@@ -28,6 +28,7 @@ const TenantsTable = () => {
     () => [
       {
         header: "Tenant",
+        accessorFn: (row: any) => row.name,
         cell: ({ cell }) => (
           <ItemWithImage
             imageSrc={cell.row.original.logos.logo_square}

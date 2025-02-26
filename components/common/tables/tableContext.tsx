@@ -7,8 +7,6 @@ export interface TableProps {
   count?: number,
   table?: Table<any>,
   globalFilter?: string,
-  monthFilter?: string,
-  yearFilter?: string,
   bulkActions?: Array<any>,
   tableData: Array<any>,
   tableCols: Array<any>,
@@ -43,14 +41,14 @@ export interface TableProps {
   onRowClick?: () => void,
   onReorder?: (active: any, over: any, newIndex: number, oldIndex: number) => void | null,
   onFilterChange?: (categoryId: string, collectionId: string, globalFilter: string) => void | null,
+  setMonthFilter?: (_value: any) => void
+  setYearFilter?: (_value: any) => void
 }
 
 interface TableState extends TableProps {
   setIsLoading: (loading: boolean) => void
   setTable: (table: Table<any>) => void
   setGlobalFilter: (filter: TableProps['globalFilter']) => void
-  setMonthFilter: (filter: TableProps['monthFilter']) => void
-  setYearFilter: (filter: TableProps['yearFilter']) => void
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
   // setTableData: (tableData: TableProps['tableData']) => void
   setCategoryId: (categoryId: TableProps['categoryId']) => void
@@ -74,8 +72,6 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     count: 1,
     table: null,
     globalFilter: null,
-    monthFilter: null,
-    yearFilter: null,
     bulkActions: [],
     tableData: [],
     categoryId: null,
@@ -117,8 +113,6 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     setRowSelection: rowSelection => set(state => ({rowSelection})),
     setRowSizing: rowSizing => set(state => ({rowSizing})),
     setGlobalFilter: globalFilter => set(state => ({globalFilter})),
-    setMonthFilter: monthFilter => set(state => ({monthFilter})),
-    setYearFilter: yearFilter => set(state => ({yearFilter})),
     setBulkActions: bulkActions => set(state => ({bulkActions})),
     // setTableData: tableData => set(state => ({tableData})),
     setCategoryId: categoryId => set(state => ({categoryId})),

@@ -1,24 +1,33 @@
 import { useQuery } from '@apollo/client';
 import { Buildings } from "@styled-icons/boxicons-solid/Buildings";
-import { useMemo } from 'react';
-import { GET_TENANTS } from '../../graphql/queries/tenants';
+import { useMemo, useState } from 'react';
+import { GET_TENANTS_REPORT } from '../../graphql/queries/tenants';
 import { GetTenants } from '../../graphql/queries/__generated__/GetTenants';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import Table from '../common/tables/Table';
-import ButtonLink from '../common/ButtonLink';
-import { useRouter } from '../../utils/router';
 
-const TenantsTable = () => {
-  const { loading, error, data: queryData } = useQuery<GetTenants>(GET_TENANTS);
+const TenantReportsTable = () => {
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  const { loading, error, data: queryData } = useQuery<GetTenants>(GET_TENANTS_REPORT, {
+    variables: {
+      month: month,
+      year: year
+    },
+    skip: !month || !year,
+  });
 
   const tableData = useMemo(() => {
-    return queryData?.tenants?.edges?.map(({ node }) => node).filter(node => !node._deleted) || []
+    return queryData?.tenantReports?.edges?.map(({ node }) => node) || []
   }, [queryData]);
-
+  
   const tableCols = useMemo(
     () => [
       {
+        id: "title",
         header: "Tenant",
+        accessorFn: (row: any) => row.name,
         cell: ({ cell }) => (
           <ItemWithImage
             imageSrc={cell.row.original.logos.logo_square}
@@ -30,39 +39,39 @@ const TenantsTable = () => {
         )
       },
       {
+        id: "active_user",
+        header: "Active User",
+        accessorFn: (row: any) => row.activeUsers,
+      },
+      {
+        id: "total_assigned_courses",
+        header: "Total Assigned Courses",
+        accessorFn: (row: any) => row.totalAssignedCourses,
+      },
+      {
+        id: "course_access_frequency",
+        header: "Course Access Frequency",
+        accessorFn: (row: any) => row.courseAccessFrequency,
+      },
+      {
+        id: "users",
         header: "Users",
         accessorFn: (row: any) => row.users.totalCount,
       },
       {
+        id: "courses",
         header: "Courses",
         accessorFn: (row: any) => row.courses.totalCount,
       },
       {
-        header: "Credits Issued",
-        accessorFn: (row: any) => row.creditsIssued,
+        id: "groups",
+        header: "Groups",
+        accessorFn: (row: any) => row.groups.totalCount,
       },
       {
-        id: "actions",
-        header: "",
-        hideOnCsv: true,
-        width: 300,
-        style: {
-          width: "300px",
-        },
-        cell: ({ cell }) => {
-          const tenantHref = cell.row.original.id && {
-            query: {
-              ...useRouter().query,
-              tenant: cell.row.original.id
-            },
-          };
-
-          return (
-            <div className="flex space-x-4 justify-center">
-              <ButtonLink href={tenantHref}>Download Detail Report</ButtonLink>
-            </div>
-          );
-        },
+        id: "credits_issued",
+        header: "Credits Issued",
+        accessorFn: (row: any) => row.creditsIssued,
       },
     ],
     []
@@ -76,7 +85,11 @@ const TenantsTable = () => {
     isReportingTable: true,
     exportFilename: 'Tenant Reports',
     isExportable: true,
-    showTop: false
+    showTop: false,
+    isLoading: loading,
+    loadingText: 'Loading Tenants Report',
+    setMonthFilter: setMonth,
+    setYearFilter: setYear,
   }
 
   return (
@@ -84,4 +97,4 @@ const TenantsTable = () => {
   );
 }
 
-export default TenantsTable
+export default TenantReportsTable

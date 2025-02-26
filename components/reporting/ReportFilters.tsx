@@ -13,9 +13,7 @@ const ReportFilters = ({ filters = [] }) => {
 
   const globalFilter = useTableContext(s => s.globalFilter)
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
-  const monthFilter = useTableContext(s => s.monthFilter)
   const setMonthFilter = useTableContext(s => s.setMonthFilter)
-  const yearFilter = useTableContext(s => s.yearFilter)
   const setYearFilter = useTableContext(s => s.setYearFilter)
 
   const router = useRouter()
@@ -45,9 +43,7 @@ const ReportFilters = ({ filters = [] }) => {
       />}
 
       {filters.includes('month') && <MonthYearFilter
-        monthFilter={monthFilter}
         setMonthFilter={setMonthFilter}
-        yearFilter={yearFilter}
         setYearFilter={setYearFilter}
       />}
 
