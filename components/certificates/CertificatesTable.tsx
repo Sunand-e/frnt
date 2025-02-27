@@ -3,7 +3,7 @@ import Table from '../common/tables/Table';
 import LoadingSpinner from '../common/LoadingSpinner';
 import useGetCertificates from '../../hooks/certificates/useGetCertificates';
 import CertificateActionsCell from './CertificateActionsCell';
-import {Certificate} from '@styled-icons/fluentui-system-regular/Certificate'
+import { Certificate } from '@styled-icons/fluentui-system-regular/Certificate'
 import dayjs from 'dayjs';
 import ItemWithImage from '../common/cells/ItemWithImage';
 import { commonTableCols } from '../../utils/commonTableCols';
@@ -15,7 +15,7 @@ const CertificatesTable = () => {
   const { certificates, loading, error } = useGetCertificates()
 
   const tableData = useMemo(
-    () => certificates?.map(c => ({...c, id: c.course.id})),
+    () => certificates?.map((c: any) => ({ ...c, id: c.course.id })),
     [certificates]
   );
 
@@ -24,10 +24,10 @@ const CertificatesTable = () => {
       {
         header: "Course Certificate",
         accessorKey: "course.title", // accessor is the "key" in the data
-        cell: ({cell}) => (
+        cell: ({ cell }) => (
           <ItemWithImage
             title={cell.getValue()}
-            icon = {<Certificate className='fill-main' />}
+            icon={<Certificate className='fill-main' />}
           />
         )
       },
@@ -40,17 +40,17 @@ const CertificatesTable = () => {
       },
       {
         header: "Awarded on",
-        accessorFn: row => {
+        accessorFn: (row: any) => {
           const courseEdge = row.courseUserContent
           let date
-          if(row.isScored) {
-            date = courseEdge.passedAt            
+          if (row.isScored) {
+            date = courseEdge.passedAt
           } else {
             date = courseEdge.completedAt
           }
           return dayjs(date).format('Do MMMM YYYY [at] h:mm A')
         },
-        cell: (cell) => cell.getValue() || <span>&mdash;</span>
+        cell: (cell: any) => cell.getValue() || <span>&mdash;</span>
       },
       {
         ...commonTableCols.actions,
@@ -67,17 +67,17 @@ const CertificatesTable = () => {
     filters: ['global'],
     typeName: 'certificate'
   }
-  
+
   return (
     <>
-      { loading && (
+      {loading && (
         <LoadingSpinner />
       )}
-      { error && (
+      {error && (
         <p>Unable to fetch certificates.</p>
       )}
-      { (!loading && !error) && (
-        <Table { ...tableProps } />
+      {(!loading && !error) && (
+        <Table {...tableProps} />
       )}
     </>
   );
