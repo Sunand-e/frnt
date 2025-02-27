@@ -113,13 +113,13 @@ const UsersTable = () => {
         header: "Status",
         id: 'status',
         accessorFn: (row) => {
-          if(!row.invitationSentAt) {
-            return "uninvited"
-          }
-          if(row.invitationAcceptedAt) {
+          if(row.isActive) {
             return "active"
           }
-          return "invited"
+          if(row.invitationSentAt) {
+            return "invited"
+          }
+          return "uninvited"
         },
         cell: ({ cell }) => {
           let props
