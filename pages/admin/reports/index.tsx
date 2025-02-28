@@ -6,15 +6,14 @@ import {Users} from "@styled-icons/fa-solid/Users"
 import {Group2} from "@styled-icons/remix-fill/Group2"
 import { useRouter } from 'next/router'
 import Button from '../../../components/common/Button'
-import { useContext } from 'react'
-import { TenantContext } from '../../../context/TenantContext'
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled'
+import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
 
-const ButtonWithIcon = ({text, action, icon: IconComponent}) => {
+const ButtonWithIcon = (props: any) => {
   const router = useRouter()
   return (
-    <Button onClick={() => router.push(action)}>
-      <IconComponent className='w-5 mr-2 -ml-1'/> {text}
+    <Button onClick={() => router.push(props.action)}>
+      <props.icon className='w-5 mr-2 -ml-1'/> {props.text}
     </Button>
   )
 }
@@ -22,6 +21,7 @@ const ButtonWithIcon = ({text, action, icon: IconComponent}) => {
 const AdminReports = () => {
 
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
+  const { userHasCapability } = useUserHasCapability()
 
   usePageTitle({ title: 'Reports' })
   
@@ -34,7 +34,7 @@ const AdminReports = () => {
       id: 'usersReport',
       component: <ButtonWithIcon text='Users' action='/admin/reports?type=user' icon={Users} />
     },
-    ...(tenantFeaturesEnabled(['groups']) ? [{
+    ...(tenantFeaturesEnabled(['groups']) && userHasCapability('SeeGroups') ? [{
       id: 'groupReport',
       component: <ButtonWithIcon text='Groups' action='/admin/reports?type=group' icon={Group2} />
     }] : [])
