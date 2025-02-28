@@ -22,14 +22,13 @@ const navStructureAdmin = [
     title: 'Dashboard',
     urlPath: '/admin',
     icon: 'house-chimney',
-    subPages: [],
   },
   {
     name: 'courses',
     title: 'Courses',
     urlPath: '/admin/courses',
     icon: 'graduation-cap',
-    capabilities: ['ViewCoursesAdmin'],
+    capabilities: ['UpdateCourse'],
     subPages: [
       {
         name: 'courses',
@@ -130,12 +129,14 @@ const navStructureAdmin = [
     title: 'Users',
     urlPath: '/admin/users',
     icon: 'users',
+    capabilities: ['UpdateUser'],
     subPages: [
       {
         name: 'overview',
         title: 'Users',
         urlPath: '/admin/users',
-        icon: Users
+        icon: Users,
+        capabilities: ['UpdateUser']
       },
       {
         name: 'groups',
