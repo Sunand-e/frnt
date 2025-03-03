@@ -43,7 +43,7 @@ const ProfileForm = () => {
     // capabilityIds: role?.capabilities.map(capability => capability.id),
     ...user,
     // anotherattr: 123,
-    role_ids: user?.roles.map(role => role.id),
+    role_ids: user?.roles.map((role: any) => role.id),
   }
   
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<ProfileFormValues>({
@@ -75,7 +75,7 @@ const ProfileForm = () => {
         label="Last name"
         placeholder="Last name"
         inputAttrs={register("lastName",
-  {
+        {
           required:"Last is required",
           maxLength: {
             value: 20,

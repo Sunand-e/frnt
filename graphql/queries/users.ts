@@ -18,6 +18,7 @@ export const UserFragment = gql`
     invitationSentAt
     invitationAcceptedAt
     currentSignInAt
+    mfaEnabled
     roles {
       id
       name
