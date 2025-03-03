@@ -8,6 +8,7 @@
 // ====================================================
 
 export interface GetTenants_tenants_edges_node {
+  _deleted: any;
   __typename: "Tenant";
   id: string;
   name: string;
@@ -17,6 +18,9 @@ export interface GetTenants_tenants_edges_node {
   shortName: string;
   settings: any;
   logos: any | null;
+  active_users: any;
+  user_access_courses: any;
+  course_access_frequency: any;
 }
 
 export interface GetTenants_tenants_edges {
@@ -36,5 +40,6 @@ export interface GetTenants_tenants {
 }
 
 export interface GetTenants {
+  tenantReports: GetTenants_tenants;
   tenants: GetTenants_tenants;
 }
