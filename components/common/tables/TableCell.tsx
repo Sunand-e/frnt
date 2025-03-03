@@ -1,5 +1,5 @@
 import { Cell, flexRender } from "@tanstack/react-table"
-import { CSSProperties, memo, useEffect } from "react"
+import { CSSProperties, memo } from "react"
 import { tableSizingOptions } from "./Table"
 import { useTableContext } from "./tableContext"
 interface TableCellProps {
@@ -30,6 +30,9 @@ const TableCell = memo(({cell, index, width=null}:TableCellProps) => {
     defaultStyles.paddingRight = 0
   }
 
+  if(cell.column.columnDef.hideOnTable) {
+    return (<></>);
+  }
   return (
     <td key={cell.id}
       className={`px-6 pl-4 border-b border-gray-200 text-sm text-gray-900 group-last:border-0`}

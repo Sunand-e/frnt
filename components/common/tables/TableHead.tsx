@@ -15,9 +15,12 @@ interface TableHeadProps {
 const TableHead: FC<TableHeadProps> = ({ table, tHeadRef, scrollInTable, dataCellOffset, padding, colWidths }) => {
   return (
     <thead className="bg-gray-50 sticky top-0" ref={tHeadRef} style={{ zIndex: 10000 }}>
-      {table.getHeaderGroups().map((headerGroup) => (
+      {table.getHeaderGroups().map((headerGroup: any) => (
         <tr key={headerGroup.id}>
-          {headerGroup.headers.map((header, index) => {
+          {headerGroup.headers.map((header: any, index: any) => {
+            if (header.column.columnDef.hideOnTable){
+              return (<></>);
+            }
             return (
               <th key={header.id} colSpan={header.colSpan}
                 className={classNames(
@@ -54,7 +57,7 @@ const TableHead: FC<TableHeadProps> = ({ table, tHeadRef, scrollInTable, dataCel
                           {{
                             asc: <CaretUp className="w-full" />,
                             desc: <CaretUp className="rotate-180" />,
-                          }[header.column.getIsSorted()] ?? null}
+                          }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
                         </div>
                       )}
                     </div>

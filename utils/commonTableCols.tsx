@@ -79,6 +79,7 @@ export const commonTableCols = {
     id: "actions",
     header: "Actions",
     accessorKey: "actions",
-    enableSorting: false
+    enableSorting: false,
+    hideOnCsv: true
   }
 }
