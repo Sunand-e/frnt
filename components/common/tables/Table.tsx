@@ -5,7 +5,6 @@ import {
 } from '@tanstack/react-table';
 import Tippy from '@tippyjs/react';
 import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import exportToCsv from '../../../utils/exportToCsv';
 import { useRouter } from '../../../utils/router';
 import ReportFilters from '../../reporting/ReportFilters';
 import Button from '../Button';
@@ -14,6 +13,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox';
 import TableActions from './TableActions';
 import { TableContext, TableProps, TableProvider, useTableContext } from './tableContext';
 import TableStructure from './TableStructure';
+import downloadCSV from '../../../utils/downloadCsv';
 
 export const tableSizingOptions = {
   sm: { verticalPadding: '0.5rem', rowHeight: 50 },
@@ -55,6 +55,7 @@ const Table = () => {
   const isReportingTable = useTableContext(s => s.isReportingTable)
   const backButton = useTableContext(s => s.backButton)
   const onRowSelect = useTableContext(s => s.onRowSelect)
+  const isExportable = useTableContext(s => s.isExportable)
   const selectable = isSelectable || !!bulkActions.length
   
   const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
@@ -246,18 +247,6 @@ const Table = () => {
       }
     }
   },[categoryId, collectionId, globalFilter, sorting, isReorderable])
-
-  const filename = exportFilename.replace(/[^a-z0-9_\-]/gi, "_").toLowerCase();
-
-  const downloadCSV = () => {
-
-    const csvCols = tableCols.filter((col) => col.hideOnCsv !== true);
-    const headerRow = csvCols.map((col) => col.header);
-    const dataRows = table.getRowModel().rows.map(row => {
-      return csvCols.map(col => row.getValue(col.id))
-    })
-    exportToCsv(`${filename}.csv`, [headerRow, ...dataRows]);
-  };
   
   return (
     <>
@@ -269,7 +258,7 @@ const Table = () => {
           <ReportFilters filters={filters} />
           <div className='flex space-x-3'>
             {!!backButton && backButton}
-            <Button onClick={() => downloadCSV()}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>
+            { isExportable && <Button onClick={() => downloadCSV(exportFilename, tableCols, table)}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>}
           </div>
         </div>
       )}
