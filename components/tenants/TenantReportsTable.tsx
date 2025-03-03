@@ -16,6 +16,7 @@ const TenantReportsTable = () => {
       year: year
     },
     skip: !month || !year,
+    fetchPolicy: "cache-and-network",
   });
 
   const tableData = useMemo(() => {
