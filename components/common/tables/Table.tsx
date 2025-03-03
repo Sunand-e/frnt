@@ -265,7 +265,7 @@ const Table = () => {
         table,
       }} /> }
       { isReportingTable && (
-        <div className="flex items-center flex-col mb-3 sm:flex-row justify-between">
+        <div className="flex items-center flex-col mb-3 sm:flex-row justify-between sm:flex-row text-nowrap">
           <ReportFilters filters={filters} />
           <div className='flex space-x-3'>
             {!!backButton && backButton}

@@ -41,6 +41,8 @@ export interface TableProps {
   onRowClick?: () => void,
   onReorder?: (active: any, over: any, newIndex: number, oldIndex: number) => void | null,
   onFilterChange?: (categoryId: string, collectionId: string, globalFilter: string) => void | null,
+  setMonthFilter?: (_value: any) => void
+  setYearFilter?: (_value: any) => void
 }
 
 interface TableState extends TableProps {
