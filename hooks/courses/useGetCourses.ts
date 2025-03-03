@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from "react";
 
 function useGetCourses({ pagination = false, remote = false } = {}) {
   const [filters, setFilters] = useState({
-    categoryId: "",
+    tagId: "",
     collectionId: "",
     globalFilter: "",
     orderField: "order",
@@ -19,7 +19,7 @@ function useGetCourses({ pagination = false, remote = false } = {}) {
   const getWhereConditions = () => {
     const where: any = {};
     if (filters.globalFilter) where.title = filters.globalFilter;
-    if (filters.categoryId) where.categoryId = filters.categoryId;
+    if (filters.tagId) where.tagId = filters.tagId;
     if (filters.collectionId) where.collectionId = filters.collectionId;
     console.log("Generated where conditions:", where);
     return where;
@@ -102,10 +102,10 @@ function useGetCourses({ pagination = false, remote = false } = {}) {
     }).catch(error => console.error("FetchMore Error:", error));
   }, [loading, pagination, data, fetchMore, filters]);
 
-  const reLoad = (categoryId = "", collectionId = "", globalFilter = "") => {
+  const reLoad = (tagId = "", collectionId = "", globalFilter = "") => {
     setFilters((prev) => ({
       ...prev,
-      categoryId,
+      tagId,
       collectionId,
       globalFilter,
     }));
