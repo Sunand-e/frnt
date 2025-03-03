@@ -65,7 +65,8 @@ const UsersTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        header: "User ",
+        header: "User",
+        id: 'user',
         accessorFn: row => row.fullName,
         cell: ({ cell }) => (
           <ItemWithImage 
@@ -78,6 +79,12 @@ const UsersTable = () => {
           />
         )
       },
+      {
+        header: "Email",
+        id: 'email',
+        accessorFn: (row: any) => row.email,
+        hideOnTable: true
+      },
       ...(
         (
           tenantFeaturesEnabled('groups') &&
@@ -85,9 +92,10 @@ const UsersTable = () => {
         ) ? [
         {
           header: "Groups",
-          accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', '),
+          id: 'groups',
+          accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', ') || '',
           cell: ({ cell }) => (
-            <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped> || <span>&mdash;</span>
+            cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
           )
         }
       ] : []),
@@ -99,12 +107,12 @@ const UsersTable = () => {
         {
           header: "Global Roles",
           id: 'roles',
+          accessorFn: (row: GetUsers_users_edges_node) => row.roles.filter(
+            role => role.name !== 'User'
+          ).map(role => role.name).join(', ') || '',
           cell: ({ cell }) => {
-            const rolesString = cell.row.original.roles.filter(
-              role => role.name !== 'User'
-            ).map(role => role.name).join(', ') || '-'
             return (
-              <TooltipIfClamped className="line-clamp-2">{rolesString}</TooltipIfClamped>
+              cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
             )
           }
         }
@@ -159,6 +167,24 @@ const UsersTable = () => {
         }
       },
       {
+        header: "TimeStamp",
+        id: 'time_stamp',
+        hideOnTable: true,
+        accessorFn: (row: any) => {
+          if(!row.invitationSentAt) {
+            let dateString = dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A')
+            return `Created: ${dateString}`
+          }
+          if(row.invitationAcceptedAt) {
+            let dateString = dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A')
+            return `Last signed in: ${dateString}`
+          }
+          let dateString = dayjs(row.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')
+          return `Invited: ${dateString}`
+        },
+        
+      },
+      {
         ...commonTableCols.actions,
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />,
         width: 300
@@ -191,12 +217,6 @@ const UsersTable = () => {
       label: 'Assign courses to users',
       onClick: (ids: Array<string>) => ids.length && assignCourses(ids)
     },
-
-  
-    // {
-    //   label: <span className="text-red-500">Delete users</span>,
-    //   onClick: (ids: Array<string>) => console.log('test'),
-    // },
   ]
 
   const tableProps = {
@@ -206,7 +226,9 @@ const UsersTable = () => {
     isLoading: loading,
     loadingText: 'Loading users',
     typeName: 'user',
-    filters: ['global']
+    filters: ['global'],
+    exportFilename: 'User List',
+    isExportable: true
   }
 
   return (
