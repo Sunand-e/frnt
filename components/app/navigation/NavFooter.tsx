@@ -1,8 +1,7 @@
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import AdminViewSwitch from './AdminViewSwitch';
-import SettingsMenuAndButton from './SettingsMenuAndButton';
 
-const NavFooter = ({children=null, isSlim}) => {
+const NavFooter = ({children=null, isSlim=null}) => {
 
   const { userHasCapability } = useUserHasCapability()
 
@@ -13,8 +12,7 @@ const NavFooter = ({children=null, isSlim}) => {
           'UpdateUser',
           'UpdateCourse',
           'UpdateResource',
-          'EnrolUsersInContent',
-          // 'GetUsers',
+          'EnrolUsersInContent'
         ]) && (
           <AdminViewSwitch />
         )}
