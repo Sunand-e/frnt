@@ -3,25 +3,22 @@ import useDeleteUser from "../../hooks/users/useDeleteUser"
 import useConfirmDelete from "../../hooks/useConfirmDelete"
 import useSendInvite from "../../hooks/useSendInvite"
 import useUserHasCapability from "../../hooks/users/useUserHasCapability"
-import useGetCurrentUser from "../../hooks/users/useGetCurrentUser"
 import { useRequestSwitchUser } from "../../hooks/users/useRequestSwitchUser"
 import { handleModal } from "../../stores/modalStore"
 import EnrolUserInContent from "./content/EnrolUserInContent"
 import { getUserEditUrl } from "../../utils/getUserEditUrl"
 
-const UserActionsMenu = ({user}) => {
+const UserActionsMenu = ({user = null}) => {
  
   const { userHasCapability } = useUserHasCapability()
   const { requestSwitchUser } = useRequestSwitchUser({user})
   const { sendInvite } = useSendInvite()
-  const { user: currentUser, courses } = useGetCurrentUser()
   const { deleteUser } = useDeleteUser()
   const { confirmDelete } = useConfirmDelete({
     itemType: 'user',
     name: user.fullName,
     onConfirm: () => deleteUser(user.id)
   })
-
   
   const assignCourses = () => {
     handleModal({
@@ -36,7 +33,7 @@ const UserActionsMenu = ({user}) => {
     showAssignCourses = true
   } else {
     // if the current user has the EnrolUsersInContent capability for a group that the user is in, show the Assign courses button
-    showAssignCourses = user.groups.edges.some(groupEdge => {
+    showAssignCourses = user.groups.edges.some((groupEdge: any) => {
       return userHasCapability('EnrolUsersInContent', 'group', groupEdge.node.id)
     })
   }

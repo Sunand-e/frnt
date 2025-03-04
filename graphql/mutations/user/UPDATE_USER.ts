@@ -7,18 +7,22 @@ export const UPDATE_USER = gql`
     $id: ID!
     $firstName: String
     $lastName: String
-    $email: String
     $userType: String
     $status: String
+    $mfaEnabled: Boolean
+    $otpSecret: String
+    $otpSecretVerified: Boolean
   ) {
     updateUser(
       input: {
-      id: $id,
-      firstName: $firstName,
-      lastName: $lastName,
-      email: $email,
-      userType: $userType,
-      status: $status
+        id: $id,
+        firstName: $firstName,
+        lastName: $lastName,
+        userType: $userType,
+        status: $status,
+        mfaEnabled: $mfaEnabled,
+        otpSecret: $otpSecret,
+        otpSecretVerified: $otpSecretVerified
       }
     ) {
       user {

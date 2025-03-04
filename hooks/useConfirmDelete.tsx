@@ -1,18 +1,31 @@
-import { getDisplayName } from 'next/dist/shared/lib/utils';
 import Button from '../components/common/Button';
 import { closeModal, handleModal } from '../stores/modalStore';
 
-const useConfirmDelete = ({itemType, name=null, onConfirm: defaultOnConfirm = null, autoClose=true, onExit=null}) => {
+type UseConfirmDeleteParams = {
+  itemType: string;
+  name?: string | null;
+  onConfirm?: (() => void) | null;
+  defaultOnConfirm?: (() => void) | null;
+  autoClose?: boolean;
+  onExit?: (() => void) | null;
+  amount?: number;
+};
+
+const useConfirmDelete = ({itemType, name = null, onConfirm = null,
+  defaultOnConfirm = null,
+  autoClose = true,
+  onExit = null,
+  amount = 1,
+}: UseConfirmDeleteParams) => {
 
   const handleDelete = ({onConfirm=null}) => {
     console.log('onConfirm')
     console.log(onConfirm)
     onConfirm ? onConfirm() : defaultOnConfirm && defaultOnConfirm()
-    // onExit ? onExit() : closeModal()
     autoClose && closeModal()
   }
 
-  const getDisplayName = (amount) => {
+  const getDisplayName = () => {
     if(amount > 1) {
       return `${amount} ${itemType}s`
     } else if(name) {
@@ -24,13 +37,13 @@ const useConfirmDelete = ({itemType, name=null, onConfirm: defaultOnConfirm = nu
     }
   }
 
-  const confirmDelete = (onConfirm=null, amount=1) => {
+  const confirmDelete = () => {
     handleModal({
       title: `Delete ${itemType}`,
       content: (
         <>
           <p>
-            Are you sure you want to delete {getDisplayName(amount)}?
+            Are you sure you want to delete {getDisplayName()}?
           </p>
           <p className="font-bold mb-2">This action cannot be undone.</p>
           <Button onClick={()=>handleDelete({onConfirm})}>{`Delete ${itemType}`}</Button>
