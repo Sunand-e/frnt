@@ -223,8 +223,8 @@ export const GET_RESOURCE = gql`
 `
 
 export const GET_RESOURCES = gql`
-  query GetResources($first: Int, $after: String) {
-    resources(first: $first, after: $after) {
+  query GetResources($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+  resources(first: $first, after: $after, where: $where, orderBy: $orderBy) {
       totalCount
       edges {
         userId
@@ -252,8 +252,8 @@ export const GET_PATHWAY = gql`
 `
 
 export const GET_PATHWAYS = gql`
-  query GetPathways($first: Int, $after: String) {
-    pathways(first: $first, after: $after) {
+  query GetPathways($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+    pathways(first: $first, after: $after, where: $where, orderBy: $orderBy) {
       totalCount
       edges {
         userId

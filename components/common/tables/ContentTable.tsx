@@ -28,8 +28,10 @@ interface ContentTableProps<T> {
   ActionsMenuComponent?: any;
   tableProps?: any;
   remote?: boolean;
-  reLoad?: any;
+  reLoad?: any; // Add reLoad
+  changeOrder?: (field: string, direction: string) => void; // Add changeOrder
 }
+
 
 const ContentTable = <T,>({
   content,
@@ -50,9 +52,15 @@ const ContentTable = <T,>({
 
   const tableData = useMemo(
     () => {
-      return content?.edges?.map(edge => edge.node).filter(node  => {
+      const filter_content = content?.edges?.map(edge => edge.node).filter(node  => {
         return !node._deleted
-      }).sort((a,b) => b.order - a.order) || []
+      }) || []
+      if (remote) {
+        return filter_content
+      } 
+      else {
+        return filter_content.sort((a,b) => b.order - a.order)
+      }
     }, [content]
   );
 
