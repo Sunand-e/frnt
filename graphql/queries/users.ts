@@ -163,8 +163,8 @@ export const GET_USER_CAPABILITIES = gql`
 `
 
 export const GET_USERS = gql`
-  query GetUsers($first: Int, $after: String) {
-    users(first: $first, after: $after, where: { status: "active" }) {
+  query GetUsers($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+    users(first: $first, after: $after, where: $where, orderBy: $orderBy) {
       totalCount
       edges {
         node {
