@@ -85,6 +85,7 @@
     "immer": "^9.0.21",
     "immutable": "^4.1.0",
     "js-video-url-parser": "^0.5.1",
+    "libphonenumber-js": "^1.12.4",
     "lodash.shuffle": "^4.2.0",
     "material-design-icons": "^3.0.1",
     "next": "^13.4.9",

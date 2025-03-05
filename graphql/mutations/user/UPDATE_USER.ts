@@ -12,6 +12,8 @@ export const UPDATE_USER = gql`
     $mfaEnabled: Boolean
     $otpSecret: String
     $otpSecretVerified: Boolean
+    $phoneNumber: String
+    $otpVerifiedToken: String
   ) {
     updateUser(
       input: {
@@ -23,6 +25,8 @@ export const UPDATE_USER = gql`
         mfaEnabled: $mfaEnabled,
         otpSecret: $otpSecret,
         otpSecretVerified: $otpSecretVerified
+        phoneNumber: $phoneNumber
+        otpVerifiedToken: $otpVerifiedToken
       }
     ) {
       user {
