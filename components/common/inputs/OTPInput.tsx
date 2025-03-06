@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 interface OTPInputProps {
   length?: number;
@@ -32,9 +32,28 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onComplete }) => {
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const pastedText = e.clipboardData.getData("Text").replace(/\D/g, "").slice(0, length);
+    const newOtp = [...otp];
+
+    for (let i = 0; i < pastedText.length; i++) {
+      newOtp[i] = pastedText[i];
+      if (i < length - 1) {
+        inputRefs.current[i + 1]?.focus();
+      }
+    }
+
+    setOtp(newOtp);
+
+    // If OTP is complete, call the callback
+    if (newOtp.every((digit) => digit !== "")) {
+      onComplete(newOtp.join(""));
+    }
+  };
+
   return (
     <div className="flex gap-2">
-      {otp.map((digit, index) => (
+      {otp.map((digit: any, index: any) => (
         <input
           key={index}
           type="number"
@@ -44,6 +63,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onComplete }) => {
           ref={(el) => (inputRefs.current[index] = el)}
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
+          onPaste={handlePaste}
           className="remove-spin-button w-10 h-10 text-center text-xl border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 p-0"
           onFocus={(e) => e.target.select()} // Auto-select on focus
         />

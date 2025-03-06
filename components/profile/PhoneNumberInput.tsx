@@ -4,6 +4,7 @@ import Button from '../common/Button';
 import TextInput from '../common/inputs/TextInput';
 import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import OTPInput from "../common/inputs/OTPInput";
+import BlinkingEllipsis from "../common/misc/BlinkingEllipsis";
 
 interface PhoneNumberInputProps {
   register: any;
@@ -18,24 +19,78 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
   const verifiedToken = watch("otpVerifiedToken");
   const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState('');
+  const [otpToken, setOtpToken] = useState(null);
+  const [otpSending, setOtpSending] = useState(false);
+  const [timer, setTimer] = useState(30);
+  const [canSend, setCanSend] = useState(true);
+
+  useEffect(() => {
+    if (timer === 0) {
+      setCanSend(true);
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => prevTimer - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Clean up the interval on unmount
+  }, [timer]);
 
   const sendOTP = () => {
+    const data = {
+      phone_number: phoneNumber
+    }
+    setOtpSending(true);
+    fetch(`/api/v1/send_mobile_otp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if (result.error) {
+            console.log(result.error)
+          } else {
+            setOtpToken(result.token)
+            setOtpSent(true);
+          }
+          setOtpSending(false);
+        },
+      )
     setValue("otpVerifiedToken", null)
-    console.log(`Send OTP on: ${phoneNumber}`)
-    setOtpSent(true);
+    setTimer(30); // Reset the timer to 30 seconds
+    setCanSend(false);
   }
 
   const handleVerifyOTP = (otp: string) => {
-    console.log(`OTP: ${otp}`)
-    setValue("otpVerifiedToken", "oTFmPchEUotkHUr5HuDl1wtO2dOZOyM=--PVGVUqrzMe3a9HL8--Ky2gZcPj5wv0SrfDHkZm7w==")
-    // setError('Incorrect OTP')
+    const data = {
+      otp: otp,
+      otp_token: otpToken
+    }
+    fetch(`/api/v1/verify_mobile_otp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if (result.error) {
+            setError(result.error)
+          } else {
+            setValue("otpVerifiedToken", result.token)
+          }
+        },
+      )
   };
 
-  // useEffect(()=> {
-  //   setValue("otpVerifiedToken", verifiedToken)
-  // }, [verifiedToken])
-
-  const phoneNumberChanged = useMemo(()=> {
+  const phoneNumberChanged = useMemo(() => {
     return user?.phoneNumber != phoneNumber
   }, [user, phoneNumber])
 
@@ -56,15 +111,15 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
               },
             })}
           />
-          { phoneNumberChanged &&
-            <Button disabled={!(phoneNumber && parsePhoneNumberFromString(phoneNumber)?.isValid())} onClick={sendOTP} className="ml-2">
-              { otpSent ? "Resend OTP" : "Send OTP" }
+          {phoneNumberChanged &&
+            <Button disabled={!(phoneNumber && parsePhoneNumberFromString(phoneNumber)?.isValid()) || !canSend} onClick={sendOTP} className="ml-2">
+              {otpSending ? <>Sending<BlinkingEllipsis /></> : otpSent ? canSend ? "Resend OTP" :  `Resend in ${timer}s` : "Send OTP"}
             </Button>
           }
         </div>
         {errors.phoneNumber && (<small className="text-danger text-red-500">{errors.phoneNumber.message}</small>)}
       </div>
-      { (verifiedToken || (!verifiedToken && otpSent) && phoneNumberChanged) && 
+      {(verifiedToken || (!verifiedToken && otpSent) && phoneNumberChanged) &&
         (<div>
           {!verifiedToken && otpSent && (
             <div className='flex items-center'>
