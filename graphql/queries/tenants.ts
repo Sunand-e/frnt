@@ -47,6 +47,21 @@ export const GET_TENANTS = gql`
   }
   ${TenantFragment}
 `
+export const GET_TENANTS_REPORT = gql`
+  query GetTenantReports($month: Int, $year: Int) {
+    tenantReports(month: $month, year: $year) {
+      edges {
+        node {
+          activeUsers
+          totalAssignedCourses
+          courseAccessFrequency
+          ...TenantFragment
+        }
+      }
+    }
+  }
+  ${TenantFragment}
+`
 
 export const TENANT_SHARED_ITEMS = gql`
   query GetTenantSharedItems(

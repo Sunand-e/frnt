@@ -10,6 +10,10 @@ import { contentTypes } from '../contentTypes'
 import useTenantFeaturesEnabled from '../../../hooks/users/useTenantFeaturesEnabled'
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability'
 import BlinkingEllipsis from '../misc/BlinkingEllipsis'
+import Button from '../Button'
+import { FileExport } from '@styled-icons/fa-solid/FileExport';
+import downloadCSV from '../../../utils/downloadCsv'
+
 const TableActions = ({ table }: { table: Table<any> }) => {
   
   const globalFilter = useTableContext(s => s.globalFilter)
@@ -28,6 +32,9 @@ const TableActions = ({ table }: { table: Table<any> }) => {
   const typeName = useTableContext(s => s.typeName)
   const dontShowTypes = useTableContext(s => s.dontShowTypes)
   const isLoading = useTableContext(s => s.isLoading)
+  const tableCols = useTableContext(s => s.tableCols)
+  const exportFilename = useTableContext(s => s.exportFilename)
+  const isExportable = useTableContext(s => s.isExportable)
   
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
   const { userHasCapability } = useUserHasCapability()
@@ -157,7 +164,12 @@ const TableActions = ({ table }: { table: Table<any> }) => {
           <span className={`text-main-secondary whitespace-nowrap hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
         )}
       </div>
-      <p className='whitespace-nowrap pl-3'>{isLoading ? <>Loading<BlinkingEllipsis /></> : itemCountString}</p>
+      <div className="flex items-center flex-col sm:flex-row ">
+        <p className='whitespace-nowrap pl-3'>{isLoading ? <>Loading<BlinkingEllipsis /></> : itemCountString}</p>
+        <div className='flex space-x-3 ml-5'>
+          {isExportable && <Button onClick={() => downloadCSV(exportFilename, tableCols, table)}><>Export to CSV<FileExport className="w-5 ml-2 -mr-1" /></></Button>}
+        </div>
+      </div>
     </div>
   )
 }

@@ -63,6 +63,7 @@ const getStyleObjectFromString = (str: string | null) => {
 
   return style;
 };
+
 function handleRelativePositioning(node: ElementNode, parentX?: number, parentY?: number) {
 
   return {
@@ -140,5 +141,5 @@ export const CertificateSvg = ({ svgXml }: { svgXml: string }) => {
     const parsed: RootNode = parse(svg);
     return svgToJSXWithRelPositioning(parsed.children[0]);
   }, [svgXml]);
-  return <>{ svgElement } </>
+  return <>{svgElement} </>
 };

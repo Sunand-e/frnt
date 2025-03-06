@@ -18,6 +18,7 @@ import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled
 import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 import { commonTableCols } from '../../utils/commonTableCols';
 import useGetUsers from '../../hooks/users/useGetUsers';
+import { GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 
 var advancedFormat = require('dayjs/plugin/advancedFormat');
 dayjs.extend(advancedFormat);
@@ -59,8 +60,9 @@ const UsersTable = () => {
   const tableCols = useMemo(
     () => [
       {
-        header: "User ",
-        accessorFn: (row) => row.fullName,
+        header: "User",
+        id: 'user',
+        accessorFn: (row: any) => row.fullName,
         cell: ({ cell }) => (
           <ItemWithImage
             title={cell.row.original.fullName}
@@ -72,45 +74,55 @@ const UsersTable = () => {
           />
         ),
       },
-      ...(tenantFeaturesEnabled('groups') && userHasCapability('SeeGroups', 'tenant')
-        ? [
-            {
-              header: "Groups",
-              accessorFn: (row: GetUsers_users_edges_node) =>
-                row.groups.edges.map((edge) => edge.node.name).join(', '),
-              cell: ({ cell }) => (
-                <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped> || <span>&mdash;</span>
-              ),
-            },
-          ]
-        : []),
-      ...(userHasCapability('SeeRoles') && !isOrganisationLeader
-        ? [
-            {
-              header: "Global Roles",
-              id: 'roles',
-              cell: ({ cell }) => {
-                const rolesString =
-                  cell.row.original.roles
-                    .filter((role) => role.name !== 'User')
-                    .map((role) => role.name)
-                    .join(', ') || '-';
-                return <TooltipIfClamped className="line-clamp-2">{rolesString}</TooltipIfClamped>;
-              },
-            },
-          ]
-        : []),
+      {
+        header: "Email",
+        id: 'email',
+        accessorFn: (row: any) => row.email,
+        hideOnTable: true
+      },
+      ...(
+        (
+          tenantFeaturesEnabled('groups') &&
+          userHasCapability('SeeGroups', 'tenant')
+        ) ? [
+        {
+          header: "Groups",
+          id: 'groups',
+          accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', ') || '',
+          cell: ({ cell }) => (
+            cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
+          )
+        }
+      ] : []),
+      ...(
+        (
+          userHasCapability('SeeRoles') &&
+          !isOrganisationLeader
+        ) ? [
+        {
+          header: "Global Roles",
+          id: 'roles',
+          accessorFn: (row: GetUsers_users_edges_node) => row.roles.filter(
+            role => role.name !== 'User'
+          ).map(role => role.name).join(', ') || '',
+          cell: ({ cell }) => {
+            return (
+              cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
+            )
+          }
+        }
+      ] : []),
       {
         header: "Status",
         id: 'status',
         accessorFn: (row) => {
-          if (!row.invitationSentAt) {
-            return 'uninvited';
+          if(row.isActive) {
+            return "active"
           }
-          if (row.invitationAcceptedAt) {
-            return 'active';
+          if(row.invitationSentAt) {
+            return "invited"
           }
-          return 'invited';
+          return "uninvited"
         },
         cell: ({ cell }) => {
           let props;
@@ -150,6 +162,24 @@ const UsersTable = () => {
         },
       },
       {
+        header: "TimeStamp",
+        id: 'time_stamp',
+        hideOnTable: true,
+        accessorFn: (row: any) => {
+          if(!row.invitationSentAt) {
+            let dateString = dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A')
+            return `Created: ${dateString}`
+          }
+          if(row.invitationAcceptedAt) {
+            let dateString = dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A')
+            return `Last signed in: ${dateString}`
+          }
+          let dateString = dayjs(row.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')
+          return `Invited: ${dateString}`
+        },
+        
+      },
+      {
         ...commonTableCols.actions,
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />,
         width: 300,
@@ -183,7 +213,7 @@ const UsersTable = () => {
       label: 'Assign courses to users',
       onClick: (ids: Array<string>) => ids.length && assignCourses(ids),
     },
-  ];
+  ]
 
   const tableProps = {
     count,
@@ -196,9 +226,11 @@ const UsersTable = () => {
     reLoad,
     typeName: 'user',
     filters: ['global'],
-  };
-  
-  return <Table {...tableProps} />;
-};
+    exportFilename: 'User List',
+    isExportable: true
+  }
+
+  return <Table { ...tableProps } />;
+}
 
 export default UsersTable;
