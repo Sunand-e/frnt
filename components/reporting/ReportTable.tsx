@@ -6,7 +6,7 @@ import ReportHeader from "./ReportHeader";
 import Table from '../common/tables/Table';
 import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 
-export const filterActive = (filterVal: string) => {
+export const filterActive = (filterVal: any) => {
   return filterVal && filterVal !== 'all'
 }
 
@@ -27,7 +27,7 @@ interface ReportTableProps {
   simpleHeader?: boolean,
   loading?: any,
   error?: any,
-  exportFilename: string,
+  exportFilename?: string,
   title?: ReactNode,
   filters?: string[],
   backButton?: ReactNode
@@ -38,7 +38,7 @@ const ReportTable = ({
   tableCols,
   loadingText = "Loading...",
   errorText = "Unable to fetch report.",
-  simpleHeader=false,
+  simpleHeader = false,
   loading = null,
   error = null,
   exportFilename = "report",
@@ -49,15 +49,11 @@ const ReportTable = ({
 
   const router = useRouter()
 
-  const { 
+  const {
     category: categoryId
   } = router.query
-  
-  const filterActive = (filterVal: string) => {
-    return filterVal && filterVal !== 'all'
-  }
 
-  const [ filteredData, setFilteredData ] = useState([])
+  const [filteredData, setFilteredData] = useState([])
 
   const { isOrganisationLeader } = useIsOrganisationLeader()
   // if the user is an organisation leader, remove 'group' from the filters array
@@ -71,12 +67,12 @@ const ReportTable = ({
     let data
     if (filterActive(categoryId)) {
       data = tableData?.filter((edge: any) => {
-        return edge.node.tags.edges.some(({node}) => node.id === categoryId);
+        return edge.node.tags.edges.some(({ node }) => node.id === categoryId);
       });
     }
     data = tableData || []
     setFilteredData(data)
-  },[tableData, categoryId])
+  }, [tableData, categoryId])
   return (
     <>
       <ReportHeader

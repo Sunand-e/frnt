@@ -4,6 +4,7 @@ import { UserFragment } from "../users"
 
 export const ContentUserEdgeFragment = gql`
   fragment ContentUserEdgeFragment on ContentUserConnection {
+    totalCount
     edges {
       node {
         ...UserFragment
@@ -19,28 +20,22 @@ export const ContentUserEdgeFragment = gql`
       progress
       visits
     }
+    pageInfo{
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
   }
 `
 
 export const GET_COURSE_USERS = gql`
-  query GetCourseUsers($id: ID!) {
+  query GetCourseUsers($id: ID!, $first: Int, $after: String) {
     course(id: $id) {
       ...CourseFragment
-      users {
+      users(first: $first, after: $after) {
         ...ContentUserEdgeFragment
       }
-      # sections {
-      #   ...SectionFragment
-      #   users {
-      #     ...ContentUserEdgeFragment
-      #   }
-      #   lessons {
-      #     ...LessonFragment
-      #     users {
-      #       ...ContentUserEdgeFragment
-      #     }
-      #   }
-      # }
     }
   }
   ${CourseFragment}

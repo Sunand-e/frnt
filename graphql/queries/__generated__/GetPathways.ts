@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "../../generated";
+
 // ====================================================
 // GraphQL query operation: GetPathways
 // ====================================================
@@ -21,13 +23,6 @@ export interface GetPathways_pathways_edges_node_icon {
   provider: string | null;
   properties: any | null;
   id: string;
-}
-export interface GetPathways_pageInfo {
-  __typename: "PageInfo";
-  endCursor: string | null;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  startCursor: string | null;
 }
 
 export interface GetPathways_pathways_edges_node_mediaItem {
@@ -283,7 +278,7 @@ export interface GetPathways_pathways {
    * A list of edges.
    */
   edges: (GetPathways_pathways_edges | null)[] | null;
-  pageInfo: (GetPathways_pageInfo | null) | null;
+  pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetPathways {

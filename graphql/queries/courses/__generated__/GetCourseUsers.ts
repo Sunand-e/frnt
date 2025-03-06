@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "../../../generated";
+
 // ====================================================
 // GraphQL query operation: GetCourseUsers
 // ====================================================
@@ -76,6 +78,7 @@ export interface GetCourseUsers_course_users {
    * A list of edges.
    */
   edges: (GetCourseUsers_course_users_edges | null)[] | null;
+  pageInfo: PageInfo;
 }
 
 export interface GetCourseUsers_course_tags_image {

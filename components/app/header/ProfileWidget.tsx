@@ -11,14 +11,13 @@ import { useViewStore } from '../../../hooks/useViewStore';
 const ProfileWidget = () => {
   const { logout } = useLogout()
 
-  const handleLogoutClick = (e) => {
+  const handleLogoutClick = (e: any) => {
     logout()
     e.target.blur()
   }
 
   const isAdminView = useViewStore(state => state.isAdminView)
 
-  // const { loading, error, data, refetch } = useQuery<GetUser>(GET_USER);
   const { loading, error, user } = useGetCurrentUser()
   const { userHasCapability } = useUserHasCapability()
 
@@ -29,8 +28,8 @@ const ProfileWidget = () => {
       'UpdateUser',
       'UpdateCourse',
       'UpdateResource',
-    ]) ? [{ 
-      label: `${isAdminView ? 'User' : 'Admin'} View`, 
+    ]) ? [{
+      label: `${isAdminView ? 'User' : 'Admin'} View`,
       href: isAdminView ? '/' : '/admin',
     }] : []),
     { label: 'Log out', onClick: handleLogoutClick }
@@ -39,7 +38,7 @@ const ProfileWidget = () => {
   const button = (
     <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
       <div className='h-8 w-8'>
-        { user?.profileImageUrl ? (
+        {user?.profileImageUrl ? (
           <img
             className="h-8 w-8 hidden object-cover rounded-full sm:block"
             src={user.profileImageUrl}
@@ -63,7 +62,7 @@ const ProfileWidget = () => {
   )
 
   return <>
-    { user && (
+    {user && (
       <div className='ml-3'>
         <MenuComponent
           menuItems={menuItems}

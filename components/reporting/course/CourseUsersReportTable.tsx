@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import { User } from "@styled-icons/fa-solid/User";
 import ReportTable, { filterActive } from "../ReportTable";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import useGetGroups from "../../../hooks/groups/useGetGroups";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 var advancedFormat = require("dayjs/plugin/advancedFormat");
@@ -15,22 +14,20 @@ dayjs.extend(advancedFormat);
 
 const CourseUsersReportTable = () => {
   const router = useRouter();
-  const { 
+  const {
     course: courseId,
-    group: groupId 
+    group: groupId
   } = router.query
 
   const { groups } = useGetGroupsUsers();
   const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
-  
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
+
   const tableData = useMemo(() => {
     let data = userConnection?.edges
-    if(filterActive(groupId) && groups) {
-      let groupEdge = groups.edges.find(({node}) => node.id === groupId)
+    if (filterActive(groupId) && groups) {
+      let groupEdge = groups.edges.find(({ node }) => node.id === groupId)
       data = data?.filter(edge => {
-        return groupEdge.node.users.edges.map(edge => edge.node.id).includes(edge.node.id)
+        return groupEdge.node.users.edges.map((edge: any) => edge.node.id).includes(edge.node.id)
       })
     }
     return data || []
@@ -41,12 +38,12 @@ const CourseUsersReportTable = () => {
       {
         id: "name",
         header: "Name",
-        accessorFn: row => row.node.fullName,
+        accessorFn: (row: any) => row.node.fullName,
         cell: ({ cell }) => {
           const cellProps = {
             imageSrc: cell.row.original.node.profileImageUrl,
             icon: (
-              <User className="hidden w-auto h-full bg-grey-500 text-main-secondary text-opacity-50" />
+              <User className="p-1" />
             ),
             title: cell.row.original.node.fullName,
             secondary: cell.row.original.node.email,
@@ -65,26 +62,7 @@ const CourseUsersReportTable = () => {
       commonTableCols.score,
       commonTableCols.firstVisited,
       commonTableCols.lastVisited,
-      // {
-      //   id: "completedAt",
-      //   header: "Completed at",
-      //   accessorKey: "completedAt",
-      //   cell: ({ cell }) => {
-      //     return cell.getValue() ? dayjs(cell.getValue()).format('Do MMMM YYYY [at] h:mm A') : noDataDash
-      //   }
-      // },
 
-      // "visits": null,
-      // "completed": null
-      // {
-      //   header: "Roles",
-      //   accessorFn: row => row.roles[0].name, // accessor is the key in the data
-      //   cell: ({ cell }) => {
-      //     return cell.row.original.node.roles.map(role => {
-      //       return role.name
-      //     }).join(', ')
-      //   }
-      // },
       {
         id: "actions",
         header: "",
@@ -146,7 +124,6 @@ const CourseUsersReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
-      // groupFilter={true}
     />
   );
 };

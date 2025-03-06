@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "../../generated";
+
 // ====================================================
 // GraphQL query operation: GetUsers
 // ====================================================
@@ -24,13 +26,6 @@ export interface GetUsers_users_edges_node_groups_edges_roles {
   __typename: "Role";
   id: string;
   name: string | null;
-}
-export interface GetUsers_pageInfo {
-  __typename: "PageInfo";
-  endCursor: string | null;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  startCursor: string | null;
 }
 
 export interface GetUsers_users_edges_node_groups_edges {
@@ -82,7 +77,7 @@ export interface GetUsers_users {
    * A list of edges.
    */
   edges: (GetUsers_users_edges | null)[] | null;
-  pageInfo: (GetUsers_pageInfo | null) | null;
+  pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetUsers {

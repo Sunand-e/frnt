@@ -10,7 +10,6 @@ import useUnenrolUserFromContent from "../../../hooks/contentItems/useUnenrolUse
 import { getContentTypeStringWithCount } from "../../../utils/getContentTypeStringWithCount";
 import ContentTitleCell from "../../common/cells/ContentTitleCell";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import { Tooltip } from "../../common/floating-ui/Tooltip";
 import TooltipIfClamped from "../../common/floating-ui/TooltipIfClamped";
 
 interface UserContentProps {
@@ -20,7 +19,7 @@ interface UserContentProps {
 const UserContent = ({ contentType }: UserContentProps) => {
   const router = useRouter();
   const { id } = router.query;
-  const { user, loading, error } = useGetUser(id);
+  const { user, loading, error } = useGetUser(id as string);
   const { unenrolUserFromContent } = useUnenrolUserFromContent()
 
   const type = contentTypes[contentType];
@@ -36,8 +35,8 @@ const UserContent = ({ contentType }: UserContentProps) => {
     }
   }), [user, contentType, type.plural]);
 
-  const handleRevoke = useCallback(ids => {
-    
+  const handleRevoke = useCallback((ids: any) => {
+
     unenrolUserFromContent({
       userIds: [user.id],
       contentItemIds: ids,
@@ -54,15 +53,15 @@ const UserContent = ({ contentType }: UserContentProps) => {
 
   const tableData = useMemo(() => {
     return (
-      user?.[type.pluralKey].edges.reduce((acc, edge) => {
+      user?.[type.pluralKey].edges.reduce((acc: any, edge: any) => {
         // Check if the edge node is not deleted and has relevant roles
         const hasRoles =
-          edge.groups.edges.some((groupEdge) => groupEdge.roles.length) ||
+          edge.groups.edges.some((groupEdge: any) => groupEdge.roles.length) ||
           edge.roles.length;
 
         if (!edge.node._deleted && hasRoles) {
           // Check if the edge has groups with edges and set checkboxDisabled
-          const hasGroupsWithEdges = edge.groups.edges.some((groupEdge) => groupEdge.roles.length)
+          const hasGroupsWithEdges = edge.groups.edges.some((groupEdge: any) => groupEdge.roles.length)
           acc.push({
             ...edge,
             checkboxDisabled: hasGroupsWithEdges,
@@ -78,7 +77,7 @@ const UserContent = ({ contentType }: UserContentProps) => {
     return [
       {
         header: type.label,
-        accessorFn: row => row.node.title,
+        accessorFn: (row: any) => row.node.title,
         cell: ({ cell }) => <ContentTitleCell item={cell.row.original.node} />
       },
       {
@@ -88,10 +87,10 @@ const UserContent = ({ contentType }: UserContentProps) => {
           const values = cell.row.original;
           return (
             <TooltipIfClamped className="text-center line-clamp-2">
-              { cell.row.original.groups.edges.length ? (
+              {cell.row.original.groups.edges.length ? (
                 <>
                   Assigned via group:
-                  <strong> {cell.row.original.groups.edges.map(edge => edge.node.name).join(', ')}
+                  <strong> {cell.row.original.groups.edges.map((edge: any) => edge.node.name).join(', ')}
                   </strong>
                 </>
               ) : (
