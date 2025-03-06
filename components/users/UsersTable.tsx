@@ -37,7 +37,7 @@ const UserStatusCell = ({
 );
 
 const UsersTable = () => {
-  const { users, loading } = useGetUsers({ pagination: true });
+  const { users, loading, reLoad } = useGetUsers({ pagination: true });
 
   const tableData = useMemo(() => {
     return users?.edges
@@ -192,10 +192,12 @@ const UsersTable = () => {
     bulkActions,
     isLoading: loading,
     loadingText: 'Loading users',
+    remote: true,
+    reLoad,
     typeName: 'user',
     filters: ['global'],
   };
-
+  
   return <Table {...tableProps} />;
 };
 
