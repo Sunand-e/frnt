@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import Button from '../common/Button';
 import { QrCode, Sms, Email,  } from "@styled-icons/material";
@@ -6,17 +6,23 @@ import { CheckCircle, AlertTriangle } from "@styled-icons/feather";
 import { ChevronRight } from "@styled-icons/heroicons-outline";
 import useUpdateUser from '../../hooks/users/useUpdateUser';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const TwoSVForm = () => {
   const { user } = useGetCurrentUser();
   const { updateUser } = useUpdateUser();
-  const [mfaEnabled, setMfaEnabled] = useState(user?.mfaEnabled || false);
   
   const ToggleMFA = useCallback(() => {
-    const updatedUser = { ...user, mfaEnabled: !mfaEnabled };
+    const updatedUser = { ...user, mfaEnabled: !user?.mfaEnabled };
+    if(!user?.mfaEnabled){
+      toast('You’re now protected with 2-Step Verification', {
+        toastId: 'enable_2fa',
+        hideProgressBar: false,
+        autoClose: 2500
+      })
+    }
     updateUser(updatedUser);
-    setMfaEnabled((prev: Boolean) => !prev);
-  }, [mfaEnabled, user, updateUser]);
+  }, [user?.mfaEnabled, user, updateUser]);
 
   const options = [
     {
@@ -45,8 +51,8 @@ const TwoSVForm = () => {
   return (
     <div className='flex-grow'>
       <div className='flex mb-3 justify-end'>
-        <Button displayType={mfaEnabled ? "white" : "normal"} onClick={ToggleMFA}>
-          Turn {mfaEnabled ? "Off" : "On"} 2-Step Verification
+        <Button displayType={user?.mfaEnabled ? "white" : "normal"} onClick={ToggleMFA}>
+          Turn { user?.mfaEnabled ? "Off" : "On" } 2-Step Verification
         </Button>
       </div>
       <div className="mx-auto p-6 border rounded-lg">

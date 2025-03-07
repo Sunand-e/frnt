@@ -1,7 +1,6 @@
 import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import Button from '../common/Button';
-import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 
@@ -11,7 +10,6 @@ interface PasswordFormValues {
 
 const PasswordVerificationForm = ({ onSuccess = () => {} }) => {
 
-  const router = useRouter()
   const onSubmit = useCallback((values: any) => {
     const data = {
       ...values
@@ -38,7 +36,7 @@ const PasswordVerificationForm = ({ onSuccess = () => {} }) => {
             toastId: 'verifyPassword',
             hideProgressBar: false,
             autoClose: 2500
-          })  
+          })
         }
       },
     )
