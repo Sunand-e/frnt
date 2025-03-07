@@ -28,31 +28,32 @@ const ProfileForm = () => {
     method: "PUT"
   })
 
-  const onSubmit = ({profile_image, ...values}) => {
+  const onSubmit = ({ profile_image, ...values }) => {
     updateUser(values)
-    if(profile_image) {
+    if (profile_image) {
       const imageEndpoint = `/api/v1/users/${user.id}/update_profile_image`
-      profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, {profile_image})
+      profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, { profile_image })
     }
   }
-  
+
   const defaultValues = {
     ...user,
     otpVerifiedToken: null,
     role_ids: user?.roles.map((role: any) => role.id),
   }
-  
+
   const { register, handleSubmit, setValue, control, formState: { errors }, reset, watch } = useForm<ProfileFormValues>({
     defaultValues
   });
 
   const isValid = useMemo(() => {
-    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null
+    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null || watch('phoneNumber') == ''
   }, [user, watch('phoneNumber'), watch('otpVerifiedToken')])
 
   useEffect(() => {
     reset(defaultValues);
   }, [user]);
+
   return (
     <form
       className='h-full w-full max-w-md flex flex-col space-y-4'
@@ -62,10 +63,10 @@ const ProfileForm = () => {
         label="First name"
         placeholder="First name"
         inputAttrs={register("firstName", {
-          required:"First name is required",
+          required: "First name is required",
           maxLength: {
             value: 20,
-            message:"Max length of the name is 20"
+            message: "Max length of the name is 20"
           }
         })}
       />
@@ -74,13 +75,13 @@ const ProfileForm = () => {
         label="Last name"
         placeholder="Last name"
         inputAttrs={register("lastName",
-        {
-          required:"Last is required",
-          maxLength: {
-            value: 20,
-            message:"Max length of the name is 20"
+          {
+            required: "Last is required",
+            maxLength: {
+              value: 20,
+              message: "Max length of the name is 20"
+            }
           }
-        }
         )}
       />
       {errors.lastName && (<small className="text-danger text-red-500">{errors.lastName.message}</small>)}
@@ -88,27 +89,27 @@ const ProfileForm = () => {
         label="Email"
         placeholder="email"
         inputAttrs={register("email", {
-          required:"Email is required",
+          required: "Email is required",
           maxLength: {
             value: 40,
-            message:"Max length of the name is 40"
+            message: "Max length of the name is 40"
           },
-          pattern:{
-            value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+          pattern: {
+            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
             message: "Please give valid email"
           }
         })}
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
-      
-      <PhoneNumberInput register={register} setValue={setValue} errors={errors} watch={watch} />
+
+      <PhoneNumberInput register={register} setValue={setValue} watch={watch} />
       <ImageDropzoneInput
         label="Profile image"
         control={control}
         name="profile_image"
         initialValue={user?.profileImageUrl}
       />
-      <Button disabled={!isValid  || loading} type="submit">{loading ? "Submitting" : "Submit"}</Button>
+      <Button disabled={!isValid || loading} type="submit">{loading ? "Submitting" : "Submit"}</Button>
       {error && <div className="text-red-500">{error.message}</div>}
     </form>
   );
