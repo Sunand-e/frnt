@@ -7,7 +7,7 @@ const AcceptInvitationPage = () => {
 
   return (
     <>
-    <h2 className="mb-4 text-main-dark">Accept invitation</h2>
+      <h2 className="mb-4 text-main-dark">Accept invitation</h2>
       <AcceptInvitationForm />
     </>
   )

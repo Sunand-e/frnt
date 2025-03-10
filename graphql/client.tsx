@@ -41,7 +41,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError) console.log(`[Network error]: ${networkError}`);
 
-  const excludedRoutes = ['/accept_invitation', '/lost-password', '/reset-password', '/sign_up']; 
+  const excludedRoutes = ['/accept_invitation', '/lost-password', '/reset-password', '/sign_up', '/confirmation']; 
 
   if (networkError && 'statusCode' in networkError && networkError.statusCode === 401 && !excludedRoutes.includes(Router.pathname)) {
     isLoggedInVar(false);

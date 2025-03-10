@@ -7,6 +7,7 @@ export const UPDATE_USER = gql`
     $id: ID!
     $firstName: String
     $lastName: String
+    $email: String
     $userType: String
     $status: String
     $mfaEnabled: Boolean
@@ -21,6 +22,7 @@ export const UPDATE_USER = gql`
         firstName: $firstName,
         lastName: $lastName,
         userType: $userType,
+        email: $email,
         status: $status,
         mfaEnabled: $mfaEnabled,
         otpSecret: $otpSecret,

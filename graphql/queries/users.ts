@@ -24,6 +24,7 @@ export const UserFragment = gql`
     nationalNumber
     otpSecretVerified
     isActive
+    unconfirmedEmail
     roles {
       id
       name
