@@ -32,13 +32,13 @@ const TwoSVForm = () => {
       alert: !user?.otpSecretVerified,
       url: '/profile/twosv/authenticator'
     },
-    {
-      icon: Sms,
-      title: "Mobile",
-      action: user?.phoneNumber ? user.phoneNumber : "Add a mobile number",
-      alert: !user?.phoneNumber,
-      url: '/profile'
-    },
+    // {
+    //   icon: Sms,
+    //   title: "Mobile",
+    //   action: user?.phoneNumber ? user.phoneNumber : "Add a mobile number",
+    //   alert: !user?.phoneNumber,
+    //   url: '/profile'
+    // },
     {
       icon: Email,
       title: "Email",

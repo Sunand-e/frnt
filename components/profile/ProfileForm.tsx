@@ -102,7 +102,7 @@ const ProfileForm = () => {
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
 
-      <PhoneNumberInput register={register} setValue={setValue} watch={watch} />
+      {/* <PhoneNumberInput register={register} setValue={setValue} watch={watch} /> */}
       <ImageDropzoneInput
         label="Profile image"
         control={control}
