@@ -38,6 +38,7 @@ const ProfileForm = () => {
 
   const defaultValues = {
     ...user,
+    email: user?.unconfirmedEmail || user?.email,
     otpVerifiedToken: null,
     role_ids: user?.roles.map((role: any) => role.id),
   }
@@ -64,43 +65,44 @@ const ProfileForm = () => {
         placeholder="First name"
         inputAttrs={register("firstName", {
           required: "First name is required",
-          maxLength: {
-            value: 20,
-            message: "Max length of the name is 20"
-          }
+          maxLength: { value: 20, message: "Max length of the name is 20" }
         })}
       />
       {errors.firstName && (<small className="text-danger text-red-500">{errors.firstName.message}</small>)}
+
       <TextInput
         label="Last name"
         placeholder="Last name"
-        inputAttrs={register("lastName",
-          {
-            required: "Last is required",
-            maxLength: {
-              value: 20,
-              message: "Max length of the name is 20"
-            }
-          }
-        )}
+        inputAttrs={register("lastName", {
+          required: "Last is required",
+          maxLength: { value: 20, message: "Max length of the name is 20" }
+        })}
       />
       {errors.lastName && (<small className="text-danger text-red-500">{errors.lastName.message}</small>)}
+
       <TextInput
         label="Email"
         placeholder="email"
         inputAttrs={register("email", {
           required: "Email is required",
-          maxLength: {
-            value: 40,
-            message: "Max length of the name is 40"
-          },
+          maxLength: { value: 40, message: "Max length of the name is 40" },
           pattern: {
             value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            message: "Please give valid email"
+            message: "Please provide a valid email"
           }
         })}
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
+
+      {user?.unconfirmedEmail && (
+        <div className="text-yellow-500 bg-yellow-100 p-2 rounded-md">
+          Warning: Your new email <strong>{user?.unconfirmedEmail}</strong> is unverified.  
+          <br />
+          Please check your inbox for a confirmation link.  
+          <br />
+          You can continue logging in with your current email <strong>{user?.email}</strong> until the new email is verified.
+        </div>
+      )}
 
       <PhoneNumberInput register={register} setValue={setValue} watch={watch} />
       <ImageDropzoneInput
@@ -109,10 +111,14 @@ const ProfileForm = () => {
         name="profile_image"
         initialValue={user?.profileImageUrl}
       />
-      <Button disabled={!isValid || loading} type="submit">{loading ? "Submitting" : "Submit"}</Button>
+
+      <Button disabled={!isValid || loading} type="submit">
+        {loading ? "Submitting" : "Submit"}
+      </Button>
+
       {error && <div className="text-red-500">{error.message}</div>}
     </form>
   );
 }
 
-export default ProfileForm
+export default ProfileForm;
