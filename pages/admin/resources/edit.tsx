@@ -20,7 +20,7 @@ const AdminResourcesEdit = () => {
   })
 
   usePageTitle({ 
-    title: "Edit Resource: ", 
+    title: resource?.title || "Resource", 
     editable:  resource?.title,
     onEdit: title => updateResource({title})
   })

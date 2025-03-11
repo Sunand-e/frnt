@@ -28,9 +28,9 @@ const BlockEditor = () => {
   const { complete, data: lesson } = useLessonContentFragment(id)
   
   usePageTitle({ 
-    title: ``, 
+    title: lesson?.title || 'Untitled Lesson', 
     editable:  lesson?.title || 'Untitled Lesson', 
-    onEdit: title => {
+    onEdit: (title: string) => {
       updateLesson(id)({title})
     }
   })

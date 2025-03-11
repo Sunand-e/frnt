@@ -19,8 +19,8 @@ const AdminPathwaysEdit = () => {
   // const { updatePathwayTitle } = usePathway(id)
 
   usePageTitle({ 
-    title: "Pathway: ", 
-    editable:  pathway?.title, 
+    title: pathway?.title || 'Pathway', 
+    editable: pathway?.title, 
     onEdit: title => updatePathway({title})
   })
 
