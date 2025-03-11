@@ -37,7 +37,7 @@ export interface TableProps {
   isReportingTable?: boolean,
   loadingText?: ReactNode,
   remote?: boolean,
-  reLoad?: (categoryId: string, collectionId: string, globalFilter: string, sorting: SortingState) => void | null,
+  reLoad?: ({}) => void | null,
   getReorderableItemIdFromRow?: (row: any) => string,
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,

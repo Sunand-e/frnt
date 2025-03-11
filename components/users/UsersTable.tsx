@@ -43,8 +43,7 @@ const UsersTable = () => {
   const tableData = useMemo(() => {
     return users?.edges
       ?.map((edge) => edge.node)
-      .filter((node) => !node._deleted)
-      .sort((a, b) => ('' + a.fullName).localeCompare(b.fullName)) || [];
+      .filter((node) => !node._deleted) || [];
   }, [users]);
 
   const count = users?.totalCount || 0
@@ -62,6 +61,7 @@ const UsersTable = () => {
       {
         header: "User",
         id: 'user',
+        sortField: 'firstName',
         accessorFn: (row: any) => row.fullName,
         cell: ({ cell }) => (
           <ItemWithImage
@@ -88,6 +88,7 @@ const UsersTable = () => {
         {
           header: "Groups",
           id: 'groups',
+          enableSorting: false,
           accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', ') || '',
           cell: ({ cell }) => (
             cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
@@ -102,6 +103,7 @@ const UsersTable = () => {
         {
           header: "Global Roles",
           id: 'roles',
+          enableSorting: false,
           accessorFn: (row: GetUsers_users_edges_node) => row.roles.filter(
             role => role.name !== 'User'
           ).map(role => role.name).join(', ') || '',
@@ -115,7 +117,8 @@ const UsersTable = () => {
       {
         header: "Status",
         id: 'status',
-        accessorFn: (row) => {
+        sortField: 'status',
+        accessorFn: (row: any) => {
           if(row.isActive) {
             return "active"
           }

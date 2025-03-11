@@ -218,14 +218,21 @@ const Table = () => {
     onRowSelectionChange: handleRowSelectionChange,
  
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: remote ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     enableRowSelection: (row) => !row.original.checkboxDisabled
   });
 
 
   useEffect(() => {
-    remote && reLoad && reLoad(categoryId, collectionId, globalFilter, sorting);
+    if(sorting?.length) {
+      const orderField = table.getColumn(sorting[0].id).columnDef.sortField;
+      const orderDirection = sorting[0].desc ? 'desc' : 'asc';
+      remote && reLoad && reLoad({categoryId, collectionId, globalFilter, orderField, orderDirection});
+    } else {
+      remote && reLoad && reLoad({categoryId, collectionId, globalFilter});
+    }
+    
     if(isReorderable) {
       if(globalFilter || categoryId || collectionId || sorting?.length) {
         store.setState(state => ({ isReorderableActive: false }))

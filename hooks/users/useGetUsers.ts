@@ -3,68 +3,48 @@ import { GET_USERS } from "../../graphql/queries/users";
 import { GetUsers } from "../../graphql/queries/__generated__/GetUsers";
 import { ITEMS_PER_PAGE } from "../../utils/constants";
 import useInfiniteScroll from "../useInfiniteScroll";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
+
+type FilterParams = {
+  categoryId?: string,
+  collectionId?: string, 
+  globalFilter?: string;
+  orderField?: string;
+  orderDirection?: string;
+};
 
 function useGetUsers({ pagination = false, remote = false } = {}) {
-  const [filters, setFilters] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+  const defaultfilters = {
+    globalFilter: "",
     orderField: "firstName",
     orderDirection: "asc",
-  });
-
-  const getWhereConditions = () => {
-    const where: Record<string, any> = {};
-    if (filters.firstName) where.firstName = filters.firstName;
-    if (filters.lastName) where.lastName = filters.lastName;
-    if (filters.email) where.email = filters.email;
-    console.log("Where Conditions:", where);
-    return where;
   };
 
-  const getOrderField = () => {
-    return remote ? filters.orderField || "createdAt" : "order";
+  const getWhereConditions = (updatedFilters: any) => {
+    const where: Record<string, any> = {};
+    if (updatedFilters.globalFilter){
+      where.firstName = updatedFilters.globalFilter;
+      where.lastName = updatedFilters.globalFilter;
+      where.email = updatedFilters.globalFilter;
+    }
+    return where;
   };
 
   const { loading, error, data, fetchMore, refetch } = useQuery<GetUsers>(GET_USERS, {
     variables: {
       first: pagination ? ITEMS_PER_PAGE : undefined,
       after: null,
-      where: getWhereConditions(),
-      orderBy: remote ? [{ field: getOrderField(), direction: filters.orderDirection }] : undefined,
+      orderBy: pagination ? [{ field: defaultfilters.orderField, direction: defaultfilters.orderDirection }] : undefined,
     },
-    fetchPolicy: "network-only",
-    onCompleted: (data) => console.log("Fetched Users:", data),
+    fetchPolicy: "network-only"
   });
-
-  const changeOrder = (field: string) => {
-    setFilters((prev) => {
-      const newDirection = prev.orderDirection === "asc" ? "desc" : "asc";
-      return { ...prev, orderField: field, orderDirection: newDirection };
-    });
-
-    setTimeout(() => {
-      if (remote) {
-        refetch({
-          first: pagination ? ITEMS_PER_PAGE : undefined,
-          after: null,
-          where: getWhereConditions(),
-          orderBy: [{ field, direction: filters.orderDirection }],
-        }).catch((error) => console.error("Refetch Error:", error));
-      }
-    }, 0);
-  };
 
   const loadMore = useCallback(() => {
     if (loading || !pagination || !data?.users?.pageInfo?.hasNextPage) return;
 
     fetchMore({
       variables: {
-        first: ITEMS_PER_PAGE,
-        after: data.users.pageInfo.endCursor,
-        where: getWhereConditions(),
-        orderBy: remote ? [{ field: getOrderField(), direction: filters.orderDirection }] : undefined,
+        after: data.users.pageInfo.endCursor
       },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult?.users || prevResult.users.pageInfo.endCursor === fetchMoreResult.users.pageInfo.endCursor) return prevResult;
@@ -77,24 +57,19 @@ function useGetUsers({ pagination = false, remote = false } = {}) {
         };
       },
     }).catch((error) => console.error("FetchMore Error:", error));
-  }, [loading, pagination, data, fetchMore, filters]);
-
-  const reLoad = (firstName = "", lastName = "", email = "") => {
-    setFilters((prev) => ({ ...prev, firstName, lastName, email }));
+  }, [loading, pagination, data, fetchMore]);
+  
+  const reLoad = (params: FilterParams = {}) => {
+    const updatedFilters = { ...defaultfilters, ...params };
+  
+    refetch({
+      first: pagination ? ITEMS_PER_PAGE : undefined,
+      after: null,
+      where: pagination ? getWhereConditions(updatedFilters) : undefined,
+      orderBy: pagination ? [{ field: updatedFilters.orderField, direction: updatedFilters.orderDirection }] : undefined,
+    });
   };
-
-  useEffect(() => {
-    if (remote) {
-      console.log("Refetching with filters:", filters);
-      refetch({
-        first: pagination ? ITEMS_PER_PAGE : undefined,
-        after: null,
-        where: getWhereConditions(),
-        orderBy: [{ field: getOrderField(), direction: filters.orderDirection }],
-      }).catch((error) => console.error("Refetch Error:", error));
-    }
-  }, [filters, remote, pagination]);
-
+  
   useInfiniteScroll(loadMore, pagination);
 
   return {
@@ -103,7 +78,6 @@ function useGetUsers({ pagination = false, remote = false } = {}) {
     error,
     loadMore,
     reLoad,
-    changeOrder,
   };
 }
 
