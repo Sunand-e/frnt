@@ -25,15 +25,6 @@ export default function Filters({
     });
   };
 
-  // const tagOptions = tags
-  //   ? [
-  //       ...tags.map((tag) => ({
-  //         value: tag.id,
-  //         label: tag.label,
-  //       })),
-  //     ]
-  //   : [];
-
   const typeOptions = Object.keys(types).map((typeName) => {
     return {
       value: typeName,
@@ -44,7 +35,6 @@ export default function Filters({
   return (
     <div>
       <div className="flex flex-col items-center space-x-0 mb-6 z-10 relative md:flex-row md:flex md:space-x-4 sm:grid sm:grid-cols-2 sm:space-x-0 sm:gap-4">
-        {/*<div className="grid grid-cols-3 gap-4 place-content-center  mb-6 z-10 relative">*/}
 
         {hasSearch && (
           <div className="relative ml-0 text-gray-600 focus-within:text-gray-400 sm:col-span-2">
@@ -83,26 +73,6 @@ export default function Filters({
         )}
         {hasCategories && (
           <div className="relative ml-0 w-full mt-5 md:w-auto md:pr-0 sm:mt-0 ">
-            {/* <Select
-              name="categories"
-              className="absolute z-10"
-              styles={{
-                menu: (base) => ({
-                  ...base,
-                  width: "max-content",
-                  minWidth: "100%",
-                }),
-              }}
-              // defaultValue={category}
-              value={category && { value: category, label: category }}
-              onChange={(option) => onFilterChange("category", option?.value)}
-              placeholder={"Select category..."}
-              options={tagOptions}
-              instanceId="category"
-              classNamePrefix="select"
-              isClearable
-              isSearchable={false}
-            /> */}
             <TagSelect selected={category} tagType={`category`} onSelect={(tag: any) => onFilterChange("category", tag?.id)} />
           </div>
         )}
@@ -130,9 +100,6 @@ export default function Filters({
             />
           </div>
         )}
-        {/* <button className="text-main-secondary uppercase p-2 font-semibold" onClick={resetFilters}>
-            Clear filters 
-        </button> */}
       </div>
     </div>
   );
