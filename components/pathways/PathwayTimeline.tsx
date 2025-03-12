@@ -1,16 +1,14 @@
 // from https://tailwindcomponents.com/component/vertical-timelineimport { useContext } from "react"
 
 import { Reorder } from "framer-motion"
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useEffect } from "react"
 import useGetPathway from "../../hooks/pathways/useGetPathway"
 import { useRouter } from "../../utils/router"
-import CourseSelectCategorised from "../courses/inputs/CourseSelectCategorised"
 import PathwayTimelineItem from "./PathwayTimelineItem"
 import { usePathwayStore } from "./usePathwayStore"
 import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
 import {FlagCheckered} from '@styled-icons/fa-solid/FlagCheckered'
 import LoadingSpinner from '../common/LoadingSpinner'
-import { Dot } from '../common/misc/Dot';
 
 const ConditionalReorderWrapper = ({ editMode, items, children, onReorder }) => (
   editMode ? (

@@ -103,17 +103,6 @@ const ReportFilters = ({ filters = [] }) => {
           />
         </div>
       )}
-      {!!filters.length && filters.length > 1 && (
-        <div className="flex flex-col">
-          <span className={`h-4`}></span>
-          <span
-            className={`text-main-secondary hover:text-main p-1 px-3 cursor-pointer`}
-            onClick={clearFilters}
-          >
-            clear filters
-          </span>
-        </div>
-      )}
 
       {!!filters.length && !cleared && (
         <span className={`text-main-secondary whitespace-nowrap hover:text-main p-1 px-3 cursor-pointer`} onClick={clearFilters}>clear filters</span>
