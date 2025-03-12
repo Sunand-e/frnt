@@ -5,7 +5,7 @@ import { contentTypes } from "./contentTypes"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
-export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false, fetchMore}) {
+export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false}) {
  
   const defaultOptions = {
     maxItems: 4,
@@ -44,14 +44,14 @@ export default function ContentStatusTabs({connection, content=[], options=null,
     },
   ]
 
-  const visibleContentPanels = contentPanels.filter(({name, contents}) => {
-    return !(name === 'in_progress' && !contents.length)
+  const visibleContentPanels = contentPanels.filter(({name, count}) => {
+    return !(name === 'in_progress' && !count)
   })
   
   const [activeTab, setActiveTab] = useState(visibleContentPanels.find(({name}) => name === 'in_progress') ? 'in_progress' : 'not_started')
 
   const { 
-    contents: filteredCourses, readMoreLabel, noItemsText 
+    contents: filteredCourses, readMoreLabel, noItemsText
   } = visibleContentPanels.find(tab => tab.name === activeTab) || visibleContentPanels[0]
 
   const tabs = [
@@ -84,7 +84,6 @@ export default function ContentStatusTabs({connection, content=[], options=null,
                 items={filteredCourses || []}
                 gridClasses={gridClasses}
                 noItemsText={noItemsText}
-                fetchMore={fetchMore}
                 options={{
                   ...defaultOptions,
                   itemOptions: {

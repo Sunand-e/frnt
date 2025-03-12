@@ -194,6 +194,7 @@ export interface GetCourses_courses_edges_node {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  order: number | null;
   users: GetCourses_courses_edges_node_users | null;
   tags: GetCourses_courses_edges_node_tags[] | null;
   _deleted: boolean;

@@ -255,8 +255,12 @@ export const GET_PATHWAYS = gql`
   query GetPathways($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
     pathways(first: $first, after: $after, where: $where, orderBy: $orderBy) {
       totalCount
+      inProgressCount
+      notStartedCount
+      completedCount
       edges {
         userId
+        status
         node {
           ...PathwayFragment
           id

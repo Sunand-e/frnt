@@ -258,6 +258,7 @@ export interface GetPathways_pathways_edges_node {
   prerequisites: any | null;
   title: string | null;
   updatedAt: any;
+  order: number | null;
   users: GetPathways_pathways_edges_node_users | null;
   tags: GetPathways_pathways_edges_node_tags[] | null;
   _deleted: boolean;

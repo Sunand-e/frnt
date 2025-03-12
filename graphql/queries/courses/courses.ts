@@ -53,6 +53,9 @@ export const GET_COURSES = gql`
               }
             }
           }
+          users {
+            totalCount
+          }
           _deleted @client
           _isOptimistic @client
         }

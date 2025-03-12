@@ -71,6 +71,7 @@ const ContentTable = <T,>({
       {
         header: type.label,
         accessorKey: "title", // accessor is the "key" in the data
+        sortField: 'title',
         cell: ({ cell }) => {
           const { itemType } = cell.row.original
           let secondary = cell.row.original?.tags?.edges.map?.(({node}) => node.label).join(', ')
@@ -104,6 +105,7 @@ const ContentTable = <T,>({
         id: 'activeUsers',
         header: "Active users",
         accessorFn: row => row.users?.totalCount,
+        enableSorting: false,
         cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
@@ -114,6 +116,7 @@ const ContentTable = <T,>({
       {
         id: 'category',
         header: "Category",
+        enableSorting: false,
         accessorFn: (row) => {
           return row.tags?.edges.filter(({node}) => (
             node.tagType === 'category'
@@ -128,7 +131,9 @@ const ContentTable = <T,>({
       ...(type.name === 'course' && userHasCapability(`ViewCreditsUsed`) ? [{
         id: 'creditsUsed',
         header: 'Credits Used',
-        accessorKey: 'creditsUsed'
+        accessorKey: 'creditsUsed',
+        sortField: 'credits_used',
+        accessorFn: (row: any) => row?.creditsUsed,
       }] : []),
       {
         ...commonTableCols.actions,

@@ -7,7 +7,7 @@ export default function CourseTabs({gridClasses=''}) {
   const router = useRouter()
   const { category } = router.query
 
-  const { courses: courseConnection, loading } = useGetCourses({ pagination: true });
+  const { courses: courseConnection, loading } = useGetCourses();
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -18,10 +18,11 @@ export default function CourseTabs({gridClasses=''}) {
   }).sort((a,b) => b.order - a.order) || []
 
   let filteredItems = courses
+
   if(category) {
     filteredItems = filteredItems.filter(item => {
       const isSelectedCategory = (tag: any) => {
-        return tag.tagType === 'category' && tag.label === category
+        return tag.tagType === 'category' && tag.id === category
       }
       return item.tags && item.tags.edges.some(({node}) => isSelectedCategory(node));   
     });
@@ -36,8 +37,7 @@ export default function CourseTabs({gridClasses=''}) {
 
   return (
     <>
-      <ContentStatusTabs 
-        fetchMore={null}
+      <ContentStatusTabs
         connection={courseConnection}
         gridClasses={gridClasses} 
         options={options} 

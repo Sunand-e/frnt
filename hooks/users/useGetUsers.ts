@@ -3,15 +3,8 @@ import { GET_USERS } from "../../graphql/queries/users";
 import { GetUsers } from "../../graphql/queries/__generated__/GetUsers";
 import { ITEMS_PER_PAGE } from "../../utils/constants";
 import useInfiniteScroll from "../useInfiniteScroll";
-import { useState, useCallback } from "react";
-
-type FilterParams = {
-  categoryId?: string,
-  collectionId?: string, 
-  globalFilter?: string;
-  orderField?: string;
-  orderDirection?: string;
-};
+import { useCallback } from "react";
+import { FilterParams, useReLoad } from "../useReLoad";
 
 function useGetUsers({ pagination = false, remote = false } = {}) {
   const defaultfilters = {
@@ -23,9 +16,7 @@ function useGetUsers({ pagination = false, remote = false } = {}) {
   const getWhereConditions = (updatedFilters: any) => {
     const where: Record<string, any> = {};
     if (updatedFilters.globalFilter){
-      where.firstName = updatedFilters.globalFilter;
-      where.lastName = updatedFilters.globalFilter;
-      where.email = updatedFilters.globalFilter;
+      where.globalFilter = updatedFilters.globalFilter;
     }
     return where;
   };
@@ -60,14 +51,7 @@ function useGetUsers({ pagination = false, remote = false } = {}) {
   }, [loading, pagination, data, fetchMore]);
   
   const reLoad = (params: FilterParams = {}) => {
-    const updatedFilters = { ...defaultfilters, ...params };
-  
-    refetch({
-      first: pagination ? ITEMS_PER_PAGE : undefined,
-      after: null,
-      where: pagination ? getWhereConditions(updatedFilters) : undefined,
-      orderBy: pagination ? [{ field: updatedFilters.orderField, direction: updatedFilters.orderDirection }] : undefined,
-    });
+    useReLoad(refetch, defaultfilters, params, getWhereConditions);
   };
   
   useInfiniteScroll(loadMore, pagination);

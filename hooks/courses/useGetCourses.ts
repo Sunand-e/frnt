@@ -3,94 +3,49 @@ import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GetCourses } from "../../graphql/queries/__generated__/GetCourses";
 import { ITEMS_PER_PAGE } from "../../utils/constants";
 import useInfiniteScroll from "../useInfiniteScroll";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
+import { FilterParams, useReLoad } from "../useReLoad";
 
-function useGetCourses({ pagination = false, remote = false } = {}) {
-  const [filters, setFilters] = useState({
-    tagId: "",
-    collectionId: "",
+function useGetCourses({ pagination = false } = {}) {
+  const defaultfilters = {
     globalFilter: "",
     orderField: "order",
     orderDirection: "asc",
-  });
+  };
 
-  console.log("Filters state:", filters);
-
-  const getWhereConditions = () => {
+  const getWhereConditions = (updatedFilters: any) => {
     const where: any = {};
-    if (filters.globalFilter) where.title = filters.globalFilter;
-    if (filters.tagId) where.tagId = filters.tagId;
-    if (filters.collectionId) where.collectionId = filters.collectionId;
-    console.log("Generated where conditions:", where);
+    if (updatedFilters.globalFilter) where.title = updatedFilters.globalFilter;
+    if (updatedFilters.categoryId) where.tagId = updatedFilters.categoryId;
+    if (updatedFilters.collectionId) where.collectionId = updatedFilters.collectionId;
+    if (updatedFilters.status) where.status = updatedFilters.status;
     return where;
   };
-
-  const getOrderField = () => {
-    if (!remote) {
-      return "order";
-    }
-    const orderField = filters.orderField === "order" ? "custom_order" : filters.orderField || "created_at";
-    return orderField;
-  };
-
-  console.log("Query variables:", {
-    first: pagination ? ITEMS_PER_PAGE : undefined,
-    after: null,
-    where: getWhereConditions(),
-    orderBy: remote ? [{ field: getOrderField(), direction: filters.orderDirection }] : undefined,
-  });
 
   const { loading, error, data, fetchMore, refetch } = useQuery<GetCourses>(GET_COURSES, {
     variables: {
       first: pagination ? ITEMS_PER_PAGE : undefined,
       after: null,
-      where: getWhereConditions(),
-      orderBy: remote ? [{ field: getOrderField(), direction: filters.orderDirection }] : undefined,
+      orderBy: pagination ? [{ field: defaultfilters.orderField, direction: defaultfilters.orderDirection }] : undefined,
     },
     fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
   });
-
-
-  const changeOrder = (field: string) => {
-    const newDirection = filters.orderDirection === "asc" ? "desc" : "asc";
-    console.log(`Changing order: field=${field}, newDirection=${newDirection}`);
-
-    setFilters((prev) => ({
-      ...prev,
-      orderField: field,
-      orderDirection: newDirection,
-    }));
-
-    if (remote) {
-      console.log("Refetching with new order...");
-      refetch({
-        first: pagination ? ITEMS_PER_PAGE : undefined,
-        after: null,
-        where: getWhereConditions(),
-        orderBy: [{ field, direction: newDirection }],
-      }).catch(error => console.error("Refetch Error:", error));
-    }
-  };
 
   const loadMore = useCallback(() => {
     if (loading || !pagination || !data?.courses?.pageInfo?.hasNextPage) {
       return;
     }
 
-    console.log("Fetching more data...");
     fetchMore({
       variables: {
-        first: ITEMS_PER_PAGE,
-        after: data.courses.pageInfo.endCursor,
-        where: getWhereConditions(),
-        orderBy: remote ? [{ field: getOrderField(), direction: filters.orderDirection }] : undefined,
+        after: data.courses.pageInfo.endCursor
       },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult?.courses || prevResult.courses.pageInfo.endCursor === fetchMoreResult.courses.pageInfo.endCursor) {
           return prevResult;
         }
 
-        console.log("New data fetched:", fetchMoreResult.courses);
         return {
           courses: {
             ...fetchMoreResult.courses,
@@ -100,28 +55,11 @@ function useGetCourses({ pagination = false, remote = false } = {}) {
         };
       },
     }).catch(error => console.error("FetchMore Error:", error));
-  }, [loading, pagination, data, fetchMore, filters]);
+  }, [loading, pagination, data, fetchMore]);
 
-  const reLoad = (tagId = "", collectionId = "", globalFilter = "") => {
-    setFilters((prev) => ({
-      ...prev,
-      tagId,
-      collectionId,
-      globalFilter,
-    }));
+  const reLoad = (params: FilterParams = {}) => {
+    useReLoad(refetch, defaultfilters, params, getWhereConditions);
   };
-
-  useEffect(() => {
-    if (!loading && remote) {
-      console.log("Effect triggered: refetching data");
-      refetch({
-        first: pagination ? ITEMS_PER_PAGE : undefined,
-        after: null,
-        where: getWhereConditions(),
-        orderBy: [{ field: getOrderField(), direction: filters.orderDirection }],
-      }).catch(error => console.error("Refetch Error:", error));
-    }
-  }, [filters]);
 
   useInfiniteScroll(loadMore, pagination);
 
@@ -131,7 +69,6 @@ function useGetCourses({ pagination = false, remote = false } = {}) {
     error,
     loadMore,
     reLoad,
-    changeOrder,
   };
 }
 

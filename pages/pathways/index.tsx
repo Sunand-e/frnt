@@ -14,7 +14,6 @@ const PathwaysPage = () => {
 
 PathwaysPage.navState = {
   topLevel: 'pathways',
-  // secondary: 'pathways'
 }
 
 export default PathwaysPage

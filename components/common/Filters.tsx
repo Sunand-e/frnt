@@ -1,6 +1,6 @@
 import Select from "react-select";
-import useGetTags from "../../hooks/tags/useGetTags";
 import { useRouter } from "../../utils/router";
+import TagSelect from "../tags/inputs/TagSelect";
 
 interface UrlFilterQuery {
   search?: string;
@@ -16,26 +16,23 @@ export default function Filters({
   const router = useRouter();
   const { search, type, category }: UrlFilterQuery = router.query;
 
-  const { tags } = useGetTags()
-
-  const onFilterChange = (filterType, option) => {
+  const onFilterChange = (filterType: string, option: string) => {
     router.push({
       query: {
         ...router.query,
         [filterType]: option,
       },
     });
-    // setFilters(newFilters);
   };
 
-  const tagOptions = tags
-    ? [
-        ...tags.map((tag) => ({
-          value: tag.label,
-          label: tag.label,
-        })),
-      ]
-    : [];
+  // const tagOptions = tags
+  //   ? [
+  //       ...tags.map((tag) => ({
+  //         value: tag.id,
+  //         label: tag.label,
+  //       })),
+  //     ]
+  //   : [];
 
   const typeOptions = Object.keys(types).map((typeName) => {
     return {
@@ -86,7 +83,7 @@ export default function Filters({
         )}
         {hasCategories && (
           <div className="relative ml-0 w-full mt-5 md:w-auto md:pr-0 sm:mt-0 ">
-            <Select
+            {/* <Select
               name="categories"
               className="absolute z-10"
               styles={{
@@ -105,7 +102,8 @@ export default function Filters({
               classNamePrefix="select"
               isClearable
               isSearchable={false}
-            />
+            /> */}
+            <TagSelect selected={category} tagType={`category`} onSelect={(tag: any) => onFilterChange("category", tag?.id)} />
           </div>
         )}
         {!!typeOptions.length && (
