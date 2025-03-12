@@ -52,14 +52,14 @@ const ContentTable = <T,>({
 
   const tableData = useMemo(
     () => {
-      const filter_content = content?.edges?.map(edge => edge.node).filter(node  => {
+      const filter_content = content?.edges?.map((edge: any) => edge.node).filter((node: any)  => {
         return !node._deleted
       }) || []
       if (remote) {
         return filter_content
       } 
       else {
-        return filter_content.sort((a,b) => b.order - a.order)
+        return filter_content.sort((a: any, b: any) => b.order - a.order)
       }
     }, [content]
   );
@@ -104,8 +104,8 @@ const ContentTable = <T,>({
       {
         id: 'activeUsers',
         header: "Active users",
-        accessorFn: row => row.users?.totalCount,
-        enableSorting: false,
+        accessorFn: (row: any) => row.users?.totalCount,
+        enableSorting: !remote,
         cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
@@ -116,8 +116,8 @@ const ContentTable = <T,>({
       {
         id: 'category',
         header: "Category",
-        enableSorting: false,
-        accessorFn: (row) => {
+        enableSorting: !remote,
+        accessorFn: (row: any) => {
           return row.tags?.edges.filter(({node}) => (
             node.tagType === 'category'
           )).map(({node}) => node.label).join(', ') || '-'

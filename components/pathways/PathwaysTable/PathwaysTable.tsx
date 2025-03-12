@@ -4,7 +4,7 @@ import ContentTable from "../../common/tables/ContentTable";
 import { contentTypes } from "../../common/contentTypes";
 
 const PathwaysTable = () => {
-  const { pathways, loading, error, reLoad } = useGetPathways({ pagination: true });
+  const { pathways, loading, error } = useGetPathways();
   const type = contentTypes["pathway"];
 
   return (
@@ -14,8 +14,6 @@ const PathwaysTable = () => {
       loading={loading}
       error={error}
       ActionsMenuComponent={PathwayActionsMenu}
-      remote={true}
-      reLoad={reLoad}
       tableProps={{
         filters: ["global"],
       }}

@@ -51,6 +51,9 @@ export const ContentFragment = gql`
         }
       }
     }
+    users{ 
+      totalCount
+    }
     itemType
     prerequisites
     title
