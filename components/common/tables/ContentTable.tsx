@@ -7,7 +7,6 @@ import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../../utils/commonTableCols';
 import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
-import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
 import { TableProps } from '../../common/tables/tableContext';
 import ContentTitleCell from '../cells/ContentTitleCell';
@@ -94,9 +93,10 @@ const ContentTable = <T,>({
       ...(type.name === 'resource' ? [{
           header: "Description",
           width: '100',
+          accessorFn: (row: any) => row.content?.description,
           cell: ({ cell }) => (
             <span className='line-clamp-2'>
-              { extractTextNodesFromTipTapDoc(cell.row.original.content?.description) }
+              { extractTextNodesFromTipTapDoc(cell.row.original.content?.description) || '-' }
             </span>
           )
         }] : []

@@ -4,7 +4,7 @@ import { contentTypes } from '../common/contentTypes';
 import ContentTable from '../common/tables/ContentTable';
 
 const ResourcesTable = () => {
-  const { resources, loading, error, reLoad } = useGetResources({ pagination: true });
+  const { resources, loading, error } = useGetResources();
   const type = contentTypes['resource'];
 
   return (
@@ -14,8 +14,6 @@ const ResourcesTable = () => {
       loading={loading}
       error={error}
       ActionsMenuComponent={ResourceActionsMenu}
-      remote={true}
-      reLoad={reLoad}
     />
   );
 };
