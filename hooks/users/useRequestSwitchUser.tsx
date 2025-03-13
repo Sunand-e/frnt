@@ -1,8 +1,9 @@
 import { client } from "../../graphql/client";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { actingAsUser } from '../../graphql/cache';
 
-export const useRequestSwitchUser = ({ user }) => {
+export const useRequestSwitchUser = ({ user }: { user: any }) => {
 
   const router = useRouter();
 
@@ -14,7 +15,8 @@ export const useRequestSwitchUser = ({ user }) => {
         (result) => {
           if (result.token) {
             router.push('/').then(() => {
-              client.resetStore();
+              actingAsUser(true);
+              client.clearStore();
             });
           } else if (result.error) {
             alert('error');

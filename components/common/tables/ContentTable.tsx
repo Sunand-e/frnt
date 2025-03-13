@@ -28,7 +28,6 @@ interface ContentTableProps<T> {
   tableProps?: any;
   remote?: boolean;
   reLoad?: any; // Add reLoad
-  changeOrder?: (field: string, direction: string) => void; // Add changeOrder
 }
 
 
