@@ -1,11 +1,11 @@
 import { UpdateUser, UpdateUserVariables } from "../../graphql/mutations/user/__generated__/UpdateUser";
 import { UPDATE_USER } from "../../graphql/mutations/user/UPDATE_USER"
 import { GET_USER } from "../../graphql/queries/userDetails"
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 
 function useUpdateUser(id = null) {
 
-  const { loading, error, data: {user} = {} } = useQuery(
+  const { data: { user } = {} } = useQuery(
     GET_USER,
     {
       variables: {
@@ -15,13 +15,11 @@ function useUpdateUser(id = null) {
     }
   );
 
-  const [updateUserMutation, updateUserResponse] = useMutation<UpdateUser, UpdateUserVariables>(
+  const [updateUserMutation, { loading, error }] = useMutation<UpdateUser, UpdateUserVariables>(
     UPDATE_USER
   );
 
-  const updateUser = (values, cb = null) => {
-  // const updateUser = ({name=null, contentBlocks=null}) => {
-
+  const updateUser = (values: any, cb = null) => {
     const variables = {
       ...values
     }
@@ -41,8 +39,6 @@ function useUpdateUser(id = null) {
         }
       },
       onCompleted: cb
-    }).catch(res => {
-      // TODO: do something if there is an error!!
     })
   }
 
@@ -50,7 +46,7 @@ function useUpdateUser(id = null) {
     user,
     loading,
     error,
-    updateUser
+    updateUser,
   }
 }
 

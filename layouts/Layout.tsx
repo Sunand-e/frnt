@@ -8,7 +8,7 @@ export default function Layout({ children, navState, sidebarComponent = null }) 
   const mainScrollableRef = useViewStore(state => state.mainScrollableRef)
   
   const router = useRouter();
-  const hideNavRoutes = ['/accept_invitation', '/reset-password', '/lost-password', '/sign_up'];
+  const hideNavRoutes = ['/accept_invitation', '/reset-password', '/lost-password', '/sign_up', '/confirmation'];
   const isHideNavPage = hideNavRoutes.includes(router.pathname);
 
   return (

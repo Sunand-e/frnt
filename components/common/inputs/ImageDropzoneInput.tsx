@@ -2,12 +2,12 @@ import { Control, useController } from "react-hook-form";
 import ImageDropzone from "./ImageDropzone";
 
 type ImageDropzoneInputProps = { 
-  control?: Control;
+  control?: any;
   src?: string;
-  initialValue?;
+  initialValue?: any;
   previewClassName?: string;
-  onSelect?;
-  endpoint?;
+  onSelect?: any;
+  endpoint?: any;
   isModal?: boolean;
   label?: string;
   name?: string;
@@ -26,7 +26,7 @@ const ImageDropzoneInput = ({
     name
   });
 
-  const handleDrop = (file) => {
+  const handleDrop = (file: any) => {
     field.onChange(file)
   }
 

@@ -21,6 +21,14 @@
   p {
     // @apply mb-3;
   }
+  @layer base {
+    .remove-spin-button[type="number"]::-webkit-inner-spin-button,
+    .remove-spin-button[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  
 }
 
 @tailwind components;

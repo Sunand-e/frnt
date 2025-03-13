@@ -13,7 +13,7 @@ const AcceptInvitationForm = () => {
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-  const login = async (data) => {
+  const login = async (data: any) => {
     
     const formData = {
       ...data,
@@ -39,7 +39,7 @@ const AcceptInvitationForm = () => {
     )
   }
 
-  const onSubmit = async data => {
+  const onSubmit = async (data: any) => {
     await login(data);
     reset();
   };
