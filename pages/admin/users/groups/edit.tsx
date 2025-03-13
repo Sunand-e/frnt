@@ -34,7 +34,7 @@ const AdminUsersGroupsEdit = () => {
     )
   }
 
-  usePageTitle({ title: pageTitle })
+  usePageTitle({ title: `${group?.name} | Group`, header: pageTitle })
 
   if(!group) return (
     <LoadingSpinner
