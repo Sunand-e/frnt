@@ -19,6 +19,7 @@ import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 import { commonTableCols } from '../../utils/commonTableCols';
 import useGetUsers from '../../hooks/users/useGetUsers';
 import { GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
+import { UserFragment } from '../../graphql/queries/users';
 
 var advancedFormat = require('dayjs/plugin/advancedFormat');
 dayjs.extend(advancedFormat);
@@ -193,8 +194,8 @@ const UsersTable = () => {
 
   const { sendInvite } = useSendInvite();
 
-  const assignCourses = (ids) => {
-    const users = ids.map((id) =>
+  const assignCourses = (ids: any) => {
+    const users = ids.map((id: any) =>
       cache.readFragment({
         id: `User:${id}`,
         fragment: UserFragment,

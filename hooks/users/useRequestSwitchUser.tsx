@@ -8,6 +8,7 @@ export const useRequestSwitchUser = ({ user }: { user: any }) => {
   const router = useRouter();
 
   const requestSwitchUser = useCallback(() => {
+    if (!user) return;
 
     fetch(`/api/v1/user/act_as/${user.id}`)
       .then(res => res.json())
@@ -27,7 +28,7 @@ export const useRequestSwitchUser = ({ user }: { user: any }) => {
           console.log(error);
         }
       );
-  }, []);
+  }, [user]);
 
   return {
     requestSwitchUser
