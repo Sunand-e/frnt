@@ -104,7 +104,7 @@ const ProfileForm = () => {
         </div>
       )}
 
-      {/* <PhoneNumberInput register={register} setValue={setValue} watch={watch} /> */}
+      <PhoneNumberInput register={register} setValue={setValue} watch={watch} />
 
       <ImageDropzoneInput
         label="Profile image"
