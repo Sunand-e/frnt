@@ -37,8 +37,8 @@ const TenantContextProvider = ({children}) => {
       
       response.json().then(function(data) {
         const theme = createTheme({
-          main: data.primaryBrandColor || '#444',
-          secondary: data.secondaryBrandColor || '#999',
+          main: data.primaryBrandColor || '#444444',
+          secondary: data.secondaryBrandColor || '#999999',
           font_body: data.styles?.body?.font?.value,
           font_headings: data.styles?.headings?.font?.value
         });

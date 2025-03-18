@@ -343,8 +343,8 @@ const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
   'certificates': {
     'awardingBodyText': ''
   },
-  'primaryBrandColor': '',
-  'secondaryBrandColor': ''
+  'primaryBrandColor': '#444444',
+  'secondaryBrandColor': '#999999'
 }
 
 export default TenantForm
