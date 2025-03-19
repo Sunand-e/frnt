@@ -15,7 +15,7 @@ const ColorPickerInputLegacy = ({label, name, control}) => {
   const [ color, setColor ] = useState(field.value);
 
   // On selecting a colour, update local state AND form field value
-  const onChange = (value) => {
+  const onChange = (value: any) => {
     setColor(value)
     field.onChange(value)
   }

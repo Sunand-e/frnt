@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import Button from "./Button"
 import {Add} from "@styled-icons/fluentui-system-filled/Add";
 
-const ButtonAdd = ({text, action}) => {
+const ButtonAdd = ({text, action, disabled=false}) => {
 
   const router = useRouter()
 
@@ -11,7 +11,7 @@ const ButtonAdd = ({text, action}) => {
     : () => router.push(action)
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} disabled={disabled}>
       <span className='hidden lg:block'>{text}</span>
       <span className='block lg:hidden'><Add width="20" /></span>
     </Button>

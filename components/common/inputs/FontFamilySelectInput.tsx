@@ -1,12 +1,13 @@
-import { Control, useController } from "react-hook-form"
+import { useController } from "react-hook-form"
 import FontFamilySelect from "./FontFamilySelect";
 
 interface FontFamilySelectInputProps {
-  control?: Control;
+  control?: any;
   name?: string;
+  label?: string;
 }
 
-const FontFamilySelectInput = ({name, control}: FontFamilySelectInputProps) => {
+const FontFamilySelectInput = ({name, control, label}: FontFamilySelectInputProps) => {
   
   const { field } = useController({
     control,
@@ -14,10 +15,15 @@ const FontFamilySelectInput = ({name, control}: FontFamilySelectInputProps) => {
   });
   
   return (
-    <FontFamilySelect
-      value={field.value?.value}
-      onChange={field.onChange}
-    />
+    <label className={`block`}>
+      { label && (
+        <span className="text-sm font-medium text-gray-700">{ label }</span>
+      )}
+      <FontFamilySelect
+        value={field.value?.value}
+        onChange={field.onChange}
+      />
+    </label>
   )
 }
 
