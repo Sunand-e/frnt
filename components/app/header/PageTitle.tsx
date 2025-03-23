@@ -47,7 +47,7 @@ const PageTitle : FC = () => {
       )}
 
       <h1 className="flex my-3 items-center overflow-hidden w-auto text-lg font-bold sm:text-xl">
-        <span className="pr-2">{ pageTitle.title }</span>
+        {!pageTitle.editable && <span className="pr-2">{ pageTitle.header || pageTitle.title }</span>}
         { !!pageTitle.editable &&
           <EasyEdit
             type={Types.TEXT}

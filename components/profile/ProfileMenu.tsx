@@ -2,16 +2,17 @@
 
 import {User} from '@styled-icons/fa-solid/User'
 import { Lock } from '@styled-icons/boxicons-regular/Lock'
+import { UserShield } from "@styled-icons/fa-solid/UserShield";
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const navigation = [
   { name: 'Edit Profile', icon: User, href: '/profile', current: true },
   { name: 'Change Password', icon: Lock, href: '/profile/change-password', current: false },
-  // { name: 'Caps', icon: Lock, href: '/profile/caps', current: false },
+  { name: '2-Step Verification', icon: UserShield, href: '/profile/twosv', current: false },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 

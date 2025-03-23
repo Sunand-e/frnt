@@ -122,6 +122,7 @@ export const navStateVar = makeVar({
 })
 export const pageTitleVar = makeVar({
   title: 'Zanda360',
+  header: null,
   subtitle: null,
   editable: null,
   after: null,

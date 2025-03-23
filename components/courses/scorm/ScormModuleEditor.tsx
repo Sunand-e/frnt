@@ -31,9 +31,9 @@ const ScormModuleEditor = () => {
   const { complete, data: scormModule } = useLessonContentFragment(id)
   
   usePageTitle({ 
-    title: ``, 
+    title: scormModule?.title || 'Untitled SCORM Module', 
     editable:  scormModule?.title || 'Untitled SCORM Module', 
-    onEdit: title => {
+    onEdit: (title: string) => {
       updateLesson(id)({title})
     }
   })

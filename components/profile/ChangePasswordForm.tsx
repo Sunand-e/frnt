@@ -2,7 +2,6 @@ import TextInput from '../common/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import { useRouter } from 'next/router';
-import useGetCurrentUser from '../../hooks/users/useGetCurrentUser';
 import { useCallback } from 'react';
 
 interface ChangePasswordFormValues {
@@ -15,62 +14,42 @@ const ChangePasswordForm = () => {
 
   const router = useRouter()
 
-  const { user } = useGetCurrentUser()
-  const id = user?.id
-  const onSubmit = useCallback((values) => {
-    if(id) {
-      const data = {
-        ...values
-      }
-      
-      fetch(`/api/v1/user/${id}/reset_password`, {
-        method: 'PUT', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          if(result.error) {
-            // setError('password', {
-            //   type: "server",
-            //   message: 'Username or password is incorrect',
-            // });
-          } else {
-            // console.log('result')
-            // console.log(result)
-            router.push('/profile')
-            // setError(result.error)
-          }
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          // console.log('ERROR:')
-          // console.log(error)
-          // this.setState({
-          //   isLoaded: true,
-          //   error
-          // });
-        }
-      )
-    }
-    // console.log(data);
-    // console.log("log:" + " " + JSON.stringify(data))
-  },[user])
-    
   const defaultValues = {
     old_password: '',
     password: '',
     password_confirmation: ''
   }
   
-  const { register, handleSubmit, control, formState: { errors }, watch } = useForm<ChangePasswordFormValues>({
+  const { register, handleSubmit, setError, formState: { errors }, watch } = useForm<ChangePasswordFormValues>({
     defaultValues
   });
+
+  const onSubmit = useCallback((values: any) => {
+    const data = {
+      ...values
+    }
+    
+    fetch(`/api/v1/user/reset_password`, {
+      method: 'PUT', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        if(result.error) {
+          setError('password', {
+            type: "server",
+            message: result.error,
+          });
+        } else {
+          router.push('/profile/')
+        }
+      },
+    )
+  }, [])
 
   return (
     <form
@@ -118,6 +97,7 @@ const ChangePasswordForm = () => {
         })}
       />
       {errors.password_confirmation && (<small className="text-danger text-red-500">{errors.password_confirmation.message}</small>)}
+      {errors.password && (<small className="text-danger text-red-500">{errors.password.message}</small>)}
 
       <Button type="submit">Submit</Button>
     </form>

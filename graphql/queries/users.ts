@@ -18,7 +18,13 @@ export const UserFragment = gql`
     invitationSentAt
     invitationAcceptedAt
     currentSignInAt
+    mfaEnabled
+    phoneNumber
+    countryCode
+    nationalNumber
+    otpSecretVerified
     isActive
+    unconfirmedEmail
     roles {
       id
       name

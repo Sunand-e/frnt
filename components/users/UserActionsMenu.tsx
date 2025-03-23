@@ -8,7 +8,7 @@ import { handleModal } from "../../stores/modalStore"
 import EnrolUserInContent from "./content/EnrolUserInContent"
 import { getUserEditUrl } from "../../utils/getUserEditUrl"
 
-const UserActionsMenu = ({user}) => {
+const UserActionsMenu = ({user = null}) => {
  
   const { userHasCapability } = useUserHasCapability()
   const { requestSwitchUser } = useRequestSwitchUser({user})
@@ -19,7 +19,7 @@ const UserActionsMenu = ({user}) => {
     name: user.fullName,
     onConfirm: () => deleteUser(user.id)
   })
-
+  
   const assignCourses = () => {
     handleModal({
       title: 'Assign courses',
@@ -32,6 +32,7 @@ const UserActionsMenu = ({user}) => {
   if(userHasCapability('EnrolUsersInContent', 'tenant')) {
     showAssignCourses = true
   } else {
+    // if the current user has the EnrolUsersInContent capability for a group that the user is in, show the Assign courses button
     showAssignCourses = user.groups.edges.some((groupEdge: any) => {
       return userHasCapability('EnrolUsersInContent', 'group', groupEdge.node.id)
     })
