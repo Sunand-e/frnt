@@ -39,7 +39,7 @@ const UserCoursesReportTable = () => {
     group: groupId
   } = router.query
 
-  const { loading, error, user } = useGetUser(userId as string, GET_USER_WITH_COURSES, true);
+  const { loading, error, user, loadingMore } = useGetUser(userId as string, GET_USER_WITH_COURSES, true);
 
   const { loading: groupLoading, error: groupError, data: groupData } = useQuery(GET_GROUP_COURSES, {
     variables: { groupId },
@@ -141,6 +141,7 @@ const UserCoursesReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
+      isLoadingMore={loadingMore}
     />
   );
 };

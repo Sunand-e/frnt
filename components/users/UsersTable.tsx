@@ -39,7 +39,7 @@ const UserStatusCell = ({
 );
 
 const UsersTable = () => {
-  const { users, loading, reLoad } = useGetUsers({ pagination: true });
+  const { users, loading, reLoad, loadingMore } = useGetUsers({ pagination: true });
 
   const tableData = useMemo(() => {
     return users?.edges
@@ -231,7 +231,8 @@ const UsersTable = () => {
     typeName: 'user',
     filters: ['global'],
     exportFilename: 'User List',
-    isExportable: true
+    isExportable: true,
+    isLoadingMore: loadingMore
   }
 
   return <Table { ...tableProps } />;

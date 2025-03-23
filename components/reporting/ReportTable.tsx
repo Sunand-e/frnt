@@ -31,6 +31,7 @@ interface ReportTableProps {
   title?: ReactNode,
   filters?: string[],
   backButton?: ReactNode
+  isLoadingMore?: boolean
 }
 
 const ReportTable = ({
@@ -45,6 +46,7 @@ const ReportTable = ({
   title = <>Reports</>,
   filters = [],
   backButton,
+  isLoadingMore = false
 }: ReportTableProps) => {
 
   const router = useRouter()
@@ -62,7 +64,6 @@ const ReportTable = ({
     filteredFilters = filters.filter(f => f !== 'group')
   }
 
-
   useEffect(() => {
     let data
     if (filterActive(categoryId)) {
@@ -73,29 +74,28 @@ const ReportTable = ({
     data = tableData || []
     setFilteredData(data)
   }, [tableData, categoryId])
+
   return (
     <>
       <ReportHeader
         simple={simpleHeader}
         title={title}
       />
-
-      {loading && (
-        <LoadingSpinner
-          text={loadingText} />
-      )}
       {error && <p>{errorText}</p>}
-      {!loading && !error && (
+      {!error && (
         <Table
           count={0}
           exportFilename={exportFilename}
           isReportingTable={true}
           isExportable={true}
           showTop={false}
+          isLoading={loading}
+          loadingText={loadingText}
           tableCols={tableCols}
           tableData={filteredData}
           filters={filteredFilters}
           backButton={backButton}
+          isLoadingMore={isLoadingMore}
         />
       )}
     </>

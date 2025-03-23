@@ -23,7 +23,7 @@ export const tableSizingOptions = {
 
 const TableWithProvider = (props: TableProps) => {
   return (
-    <TableProvider tableProps = { props }>
+    <TableProvider {...props}>
       <Table />
     </TableProvider>
   )

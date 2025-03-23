@@ -23,6 +23,7 @@ interface ContentTableProps<T> {
   content: any;
   type: any;
   loading: boolean;
+  loadingMore?: boolean;
   error?: any;
   ActionsMenuComponent?: any;
   tableProps?: any;
@@ -35,6 +36,7 @@ const ContentTable = <T,>({
   content,
   type,
   loading,
+  loadingMore = false,
   error,
   ActionsMenuComponent,
   tableProps = {},
@@ -228,7 +230,8 @@ const ContentTable = <T,>({
     onReorder: handleReorder,
     filters: tableProps.filters ?? ['category', 'global'],
     remote: remote,
-    reLoad: reLoad
+    reLoad: reLoad,
+    isLoadingMore: loadingMore,
   }
 
   if(error) {

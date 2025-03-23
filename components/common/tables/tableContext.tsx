@@ -31,6 +31,7 @@ export interface TableProps {
   dontShowTypes?: Array<string>,
   isExportable?: boolean,
   isLoading?: boolean,
+  isLoadingMore?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
   isSelectable?: boolean,
@@ -49,6 +50,7 @@ export interface TableProps {
 
 interface TableState extends TableProps {
   setIsLoading: (loading: boolean) => void
+  setIsLoadingMore: (loadingMore: boolean) => void
   setTable: (table: Table<any>) => void
   setGlobalFilter: (filter: TableProps['globalFilter']) => void
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
@@ -95,6 +97,7 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     isReorderableActive: false,
     isSelectable: false,
     isLoading: false,
+    isLoadingMore: false,
     isReportingTable: false,
     scrollInTable: false,
     maxVisibleRows: 5,
@@ -124,7 +127,8 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     setFilters: filters => set(state => ({filters})),
     setTypeName: typeName => set(state => ({typeName})),
     setTypeOptions: typeOptions => set(state => ({typeOptions})),
-    setIsLoading: isLoading => set(state => ({isLoading})),
+    setIsLoading: isLoading => set(_state => ({isLoading})),
+    setIsLoadingMore: isLoadingMore => set(_state => ({isLoadingMore})),
     // setSorting: sorting => set(state => ({sorting})),
     setSorting: sorting => {
       set(state => ({sorting}))
@@ -146,11 +150,8 @@ function useTableContext<T>(
 
 type TableProviderProps = React.PropsWithChildren<TableProps>
 
-function TableProvider({ children, tableProps }: TableProviderProps) {
-  const tableStoreProps = useMemo(() => tableProps, [
-    tableProps.isReorderable,
-    tableProps.tableData
-  ])
+function TableProvider({ children, ...tableProps }: TableProviderProps) {
+  const tableStoreProps = useMemo(() => tableProps, [tableProps])
 
   const storeRef = useRef<TableStore>()
   if (!storeRef.current) {

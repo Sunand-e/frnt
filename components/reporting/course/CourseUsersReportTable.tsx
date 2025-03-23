@@ -20,7 +20,7 @@ const CourseUsersReportTable = () => {
   } = router.query
 
   const { groups } = useGetGroupsUsers();
-  const { loading, error, userConnection, course } = useGetCourseUsers(courseId);
+  const { loading, error, userConnection, course, loadingMore} = useGetCourseUsers(courseId);
 
   const tableData = useMemo(() => {
     let data = userConnection?.edges
@@ -124,6 +124,7 @@ const CourseUsersReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
+      isLoadingMore={loadingMore}
     />
   );
 };

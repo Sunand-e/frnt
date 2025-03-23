@@ -11,7 +11,7 @@ import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap"
 
 const CoursesReportTable = () => {
-  const { courses, loading, error } = useGetCoursesReport({ pagination: true });
+  const { courses, loading, error, loadingMore } = useGetCoursesReport({ pagination: true });
 
   const { groups } = useGetGroupsUsers();
 
@@ -33,7 +33,6 @@ const CoursesReportTable = () => {
     }
     return filteredEdges
   }, [groups, groupId])
-
 
   const tableData = useMemo(() => {
     let data = courses?.edges.filter((edge: any) => !edge.node._deleted);
@@ -187,6 +186,7 @@ const CoursesReportTable = () => {
       loading={loading}
       error={error}
       filters={['group']}
+      isLoadingMore={loadingMore}
     />
   );
 };
