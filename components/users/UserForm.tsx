@@ -54,7 +54,7 @@ const UserForm = ({ user = null, onSubmit }) => {
 
   return (
     <>
-      <UserLimit tenant={tenant} />
+      {user === null && <UserLimit tenant={tenant} />}
       <form
         className='h-full w-full max-w-sm flex flex-col space-y-4'
         autoComplete="off"
