@@ -10,7 +10,7 @@ const TenantReportsTable = () => {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
 
-  const { loading, error, data: queryData } = useQuery<GetTenants>(GET_TENANTS_REPORT, {
+  const { loading, data: queryData } = useQuery<GetTenants>(GET_TENANTS_REPORT, {
     variables: {
       month: month,
       year: year
@@ -22,7 +22,7 @@ const TenantReportsTable = () => {
   const tableData = useMemo(() => {
     return queryData?.tenantReports?.edges?.map(({ node }) => node) || []
   }, [queryData]);
-  
+
   const tableCols = useMemo(
     () => [
       {

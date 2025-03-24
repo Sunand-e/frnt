@@ -17,12 +17,10 @@ const TenantsTable = () => {
   // Table data is memo-ised due to this:
   // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
-    return queryData?.tenants?.edges?.map(({node}) => node).filter(node => !node._deleted) || []
+    return queryData?.tenants?.edges?.map(({ node }) => node).filter(node => !node._deleted) || []
   }, [queryData]);
 
   const editUrl = '/admin/tenants/edit'
-
-  
 
   const tableCols = useMemo(
     () => [
@@ -48,32 +46,32 @@ const TenantsTable = () => {
           const domainUrl = `${location.protocol}//${cell.getValue()}`
           const port = location.port && `:${location.port}`
           return (
-              <a href={domainUrl + port}>{cell.getValue()}</a>
+            <a href={domainUrl + port}>{cell.getValue()}</a>
           )
         },
       },
       {
         header: "Users",
-        accessorFn: row => row.users.totalCount,
+        accessorFn: (row: any) => row.users.totalCount,
       },
       {
         header: "Courses",
-        accessorFn: row => row.courses.totalCount,
+        accessorFn: (row: any) => row.courses.totalCount,
       },
       {
         header: "Groups",
-        accessorFn: row => row.groups.totalCount,
+        accessorFn: (row: any) => row.groups.totalCount,
       },
       {
         header: "Credits Issued",
-        accessorFn: row => row.creditsIssued,
+        accessorFn: (row: any) => row.creditsIssued,
       },
       {
         header: "Date Created",
         accessorKey: "createdAt",
         cell: ({ cell }) => {
           return (
-              dayjs(cell.getValue()).format('DD/MM')
+            dayjs(cell.getValue()).format('DD/MM')
           )
         }
       },
@@ -85,7 +83,7 @@ const TenantsTable = () => {
     ],
     []
   );
-  
+
   const tableProps = {
     tableData,
     tableCols,
@@ -94,7 +92,7 @@ const TenantsTable = () => {
   }
 
   return (
-    <Table { ...tableProps } />
+    <Table {...tableProps} />
   );
 }
 
