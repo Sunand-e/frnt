@@ -5,7 +5,7 @@ import { UserQuizAttemptFragment } from "../../graphql/queries/quizzes";
 
 function useCreateUserQuestionAttempt({quizAttemptId}) {
 
-  const [createUserQuestionAttemptMutation, createUserQuestionAttemptResponse] = useMutation(
+  const [createUserQuestionAttemptMutation, {loading, error}] = useMutation(
     CREATE_USER_QUESTION_ATTEMPT,
     {
       update(cache, { data: { createUserQuestionAttempt } } ) {
@@ -56,7 +56,9 @@ function useCreateUserQuestionAttempt({quizAttemptId}) {
   }
 
   return { 
-    createUserQuestionAttempt
+    createUserQuestionAttempt,
+    loading,
+    error
   }
 }
 
