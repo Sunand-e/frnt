@@ -88,17 +88,22 @@ const Editor = ({
 
   return (
     <div className={styles.editor}>
-      { editor && (
-        <BubbleMenu editor={editor} tippyOptions={{ 
-          duration: 100,
-          interactive: true,
-          placement: 'bottom',
-          maxWidth: 'none',
-          theme: "memberhub-white",
-          ...(!!onMenuShow && {onShow: onMenuShow}),
-          ...(!!onMenuHidden && {onHidden: onMenuHidden}),
-        }}>
-        <MenuBar editor={editor} isHeading={isHeading} />
+      {editor && (
+        <BubbleMenu 
+          editor={editor} 
+          tippyOptions={{ 
+            duration: 100,
+            interactive: true,
+            placement: 'bottom',
+            maxWidth: 'none',
+            theme: "memberhub-white",
+            ...(!!onMenuShow && { onShow: onMenuShow }),
+            ...(!!onMenuHidden && { onHidden: onMenuHidden }),
+          }}
+        >
+          <div>
+            <MenuBar editor={editor} isHeading={isHeading} />
+          </div>
         </BubbleMenu>
       )}
       <EditorContent className="editor__content" editor={editor} />
