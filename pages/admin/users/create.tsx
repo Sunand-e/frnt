@@ -20,7 +20,7 @@ const AdminCreateUser = () => {
   
   const router = useRouter()
   const endpoint = "/api/v1/users/"
-  const { reLoad } = useGetUsers()
+  const { refetch } = useGetUsers({ pagination: true })
 
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT",
@@ -54,7 +54,7 @@ const AdminCreateUser = () => {
       url: endpoint,
       data
     }).then (response => {
-      reLoad()
+      refetch()
       
       if(response.data.user?.id) {
         if(profile_image) {

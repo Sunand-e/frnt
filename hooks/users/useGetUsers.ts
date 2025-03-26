@@ -81,6 +81,7 @@ function useGetUsers({ pagination = false} = {}) {
     loadingMore,
     error,
     reLoad,
+    refetch
   };
 }
 
