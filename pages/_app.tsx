@@ -39,6 +39,7 @@ import useBeforeUnload from '../hooks/useBeforeUnload';
 import CapabilityCheckWrapper from '../components/app/CapabilityCheckWrapper'
 import Modal from '../components/common/Modal'
 import { useViewStore } from '../hooks/useViewStore'
+import useVersionChecker from '../hooks/useVersionChecker'
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -50,6 +51,8 @@ interface PagePropertiesType {
 type AppPropsExtended = AppProps & PagePropertiesType 
 
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
+
+  useVersionChecker();
 
   const router = useRouter()
   

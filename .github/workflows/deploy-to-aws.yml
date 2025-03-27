@@ -51,6 +51,12 @@ jobs:
       - name: Export
         run: npm run build
 
+      - name: Generate version.json
+        run: |
+          VERSION=$(date +%Y%m%d%H%M%S)  # Generate version based on timestamp
+          echo "{\"version\": \"$VERSION\"}" > public/version.json
+          echo "version.json generated with version: $VERSION"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
