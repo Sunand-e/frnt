@@ -85,7 +85,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
         <div className='flex'>
           <TextInput
             placeholder="Enter Mobile Number"
-            inputAttrs={register("phoneNumber", { onChange: handlePhoneNumberChange, onBlur: () => validatePhoneNumber(phoneNumber) ? setError('') : setError("Please enter a valid phone number.") })}
+            inputAttrs={register("phoneNumber", { onChange: handlePhoneNumberChange, onBlur: () => !phoneNumber || validatePhoneNumber(phoneNumber) ? setError('') : setError("Please enter a valid phone number.") })}
           />
           {phoneNumberChanged && !verifiedToken && (
             <Button
