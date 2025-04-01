@@ -12,7 +12,7 @@ const useVersionStore = create<VersionState>((set) => ({
 
   checkForUpdate: async () => {
     try {
-      const response = await fetch("/version.json");
+      const response = await fetch("/version.json", { headers: { "Cache-Control": "no-cache" } });
       const data = await response.json();
 
       set((state: VersionState) => {
