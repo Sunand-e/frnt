@@ -15,6 +15,7 @@ export const UPDATE_USER = gql`
     $otpSecretVerified: Boolean
     $phoneNumber: String
     $otpVerifiedToken: String
+    $updateSelf: Boolean
   ) {
     updateUser(
       input: {
@@ -29,6 +30,7 @@ export const UPDATE_USER = gql`
         otpSecretVerified: $otpSecretVerified
         phoneNumber: $phoneNumber
         otpVerifiedToken: $otpVerifiedToken
+        updateSelf: $updateSelf
       }
     ) {
       user {
