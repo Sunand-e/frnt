@@ -46,8 +46,8 @@ const AdminReports = () => {
 }
 
 AdminReports.navState = {
-topLevel: 'reports',
-secondary: 'overview'
+  topLevel: 'reports',
+  secondary: 'overview'
 }
 
 export default AdminReports

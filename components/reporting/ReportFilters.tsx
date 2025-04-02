@@ -24,16 +24,20 @@ const ReportFilters = ({ filters = [] }) => {
     user: userId,
     group: groupId,
     course: courseId,
-    lesson: lessonId,
     category: categoryId,
   } = router.query
 
   const cleared = !globalFilter
 
   const clearFilters = () => {
+    router.push({
+      query: {
+        ...router.query,
+        ...filters.reduce((acc, curr) => (acc[curr] = '', acc), {})
+      }
+    })
     setGlobalFilter && setGlobalFilter('')
   };
-
 
   return (
     <div className='flex items-center flex-col sm:flex-row gap-3 flex-wrap'>

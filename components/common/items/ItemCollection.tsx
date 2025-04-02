@@ -5,14 +5,12 @@ import { MouseEventHandler } from "react";
 interface ItemCollectionProps {
   className?: string
   viewAll?: MouseEventHandler<HTMLButtonElement>
-  fetchMore?: any
   items: Array<any>
   options: any
-  gridClasses?: string
   noItemsText?: string
 }
 
-export default function ItemCollection({items, options, fetchMore, viewAll, gridClasses, noItemsText}: ItemCollectionProps) {
+export default function ItemCollection({items, options, viewAll, noItemsText}: ItemCollectionProps) {
   
   const gridOptions = {
     ...options,
@@ -38,9 +36,6 @@ export default function ItemCollection({items, options, fetchMore, viewAll, grid
         }
       </div>
       {(gridItems.length < 1) ? <h2 className="pb-6 pt-1 text-center">{noItemsText}</h2> : <ItemGrid options={gridOptions} items={gridItems} />}
-      { fetchMore && <Button onClick={() => {
-        fetchMore({variables: {limitContents: null}})
-      }}>Load more</Button>}
     </div>
   )
 }

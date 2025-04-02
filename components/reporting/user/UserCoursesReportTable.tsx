@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import useGetUser from "../../../hooks/users/useGetUser";
 import { useRouter } from "../../../utils/router";
 import ButtonLink from "../../common/ButtonLink";
@@ -7,6 +7,8 @@ import { commonTableCols } from "../../../utils/commonTableCols";
 import ReportTable, { filterActive, statusAccessor } from "../ReportTable";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
 import { gql, useQuery } from "@apollo/client";
+import { GET_USER_WITH_COURSES } from "../../../graphql/queries/userDetails";
+import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
 
 // Define your GraphQL query, assuming it accepts a groupId variable
 const GET_GROUP_COURSES = gql`
@@ -32,27 +34,24 @@ const GET_GROUP_COURSES = gql`
 `;
 const UserCoursesReportTable = () => {
   const router = useRouter();
-  const { 
+  const {
     user: userId,
-    group: groupId 
+    group: groupId
   } = router.query
 
-  const { loading, error, user } = useGetUser(userId);
-  // const { groups } = useGetGroups();
-  
+  const { loading, error, user, loadingMore } = useGetUser(userId as string, GET_USER_WITH_COURSES, true);
+
   const { loading: groupLoading, error: groupError, data: groupData } = useQuery(GET_GROUP_COURSES, {
     variables: { groupId },
     skip: !filterActive(groupId),
   });
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(() => {
     let data = user?.courses?.edges.filter((edge) => !edge.node._deleted)
-    if(filterActive(groupId) && groupData) {
-      
+    if (filterActive(groupId) && groupData) {
+
       data = data?.filter(edge => {
-        return groupData.group.assignedCourses.edges.map(edge => edge.node.id).includes(edge.node.id)
+        return groupData.group.assignedCourses.edges.map((edge: any) => edge.node.id).includes(edge.node.id)
       })
     }
 
@@ -64,13 +63,12 @@ const UserCoursesReportTable = () => {
       {
         id: "title",
         header: "Course",
-        accessorFn: row => row.node.title, // accessor is the key in the data
+        accessorFn: (row: any) => row.node.title,
         cell: ({ cell }) => {
           const course = cell.row.original.node;
           const cellProps = {
             title: course?.title,
             image: course?.image,
-            // secondary: JSON.stringify(cell.row.original),
             href: course?.id && {
               query: {
                 ...router.query,
@@ -78,22 +76,11 @@ const UserCoursesReportTable = () => {
                 user: userId,
               },
             },
+            icon: (<GraduationCap className="p-1" />)
           };
           return <ItemWithImage {...cellProps} />;
         },
       },
-      // {
-      //   id: 'role',
-      //   header: "Role",
-      //   cell: ({ cell }) => {
-      //     const content = cell.row.original.node.roles;
-      //     return (
-      //       <pre>
-      //       { JSON.stringify(content,null,2) }
-      //       </pre>
-      //     )
-      //   }
-      // },
       {
         id: "status",
         header: "Status",
@@ -133,7 +120,7 @@ const UserCoursesReportTable = () => {
         query: {
           ...router.query,
           type: 'user',
-          user:null,
+          user: null,
         }
       }}
     >
@@ -154,7 +141,7 @@ const UserCoursesReportTable = () => {
       error={error}
       filters={['group']}
       backButton={backButton}
-      // groupFilter={true}
+      isLoadingMore={loadingMore}
     />
   );
 };

@@ -1,23 +1,9 @@
-import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
-import {Bricks} from '@styled-icons/bootstrap/Bricks'
-import {Box} from '@styled-icons/fluentui-system-filled/Box'
 import {Video} from '@styled-icons/fluentui-system-filled/Video'
-import {List} from '@styled-icons/fluentui-system-filled/List'
-import {Image} from '@styled-icons/fluentui-system-filled/Image'
 import {Document} from '@styled-icons/fluentui-system-filled/Document'
 import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
 import {Link} from '@styled-icons/entypo/Link'
-import {Assignment} from '@styled-icons/material'
-import {Quiz} from '@styled-icons/material-rounded/Quiz'
-import { FlowChart } from '@styled-icons/remix-editor'
 
 export const resourceTypes = {
-  // guide: {
-  //   label: "Guide", 
-  //   readMoreLabel: "Read Guide", 
-  //   icon: TextLeft,
-  //   content: { blocks: [{type:'text'}]}
-  // },
   document: {
     titleLabel: "Document name",
     chooseLabel: "Choose a document",
@@ -50,11 +36,5 @@ export const resourceTypes = {
     icon: Link,
     content: { blocks: [{type:'button'}]}
   },
-  // process_flow: {
-  //   label: 'Process Flow',
-  //   readMoreLabel: 'Get started',
-  //   icon: FlowChart,
-  //   content: { blocks: [{type:'text'}]}
-  // },
 }
 

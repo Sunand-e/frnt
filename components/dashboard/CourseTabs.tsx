@@ -5,9 +5,9 @@ import ContentStatusTabs from "../common/ContentStatusTabs"
 export default function CourseTabs({gridClasses=''}) {
   
   const router = useRouter()
-  const { search, category, type } = router.query
+  const { category } = router.query
 
-  const { courses: courseConnection, loading, error } = useGetCourses()
+  const { courses: courseConnection, loading } = useGetCourses();
 
   const courses = courseConnection?.edges.map(edge => {
     const { node, ...edgeProps } = edge;
@@ -18,10 +18,11 @@ export default function CourseTabs({gridClasses=''}) {
   }).sort((a,b) => b.order - a.order) || []
 
   let filteredItems = courses
+
   if(category) {
     filteredItems = filteredItems.filter(item => {
-      const isSelectedCategory = tag => {
-        return tag.tagType === 'category' && tag.label === category
+      const isSelectedCategory = (tag: any) => {
+        return tag.tagType === 'category' && tag.id === category
       }
       return item.tags && item.tags.edges.some(({node}) => isSelectedCategory(node));   
     });
@@ -30,15 +31,13 @@ export default function CourseTabs({gridClasses=''}) {
   const options = {
     typeName: 'course',
     items: {
-      getHref: item => `/course?id=${item.id}`,
+      getHref: (item: any) => `/course?id=${item.id}`,
     }
   }
 
-
   return (
     <>
-      <ContentStatusTabs 
-        fetchMore={null}
+      <ContentStatusTabs
         connection={courseConnection}
         gridClasses={gridClasses} 
         options={options} 

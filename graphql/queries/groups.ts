@@ -167,6 +167,13 @@ export const GET_GROUPS_USERS = gql`
           users {
             ...GroupUsersFragment
           }
+          assignedCourses {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }
@@ -177,6 +184,7 @@ export const GET_GROUPS_USERS = gql`
 export const GET_GROUPS_DETAILED = gql`
   query GetGroupsDetailed {
     groups {
+      totalCount
       edges {
         node {
           ...GroupDetailsFragment

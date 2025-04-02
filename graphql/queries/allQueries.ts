@@ -51,6 +51,9 @@ export const ContentFragment = gql`
         }
       }
     }
+    users{ 
+      totalCount
+    }
     itemType
     prerequisites
     title
@@ -223,13 +226,18 @@ export const GET_RESOURCE = gql`
 `
 
 export const GET_RESOURCES = gql`
-  query GetResources {
-    resources {
+  query GetResources($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+  resources(first: $first, after: $after, where: $where, orderBy: $orderBy) {
+      totalCount
       edges {
         userId
         node {
           ...ResourceFragment
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
@@ -247,18 +255,29 @@ export const GET_PATHWAY = gql`
 `
 
 export const GET_PATHWAYS = gql`
-  query GetPathways {
-    pathways {
+  query GetPathways($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+    pathways(first: $first, after: $after, where: $where, orderBy: $orderBy) {
+      totalCount
+      inProgressCount
+      notStartedCount
+      completedCount
       edges {
         userId
+        status
         node {
           ...PathwayFragment
+          id
+          title
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
   ${PathwayFragment}
-`
+`;
 
 export const GET_QUIZ = gql`
   query GetQuiz($id: ID!) {

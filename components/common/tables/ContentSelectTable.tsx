@@ -143,6 +143,7 @@ const ContentSelectTable = ({
   return (
     <>
       <Table
+        count={availableContent.count}
         tableData={tableData}
         tableCols={tableCols}
         filters={filters}

@@ -68,7 +68,7 @@ export type BlockType = {
   defaultProperties?: any,  
   canHaveBgImage?: boolean,
   alwaysHasBgImage?: boolean,
-  editorOptions?: any
+  editorOptions?: any,
   hideFromSelector?: boolean
 }
 
