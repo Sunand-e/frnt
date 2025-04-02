@@ -1,11 +1,9 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
 import { useCallback, useMemo } from "react";
-import useGetCourses from "../../hooks/courses/useGetCourses";
 import useGetGroup from "../../hooks/groups/useGetGroup";
 import { handleModal } from "../../stores/modalStore";
 import { useRouter } from "../../utils/router";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
-import AddUsersToGroup from "./AddUsersToGroup";
 import GroupUserActionsMenu from "./GroupUserActionsMenu";
 import ItemWithImage from "../common/cells/ItemWithImage";
 import { User } from '@styled-icons/fa-solid/User';
@@ -24,13 +22,12 @@ const GroupUsers = ({
   const router = useRouter();
   const { id } = router.query;
 
-  const { courses } = useGetCourses();
   const { group } = useGetGroup(id);
 
   const userEdges = useMemo(
-    () => group?.users.edges.filter(edge => {
+    () => group?.users.edges.filter((edge: any) => {
       if (!!edge.node._deleted) return false;
-      if (showRoles.length > 0 && !edge.roles.some(role => showRoles.includes(role.name))) return false;
+      if (showRoles.length > 0 && !edge.roles.some((role: any) => showRoles.includes(role.name))) return false;
       return true;
     }) || [],
     [group, showRoles]
@@ -38,7 +35,7 @@ const GroupUsers = ({
 
   const { removeUsersFromGroups } = useRemoveUsersFromGroups()
   
-  const handleRemove = useCallback(ids => {
+  const handleRemove = useCallback((ids: any) => {
     const idsArray = Array.isArray(ids) ? ids : [ids]
     removeUsersFromGroups({
       groupIds: [group.id],
@@ -65,7 +62,7 @@ const GroupUsers = ({
     return [
       {
         header: "User",
-        accessorFn: row => row.node.fullName,
+        accessorFn: (row: any) => row.node.fullName,
         cell: ({ cell }) => {
           const user = cell.row.original.node;
           return (
