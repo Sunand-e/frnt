@@ -37,10 +37,12 @@ function useUpdateRole(id = null) {
             ...variables
           },
         }
-      }
+      },
+      refetchQueries: [{ query: GET_ROLE, variables: { id } }]
     }).catch(res => {
-      // TODO: do something if there is an error!!
-    })
+      // Handle error
+    });
+    
   }
 
   return {
