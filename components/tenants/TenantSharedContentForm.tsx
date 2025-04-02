@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../common/Button';
 import { useForm } from 'react-hook-form';
 import SharedCoursesInput from './inputs/SharedCoursesInput';
-import SharedPathwaysInput from './inputs/SharedPathwaysInput';
 import SharedResourcesInput from './inputs/SharedResourcesInput';
 import { useRouter } from '../../utils/router';
 import useShareContentItems from '../../hooks/tenants/useShareContentItems';
@@ -12,9 +11,9 @@ import { disableSubmitOnEnterKey } from '../../utils/forms';
 
 interface TenantSharedContentFormValues {
   id?: string | string[]
-  sharedCourseIds
-  sharedPathwayIds
-  sharedResourceIds  
+  sharedCourseIds: any
+  sharedPathwayIds: any
+  sharedResourceIds: any
 }
 
 const TenantSharedContentForm = () => {
@@ -30,12 +29,12 @@ const TenantSharedContentForm = () => {
 
   const defaultValues = {
     id,
-    sharedCourseIds: sharedContentItems ? [...sharedContentItems?.courses.edges.map(edge => edge.node.id)]: [],
-    sharedResourceIds: sharedContentItems ? [...sharedContentItems?.resources.edges.map(edge => edge.node.id)]: [],
+    sharedCourseIds: sharedContentItems ? [...sharedContentItems?.courses.edges.map(edge => edge.node.id)] : [],
+    sharedResourceIds: sharedContentItems ? [...sharedContentItems?.resources.edges.map(edge => edge.node.id)] : [],
     // sharedPathwayIds: sharedContentItems ? [...sharedContentItems?.pathways.edges.map(edge => edge.node.id)]: [],
   }
 
-  const { handleSubmit: rhfHandleSubmit, formState: { errors }, control, reset } = useForm<TenantSharedContentFormValues>({
+  const { handleSubmit: rhfHandleSubmit, control, reset } = useForm<TenantSharedContentFormValues>({
     defaultValues
   });
 
@@ -48,7 +47,7 @@ const TenantSharedContentForm = () => {
     ])
   }, [sharedContentItems]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
 
     const contentItemIds = [
       ...data.sharedCourseIds,
@@ -71,7 +70,7 @@ const TenantSharedContentForm = () => {
     })
     setInitialIds(contentItemIds)
   }
-  
+
   return (
     <form
       className='h-full w-full flex flex-col space-y-4'

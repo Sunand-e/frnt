@@ -379,8 +379,8 @@ const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
     'limit': false,
     'limit_count': 0
   },
-  'primaryBrandColor': '',
-  'secondaryBrandColor': ''
+  'primaryBrandColor': '#444444',
+  'secondaryBrandColor': '#999999'
 }
 
 export default TenantForm
