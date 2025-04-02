@@ -6,7 +6,6 @@ import Button from "../common/Button"
 import SharedContent from "./SharedContent"
 import TenantFontsForm from "./TenantFontsForm"
 import TenantForm from "./TenantForm"
-import TenantSharedContentForm from "./TenantSharedContentForm"
 
 const TenantEditor = () => {
   
@@ -16,7 +15,7 @@ const TenantEditor = () => {
   const { tenant, loading, error } = useGetTenant(id)
   const { updateTenant } = useUpdateTenant(id)
 
-  const handleSubmit = (formValues) => {
+  const handleSubmit = (formValues: any) => {
     const values = {
       ...formValues
     }

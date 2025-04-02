@@ -53,6 +53,14 @@ const TenantsTable = () => {
       {
         header: "Users",
         accessorFn: (row: any) => row.users.totalCount,
+        cell: ({ cell }) => {
+          if(cell.row.original.settings?.users?.limit){
+            return `${cell.getValue()}/${cell.row.original.settings?.users?.limit_count}`
+          }
+          else{
+            return cell.getValue()
+          }
+        }
       },
       {
         header: "Courses",

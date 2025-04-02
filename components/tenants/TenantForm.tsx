@@ -10,7 +10,9 @@ import CheckboxInput from '../common/inputs/CheckboxInput';
 import FontFamilySelectInput from '../common/inputs/FontFamilySelectInput';
 import BoxContainer from '../common/containers/BoxContainer';
 import { contentTypes } from '../common/contentTypes';
-import merge from 'lodash/merge'
+import { Users } from "@styled-icons/fa-solid/Users"
+import { Group2 } from "@styled-icons/remix-fill/Group2"
+import { PeopleTeamToolbox } from "@styled-icons/fluentui-system-filled/PeopleTeamToolbox"
 interface TenantFeatureSettings {
   courses: {
     enabled: boolean
@@ -58,6 +60,10 @@ interface TenantFeatureSettings {
       enabled: boolean
     }
   }
+  users: {
+    limit: boolean
+    limit_count: number
+  }
   primaryBrandColor: string
   secondaryBrandColor: string
 }
@@ -100,7 +106,7 @@ const TenantForm = ({tenant=null, onSubmit}) => {
     defaultValues
   });
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (data: any) => {
     await Promise.all([
       data.logo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_image: data.logo})),
       data.whiteLogo instanceof File && (await uploadFilesAndNotify(endpoint, {logo_white_image: data.whiteLogo})),
@@ -129,32 +135,36 @@ const TenantForm = ({tenant=null, onSubmit}) => {
             value: 30,
             message: 'Tenant name is required',
           },
-          required: true, 
+          required: 'Tenant name is required'
         })}
       />
-      {errors.name && errors.name.type === "required" && <span role="alert">{errors.name.message}</span>}
-      {errors.name && errors.name.type === "maxLength" && <span role="alert">{errors.name.message}</span> }
+      {errors.name && <span role="alert" className='text-red-500'>{errors.name.message}</span>}
       <TextInput
         label="Short name"
         placeholder="Short name"
         inputAttrs={register("shortName", { maxLength: 20 })}
       />
-      {errors.name && errors.name.type === "required" && <span>Tenant short name is required</span>}
-      {errors.name && errors.name.type === "maxLength" && <span>The tenant short name should be no longer than 20 characters</span> }
+      {errors.name && errors.name.type === "required" && <span className='text-red-500'>Tenant short name is required</span>}
+      {errors.name && errors.name.type === "maxLength" && <span className='text-red-500'>The tenant short name should be no longer than 20 characters</span> }
       <TextInput
         label="URL"
         placeholder="url"
-        inputAttrs={register("url", { maxLength: 50 })}
+        inputAttrs={register("url", {
+          maxLength: {
+            value: 50,
+            message: 'Tenant url should be no longer than 50 characters',
+          },
+          required: 'Tenant url is required'
+        })}
       />
+      {errors.url && <span role="alert" className='text-red-500'>{errors.url.message}</span>}
       <ImageDropzoneInput
-        buttonText="Choose tenant logo"
         label="Company logo"
         control={control}
         name="logo"
         initialValue={tenant?.logos.logo}
         />
       <ImageDropzoneInput
-        buttonText="Choose logo (white)"
         label="Company logo (white)"
         control={control}
         name="whiteLogo"
@@ -162,14 +172,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         initialValue={tenant?.logos.logo_white}
       />
       <ImageDropzoneInput
-        buttonText="Choose logo (square)"
         label="Company logo (square)"
         control={control}
         name="squareLogo"
         initialValue={tenant?.logos.logo_square}
       />
       <ImageDropzoneInput
-        buttonText="Choose logo (white, square)"
         label="Company logo (white, square)"
         control={control}
         name="squareWhiteLogo"
@@ -177,7 +185,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         initialValue={tenant?.logos.logo_square_white}
       />
       <ImageDropzoneInput
-        buttonText="Choose logo for emails (white)"
         label="Logo for email headers (white)"
         control={control}
         name="emailLogo"
@@ -185,7 +192,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         initialValue={tenant?.logos.logo_for_emails}
       />
       <ImageDropzoneInput
-        buttonText="Choose logo for certificates"
         label="Logo for certificates"
         control={control}
         name="certLogo"
@@ -193,7 +199,6 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         initialValue={tenant?.logos.logo_for_certs}
       />
       <ImageDropzoneInput
-        buttonText="Choose awarding body logo for certificates"
         label="Awarding body logo"
         control={control}
         name="awardingBodyLogo"
@@ -277,14 +282,41 @@ const TenantForm = ({tenant=null, onSubmit}) => {
         />
       </BoxContainer>
 
-      <BoxContainer title={'Groups'} icon={null} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+      <BoxContainer title={'Users'} icon={Users} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+        <CheckboxInput
+          label="Enable Users Limit"
+          inputAttrs={register("settings.users.limit")}
+        />
+
+        {watch('settings.users.limit') && (
+          <>
+            <TextInput
+              label={`User Limit ${tenant?.users?.totalCount ? '(min: ' + tenant.users.totalCount + ')' : ''}`}
+              placeholder="User Limit"
+              className="pb-2"
+              type="number"
+              inputAttrs={register("settings.users.limit_count", { 
+                min: {
+                  value: tenant?.users?.totalCount || 1,
+                  message: `User limit cannot be less than ${tenant?.users?.totalCount || 1} because ${tenant?.users?.totalCount|| 1} users are already registered for this tenant.`,
+                },
+                required: "User limit is required",
+              })}
+            />
+            {errors?.settings?.users?.limit_count && <span role="alert" className='text-red-500 pb-2'>{errors.settings.users.limit_count.message}</span>}
+          </>
+        )}
+        
+      </BoxContainer>
+
+      <BoxContainer title={'Groups'} icon={Group2} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
         <CheckboxInput
           label="Enable groups"
           inputAttrs={register("settings.groups.enabled")}
         />
       </BoxContainer>
 
-      <BoxContainer title={'Organisations'} icon={null} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
+      <BoxContainer title={'Organisations'} icon={PeopleTeamToolbox} contentClassName="py-2 px-3 text-sm flex flex-col space-y-2">
         <CheckboxInput
           label="Enable organisations"
           inputAttrs={register("settings.organisations.enabled")}
@@ -342,6 +374,10 @@ const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
   },
   'certificates': {
     'awardingBodyText': ''
+  },
+  'users': {
+    'limit': false,
+    'limit_count': 0
   },
   'primaryBrandColor': '#444444',
   'secondaryBrandColor': '#999999'
