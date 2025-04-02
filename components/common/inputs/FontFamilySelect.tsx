@@ -66,7 +66,7 @@ const FontFamilySelect = ({value, onChange}) => {
     }
   ]
   return (
-    <Select 
+    <Select
       value={selectedOption}
       menuPortalTarget={document.body}
       menuPlacement={'auto'}

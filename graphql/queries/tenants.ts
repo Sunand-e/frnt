@@ -25,7 +25,7 @@ export const TenantFragment = gql`
 `
 
 export const GET_TENANT = gql`
-  query GetTenant($id: ID!) {
+  query GetTenant($id: ID) {
     tenant(id: $id) {
       ...TenantFragment
       children {

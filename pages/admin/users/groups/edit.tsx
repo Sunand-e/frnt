@@ -1,4 +1,3 @@
-import EditGroupForm from '../../../../components/groups/EditGroupForm'
 import usePageTitle from '../../../../hooks/usePageTitle';
 import {ChevronRight} from "@styled-icons/boxicons-regular/ChevronRight";
 import useHeaderButtons from "../../../../hooks/useHeaderButtons";
@@ -8,6 +7,7 @@ import ButtonBack from '../../../../components/common/ButtonBack';
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import LoadingSpinner from '../../../../components/common/LoadingSpinner';
+import GroupForm from '../../../../components/groups/GroupForm';
 
 const AdminUsersGroupsEdit = () => {
 
@@ -42,9 +42,7 @@ const AdminUsersGroupsEdit = () => {
     />
   )
 
-
-
-  return <EditGroupForm />
+  return <GroupForm />
 }
 
 AdminUsersGroupsEdit.capabilities = ['UpdateGroup']

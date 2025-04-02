@@ -21,11 +21,11 @@ const AdminPathwaySetup = () => {
     See: https://stackoverflow.com/a/56695180/4274008, https://github.com/vercel/next.js/issues/4804
     */
   const router = useRouter()
-   
+
   const { createPathway } = useCreatePathway()
   const { pathways } = useGetPathways()
 
-  usePageTitle({ 
+  usePageTitle({
     title: "New pathway"
   })
 
@@ -44,15 +44,15 @@ const AdminPathwaySetup = () => {
       ...settings
     }
 
-    createPathway(values, ({createPathway: {pathway}} ) => {
+    createPathway(values, ({ createPathway: { pathway } }) => {
       closeModal()
-        router.push({
-          pathname: `/admin/pathways/edit`,
-          query: {
-            pid: pathway.id
-          }
-        })
-      }
+      router.push({
+        pathname: `/admin/pathways/edit`,
+        query: {
+          pid: pathway.id
+        }
+      })
+    }
     )
 
     handleModal({
@@ -72,7 +72,6 @@ const AdminPathwaySetup = () => {
   const { register, handleSubmit, control, formState: { errors } } = useForm<PathwaySetupFormValues>();
 
   return (
-    // <div className='h-full w-full max-w-screen-lg mx-auto'>
     <>
       <form
         className='h-full w-full max-w-sm flex flex-col space-y-4'
@@ -91,7 +90,6 @@ const AdminPathwaySetup = () => {
           buttonText="Choose pathway image"
           control={control}
           name="imageId"
-          // inputAttrs={register("image", { required: true })}
         />
         <TagSelectInput
           control={control}
@@ -99,42 +97,9 @@ const AdminPathwaySetup = () => {
           label="Categories"
           isMulti={true}
         />
-        {/* <SelectInput
-          label="Pathway access type"
-          options={[
-            {
-              label: "Open access",
-              value: 'open'
-            },
-            {
-              label: "Assignable",
-              value: 'assignable'
-            },
-            {
-              label: "Paid access",
-              value: 'paid'
-            },
-          ]}
-          inputAttrs={register("accessType")}
-        /> */}
-        {/* <TextInput
-          label="Pathway price"
-          placeholder="Untitled pathway"
-          inputAttrs={register("pathwayPrice")}
-        /> */}
-        {/* <CheckboxInput
-          label="Enable prerequisites"
-          inputAttrs={register("enablePrerequisites")}
-        /> */}
-        {/* <CheckboxInput
-          label="Disable course progression"
-          inputAttrs={register("disableProgression")}
-        /> */}
         <Button type="submit">Pathway Builder</Button>
-        {/* <p className='text-lg font-bold mt-4'>Create your first pathway item:</p>
-        <AddItemToPathwayForm sectionId={123} /> */}
       </form>
-      </>
+    </>
   )
 }
 

@@ -4,15 +4,20 @@ import { useRouter } from "../../utils/router";
 import Button from "../common/Button";
 import TextInput from "../common/inputs/TextInput";
 
+interface PasswordResetFormValues {
+  password: string
+  password_confirmation: string
+}
+
 const ResetPasswordForm = () => {
 
   const router = useRouter()
   const { token } = router.query
   const RESET_PASSWORD_ENDPOINT = '/api/v1/user/update_password'
 
-  const { register, control, handleSubmit, formState: { errors }, reset, watch } = useForm();
+  const { register, control, handleSubmit, formState: { errors }, reset, watch } = useForm<PasswordResetFormValues>();
 
-  const resetPassword = async (data) => {
+  const resetPassword = async (data: any) => {
     
     const formData = {
       ...data,
@@ -31,13 +36,11 @@ const ResetPasswordForm = () => {
     .then(
       (result) => {
         router.push('/')
-        // if(result.status === 'Invitation Accepted!') {
-        // }
       }
     )
   }
 
-  const onSubmit = async data => {
+  const onSubmit = async (data: any) => {
     await resetPassword(data);
     reset();
   };
@@ -45,44 +48,41 @@ const ResetPasswordForm = () => {
   return (
     <div className={`w-full flex flex-col items-center justify-center pt-8`}>
       <p className="text-main text-xl mb-4">Enter your new password:</p>
-      {/* <p className="mb-4">
-        Don't worry &mdash; enter your email address below, and if you have an account with us, we'll send you a link
-        where you can set a new password.
-      </p> */}
-      <form 
+      <form
         onSubmit={handleSubmit(onSubmit)} 
-        className={`h-full w-full max-w-sm flex flex-col space-y-4`}
+        className='h-full w-full max-w-sm flex flex-col space-y-4'
       >
-      <TextInput
-        type="password"
-        label="New password"
-        placeholder=""
-        inputAttrs={register("password", {
-          required:"New password is required",
-          maxLength: {
-            value: 200,
-            message:"Max length of the name is 200"
-          }
-        })}
-      />
-      <TextInput
-        type="password"
-        label="Confirm new password"
-        placeholder=""
-        inputAttrs={register("password_confirmation", {
-          required:"Confirm new password is required",
-          maxLength: {
-            value: 200,
-            message:"Max length of the name is 200"
-          },
-          validate: (val: string) => {
-            if (watch('password') != val) {
-              return "Your passwords do no match";
+        <TextInput
+          type="password"
+          label="New password"
+          placeholder=""
+          inputAttrs={register("password", {
+            required: true,
+            minLength: {
+              value: 5,
+              message: "Min length is 5"
+            },
+            maxLength: {
+              value: 200,
+              message:"Max length of the name is 200"
             }
-          },
-        })}
-      />
-      {errors.password_confirm && (<small className="text-danger text-red-500">{errors.password_confirm.message}</small>)}
+          })}
+        />
+        <TextInput
+          type="password"
+          label="Confirm new password"
+          placeholder=""
+          inputAttrs={register("password_confirmation", {
+            required: true,
+            validate: (val: string) => {
+              if (watch('password') != val) {
+                return "Your passwords do no match";
+              }
+            },
+          })}
+        />
+        {errors.password?.message && <span role="alert" className="text-red-500">{errors.password.message}</span>}
+        {errors.password_confirmation?.message && <span role="alert" className="text-red-500">{errors.password_confirmation.message}</span>}
         <Button type="submit">SUBMIT</Button>
       </form>
     </div>

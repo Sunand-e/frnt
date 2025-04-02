@@ -29,7 +29,10 @@ const ProfileForm = () => {
   })
 
   const onSubmit = ({ profile_image, ...values }) => {
-    updateUser(values)
+    updateUser({
+      ...values,
+      update_self: true
+    })
     if (profile_image) {
       const imageEndpoint = `/api/v1/users/${user.id}/update_profile_image`
       profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, { profile_image })
@@ -83,26 +86,19 @@ const ProfileForm = () => {
       <TextInput
         label="Email"
         placeholder="email"
-        inputAttrs={register("email", {
-          required: "Email is required",
-          maxLength: { value: 40, message: "Max length of the name is 40" },
-          pattern: {
-            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-            message: "Please provide a valid email"
-          }
-        })}
+        inputAttrs={{
+          ...register("email", {
+            required: "Email is required",
+            maxLength: { value: 40, message: "Max length of the name is 40" },
+            pattern: {
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              message: "Please provide a valid email"
+            }
+          }),
+          readOnly: true
+        }}
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
-
-      {user?.unconfirmedEmail && (
-        <div className="text-yellow-500 bg-yellow-100 p-2 rounded-md">
-          Warning: Your new email <strong>{user?.unconfirmedEmail}</strong> is unverified.  
-          <br />
-          Please check your inbox for a confirmation link.  
-          <br />
-          You can continue logging in with your current email <strong>{user?.email}</strong> until the new email is verified.
-        </div>
-      )}
 
       {/* <PhoneNumberInput register={register} setValue={setValue} watch={watch} /> */}
 
