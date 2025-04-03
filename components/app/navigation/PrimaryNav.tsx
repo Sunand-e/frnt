@@ -110,7 +110,7 @@ const PrimaryNav = ({isSlim, pageNavState}) => {
             </nav>
           </div>
         </div>
-        <NavFooter isSlim={isSlim}/>
+        <NavFooter/>
       </div>
     </div>
   )
