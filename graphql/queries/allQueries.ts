@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { UserQuizAttemptFragment } from './quizzes';
-import { UserFragment } from './users';
 
 export const ContentItemTagEdgeFragment = gql`
   fragment ContentItemTagEdgeFragment on ContentItemTagEdge {
@@ -18,8 +17,8 @@ export const ContentItemTagEdgeFragment = gql`
   }
 `
 
-export const ContentFragment = gql`
-  fragment ContentFragment on ContentItem {
+export const ContentFragmentWithoutUsers = gql`
+  fragment ContentFragmentWithoutUsers on ContentItem {
     content
     contentType
     createdAt
@@ -51,9 +50,6 @@ export const ContentFragment = gql`
         }
       }
     }
-    users{ 
-      totalCount
-    }
     itemType
     prerequisites
     title
@@ -61,6 +57,16 @@ export const ContentFragment = gql`
     _deleted @client
     _isOptimistic @client
   }
+`
+
+export const ContentFragment = gql`
+  fragment ContentFragment on ContentItem {
+    ...ContentFragmentWithoutUsers
+    users{
+      totalCount
+    }
+  }
+  ${ContentFragmentWithoutUsers}
 `
 
 export const ResourceFragment = gql`

@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { CourseFragment } from "../allQueries"
+import { ContentFragmentWithoutUsers } from "../allQueries"
 import { UserFragment } from "../users"
 
 export const ContentUserEdgeFragment = gql`
@@ -32,29 +32,13 @@ export const ContentUserEdgeFragment = gql`
 export const GET_COURSE_USERS = gql`
   query GetCourseUsers($id: ID!, $first: Int, $after: String) {
     course(id: $id) {
-      ...CourseFragment
+      ...ContentFragmentWithoutUsers
       users(first: $first, after: $after) {
         ...ContentUserEdgeFragment
       }
     }
   }
-  ${CourseFragment}
+  ${ContentFragmentWithoutUsers}
   ${UserFragment}
   ${ContentUserEdgeFragment}
 `
-
-
-// // INCOMPLETE...
-// export const GET_USER_COURSE_LESSONS = gql`
-//   query GetUserCourseLessons($userId: ID!, $courseId: ID!) {
-//     course(id: $userId) {
-//       ...CourseFragment
-//       users {
-//         ...ContentUserEdgeFragment
-//       }
-//     }
-//   }
-//   ${CourseFragment}
-//   ${UserFragment}
-//   ${ContentUserEdgeFragment}
-// `
