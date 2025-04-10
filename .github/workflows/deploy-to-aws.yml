@@ -76,7 +76,12 @@ jobs:
           IMAGE_TAG: latest
         run: |
           # Build a docker container and push it to ECR 
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/nginx/Dockerfile .
+          docker build \
+            --build-arg API_HOST=learning-platform-api.lerning-platform.namespace:3000 \
+            --build-arg BUCKET_NAME=learning-platform-media-items.s3.eu-west-2.amazonaws.com \
+            --build-arg SERVER_NAME=*.smartlms.co.uk \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -f docker/nginx/Dockerfile .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
