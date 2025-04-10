@@ -42,14 +42,14 @@ const DocumentItem = ({file, onRemove=null, viewButton=false, pdfPreview=false, 
           <p className="text-md font-medium text-main-secondary truncate">{file.fileName}</p>
           { viewButton && file.location.endsWith('pdf') && (
             <Button onClick={handleViewDocument}>View document</Button>
-          )}
+        )}
             {/* : (
             <ButtonLink href={file.location} className='flex items-center justify-center h-9 text-white space-x-4'>
               <Download className='w-5 mr-2 -ml-1' /><span>Download document</span>
             </ButtonLink>
           )} */}
 
-          <a href={file.location} className='flex items-center justify-center rounded-full hover:scale-125 w-9 h-9 bg-main hover:bg-main/80 text-white'>
+          <a href={file.location} target="_blank" className='flex items-center justify-center rounded-full hover:scale-125 w-9 h-9 bg-main hover:bg-main/80 text-white'>
             <Download className={`w-6`} />
           </a>
 
