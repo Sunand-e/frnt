@@ -5,11 +5,11 @@ import { ITEMS_PER_PAGE } from "../../utils/constants";
 import useInfiniteScroll from "../useInfiniteScroll";
 import { useState } from "react";
 
-function useGetCoursesReport({ pagination = false } = {}) {
+function useGetCoursesReport({ pagination = false, groupId = null} = {}) {
   const [loadingMore, setLoadingMore] = useState(false);
 
   const { loading, error, data, fetchMore, networkStatus } = useQuery<CoursesReportQuery>(COURSES_REPORT_QUERY, {
-    variables: pagination ? { first: ITEMS_PER_PAGE, after: null, where: { includeProvisioned: true } } : {},
+    variables: pagination ? { first: ITEMS_PER_PAGE, after: null, where: { includeProvisioned: true, groupId: groupId || null}  } : {},
     fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true
   });

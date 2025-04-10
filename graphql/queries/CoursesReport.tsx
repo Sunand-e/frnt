@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const COURSES_REPORT_QUERY = gql`
-  query CoursesReportQuery($first: Int, $after: String) {
-    courses(where: { includeProvisioned: true }, first: $first, after: $after) {
+  query CoursesReportQuery($first: Int, $after: String, $where: JSON) {
+    courses(where: $where, first: $first, after: $after) {
       edges {
         userId
         groups {
