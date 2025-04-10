@@ -13,8 +13,11 @@ import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 
 const UsersReportTable = () => {
   const [loadingMore, setLoadingMore] = useState(false);
+  const router = useRouter()
+  const { group: groupId } = router.query
+
   const { loading, error, data: queryData, fetchMore, networkStatus} = useQuery<GetUsersCoursesQuery>(GET_USERS_COURSES, {
-    variables: { first: ITEMS_PER_PAGE, after: null },
+    variables: { first: ITEMS_PER_PAGE, after: null, where: {groupId: groupId || null} },
     fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true
   });
@@ -46,10 +49,6 @@ const UsersReportTable = () => {
 
   const { groups } = useGetGroupsUsers();
 
-  const router = useRouter()
-
-  const { group: groupId } = router.query
-
   const applyGroupFilter = useCallback((edges: any) => {
     let filteredEdges = edges;
     if (filterActive(groupId) && groups) {
@@ -62,16 +61,8 @@ const UsersReportTable = () => {
   }, [groups, groupId])
 
   const tableData = useMemo(() => {
-    let data = queryData?.users?.edges
-    if (filterActive(groupId)) {
-      data = data?.filter((item) => {
-        return item.node.groups.edges.some(
-          (groupEdge) => groupEdge.node.id === groupId
-        );
-      });
-    }
-    return data || []
-  }, [queryData, groupId]);
+    return queryData?.users?.edges || []
+  }, [queryData]);
 
   const tableCols = useMemo(
     () => [

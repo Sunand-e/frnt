@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import { UserFragment } from './users';
 
 export const GET_USERS_COURSES = gql`
-  query GetUsersCourses($first: Int, $after: String) {
-    users(first: $first, after: $after) {
+  query GetUsersCourses($first: Int, $after: String, $where: JSON) {
+    users(first: $first, after: $after, where: $where) {
       edges {
         node {
           ...UserFragment
