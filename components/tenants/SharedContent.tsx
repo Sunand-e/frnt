@@ -1,13 +1,10 @@
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
 import { useMemo } from "react";
-import cache from "../../graphql/cache";
-import { ContentItemTagEdgeFragmentFragment, Tenant } from "../../graphql/generated";
-import { ContentItemTagEdgeFragment } from "../../graphql/queries/allQueries";
+import { Tenant } from "../../graphql/generated";
 import useGetSharedContentItems from "../../hooks/tenants/useGetSharedContentItems";
 import useRevokeShareContentItems from "../../hooks/tenants/useRevokeShareContentItems";
 import { handleModal } from "../../stores/modalStore";
 import { getContentTypeStringWithCount } from "../../utils/getContentTypeStringWithCount";
-import ContentTitleCell from "../common/cells/ContentTitleCell";
 import { contentTypes } from "../common/contentTypes";
 import TooltipIfClamped from "../common/floating-ui/TooltipIfClamped";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
@@ -26,7 +23,7 @@ const SharedContent = ({tenant, typeName='content'}: SharedContentProps) => {
   const { sharedContentItems, loading } = useGetSharedContentItems(tenant.id)
   const { revokeShareContentItems } = useRevokeShareContentItems()
 
-  const handleRemove = (ids) => {
+  const handleRemove = (ids: any) => {
     revokeShareContentItems({
       tenantId: tenant.id,
       contentItemIds: ids,
@@ -58,15 +55,16 @@ const SharedContent = ({tenant, typeName='content'}: SharedContentProps) => {
   ]
 
   const tableData = useMemo(() => [
-      ...sharedContentItems?.courses.edges.map(edge => ({...edge.node, itemType: 'course' })) || [],
-      ...sharedContentItems?.resources.edges.map(edge => ({...edge.node, itemType: 'resource' })) || [],
+    ...sharedContentItems?.courses.edges.map(edge => ({...edge.node, itemType: 'course' })) || [],
+    ...sharedContentItems?.resources.edges.map(edge => ({...edge.node, itemType: 'resource' })) || [],
+    ...sharedContentItems?.pathways.edges.map(edge => ({...edge.node, itemType: 'pathway' })) || [],
   ], [tenant, sharedContentItems]);
 
   const tableCols = useMemo(() => {
     return [
       {
         header: contentType.label,
-        accessorFn: row => row.title, // accessor is the key in the data
+        accessorFn: (row: any) => row.title, // accessor is the key in the data
         cell: ({ cell }) => (
           <TooltipIfClamped className="line-clamp-1">
             {cell.getValue()}
@@ -76,7 +74,7 @@ const SharedContent = ({tenant, typeName='content'}: SharedContentProps) => {
       },
       {
         header: 'Type',
-        accessorFn: row => contentTypes[row.itemType].label, // accessor is the key in the data
+        accessorFn: (row: any) => contentTypes[row.itemType].label, // accessor is the key in the data
         // cell: ({ cell }) => <ContentTitleCell item={cell.row.original} />,
       },
     ]
@@ -90,6 +88,7 @@ const SharedContent = ({tenant, typeName='content'}: SharedContentProps) => {
     rowSizing: 'sm',
     maxVisibleRows: 10,
     loadingText: `Loading tenant ${contentType.plural}`,
+    count: sharedContentItems?.courses.edges.length + sharedContentItems?.resources.edges.length + sharedContentItems?.pathways.edges.length,
   }
 
   return (

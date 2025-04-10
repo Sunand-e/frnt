@@ -3,17 +3,17 @@ import { GetTenantSharedItems, GetTenantSharedItemsVariables } from "../../graph
 import { TENANT_SHARED_ITEMS } from "../../graphql/queries/tenants";
 
 
-function useGetSharedContentItems(tenant_id) {
+function useGetSharedContentItems(tenant_id: string) {
 
-  const variables = { 
+  const variables = {
     where: { sharedWith: tenant_id }
   }
 
-  const {loading, error, data } = useQuery<GetTenantSharedItems, GetTenantSharedItemsVariables>(
-
+  const { loading, error, data } = useQuery<GetTenantSharedItems, GetTenantSharedItemsVariables>(
     TENANT_SHARED_ITEMS,
     {
-      variables: variables
+      variables: variables,
+      notifyOnNetworkStatusChange: true
     }
   );
 

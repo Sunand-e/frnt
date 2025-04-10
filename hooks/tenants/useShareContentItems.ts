@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client"
 import { ShareContentItems, ShareContentItemsVariables } from "../../graphql/mutations/tenant/__generated__/ShareContentItems";
 import { SHARE_CONTENT_ITEMS } from "../../graphql/mutations/tenant/SHARE_CONTENT_ITEMS";
+import { TENANT_SHARED_ITEMS } from "../../graphql/queries/tenants";
 
 
 function useShareContentItems() {
@@ -9,11 +10,10 @@ function useShareContentItems() {
     SHARE_CONTENT_ITEMS,
   );
 
-  const shareContentItems = (values, cb = null) => {
+  const shareContentItems = (values: any) => {
     shareContentItemsMutation({
-      variables: { 
-        ...values
-      }
+      variables: { ...values },
+      refetchQueries: [TENANT_SHARED_ITEMS]
     }).catch(res => {
       // : do something if there is an error!!
     })
