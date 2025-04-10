@@ -15,6 +15,8 @@ const ReportFilters = ({ filters = [] }) => {
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
   const setMonthFilter = useTableContext(s => s.setMonthFilter)
   const setYearFilter = useTableContext(s => s.setYearFilter)
+  const loading = useTableContext(s => s.isLoading)
+  const loadingMore = useTableContext(s => s.isLoadingMore)
 
   const router = useRouter()
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
@@ -61,6 +63,7 @@ const ReportFilters = ({ filters = [] }) => {
                 query: { ...router.query, group: group?.id }
               });
             }}
+            disable={loading || loadingMore}
           />
         </div>
       )}

@@ -30,10 +30,10 @@ export const ContentUserEdgeFragment = gql`
 `
 
 export const GET_COURSE_USERS = gql`
-  query GetCourseUsers($id: ID!, $first: Int, $after: String) {
+  query GetCourseUsers($id: ID!, $first: Int, $after: String, $where: JSON) {
     course(id: $id) {
       ...ContentFragmentWithoutUsers
-      users(first: $first, after: $after) {
+      users(first: $first, after: $after, where: $where) {
         ...ContentUserEdgeFragment
       }
     }
