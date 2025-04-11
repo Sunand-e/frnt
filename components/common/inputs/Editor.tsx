@@ -101,7 +101,7 @@ const Editor = ({
             ...(!!onMenuHidden && { onHidden: onMenuHidden }),
           }}
         >
-          <div>
+          <div onClick={(e) => e.stopPropagation()}>
             <MenuBar editor={editor} isHeading={isHeading} />
           </div>
         </BubbleMenu>
