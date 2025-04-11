@@ -6,11 +6,11 @@ import { ITEMS_PER_PAGE } from "../../utils/constants";
 import useInfiniteScroll from "../useInfiniteScroll";
 import { useState } from "react";
 
-function useGetUser(id: InputMaybe<string> = null, query = GET_USER, pagination = false) {
+function useGetUser(id: InputMaybe<string> = null, query = GET_USER, pagination = false, where =  {}) {
 
   const [loadingMore, setLoadingMore] = useState(false);
   const { loading, error, data, fetchMore, networkStatus } = useQuery<GetUserQuery, GetUserQueryVariables>(query, {
-    variables: pagination ? { id, first: ITEMS_PER_PAGE, after: null } : { id },
+    variables: pagination ? { ...where, id, first: ITEMS_PER_PAGE, after: null } : { id },
     skip: !id,
     fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true

@@ -9,7 +9,8 @@ const GroupSelect = ({
   isMulti=false,
   isClearable=true,
   defaultValueId=null,
-  placeholder="Select group..."
+  placeholder="Select group...",
+  disable=false
 }) => {
   
   const { groups } = useGetGroups()
@@ -31,6 +32,7 @@ const GroupSelect = ({
     isSearchable: false,
     onChange: onSelect,
     isClearable: isClearable,
+    isDisabled: disable,
     isMulti,
     className,
     defaultValue,

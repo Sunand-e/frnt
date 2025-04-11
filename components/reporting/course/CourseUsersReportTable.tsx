@@ -19,19 +19,11 @@ const CourseUsersReportTable = () => {
     group: groupId
   } = router.query
 
-  const { groups } = useGetGroupsUsers();
-  const { loading, error, userConnection, course, loadingMore} = useGetCourseUsers(courseId);
+  const { loading, error, userConnection, course, loadingMore} = useGetCourseUsers(courseId, groupId);
 
   const tableData = useMemo(() => {
-    let data = userConnection?.edges
-    if (filterActive(groupId) && groups) {
-      let groupEdge = groups.edges.find(({ node }) => node.id === groupId)
-      data = data?.filter(edge => {
-        return groupEdge.node.users.edges.map((edge: any) => edge.node.id).includes(edge.node.id)
-      })
-    }
-    return data || []
-  }, [userConnection, groups, groupId]);
+    return userConnection?.edges || [] 
+  }, [userConnection]);
 
   const tableCols = useMemo(
     () => [

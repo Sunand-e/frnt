@@ -4,24 +4,19 @@ import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import ReportTable, { filterActive } from "../ReportTable";
 import { useRouter } from "../../../utils/router";
-import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
-import { client } from "../../../graphql/client";
 import useGetCoursesReport from "../../../hooks/reports/useGetCoursesReport";
 import useGetGroupsUsers from "../../../hooks/groups/useGetGroupsUsers";
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap"
 
 const CoursesReportTable = () => {
-  const { courses, loading, error, loadingMore } = useGetCoursesReport({ pagination: true });
-
   const { groups } = useGetGroupsUsers();
-
   const router = useRouter()
+  const { group: groupId } = router.query;
 
-  const {
-    group: groupId,
-  } = router.query
-
-  const { userHasCapability, tenantLevelCapabilityArray } = useUserHasCapability()
+  const { courses, loading, error, loadingMore } = useGetCoursesReport({
+    pagination: true,
+    groupId: groupId || null,
+  });
 
   const applyGroupFilter = useCallback((edges: any) => {
     let filteredEdges = edges;
@@ -35,39 +30,8 @@ const CoursesReportTable = () => {
   }, [groups, groupId])
 
   const tableData = useMemo(() => {
-    let data = courses?.edges.filter((edge: any) => !edge.node._deleted);
-    if (filterActive(groupId)) {
-      if (userHasCapability('GetAllGroupsContent')) {
-        data = data?.filter((edge: any) => (
-          edge.node.groupsAssigned.edges.some(({ node }) => node.id === groupId) ||
-          edge.node.groupsProvisioned.edges.some(({ node }) => node.id === groupId)
-        )
-        )
-      } else {
-        data = data?.filter((item: any) => {
-          const fragment = client.readFragment({
-            id: `UserContentEdge:${item.userId}:${item.node.id}`,
-            fragment: gql`
-              fragment UserContentGroupFragment on UserContentEdge {
-                groups {
-                  edges {
-                    node {
-                      id
-                    }
-                  }
-                }
-              }
-            `,
-          });
-
-          const groupIds = fragment?.groups.edges.map((edge: any) => edge.node.id);
-          return groupIds?.some((id: any) => id === groupId);
-        });
-      }
-    }
-    return data || []
-
-  }, [courses, groupId, tenantLevelCapabilityArray])
+    return courses?.edges.filter((edge: any) => !edge.node._deleted) || [];
+  }, [courses]);
 
   const tableCols = useMemo(
     () => [
@@ -89,7 +53,7 @@ const CoursesReportTable = () => {
                 type: 'user',
               },
             },
-            icon: (<GraduationCap className="p-1" />)
+            icon: <GraduationCap className="p-1" />,
           };
           return <ItemWithImage {...cellProps} />;
         },
@@ -152,14 +116,6 @@ const CoursesReportTable = () => {
             query: {
               ...router.query,
               type: 'user',
-              course: cell.row.original.node.id,
-            },
-          };
-
-          const lessonsHref = cell.row.original.node.id && {
-            query: {
-              ...router.query,
-              type: 'lesson',
               course: cell.row.original.node.id,
             },
           };

@@ -5,10 +5,10 @@ import useInfiniteScroll from "../useInfiniteScroll";
 import { ITEMS_PER_PAGE } from "../../utils/constants";
 import { useState } from "react";
 
-function useGetCourseUsers(id: any) {
+function useGetCourseUsers(id: any, groupId: any) {
   const [loadingMore, setLoadingMore] = useState(false);
   const { loading, error, data, fetchMore, networkStatus } = useQuery<GetCourseUsers>(GET_COURSE_USERS, {
-    variables: { id, first: ITEMS_PER_PAGE, after: null },
+    variables: { id, first: ITEMS_PER_PAGE, after: null, where: {groupId: groupId} },
     skip: !id,
     fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true
