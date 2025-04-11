@@ -4,34 +4,11 @@ import { useRouter } from "../../../utils/router";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import { commonTableCols } from "../../../utils/commonTableCols";
-import ReportTable, { filterActive, statusAccessor } from "../ReportTable";
+import ReportTable, { statusAccessor } from "../ReportTable";
 import { ArrowBack } from "@styled-icons/boxicons-regular/ArrowBack";
-import { gql, useQuery } from "@apollo/client";
 import { GET_USER_WITH_COURSES } from "../../../graphql/queries/userDetails";
 import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap";
 
-// Define your GraphQL query, assuming it accepts a groupId variable
-const GET_GROUP_COURSES = gql`
-  query GetGroupCourses($groupId: ID!) {
-    group(id: $groupId) {
-      id
-      assignedCourses {
-        edges {
-          node {
-            id
-          }
-        }
-      }
-      provisionedCourses {
-        edges {
-          node {
-            id
-          }
-        }
-      }
-    }
-  }
-`;
 const UserCoursesReportTable = () => {
   const router = useRouter();
   const {
@@ -39,24 +16,11 @@ const UserCoursesReportTable = () => {
     group: groupId
   } = router.query
 
-  const { loading, error, user, loadingMore } = useGetUser(userId as string, GET_USER_WITH_COURSES, true);
-
-  const { loading: groupLoading, error: groupError, data: groupData } = useQuery(GET_GROUP_COURSES, {
-    variables: { groupId },
-    skip: !filterActive(groupId),
-  });
+  const { loading, error, user, loadingMore } = useGetUser(userId as string, GET_USER_WITH_COURSES, true, {where: { groupId: groupId } });
 
   const tableData = useMemo(() => {
-    let data = user?.courses?.edges.filter((edge) => !edge.node._deleted)
-    if (filterActive(groupId) && groupData) {
-
-      data = data?.filter(edge => {
-        return groupData.group.assignedCourses.edges.map((edge: any) => edge.node.id).includes(edge.node.id)
-      })
-    }
-
-    return data || []
-  }, [user, groupData, groupId]);
+    return user?.courses?.edges.filter((edge) => !edge.node._deleted) || []
+  }, [user]);
 
   const tableCols = useMemo(() => {
     return [

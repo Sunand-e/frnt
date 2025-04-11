@@ -41,7 +41,7 @@ export const UserContentGroupsConnectionFragment = gql`
 
 export const UserCoursesGroupsFragment = gql`
   fragment UserCoursesGroupsFragment on User {
-    courses(first: $first, after: $after) {
+    courses(first: $first, after: $after, where: $where) {
       ...UserContentGroupsConnectionFragment
       edges {
       ...UserContentEdgeFragment
@@ -131,7 +131,7 @@ export const UserGroupsFragment = gql`
 `
 
 export const GET_USER = gql`
-  query GetUser($id: ID, $first: Int, $after: String) {
+  query GetUser($id: ID, $first: Int, $after: String, $where: JSON) {
     user(id: $id) {
       ...UserFragment
       ...UserPathwaysGroupsFragment
@@ -148,7 +148,7 @@ export const GET_USER = gql`
 `
 
 export const GET_USER_WITH_COURSES = gql`
-  query GetUser($id: ID, $first: Int, $after: String) {
+  query GetUser($id: ID, $first: Int, $after: String, $where: JSON) {
     user(id: $id) {
       ...UserFragment
       ...UserCoursesGroupsFragment
