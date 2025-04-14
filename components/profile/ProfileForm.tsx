@@ -31,7 +31,7 @@ const ProfileForm = () => {
   })
 
   const onSubmit = ({ profile_image, ...values }) => {
-    if (values?.phoneNumber == undefined) {
+    if (values?.phoneNumber == undefined || isOnlyCountryCode(values?.phoneNumber)) {
       values.phoneNumber = null 
     }
     updateUser({

@@ -67,7 +67,7 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
   useEffect(() => {
     document.title = pageTitle.title || "Zanda360";
-  }, [pageTitle.title]);
+  }, [pageTitle.title, router.asPath]);
   
   // useRouteChange()
   useBeforeUnload()
