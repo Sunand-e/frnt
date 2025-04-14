@@ -100,16 +100,6 @@ const ProfileForm = () => {
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
 
-      {user?.unconfirmedEmail && (
-        <div className="text-yellow-500 bg-yellow-100 p-2 rounded-md">
-          Warning: Your new email <strong>{user?.unconfirmedEmail}</strong> is unverified.  
-          <br />
-          Please check your inbox for a confirmation link.  
-          <br />
-          You can continue logging in with your current email <strong>{user?.email}</strong> until the new email is verified.
-        </div>
-      )}
-
       <PhoneNumberInput register={register} setValue={setValue} watch={watch} />
 
       <ImageDropzoneInput
