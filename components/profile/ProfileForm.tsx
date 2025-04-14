@@ -51,7 +51,7 @@ const ProfileForm = () => {
   });
 
   const isValid = useMemo(() => {
-    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null || watch('phoneNumber') == ''
+    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null || !watch('phoneNumber')
   }, [user, watch('phoneNumber'), watch('otpVerifiedToken')])
 
   useEffect(() => {

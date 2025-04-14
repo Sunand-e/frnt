@@ -31,7 +31,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
   const [otpSending, setOtpSending] = useState(false);
   const { timer, canSend, resetTimer } = useTimer(30);
 
-  const phoneNumberChanged = useMemo(() => user?.phoneNumber !== phoneNumber && phoneNumber !== '', [user, phoneNumber]);
+  const phoneNumberChanged = useMemo(() => user?.phoneNumber !== phoneNumber && !!phoneNumber, [user, phoneNumber]);
 
   const handleSendOTP = async () => {
     if (!phoneNumber || !validatePhoneNumber(phoneNumber)) return;
