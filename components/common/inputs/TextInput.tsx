@@ -10,7 +10,10 @@ interface TextInputProps {
   className?: string
   labelClassName?: string
   placeholder?: string,
-  onClick?: () => void
+  onClick?: () => void,
+  value?: string,
+  onChange?: (value: string) => void,
+  onBlur?: () => void
 }
 const TextInput = ({
   label='',
@@ -19,7 +22,10 @@ const TextInput = ({
   className='',
   labelClassName='',
   placeholder: placeholder = '',
-  onClick
+  onClick,
+  value='',
+  onChange=() => {},
+  onBlur=() => {}
 } : TextInputProps ) => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -49,6 +55,13 @@ const TextInput = ({
           "
           { ...inputAttrs }
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => {
+            if (onChange) {
+              onChange(e.target.value)
+            }
+          }}
+          onBlur={onBlur}
         />
         { type === 'password' && (
           <span className="text-gray-500 items-center absolute right-2 top-1" onClick={handlePasswordVisibilityToggle}>

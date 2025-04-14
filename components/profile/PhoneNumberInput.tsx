@@ -6,12 +6,20 @@ import useGetCurrentUser from "../../hooks/users/useGetCurrentUser";
 import OTPInput from "../common/inputs/OTPInput";
 import BlinkingEllipsis from "../common/misc/BlinkingEllipsis";
 import useTimer from "../../hooks/useTimer";
+import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 interface PhoneNumberInputProps {
   register: any;
   setValue: any;
   watch: any;
 }
+
+const ForwardedTextInput = React.forwardRef<HTMLInputElement, any>((props, ref) => {
+  return <TextInput {...props} inputAttrs={{...props.inputAttrs, ref}} />;
+});
+
+ForwardedTextInput.displayName = "ForwardedTextInput";
 
 const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue, watch }) => {
   const phoneNumber = watch("phoneNumber");
@@ -65,8 +73,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
     }
   };
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\s/g, "");
+  const handlePhoneNumberChange = (value: any) => {
     setValue("phoneNumber", value);
     setOtpSent(false);
     setOtpToken(null);
@@ -83,9 +90,21 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
       <div>
         <label htmlFor="phoneNumber">Mobile <span className="text-gray-500 italic">(Optional)</span></label>
         <div className='flex'>
-          <TextInput
+          <PhoneInput
+            international
+            defaultCountry="GB"
+            countryCallingCodeEditable={false}
             placeholder="Enter Mobile Number"
-            inputAttrs={register("phoneNumber", { onChange: handlePhoneNumberChange, onBlur: () => !phoneNumber || validatePhoneNumber(phoneNumber) ? setError('') : setError("Please enter a valid phone number.") })}
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            inputComponent={ForwardedTextInput}
+            onBlur={() => {
+              if (phoneNumber && !validatePhoneNumber(phoneNumber)) {
+                setError("Please enter a valid phone number.");
+              } else {
+                setError('');
+              }
+            }}
           />
           {phoneNumberChanged && !verifiedToken && (
             <Button

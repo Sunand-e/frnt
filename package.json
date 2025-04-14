@@ -107,6 +107,7 @@
     "react-hook-form": "^7.38.0",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-pdf-viewer": "^0.1.0",
+    "react-phone-number-input": "^3.4.12",
     "react-player": "^2.11.0",
     "react-qrcode-logo": "^3.0.0",
     "react-rewards": "^2.0.4",
