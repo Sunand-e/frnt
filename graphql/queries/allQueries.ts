@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { UserQuizAttemptFragment } from './quizzes';
-import { UserFragment } from './users';
 
 export const ContentItemTagEdgeFragment = gql`
   fragment ContentItemTagEdgeFragment on ContentItemTagEdge {
@@ -18,8 +17,8 @@ export const ContentItemTagEdgeFragment = gql`
   }
 `
 
-export const ContentFragment = gql`
-  fragment ContentFragment on ContentItem {
+export const ContentFragmentWithoutUsers = gql`
+  fragment ContentFragmentWithoutUsers on ContentItem {
     content
     contentType
     createdAt
@@ -58,6 +57,16 @@ export const ContentFragment = gql`
     _deleted @client
     _isOptimistic @client
   }
+`
+
+export const ContentFragment = gql`
+  fragment ContentFragment on ContentItem {
+    ...ContentFragmentWithoutUsers
+    users{
+      totalCount
+    }
+  }
+  ${ContentFragmentWithoutUsers}
 `
 
 export const ResourceFragment = gql`
@@ -223,13 +232,18 @@ export const GET_RESOURCE = gql`
 `
 
 export const GET_RESOURCES = gql`
-  query GetResources {
-    resources {
+  query GetResources($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+  resources(first: $first, after: $after, where: $where, orderBy: $orderBy) {
+      totalCount
       edges {
         userId
         node {
           ...ResourceFragment
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
@@ -247,18 +261,29 @@ export const GET_PATHWAY = gql`
 `
 
 export const GET_PATHWAYS = gql`
-  query GetPathways {
-    pathways {
+  query GetPathways($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+    pathways(first: $first, after: $after, where: $where, orderBy: $orderBy) {
+      totalCount
+      inProgressCount
+      notStartedCount
+      completedCount
       edges {
         userId
+        status
         node {
           ...PathwayFragment
+          id
+          title
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
   ${PathwayFragment}
-`
+`;
 
 export const GET_QUIZ = gql`
   query GetQuiz($id: ID!) {

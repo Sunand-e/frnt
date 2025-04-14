@@ -1,9 +1,6 @@
-// import { useRouter } from '../../utils/router';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import CoursesReportTable from './course/CoursesReportTable';
 import CourseUsersReportTable from './course/CourseUsersReportTable';
-import LessonUsersReportTable from './course/LessonUsersReportTable';
 import GroupsReportTable from './group/GroupsReportTable';
 import UserCoursesReportTable from './user/UserCoursesReportTable';
 import UserCourseReportTable from './user/UserCourseReportTable';
@@ -13,50 +10,40 @@ const Reporting = () => {
 
   const router = useRouter()
 
-  const { 
-    user: userId, 
-    group: groupId, 
-    course: courseId, 
-    lesson: lessonId, 
-    category: categoryId, 
+  const {
+    user: userId,
+    course: courseId,
     type
   } = router.query
 
   let TableComponent = CoursesReportTable;
   let tableProps = {};
-  
-  if(type === 'user') {
+
+  if (type === 'user') {
     TableComponent = UsersReportTable;
   }
-  
-  if(type === 'group') {
+
+  if (type === 'group') {
     TableComponent = GroupsReportTable;
   }
-  
-  if(userId) {
-    if(lessonId) {
-      TableComponent = () => <p>User's lesson statistics for lesson with id: {lessonId}</p>
-    } else if(courseId) {
+
+  if (userId) {
+    if (courseId) {
       TableComponent = UserCourseReportTable
     } else {
       // cOURSE REPORT FOR USER: ''
       TableComponent = UserCoursesReportTable
     }
-  } else {
-    if(lessonId) {
-      // User REPORT FOR Lesson: ''
-      TableComponent = LessonUsersReportTable
-    } else if(courseId) {
-      // User REPORT FOR Course: ''
-      TableComponent = CourseUsersReportTable
-    }
+  } else if (courseId) {
+    // User REPORT FOR Course: ''
+    TableComponent = CourseUsersReportTable
   }
 
   return (
     <>
-      { TableComponent && <TableComponent {...tableProps} /> }
+      {TableComponent && <TableComponent {...tableProps} />}
     </>
   )
 }
 
-export default Reporting
+export default Reporting;

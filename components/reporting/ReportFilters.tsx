@@ -15,6 +15,8 @@ const ReportFilters = ({ filters = [] }) => {
   const setGlobalFilter = useTableContext(s => s.setGlobalFilter)
   const setMonthFilter = useTableContext(s => s.setMonthFilter)
   const setYearFilter = useTableContext(s => s.setYearFilter)
+  const loading = useTableContext(s => s.isLoading)
+  const loadingMore = useTableContext(s => s.isLoadingMore)
 
   const router = useRouter()
   const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
@@ -24,16 +26,20 @@ const ReportFilters = ({ filters = [] }) => {
     user: userId,
     group: groupId,
     course: courseId,
-    lesson: lessonId,
     category: categoryId,
   } = router.query
 
   const cleared = !globalFilter
 
   const clearFilters = () => {
+    router.push({
+      query: {
+        ...router.query,
+        ...filters.reduce((acc, curr) => (acc[curr] = '', acc), {})
+      }
+    })
     setGlobalFilter && setGlobalFilter('')
   };
-
 
   return (
     <div className='flex items-center flex-col sm:flex-row gap-3 flex-wrap'>
@@ -57,6 +63,7 @@ const ReportFilters = ({ filters = [] }) => {
                 query: { ...router.query, group: group?.id }
               });
             }}
+            disable={loading || loadingMore}
           />
         </div>
       )}

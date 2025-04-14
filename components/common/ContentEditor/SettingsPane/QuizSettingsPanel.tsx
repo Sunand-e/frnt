@@ -38,6 +38,7 @@ export const QuizSettingsPanel = () => {
   });
   
   const questions = useQuizStore(state => state.questions)
+  const settings = useQuizStore(state => state.settings)
   const { register, watch, control } = useForm<QuizFormValues>({defaultValues: {
     ...quiz,
     settings: {
@@ -47,7 +48,8 @@ export const QuizSettingsPanel = () => {
       limitAttempts: false,
       questionCount: questions.length || 10,
       feedback: 'afterQuestion',
-      ...quiz.settings
+      ...quiz.settings,
+      ...settings
     }
   }});
 
@@ -59,7 +61,6 @@ export const QuizSettingsPanel = () => {
       })
     })
     return () => subscription.unsubscribe()
-
   },[watch])
 
   const limitQuestions = watch('settings.limitQuestions')
@@ -192,31 +193,15 @@ export const QuizSettingsPanel = () => {
         inputAttrs={register("settings.feedback")}
         options={[
           {
-          text: 'On',
-          value: 'afterQuestion'
+            text: 'On',
+            value: 'afterQuestion'
           },
           {
-          text: 'Off',
-          value: 'off'
+            text: 'Off',
+            value: 'off'
           }
         ]}
       />
-      {/* { userHasCapability('AICreateQuiz') && (
-        <AICreateQuizForm onResponse={handleResponse} />
-      )}
-
-      { userHasCapability('ImportQuestionsFromFile') && (
-      <div>
-        <span className="text-sm font-medium text-secondary">Import questions</span>
-        <FileDropzone
-          dropZoneContent={'Drop the questions text file here'}
-          accept={{
-            'text/plain': ['.txt']
-          }}
-          onDrop={handleDropQuestionsJsonFile}
-        />
-      </div>
-      )} */}
     </div>
   )
 }

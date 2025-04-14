@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "../../generated";
+
 // ====================================================
 // GraphQL query operation: GetUsers
 // ====================================================
@@ -69,11 +71,13 @@ export interface GetUsers_users_edges {
 }
 
 export interface GetUsers_users {
+  totalCount: number;
   __typename: "UserConnection";
   /**
    * A list of edges.
    */
   edges: (GetUsers_users_edges | null)[] | null;
+  pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetUsers {

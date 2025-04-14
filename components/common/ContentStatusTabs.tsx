@@ -1,25 +1,24 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import CertificatesTable from "../certificates/CertificatesTable"
 import Tabs from "./containers/Tabs"
 import { contentTypes } from "./contentTypes"
 import ItemCollection from "./items/ItemCollection"
 import LoadingSpinner from "./LoadingSpinner"
 
-export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false, fetchMore}) {
-
-  const defaultOptions = { 
-    // subHeading: 'Courses and workshops that were recently released',
+export default function ContentStatusTabs({connection, content=[], options=null, gridClasses='', loading=false}) {
+ 
+  const defaultOptions = {
     maxItems: 4,
     itemOptions: {
-      // showType: true
     }
   }
-  
+
   const contentPanels = [
     {
       name: 'in_progress',
       title: 'In progress',
       countField: 'inProgressCount',
+      count: connection?.inProgressCount || 0,
       contents: content?.filter(item => item.status === 'in_progress'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.readMoreLabel || 'Continue',
       noItemsText: contentTypes[options.typeName]?.statusStrings?.['in_progress']?.noItemsText || 'No contents are currently in progress'
@@ -28,6 +27,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
       name: 'not_started',
       title: 'Not started',
       countField: 'notStartedCount',
+      count: connection?.notStartedCount || 0,
       contents: content?.filter(item => !item.status || item.status === 'not_started'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['not_started']?.readMoreLabel || 'Start',
       noItemsText: contentTypes[options.typeName]?.statusStrings?.['not_started']?.noItemsText || 'No new content found'
@@ -36,6 +36,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
       name: 'completed',
       title: 'Completed',
       countField: 'completedCount',
+      count: connection?.completedCount || 0,
       href: '#',
       contents: content?.filter(item => item.status === 'completed'),
       readMoreLabel: contentTypes[options.typeName]?.statusStrings?.['completed']?.readMoreLabel || 'View item',
@@ -43,14 +44,14 @@ export default function ContentStatusTabs({connection, content=[], options=null,
     },
   ]
 
-  const visibleContentPanels = contentPanels.filter(({name, contents}) => {
-    return !(name === 'in_progress' && !contents.length)
+  const visibleContentPanels = contentPanels.filter(({name, count}) => {
+    return !(name === 'in_progress' && !count)
   })
   
   const [activeTab, setActiveTab] = useState(visibleContentPanels.find(({name}) => name === 'in_progress') ? 'in_progress' : 'not_started')
 
   const { 
-    contents: filteredCourses, readMoreLabel, noItemsText 
+    contents: filteredCourses, readMoreLabel, noItemsText
   } = visibleContentPanels.find(tab => tab.name === activeTab) || visibleContentPanels[0]
 
   const tabs = [
@@ -58,8 +59,7 @@ export default function ContentStatusTabs({connection, content=[], options=null,
 
       return {
         ...panel,
-        count: contents?.length || 0,
-        // count: connection?.[panel.countField],
+        count: panel.count || 0,
         href: '#'
       }
     }),
@@ -84,14 +84,12 @@ export default function ContentStatusTabs({connection, content=[], options=null,
                 items={filteredCourses || []}
                 gridClasses={gridClasses}
                 noItemsText={noItemsText}
-                fetchMore={fetchMore}
                 options={{
                   ...defaultOptions,
                   itemOptions: {
                     ...defaultOptions.itemOptions,
                     ...options?.items,
-                    getReadMoreLabel: (item) => readMoreLabel,
-                    // getInfoContent: item => item.content?.description,
+                    getReadMoreLabel: () => readMoreLabel,
                   },
                   maxItems: 0,
                 }}

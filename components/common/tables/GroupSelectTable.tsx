@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { Group, Tag, User } from "../../../graphql/generated";
 import useGetGroupsDetailed from "../../../hooks/groups/useGetGroupsDetailed";
-import useGetCurrentUser from "../../../hooks/users/useGetCurrentUser";
 import useUserHasCapability from "../../../hooks/users/useUserHasCapability";
 import Button from "../Button";
 import ItemWithImage from "../cells/ItemWithImage";
@@ -22,12 +21,12 @@ type GroupSelectTableProps = {
   onRowSelect: (selectedIds: string[]) => void
 }
 
-const GroupSelectTable = ({ 
+const GroupSelectTable = ({
   typeName = 'group',
   selectedGroupIds,
-  rowSizing='sm',
+  rowSizing = 'sm',
   groupFilter,
-  filters=['global'],
+  filters = ['global'],
   recipient,
   actionName,
   onRowSelect,
@@ -36,26 +35,26 @@ const GroupSelectTable = ({
 
   const { userHasCapability } = useUserHasCapability()
   const { groups, loading: groupsLoading } = useGetGroupsDetailed()
-  
+
   const type = groupTypes[typeName];
 
   let availableGroupNodes = []
 
   if (userHasCapability('AddUsersToGroups', 'tenant')) {
-    availableGroupNodes = groups?.edges.map(edge => edge.node).filter(group => {
+    availableGroupNodes = groups?.edges.map((edge: any) => edge.node).filter((group: any) => {
       return getGroupType(group).name === typeName
     }) || []
   } else {
     // This will change when subgroups are implemented:
     availableGroupNodes = []
   }
-  
+
   const actionNameCapitalised = actionName.charAt(0).toUpperCase() + actionName.slice(1)
-  
+
   const availableGroups = availableGroupNodes?.filter(groupFilter) || []
 
   let recipientLabel
-  
+
   switch (recipient.__typename) {
     case 'Tag':
       recipientLabel = recipient.label
@@ -81,12 +80,12 @@ const GroupSelectTable = ({
   const tableCols = useMemo(() => [
     {
       header: type.label,
-      accessorFn: row => row.name,
+      accessorFn: (row: any) => row.name,
 
       cell: ({ cell }) => {
         const { src } = useGetThumbnail(cell.row.original, 50)
         let icon = <type.icon className={iconPadding} />
-        let rounded = 'full'
+        let rounded: "md" | "full" | "none" = "full";
         const cellProps = {
           image: cell.row.original.image,
           imageSrc: src,
@@ -95,9 +94,8 @@ const GroupSelectTable = ({
           title: cell.getValue(),
         }
 
-
         return (
-        <ItemWithImage { ...cellProps } />
+          <ItemWithImage {...cellProps} />
         )
       }
     },
@@ -105,7 +103,7 @@ const GroupSelectTable = ({
 
   let buttonLabel = `No ${type.plural} selected`
 
-  if(selectedGroupIds.length) {
+  if (selectedGroupIds.length) {
     const groupTypeStringWithCount = 'some groups'
     buttonLabel = `${actionNameCapitalised} ${groupTypeStringWithCount} to ${recipientLabel}`
   }
@@ -113,6 +111,7 @@ const GroupSelectTable = ({
   return (
     <>
       <Table
+        count={0}
         tableData={tableData}
         tableCols={tableCols}
         filters={filters}

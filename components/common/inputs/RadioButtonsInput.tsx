@@ -7,7 +7,7 @@ interface RadioButtonsInputProps {
   className?: string
   horizontal?: boolean
   labelClassName?: string
-  error: ReactNode
+  error?: ReactNode
   options: Array<{
     text: string
     value: string

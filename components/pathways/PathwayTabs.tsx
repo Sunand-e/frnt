@@ -1,5 +1,4 @@
 import useGetPathways from "../../hooks/pathways/useGetPathways";
-import useGetUserPathways from "../../hooks/users/useGetUserPathways";
 import ContentStatusTabs from "../common/ContentStatusTabs"
 
 export default function PathwayTabs({gridClasses=''}) {
@@ -31,7 +30,7 @@ export default function PathwayTabs({gridClasses=''}) {
       }
     },
     items: {
-      getHref: item => `/pathway?pid=${item.id}`,
+      getHref:(item: any) => `/pathway?pid=${item.id}`,
     }
   }
   return (

@@ -7,7 +7,6 @@ import { REORDER_CONTENT } from '../../../graphql/mutations/contentItem/REORDER_
 import useUserHasCapability from '../../../hooks/users/useUserHasCapability';
 import { commonTableCols } from '../../../utils/commonTableCols';
 import { extractTextNodesFromTipTapDoc } from '../../../utils/extractTextNodesFromTipTapDoc';
-import LoadingSpinner from '../../common/LoadingSpinner';
 import Table from '../../common/tables/Table';
 import { TableProps } from '../../common/tables/tableContext';
 import ContentTitleCell from '../cells/ContentTitleCell';
@@ -20,7 +19,30 @@ const ContentIdAndOrderFragment = gql`
     _deleted @client
   }
 `
-const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tableProps={}}) => {
+interface ContentTableProps<T> {
+  content: any;
+  type: any;
+  loading: boolean;
+  loadingMore?: boolean;
+  error?: any;
+  ActionsMenuComponent?: any;
+  tableProps?: any;
+  remote?: boolean;
+  reLoad?: any; // Add reLoad
+}
+
+
+const ContentTable = <T,>({
+  content,
+  type,
+  loading,
+  loadingMore = false,
+  error,
+  ActionsMenuComponent,
+  tableProps = {},
+  remote = false,
+  reLoad,
+}: ContentTableProps<T>) => {
 
   const [reorderContentItemsMutation, reorderContentItemsMutationResponse] = useMutation(
     REORDER_CONTENT
@@ -28,21 +50,28 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 
   const { userHasCapability } = useUserHasCapability()
 
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
   const tableData = useMemo(
     () => {
-      return content?.edges?.map(edge => edge.node).filter(node  => {
+      const filter_content = content?.edges?.map((edge: any) => edge.node).filter((node: any)  => {
         return !node._deleted
-      }).sort((a,b) => b.order - a.order) || []
+      }) || []
+      if (remote) {
+        return filter_content
+      } 
+      else {
+        return filter_content.sort((a: any, b: any) => b.order - a.order)
+      }
     }, [content]
   );
+
+  const count = content?.totalCount || 0
 
   const tableCols = useMemo(
     () => [
       {
         header: type.label,
         accessorKey: "title", // accessor is the "key" in the data
+        sortField: 'title',
         cell: ({ cell }) => {
           const { itemType } = cell.row.original
           let secondary = cell.row.original?.tags?.edges.map?.(({node}) => node.label).join(', ')
@@ -65,9 +94,10 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       ...(type.name === 'resource' ? [{
           header: "Description",
           width: '100',
+          accessorFn: (row: any) => row.content?.description,
           cell: ({ cell }) => (
             <span className='line-clamp-2'>
-              { extractTextNodesFromTipTapDoc(cell.row.original.content?.description) }
+              { extractTextNodesFromTipTapDoc(cell.row.original.content?.description) || '-' }
             </span>
           )
         }] : []
@@ -75,7 +105,8 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       {
         id: 'activeUsers',
         header: "Active users",
-        accessorFn: row => row.users?.totalCount,
+        accessorFn: (row: any) => row.users?.totalCount,
+        enableSorting: !remote,
         cell: ({ cell }) => {
           let userCount = cell.row.original.users?.totalCount
           return (
@@ -86,7 +117,8 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       {
         id: 'category',
         header: "Category",
-        accessorFn: (row) => {
+        enableSorting: !remote,
+        accessorFn: (row: any) => {
           return row.tags?.edges.filter(({node}) => (
             node.tagType === 'category'
           )).map(({node}) => node.label).join(', ') || '-'
@@ -100,7 +132,9 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
       ...(type.name === 'course' && userHasCapability(`ViewCreditsUsed`) ? [{
         id: 'creditsUsed',
         header: 'Credits Used',
-        accessorKey: 'creditsUsed'
+        accessorKey: 'creditsUsed',
+        sortField: 'credits_used',
+        accessorFn: (row: any) => row?.creditsUsed,
       }] : []),
       {
         ...commonTableCols.actions,
@@ -185,6 +219,7 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
   const capitalisedPluralKey = type.pluralKey.charAt(0).toUpperCase() + type.pluralKey.slice(1);
 
   const tProps: TableProps = {
+    count,
     tableData,
     tableCols,
     typeName: type.name,
@@ -194,7 +229,9 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
     typeOptions: tableProps.typeOptions || {},
     onReorder: handleReorder,
     filters: tableProps.filters ?? ['category', 'global'],
-    // onFilterChange: handleFilterChange
+    remote: remote,
+    reLoad: reLoad,
+    isLoadingMore: loadingMore,
   }
 
   if(error) {
@@ -205,4 +242,4 @@ const ContentTable = ({content, type, loading, error, ActionsMenuComponent, tabl
 }
 
 // ContentTable.whyDidYouRender = true
-export default ContentTable
+export default ContentTable;

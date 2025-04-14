@@ -23,7 +23,7 @@ export const tableSizingOptions = {
 
 const TableWithProvider = (props: TableProps) => {
   return (
-    <TableProvider tableProps = { props }>
+    <TableProvider {...props}>
       <Table />
     </TableProvider>
   )
@@ -46,8 +46,9 @@ const Table = () => {
   const itemType = useTableContext(s => s.itemType)
   const contentType = useTableContext(s => s.contentType)
   const setContentType = useTableContext(s => s.setContentType)
-  const setItemType = useTableContext(s => s.setItemType)
-
+  
+  const remote = useTableContext(s => s.remote)
+  const reLoad = useTableContext(s => s.reLoad)
   const filters = useTableContext(s => s.filters)
   const isReorderable = useTableContext(s => s.isReorderable)
   const isReorderableActive = useTableContext(s => s.isReorderableActive)
@@ -60,7 +61,6 @@ const Table = () => {
   
   const [tableReorderStatus, setTableReorderStatus] = useState<ReactNode>(null)
 
-
   const router = useRouter()
   const { ctype } = router.query
 
@@ -69,9 +69,8 @@ const Table = () => {
   },[ctype])
 
 
-  const handleRowSelectionChange = (updater) => store.setState(state => ({
+  const handleRowSelectionChange = (updater: any) => store.setState(state => ({
     rowSelection: typeof updater === 'function' ? updater(state.rowSelection) : updater,
-    // selectedRowIds: table.getSelectedRowModel().flatRows.map(row=>row.original.id)
   }))
 
   useEffect(() => {
@@ -148,9 +147,6 @@ const Table = () => {
       },
     }] : []),
 
-    // ...(isReorderable ? [{
-    // }] : []),
-
     ...tableCols
 
   ]
@@ -158,42 +154,50 @@ const Table = () => {
   const memoedData = useMemo(() => {
     let data = tableData;
     
-    if(!!itemType && !['group', 'user'].includes(itemType)) {
-      data = data.filter(item => (
-        item.itemType === itemType
-        || item.node?.itemType === itemType
-      ))
+    if (remote) {
+      return tableData;
     }
+    else{
+      if(!!itemType && !['group', 'user'].includes(itemType)) {
+        data = data.filter(item => (
+          item.itemType === itemType
+          || item.node?.itemType === itemType
+        ))
+      }
+      
+      if(contentType) {
+        data = data.filter(item => (
+          item.contentType === contentType
+          || item.node?.contentType === contentType
+        ))
+      }
+  
+      if(categoryId) {
+        data = data?.filter(item => {
+          return item?.tags?.edges.some(({node}) => node.id === categoryId)
+        })
+      }
+  
+      if(collectionId) {
+        data = data?.filter(item => {
+          return item?.tags?.edges.some(({node}) => node.id === collectionId)
+        })
+      }
+      return data;
+    }
+  },[tableData, categoryId, collectionId, itemType, contentType, remote])
+
+  const globalFilterFn = (row: any, columnId: string, filterValue: string) => {
+    if (remote) {
+      return true;
+    }else{
+      const search = filterValue.toLowerCase();
     
-    if(contentType) {
-      data = data.filter(item => (
-        item.contentType === contentType
-        || item.node?.contentType === contentType
-      ))
+      let value = row.getValue(columnId) as string;
+      if (typeof value === 'number') value = String(value);
+    
+      return value?.toLowerCase().includes(search);
     }
-
-    if(categoryId) {
-      data = data?.filter(item => {
-        return item?.tags?.edges.some(({node}) => node.id === categoryId)
-      })
-    }
-
-    if(collectionId) {
-      data = data?.filter(item => {
-        return item?.tags?.edges.some(({node}) => node.id === collectionId)
-      })
-    }
-    return data
-  },[tableData, categoryId, collectionId, itemType, contentType])
-
-  // const globalFilterFn: FilterFn<T> = (row, columnId, filterValue: string) => {
-  const globalFilterFn = (row, columnId, filterValue: string) => {
-    const search = filterValue.toLowerCase();
-  
-    let value = row.getValue(columnId) as string;
-    if (typeof value === 'number') value = String(value);
-  
-    return value?.toLowerCase().includes(search);
   };
 
   const table: TableType<any> = useReactTable({
@@ -206,7 +210,7 @@ const Table = () => {
       globalFilter
     },
     globalFilterFn,
-    columns, 
+    columns,
     data: memoedData,
     onSortingChange: updater => store.setState(prevState => ({
       sorting: typeof updater === 'function' ? updater(prevState.sorting) : updater
@@ -214,16 +218,21 @@ const Table = () => {
     onRowSelectionChange: handleRowSelectionChange,
  
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: remote ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    enableRowSelection: (row) => !row.original.checkboxDisabled,
-    // getPaginationRowModel: getPaginationRowModel(),
-    // debugTable: true,
+    enableRowSelection: (row) => !row.original.checkboxDisabled
   });
 
 
   useEffect(() => {
-    // onFilterChange && onFilterChange(categoryId, globalFilter)
+    if(sorting?.length) {
+      const orderField = table.getColumn(sorting[0].id).columnDef.sortField;
+      const orderDirection = sorting[0].desc ? 'desc' : 'asc';
+      remote && reLoad && reLoad({categoryId, collectionId, globalFilter, orderField, orderDirection});
+    } else {
+      remote && reLoad && reLoad({categoryId, collectionId, globalFilter});
+    }
+    
     if(isReorderable) {
       if(globalFilter || categoryId || collectionId || sorting?.length) {
         store.setState(state => ({ isReorderableActive: false }))
@@ -247,7 +256,7 @@ const Table = () => {
       }
     }
   },[categoryId, collectionId, globalFilter, sorting, isReorderable])
-  
+
   return (
     <>
       { showTop && <TableActions { ...{

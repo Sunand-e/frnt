@@ -8,6 +8,7 @@ import useHeaderButtons from '../../../hooks/useHeaderButtons';
 import usePageTitle from '../../../hooks/usePageTitle';
 import useGetUsers from '../../../hooks/users/useGetUsers';
 import useUploadAndNotify from '../../../hooks/useUploadAndNotify';
+import { useState } from 'react';
 
 const AdminCreateUser = () => {
   
@@ -20,12 +21,13 @@ const AdminCreateUser = () => {
   
   const router = useRouter()
   const endpoint = "/api/v1/users/"
-  const { refetchUsers } = useGetUsers()
+  const { refetch } = useGetUsers({ pagination: true })
+  const [errors, setErrors] = useState();
 
   const { uploadFilesAndNotify } = useUploadAndNotify({
     method: "PUT",
     refetchQueries: [GET_USERS],
-    onComplete: (response) => {
+    onComplete: (response: any) => {
       cache.modify({
         id: cache.identify(response.data.user),
         fields: {
@@ -54,7 +56,7 @@ const AdminCreateUser = () => {
       url: endpoint,
       data
     }).then (response => {
-      refetchUsers()
+      refetch()
       
       if(response.data.user?.id) {
         if(profile_image) {
@@ -84,11 +86,16 @@ const AdminCreateUser = () => {
         }
       }
       router.push('/admin/users')
+    }).catch(error => {
+      setErrors(error.response.data.errors.join(', '))
     })
   }
 
   return (
-    <UserForm onSubmit={handleSubmit}  />
+    <>
+      <UserForm onSubmit={handleSubmit} />
+      {errors && <span role="alert" className='text-red-500'>{errors}</span>}
+    </>
   )
 }
 

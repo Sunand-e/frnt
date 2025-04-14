@@ -1,10 +1,10 @@
-import { Column, ColumnDef, SortingState, Table } from "@tanstack/react-table";
+import { SortingState, Table } from "@tanstack/react-table";
 import { createStore, useStore } from 'zustand'
-import { createContext, createRef, MutableRefObject, ReactNode, useContext, useMemo } from 'react'
+import { createContext, createRef, MutableRefObject, ReactNode, useContext, useEffect, useMemo } from 'react'
 import { useRef } from 'react'
 
 export interface TableProps {
-  count?: number,
+  count: number,
   table?: Table<any>,
   globalFilter?: string,
   bulkActions?: Array<any>,
@@ -26,16 +26,19 @@ export interface TableProps {
   showTop?: boolean,
   showHeadersWhenLoading?: boolean,
   scrollContainerRef?: MutableRefObject<HTMLDivElement>
-  scrollInTable: boolean,
-  maxVisibleRows: number,
+  scrollInTable?: boolean,
+  maxVisibleRows?: number,
   dontShowTypes?: Array<string>,
   isExportable?: boolean,
   isLoading?: boolean,
+  isLoadingMore?: boolean,
   isReorderable?: boolean,
   isReorderableActive?: boolean,
   isSelectable?: boolean,
   isReportingTable?: boolean,
   loadingText?: ReactNode,
+  remote?: boolean,
+  reLoad?: ({}) => void | null,
   getReorderableItemIdFromRow?: (row: any) => string,
   onRowSelect?: (selection: any) => void,
   onRowClick?: () => void,
@@ -47,6 +50,7 @@ export interface TableProps {
 
 interface TableState extends TableProps {
   setIsLoading: (loading: boolean) => void
+  setIsLoadingMore: (loadingMore: boolean) => void
   setTable: (table: Table<any>) => void
   setGlobalFilter: (filter: TableProps['globalFilter']) => void
   setBulkActions: (bulkActions: TableProps['bulkActions']) => void
@@ -69,7 +73,7 @@ type TableStore = ReturnType<typeof createTableStore>
 const createTableStore = (initProps?: Partial<TableProps>) => {
 
   const DEFAULT_PROPS: TableProps = {
-    count: 1,
+    count: null,
     table: null,
     globalFilter: null,
     bulkActions: [],
@@ -93,14 +97,15 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     isReorderableActive: false,
     isSelectable: false,
     isLoading: false,
+    isLoadingMore: false,
     isReportingTable: false,
     scrollInTable: false,
     maxVisibleRows: 5,
     exportFilename: 'export',
     backButton: null,
-    onFilterChange: null,
     scrollContainerRef: createRef(),
-
+    remote: false,
+    reLoad: null,
     onRowClick: () => false,
     onRowSelect: (selection) => false,
     onReorder: null,
@@ -122,7 +127,8 @@ const createTableStore = (initProps?: Partial<TableProps>) => {
     setFilters: filters => set(state => ({filters})),
     setTypeName: typeName => set(state => ({typeName})),
     setTypeOptions: typeOptions => set(state => ({typeOptions})),
-    setIsLoading: isLoading => set(state => ({isLoading})),
+    setIsLoading: isLoading => set(_state => ({isLoading})),
+    setIsLoadingMore: isLoadingMore => set(_state => ({isLoadingMore})),
     // setSorting: sorting => set(state => ({sorting})),
     setSorting: sorting => {
       set(state => ({sorting}))
@@ -144,21 +150,18 @@ function useTableContext<T>(
 
 type TableProviderProps = React.PropsWithChildren<TableProps>
 
-function TableProvider({ children, tableProps }: TableProviderProps) {
-
-  const tableStoreProps = useMemo(() => {
-    return tableProps
-  },[
-    tableProps.isReorderable,
-    tableProps.tableData
-  ])
+function TableProvider({ children, ...tableProps }: TableProviderProps) {
+  const tableStoreProps = useMemo(() => tableProps, [tableProps])
 
   const storeRef = useRef<TableStore>()
   if (!storeRef.current) {
     storeRef.current = createTableStore(tableStoreProps)
-  } else {
-    storeRef.current.setState(s => tableStoreProps)
   }
+  
+  useEffect(() => {
+    storeRef.current?.setState(s => tableStoreProps);
+  }, [tableStoreProps]);
+
   return (
     <TableContext.Provider value={storeRef.current}>
       {children}

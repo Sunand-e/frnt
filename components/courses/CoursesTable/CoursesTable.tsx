@@ -5,11 +5,13 @@ import { contentTypes } from '../../common/contentTypes';
 
 const CoursesTable = () => {
 
-  const { loading, error, courses } = useGetCourses()
+  const { courses, loading, error, reLoad, loadingMore } = useGetCourses({ pagination: true });
   const type = contentTypes['course']
 
   return (
-    <ContentTable content={courses} type={type} loading={loading} error={error} ActionsMenuComponent={CourseActionsMenu} />
+    <>
+      <ContentTable content={courses} type={type} loading={loading} error={error} ActionsMenuComponent={CourseActionsMenu} remote={true} reLoad={reLoad} loadingMore={loadingMore} />
+    </>
   )
 }
 

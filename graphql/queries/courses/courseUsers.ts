@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client"
-import { CourseFragment } from "../allQueries"
+import { ContentFragmentWithoutUsers } from "../allQueries"
 import { UserFragment } from "../users"
 
 export const ContentUserEdgeFragment = gql`
   fragment ContentUserEdgeFragment on ContentUserConnection {
+    totalCount
     edges {
       node {
         ...UserFragment
@@ -19,47 +20,25 @@ export const ContentUserEdgeFragment = gql`
       progress
       visits
     }
+    pageInfo{
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
   }
 `
 
 export const GET_COURSE_USERS = gql`
-  query GetCourseUsers($id: ID!) {
+  query GetCourseUsers($id: ID!, $first: Int, $after: String, $where: JSON) {
     course(id: $id) {
-      ...CourseFragment
-      users {
+      ...ContentFragmentWithoutUsers
+      users(first: $first, after: $after, where: $where) {
         ...ContentUserEdgeFragment
       }
-      # sections {
-      #   ...SectionFragment
-      #   users {
-      #     ...ContentUserEdgeFragment
-      #   }
-      #   lessons {
-      #     ...LessonFragment
-      #     users {
-      #       ...ContentUserEdgeFragment
-      #     }
-      #   }
-      # }
     }
   }
-  ${CourseFragment}
+  ${ContentFragmentWithoutUsers}
   ${UserFragment}
   ${ContentUserEdgeFragment}
 `
-
-
-// // INCOMPLETE...
-// export const GET_USER_COURSE_LESSONS = gql`
-//   query GetUserCourseLessons($userId: ID!, $courseId: ID!) {
-//     course(id: $userId) {
-//       ...CourseFragment
-//       users {
-//         ...ContentUserEdgeFragment
-//       }
-//     }
-//   }
-//   ${CourseFragment}
-//   ${UserFragment}
-//   ${ContentUserEdgeFragment}
-// `

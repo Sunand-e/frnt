@@ -7,6 +7,7 @@ import useGetUserCourse from '../../../hooks/users/useGetUserCourse'
 import { useViewStore } from '../../../hooks/useViewStore'
 import EditorLayout from '../../../layouts/EditorLayout'
 import { useRouter } from '../../../utils/router'
+import usePageTitle from '../../../hooks/usePageTitle'
 
 const AdminCoursesEdit = () => {
   /*
@@ -24,6 +25,10 @@ const AdminCoursesEdit = () => {
       showSecondaryNav: false,
     })
   }, [])
+
+  usePageTitle({
+    title: 'Course builder'
+  });
 
   const previewCourse = () => {
     router.push({

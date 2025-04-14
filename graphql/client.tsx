@@ -16,21 +16,6 @@ const httpLink = createHttpLink({
   // credentials: "include", (response header must include Access-Control-Allow-Credentials: true)
 });
 
-const afterwareLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map((response) => {
-    const context = operation.getContext()
-    const latestClientVersion = context.response.headers.get('x-latest-client-version')
-    const clientVersion = localStorage.getItem('client_version')
-
-    if(latestClientVersion && !clientVersion || dayjs(latestClientVersion).diff(clientVersion) > 0) {
-      localStorage.setItem('client_version', latestClientVersion)
-      fetch(window.location.href, { cache: "reload" })
-      location.reload()
-    }
-    return response
-  })
-})
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
@@ -56,7 +41,7 @@ const link = ApolloLink.from([
   // delay,
   errorLink,
   restLink,
-  afterwareLink.concat(httpLink),
+  httpLink,
 ])
 
 const typesWithDeleted = ['ContentItem', 'ScormPackage', 'Group', 'Role', 'User', 'Tag', 'Tenant', 'Event']

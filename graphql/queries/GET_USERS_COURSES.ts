@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
-import { UserContentConnectionFragment, UserFragment } from './users';
+import { UserFragment } from './users';
 
 export const GET_USERS_COURSES = gql`
-  query GetUsersCourses {
-    users {
+  query GetUsersCourses($first: Int, $after: String, $where: JSON) {
+    users(first: $first, after: $after, where: $where) {
       edges {
         node {
           ...UserFragment
@@ -36,19 +36,11 @@ export const GET_USERS_COURSES = gql`
           }
         }
       }
-    }
-    groups {
-      edges {
-        node {
-          id
-          assignedCourses {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }

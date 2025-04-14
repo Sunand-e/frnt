@@ -18,7 +18,7 @@ const AdminTenantsCreate = () => {
 
   // const { updateUserTenantRoles } = useUpdateUserTenantRoles()
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     createTenant(values, () => {});
     router.push("/admin/tenants");
   };

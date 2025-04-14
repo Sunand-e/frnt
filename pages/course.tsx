@@ -25,7 +25,7 @@ const CoursePage = () => {
   const showEditButton = userHasCapability([
     'UpdateCourse',
   ])
-    
+
   const { user } = useGetCurrentUser();
   const { courseEdge } = useGetUserCourse(id)
   const tenant = useContext(TenantContext)
@@ -36,14 +36,14 @@ const CoursePage = () => {
       isSlimNav: true,
       showSecondaryNav: false,
     })
-  },[])
+  }, [])
 
   const editCourse = () => {
     router.push({
       pathname: `/admin/courses/edit`,
       query: {
         id,
-        ...(contentId && {cid: contentId})
+        ...(contentId && { cid: contentId })
       }
     })
   }
@@ -57,17 +57,17 @@ const CoursePage = () => {
       )
     })
   }
-  
+
 
   // usePageTitle({ title: `Course${course?.title ? `: ${course?.title}` : ''}`})
 
   useHeaderButtons([
-    ...( courseEdge?.node.settings.showSendFeedbackButton &&
+    ...(courseEdge?.node.settings.showSendFeedbackButton &&
       tenant?.courses.showSendCourseFeedbackButton ? [{
-      id: 'sendCourseFeedback',
-      component: <Button onClick={openCourseFeedbackFormInModal}>Send feedback</Button>,
-      order: 1
-    }] : []),
+        id: 'sendCourseFeedback',
+        component: <Button onClick={openCourseFeedbackFormInModal}>Send feedback</Button>,
+        order: 1
+      }] : []),
     ...(showEditButton ? [{
       id: 'editCourse',
       component: <Button onClick={editCourse}>Edit Course</Button>,
@@ -76,10 +76,10 @@ const CoursePage = () => {
     ...(user ? [{
       id: 'prevNextButtons',
       component: <PrevNextButtons />,
-      order:5
-    }]: [])
+      order: 5
+    }] : [])
   ],)
-  
+
   return (
     <>
       {showCompletedPage ? (

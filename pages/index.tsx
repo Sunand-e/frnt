@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import usePageTitle from '../hooks/usePageTitle'
 import Dashboard from '../components/dashboard/Dashboard';
 import WelcomeUserPanel from "../components/dashboard/WelcomeUserPanel";
@@ -10,12 +9,6 @@ const DashboardPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Zanda360</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      
-      {/* <InnerNav /> */}
       <WelcomeUserPanel />
       <div className="grow ">
         <Dashboard />
@@ -25,11 +18,10 @@ const DashboardPage = () => {
 }
 
 DashboardPage.navState = {
-  topLevel: 'dashboard',
-  // secondary: 'dashboard'
+  topLevel: 'dashboard'
 }
 
-DashboardPage.getLayout = page => (
+DashboardPage.getLayout = (page: any) => (
   <DashboardLayout
     navState={DashboardPage.navState || {}}
     page={page}

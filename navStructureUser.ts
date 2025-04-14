@@ -1,14 +1,11 @@
-import {TextLeft} from '@styled-icons/bootstrap/TextLeft'
-import {Video} from '@styled-icons/fluentui-system-filled/Video'
-import {Speaker2} from '@styled-icons/fluentui-system-filled/Speaker2'
-import {Document} from '@styled-icons/fluentui-system-filled/Document'
-import {Image} from '@styled-icons/fluentui-system-filled/Image'
-import {Category} from '@styled-icons/material-rounded/Category'
-import {FlowChart} from '@styled-icons/remix-editor/FlowChart'
-import {Library} from "@styled-icons/ionicons-solid/Library"
-import {Flow} from "@styled-icons/fluentui-system-regular/Flow"
-import {GraduationCap} from "@styled-icons/fa-solid/GraduationCap"
-import {Link} from '@styled-icons/entypo/Link'
+import { Video } from '@styled-icons/fluentui-system-filled/Video'
+import { Speaker2 } from '@styled-icons/fluentui-system-filled/Speaker2'
+import { Document } from '@styled-icons/fluentui-system-filled/Document'
+import { Category } from '@styled-icons/material-rounded/Category'
+import { Library } from "@styled-icons/ionicons-solid/Library"
+import { Flow } from "@styled-icons/fluentui-system-regular/Flow"
+import { GraduationCap } from "@styled-icons/fa-solid/GraduationCap"
+import { Link } from '@styled-icons/entypo/Link'
 
 const navStructureUser = [
   {

@@ -1,16 +1,12 @@
-import { useQuery } from '@apollo/client';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {useContext, useMemo } from 'react';
 import Table from '../common/tables/Table';
-import { GET_USERS, UserFragment } from '../../graphql/queries/users';
-import { GetUsers, GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
 import ItemWithImage from '../common/cells/ItemWithImage';
-import {User} from '@styled-icons/fa-solid/User'
+import { User } from '@styled-icons/fa-solid/User';
 import UserActionsMenu from './UserActionsMenu';
 import useSendInvite from '../../hooks/useSendInvite';
-import { Check } from '@styled-icons/boxicons-regular/Check';
 import { CheckCircle } from '@styled-icons/boxicons-regular/CheckCircle';
 import { InfoCircle } from '@styled-icons/boxicons-regular/InfoCircle';
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 import Tippy from '@tippyjs/react';
 import useUserHasCapability from '../../hooks/users/useUserHasCapability';
 import { TenantContext } from '../../context/TenantContext';
@@ -21,8 +17,12 @@ import useIsOrganisationLeader from '../../hooks/users/useIsOrganisationLeader';
 import useTenantFeaturesEnabled from '../../hooks/users/useTenantFeaturesEnabled';
 import TooltipIfClamped from '../common/floating-ui/TooltipIfClamped';
 import { commonTableCols } from '../../utils/commonTableCols';
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
+import useGetUsers from '../../hooks/users/useGetUsers';
+import { GetUsers_users_edges_node } from '../../graphql/queries/__generated__/GetUsers';
+import { UserFragment } from '../../graphql/queries/users';
+
+var advancedFormat = require('dayjs/plugin/advancedFormat');
+dayjs.extend(advancedFormat);
 
 const UserStatusCell = ({
   iconComponent: IconComponent,
@@ -30,46 +30,42 @@ const UserStatusCell = ({
   tooltip,
   text,
 }) => (
-  <Tippy
-    content={tooltip}
-    theme={'memberhub-white'}
-    
-  >
+  <Tippy content={tooltip} theme={'memberhub-white'}>
     <div className="flex space-x-2 items-center justify-center">
       <IconComponent className={`${iconClass} w-6 `} />
       <span>{text}</span>
     </div>
   </Tippy>
-) 
+);
+
 const UsersTable = () => {
+  const { users, loading, reLoad, loadingMore } = useGetUsers({ pagination: true });
 
-  const { loading, error, data: queryData } = useQuery<GetUsers>(GET_USERS);
-  // Table data is memo-ised due to this:
-  // https://github.com/tannerlinsley/react-table/issues/1994
-  const tableData = useMemo<GetUsers_users_edges_node[]>(() => {
-    return queryData?.users?.edges
-      ?.map(edge => edge.node)
-      .filter(node => !node._deleted)
-      .sort((a,b) => ('' + a.fullName).localeCompare(b.fullName)) || []
-      
-  }, [queryData]);
+  const tableData = useMemo(() => {
+    return users?.edges
+      ?.map((edge) => edge.node)
+      .filter((node) => !node._deleted) || [];
+  }, [users]);
 
-  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled()
-  const { userHasCapability } = useUserHasCapability()
-  const tenant = useContext(TenantContext)
+  const count = users?.totalCount || 0
 
-  const { isOrganisationLeader } = useIsOrganisationLeader()
+  const { tenantFeaturesEnabled } = useTenantFeaturesEnabled();
+  const { userHasCapability } = useUserHasCapability();
+  const tenant = useContext(TenantContext);
 
-  const editUrl = '/admin/users/edit'
+  const { isOrganisationLeader } = useIsOrganisationLeader();
+
+  const editUrl = '/admin/users/edit';
 
   const tableCols = useMemo(
     () => [
       {
         header: "User",
         id: 'user',
-        accessorFn: row => row.fullName,
+        sortField: 'firstName',
+        accessorFn: (row: any) => row.fullName,
         cell: ({ cell }) => (
-          <ItemWithImage 
+          <ItemWithImage
             title={cell.row.original.fullName}
             secondary={cell.row.original.email}
             href={cell.row.original.id && `${editUrl}?id=${cell.row.original.id}`}
@@ -77,7 +73,7 @@ const UsersTable = () => {
             icon={<User className="p-2" />}
             placeholder={"/images/user-generic.png"}
           />
-        )
+        ),
       },
       {
         header: "Email",
@@ -93,6 +89,7 @@ const UsersTable = () => {
         {
           header: "Groups",
           id: 'groups',
+          enableSorting: false,
           accessorFn: (row: GetUsers_users_edges_node) => row.groups.edges.map(edge => edge.node.name).join(', ') || '',
           cell: ({ cell }) => (
             cell.getValue() === '' ? <span>&mdash;</span> : <TooltipIfClamped className="line-clamp-2">{cell.getValue()}</TooltipIfClamped>
@@ -107,6 +104,7 @@ const UsersTable = () => {
         {
           header: "Global Roles",
           id: 'roles',
+          enableSorting: false,
           accessorFn: (row: GetUsers_users_edges_node) => row.roles.filter(
             role => role.name !== 'User'
           ).map(role => role.name).join(', ') || '',
@@ -120,7 +118,8 @@ const UsersTable = () => {
       {
         header: "Status",
         id: 'status',
-        accessorFn: (row) => {
+        sortField: 'status',
+        accessorFn: (row: any) => {
           if(row.isActive) {
             return "active"
           }
@@ -130,41 +129,41 @@ const UsersTable = () => {
           return "uninvited"
         },
         cell: ({ cell }) => {
-          let props
-          switch(cell.getValue()) {
+          let props;
+          switch (cell.getValue()) {
             case 'uninvited': {
-              let dateString = dayjs(cell.row.original.createdAt).format('Do MMMM YYYY [at] h:mm A')
+              let dateString = dayjs(cell.row.original.createdAt).format('Do MMMM YYYY [at] h:mm A');
               props = {
                 iconComponent: InfoCircle,
                 iconClass: 'fill-gray-500',
                 tooltip: `Created: ${dateString}`,
-                text: 'Not yet invited'
-              }
+                text: 'Not yet invited',
+              };
               break;
             }
             case 'invited': {
-              let dateString = dayjs(cell.row.original.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')
+              let dateString = dayjs(cell.row.original.invitationSentAt).format('Do MMMM YYYY [at] h:mm A');
               props = {
                 iconComponent: InfoCircle,
                 iconClass: 'fill-yellow-500',
                 tooltip: `Invited: ${dateString}`,
-                text: 'Invited'
-              }
+                text: 'Invited',
+              };
               break;
             }
             case 'active': {
-              let dateString = dayjs(cell.row.original.currentSignInAt).format('Do MMMM YYYY [at] h:mm A')
+              let dateString = dayjs(cell.row.original.currentSignInAt).format('Do MMMM YYYY [at] h:mm A');
               props = {
                 iconComponent: CheckCircle,
                 iconClass: 'fill-green-500',
                 tooltip: `Last signed in: ${dateString}`,
-                text: 'Active'
-              }
+                text: 'Active',
+              };
               break;
             }
           }
-          return <UserStatusCell {...props} />
-        }
+          return <UserStatusCell {...props} />;
+        },
       },
       {
         header: "TimeStamp",
@@ -187,53 +186,56 @@ const UsersTable = () => {
       {
         ...commonTableCols.actions,
         cell: ({ cell }) => <UserActionsMenu user={cell.row.original} />,
-        width: 300
-      }
+        width: 300,
+      },
     ],
     [tenantFeaturesEnabled, isOrganisationLeader, userHasCapability]
   );
 
-  const { sendInvite } = useSendInvite()
+  const { sendInvite } = useSendInvite();
 
-  const assignCourses = (ids) => {
-
-    const users = ids.map(id => cache.readFragment({
-      id: `User:${id}`,
-      fragment: UserFragment,
-    }));
+  const assignCourses = (ids: any) => {
+    const users = ids.map((id: any) =>
+      cache.readFragment({
+        id: `User:${id}`,
+        fragment: UserFragment,
+      })
+    );
 
     handleModal({
       title: 'Assign courses',
-      content: <EnrolUsersInContent users={users} content={null} typeName='course' />
+      content: <EnrolUsersInContent users={users} content={null} typeName="course" />,
     });
-  }
+  };
 
   const bulkActions = [
     {
       label: 'Send invitations to selected users',
-      onClick: (ids: Array<string>) => ids.length && sendInvite(ids)
+      onClick: (ids: Array<string>) => ids.length && sendInvite(ids),
     },
     {
       label: 'Assign courses to users',
-      onClick: (ids: Array<string>) => ids.length && assignCourses(ids)
+      onClick: (ids: Array<string>) => ids.length && assignCourses(ids),
     },
   ]
 
   const tableProps = {
-    tableData, 
-    tableCols, 
+    count,
+    tableData,
+    tableCols,
     bulkActions,
     isLoading: loading,
     loadingText: 'Loading users',
+    remote: true,
+    reLoad,
     typeName: 'user',
     filters: ['global'],
     exportFilename: 'User List',
-    isExportable: true
+    isExportable: true,
+    isLoadingMore: loadingMore
   }
 
-  return (
-    <Table { ...tableProps } />
-  );
+  return <Table { ...tableProps } />;
 }
 
-export default UsersTable
+export default UsersTable;

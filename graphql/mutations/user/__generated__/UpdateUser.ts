@@ -45,4 +45,10 @@ export interface UpdateUserVariables {
   email?: string | null;
   userType?: string | null;
   status?: string | null;
+  mfaEnabled?: boolean | null;
+  otpSecret?: string | null;
+  otpSecretVerified?: boolean | null;
+  phoneNumber?: string | null;
+  otpVerifiedToken?: string | null;
+  updateSelf?: boolean | null;
 }

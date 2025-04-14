@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const COURSES_REPORT_QUERY = gql`
-  query CoursesReportQuery {
-    courses(where: { includeProvisioned: true }) {
+  query CoursesReportQuery($first: Int, $after: String, $where: JSON) {
+    courses(where: $where, first: $first, after: $after) {
       edges {
         userId
         groups {
@@ -59,6 +59,12 @@ export const COURSES_REPORT_QUERY = gql`
             }
           }
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }

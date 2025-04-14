@@ -11,7 +11,8 @@ import {
 
 import {
   isLoggedInVar,
-  navStateVar
+  navStateVar,
+  pageTitleVar
 } from '../graphql/cache'
 
 import { addIconsToLibrary } from "../fontawesome";
@@ -39,6 +40,7 @@ import useBeforeUnload from '../hooks/useBeforeUnload';
 import CapabilityCheckWrapper from '../components/app/CapabilityCheckWrapper'
 import Modal from '../components/common/Modal'
 import { useViewStore } from '../hooks/useViewStore'
+import useVersionChecker from '../hooks/useVersionChecker'
 addIconsToLibrary()
 
 interface PagePropertiesType {
@@ -51,6 +53,8 @@ type AppPropsExtended = AppProps & PagePropertiesType
 
 const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
 
+  useVersionChecker();
+
   const router = useRouter()
   
   // Clear header buttons and set nav state reactive variable on route change
@@ -58,9 +62,12 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     navStateVar(PageComponent.navState)
   },[router.route])
 
-  const [title, setTitle] = useState(PageComponent.title)
-
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const pageTitle = useReactiveVar(pageTitleVar); 
+
+  useEffect(() => {
+    document.title = pageTitle.title || "Zanda360";
+  }, [pageTitle.title]);
   
   // useRouteChange()
   useBeforeUnload()
@@ -80,8 +87,6 @@ const App = ({ Component: PageComponent, pageProps }: AppPropsExtended) => {
     navState={PageComponent.navState || {}}
     page={page} />
   })
-
-  pageProps.setTitle = setTitle;
   
   // Show the login form if not logged in
   

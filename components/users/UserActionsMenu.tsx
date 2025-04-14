@@ -38,7 +38,6 @@ const UserActionsMenu = ({user = null}) => {
     })
   }
 
-
   const menuItems = [
     { 
       label: 'Edit user', 

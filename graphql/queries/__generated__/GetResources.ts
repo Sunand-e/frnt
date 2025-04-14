@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { PageInfo } from "../../generated";
+
 // ====================================================
 // GraphQL query operation: GetResources
 // ====================================================
@@ -84,6 +86,7 @@ export interface GetResources_resources {
    * A list of edges.
    */
   edges: (GetResources_resources_edges | null)[] | null;
+   pageInfo: (PageInfo | null) | null;
 }
 
 export interface GetResources {

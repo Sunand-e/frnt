@@ -9,20 +9,20 @@ const ConditionalHeaderWrapper = ({
   children
 }: ConditionalHeaderWrapperProps) => (
   <>
-    { !simple ? (
+    {!simple ? (
       <div className="mb-4 bg-white shadow rounded-md p-6">
-        { children }   
+        {children}
       </div>
-    ) : <>{ children }</> }
+    ) : <>{children}</>}
   </>
 )
 
 interface ReportHeaderProps {
   simple?: boolean
-  title?: string
+  title?: ReactNode
 }
 const ReportHeader = ({
-  simple=false,
+  simple = false,
   title
 }: ReportHeaderProps) => {
 

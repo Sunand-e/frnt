@@ -41,7 +41,7 @@ export const UserContentGroupsConnectionFragment = gql`
 
 export const UserCoursesGroupsFragment = gql`
   fragment UserCoursesGroupsFragment on User {
-    courses {
+    courses(first: $first, after: $after, where: $where) {
       ...UserContentGroupsConnectionFragment
       edges {
       ...UserContentEdgeFragment
@@ -56,6 +56,12 @@ export const UserCoursesGroupsFragment = gql`
             }
           }
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }
@@ -125,7 +131,7 @@ export const UserGroupsFragment = gql`
 `
 
 export const GET_USER = gql`
-  query GetUser($id: ID) {
+  query GetUser($id: ID, $first: Int, $after: String, $where: JSON) {
     user(id: $id) {
       ...UserFragment
       ...UserPathwaysGroupsFragment
@@ -139,6 +145,17 @@ export const GET_USER = gql`
   ${UserCoursesGroupsFragment}
   ${UserResourcesGroupsFragment}
   ${UserGroupsFragment}
+`
+
+export const GET_USER_WITH_COURSES = gql`
+  query GetUser($id: ID, $first: Int, $after: String, $where: JSON) {
+    user(id: $id) {
+      ...UserFragment
+      ...UserCoursesGroupsFragment
+    }
+  }
+  ${UserFragment}
+  ${UserCoursesGroupsFragment}
 `
 
 export const GET_USERS = gql`
