@@ -10,18 +10,29 @@ import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
 interface PhoneNumberInputProps {
-  register: any;
+  isOnlyCountryCode: any;
   setValue: any;
   watch: any;
 }
 
 const ForwardedTextInput = React.forwardRef<HTMLInputElement, any>((props, ref) => {
-  return <TextInput {...props} inputAttrs={{...props.inputAttrs, ref}} />;
+  return (
+    <TextInput
+      {...props}
+      inputAttrs={{
+        ...props.inputAttrs,
+        ref,
+        value: props.value,
+        onChange: props.onChange,
+        onBlur: props.onBlur
+      }}
+    />
+  );
 });
 
 ForwardedTextInput.displayName = "ForwardedTextInput";
 
-const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue, watch }) => {
+const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ isOnlyCountryCode, setValue, watch }) => {
   const phoneNumber = watch("phoneNumber");
   const { user } = useGetCurrentUser();
   const verifiedToken = watch("otpVerifiedToken");
@@ -31,7 +42,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
   const [otpSending, setOtpSending] = useState(false);
   const { timer, canSend, resetTimer } = useTimer(30);
 
-  const phoneNumberChanged = useMemo(() => user?.phoneNumber !== phoneNumber && !!phoneNumber, [user, phoneNumber]);
+  const phoneNumberChanged = useMemo(() => !isOnlyCountryCode(phoneNumber) && user?.phoneNumber !== phoneNumber && !!phoneNumber, [user, phoneNumber]);
 
   const handleSendOTP = async () => {
     if (!phoneNumber || !validatePhoneNumber(phoneNumber)) return;
@@ -99,7 +110,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ register, setValue,
             onChange={handlePhoneNumberChange}
             inputComponent={ForwardedTextInput}
             onBlur={() => {
-              if (phoneNumber && !validatePhoneNumber(phoneNumber)) {
+              if (phoneNumber && !isOnlyCountryCode(phoneNumber)  && !validatePhoneNumber(phoneNumber)) {
                 setError("Please enter a valid phone number.");
               } else {
                 setError('');
