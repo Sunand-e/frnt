@@ -1,39 +1,23 @@
-import ItemGrid from "../../common/items/ItemGrid";
 import ItemCollection from "../../common/items/ItemCollection";
 import { useRouter } from "../../../utils/router";
-import { ParsedUrlQuery } from 'querystring';
 import { resourceTypes } from "../resourceTypes";
 import { tippy } from "@tippyjs/react";
 
-interface SearchFilters extends ParsedUrlQuery {
-  search: string;
-  category: string;
-}
-export default function SearchResults({items}) {
-  
+export default function SearchResults({ items }) {
+
   const router = useRouter()
   const { search, category, type } = router.query
 
   let filteredItems = [];
-  
-  if(search) {
+
+  if (search) {
     const textResultsObject = items.reduce(
-      (filtered,item) => {
-        if(item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+      (filtered, item) => {
+        if (item.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
           return {
             ...filtered,
             title: filtered.title.concat([item])
           }
-          // } else if(item.excerpt.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-            //   return {
-              //     ...filtered,
-              //     excerpt: filtered.excerpt.concat([item])
-              //   }
-              // } else if(item.content.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-                //   return {
-                  //     ...filtered,
-        //     content: filtered.content.concat([item])
-        //   }
         } else {
           return filtered
         }
@@ -50,16 +34,16 @@ export default function SearchResults({items}) {
     filteredItems = items;
   }
 
-  if(category) {
+  if (category) {
     filteredItems = filteredItems.filter(item => {
       const isSelectedCategory = tag => {
-        return tag.tagType === 'category' && tag.label === category
+        return (tag.tagType === 'category' || tag.tagType === 'collection') && tag.id === category
       }
-      return item.tags && item.tags.edges.some(({node}) => isSelectedCategory(node));   
+      return item.tags && item.tags.edges.some(({ node }) => isSelectedCategory(node));
     });
   }
 
-  if(type) {
+  if (type) {
     filteredItems = filteredItems.filter(item => item.contentType === type);
   }
 
@@ -68,7 +52,7 @@ export default function SearchResults({items}) {
   const showFullTitleIfClamped = (event, title) => {
     const el = event.target
     el._tippy?.destroy()
-    if(el.scrollHeight > el.clientHeight) {
+    if (el.scrollHeight > el.clientHeight) {
       tippy(event.target, {
         content: title,
         theme: "memberhub-white",
@@ -89,14 +73,14 @@ export default function SearchResults({items}) {
         const IconComponent = resourceTypes[item.contentType]?.icon
         return (
           <>
-          <span className="flex items-start space-x-3">
-            <span className="flex flex-shrink-0 items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
-              <IconComponent className=" w-5" />
+            <span className="flex items-start space-x-3">
+              <span className="flex flex-shrink-0 items-center justify-center bg-main text-white min-w-8 w-8 h-8 rounded-full overflow-hidden">
+                <IconComponent className=" w-5" />
+              </span>
+              <span className="line-clamp-3" onMouseOver={(e) => showFullTitleIfClamped(e, item.title)}>
+                {item.title}
+              </span>
             </span>
-            <span className="line-clamp-3" onMouseOver={(e) => showFullTitleIfClamped(e, item.title)}>
-              {item.title}
-            </span>
-          </span>
           </>
         )
       }
@@ -104,7 +88,11 @@ export default function SearchResults({items}) {
   }
   return (
     <>
-      <ItemCollection items={filteredItems} options={options}></ItemCollection>
+      {filteredItems.length < 1 ? (
+        <h2 className="pb-6 pt-1 text-center">No items found</h2>
+      ) : (
+        <ItemCollection items={filteredItems} options={options}></ItemCollection>
+      )}
     </>
   )
 }
