@@ -1,5 +1,4 @@
 import produce from "immer"
-import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useViewStore } from "./useViewStore"
 

@@ -28,8 +28,9 @@ const AdminUsersTagsEdit = () => {
     )
   }
 
-  usePageTitle({ title: pageTitle })
-    useHeaderButtons({
+  usePageTitle({ title: `${tag?.label} | Collection`, header: pageTitle })
+
+  useHeaderButtons({
     id: 'backToCollections',
     component: <ButtonBack text='Back to collections list' action='/admin/collections' />,
   })

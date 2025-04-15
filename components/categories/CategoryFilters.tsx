@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-import Select, { components } from 'react-select'
+import Select from 'react-select'
 import useGetTags from '../../hooks/tags/useGetTags';
 import { useRouter } from '../../utils/router';
 
-export default function CategoryFilters({hasSearch=true, hasCategories=true, hasType=true}) {
+export default function CategoryFilters() {
   
   const router = useRouter()
   const { search, category } = router.query
@@ -15,13 +14,13 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
       ...router.query,
       [type]: option
     }})
-    // setFilters(newFilters);
   }
 
   const tagOptions = tags ? [
     ...tags.filter(t => t.contentItems.totalCount > 0).map(tag => ({
       value: tag.label,
-      label: tag.label
+      label: tag.label,
+      id: tag.id
     }))
   ]: []
 
@@ -62,10 +61,8 @@ export default function CategoryFilters({hasSearch=true, hasCategories=true, has
                 minWidth: "100%"
               }),
             }}
-            // defaultValue={category}
-            defaultValue={{value: category, label: category}}
-            value={category ? {value: category, label: category} : ''}
-            onChange={(option) => onFilterChange('category', option?.label)}
+            value={tagOptions.find(tag => tag.id === category) || null}
+            onChange={(option) => onFilterChange('category', option?.id)}
             placeholder={'Select category...'}
             options={tagOptions}
             instanceId="category"
