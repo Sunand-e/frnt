@@ -8,7 +8,7 @@ export const getAssociatedContentString = (entity, keyPrefix=null, minimize=fals
     return count ? `${count} items` : noDataDash;
   }
 
-  const parts = [];
+  const parts: string[] = [];
 
   Object.keys(contentTypes).forEach(key => {
     const type = contentTypes[key];

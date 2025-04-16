@@ -70,7 +70,7 @@ const GroupsTable = () => {
       },
       {
         header: "Provided content",
-        accessorFn: row => row.providedContent?.totalCount,
+        accessorFn: row => row.provisionedContents?.totalCount,
         cell: ({ cell }) => {
           const group = cell.row.original;
           return <AssociatedContentCell entity={group} keyPrefix='provisioned' />

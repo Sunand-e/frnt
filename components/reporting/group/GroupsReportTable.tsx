@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { useRouter } from '../../../utils/router';
 import ReportTable from '../ReportTable';
 import { commonTableCols } from '../../../utils/commonTableCols';
+import AssociatedContentCell from '../../common/cells/AssociatedContentCell';
 var advancedFormat = require('dayjs/plugin/advancedFormat')
 dayjs.extend(advancedFormat)
 
@@ -52,9 +53,22 @@ const GroupsReportTable = () => {
         }
       },
       {
-        id: "enrolled",
-        header: "Enrolled Courses",
-        accessorFn: (row: any) => row.assignedCourses.totalCount,
+        id: "assigned_content",
+        header: "Assigned Content",
+        accessorFn: (row: any) => row.assignedContent?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return <AssociatedContentCell entity={group} keyPrefix='assigned' />
+        }
+      },
+      {
+        id: "provided_content",
+        header: "Provided Content",
+        accessorFn: (row: any) => row.provisionedContents?.totalCount,
+        cell: ({ cell }) => {
+          const group = cell.row.original;
+          return <AssociatedContentCell entity={group} keyPrefix='provisioned' />
+        }
       },
       {
         ...commonTableCols.actions,
