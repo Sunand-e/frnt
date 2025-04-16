@@ -19,7 +19,7 @@ export default function CategoriesCollection() {
               maxItems: 120,
               itemOptions: {
                 getReadMoreLabel: () => 'View category items',
-                getHref: item => `/categories?category=${encodeURIComponent(item.label)}`
+                getHref: (item: any) => `/categories?category=${encodeURIComponent(item.id)}`
               }
             }}
           />
