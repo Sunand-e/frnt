@@ -11,7 +11,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import Underline from '@tiptap/extension-underline'
 import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
 import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import classNames from '../../../utils/classNames';
 
 const OneLiner = Node.create({
@@ -88,8 +88,8 @@ const Editor = ({
   }, [editor, onUpdate]);
 
   return (
-    <div className={styles.editor} key={JSON.stringify(content)}>
-      {editor && (
+    <div className={styles.editor}>
+      {editor && content && (
         <BubbleMenu
           editor={editor}
           shouldShow={({ editor, view, state, from, to }) => {
@@ -110,7 +110,6 @@ const Editor = ({
         >
           <MenuBar editor={editor} isHeading={isHeading} />
         </BubbleMenu>
-
       )}
       <EditorContent className="editor__content" editor={editor} />
     </div>
