@@ -45,6 +45,7 @@ interface TenantFeatureSettings {
   }
   organisations: {
     enabled: boolean
+    allowUserLeaderInMultipleOrganizations: boolean
   }
   mediaLibrary: {
     enabled: boolean
@@ -321,6 +322,12 @@ const TenantForm = ({tenant=null, onSubmit}) => {
           label="Enable organisations"
           inputAttrs={register("settings.organisations.enabled")}
         />
+        { watch('settings.organisations.enabled') && (
+          <CheckboxInput
+            label="Allow User to be Leader in Multiple Organizations"
+            inputAttrs={register("settings.organisations.allowUserLeaderInMultipleOrganizations")}
+          />
+        )}
       </BoxContainer>
       
       <Button type="submit">Submit</Button>
@@ -356,7 +363,8 @@ const DEFAULT_TENANT_SETTINGS: TenantFeatureSettings = {
     'enabled': true
   },
   'organisations': {
-    'enabled': false
+    'enabled': false,
+    'allowUserLeaderInMultipleOrganizations': false
   },
   'mediaLibrary': {
     'enabled': true

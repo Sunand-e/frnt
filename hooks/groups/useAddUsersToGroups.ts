@@ -16,7 +16,7 @@ function useAddUsersToGroups() {
     }
   );
 
-  const addUsersToGroups = (values, cb = null) => {
+  const addUsersToGroups = (values, cb = null, onError = null) => {
 
     const existingCachedGroups = values.groupIds.reduce((acc, groupId) => {
       // Fetch the existing group data from the cache
@@ -115,8 +115,6 @@ function useAddUsersToGroups() {
       };
     });
 
-
-
     addUsersToGroupsMutation({
       variables: {
         ...values
@@ -128,7 +126,8 @@ function useAddUsersToGroups() {
           users: updatedUsers
         },
       },
-      onCompleted: cb
+      onCompleted: cb,
+      onError
     }).catch(res => {
       // TODO: do something if there is an error!!
     })
@@ -137,6 +136,8 @@ function useAddUsersToGroups() {
   return {
     groups: addUsersToGroupsResponse?.data?.addUsersToGroups?.groups,
     addUsersToGroups,
+    error: addUsersToGroupsResponse?.error,
+    loading: addUsersToGroupsResponse?.loading,
   }
 }
 
