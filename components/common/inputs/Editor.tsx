@@ -11,7 +11,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import Underline from '@tiptap/extension-underline'
 import { FontSize } from '../ContentEditor/tiptap/extensions/font-size'
 import { LineHeight } from '../ContentEditor/tiptap/extensions/line-height'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import classNames from '../../../utils/classNames';
 
 const OneLiner = Node.create({
@@ -21,16 +21,16 @@ const OneLiner = Node.create({
 });
 
 const Editor = ({
-  autofocus=false,
-  editable=true,
-  onUpdate=(instance: any) => {},
-  onMenuHidden=null,
-  onMenuShow=null,
-  isHeading=false,
-  content=null,
-  editorClass='p-1',
-  defaultAlignment='left',
-  placeholder='Enter text here...'
+  autofocus = false,
+  editable = true,
+  onUpdate = (instance: any) => { },
+  onMenuHidden = null,
+  onMenuShow = null,
+  isHeading = false,
+  content = null,
+  editorClass = 'p-1',
+  defaultAlignment = 'left',
+  placeholder = 'Enter text here...'
 }) => {
 
   const editor = useEditor({
@@ -46,7 +46,7 @@ const Editor = ({
       },
     },
     extensions: [
-      ...(isHeading ? [OneLiner] : []), 
+      ...(isHeading ? [OneLiner] : []),
       StarterKit.configure({
         ...(isHeading && { document: false }),
       }),
@@ -79,8 +79,9 @@ const Editor = ({
     content
   })
 
+  // Re-initialize the editor when content changes
   useEffect(() => {
-    if(editor) {
+    if (editor) {
       editor.off("update");
       editor.on("update", ({ editor: updatedEditor }) => onUpdate(updatedEditor.getJSON()));
     }
@@ -88,22 +89,31 @@ const Editor = ({
 
   return (
     <div className={styles.editor}>
-      { editor && (
-        <BubbleMenu editor={editor} tippyOptions={{ 
-          duration: 100,
-          interactive: true,
-          placement: 'bottom',
-          maxWidth: 'none',
-          theme: "memberhub-white",
-          ...(!!onMenuShow && {onShow: onMenuShow}),
-          ...(!!onMenuHidden && {onHidden: onMenuHidden}),
-        }}>
-        <MenuBar editor={editor} isHeading={isHeading} />
+      {editor && content && (
+        <BubbleMenu
+          editor={editor}
+          shouldShow={({ editor, view, state, from, to }) => {
+            // Only show when selection is non-empty and editor is focused
+            return editor.isFocused && !editor.state.selection.empty;
+          }}
+          tippyOptions={{
+            duration: 100,
+            interactive: true,
+            hideOnClick: false,
+            trigger: 'manual',
+            placement: 'top',
+            maxWidth: 'none',
+            theme: 'memberhub-white',
+            onShow: onMenuShow || undefined,
+            onHidden: onMenuHidden || undefined,
+          }}
+        >
+          <MenuBar editor={editor} isHeading={isHeading} />
         </BubbleMenu>
       )}
       <EditorContent className="editor__content" editor={editor} />
     </div>
-  )
+  );
 }
 
-export default Editor
+export default Editor;

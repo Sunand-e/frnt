@@ -100,7 +100,7 @@ a {
 @import "tippy.js/dist/tippy";
 
 .tippy-box[data-theme~='memberhub'] {
-
+  z-index: 9999 !important;
   background-color: theme('colors.main.DEFAULT');;
   color: white;
 
@@ -133,6 +133,7 @@ a {
 .tippy-box[data-theme~='memberhub-white'] {
 
   background-color: white;
+  z-index: 9999 !important;
   color: theme('colors.main.DEFAULT');
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, .2));
 
