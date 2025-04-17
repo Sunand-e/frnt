@@ -135,9 +135,9 @@ const TableStructure = ({ table }: TableStructureProps) => {
 
   const tableHeight = isLoading ? tHeadHeight : virtualizer.getTotalSize() + tHeadHeight
 
-  const visibleRows = items.length < maxVisibleRows ? items.length : maxVisibleRows
-
-  const tableWrapperHeight = (scrollInTable ? (visibleRows * rowHeight) + tHeadHeight + 1 : tableHeight) + (Number(isLoading) * 75)
+  const visibleRows = isLoading ? 0 : items.length < maxVisibleRows ? items.length : maxVisibleRows
+  const headerHeight = isLoading  ? (showHeadersWhenLoading ? tHeadHeight : 0) : tHeadHeight;
+  const tableWrapperHeight = (scrollInTable ? (visibleRows * rowHeight) + headerHeight + 1 : tableHeight) + (Number(isLoading) * 75)
 
   return (
     <div className="flex flex-col">

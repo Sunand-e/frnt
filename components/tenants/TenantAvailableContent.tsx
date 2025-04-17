@@ -16,16 +16,17 @@ const TenantAvailableContent = ({ tenant }) => {
   const { sharedContentItems } = useGetSharedContentItems(tenant.id)
   console.log('sharedContentItems')
   console.log(sharedContentItems)
-  const contentNodes = content?.edges.map(edge => edge.node);
+  const contentNodes = content?.edges.map((edge: any) => edge.node);
 
-  const availableContent = contentNodes?.filter(node =>
+  const availableContent = contentNodes?.filter((node: any) =>
     !sharedContentItems.courses?.edges.find((edge) => edge.node.id === node.id) &&
-    !sharedContentItems.resources?.edges.find((edge) => edge.node.id === node.id)
+    !sharedContentItems.resources?.edges.find((edge) => edge.node.id === node.id) &&
+    !sharedContentItems.pathways?.edges.find((edge) => edge.node.id === node.id)
   ) || [];
 
   const [selectedContentIds, setSelectedContentIds] = useState([]);
 
-  const onSubmit = (selectedIds) => {
+  const onSubmit = (selectedIds: any) => {
     shareContentItems({
       tenantId: tenant.id,
       contentItemIds: selectedIds,

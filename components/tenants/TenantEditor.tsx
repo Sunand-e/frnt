@@ -42,7 +42,6 @@ const TenantEditor = () => {
         <Button onClick={openFontModal}>Upload fonts</Button>
       </div>
       <div className='flex flex-col w-full space-y-8 mt-4 md:mt-0'>
-        {/* <TenantSharedContentForm /> */}
         <SharedContent tenant={tenant} />
       </div>
     </div>
