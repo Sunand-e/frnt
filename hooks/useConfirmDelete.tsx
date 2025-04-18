@@ -9,16 +9,18 @@ type UseConfirmDeleteParams = {
   autoClose?: boolean;
   onExit?: (() => void) | null;
   amount?: number;
+  displayActionText?: string;
 };
 
-const useConfirmDelete = ({itemType, name = null, onConfirm = null,
+const useConfirmDelete = ({ itemType, name = null, onConfirm = null,
   defaultOnConfirm = null,
   autoClose = true,
   onExit = null,
   amount = 1,
+  displayActionText = 'Delete'
 }: UseConfirmDeleteParams) => {
 
-  const handleDelete = ({onConfirm=null}) => {
+  const handleDelete = ({ onConfirm = null }) => {
     console.log('onConfirm')
     console.log(onConfirm)
     onConfirm ? onConfirm() : defaultOnConfirm && defaultOnConfirm()
@@ -26,9 +28,9 @@ const useConfirmDelete = ({itemType, name = null, onConfirm = null,
   }
 
   const getDisplayName = () => {
-    if(amount > 1) {
+    if (amount > 1) {
       return `${amount} ${itemType}s`
-    } else if(name) {
+    } else if (name) {
       return <>
         the {itemType}: <span className="font-bold">{name}</span>
       </>
@@ -39,14 +41,16 @@ const useConfirmDelete = ({itemType, name = null, onConfirm = null,
 
   const confirmDelete = () => {
     handleModal({
-      title: `Delete ${itemType}`,
+      title: `${displayActionText} ${itemType}`,
       content: (
         <>
           <p>
-            Are you sure you want to delete {getDisplayName()}?
+            Are you sure you want to {displayActionText.toLowerCase()} {getDisplayName()}?
           </p>
           <p className="font-bold mb-2">This action cannot be undone.</p>
-          <Button onClick={()=>handleDelete({onConfirm})}>{`Delete ${itemType}`}</Button>
+          <Button onClick={() => handleDelete({ onConfirm })}>
+            {`${displayActionText} ${itemType}`}
+          </Button>
         </>
       )
     })

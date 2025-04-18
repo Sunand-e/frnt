@@ -1,18 +1,22 @@
-import { useCallback } from "react"
-import useRemoveAssignedContentFromGroups from "../../hooks/groups/useRemoveAssignedContentFromGroups"
-import useRemoveProvisionedContentFromGroups from "../../hooks/groups/useRemoveProvisionedContentFromGroups"
-import ActionsMenu from "../common/menus/ActionsMenu"
 
-const  GroupContentActionsMenu = ({group, edge, onRemove, associationType='assigned', typeName='content'}) => {
+import ActionsMenu from "../common/menus/ActionsMenu"
+import useConfirmDelete from "../../hooks/useConfirmDelete"
+
+const  GroupContentActionsMenu = ({group, edge, onRemove, typeName='content'}) => {
 
   const groupTypeName = group.isOrganisation ? 'organisation' : 'group'
+
+  const { confirmDelete } = useConfirmDelete({
+    itemType: typeName,
+    name: group.title,
+    displayActionText:'Remove',
+    onConfirm: () => onRemove(edge.node.id)
+  })
 
   const menuItems = [
     ...(!false ? [{
       label: `Remove ${typeName} from ${groupTypeName}`,
-      onClick: () => {
-        onRemove(edge.node.id)
-      },
+      onClick: () => confirmDelete(),
       capability: 'EnrolUsersInContent'
     }]:[]),
   ]
