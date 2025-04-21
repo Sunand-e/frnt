@@ -149,7 +149,6 @@
     "autoprefixer": "^10.4.13",
     "babel-plugin-macros": "^3.1.0",
     "cross-env": "^7.0.3",
-    "cypress": "^10.11.0",
     "dotenv": "^16.0.3",
     "file-loader": "^6.2.0",
     "patch-package": "^6.5.1",
