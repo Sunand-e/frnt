@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
-import { ContentFragment, CourseFragment, QuizFragment, ResourceFragment } from './allQueries';
-import { TagFragment } from './tags';
+import { ResourceFragment } from './allQueries';
 import { UserContentEdgeFragment, UserFragment } from './users';
 
 export const UserContentGroupsConnectionFragment = gql`
@@ -148,7 +147,7 @@ export const GET_USER = gql`
 `
 
 export const GET_USER_WITH_COURSES = gql`
-  query GetUser($id: ID, $first: Int, $after: String, $where: JSON) {
+  query GetUserWithCourses($id: ID, $first: Int, $after: String, $where: JSON) {
     user(id: $id) {
       ...UserFragment
       ...UserCoursesGroupsFragment
@@ -156,34 +155,6 @@ export const GET_USER_WITH_COURSES = gql`
   }
   ${UserFragment}
   ${UserCoursesGroupsFragment}
-`
-
-export const GET_USERS = gql`
-  query GetUsers {
-    users(where: { status: "active" }) {
-      edges {
-        node {
-          ...UserFragment
-          groups {
-            totalCount
-            edges {
-              groupId
-              userId
-              node {
-                id
-                name
-              }
-              roles {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${UserFragment}
 `
 
 export const GET_USER_COURSES = gql`
@@ -256,8 +227,6 @@ export const GET_USERS_COURSES_GROUPS = gql`
     }
     groups {
       edges {
-        groupId
-        userId
         node {
           id
           assignedCourses {
