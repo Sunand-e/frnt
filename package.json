@@ -9,7 +9,9 @@
     "start": "next start",
     "export": "next export",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",
@@ -136,6 +138,7 @@
     "@apollo/rover": "^0.9.1",
     "@graphql-codegen/cli": "2.16.3",
     "@graphql-codegen/client-preset": "1.2.5",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",
