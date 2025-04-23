@@ -1,12 +1,11 @@
 import React, {
   MutableRefObject,
-  useCallback,
   useEffect,
   useRef,
   useState,
 } from 'react';
 import ScormAgain from 'scorm-again'
-import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { UPSERT_SCO_ATTEMPT, GET_LATEST_SCO_ATTEMPT } from '../../../../../graphql/queries/scoAttempts';
 import { useRouter } from '../../../../../utils/router';
 import LoadingSpinner from '../../../LoadingSpinner';
@@ -14,7 +13,6 @@ import useUpdateUserContentStatus from '../../../../../hooks/users/useUpdateUser
 import { useFullscreen } from 'rooks';
 import Button from '../../../Button';
 import { Fullscreen } from '@styled-icons/boxicons-regular/Fullscreen'
-import useGetUserCourse from '../../../../../hooks/users/useGetUserCourse';
 import useMarkComplete from '../../../../../hooks/courses/useMarkComplete';
 
 declare global {
@@ -43,14 +41,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
   const router = useRouter()
   const { id: courseId, cid: moduleId } = router.query
 
-  const { lessons } = useGetUserCourse(courseId)
-  
-  const module = lessons?.edges.find(edge => (
-    edge.node.id === moduleId
-  ))
-
-
-  const [upsertScoAttempt, upsertScoAttemptResponse] = useMutation(
+  const [upsertScoAttempt] = useMutation(
     UPSERT_SCO_ATTEMPT
   );
   const { updateUserContentStatus } = useUpdateUserContentStatus()
@@ -92,10 +83,15 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
         markComplete({progress: 100})
       }
     }
-    // }
 
     // Check if the course is authored in Rise
-    const riseProgress = ref.current?.contentWindow.getRiseProgress?.()
+    const contentWindow = ref.current?.contentWindow
+    let riseProgress = contentWindow.getRiseProgress?.();
+    
+    if(!riseProgress) {
+      const contentFrameWindowProgressFn = contentWindow.document.getElementById('content-frame').contentWindow.Runtime?.getProgress
+      riseProgress = contentFrameWindowProgressFn ? contentFrameWindowProgressFn() : null
+    }
     riseProgress?.p && setProgress(riseProgress.p)
 
     // Check if the course is authored in Storyline
@@ -133,28 +129,12 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     })
   }
 
-  const unloadHandler = () => {
-    // console.log('%c SCORMunloadHandler', 'background: #222; color: #bada55');
-    // if (!unloaded && !API.isTerminated()) {
-    //   API.LMSSetValue('cmi.core.exit', 'suspend'); //Set exit to whatever is needed
-    //   API.LMSCommit(''); //save all data that has already been set
-    //   API.LMSTerminate(''); //close the SCORM API connection properly
-    //   setUnloaded(true);
-    // }
-  }
-
   // Initialise API
   useEffect(() => {
     ScormAgain;
-    
-    const settings = {
-      // lmsCommitUrl: '/d'
-    }
-    if(!window.API && attemptQueryData) {
-    // if(attemptQueryData) {
-     
 
-      const API = apiRef.current = window.API = new window.Scorm12API(settings);
+    if(!window.API && attemptQueryData) {
+      const API = apiRef.current = window.API = new window.Scorm12API({});
 
       API.clear('LMSSetValue.cmi.*')
       API.on('LMSSetValue.cmi.*', (CMIElement, value) => {
@@ -168,7 +148,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     }
 
     return () => {
-      // window.API && window.API.clear('LMSSetValue.cmi.*')
       window.API = apiRef.current = null
     }
 
@@ -181,10 +160,8 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
       attemptQueryData.latestScoAttempt?.data && apiRef.current.loadFromJSON(attemptQueryData.latestScoAttempt?.data?.cmi)
     }
   },[attemptQueryData])
-
   
   const {
-    isFullscreenEnabled,
     isFullscreenAvailable,
     toggleFullscreen
   } = useFullscreen({target: ref})
@@ -193,7 +170,12 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     <>
       { loaded ? (
         <div className='relative w-full h-full'>
-          <iframe className="w-full h-full" key={`${block.id}--${attempt}`} ref={ref} src={block.properties?.url}></iframe>
+          <iframe
+            className="w-full h-full"
+            key={`${block.id}--${attempt}`}
+            ref={ref}
+            src={block.properties?.url}
+          ></iframe>
           <div className='absolute top-3 right-7'>
             { isFullscreenAvailable && (
               <Button onClick={toggleFullscreen}>
@@ -211,7 +193,6 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
         </div>
       )}
     </>
-    // <iframe width="100%" height="100%" src="/scorm/golf-examples-multi-sco-scorm-1.2/shared/launchpage.html"></iframe>
   )
 })
 
