@@ -89,7 +89,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     if(statusRef.current !== 'completed') {
       if(['completed', 'passed'].includes(scormData.cmi.core.lesson_status)) {
         statusRef.current = 'completed'
-        markComplete({})
+        markComplete({progress: 100})
       }
     }
     // }
