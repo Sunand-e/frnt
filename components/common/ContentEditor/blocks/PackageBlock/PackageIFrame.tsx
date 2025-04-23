@@ -152,7 +152,7 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     }
     if(!window.API && attemptQueryData) {
     // if(attemptQueryData) {
-      debugger;
+     
 
       const API = apiRef.current = window.API = new window.Scorm12API(settings);
 
