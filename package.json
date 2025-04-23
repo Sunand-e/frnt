@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "analyzedev": "cross-env NODE_OPTIONS='--inspect' ANALYZE=true PORT=3001 node server.js",
-    "dev": "cross-env NODE_ENV='development' NODE_OPTIONS='--inspect' PORT=3001 node server.js",
+    "analyzedev": "cross-env NODE_OPTIONS='--inspect' ANALYZE=true node server.js",
+    "dev": "cross-env NODE_ENV='development' NODE_OPTIONS='--inspect' node server.js",
     "build": "next build",
     "start": "next start",
     "export": "next export",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts",
     "postinstall": "patch-package",
     "test": "playwright test",
+    "test:ci": "cross-env CI=true PORT=3000 playwright test",
     "test:headed": "playwright test --headed"
   },
   "dependencies": {

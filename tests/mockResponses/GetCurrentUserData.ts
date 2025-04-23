@@ -1,6 +1,6 @@
 import { GetCurrentUserQuery } from "../../graphql/generated";
 
-export const currentUserResponse : GetCurrentUserQuery= {
+export const currentUserResponse: GetCurrentUserQuery = {
   user: {
     createdAt: "2025-02-06T05:36:19Z",
     email: "sunandkumar@digiryte.com",
@@ -11,7 +11,7 @@ export const currentUserResponse : GetCurrentUserQuery= {
     status: "active",
     updatedAt: "2025-04-22T12:08:08Z",
     userType: "SuperAdmin",
-    profileImageUrl: "/profile_image",
+    profileImageUrl: "/images/pic-photo.avif",
     invitationSentAt: "2025-02-13T10:59:16Z",
     invitationAcceptedAt: "2025-02-13T11:49:11Z",
     currentSignInAt: "2025-04-22T12:08:08Z",
