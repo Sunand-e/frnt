@@ -1,4 +1,3 @@
-import { GET_RESOURCES } from "../../graphql/queries/allQueries"
 import { useQuery } from "@apollo/client"
 import { GetEvents } from "../../graphql/queries/__generated__/GetEvents";
 import { GET_EVENTS } from "../../graphql/queries/events";

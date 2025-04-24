@@ -6,6 +6,7 @@ import { useRouter } from '../../utils/router';
 import LoadingSpinner from '../common/LoadingSpinner';
 import BlinkingEllipsis from '../common/misc/BlinkingEllipsis';
 import SearchResults from './SearchResults';
+import { GET_RESOURCES_FOR_LEARNER } from '../../graphql/queries/allQueries';
 
 const CategoryOrSearch = () => {
 
@@ -13,7 +14,7 @@ const CategoryOrSearch = () => {
   const { search, category } = router.query
 
   const { courses, loading: loadingCourses } = useGetCourses()
-  const { resources, loading: loadingResources } = useGetResources()
+  const { resources, loading: loadingResources } = useGetResources(GET_RESOURCES_FOR_LEARNER)
   const { pathways, loading: loadingPathways } = useGetPathways()
 
   const getNodes = (items: any) => items?.edges?.map((edge: any) => edge.node).filter((node: any) => {
