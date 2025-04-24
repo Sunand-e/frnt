@@ -16,13 +16,14 @@ import { Dot } from '../common/misc/Dot';
 import ResourceActionButton from "./ResourceActionButton";
 import Editor from "../common/inputs/Editor";
 import useGetResources from "../../hooks/resources/useGetResources";
+import { GET_RESOURCES_FOR_LEARNER } from "../../graphql/queries/allQueries";
 
 const ResourceView = ({id}) => {
 
   const router = useRouter()
   const { pid } = router.query;
 
-  const { loading, error, resources } = useGetResources()
+  const { loading, error, resources } = useGetResources(GET_RESOURCES_FOR_LEARNER)
 
   const resourceEdge = resources?.edges.find(edge => edge.node.id === id)
   const resource = resourceEdge?.node

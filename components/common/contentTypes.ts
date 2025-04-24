@@ -4,7 +4,7 @@ import { Flow } from '@styled-icons/fluentui-system-regular/Flow'
 import {Library} from "@styled-icons/ionicons-solid/Library"
 
 import { GET_COURSES } from '../../graphql/queries/courses/courses'
-import { GET_PATHWAYS, GET_RESOURCES } from '../../graphql/queries/allQueries'
+import { GET_PATHWAYS, GET_RESOURCES_FOR_LEARNER } from '../../graphql/queries/allQueries'
 import { GET_CONTENT_ITEMS } from '../../graphql/queries/contentItems/GET_CONTENT_ITEMS'
 import { DocumentNode } from 'graphql'
 import { OperationVariables } from '@apollo/client'
@@ -85,7 +85,7 @@ export const contentTypes: ContentTypes = {
     updateCapability: 'UpdateResource',
     icon: Library,
     editUrl: 'resources/edit',
-    gqlGetQuery: GET_RESOURCES,
+    gqlGetQuery: GET_RESOURCES_FOR_LEARNER,
     isAssignable: true,
   },
   pathway: {
