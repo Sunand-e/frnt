@@ -88,8 +88,9 @@ export const PackageIFrame = React.forwardRef<HTMLIFrameElement>(({
     const contentWindow = ref.current?.contentWindow
     let riseProgress = contentWindow.getRiseProgress?.();
     
-    if(!riseProgress) {
-      const contentFrameWindowProgressFn = contentWindow.document.getElementById('content-frame').contentWindow.Runtime?.getProgress
+    if(!riseProgress && contentWindow) {
+      const contentFrameWindowProgressFn = contentWindow.document.getElementById('content-frame')?.contentWindow?.Runtime?.getProgress
+
       riseProgress = contentFrameWindowProgressFn ? contentFrameWindowProgressFn() : null
     }
     riseProgress?.p && setProgress(riseProgress.p)
