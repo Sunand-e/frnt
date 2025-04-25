@@ -10,9 +10,8 @@
     "export": "next export",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts",
     "postinstall": "patch-package",
-    "test": "playwright test",
-    "test:ci": "cross-env CI=true PORT=3000 playwright test",
-    "test:headed": "playwright test --headed"
+    "test": "cross-env CI=true playwright test",
+    "test:headed": "playwright test --headed --reporter=dot"
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",

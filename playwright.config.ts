@@ -12,11 +12,12 @@ export default defineConfig({
     viewport: { width: 1280, height: 720 },
   },
   webServer: {
-    command: "cross-env NODE_ENV='test' PORT=5000 node server.js",
+    command: `cross-env NODE_ENV='test' PORT=${PORT} node server.js`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     stdout: 'ignore',
     stderr: 'pipe',
   },
   globalTeardown: './tests/finalCoverageReport.ts',
+  reporter: [['html', { open: 'never' }]],
 });
