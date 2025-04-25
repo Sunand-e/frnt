@@ -12,6 +12,7 @@ import { contentTypes } from "../common/contentTypes";
 import BoxContainerTable from "../common/tables/BoxContainerTable";
 import GroupAvailableContentTable from "./GroupAvailableContentTable";
 import GroupContentActionsMenu from "./GroupContentActionsMenu";
+import useConfirmDelete from "../../hooks/useConfirmDelete";
 
 type AssociationType = {
   name: string,
@@ -90,7 +91,17 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
     {
       label: `Remove selected items from ${groupTypeName}`,
       labelFn: (ids: Array<string>) => `Remove ${getContentTypeStringWithCount(type, ids.length, 'selected')}`,
-      onClick: (ids: Array<string>) => handleRemove(ids),
+      onClick: (ids: Array<string>) => {
+        const { confirmDelete } = useConfirmDelete({
+          itemType: typeName,
+          amount: ids.length,
+          name: null,
+          actionText: 'Remove',
+          displayActionText: 'Remove',
+          onConfirm: () => handleRemove(ids)
+        });
+        confirmDelete();
+      },
     }
   ]
 
@@ -118,7 +129,6 @@ const GroupContent = ({typeName='content', groupType='group', associationTypeNam
           <GroupContentActionsMenu
             onRemove={handleRemove}
             group={group}
-            associationType={associationType}
             edge={cell.row.original}
             typeName={typeName}
           />
