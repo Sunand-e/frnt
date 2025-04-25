@@ -20,11 +20,38 @@ jobs:
         with:
           name: test-results
 
-      - name: List hashFiles
-        run: ls
-      - name: Comment To Pr
+      - name: Read Test Result and Coverage
+        id: testinfo
         run: |
-            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -d "{\"body\": \"From Action\"}" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/150/comments"
-      
+          status=$(jq -r '.status' .last-run.json)
+          failed_count=$(jq '.failedTests | length' .last-run.json)
+          coverage=$(jq -r '.overallCoverage' coverage/coverage-report.json)
+
+          echo "status=$status" >> $GITHUB_OUTPUT
+          echo "failed_count=$failed_count" >> $GITHUB_OUTPUT
+          echo "coverage=$coverage" >> $GITHUB_OUTPUT
+
+      - name: Comment To PR
+        run: |
+          if [ "${{ steps.testinfo.outputs.status }}" == "passed" ]; then
+            ICON="✅"
+            SUMMARY="${ICON} All tests passed.\n"
+          else
+            ICON="❌"
+            SUMMARY="${ICON} ${{ steps.testinfo.outputs.failed_count }} tests failed.\n"
+          fi
+
+          COVERAGE="📊 Coverage: ${{ steps.testinfo.outputs.coverage }}"
+          JOB_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          COMMENT="${SUMMARY}${COVERAGE}\n🔗 [View Full Report](${JOB_URL})"
+
+          # curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          #   -H "Content-Type: application/json" \
+          #   -d "{\"body\": \"$COMMENT\"}" \
+          #   "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/150/comments"    
