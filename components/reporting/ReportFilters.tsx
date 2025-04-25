@@ -53,11 +53,13 @@ const ReportFilters = ({ filters = [] }) => {
         setYearFilter={setYearFilter}
       />}
 
-      {tenantFeaturesEnabled('groups') && groups && filters.includes('group') && (
+      {(tenantFeaturesEnabled('groups') || (tenantFeaturesEnabled('organisations') && groups && filters.includes('group'))) && (
         <div className="flex flex-col">
           <GroupSelect
             defaultValueId={groupId as string}
-            placeholder="All groups"
+            placeholder={
+              tenantFeaturesEnabled('organisations') && !tenantFeaturesEnabled('groups') ? 'All organisations' : 'All groups'
+            }
             onSelect={(group: any) => {
               router.push({
                 query: { ...router.query, group: group?.id }
