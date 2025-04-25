@@ -23,9 +23,9 @@ jobs:
       - name: Read Test Result and Coverage
         id: testinfo
         run: |
+          coverage=$(jq -r '.overallCoverage' coverage/coverage-report.json)
           status=$(jq -r '.status' .last-run.json)
           failed_count=$(jq '.failedTests | length' .last-run.json)
-          coverage=$(jq -r '.overallCoverage' coverage/coverage-report.json)
 
           echo "status=$status" >> $GITHUB_OUTPUT
           echo "failed_count=$failed_count" >> $GITHUB_OUTPUT
