@@ -1,0 +1,30 @@
+name: PR Test
+
+on:
+  push:
+    branches: [ 15-frontend-test-cases ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  trigger_playwright_test:
+    uses: ./.github/workflows/playwright-test.yml 
+
+  pr-comment:
+    needs: [trigger_playwright_test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Test Report
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+
+      - name: List hashFiles
+        run: ls
+      - name: Comment To Pr
+        run: |
+            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -d "{\"body\": \"From Action\"}" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/150/comments"
+      
