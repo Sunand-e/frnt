@@ -1,4 +1,5 @@
 import { test as baseTest, Page, Route } from '@playwright/test';
+import { collectCoverage } from './coverage-collector';
 
 type CalledWith = Record<string, unknown>;
 
@@ -49,4 +50,9 @@ export const test = baseTest.extend<{ interceptGQL: typeof interceptGQL }>({
   interceptGQL: async ({ browser }, use) => {
     await use(interceptGQL);
   },
+  page: async ({ page }, use) => {  
+    await page.coverage.startJSCoverage();
+    await use(page);
+    await collectCoverage(page);
+  }
 });

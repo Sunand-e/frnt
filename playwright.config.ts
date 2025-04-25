@@ -18,4 +18,5 @@ export default defineConfig({
     stdout: 'ignore',
     stderr: 'pipe',
   },
+  globalTeardown: './tests/finalCoverageReport.ts',
 });

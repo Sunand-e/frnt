@@ -90,6 +90,11 @@ app.prepare().then(() => {
     Object.keys(apiPaths).forEach(path => {
       server.use(path, createProxyMiddleware(apiPaths[path]));
     });
+    server.use('/version.json', (req, res) => {
+      res.json({
+        version: '1.0.0'
+      });
+    });
   }
 
   server.all('*', (req, res) => {
