@@ -12,7 +12,7 @@ const config: CodegenConfig = {
     {
       [schemaUrl]: {
         headers: {
-          Authorization: `Bearer: ${process.env.RAILS_AUTH_TOKEN}`,
+          Cookie: `jwt_header_payload=${process.env.JWT_HEADER_PAYLOAD}; jwt_signature=${process.env.JWT_SIGNATURE}`,
         },
       },
     },
