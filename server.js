@@ -2,21 +2,21 @@ const express = require('express')
 const next = require('next')
 const { createProxyMiddleware } = require("http-proxy-middleware")
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+const target = 'http://127.0.0.1'
 
 // This custom router function will redirect any requests to the same URL, minus the port.
 // For example, it will redirect any requests to http://t1.local:3001 to http://t1.local
 function customRouter(req) {
-  // const tenant = hostname.split('.')[0]
   return `http://${req.hostname}`
 }
 
 const apiPaths = {
   '/graphql': {
-    target: 'http://127.0.0.1', 
+    target: target, 
     pathRewrite: {
       '^/graphql': '/graphql'
     },
@@ -24,7 +24,7 @@ const apiPaths = {
     changeOrigin: true
   },
   '/graphiql': {
-    target: 'http://127.0.0.1', 
+    target: target, 
     pathRewrite: {
       '^/graphiql': '/graphiql'
     },
@@ -32,7 +32,7 @@ const apiPaths = {
     changeOrigin: true
   },
   '/uploads': {
-    target: 'http://127.0.0.1', 
+    target: target, 
     pathRewrite: {
       '^/uploads': '/uploads'
     },
@@ -40,7 +40,7 @@ const apiPaths = {
     changeOrigin: false
   },
   '/rails': {
-    target: 'http://127.0.0.1', 
+    target: target, 
     pathRewrite: {
       '^/rails': '/rails'
     },
@@ -48,7 +48,7 @@ const apiPaths = {
     changeOrigin: false
   },
   '/api/v1': {
-    target: 'http://127.0.0.1', 
+    target: target, 
     pathRewrite: {
       '^/api/v1': '/api/v1'
     },
@@ -56,7 +56,7 @@ const apiPaths = {
     changeOrigin: true
   },
   '/scorm-data': {
-    target: 'http://127.0.0.1',
+    target: target,
     pathRewrite: {
       '^/scorm-data': '/scorm-data'
     },
@@ -64,7 +64,7 @@ const apiPaths = {
     changeOrigin: true
   },
   '/scorm': {
-    target: 'http://127.0.0.1',
+    target: target,
     pathRewrite: {
       '^/scorm': '/scorm'
     },
@@ -72,7 +72,7 @@ const apiPaths = {
     changeOrigin: true
   },
   '/uploaded_images': {
-    target: 'http://127.0.0.1',
+    target: target,
     pathRewrite: {
       '^/uploaded_images': '/uploaded_images'
     },
@@ -81,20 +81,20 @@ const apiPaths = {
   }
 }
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 app.prepare().then(() => {
   const server = express()
- 
+
   if (isDevelopment) {
-    server.use('/graphql', createProxyMiddleware(apiPaths['/graphql']));
-    server.use('/graphiql', createProxyMiddleware(apiPaths['/graphiql']));
-    server.use('/uploads', createProxyMiddleware(apiPaths['/uploads']));
-    server.use('/rails', createProxyMiddleware(apiPaths['/rails']));
-    server.use('/uploaded_images', createProxyMiddleware(apiPaths['/uploaded_images']));
-    server.use('/scorm-data', createProxyMiddleware(apiPaths['/scorm-data']));
-    server.use('/scorm', createProxyMiddleware(apiPaths['/scorm']));
-    server.use('/api/v1', createProxyMiddleware(apiPaths['/api/v1']));
+    Object.keys(apiPaths).forEach(path => {
+      server.use(path, createProxyMiddleware(apiPaths[path]));
+    });
+    server.use('/version.json', (req, res) => {
+      res.json({
+        version: '1.0.0'
+      });
+    });
   }
 
   server.all('*', (req, res) => {
