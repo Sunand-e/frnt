@@ -250,6 +250,38 @@ export const GET_RESOURCES = gql`
   ${ResourceFragment}
 `
 
+export const GET_RESOURCES_FOR_LEARNER = gql`
+  query GetResources($first: Int, $after: String, $where: JSON, $orderBy: JSON) {
+  resources(first: $first, after: $after, where: $where, orderBy: $orderBy) {
+      totalCount
+      edges {
+        userId
+        node {
+          ...ContentFragmentWithoutUsers
+          document {
+            id
+            mediaType
+            location
+            fileName
+          }
+          audio {
+            id
+            mediaType
+            location
+            fileName
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+  ${ResourceFragment}
+  ${ContentFragmentWithoutUsers}
+`
+
 export const GET_PATHWAY = gql`
   query GetPathway($id: ID!) {
     pathway(id: $id) {
