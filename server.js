@@ -6,12 +6,12 @@ const port = process.env.PORT || 3001
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const target = 'http://127.0.0.1'
+const target = 'https://elearningplus.staging.zanda360.com'
 
 // This custom router function will redirect any requests to the same URL, minus the port.
 // For example, it will redirect any requests to http://t1.local:3001 to http://t1.local
 function customRouter(req) {
-  return `http://${req.hostname}`
+  return `https://elearningplus.staging.zanda360.com`
 }
 
 const apiPaths = {

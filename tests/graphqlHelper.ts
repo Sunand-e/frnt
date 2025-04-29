@@ -3,9 +3,8 @@ import { collectCoverage } from './coverage-collector';
 
 type CalledWith = Record<string, unknown>;
 
-
 type InterceptConfig = {
-  operationName: string; 
+  operationName: string;
   res: Record<string, unknown>;
 };
 
@@ -46,8 +45,14 @@ export async function interceptGQL(
   return { reqs };
 }
 
-export const test = baseTest.extend<{ interceptGQL: typeof interceptGQL }>({
-  interceptGQL: async ({ browser }, use) => {
+export const test = baseTest.extend<{
+  interceptGQL: typeof interceptGQL;
+}>({
+  interceptGQL: async ({ browser, context }, use) => {
+    // Set cookies for jwt_header_payload and jwt_signature
+   
+    
+    
     await use(interceptGQL);
   },
   page: async ({ page }, use) => {  
