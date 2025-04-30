@@ -1,63 +1,60 @@
 import { test as baseTest, Page, Route } from '@playwright/test';
 import { collectCoverage } from './coverage-collector';
 
-type CalledWith = Record<string, unknown>;
-
 type InterceptConfig = {
   operationName: string;
   res: Record<string, unknown>;
+  variables?: Record<string, unknown>;
+  delay?: number;
 };
 
-type InterceptedPayloads = {
-  [operationName: string]: CalledWith[];
-};
+function isMatch(expected: Record<string, unknown>, actual: Record<string, unknown>): boolean {
+  return Object.entries(expected).every(([key, value]) => JSON.stringify(actual[key]) === JSON.stringify(value));
+}
+
+let accumulatedMocks: InterceptConfig[] = [];
 
 export async function interceptGQL(
   page: Page,
   interceptConfigs: InterceptConfig[]
-): Promise<{ reqs: InterceptedPayloads }> {
-  const reqs: InterceptedPayloads = {};
+) {
 
-  interceptConfigs.forEach(config => {
-    reqs[config.operationName] = [];
-  });
+  accumulatedMocks = [...accumulatedMocks, ...interceptConfigs];
 
   await page.route('/graphql', (route: Route) => {
     const req = route.request().postDataJSON();
+    const { operationName, variables } = req;
 
-    const operationConfig = interceptConfigs.find(
-      config => config.operationName === req.operationName
+    const operationConfig = accumulatedMocks.find(
+      config =>
+        config.operationName === operationName &&
+        (!config.variables || isMatch(config.variables, variables))
     );
 
     if (!operationConfig) {
       return route.continue();
     }
 
-    reqs[req.operationName].push(req.variables);
-
-    return route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ data: operationConfig.res }),
-    });
+    setTimeout(() => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ data: operationConfig.res }),
+      });
+    }, operationConfig?.delay ?? 0);
   });
-
-  return { reqs };
 }
 
 export const test = baseTest.extend<{
   interceptGQL: typeof interceptGQL;
 }>({
-  interceptGQL: async ({ browser, context }, use) => {
-    // Set cookies for jwt_header_payload and jwt_signature
-   
-    
-    
+  interceptGQL: async ({}, use) => {
     await use(interceptGQL);
   },
-  page: async ({ page }, use) => {  
+  page: async ({ page }, use) => {
     await page.coverage.startJSCoverage();
     await use(page);
+    accumulatedMocks = [];
     await collectCoverage(page);
-  }
+  },
 });

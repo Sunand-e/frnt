@@ -1,13 +1,13 @@
 import { expect } from '@playwright/test';
 import { test } from '../graphqlHelper';
 import { currentUserResponse } from '../mockResponses/GetCurrentUserData';
-import { tenantSettingResponse } from '../mockResponses/tenantSetting';
 import { coursesResponse } from '../mockResponses/GetCoursesData';
-// import fs from 'fs';
+import { mockTenantSetting } from '../utils/mock';
 
 test.describe('User page tests', () => {
 
   test.beforeEach(async ({ page, interceptGQL }) => {
+    await mockTenantSetting(page);
 
     await interceptGQL(page, [
       {
@@ -19,14 +19,6 @@ test.describe('User page tests', () => {
         res: coursesResponse,
       }
     ]);
-
-    await page.route('/api/v1/tenant/setting', route => {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(tenantSettingResponse),
-      });
-    });
   });
 
   test('user signIn Success', async ({ page }) => {

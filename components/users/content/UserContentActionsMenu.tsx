@@ -6,7 +6,7 @@ const UserContentActionsMenu = ({content, onRevoke}) => {
   const type = contentTypes[content.node.itemType]
 
   const menuItems = [
-    ...(!content.groups.edges.length ? [{
+    ...(!content.groups?.edges.length ? [{
       label: `Revoke access to ${type.name}`,
       onClick: () => onRevoke([content.node.id]),
       capability: 'EnrolUsersInContent'

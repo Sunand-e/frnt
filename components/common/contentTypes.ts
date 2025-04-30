@@ -24,7 +24,7 @@ export interface StatusStrings {
 
 export interface ContentType {
   name: string;
-  pluralKey: string;
+  pluralKey: 'courses' | 'pathways' | 'resources';
   plural: string;
   label: string;
   pluralLabel: string;

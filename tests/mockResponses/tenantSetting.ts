@@ -55,7 +55,7 @@ export const tenantSettingResponse: TenantSettingResponse = {
     "enabled": true
   },
   "organisations": {
-    "enabled": false,
+    "enabled": true,
     "allowUserLeaderInMultipleOrganizations": true
   },
   "public_settings": {},
