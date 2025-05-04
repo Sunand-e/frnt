@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import { gql } from "@apollo/client";
 import ButtonLink from "../../common/ButtonLink";
 import ItemWithImage from "../../common/cells/ItemWithImage";
 import ReportTable, { filterActive } from "../ReportTable";

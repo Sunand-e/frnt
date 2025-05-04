@@ -35,7 +35,7 @@ const AdminOrganisationsEdit = () => {
     )
   }
 
-  usePageTitle({ title: pageTitle })
+  usePageTitle({ title: `${group?.name} | Organisation`, header: pageTitle })
 
   return (
     <>

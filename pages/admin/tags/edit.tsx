@@ -28,7 +28,7 @@ const AdminUsersTagsEdit = () => {
     )
   }
 
-  usePageTitle({ title: pageTitle })
+  usePageTitle({ title: `${tag?.label} | Category`, header: pageTitle })
   
   useHeaderButtons({
     id: 'backToTags',

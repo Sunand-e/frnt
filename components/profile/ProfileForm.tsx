@@ -7,6 +7,8 @@ import useUpdateUser from '../../hooks/users/useUpdateUser';
 import useUploadAndNotify from '../../hooks/useUploadAndNotify';
 import { useEffect, useMemo } from 'react';
 import PhoneNumberInput from './PhoneNumberInput';
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import { toast } from 'react-toastify';
 
 interface ProfileFormValues {
   id?: string
@@ -29,6 +31,9 @@ const ProfileForm = () => {
   })
 
   const onSubmit = ({ profile_image, ...values }) => {
+    if (values?.phoneNumber == undefined || isOnlyCountryCode(values?.phoneNumber)) {
+      values.phoneNumber = null 
+    }
     updateUser({
       ...values,
       update_self: true
@@ -37,11 +42,14 @@ const ProfileForm = () => {
       const imageEndpoint = `/api/v1/users/${user.id}/update_profile_image`
       profile_image instanceof File && uploadFilesAndNotify(imageEndpoint, { profile_image })
     }
+    toast('Profile Updated', {
+      toastId: 'profileUpdated',
+      autoClose: 2500
+    })
   }
 
   const defaultValues = {
     ...user,
-    email: user?.unconfirmedEmail || user?.email,
     otpVerifiedToken: null,
     role_ids: user?.roles.map((role: any) => role.id),
   }
@@ -50,8 +58,17 @@ const ProfileForm = () => {
     defaultValues
   });
 
+  const countryCallingCodes = useMemo(() => {
+    return getCountries()
+      .map((country) => `+${getCountryCallingCode(country)}`);
+  }, []);
+
+  const isOnlyCountryCode = (value: string) => {
+    return countryCallingCodes.includes(value);
+  };
+
   const isValid = useMemo(() => {
-    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null || watch('phoneNumber') == ''
+    return user?.phoneNumber == watch('phoneNumber') || watch('otpVerifiedToken') != null || !watch('phoneNumber') || isOnlyCountryCode(watch('phoneNumber'));
   }, [user, watch('phoneNumber'), watch('otpVerifiedToken')])
 
   useEffect(() => {
@@ -100,7 +117,7 @@ const ProfileForm = () => {
       />
       {errors.email && (<small className="text-danger text-red-500">{errors.email.message}</small>)}
 
-      {/* <PhoneNumberInput register={register} setValue={setValue} watch={watch} /> */}
+      <PhoneNumberInput isOnlyCountryCode={isOnlyCountryCode} setValue={setValue} watch={watch} />
 
       <ImageDropzoneInput
         label="Profile image"
