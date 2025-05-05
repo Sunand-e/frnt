@@ -7,7 +7,7 @@ on:
 
 jobs:
   trigger_playwright_test:
-    uses: ./.github/workflows/playwright-test.yml 
+    uses: ./.github/workflows/playwright-test.yml
 
   pr-comment:
     needs: [trigger_playwright_test]
@@ -42,11 +42,14 @@ jobs:
 
           JOB_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          COMMENT="### <span aria-hidden=\"true\">${ICON}</span> ${SUMMARY}\n
-          |  Name | Link |\n
-          |:-:|------------------------|\n
-          |<span aria-hidden=\"true\">📊</span> Coverage | ${{ steps.testinfo.outputs.coverage }} |\n
-          |<span aria-hidden=\"true\">🔗</span> Full Report | ${JOB_URL} |"
+          COMMENT=$(cat <<EOF
+            ### <span aria-hidden="true">${ICON}</span> ${SUMMARY}
+
+            |  Name | Link |
+            |:-:|------------------------|
+            |<span aria-hidden="true">📊</span> Coverage | ${COVERAGE} |
+            |<span aria-hidden="true">🔗</span> Full Report | ${JOB_URL} |
+          EOF)
 
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
