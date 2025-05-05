@@ -42,11 +42,11 @@ jobs:
 
           JOB_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          COMMENT="### <span aria-hidden="true">${ICON}</span> ${SUMMARY}\n
-            |  Name | Link |\n
-            |:-:|------------------------|\n
-            |<span aria-hidden="true">📊</span> Coverage | ${{ steps.testinfo.outputs.coverage }} |\n
-            |<span aria-hidden="true">🔗</span> Full Report | ${JOB_URL} |"
+          COMMENT="### <span aria-hidden=\"true\">${ICON}</span> ${SUMMARY}\n
+          |  Name | Link |\n
+          |:-:|------------------------|\n
+          |<span aria-hidden=\"true\">📊</span> Coverage | ${{ steps.testinfo.outputs.coverage }} |\n
+          |<span aria-hidden=\"true\">🔗</span> Full Report | ${JOB_URL} |"
 
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
