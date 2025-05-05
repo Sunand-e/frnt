@@ -5,6 +5,7 @@ import { expect } from '@playwright/test';
 import { loginUser } from '../../utils/auth';
 import { mockTenantSetting } from '../../utils/mock';
 import fs from 'fs';
+import { coursesResponse } from '../../mockResponses/GetCoursesData';
 
 test.describe('GetUsers Query Only', () => {
 
@@ -16,6 +17,10 @@ test.describe('GetUsers Query Only', () => {
       {
         operationName: 'GetCurrentUser',
         res: currentUserResponse
+      },
+      {
+        operationName: 'GetCourses',
+        res: coursesResponse,
       }
     ]);
   });
@@ -51,14 +56,14 @@ test.describe('GetUsers Query Only', () => {
       const roles = user.roles?.map(role => role.name).join(', ') || '';
       await expect(userRow.locator(`text=${roles}`).first()).toBeVisible();
 
-      if(user.profileImageUrl) {
+      if (user.profileImageUrl) {
         const imageLocator = userRow.locator('img');
         await expect(imageLocator).toHaveAttribute('src', user.profileImageUrl);
       }
 
       if (user.isActive) {
         await expect(userRow.locator('text=Active')).toBeVisible();
-      } else if(user.invitationSentAt) {
+      } else if (user.invitationSentAt) {
         await expect(userRow.locator('text=Invited')).toBeVisible();
       } else {
         await expect(userRow.locator('text=Not yet invited')).toBeVisible();
@@ -149,10 +154,10 @@ test.describe('GetUsers Query Only', () => {
     ]);
 
     const downloadPromise = page.waitForEvent('download');
-    
+
     await page.goto('/admin/users');
     await page.click('button:has-text("Export to CSV")');
-  
+
     const download = await downloadPromise;
     const filePath = await download.path();
 
@@ -162,5 +167,82 @@ test.describe('GetUsers Query Only', () => {
     expect(content).toContain('Adrian Flinch,aflinch@example.com,"Test, Org-4, new group to test",Learner,active,Last signed in: 22nd April 2025 at 5:38 PM');
     expect(content).toContain('devin rey,devin@gmail.com,,Learner,invited,Invited: 24th April 2025 at 1:28 PM');
     expect(content).toContain('dev test,dev@12gmail.com,Environmental org,Learner,uninvited,Created: 18th April 2025 at 5:28 PM');
+  });
+
+  test('send invitation and Act as user from actions', async ({ page, interceptGQL, context }) => {
+    await interceptGQL([
+      {
+        operationName: 'GetUsers',
+        res: usersResponseData,
+      }
+    ]);
+
+    await page.goto('/admin/users');
+    const user = ActiveUserResponseData.node;
+
+    await page.getByText(user.email)
+      .locator('xpath=ancestor::tr')
+      .getByRole('button', { name: 'Actions' })
+      .click();
+
+    let invitationSent = false;
+    await page.route(`/api/v1/users/send_invitation`, async route => {
+      const request = route.request();
+      const postData = await request.postDataJSON();
+
+      expect(postData).toEqual({ user_ids: [user.id] });
+      invitationSent = true;
+
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          message: "Invitations Sent",
+          user_ids: [user.id]
+        })
+      });
+    });
+
+    await page.click('a:has-text("Send invitation")');
+    expect(invitationSent).toBe(true);
+    await expect(page.getByText('Invitation Sent')).toBeVisible();
+
+    // close the toast notification
+    await page.locator('button.Toastify__close-button.Toastify__close-button--light').click();
+
+    await page.route(`/api/v1/user/act_as/${user.id}`, async route => {
+      invitationSent = true;
+      await context.addCookies([{
+        name: 'actAsUser',
+        value: user.id.toString(),
+        path: '/',
+        domain: 'localhost',
+        httpOnly: false,
+        secure: true,
+        sameSite: 'Strict'
+      }]);
+      
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ token: "ActAsUserToken"})
+      });
+    });
+
+    await page.getByText(user.email)
+      .locator('xpath=ancestor::tr')
+      .getByRole('button', { name: 'Actions' })
+      .click();
+    
+    await page.click('a:has-text("Act as user")');
+
+    const cookies = await context.cookies();
+    const targetCookie = cookies.find(c => c.name === 'actAsUser');
+    expect(targetCookie).toBeDefined();
+
+    await expect(page).toHaveURL('/');
+    await page.click('button:has-text("Return to my account")');
+
+    await expect(page.locator('button:has-text("Return to my account")')).toHaveCount(0);
   });
 });

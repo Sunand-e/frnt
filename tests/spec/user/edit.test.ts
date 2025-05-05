@@ -119,7 +119,6 @@ test.describe('User Edit Page', () => {
     // expect invitation email to be sent
     let invitationSent = false;
     await page.route('/api/v1/users/send_invitation', async route => {
-
       const request = route.request();
       const postData = await request.postDataJSON();
 
@@ -190,7 +189,12 @@ test.describe('User Edit Page', () => {
     ]);
 
     await page.goto('/admin/users');
-    await page.click(`span:has-text("${user.fullName}")`);
+
+    await page.getByText(user.email)
+      .locator('xpath=ancestor::tr')
+      .getByRole('button', { name: 'Actions' })
+      .click();
+    await page.locator('a:has-text("Edit user")').click();
 
     await page.waitForLoadState('networkidle');
     await expect(page.locator('input[name="email"]')).toHaveValue(user.email);
