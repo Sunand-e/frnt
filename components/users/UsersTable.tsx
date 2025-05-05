@@ -175,13 +175,12 @@ const UsersTable = () => {
             return `Created: ${dateString}`
           }
           if(row.invitationAcceptedAt) {
-            let dateString = dayjs(row.createdAt).format('Do MMMM YYYY [at] h:mm A')
+            let dateString = dayjs(row.currentSignInAt).format('Do MMMM YYYY [at] h:mm A')
             return `Last signed in: ${dateString}`
           }
           let dateString = dayjs(row.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')
           return `Invited: ${dateString}`
         },
-        
       },
       {
         ...commonTableCols.actions,

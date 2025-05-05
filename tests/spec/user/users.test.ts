@@ -4,6 +4,7 @@ import { ActiveUserResponseData, usersResponseData } from '../../mockResponses/g
 import { expect } from '@playwright/test';
 import { loginUser } from '../../utils/auth';
 import { mockTenantSetting } from '../../utils/mock';
+import fs from 'fs';
 
 test.describe('GetUsers Query Only', () => {
 
@@ -137,5 +138,29 @@ test.describe('GetUsers Query Only', () => {
 
     await page.waitForTimeout(200);
     await expect(page.locator('text=Loading users')).toHaveCount(0);
+  });
+
+  test('should export users CSV with correct data', async ({ page, interceptGQL }) => {
+    await interceptGQL([
+      {
+        operationName: 'GetUsers',
+        res: usersResponseData,
+      }
+    ]);
+
+    const downloadPromise = page.waitForEvent('download');
+    
+    await page.goto('/admin/users');
+    await page.click('button:has-text("Export to CSV")');
+  
+    const download = await downloadPromise;
+    const filePath = await download.path();
+
+    expect(download.suggestedFilename()).toBe('user_list.csv');
+    const content = fs.readFileSync(filePath!, 'utf-8');
+    expect(content).toContain('User,Email,Groups,Global Roles,Status,TimeStamp');
+    expect(content).toContain('Adrian Flinch,aflinch@example.com,"Test, Org-4, new group to test",Learner,active,Last signed in: 22nd April 2025 at 5:38 PM');
+    expect(content).toContain('devin rey,devin@gmail.com,,Learner,invited,Invited: 24th April 2025 at 1:28 PM');
+    expect(content).toContain('dev test,dev@12gmail.com,Environmental org,Learner,uninvited,Created: 18th April 2025 at 5:28 PM');
   });
 });
