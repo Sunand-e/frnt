@@ -34,16 +34,19 @@ jobs:
         run: |
           if [ "${{ steps.testinfo.outputs.status }}" == "passed" ]; then
             ICON="✅"
-            SUMMARY="${ICON} All tests passed.\n"
+            SUMMARY="All Test Cases Passed"
           else
             ICON="❌"
-            SUMMARY="${ICON} ${{ steps.testinfo.outputs.failed_count }} tests failed.\n"
+            SUMMARY="${{ steps.testinfo.outputs.failed_count }} Test Cases Failed"
           fi
 
-          COVERAGE="📊 Coverage: ${{ steps.testinfo.outputs.coverage }}"
           JOB_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          COMMENT="${SUMMARY}${COVERAGE}\n🔗 [View Full Report](${JOB_URL})"
+          COMMENT="### <span aria-hidden="true">${ICON}</span> ${SUMMARY}\n
+            |  Name | Link |\n
+            |:-:|------------------------|\n
+            |<span aria-hidden="true">📊</span> Coverage | ${{ steps.testinfo.outputs.coverage }} |\n
+            |<span aria-hidden="true">🔗</span> Full Report | ${JOB_URL} |"
 
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
