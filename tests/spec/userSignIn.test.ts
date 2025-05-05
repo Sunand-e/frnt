@@ -9,7 +9,7 @@ test.describe('User page tests', () => {
   test.beforeEach(async ({ page, interceptGQL }) => {
     await mockTenantSetting(page);
 
-    await interceptGQL(page, [
+    await interceptGQL([
       {
         operationName: 'GetCurrentUser',
         res: currentUserResponse
@@ -36,7 +36,7 @@ test.describe('User page tests', () => {
 
     await expect(page.locator('text=Sign in to your account')).toBeVisible();
 
-    await page.fill('input[name="email"]', 'sunandkumar@digiryte.com');
+    await page.fill('input[name="email"]', 'admin@example.com');
     await page.fill('input[name="password"]', 'qwerty');
     await page.click('button:has-text("Sign in")');
     await expect(page.locator('text=Super Admin')).toBeVisible();
@@ -57,7 +57,7 @@ test.describe('User page tests', () => {
 
     await expect(page.locator('text=Sign in to your account')).toBeVisible();
 
-    await page.fill('input[name="email"]', 'sunandkumar@digiryte.com');
+    await page.fill('input[name="email"]', 'admin@example.com');
     await page.fill('input[name="password"]', 'qwerty');
     await page.click('button:has-text("Sign in")');
 

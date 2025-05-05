@@ -11,7 +11,7 @@ test.describe('GetUsers Query Only', () => {
     await loginUser(context);
     await mockTenantSetting(page);
 
-    await interceptGQL(page, [
+    await interceptGQL([
       {
         operationName: 'GetCurrentUser',
         res: currentUserResponse
@@ -20,7 +20,7 @@ test.describe('GetUsers Query Only', () => {
   });
 
   test('displays users from GetUsers mock', async ({ page, interceptGQL }) => {
-    await interceptGQL(page, [
+    await interceptGQL([
       {
         operationName: 'GetUsers',
         res: usersResponseData,
@@ -68,7 +68,7 @@ test.describe('GetUsers Query Only', () => {
   });
 
   test('search users', async ({ page, interceptGQL }) => {
-    await interceptGQL(page, [
+    await interceptGQL([
       {
         operationName: 'GetUsers',
         res: {
@@ -124,7 +124,7 @@ test.describe('GetUsers Query Only', () => {
   });
 
   test('loading users', async ({ page, interceptGQL }) => {
-    await interceptGQL(page, [
+    await interceptGQL([
       {
         operationName: 'GetUsers',
         res: usersResponseData,
