@@ -6,6 +6,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 30000,
   retries: 0,
+  workers: process.env.CI ? 4 : undefined,
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     headless: true,

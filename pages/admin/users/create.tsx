@@ -87,7 +87,7 @@ const AdminCreateUser = () => {
       }
       router.push('/admin/users')
     }).catch(error => {
-      setErrors(error.response.data.errors.join(', '))
+      setErrors(error.response?.data?.errors?.join(', '))
     })
   }
 

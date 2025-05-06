@@ -188,6 +188,8 @@ test.describe('User Edit Page', () => {
       }
     ]);
 
+    const Role = 'Supervisor';
+
     await page.goto('/admin/users');
 
     await page.getByText(user.email)
@@ -203,7 +205,7 @@ test.describe('User Edit Page', () => {
     await page.click('div[aria-label="Remove Learner"]');
 
     await page.locator('div#react-select-2-placeholder').click();
-    await page.locator('div.css-1n6sfyn-MenuList').locator('text=Supervisor').click();
+    await page.locator('div.css-1n6sfyn-MenuList').locator(`text=${Role}`).click();
 
     expectGQLMutation([
       {
@@ -224,7 +226,7 @@ test.describe('User Edit Page', () => {
         operationName: 'UpdateUserTenantRoles',
         variables: {
           userId: user.id,
-          roleIds: [rolesResponse.roles.find(role => role.name === 'Supervisor')?.id]
+          roleIds: [rolesResponse.roles.find(role => role.name === Role)?.id]
         },
         res: {
           updateUserTenantRoles: {
@@ -232,7 +234,7 @@ test.describe('User Edit Page', () => {
               ...user,
               updatedAt: new Date().toISOString(),
               roles: [
-                rolesResponse.roles.find(role => role.name === 'Supervisor')
+                rolesResponse.roles.find(role => role.name === Role)
               ]
             },
             __typename: 'UpdateUserTenantRolesPayload',
@@ -247,6 +249,6 @@ test.describe('User Edit Page', () => {
     const emailLocator = page.locator(`text=${user.email}`);
     await expect(emailLocator).toBeVisible();
 
-    await expect(emailLocator.locator('xpath=ancestor::tr').locator(`text=Supervisor`)).toBeVisible();
+    await expect(emailLocator.locator('xpath=ancestor::tr').locator(`text=${Role}`)).toBeVisible();
   });
 });
