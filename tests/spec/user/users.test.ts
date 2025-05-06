@@ -221,11 +221,11 @@ test.describe('GetUsers Query Only', () => {
         secure: true,
         sameSite: 'Strict'
       }]);
-      
+
       return route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({ token: "ActAsUserToken"})
+        body: JSON.stringify({ token: "ActAsUserToken" })
       });
     });
 
@@ -233,7 +233,7 @@ test.describe('GetUsers Query Only', () => {
       .locator('xpath=ancestor::tr')
       .getByRole('button', { name: 'Actions' })
       .click();
-    
+
     await page.click('a:has-text("Act as user")');
 
     const cookies = await context.cookies();
@@ -244,5 +244,48 @@ test.describe('GetUsers Query Only', () => {
     await page.click('button:has-text("Return to my account")');
 
     await expect(page.locator('button:has-text("Return to my account")')).toHaveCount(0);
+  });
+
+  test('delete user from actions', async ({ page, interceptGQL, expectGQLMutation }) => {
+    await interceptGQL([
+      {
+        operationName: 'GetUsers',
+        res: usersResponseData,
+      }
+    ]);
+
+    await page.goto('/admin/users');
+    const user = ActiveUserResponseData.node;
+
+    await page.getByText(user.email)
+      .locator('xpath=ancestor::tr')
+      .getByRole('button', { name: 'Actions' })
+      .click();
+
+    expectGQLMutation([
+      {
+        operationName: 'DeleteUser',
+        variables: {
+          id: user.id
+        },
+        res: {
+          deleteUser: {
+            user: {
+              id: user.id,
+              __typename: "User"
+            },
+            __typename: "DeleteUserPayload"
+          }
+        }
+      }
+    ]);
+
+    await page.click('a:has-text("Delete user")');
+    await expect(page.getByText(`Are you sure you want to delete the user: ${user.firstName}`)).toBeVisible();
+
+    await page.click('button:has-text("Delete user")');
+
+    await expect(page.getByText(user.email)).toHaveCount(0);
+    await expect(page.getByText('Showing 2 users')).toBeVisible();
   });
 });

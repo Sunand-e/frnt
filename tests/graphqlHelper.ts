@@ -7,6 +7,7 @@ type InterceptConfig = {
   variables?: Record<string, unknown>;
   delay?: number;
   mutation?: boolean;
+  passed?: boolean;
 };
 
 const isMatch = (expected: Record<string, unknown>, actual: Record<string, unknown>): boolean => {
@@ -38,6 +39,7 @@ const interceptGQLRoute = (route: Route) => {
         `GraphQL mutation "${operationName}" called with unexpected variables.\nExpected: ${JSON.stringify(expectedConfig.variables)}\nReceived: ${JSON.stringify(variables)}`
       );
     }
+    expectedConfig.passed = true;
     mockGraphQLResponse(route, expectedConfig.res, expectedConfig?.delay ?? 0);
     return;
   } else if (matchedConfig) {
@@ -52,7 +54,7 @@ export async function interceptGQL(interceptConfigs: InterceptConfig[]) {
 }
 
 export async function expectGQLMutation(mutationConfigs: InterceptConfig[]) {
-  accumulatedMocks.push(...mutationConfigs.map(config => ({ ...config, mutation: true })));
+  accumulatedMocks.push(...mutationConfigs.map(config => ({ ...config, mutation: true, passed: false })));
 }
 
 export const test = baseTest.extend<{
@@ -69,6 +71,10 @@ export const test = baseTest.extend<{
     await page.coverage.startJSCoverage();
     await page.route('/graphql', interceptGQLRoute);
     await use(page);
+    const unhit = accumulatedMocks.filter(m => m.mutation && !m.passed);
+    if (unhit.length > 0) {
+      throw new Error(`Unhit GraphQL mutations:\n` + unhit.map(m => `- ${m.operationName}`).join('\n'));
+    }
     accumulatedMocks = [];
     await collectCoverage(page);
   },
