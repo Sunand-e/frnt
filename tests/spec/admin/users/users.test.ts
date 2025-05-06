@@ -1,11 +1,11 @@
-import { test } from '../../graphqlHelper';
-import { currentUserResponse } from '../../mockResponses/GetCurrentUserData';
-import { ActiveUserResponseData, usersResponseData } from '../../mockResponses/getUsersResponse';
+import { test } from '../../../graphqlHelper';
+import { currentUserResponse } from '../../../mockResponses/GetCurrentUserData';
+import { ActiveUserResponseData, usersResponseData } from '../../../mockResponses/getUsersResponse';
 import { expect } from '@playwright/test';
-import { loginUser } from '../../utils/auth';
-import { mockTenantSetting } from '../../utils/mock';
+import { loginUser } from '../../../utils/auth';
+import { mockTenantSetting } from '../../../utils/mock';
 import fs from 'fs';
-import { coursesResponse } from '../../mockResponses/GetCoursesData';
+import { coursesResponse } from '../../../mockResponses/GetCoursesData';
 
 test.describe('GetUsers Query Only', () => {
 

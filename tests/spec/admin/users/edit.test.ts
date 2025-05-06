@@ -1,10 +1,10 @@
-import { test } from '../../graphqlHelper';
-import { currentUserResponse } from '../../mockResponses/GetCurrentUserData';
-import { userResponseData, usersResponseData } from '../../mockResponses/getUsersResponse';
+import { test } from '../../../graphqlHelper';
+import { currentUserResponse } from '../../../mockResponses/GetCurrentUserData';
+import { userResponseData, usersResponseData } from '../../../mockResponses/getUsersResponse';
 import { expect } from '@playwright/test';
-import { loginUser } from '../../utils/auth';
-import { mockTenantSetting } from '../../utils/mock';
-import { rolesResponse } from '../../mockResponses/getRolesMock';
+import { loginUser } from '../../../utils/auth';
+import { mockTenantSetting } from '../../../utils/mock';
+import { rolesResponse } from '../../../mockResponses/getRolesMock';
 
 test.describe('User Edit Page', () => {
 
