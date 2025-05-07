@@ -126,8 +126,10 @@ test.describe('User New Page', () => {
     });
 
     await page.click('button:has-text("Submit")');
+    await page.waitForLoadState('networkidle');
     expect(createUser).toBe(true);
-    expect(profileImageUpdated).toBe(true);
     await expect(page.getByText('Uploaded: image-block-placeholder.jpg.')).toBeVisible();
+    expect(profileImageUpdated).toBe(true);
+    await expect(page).toHaveURL('/admin/users');
   });
 });
