@@ -1,27 +1,22 @@
 import { useMutation } from "@apollo/client";
 import { DUPLICATE_COURSE } from "../../graphql/mutations/course/DUPLICATE_COURSE";
-import { DuplicateCourse, DuplicateCourseVariables } from "../../graphql/mutations/course/__generated__/DuplicateCourse";
 import { ContentFragment } from "../../graphql/queries/allQueries";
 import cache from "../../graphql/cache"
-import { GetCurrentUser } from "../../graphql/queries/__generated__/GetCurrentUser";
 import { userContentEdgeDefaults } from "../users/userContentEdgeDefaults";
 import { GET_COURSES } from "../../graphql/queries/courses/courses";
 import { GET_CURRENT_USER } from "../../graphql/queries/users";
+import { DuplicateCourseMutation, DuplicateCourseMutationVariables, GetCourseQuery, GetCoursesQuery, GetCurrentUserQuery } from "../../graphql/generated";
 
 function useDuplicateCourse() {
 
-  const [duplicateCourseMutation, duplicateCourseResponse] = useMutation<DuplicateCourse, DuplicateCourseVariables>(DUPLICATE_COURSE)
+  const [duplicateCourseMutation, duplicateCourseResponse] = useMutation<DuplicateCourseMutation, DuplicateCourseMutationVariables>(DUPLICATE_COURSE)
 
-  const duplicateCourse = (id) => {
+  const duplicateCourse = (id: string) => {
 
-    const course = cache.readFragment({
+    const course = cache.readFragment<GetCourseQuery['course']>({
       id: `ContentItem:${id}`,
       fragment: ContentFragment,
       fragmentName: 'ContentFragment',
-    });
-    
-    const userData = cache.readQuery({
-      query: GET_CURRENT_USER      
     });
     
     duplicateCourseMutation({
@@ -42,10 +37,13 @@ function useDuplicateCourse() {
       },
 
       update(cache, { data: { duplicateCourse } }) {
-
-        const cachedData = cache.readQuery<GetCurrentUser>({
+        const cachedData = cache.readQuery<GetCoursesQuery>({
           query: GET_COURSES
         })
+
+        const userData = cache.readQuery<GetCurrentUserQuery>({
+          query: GET_CURRENT_USER
+        });
 
         cache.modify({
           fields: {
@@ -85,9 +83,7 @@ function useDuplicateCourse() {
             }
           }
         })
-  
       }
-  
     })
   }
       

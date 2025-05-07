@@ -1,11 +1,14 @@
 import { test } from '../../../graphqlHelper';
 import { currentUserResponse } from '../../../mockResponses/GetCurrentUserData';
-import { ActiveUserResponseData, usersResponseData } from '../../../mockResponses/getUsersResponse';
+import { ActiveUserResponseData, InvitedUserResponseData, UninvitedUserResponseData, usersResponseData } from '../../../mockResponses/getUsersResponse';
 import { expect } from '@playwright/test';
 import { loginUser } from '../../../utils/auth';
 import { mockTenantSetting } from '../../../utils/mock';
 import fs from 'fs';
 import { coursesResponse } from '../../../mockResponses/GetCoursesData';
+import dayjs from 'dayjs';
+var advancedFormat = require('dayjs/plugin/advancedFormat');
+dayjs.extend(advancedFormat);
 
 test.describe('GetUsers Query Only', () => {
 
@@ -164,9 +167,9 @@ test.describe('GetUsers Query Only', () => {
     expect(download.suggestedFilename()).toBe('user_list.csv');
     const content = fs.readFileSync(filePath!, 'utf-8');
     expect(content).toContain('User,Email,Groups,Global Roles,Status,TimeStamp');
-    expect(content).toContain('Adrian Flinch,aflinch@example.com,"Test, Org-4, new group to test",Learner,active,Last signed in: 22nd April 2025 at 5:38 PM');
-    expect(content).toContain('devin rey,devin@gmail.com,,Learner,invited,Invited: 24th April 2025 at 1:28 PM');
-    expect(content).toContain('dev test,dev@12gmail.com,Environmental org,Learner,uninvited,Created: 18th April 2025 at 5:28 PM');
+    expect(content).toContain(`Adrian Flinch,aflinch@example.com,"Test, Org-4, new group to test",Learner,active,Last signed in: ${dayjs(ActiveUserResponseData.node.currentSignInAt).format('Do MMMM YYYY [at] h:mm A')}`);
+    expect(content).toContain(`devin rey,devin@gmail.com,,Learner,invited,Invited: ${dayjs(InvitedUserResponseData.node.invitationSentAt).format('Do MMMM YYYY [at] h:mm A')}`);
+    expect(content).toContain(`dev test,dev@12gmail.com,Environmental org,Learner,uninvited,Created: ${dayjs(UninvitedUserResponseData.node.createdAt).format('Do MMMM YYYY [at] h:mm A')}`);
   });
 
   test('send invitation and Act as user from actions', async ({ page, interceptGQL, context }) => {
@@ -240,6 +243,7 @@ test.describe('GetUsers Query Only', () => {
     const targetCookie = cookies.find(c => c.name === 'actAsUser');
     expect(targetCookie).toBeDefined();
 
+    await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL('/');
     await page.click('button:has-text("Return to my account")');
 

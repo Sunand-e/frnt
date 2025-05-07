@@ -223,4 +223,39 @@ test.describe('GetCourses Query Only', () => {
     await expect(page.getByText(course.title)).toHaveCount(0);
     await expect(page.getByText('Showing 2 courses')).toBeVisible();
   });
+
+  test('clone course from actions', async ({ page, interceptGQL, expectGQLMutation }) => {
+    await interceptGQL([
+      {
+        operationName: 'GetCourses',
+        res: coursesResponse,
+      }
+    ]);
+
+    await page.goto('/admin/courses');
+    const course = course1.node;
+
+    await page.getByText(course.title)
+      .locator('xpath=ancestor::tr')
+      .getByRole('button', { name: 'Actions' })
+      .click();
+
+    expectGQLMutation([
+      {
+        operationName: 'DuplicateCourse',
+        variables: {
+          id: course.id
+        },
+        res: {
+          duplicateCourse: {
+            contentItem: course,
+            __typename: "DuplicateContentItemPayload"
+          }
+        }
+      }
+    ]);
+
+    await page.click('a:has-text("Clone course")');
+    await expect(page.getByText('Showing 3 of 4 courses')).toBeVisible();
+  });
 });
