@@ -46,13 +46,14 @@ jobs:
           COMMENT=$(cat <<EOF
             ### <span aria-hidden="true">${ICON}</span> ${SUMMARY}
 
-            |  Name | Link |
-            |:-:|------------------------|
-            |<span aria-hidden="true">📊</span> Coverage | ${COVERAGE} |
-            |<span aria-hidden="true">🔗</span> Full Report | ${JOB_URL} |
-          EOF)
+            | Name | Link |
+            |:----:|------|
+            | <span aria-hidden="true">📊</span> Coverage | ${COVERAGE} |
+            | <span aria-hidden="true">🔗</span> Full Report | [View Report](${JOB_URL}) |
+            EOF
+            )
 
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"body\": \"$COMMENT\"}" \
+            -d "$(jq -nc --arg body "$COMMENT" '{body: $body}')" \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
