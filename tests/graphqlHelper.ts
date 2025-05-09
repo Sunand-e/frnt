@@ -75,16 +75,6 @@ export const test = baseTest.extend<{
     if (unhit.length > 0) {
       throw new Error(`Unhit GraphQL mutations:\n` + unhit.map(m => `- ${m.operationName}`).join('\n'));
     }
-    if (testInfo.status !== testInfo.expectedStatus) {
-      const logs: string[] = [];
-      page.on('console', msg => logs.push(`[${msg.type()}] ${msg.text()}`));
-  
-      // Wait a bit to collect logs before browser closes
-      await new Promise(r => setTimeout(r, 200));
-  
-      console.log('Test failed. Browser console logs:');
-      logs.forEach(log => console.log(log));
-    }
     accumulatedMocks = [];
     await collectCoverage(page);
   },
