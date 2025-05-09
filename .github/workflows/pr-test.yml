@@ -52,6 +52,8 @@ jobs:
             | <span aria-hidden="true">🔗</span> Full Report | [View Report](${JOB_URL}) |
             EOF
             )
+          
+          echo "Comment: $COMMENT"
 
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
