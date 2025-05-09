@@ -30,8 +30,9 @@ jobs:
           echo "status=$status" >> $GITHUB_OUTPUT
           echo "failed_count=$failed_count" >> $GITHUB_OUTPUT
           echo "coverage=$coverage" >> $GITHUB_OUTPUT
-
-      - name: Comment To PR
+      
+      - name: Get SUMMARY
+        id: summary
         run: |
           if [ "${{ steps.testinfo.outputs.status }}" == "passed" ]; then
             ICON="✅"
@@ -41,23 +42,13 @@ jobs:
             SUMMARY="${{ steps.testinfo.outputs.failed_count }} Test Cases Failed"
           fi
 
-          JOB_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
-          # COMMENT=$(cat <<EOF
-          #   ### <span aria-hidden="true">${ICON}</span> ${SUMMARY}
-
-          #   | Name | Link |
-          #   |:----:|------|
-          #   | <span aria-hidden="true">📊</span> Coverage | ${COVERAGE} |
-          #   | <span aria-hidden="true">🔗</span> Full Report | [View Report](${JOB_URL}) |
-          #   EOF
-          # )
-
-          COMMENT="### <span aria-hidden=\"true\">${ICON}</span> ${SUMMARY}\n\n| Name | Link |\n|:----:|------|\n| <span aria-hidden=\"true\">📊</span> Coverage | ${COVERAGE} |\n| <span aria-hidden=\"true\">🔗</span> Full Report | [View Report](${JOB_URL}) |"
-          
-          echo "Comment: $COMMENT"
-
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg body "$COMMENT" '{body: $body}')" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+      - name: Comment To PR
+        uses: NejcZdovc/comment-pr@v2
+        with:
+          file: "comment.md"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          ICON: ${{ steps.summary.outputs.ICON }}
+          SUMMARY: ${{ steps.summary.outputs.SUMMARY }}
+          JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COVERAGE: ${{ steps.testinfo.outputs.coverage }}
