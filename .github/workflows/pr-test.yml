@@ -35,20 +35,22 @@ jobs:
         id: summary
         run: |
           if [ "${{ steps.testinfo.outputs.status }}" == "passed" ]; then
-            ICON="✅"
-            SUMMARY="All Test Cases Passed"
+            echo "icon=✅" >> $GITHUB_OUTPUT
+            echo "summary=All Test Cases Passed" >> $GITHUB_OUTPUT
           else
-            ICON="❌"
-            SUMMARY="${{ steps.testinfo.outputs.failed_count }} Test Cases Failed"
+            echo "icon=❌" >> $GITHUB_OUTPUT
+            echo "summary=${{ steps.testinfo.outputs.failed_count }} Test Cases Failed" >> $GITHUB_OUTPUT
           fi
+          echo "job_url=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_OUTPUT
 
       - name: Comment To PR
         uses: NejcZdovc/comment-pr@v2
         with:
-          file: "comment.md"
+          message: >
+            ### <span aria-hidden="true">${{ steps.summary.outputs.icon }}</span> ${{ steps.summary.outputs.summary }}
+            | Name | Link |
+            |:----:|------|
+            | <span aria-hidden="true">📊</span> Coverage | ${{ steps.testinfo.outputs.coverage }} |
+            | <span aria-hidden="true">🔗</span> Full Report | [View Report](${{ steps.summary.outputs.job_url }}) |
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          ICON: ${{ steps.summary.outputs.ICON }}
-          SUMMARY: ${{ steps.summary.outputs.SUMMARY }}
-          JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          COVERAGE: ${{ steps.testinfo.outputs.coverage }}
