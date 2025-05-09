@@ -129,8 +129,8 @@ test.describe('User New Page', () => {
     await page.waitForLoadState('networkidle');
     expect(createUser).toBe(true);
     await page.waitForLoadState('networkidle');
+    await expect(page).toHaveURL('/admin/users');
     await expect(page.getByText('Uploaded: image-block-placeholder.jpg.')).toBeVisible();
     expect(profileImageUpdated).toBe(true);
-    await expect(page).toHaveURL('/admin/users');
   });
 });

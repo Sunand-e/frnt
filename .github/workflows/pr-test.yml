@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/playwright-test.yml
 
   pr-comment:
+    if: always()
     needs: [trigger_playwright_test]
     runs-on: ubuntu-latest
 
