@@ -46,7 +46,7 @@ jobs:
       - name: Comment To PR
         uses: NejcZdovc/comment-pr@v2
         with:
-          message: >
+          message: |-
             ### <span aria-hidden="true">${{ steps.summary.outputs.icon }}</span> ${{ steps.summary.outputs.summary }}
             | Name | Link |
             |:----:|------|
