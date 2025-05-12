@@ -16,7 +16,7 @@ export const tenantSettingResponse: TenantSettingResponse = {
     "limit_count": "20"
   },
   "groups": {
-    "enabled": false
+    "enabled": true
   },
   "styles": {
     "body": {},
@@ -55,7 +55,7 @@ export const tenantSettingResponse: TenantSettingResponse = {
     "enabled": true
   },
   "organisations": {
-    "enabled": false,
+    "enabled": true,
     "allowUserLeaderInMultipleOrganizations": true
   },
   "public_settings": {},

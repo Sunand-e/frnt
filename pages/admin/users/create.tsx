@@ -74,10 +74,12 @@ const AdminCreateUser = () => {
                   groupId: group_id,
                   node: response.data.user,
                 };
-        
+
                 return {
                   ...existingConnection,
-                  edges: [...existingConnection.edges, newEdge],
+                  ...(existingConnection.edges
+                    ? { edges: [...existingConnection.edges, newEdge] }
+                    : {}),
                   totalCount: existingConnection.totalCount + 1,
                 };
               },

@@ -1,58 +1,81 @@
-import { test as baseTest, Page, Route } from '@playwright/test';
+import { test as baseTest, Route } from '@playwright/test';
 import { collectCoverage } from './coverage-collector';
 
-type CalledWith = Record<string, unknown>;
-
-
 type InterceptConfig = {
-  operationName: string; 
+  operationName: string;
   res: Record<string, unknown>;
+  variables?: Record<string, unknown>;
+  delay?: number;
+  mutation?: boolean;
+  passed?: boolean;
 };
 
-type InterceptedPayloads = {
-  [operationName: string]: CalledWith[];
+const isMatch = (expected: Record<string, unknown>, actual: Record<string, unknown>): boolean => {
+  return Object.entries(expected).every(([key, value]) => JSON.stringify(actual[key]) === JSON.stringify(value));
 };
 
-export async function interceptGQL(
-  page: Page,
-  interceptConfigs: InterceptConfig[]
-): Promise<{ reqs: InterceptedPayloads }> {
-  const reqs: InterceptedPayloads = {};
+let accumulatedMocks: InterceptConfig[] = [];
 
-  interceptConfigs.forEach(config => {
-    reqs[config.operationName] = [];
-  });
-
-  await page.route('/graphql', (route: Route) => {
-    const req = route.request().postDataJSON();
-
-    const operationConfig = interceptConfigs.find(
-      config => config.operationName === req.operationName
-    );
-
-    if (!operationConfig) {
-      return route.continue();
-    }
-
-    reqs[req.operationName].push(req.variables);
-
-    return route.fulfill({
+const mockGraphQLResponse = (route: Route, response: Record<string, unknown>, delay: number) => {
+  setTimeout(() => {
+    route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ data: operationConfig.res }),
+      body: JSON.stringify({ data: response }),
     });
-  });
+  }, delay);
+};
 
-  return { reqs };
+const interceptGQLRoute = (route: Route) => {
+  const req = route.request().postDataJSON();
+  const { operationName, variables } = req;
+
+  const expectedConfig = accumulatedMocks.find(config => config.operationName === operationName && config.mutation);
+  const matchedConfig = accumulatedMocks.find(config => config.operationName === operationName && (!config.variables || isMatch(config.variables, variables)));
+
+  if (expectedConfig) {
+    if (variables && !isMatch(expectedConfig.variables, variables)) {
+      throw new Error(
+        `GraphQL mutation "${operationName}" called with unexpected variables.\nExpected: ${JSON.stringify(expectedConfig.variables)}\nReceived: ${JSON.stringify(variables)}`
+      );
+    }
+    expectedConfig.passed = true;
+    mockGraphQLResponse(route, expectedConfig.res, expectedConfig?.delay ?? 0);
+    return;
+  } else if (matchedConfig) {
+    mockGraphQLResponse(route, matchedConfig.res, matchedConfig?.delay ?? 0);
+    return;
+  }
+  route.continue();
+};
+
+export async function interceptGQL(interceptConfigs: InterceptConfig[]) {
+  accumulatedMocks.push(...interceptConfigs);
 }
 
-export const test = baseTest.extend<{ interceptGQL: typeof interceptGQL }>({
-  interceptGQL: async ({ browser }, use) => {
+export async function expectGQLMutation(mutationConfigs: InterceptConfig[]) {
+  accumulatedMocks.push(...mutationConfigs.map(config => ({ ...config, mutation: true, passed: false })));
+}
+
+export const test = baseTest.extend<{
+  interceptGQL: typeof interceptGQL;
+  expectGQLMutation: typeof expectGQLMutation;
+}>({
+  interceptGQL: async ({}, use) => {
     await use(interceptGQL);
   },
-  page: async ({ page }, use) => {  
+  expectGQLMutation: async ({}, use) => {
+    await use(expectGQLMutation);
+  },
+  page: async ({ page }, use, testInfo) => {
     await page.coverage.startJSCoverage();
+    await page.route('/graphql', interceptGQLRoute);
     await use(page);
+    const unhit = accumulatedMocks.filter(m => m.mutation && !m.passed);
+    if (unhit.length > 0) {
+      throw new Error(`Unhit GraphQL mutations:\n` + unhit.map(m => `- ${m.operationName}`).join('\n'));
+    }
+    accumulatedMocks = [];
     await collectCoverage(page);
-  }
+  },
 });

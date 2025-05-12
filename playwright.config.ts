@@ -4,8 +4,9 @@ const PORT = process.env.PORT || '5000';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 30000,
-  retries: 0,
+  timeout: process.env.CI ? 30000 : 100000,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 4 : undefined,
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     headless: true,

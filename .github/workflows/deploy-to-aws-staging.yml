@@ -1,9 +1,7 @@
-name: Deploy to Amazon ECS Staging Environment
+name: Deploy to Staging
 
 on:
   push:
-    branches: [ staging ]
-  pull_request:
     branches: [ staging ]
   workflow_dispatch:
 
@@ -47,7 +45,7 @@ jobs:
             ${{ runner.os }}-
       - name: Install dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install --legacy-peer-deps
+        run: npm install
       
       - name: Generate version.json
         run: |

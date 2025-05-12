@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import TopNotificationBar from '../components/common/TopNotificationBar'
 import LoginPage from '../components/app/login/LoginPage'
-import { isLoggedInVar } from '../graphql/cache'
-import { useReactiveVar } from '@apollo/client'
 
 export default function LoginLayout( {page, navState} ) {
 
@@ -12,7 +10,6 @@ export default function LoginLayout( {page, navState} ) {
     setShowLogin(true)
   },[])
 
-  const isLoggedIn = useReactiveVar(isLoggedInVar)
   return (
     <>
       <div className={`min-h-full bg-main-superlight`}>

@@ -3,7 +3,7 @@ import { GetCurrentUserQuery } from "../../graphql/generated";
 export const currentUserResponse: GetCurrentUserQuery = {
   user: {
     createdAt: "2025-02-06T05:36:19Z",
-    email: "sunandkumar@digiryte.com",
+    email: "admin@example.com",
     firstName: "Super",
     fullName: "Super Admin",
     id: "08b47ece-f950-475d-86dc-a436350bd74e",

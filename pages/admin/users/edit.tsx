@@ -69,12 +69,10 @@ const AdminUsersEdit = () => {
     tenantFeaturesEnabled('organisations') && !isOrganisationLeader
   )
 
-  const getUserContentTypeCount = (type) => user?.[type].edges.filter(edge => {
-    // Check if the edge node is not deleted and has relevant roles
+  const getUserContentTypeCount = (type: 'courses' | 'pathways' | 'resources' ) => user?.[type].edges.filter(edge => {
     const hasRoles =
-      edge.groups.edges.some(groupEdge => groupEdge.roles.length) ||
-      edge.roles.length;
-
+      edge.groups?.edges.some(groupEdge => groupEdge.roles.length) ||
+      edge.roles?.length;
     return !edge.node._deleted && hasRoles;
   }).length;
 
